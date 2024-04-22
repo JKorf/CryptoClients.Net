@@ -16,7 +16,7 @@ namespace CryptoTradeKit.Net
         public IKucoinOrderBookFactory Kucoin { get; }
 
         /// <summary>
-        /// ctor
+        /// DI constructor
         /// </summary>
         public ExchangeOrderBookFactory(IBinanceOrderBookFactory binance, IBingXOrderBookFactory bingx, IKucoinOrderBookFactory kucoin)
         {

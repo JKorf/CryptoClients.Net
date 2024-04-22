@@ -1,8 +1,11 @@
-﻿using Binance.Net.Interfaces.Clients;
+﻿using Binance.Net.Clients;
+using Binance.Net.Interfaces.Clients;
+using BingX.Net.Clients;
 using BingX.Net.Interfaces.Clients;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoTradeKit.Net.Enums;
 using CryptoTradeKit.Net.Interfaces;
+using Kucoin.Net.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +31,20 @@ namespace CryptoTradeKit.Net
         /// <inheritdoc />
         public IKucoinRestClient Kucoin { get; }
 
+        /// <summary>
+        /// Create a new ExchangeRestClient instance. Client instances will be created with default options.
+        /// </summary>
+        public ExchangeRestClient()
+        {
+            Binance = new BinanceRestClient();
+            BingX = new BingXRestClient();
+            Kucoin = new KucoinRestClient();
+
+            _spotClients = new[] { Binance.SpotApi.CommonSpotClient, BingX.SpotApi.CommonSpotClient, Kucoin.SpotApi.CommonSpotClient };
+        }
 
         /// <summary>
-        /// ctor
+        /// DI constructor
         /// </summary>
         public ExchangeRestClient(
             IBinanceRestClient binance,
