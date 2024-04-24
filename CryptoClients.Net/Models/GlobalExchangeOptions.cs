@@ -1,7 +1,7 @@
 ﻿using CryptoExchange.Net.Objects;
 using System;
 
-namespace CryptoTradeKit.Net.Models
+namespace CryptoClients.Net.Models
 {
     /// <summary>
     /// Options to apply to any exchange client (if not overridden)

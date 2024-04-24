@@ -1,8 +1,8 @@
-# CryptoTradeKit.Net  
+# CryptoClients.Net  
 
-[![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/CryptoTradeKit.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/CryptoTradeKit.Net/actions/workflows/dotnet.yml) [![Nuget downloads](https://img.shields.io/nuget/dt/CryptoTradeKit.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoTradeKit.Net) ![License](https://img.shields.io/github/license/JKorf/CryptoTradeKit.Net?style=for-the-badge)
+[![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/CryptoClients.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/CryptoClients.Net/actions/workflows/dotnet.yml) [![Nuget downloads](https://img.shields.io/nuget/dt/CryptoClients.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoClients.Net) ![License](https://img.shields.io/github/license/JKorf/CryptoClients.Net?style=for-the-badge)
 
-CryptoTradeKit.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). This library bundles the different clients in a single package and adds some additional tools to make use of them.
+CryptoClients.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). This library bundles the different clients in a single package and adds some additional tools to make use of them.
 
 For more information on what CryptoExchange.Net and it's client libraries offers see the [Documentation](https://jkorf.github.io/CryptoExchange.Net/).
 
@@ -20,17 +20,17 @@ The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for op
 |Unity|`2018.1` and higher|
 
 ## Get the library
-[![Nuget version](https://img.shields.io/nuget/v/CryptoTradeKit.net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoTradeKit.Net)  [![Nuget downloads](https://img.shields.io/nuget/dt/CryptoTradeKit.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoTradeKit.Net)
+[![Nuget version](https://img.shields.io/nuget/v/CryptoClients.net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoClients.Net)  [![Nuget downloads](https://img.shields.io/nuget/dt/CryptoClients.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoClients.Net)
 
-	dotnet add package CryptoTradeKit.Net
+	dotnet add package CryptoClients.Net
 	
 ## How to use
 
 
-For information on the specific exchange clients, dependency injection, response processing and more see the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net) or have a look at the examples [here](https://github.com/JKorf/CryptoTradeKit.Net/tree/main/Examples) or [here](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples).
+For information on the specific exchange clients, dependency injection, response processing and more see the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net) or have a look at the examples [here](https://github.com/JKorf/CryptoClients.Net/tree/main/Examples) or [here](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples).
 
 ### Current implementations
-The following API's are included in CryptoTradeKit.Net:
+The following API's are included in CryptoClients.Net:
 
 |Exchange|Repository|Nuget|
 |--|--|--|

@@ -3,7 +3,7 @@ using CryptoExchange.Net.RateLimiting;
 using Kucoin.Net;
 using System;
 
-namespace CryptoTradeKit.Net
+namespace CryptoClients.Net
 {
     /// <summary>
     /// 

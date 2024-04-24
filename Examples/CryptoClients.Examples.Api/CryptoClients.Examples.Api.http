@@ -1,0 +1,6 @@
+@CryptoClients.Examples.Api_HostAddress = http://localhost:5093
+
+GET {{CryptoClients.Examples.Api_HostAddress}}/price?exchange=Binance&baseAsset=BTC&quoteAsset=USDT
+Accept: application/json
+
+###
