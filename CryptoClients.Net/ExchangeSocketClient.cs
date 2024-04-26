@@ -34,6 +34,7 @@ using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
 using System;
+using System.Threading.Tasks;
 
 namespace CryptoClients.Net
 {
@@ -139,5 +140,24 @@ namespace CryptoClients.Net
             OKX = okx;
         }
 
+        /// <inheritdoc />
+        public async Task UnsubscribeAllAsync()
+        {
+            var tasks = new[]
+            {
+                Binance.UnsubscribeAllAsync(),
+                BingX.UnsubscribeAllAsync(),
+                Bitfinex.UnsubscribeAllAsync(),
+                Bitget.UnsubscribeAllAsync(),
+                Bybit.UnsubscribeAllAsync(),
+                CoinEx.UnsubscribeAllAsync(),
+                Huobi.UnsubscribeAllAsync(),
+                Kraken.UnsubscribeAllAsync(),
+                Kucoin.UnsubscribeAllAsync(),
+                Mexc.UnsubscribeAllAsync(),
+                OKX.UnsubscribeAllAsync()
+            };
+            await Task.WhenAll(tasks).ConfigureAwait(false);
+        }
     }
 }

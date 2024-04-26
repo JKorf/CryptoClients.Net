@@ -1,0 +1,90 @@
+﻿@page "/"
+@inject IExchangeRestClient RestClient
+
+<PageTitle>Index</PageTitle>
+
+<div>
+    <h2>@_selectedAsset USDT on @_selectedExchange</h2>
+    @if (_error != null)
+    {
+        <div>@_error</div>
+    }
+    else
+    {
+        <table>
+            <tr>
+                <td><b>Open price:</b></td>
+                <td>@_open</td>
+            </tr>
+            <tr>
+                <td><b>High price:</b></td>
+                <td>@_high</td>
+            </tr>
+            <tr>
+                <td><b>Low price:</b></td>
+                <td>@_low</td>
+            </tr>
+            <tr>
+                <td><b>Last price:</b></td>
+                <td>@_last</td>
+            </tr>
+            <tr>
+                <td><b>Volume:</b></td>
+                <td>@_volume</td>
+            </tr>
+        </table>
+    }
+    <select class="select-element" @bind="@_selectedExchange" @bind:after="GetDataAsync">
+        @foreach (var exchange in _exchanges)
+        {
+            <option value="@exchange">@exchange</option>
+        }
+    </select>
+    <select class="select-element" @bind="@_selectedAsset" @bind:after="GetDataAsync">
+        @foreach (var asset in _assets)
+        {
+            <option value="@asset">@asset</option>
+        }
+    </select>
+</div>
+
+@code
+{
+    private string[] _assets = new[] { "BTC", "ETH", "SOL", "ZZZ" };
+    private Exchange[] _exchanges = Enum.GetValues<Exchange>();
+
+    private string _selectedAsset = "BTC";
+    private Exchange _selectedExchange = Exchange.Bybit;
+
+    private string? _error;
+    private decimal? _open;
+    private decimal? _high;
+    private decimal? _low;
+    private decimal? _last;
+    private decimal? _volume;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            await GetDataAsync();
+    }
+
+    private async Task GetDataAsync()
+    {
+        _error = null;
+        var exchangeClient = RestClient.GetUnifiedSpotClient(_selectedExchange);
+        var ticker = await exchangeClient.GetTickerAsync(exchangeClient.GetSymbolName(_selectedAsset, "USDT"));
+        if (!ticker.Success)
+        {
+            _error = "Error: " + ticker.Error;
+            return;
+        }
+
+        _open = ticker.Data.Price24H;
+        _high = ticker.Data.HighPrice;
+        _low = ticker.Data.LowPrice;
+        _last = ticker.Data.LastPrice;
+        _volume = ticker.Data.Volume;
+        StateHasChanged();
+    }
+}

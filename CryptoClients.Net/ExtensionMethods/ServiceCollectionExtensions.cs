@@ -25,6 +25,7 @@ using Kucoin.Net.Interfaces.Clients;
 using Kucoin.Net.Objects.Options;
 using Mexc.Net.Interfaces.Clients;
 using Mexc.Net.Objects.Options;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
 using System;
@@ -66,6 +67,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="mexcSocketOptions">The options options for the Mexc socket client. Will override options provided in the global options</param>
         /// <param name="okxRestOptions">The options options for the OKX rest client. Will override options provided in the global options</param>
         /// <param name="okxSocketOptions">The options options for the OKX socket client. Will override options provided in the global options</param>
+        /// <param name="socketClientLifetime">The lifetime for the Socket clients. Defaults to Singleton</param>
         /// <returns></returns>
         public static IServiceCollection AddCryptoClients(
             this IServiceCollection services,
@@ -92,7 +94,8 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<MexcRestOptions>? mexcRestOptions = null,
             Action<MexcSocketOptions>? mexcSocketOptions = null,
             Action<OKXRestOptions>? okxRestOptions = null,
-            Action<OKXSocketOptions>? okxSocketOptions = null)
+            Action<OKXSocketOptions>? okxSocketOptions = null,
+            ServiceLifetime? socketClientLifetime = null)
         {
             Action<TOptions> SetGlobalRestOptions<TOptions, TCredentials>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials) where TOptions : RestExchangeOptions where TCredentials : ApiCredentials
             {
@@ -159,18 +162,18 @@ namespace Microsoft.Extensions.DependencyInjection
                 okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions, credentials?.OKX);
             }
 
-            services.AddBinance(binanceRestOptions, binanceSocketOptions);
-            services.AddBingX(bingxRestOptions, bingxSocketOptions);
-            services.AddBitfinex(bitfinexRestOptions, bitfinexSocketOptions);
-            services.AddBitget(bitgetRestOptions, bitgetSocketOptions);
-            services.AddBybit(bybitRestOptions, bybitSocketOptions);
-            services.AddCoinEx(coinExRestOptions, coinExSocketOptions);
+            services.AddBinance(binanceRestOptions, binanceSocketOptions, socketClientLifetime);
+            services.AddBingX(bingxRestOptions, bingxSocketOptions, socketClientLifetime);
+            services.AddBitfinex(bitfinexRestOptions, bitfinexSocketOptions, socketClientLifetime);
+            services.AddBitget(bitgetRestOptions, bitgetSocketOptions, socketClientLifetime);
+            services.AddBybit(bybitRestOptions, bybitSocketOptions, socketClientLifetime);
+            services.AddCoinEx(coinExRestOptions, coinExSocketOptions, socketClientLifetime);
             services.AddCoinGecko(coinGeckoRestOptions);
-            services.AddHuobi(huobiRestOptions, huobiSocketOptions);
-            services.AddKraken(krakenRestOptions, krakenSocketOptions);
-            services.AddKucoin(kucoinRestOptions, kucoinSocketOptions);
-            services.AddMexc(mexcRestOptions, mexcSocketOptions);
-            services.AddOKX(okxRestOptions, okxSocketOptions);
+            services.AddHuobi(huobiRestOptions, huobiSocketOptions, socketClientLifetime);
+            services.AddKraken(krakenRestOptions, krakenSocketOptions, socketClientLifetime);
+            services.AddKucoin(kucoinRestOptions, kucoinSocketOptions, socketClientLifetime);
+            services.AddMexc(mexcRestOptions, mexcSocketOptions, socketClientLifetime);
+            services.AddOKX(okxRestOptions, okxSocketOptions, socketClientLifetime);
 
             services.AddTransient<IExchangeRestClient, ExchangeRestClient>(x =>
             {
@@ -190,7 +193,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     );
             });
 
-            services.AddTransient<IExchangeSocketClient, ExchangeSocketClient>(x =>
+            services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient), x =>
             {
                 return new ExchangeSocketClient(
                     x.GetRequiredService<IBinanceSocketClient>(),
@@ -205,7 +208,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IMexcSocketClient>(),
                     x.GetRequiredService<IOKXSocketClient>()
                     );
-            });
+            }, socketClientLifetime ?? ServiceLifetime.Singleton));
 
             services.AddTransient<IExchangeOrderBookFactory, ExchangeOrderBookFactory>();
             return services;

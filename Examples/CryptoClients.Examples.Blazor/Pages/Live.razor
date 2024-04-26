@@ -1,0 +1,203 @@
+﻿@page "/live"
+@using Binance.Net.Interfaces
+@using Binance.Net.Objects.Models.Spot.Socket
+@using BingX.Net.Objects.Models
+@using Bitfinex.Net.Objects.Models
+@using Bitget.Net.Objects.Models
+@using Bybit.Net.Objects.Models.V5
+@using CoinEx.Net.Objects.Models.V2
+@using CryptoExchange.Net.CommonObjects
+@using CryptoExchange.Net.Objects.Sockets
+@using Huobi.Net.Objects.Models
+@using Kraken.Net.Objects.Models
+@using Kucoin.Net.Objects.Models.Spot.Socket
+@using Mexc.Net.Objects.Models.Spot
+@using OKX.Net.Objects.Market
+@inject IExchangeSocketClient SocketClient
+@implements IDisposable
+
+<PageTitle>Live trades</PageTitle>
+
+<div>
+    <h2>@_baseAsset @_quoteAsset live trades</h2>
+
+    <div><b>Statistics</b></div>
+    <table>
+        <tr>
+            <th>Exchange</th>
+            <th style="padding-left: 20px">Total volume</th>
+        </tr>
+        @foreach(var exchangeVolume in _volume.OrderByDescending(v => v.Value))
+        {
+        <tr>
+            <td>@exchangeVolume.Key</td>
+            <td style="padding-left: 20px">@exchangeVolume.Value</td>
+        </tr>
+        }
+    </table>
+    <div>Total volume: @_volume.Select(v => v.Value).Sum()</div>
+
+    
+    <table style="margin-top: 20px;">
+        <tr>
+            <th>Exchange</th>
+            <th style="padding-left: 20px">Price</th>
+            <th style="padding-left: 20px">Quantity</th>
+        </tr>
+        @lock(_lock){
+    @foreach(var trade in _trades.OrderByDescending(t => t.Trade.Timestamp))
+    {
+        <tr>
+                <td>@trade.Exchange</td>
+                <td style="padding-left: 20px">@trade.Trade.Price</td>
+                <td style="padding-left: 20px">@trade.Trade.Quantity</td>
+        </tr>
+    }
+        }
+    </table>
+</div>
+
+@code
+{
+    class ExchangeTrade
+    {
+        public Exchange Exchange { get; set; }
+        public Trade Trade { get; set; }
+    }
+
+    private object _lock = new object();
+    private int _max = 100;
+    private List<ExchangeTrade> _trades = new List<ExchangeTrade>();
+    private Dictionary<Exchange, decimal> _volume = new Dictionary<Exchange, decimal>();
+
+    private string _baseAsset = "BTC";
+    private string _quoteAsset = "USDT";
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var tasks = new Task[] {
+                SocketClient.Binance.SpotApi.ExchangeData.SubscribeToTradeUpdatesAsync(SocketClient.Binance.SpotApi.FormatSymbol(_baseAsset, _quoteAsset), BinanceUpdate),
+                SocketClient.BingX.SpotApi.SubscribeToTradeUpdatesAsync(SocketClient.BingX.SpotApi.FormatSymbol(_baseAsset, _quoteAsset), BingXUpdate),
+                SocketClient.Bitfinex.SpotApi.SubscribeToTradeUpdatesAsync(SocketClient.Bitfinex.SpotApi.FormatSymbol(_baseAsset, "UST"), BitfinexUpdate),
+                SocketClient.Bitget.SpotApi.SubscribeToTradeUpdatesAsync(new[] { SocketClient.Bitget.SpotApi.FormatSymbol(_baseAsset, _quoteAsset) }, BitgetUpdate),
+                SocketClient.Bybit.V5SpotApi.SubscribeToTradeUpdatesAsync(new[] { SocketClient.Bybit.V5SpotApi.FormatSymbol(_baseAsset, _quoteAsset) }, BybitUpdate),
+                SocketClient.CoinEx.SpotApiV2.SubscribeToTradeUpdatesAsync(SocketClient.CoinEx.SpotApiV2.FormatSymbol(_baseAsset, _quoteAsset), CoinExUpdate),
+                SocketClient.Huobi.SpotApi.SubscribeToTradeUpdatesAsync(SocketClient.Huobi.SpotApi.FormatSymbol(_baseAsset, _quoteAsset), HuobiUpdate),
+                SocketClient.Kraken.SpotApi.SubscribeToTradeUpdatesAsync(SocketClient.Kraken.SpotApi.FormatSymbol(_baseAsset, _quoteAsset), KrakenUpdate),
+                SocketClient.Kucoin.SpotApi.SubscribeToTradeUpdatesAsync(SocketClient.Kucoin.SpotApi.FormatSymbol(_baseAsset, _quoteAsset), KucoinUpdate),
+                SocketClient.Mexc.SpotApi.SubscribeToTradeUpdatesAsync(SocketClient.Mexc.SpotApi.FormatSymbol(_baseAsset, _quoteAsset), MexcUpdate),
+                SocketClient.OKX.UnifiedApi.ExchangeData.SubscribeToTradeUpdatesAsync(SocketClient.OKX.UnifiedApi.FormatSymbol(_baseAsset, _quoteAsset), OKXUpdate),
+        };
+            await Task.WhenAll(tasks);
+        }
+    }
+
+    private void BinanceUpdate(DataEvent<BinanceStreamTrade> trade)
+        => AddTrade(Exchange.Binance, trade.Data.Price, trade.Data.Quantity, trade.Data.TradeTime);
+
+    private void BingXUpdate(DataEvent<BingXTradeUpdate> trade)
+        => AddTrade(Exchange.BingX, trade.Data.Price, trade.Data.Quantity, trade.Data.TradeTime);
+
+    private void BitfinexUpdate(DataEvent<IEnumerable<BitfinexTradeSimple>> trades)
+    {
+        if (trades.UpdateType == CryptoExchange.Net.Objects.SocketUpdateType.Snapshot)
+            return;
+
+        foreach(var trade in trades.Data)
+            AddTrade(Exchange.Bitfinex, trade.Price, Math.Abs(trade.Quantity), trade.Timestamp);
+    }
+
+    private void BitgetUpdate(DataEvent<IEnumerable<BitgetTradeUpdate>> trades)
+    {
+        if (trades.UpdateType == CryptoExchange.Net.Objects.SocketUpdateType.Snapshot)
+            return;
+
+        foreach (var trade in trades.Data)
+            AddTrade(Exchange.Bitget, trade.Price, Math.Abs(trade.Quantity), trade.Timestamp);
+    }
+
+    private void BybitUpdate(DataEvent<IEnumerable<BybitTrade>> trades)
+    {
+        if (trades.UpdateType == CryptoExchange.Net.Objects.SocketUpdateType.Snapshot)
+            return;
+
+        foreach (var trade in trades.Data)
+            AddTrade(Exchange.Bybit, trade.Price, Math.Abs(trade.Quantity), trade.Timestamp);
+    }
+
+    private void CoinExUpdate(DataEvent<IEnumerable<CoinExTrade>> trades)
+    {
+        if (trades.UpdateType == CryptoExchange.Net.Objects.SocketUpdateType.Snapshot)
+            return;
+
+        foreach (var trade in trades.Data)
+            AddTrade(Exchange.CoinEx, trade.Price, Math.Abs(trade.Quantity), trade.Timestamp);
+    }
+
+    private void HuobiUpdate(DataEvent<HuobiSymbolTrade> trades)
+    {
+        if (trades.UpdateType == CryptoExchange.Net.Objects.SocketUpdateType.Snapshot)
+            return;
+
+        foreach (var trade in trades.Data.Details)
+            AddTrade(Exchange.Huobi, trade.Price, Math.Abs(trade.Quantity), trade.Timestamp);
+    }
+
+    private void KrakenUpdate(DataEvent<IEnumerable<KrakenTrade>> trades)
+    {
+        if (trades.UpdateType == CryptoExchange.Net.Objects.SocketUpdateType.Snapshot)
+            return;
+
+        foreach (var trade in trades.Data)
+            AddTrade(Exchange.Kraken, trade.Price, Math.Abs(trade.Quantity), trade.Timestamp);
+    }
+
+    private void KucoinUpdate(DataEvent<KucoinStreamMatch> trade)
+        => AddTrade(Exchange.Kucoin, trade.Data.Price, trade.Data.Quantity, trade.Data.Timestamp);
+
+    private void MexcUpdate(DataEvent<IEnumerable<MexcStreamTrade>> trades)
+    {
+        if (trades.UpdateType == CryptoExchange.Net.Objects.SocketUpdateType.Snapshot)
+            return;
+
+        foreach (var trade in trades.Data)
+            AddTrade(Exchange.Mexc, trade.Price, Math.Abs(trade.Quantity), trade.Timestamp);
+    }
+
+    private void OKXUpdate(DataEvent<OKXTrade> trade)
+        => AddTrade(Exchange.OKX, trade.Data.Price, trade.Data.Quantity, trade.Data.Time);
+
+    private void AddTrade(Exchange exchange, decimal price, decimal quantity, DateTime timestamp)
+    {
+        lock (_lock)
+        {
+            _trades.Add(new ExchangeTrade
+                {
+                    Exchange = exchange,
+                    Trade = new Trade
+                    {
+                        Price = price,
+                        Quantity = quantity,
+                        Timestamp = timestamp
+                    }
+                });
+
+            if (_volume.ContainsKey(exchange))
+                _volume[exchange] += quantity;
+            else
+                _volume[exchange] = quantity;
+
+            if (_trades.Count > _max)
+                _trades.RemoveAt(0);
+        }
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        SocketClient.UnsubscribeAllAsync();
+    }
+}

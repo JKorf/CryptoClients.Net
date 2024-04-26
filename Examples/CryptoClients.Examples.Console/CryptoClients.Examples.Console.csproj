@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CryptoClients.Net\CryptoClients.Net.csproj" />
+    <ProjectReference Include="..\..\CryptoClients.Net\CryptoClients.Net.csproj" />
   </ItemGroup>
 
 </Project>

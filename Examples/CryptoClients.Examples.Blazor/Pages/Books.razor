@@ -1,0 +1,86 @@
+﻿@page "/books"
+@using CryptoExchange.Net.Interfaces
+@inject IExchangeOrderBookFactory BookFactory
+@implements IDisposable
+
+<PageTitle>Live Local Order Books</PageTitle>
+
+<div>
+    <h2>@_baseAsset @_quoteAsset live books</h2>
+
+    @foreach(var book in _books)
+    {
+        <div style="margin-top: 20px">
+            <b>@book.Key</b>
+            <table>
+                <tr>
+                    <th>Ask Quantity</th>
+                    <th style="padding-left: 5px;">Ask Price</th>
+                    <th style="padding-left: 10px;">Bid Price</th>
+                    <th style="padding-left: 5px;">Bid Quantity</th>
+                </tr>
+
+                @{
+                    var (asks, bids) = @book.Value.Book;
+                    if (asks.Any())
+                    {
+                        for (var i = 0; i <= 2; i++)
+                        {
+                            <tr>
+                                <td>@asks.ElementAt(i).Quantity</td>
+                                <td style="padding-left: 5px;">@asks.ElementAt(i).Price</td>
+                                <td style="padding-left: 10px;">@bids.ElementAt(i).Price</td>
+                                <td style="padding-left: 5px;">@bids.ElementAt(i).Quantity</td>
+                            </tr>
+                        }
+                    }
+                }
+            </table>
+        </div>
+    }
+</div>
+
+@code
+{
+    private Dictionary<Exchange, ISymbolOrderBook> _books = new Dictionary<Exchange, ISymbolOrderBook>();
+
+    private string _baseAsset = "BTC";
+    private string _quoteAsset = "USDT";
+    private Timer _timer;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _books = new Dictionary<Exchange, ISymbolOrderBook>
+            {
+                { Exchange.Binance, BookFactory.Binance.Spot.Create(_baseAsset, _quoteAsset) },
+                { Exchange.BingX, BookFactory.BingX.Spot.Create(_baseAsset, _quoteAsset) },
+                { Exchange.Bitfinex, BookFactory.Bitfinex.Spot.Create(_baseAsset, "UST") },
+                { Exchange.Bitget, BookFactory.Bitget.Spot.Create(_baseAsset, _quoteAsset) },
+                { Exchange.Bybit, BookFactory.Bybit.Spot.Create(_baseAsset, _quoteAsset) },
+                { Exchange.CoinEx, BookFactory.CoinEx.Spot.Create(_baseAsset, _quoteAsset) },
+                { Exchange.Huobi, BookFactory.Huobi.Spot.Create(_baseAsset, _quoteAsset) },
+                { Exchange.Kraken, BookFactory.Kraken.Spot.Create(_baseAsset, _quoteAsset) },
+                { Exchange.Kucoin, BookFactory.Kucoin.Spot.Create(_baseAsset, _quoteAsset) },
+                { Exchange.Mexc, BookFactory.Mexc.Spot.Create(_baseAsset, _quoteAsset) },
+                { Exchange.OKX, BookFactory.OKX.Unified.Create(_baseAsset, _quoteAsset) },
+            };
+
+            var tasks = new List<Task>();
+            foreach (var book in _books.Values)
+                tasks.Add(book.StartAsync());
+            await Task.WhenAll(tasks);
+
+            _timer = new Timer(async (x) => await InvokeAsync(StateHasChanged), null, 0, 1000);
+        }
+    }
+
+    public void Dispose()
+    {
+        foreach (var book in _books)
+            book.Value.StopAsync();
+
+        _timer.Dispose();
+    }
+}

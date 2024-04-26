@@ -9,6 +9,7 @@ using Kraken.Net.Interfaces.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients;
+using System.Threading.Tasks;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -61,5 +62,11 @@ namespace CryptoClients.Net.Interfaces
         /// OKX Websocket API
         /// </summary>
         IOKXSocketClient OKX { get; }
+
+        /// <summary>
+        /// Unsubscribe and close every connection
+        /// </summary>
+        /// <returns></returns>
+        Task UnsubscribeAllAsync();
     }
 }

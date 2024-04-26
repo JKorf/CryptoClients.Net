@@ -14,6 +14,13 @@ using CryptoClients.Net.Enums;
 // #                                                                                                                                   #
 // #####################################################################################################################################
 
+foreach (var exchange in Exchanges.All)
+{
+    Console.WriteLine(exchange.Name);
+    Console.WriteLine(exchange.Url);
+    Console.WriteLine();
+}
+
 // 1. Request tickers
 //await TickerExampleExchangeSpecific();
 //await TickerExampleUnified();

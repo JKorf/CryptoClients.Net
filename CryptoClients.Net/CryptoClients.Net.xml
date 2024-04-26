@@ -1,0 +1,571 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CryptoClients.Net</name>
+    </assembly>
+    <members>
+        <member name="T:CryptoClients.Net.Enums.Exchange">
+            <summary>
+            Exchange
+            </summary>
+        </member>
+        <member name="F:CryptoClients.Net.Enums.Exchange.Binance">
+            <summary>
+            Binance
+            </summary>
+        </member>
+        <member name="F:CryptoClients.Net.Enums.Exchange.BingX">
+            <summary>
+            BingX
+            </summary>
+        </member>
+        <member name="F:CryptoClients.Net.Enums.Exchange.Bitfinex">
+            <summary>
+            Bitfinex
+            </summary>
+        </member>
+        <member name="F:CryptoClients.Net.Enums.Exchange.Bitget">
+            <summary>
+            Bitget
+            </summary>
+        </member>
+        <member name="F:CryptoClients.Net.Enums.Exchange.Bybit">
+            <summary>
+            Bybit
+            </summary>
+        </member>
+        <member name="F:CryptoClients.Net.Enums.Exchange.CoinEx">
+            <summary>
+            CoinEx
+            </summary>
+        </member>
+        <member name="F:CryptoClients.Net.Enums.Exchange.Huobi">
+            <summary>
+            Huobi
+            </summary>
+        </member>
+        <member name="F:CryptoClients.Net.Enums.Exchange.Kraken">
+            <summary>
+            Kraken
+            </summary>
+        </member>
+        <member name="F:CryptoClients.Net.Enums.Exchange.Kucoin">
+            <summary>
+            Kucoin
+            </summary>
+        </member>
+        <member name="F:CryptoClients.Net.Enums.Exchange.Mexc">
+            <summary>
+            Mexc
+            </summary>
+        </member>
+        <member name="F:CryptoClients.Net.Enums.Exchange.OKX">
+            <summary>
+            OKX
+            </summary>
+        </member>
+        <member name="T:CryptoClients.Net.ExchangeOrderBookFactory">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.Binance">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.BingX">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.Bitfinex">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.Bitget">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.Bybit">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.CoinEx">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.Huobi">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.Kraken">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.Kucoin">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.Mexc">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.OKX">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeOrderBookFactory.#ctor(Binance.Net.Interfaces.IBinanceOrderBookFactory,BingX.Net.Interfaces.IBingXOrderBookFactory,Bitfinex.Net.Interfaces.IBitfinexOrderBookFactory,Bitget.Net.Interfaces.IBitgetOrderBookFactory,Bybit.Net.Interfaces.IBybitOrderBookFactory,CoinEx.Net.Interfaces.ICoinExOrderBookFactory,Huobi.Net.Interfaces.IHuobiOrderBookFactory,Kraken.Net.Interfaces.IKrakenOrderBookFactory,Kucoin.Net.Interfaces.IKucoinOrderBookFactory,Mexc.Net.Interfaces.IMexcOrderBookFactory,OKX.Net.Interfaces.IOKXOrderBookFactory)">
+            <summary>
+            DI constructor
+            </summary>
+        </member>
+        <member name="T:CryptoClients.Net.ExchangeRestClient">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.Binance">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.BingX">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.Bitfinex">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.Bitget">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.Bybit">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.CoinEx">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.Huobi">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.Kraken">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.Kucoin">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.Mexc">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.OKX">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor">
+            <summary>
+            Create a new ExchangeRestClient instance. Client instances will be created with default options.
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor(System.Action{Binance.Net.Objects.Options.BinanceRestOptions},System.Action{BingX.Net.Objects.Options.BingXRestOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexRestOptions},System.Action{Bitget.Net.Objects.Options.BitgetRestOptions},System.Action{Bybit.Net.Objects.Options.BybitRestOptions},System.Action{CoinEx.Net.Objects.Options.CoinExRestOptions},System.Action{Huobi.Net.Objects.Options.HuobiRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kucoin.Net.Objects.Options.KucoinRestOptions},System.Action{Mexc.Net.Objects.Options.MexcRestOptions},System.Action{OKX.Net.Objects.Options.OKXRestOptions})">
+            <summary>
+            Create a new ExchangeRestClient instance
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor(Binance.Net.Interfaces.Clients.IBinanceRestClient,BingX.Net.Interfaces.Clients.IBingXRestClient,Bitfinex.Net.Interfaces.Clients.IBitfinexRestClient,Bitget.Net.Interfaces.Clients.IBitgetRestClient,Bybit.Net.Interfaces.Clients.IBybitRestClient,CoinEx.Net.Interfaces.Clients.ICoinExRestClient,Huobi.Net.Interfaces.Clients.IHuobiRestClient,Kraken.Net.Interfaces.Clients.IKrakenRestClient,Kucoin.Net.Interfaces.Clients.IKucoinRestClient,Mexc.Net.Interfaces.Clients.IMexcRestClient,OKX.Net.Interfaces.Clients.IOKXRestClient,System.Collections.Generic.IEnumerable{CryptoExchange.Net.Interfaces.CommonClients.ISpotClient})">
+            <summary>
+            DI constructor
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetUnifiedSpotClient(CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetUnifiedSpotClients">
+            <inheritdoc />
+        </member>
+        <member name="T:CryptoClients.Net.Exchanges">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:CryptoClients.Net.Exchanges.RateLimitTriggered">
+            <summary>
+            Event for when a rate limit is triggered in any of the exchange clients
+            </summary>
+        </member>
+        <member name="T:CryptoClients.Net.ExchangeSocketClient">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.Binance">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.BingX">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.Bitfinex">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.Bitget">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.Bybit">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.CoinEx">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.Huobi">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.Kraken">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.Kucoin">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.Mexc">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.OKX">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.#ctor">
+            <summary>
+            Create a new ExchangeSocketClient instance. Client instances will be created with default options.
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.#ctor(System.Action{Binance.Net.Objects.Options.BinanceSocketOptions},System.Action{BingX.Net.Objects.Options.BingXSocketOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexSocketOptions},System.Action{Bitget.Net.Objects.Options.BitgetSocketOptions},System.Action{Bybit.Net.Objects.Options.BybitSocketOptions},System.Action{CoinEx.Net.Objects.Options.CoinExSocketOptions},System.Action{Huobi.Net.Objects.Options.HuobiSocketOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Action{Kucoin.Net.Objects.Options.KucoinSocketOptions},System.Action{Mexc.Net.Objects.Options.MexcSocketOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions})">
+            <summary>
+            Create a new ExchangeSocketClient instance
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.#ctor(Binance.Net.Interfaces.Clients.IBinanceSocketClient,BingX.Net.Interfaces.Clients.IBingXSocketClient,Bitfinex.Net.Interfaces.Clients.IBitfinexSocketClient,Bitget.Net.Interfaces.Clients.IBitgetSocketClient,Bybit.Net.Interfaces.Clients.IBybitSocketClient,CoinEx.Net.Interfaces.Clients.ICoinExSocketClient,Huobi.Net.Interfaces.Clients.IHuobiSocketClient,Kraken.Net.Interfaces.Clients.IKrakenSocketClient,Kucoin.Net.Interfaces.Clients.IKucoinSocketClient,Mexc.Net.Interfaces.Clients.IMexcSocketClient,OKX.Net.Interfaces.Clients.IOKXSocketClient)">
+            <summary>
+            DI constructor
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.UnsubscribeAllAsync">
+            <inheritdoc />
+        </member>
+        <member name="T:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory">
+            <summary>
+            Factory for creating SymbolOrderBook instances; locally synced order books.
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.Binance">
+            <summary>
+            Binance order book factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.BingX">
+            <summary>
+            BingX order book factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.Bitfinex">
+            <summary>
+            Bitfinex order book factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.Bitget">
+            <summary>
+            Bitget order book factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.Bybit">
+            <summary>
+            Bybit order book factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.CoinEx">
+            <summary>
+            CoinEx order book factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.Huobi">
+            <summary>
+            Huobi order book factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.Kraken">
+            <summary>
+            Kraken order book factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.Kucoin">
+            <summary>
+            Kucoin order book factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.Mexc">
+            <summary>
+            Mexc order book factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.OKX">
+            <summary>
+            OKX order book factory
+            </summary>
+        </member>
+        <member name="T:CryptoClients.Net.Interfaces.IExchangeRestClient">
+            <summary>
+            Client for accessing the exchange REST API's.
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.Binance">
+            <summary>
+            Binance REST API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.BingX">
+            <summary>
+            BingX REST API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.Bitfinex">
+            <summary>
+            Bitfinex REST API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.Bitget">
+            <summary>
+            Bitget REST API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.Bybit">
+            <summary>
+            Bybit REST API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.CoinEx">
+            <summary>
+            CoinEx REST API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.Kraken">
+            <summary>
+            Kraken REST API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.Kucoin">
+            <summary>
+            Kucoin REST API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.Mexc">
+            <summary>
+            Mexc REST API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.OKX">
+            <summary>
+            OKX REST API
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetUnifiedSpotClient(CryptoClients.Net.Enums.Exchange)">
+            <summary>
+            Get an ISpotClient for the specific exchange. 
+            </summary>
+            <param name="exchange">Exchange</param>
+            <returns></returns>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetUnifiedSpotClients">
+            <summary>
+            Get all ISpotClient interfaces
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:CryptoClients.Net.Interfaces.IExchangeSocketClient">
+            <summary>
+            Client for accessing the exchange Websocket API's.
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.Binance">
+            <summary>
+            Binance Websocket API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.BingX">
+            <summary>
+            BingX Websocket API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.Bitfinex">
+            <summary>
+            Bitfinex Websocket API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.Bitget">
+            <summary>
+            Bitget Websocket API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.Bybit">
+            <summary>
+            Bybit Websocket API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.CoinEx">
+            <summary>
+            CoinEx Websocket API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.Huobi">
+            <summary>
+            Huobi Websocket API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.Kraken">
+            <summary>
+            Kraken Websocket API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.Kucoin">
+            <summary>
+            Kucoin Websocket API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.Mexc">
+            <summary>
+            Mexc Websocket API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.OKX">
+            <summary>
+            OKX Websocket API
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.UnsubscribeAllAsync">
+            <summary>
+            Unsubscribe and close every connection
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:CryptoClients.Net.Models.ExchangeCredentials">
+            <summary>
+            Credentials for each exchange
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.Binance">
+            <summary>
+            Binance API credentials
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.BingX">
+            <summary>
+            BingX API credentials
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.Bitfinex">
+            <summary>
+            Bitfinex API credentials
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.Bitget">
+            <summary>
+            Bitget API credentials
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.Bybit">
+            <summary>
+            Bybit API credentials
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.CoinEx">
+            <summary>
+            CoinEx API credentials
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.Huobi">
+            <summary>
+            Huobi API credentials
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.Kraken">
+            <summary>
+            Kraken API credentials
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.Kucoin">
+            <summary>
+            Kucoin API credentials
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.Mexc">
+            <summary>
+            Mexc API credentials
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.OKX">
+            <summary>
+            OKX API credentials
+            </summary>
+        </member>
+        <member name="T:CryptoClients.Net.Models.GlobalExchangeOptions">
+            <summary>
+            Options to apply to any exchange client (if not overridden)
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.Default">
+            <summary>
+            Default global options
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.ApiCredentials">
+            <summary>
+            API credentials configuration for exchanges
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.Proxy">
+            <summary>
+            Proxy settings
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.OutputOriginalData">
+            <summary>
+            If true, the CallResult and DataEvent objects will also include the originally received json data in the OriginalData property
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.RequestTimeout">
+            <summary>
+            The max time a request is allowed to take
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.RateLimiterEnabled">
+            <summary>
+            Whether or not client side rate limiting should be applied
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.RateLimitingBehaviour">
+            <summary>
+            What should happen when a rate limit is reached
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.AutoReconnect">
+            <summary>
+            Whether or not a socket connection should automatically reconnect when losing connection
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.ReconnectInterval">
+            <summary>
+            Time to wait between socket reconnect attempts
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions">
+            <summary>
+            Extensions for DI
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddCryptoClients(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{CryptoClients.Net.Models.GlobalExchangeOptions},System.Action{Binance.Net.Objects.Options.BinanceRestOptions},System.Action{Binance.Net.Objects.Options.BinanceSocketOptions},System.Action{BingX.Net.Objects.Options.BingXRestOptions},System.Action{BingX.Net.Objects.Options.BingXSocketOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexRestOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexSocketOptions},System.Action{Bitget.Net.Objects.Options.BitgetRestOptions},System.Action{Bitget.Net.Objects.Options.BitgetSocketOptions},System.Action{Bybit.Net.Objects.Options.BybitRestOptions},System.Action{Bybit.Net.Objects.Options.BybitSocketOptions},System.Action{CoinEx.Net.Objects.Options.CoinExRestOptions},System.Action{CoinEx.Net.Objects.Options.CoinExSocketOptions},System.Action{CoinGecko.Net.Objects.Options.CoinGeckoRestOptions},System.Action{Huobi.Net.Objects.Options.HuobiRestOptions},System.Action{Huobi.Net.Objects.Options.HuobiSocketOptions},System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Action{Kucoin.Net.Objects.Options.KucoinRestOptions},System.Action{Kucoin.Net.Objects.Options.KucoinSocketOptions},System.Action{Mexc.Net.Objects.Options.MexcRestOptions},System.Action{Mexc.Net.Objects.Options.MexcSocketOptions},System.Action{OKX.Net.Objects.Options.OKXRestOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
+            <summary>
+            Add all the exchange clients to the service collection as well as the IExchangeRestClient, IExchangeSocketClient and IExchangeOrderBookFactory aggregation interfaces
+            </summary>
+            <param name="services">The service collection</param>
+            <param name="globalOptions">The options to be applied for each exchange client. Can be overridden by providing exchange specific options.</param>
+            <param name="binanceRestOptions">The options options for the Binance rest client. Will override options provided in the global options</param>
+            <param name="binanceSocketOptions">The options options for the Binance socket client. Will override options provided in the global options</param>
+            <param name="bingxRestOptions">The options options for the BingX rest client. Will override options provided in the global options</param>
+            <param name="bingxSocketOptions">The options options for the BingX socket client. Will override options provided in the global options</param>
+            <param name="bitfinexRestOptions">The options options for the Bitfinex rest client. Will override options provided in the global options</param>
+            <param name="bitfinexSocketOptions">The options options for the Bitfinex socket client. Will override options provided in the global options</param>
+            <param name="bitgetRestOptions">The options options for the Bitget rest client. Will override options provided in the global options</param>
+            <param name="bitgetSocketOptions">The options options for the Bitget socket client. Will override options provided in the global options</param>
+            <param name="bybitRestOptions">The options options for the Bybit rest client. Will override options provided in the global options</param>
+            <param name="bybitSocketOptions">The options options for the Bybit socket client. Will override options provided in the global options</param>
+            <param name="coinExRestOptions">The options options for the CoinEx rest client. Will override options provided in the global options</param>
+            <param name="coinExSocketOptions">The options options for the CoinEx socket client. Will override options provided in the global options</param>
+            <param name="coinGeckoRestOptions">The options options for the CoinGecko rest client. Will override options provided in the global options</param>
+            <param name="huobiRestOptions">The options options for the Huobi rest client. Will override options provided in the global options</param>
+            <param name="huobiSocketOptions">The options options for the Huobi socket client. Will override options provided in the global options</param>
+            <param name="krakenRestOptions">The options options for the Kraken rest client. Will override options provided in the global options</param>
+            <param name="krakenSocketOptions">The options options for the Kraken socket client. Will override options provided in the global options</param>
+            <param name="kucoinRestOptions">The options options for the Kucoin rest client. Will override options provided in the global options</param>
+            <param name="kucoinSocketOptions">The options options for the Kucoin socket client. Will override options provided in the global options</param>
+            <param name="mexcRestOptions">The options options for the Mexc rest client. Will override options provided in the global options</param>
+            <param name="mexcSocketOptions">The options options for the Mexc socket client. Will override options provided in the global options</param>
+            <param name="okxRestOptions">The options options for the OKX rest client. Will override options provided in the global options</param>
+            <param name="okxSocketOptions">The options options for the OKX socket client. Will override options provided in the global options</param>
+            <param name="socketClientLifetime">The lifetime for the Socket clients. Defaults to Singleton</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
