@@ -164,7 +164,67 @@
         </member>
         <member name="T:CryptoClients.Net.Exchanges">
             <summary>
-            
+            Information on supported exchanges and universal functionality
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.Binance">
+            <summary>
+            Binance exchange info
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.BingX">
+            <summary>
+            BingX exchange info
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.Bitfinex">
+            <summary>
+            Bitfinex exchange info
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.Bitget">
+            <summary>
+            Bitget exchange info
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.Bybit">
+            <summary>
+            Bybit exchange info
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.CoinEx">
+            <summary>
+            CoinEx exchange info
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.Huobi">
+            <summary>
+            Huobi exchange info
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.Kraken">
+            <summary>
+            Kraken exchange info
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.Kucoin">
+            <summary>
+            Kucoin exchange info
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.Mexc">
+            <summary>
+            Mexc exchange info
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.OKX">
+            <summary>
+            OKX exchange info
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Exchanges.All">
+            <summary>
+            Information on all supported exchanges
             </summary>
         </member>
         <member name="E:CryptoClients.Net.Exchanges.RateLimitTriggered">

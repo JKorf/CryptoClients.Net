@@ -15,10 +15,13 @@ using System;
 namespace CryptoClients.Net
 {
     /// <summary>
-    /// 
+    /// Information on supported exchanges and universal functionality
     /// </summary>
     public static class Exchanges
     {
+        /// <summary>
+        /// Binance exchange info
+        /// </summary>
         public static ExchangeInfo Binance { get; } = new ExchangeInfo
         {
             Name = BinanceExchange.ExchangeName,
@@ -26,6 +29,9 @@ namespace CryptoClients.Net
             ApiDocsUrl = BinanceExchange.ApiDocsUrl
         };
 
+        /// <summary>
+        /// BingX exchange info
+        /// </summary>
         public static ExchangeInfo BingX { get; } = new ExchangeInfo
         {
             Name = BingXExchange.ExchangeName,
@@ -33,6 +39,9 @@ namespace CryptoClients.Net
             ApiDocsUrl = BingXExchange.ApiDocsUrl
         };
 
+        /// <summary>
+        /// Bitfinex exchange info
+        /// </summary>
         public static ExchangeInfo Bitfinex { get; } = new ExchangeInfo
         {
             Name = BitfinexExchange.ExchangeName,
@@ -40,6 +49,9 @@ namespace CryptoClients.Net
             ApiDocsUrl = BitfinexExchange.ApiDocsUrl
         };
 
+        /// <summary>
+        /// Bitget exchange info
+        /// </summary>
         public static ExchangeInfo Bitget { get; } = new ExchangeInfo
         {
             Name = BitgetExchange.ExchangeName,
@@ -47,6 +59,9 @@ namespace CryptoClients.Net
             ApiDocsUrl = BitgetExchange.ApiDocsUrl
         };
 
+        /// <summary>
+        /// Bybit exchange info
+        /// </summary>
         public static ExchangeInfo Bybit { get; } = new ExchangeInfo
         {
             Name = BybitExchange.ExchangeName,
@@ -54,6 +69,9 @@ namespace CryptoClients.Net
             ApiDocsUrl = BybitExchange.ApiDocsUrl
         };
 
+        /// <summary>
+        /// CoinEx exchange info
+        /// </summary>
         public static ExchangeInfo CoinEx { get; } = new ExchangeInfo
         {
             Name = CoinExExchange.ExchangeName,
@@ -61,6 +79,9 @@ namespace CryptoClients.Net
             ApiDocsUrl = CoinExExchange.ApiDocsUrl
         };
 
+        /// <summary>
+        /// Huobi exchange info
+        /// </summary>
         public static ExchangeInfo Huobi { get; } = new ExchangeInfo
         {
             Name = HuobiExchange.ExchangeName,
@@ -68,6 +89,9 @@ namespace CryptoClients.Net
             ApiDocsUrl = HuobiExchange.ApiDocsUrl
         };
 
+        /// <summary>
+        /// Kraken exchange info
+        /// </summary>
         public static ExchangeInfo Kraken { get; } = new ExchangeInfo
         {
             Name = KrakenExchange.ExchangeName,
@@ -75,6 +99,9 @@ namespace CryptoClients.Net
             ApiDocsUrl = KrakenExchange.ApiDocsUrl
         };
 
+        /// <summary>
+        /// Kucoin exchange info
+        /// </summary>
         public static ExchangeInfo Kucoin { get; } = new ExchangeInfo
         {
             Name = KucoinExchange.ExchangeName,
@@ -82,6 +109,9 @@ namespace CryptoClients.Net
             ApiDocsUrl = KucoinExchange.ApiDocsUrl
         };
 
+        /// <summary>
+        /// Mexc exchange info
+        /// </summary>
         public static ExchangeInfo Mexc { get; } = new ExchangeInfo
         {
             Name = MexcExchange.ExchangeName,
@@ -89,6 +119,9 @@ namespace CryptoClients.Net
             ApiDocsUrl = MexcExchange.ApiDocsUrl
         };
 
+        /// <summary>
+        /// OKX exchange info
+        /// </summary>
         public static ExchangeInfo OKX { get; } = new ExchangeInfo
         {
             Name = OKXExchange.ExchangeName,
@@ -96,6 +129,9 @@ namespace CryptoClients.Net
             ApiDocsUrl = OKXExchange.ApiDocsUrl
         };
 
+        /// <summary>
+        /// Information on all supported exchanges
+        /// </summary>
         public static ExchangeInfo[] All { get; } = new[]
         {
             Binance,

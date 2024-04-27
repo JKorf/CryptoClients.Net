@@ -1,8 +1,10 @@
-﻿using Binance.Net.SymbolOrderBooks;
+﻿using Binance.Net.Clients;
+using Binance.Net.SymbolOrderBooks;
 using BingX.Net.SymbolOrderBooks;
 using Bybit.Net.SymbolOrderBooks;
 using CryptoClients.Net;
 using CryptoClients.Net.Enums;
+using Kucoin.Net.Clients;
 
 // #####################################################################################################################################
 // #                                                  CryptoClients.Net examples                                                       #
@@ -13,13 +15,6 @@ using CryptoClients.Net.Enums;
 // #  These examples are limited to the Binance, BingX and Bybit exchanges, but the same principles apply to each exchange available   #
 // #                                                                                                                                   #
 // #####################################################################################################################################
-
-foreach (var exchange in Exchanges.All)
-{
-    Console.WriteLine(exchange.Name);
-    Console.WriteLine(exchange.Url);
-    Console.WriteLine();
-}
 
 // 1. Request tickers
 //await TickerExampleExchangeSpecific();
@@ -51,6 +46,8 @@ async Task TickerExampleExchangeSpecific()
         var resultBybit = client.Bybit.V5Api.ExchangeData.GetSpotTickersAsync(baseAsset + quoteAsset);
         await Task.WhenAll(resultBinance, resultBingX, resultBybit);
 
+        Console.WriteLine();
+        Console.WriteLine("Exchange prices:");
         Console.WriteLine("Binance:" + (resultBinance.Result.Success ? resultBinance.Result.Data.LastPrice : resultBinance.Result.Error));
         Console.WriteLine("BingX:" + (resultBingX.Result.Success ? resultBingX.Result.Data.Single().LastPrice : resultBingX.Result.Error));
         Console.WriteLine("Bybit:" + (resultBybit.Result.Success ? resultBybit.Result.Data.List.Single().LastPrice : resultBybit.Result.Error));
@@ -77,6 +74,8 @@ async Task TickerExampleUnified()
         var resultBybit = bybit.GetTickerAsync(bybit.GetSymbolName(baseAsset, quoteAsset));
         await Task.WhenAll(resultBinance, resultBingX, resultBybit);
 
+        Console.WriteLine();
+        Console.WriteLine("Exchange prices:");
         Console.WriteLine("Binance:" + (resultBinance.Result.Success ? resultBinance.Result.Data.LastPrice : resultBinance.Result.Error));
         Console.WriteLine("BingX:" + (resultBingX.Result.Success ? resultBingX.Result.Data.LastPrice : resultBingX.Result.Error));
         Console.WriteLine("Bybit:" + (resultBybit.Result.Success ? resultBybit.Result.Data.LastPrice : resultBybit.Result.Error));
@@ -170,10 +169,12 @@ async Task SubscribePriceUpdates()
     var quoteAsset = Console.ReadLine();
 
     var client = new ExchangeSocketClient();
-    var resultBinance = client.Binance.SpotApi.ExchangeData.SubscribeToMiniTickerUpdatesAsync(baseAsset + quoteAsset, update => Console.WriteLine($"Binance: {update.Data.LastPrice}"));
-    var resultBingX = client.BingX.SpotApi.SubscribeToPriceUpdatesAsync(baseAsset + "-" + quoteAsset, update => Console.WriteLine($"BingX: {update.Data.Price}"));
-    var resultBybit = client.Bybit.V5SpotApi.SubscribeToTickerUpdatesAsync(baseAsset + quoteAsset, update => Console.WriteLine($"Bybit: {update.Data.LastPrice}"));
+    var resultBinance = client.Binance.SpotApi.ExchangeData.SubscribeToMiniTickerUpdatesAsync(baseAsset + quoteAsset, update => Console.WriteLine($"Update from Binance: {update.Data.LastPrice}"));
+    var resultBingX = client.BingX.SpotApi.SubscribeToPriceUpdatesAsync(baseAsset + "-" + quoteAsset, update => Console.WriteLine($"Update from BingX: {update.Data.Price}"));
+    var resultBybit = client.Bybit.V5SpotApi.SubscribeToTickerUpdatesAsync(baseAsset + quoteAsset, update => Console.WriteLine($"Update from Bybit: {update.Data.LastPrice}"));
     await Task.WhenAll(resultBinance, resultBingX, resultBybit);
+
+    Console.WriteLine();
 
     if (!resultBinance.Result.Success) Console.WriteLine("Binance subscription failed: " + resultBinance.Result.Error);
     if (!resultBingX.Result.Success) Console.WriteLine("BingX subscription failed: " + resultBingX.Result.Error);

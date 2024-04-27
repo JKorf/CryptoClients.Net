@@ -2,7 +2,7 @@
 
 [![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/CryptoClients.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/CryptoClients.Net/actions/workflows/dotnet.yml) [![Nuget downloads](https://img.shields.io/nuget/dt/CryptoClients.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoClients.Net) ![License](https://img.shields.io/github/license/JKorf/CryptoClients.Net?style=for-the-badge)
 
-CryptoClients.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). This library bundles the different clients in a single package and adds some additional tools to make use of them.
+CryptoClients.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). CryptoClients.Net bundles the different client libraries in a single package and adds some additional tools to make use of them.
 
 For more information on what CryptoExchange.Net and it's client libraries offers see the [Documentation](https://jkorf.github.io/CryptoExchange.Net/).
 
@@ -25,11 +25,53 @@ The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for op
 	dotnet add package CryptoClients.Net
 	
 ## How to use
+### Get a client
+There are 2 main clients, the `ExchangeRestClient` and `ExchangeSocketClient`, for accessing the REST and Websocket API respectively. All exchange API's are available via these clients.  
+Alternatively exchange specific clients can be used, for example `BinanceRestClient` or `KucoinSocketClient`.
+Either create new clients directly or use Dotnet dependency injection:
+```csharp
+// Construction
+var restClient = new ExchangeRestClient();
+var socketClient = new ExchangeSocketClient();
 
 
-For information on the specific exchange clients, dependency injection, response processing and more see the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net) or have a look at the examples [here](https://github.com/JKorf/CryptoClients.Net/tree/main/Examples) or [here](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples).
+// Dependency injection, allows the injection of `IExchangeRestClient`, `IExchangeSocketClient`, `IExchangeOrderBookFactory` and for all exchanges the `I[ExchangeName]RestClient`, `I[ExchangeName]SocketClient` and `I[ExchangeName]OrderBookFactory` types
+services.AddCryptoClients();
+```
 
-### Current implementations
+### Using the client
+There are multiple options for accessing exchange API's. Options 1 and 2 allow access to the full exchange API while option 3 uses a common interface which allows exchange agnostic requesting, but is therefor limited in functionality.  
+Option 3 is currently only supported for the Spot REST API's.
+```csharp
+// Option 1
+// Use exchange clients directly, full functionality
+var kucoinClient1 = new KucoinRestClient();
+var binanceClient1 = new BinanceRestClient();
+var binanceResult1 = await binanceClient1.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT");
+var kucoinResult1 = await kucoinClient1.SpotApi.ExchangeData.GetTickerAsync("ETH-USDT");
+
+// Option 2
+// Use exchange client via ExchangeRestClient, full functionality
+var restClient2 = new ExchangeRestClient();
+var baseAsset2 = "ETH";
+var quoteAsset2 = "USDT";
+var binanceResult2 = await restClient2.Binance.SpotApi.ExchangeData.GetTickerAsync(restClient2.Binance.SpotApi.FormatSymbol(baseAsset2, quoteAsset2));
+var kucoinResult2 = await restClient2.Kucoin.SpotApi.ExchangeData.GetTickerAsync(restClient2.Kucoin.SpotApi.FormatSymbol(baseAsset2, quoteAsset2));
+
+// Option 3
+// Use unified spot client via GetUnifiedSpotClient, most generic but only supports common functionality
+var restClient3 = new ExchangeRestClient();
+var baseAsset3 = "ETH";
+var quoteAsset3 = "USDT";
+var unifiedBinanceClient3 = restClient3.GetUnifiedSpotClient(Exchange.Binance);
+var unifiedKucoinClient3 = restClient3.GetUnifiedSpotClient(Exchange.Kucoin);
+var binanceResult3 = await unifiedBinanceClient3.GetTickerAsync(unifiedBinanceClient3.GetSymbolName(baseAsset3, quoteAsset3));
+var kucoinResult3 = await unifiedKucoinClient3.GetTickerAsync(unifiedKucoinClient3.GetSymbolName(baseAsset3, quoteAsset3));
+```
+
+For information on the specific exchange clients, dependency injection, response processing and more see the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net) or have a look at the examples [here](https://github.com/JKorf/CryptoClients.Net/tree/main/Examples). See the [CryptoExchange.Net examples](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples) for examples client examples which also apply to CryptClients.Net
+
+### Supported Exchanges
 The following API's are included in CryptoClients.Net:
 
 |Exchange|Repository|Nuget|

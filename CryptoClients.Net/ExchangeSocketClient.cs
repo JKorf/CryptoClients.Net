@@ -17,7 +17,6 @@ using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
 using CryptoClients.Net.Interfaces;
-using CryptoExchange.Net.Interfaces.CommonClients;
 using Huobi.Net.Clients;
 using Huobi.Net.Interfaces.Clients;
 using Huobi.Net.Objects.Options;
