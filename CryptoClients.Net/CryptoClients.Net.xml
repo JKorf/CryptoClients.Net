@@ -64,6 +64,26 @@
             OKX
             </summary>
         </member>
+        <member name="T:CryptoClients.Net.ExchangeInfo">
+            <summary>
+            Exchange information
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeInfo.Name">
+            <summary>
+            Exchange name
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeInfo.Url">
+            <summary>
+            Website URL
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeInfo.ApiDocsUrl">
+            <summary>
+            Urls for the API documentation
+            </summary>
+        </member>
         <member name="T:CryptoClients.Net.ExchangeOrderBookFactory">
             <inheritdoc />
         </member>

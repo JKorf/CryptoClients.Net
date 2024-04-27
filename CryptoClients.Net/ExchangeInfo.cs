@@ -1,13 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CryptoClients.Net
 {
+    /// <summary>
+    /// Exchange information
+    /// </summary>
     public class ExchangeInfo
     {
-        public string Name { get; set; }
-        public string Url { get; set; }
-        public string[] ApiDocsUrl { get; set; }
+        /// <summary>
+        /// Exchange name
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
+        /// <summary>
+        /// Website URL
+        /// </summary>
+        public string Url { get; set; } = string.Empty;
+        /// <summary>
+        /// Urls for the API documentation
+        /// </summary>
+        public string[] ApiDocsUrl { get; set; } = Array.Empty<string>();
     }
 }
