@@ -2,7 +2,7 @@
 
 [![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/CryptoClients.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/CryptoClients.Net/actions/workflows/dotnet.yml) [![Nuget downloads](https://img.shields.io/nuget/dt/CryptoClients.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoClients.Net) ![License](https://img.shields.io/github/license/JKorf/CryptoClients.Net?style=for-the-badge)
 
-CryptoClients.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). CryptoClients.Net bundles the different client libraries in a single package and adds some additional tools to make use of them.
+CryptoClients.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). CryptoClients.Net bundles the different client libraries in a single package and adds some additional tools to make use of them. The client libraries offer access to market data, Spot and Futures trading and various other topics depending on the API.
 
 For more information on what CryptoExchange.Net and it's client libraries offers see the [Documentation](https://jkorf.github.io/CryptoExchange.Net/).
 
