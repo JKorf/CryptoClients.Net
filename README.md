@@ -24,7 +24,7 @@ The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for op
 
 	dotnet add package CryptoClients.Net
 	
-## How to use
+## How to use  
 ### Get a client
 There are 2 main clients, the `ExchangeRestClient` and `ExchangeSocketClient`, for accessing the REST and Websocket API respectively. All exchange API's are available via these clients.  
 Alternatively exchange specific clients can be used, for example `BinanceRestClient` or `KucoinSocketClient`.
@@ -37,6 +37,29 @@ var socketClient = new ExchangeSocketClient();
 
 // Dependency injection, allows the injection of `IExchangeRestClient`, `IExchangeSocketClient`, `IExchangeOrderBookFactory` and for all exchanges the `I[ExchangeName]RestClient`, `I[ExchangeName]SocketClient` and `I[ExchangeName]OrderBookFactory` types
 services.AddCryptoClients();
+```
+
+### Configuration
+Clients can be configured when doing the dependency injection registration, or when constructing the clients. Configuration can be done for all exchanges/clients, can be set per exchange or a combination:
+```csharp
+builder.Services.AddCryptoClients(globalOptions =>
+{
+    // Global options apply to each exchange/client
+    globalOptions.OutputOriginalData = true;
+	// Set credentials for the different exchanges, will be applied to both REST and socket clients
+    globalOptions.ApiCredentials = new CryptoClients.Net.Models.ExchangeCredentials
+    {
+        Binance = new ApiCredentials("BinanceKey", "BinanceSecret"),
+        Kucoin = new KucoinApiCredentials("KucoinKey", "KucoinSecret", "KucoinPassphrase"),
+        OKX = new OKXApiCredentials("OKXKey", "OKXSecret", "OKXPassphrase")
+    };
+},
+bybitRestOptions: bybitOptions =>
+{
+    // Specify options specifically for a specific exchange and client, in this case the Bybit REST client
+    bybitOptions.Environment = Bybit.Net.BybitEnvironment.Netherlands;
+    bybitOptions.ApiCredentials = new ApiCredentials("BybitKey", "BybitSecret");
+});
 ```
 
 ### Using the client
