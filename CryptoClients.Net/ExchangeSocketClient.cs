@@ -17,6 +17,9 @@ using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
 using CryptoClients.Net.Interfaces;
+using CryptoClients.Net.Models;
+using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Objects.Options;
 using Huobi.Net.Clients;
 using Huobi.Net.Interfaces.Clients;
 using Huobi.Net.Objects.Options;
@@ -85,29 +88,67 @@ namespace CryptoClients.Net
         /// Create a new ExchangeSocketClient instance
         /// </summary>
         public ExchangeSocketClient(
-            Action<BinanceSocketOptions>? binanceRestOptions = null,
-            Action<BingXSocketOptions>? bingxRestOptions = null,
-            Action<BitfinexSocketOptions>? bitfinexRestOptions = null,
-            Action<BitgetSocketOptions>? bitgetRestOptions = null,
-            Action<BybitSocketOptions>? bybitRestOptions = null,
-            Action<CoinExSocketOptions>? coinexRestOptions = null,
-            Action<HuobiSocketOptions>? huobiRestOptions = null,
-            Action<KrakenSocketOptions>? krakenRestOptions = null,
-            Action<KucoinSocketOptions>? kucoinRestOptions = null,
-            Action<MexcSocketOptions>? mexcRestOptions = null,
-            Action<OKXSocketOptions>? okxRestOptions = null)
+            Action<GlobalExchangeOptions>? globalOptions = null,
+            Action<BinanceSocketOptions>? binanceSocketOptions = null,
+            Action<BingXSocketOptions>? bingxSocketOptions = null,
+            Action<BitfinexSocketOptions>? bitfinexSocketOptions = null,
+            Action<BitgetSocketOptions>? bitgetSocketOptions = null,
+            Action<BybitSocketOptions>? bybitSocketOptions = null,
+            Action<CoinExSocketOptions>? coinExSocketOptions = null,
+            Action<HuobiSocketOptions>? huobiSocketOptions = null,
+            Action<KrakenSocketOptions>? krakenSocketOptions = null,
+            Action<KucoinSocketOptions>? kucoinSocketOptions = null,
+            Action<MexcSocketOptions>? mexcSocketOptions = null,
+            Action<OKXSocketOptions>? okxSocketOptions = null)
         {
-            Binance = new BinanceSocketClient(binanceRestOptions ?? new Action<BinanceSocketOptions>((x) => { }));
-            BingX = new BingXSocketClient(bingxRestOptions ?? new Action<BingXSocketOptions>((x) => { }));
-            Bitfinex = new BitfinexSocketClient(bitfinexRestOptions ?? new Action<BitfinexSocketOptions>((x) => { }));
-            Bitget = new BitgetSocketClient(bitgetRestOptions ?? new Action<BitgetSocketOptions>((x) => { }));
-            Bybit = new BybitSocketClient(bybitRestOptions ?? new Action<BybitSocketOptions>((x) => { }));
-            CoinEx = new CoinExSocketClient(coinexRestOptions ?? new Action<CoinExSocketOptions>((x) => { }));
-            Huobi = new HuobiSocketClient(huobiRestOptions ?? new Action<HuobiSocketOptions>((x) => { }));
-            Kraken = new KrakenSocketClient(krakenRestOptions ?? new Action<KrakenSocketOptions>((x) => { }));
-            Kucoin = new KucoinSocketClient(kucoinRestOptions ?? new Action<KucoinSocketOptions>((x) => { }));
-            Mexc = new MexcSocketClient(mexcRestOptions ?? new Action<MexcSocketOptions>((x) => { }));
-            OKX = new OKXSocketClient(okxRestOptions ?? new Action<OKXSocketOptions>((x) => { }));
+            Action<TOptions> SetGlobalSocketOptions<TOptions, TCredentials>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials) where TOptions : SocketExchangeOptions where TCredentials : ApiCredentials
+            {
+                var socketDelegate = (TOptions socketOptions) =>
+                {
+                    socketOptions.Proxy = globalOptions.Proxy;
+                    socketOptions.ApiCredentials = credentials;
+                    socketOptions.OutputOriginalData = globalOptions.OutputOriginalData;
+                    socketOptions.RequestTimeout = globalOptions.RequestTimeout;
+                    socketOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
+                    socketOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
+                    socketOptions.AutoReconnect = globalOptions.AutoReconnect;
+                    socketOptions.ReconnectInterval = globalOptions.ReconnectInterval;
+                    exchangeDelegate?.Invoke(socketOptions);
+                };
+
+                return socketDelegate;
+            }
+
+            if (globalOptions != null)
+            {
+                var global = GlobalExchangeOptions.Default;
+                globalOptions.Invoke(global);
+
+                ExchangeCredentials? credentials = global.ApiCredentials;
+                binanceSocketOptions = SetGlobalSocketOptions(global, binanceSocketOptions, credentials?.Binance);
+                bingxSocketOptions = SetGlobalSocketOptions(global, bingxSocketOptions, credentials?.BingX);
+                bitfinexSocketOptions = SetGlobalSocketOptions(global, bitfinexSocketOptions, credentials?.Bitfinex);
+                bitgetSocketOptions = SetGlobalSocketOptions(global, bitgetSocketOptions, credentials?.Bitget);
+                bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions, credentials?.Bybit);
+                coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx);
+                huobiSocketOptions = SetGlobalSocketOptions(global, huobiSocketOptions, credentials?.Huobi);
+                krakenSocketOptions = SetGlobalSocketOptions(global, krakenSocketOptions, credentials?.Kraken);
+                kucoinSocketOptions = SetGlobalSocketOptions(global, kucoinSocketOptions, credentials?.Kucoin);
+                mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions, credentials?.Mexc);
+                okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions, credentials?.OKX);
+            }
+
+            Binance = new BinanceSocketClient(binanceSocketOptions ?? new Action<BinanceSocketOptions>((x) => { }));
+            BingX = new BingXSocketClient(bingxSocketOptions ?? new Action<BingXSocketOptions>((x) => { }));
+            Bitfinex = new BitfinexSocketClient(bitfinexSocketOptions ?? new Action<BitfinexSocketOptions>((x) => { }));
+            Bitget = new BitgetSocketClient(bitgetSocketOptions ?? new Action<BitgetSocketOptions>((x) => { }));
+            Bybit = new BybitSocketClient(bybitSocketOptions ?? new Action<BybitSocketOptions>((x) => { }));
+            CoinEx = new CoinExSocketClient(coinExSocketOptions ?? new Action<CoinExSocketOptions>((x) => { }));
+            Huobi = new HuobiSocketClient(huobiSocketOptions ?? new Action<HuobiSocketOptions>((x) => { }));
+            Kraken = new KrakenSocketClient(krakenSocketOptions ?? new Action<KrakenSocketOptions>((x) => { }));
+            Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? new Action<KucoinSocketOptions>((x) => { }));
+            Mexc = new MexcSocketClient(mexcSocketOptions ?? new Action<MexcSocketOptions>((x) => { }));
+            OKX = new OKXSocketClient(okxSocketOptions ?? new Action<OKXSocketOptions>((x) => { }));
         }
 
         /// <summary>

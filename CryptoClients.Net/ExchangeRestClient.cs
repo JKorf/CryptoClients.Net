@@ -18,7 +18,10 @@ using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
+using CryptoClients.Net.Models;
+using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces.CommonClients;
+using CryptoExchange.Net.Objects.Options;
 using Huobi.Net.Clients;
 using Huobi.Net.Interfaces.Clients;
 using Huobi.Net.Objects.Options;
@@ -107,6 +110,7 @@ namespace CryptoClients.Net
         /// Create a new ExchangeRestClient instance
         /// </summary>
         public ExchangeRestClient(
+            Action<GlobalExchangeOptions>? globalOptions = null,
             Action<BinanceRestOptions>? binanceRestOptions = null,
             Action<BingXRestOptions>? bingxRestOptions = null,
             Action<BitfinexRestOptions>? bitfinexRestOptions = null,
@@ -119,6 +123,41 @@ namespace CryptoClients.Net
             Action<MexcRestOptions>? mexcRestOptions = null,
             Action<OKXRestOptions>? okxRestOptions = null)
         {
+            Action<TOptions> SetGlobalRestOptions<TOptions, TCredentials>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials) where TOptions : RestExchangeOptions where TCredentials : ApiCredentials
+            {
+                var restDelegate = (TOptions restOptions) =>
+                {
+                    restOptions.Proxy = globalOptions.Proxy;
+                    restOptions.ApiCredentials = credentials;
+                    restOptions.OutputOriginalData = globalOptions.OutputOriginalData;
+                    restOptions.RequestTimeout = globalOptions.RequestTimeout;
+                    restOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
+                    restOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
+                    exchangeDelegate?.Invoke(restOptions);
+                };
+
+                return restDelegate;
+            }
+
+            if (globalOptions != null)
+            {
+                var global = GlobalExchangeOptions.Default;
+                globalOptions.Invoke(global);
+
+                ExchangeCredentials? credentials = global.ApiCredentials;
+                binanceRestOptions = SetGlobalRestOptions(global, binanceRestOptions, credentials?.Binance);
+                bingxRestOptions = SetGlobalRestOptions(global, bingxRestOptions, credentials?.BingX);
+                bitfinexRestOptions = SetGlobalRestOptions(global, bitfinexRestOptions, credentials?.Bitfinex);
+                bitgetRestOptions = SetGlobalRestOptions(global, bitgetRestOptions, credentials?.Bitget);
+                bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions, credentials?.Bybit);
+                coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx);
+                huobiRestOptions = SetGlobalRestOptions(global, huobiRestOptions, credentials?.Huobi);
+                krakenRestOptions = SetGlobalRestOptions(global, krakenRestOptions, credentials?.Kraken);
+                kucoinRestOptions = SetGlobalRestOptions(global, kucoinRestOptions, credentials?.Kucoin);
+                mexcRestOptions = SetGlobalRestOptions(global, mexcRestOptions, credentials?.Mexc);
+                okxRestOptions = SetGlobalRestOptions(global, okxRestOptions, credentials?.OKX);
+            }
+
             Binance = new BinanceRestClient(binanceRestOptions);
             BingX = new BingXRestClient(bingxRestOptions);
             Bitfinex = new BitfinexRestClient(bitfinexRestOptions);
