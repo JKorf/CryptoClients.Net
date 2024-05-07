@@ -130,5 +130,45 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.1.0
+    * Added support for GlobalExchangeOptions when constructing clients without dependency injection
+	* Updated CryptoExchange.Net to 7.5.2
+        * Added testing implementations
+        * Small refactor AuthenticationProvider to allow better testing
+        * Change result of MessageAccessor.Read methods to CallResult so error can be returned
+        * Moved some DateTimeConverter logic to seperate methods to allow access from outside converters
+		* Fixed SetApiCredentials not correctly being used by rate limiter causing exception
+	* Updated Binance to 9.9.7
+	    * Updated multiple response models
+        * Fixed multiple bugs after new, more thorough unit testing implementation
+        * Removed duplicate SpotApi.Trading.ConvertTransferAsync and GetConvertTransferHistoryAsync endpoints
+        * Updated CoinFuturesApi.Account.GetBracketsAsync to V2 endpoint
+        * Updated CoinFuturesApi.Trading.PlaceMultipleOrdersAsync orders parameter from array to IEnumerable
+	* Updated BingX to 1.1.1
+        * Removed need for API credentials in certain ExchangeData calls
+        * Renamed PerpetualFutures.Trading.GetClosedOrderAsync to GetClosedOrdersAsync
+        * Changed PerpetualFutures.SubscribeToUserDataUpdatesAsync handlers to be nullable
+        * Fixed SpotApi.SubscribeToBalanceUpdatesAsync update handling
+        * Various small fixes
+	* Updated Bitfinex to 7.2.8
+	* Updated Bitget to 1.3.7
+	* Updated Bybit to 3.8.8
+	    * Split PurchaseLeverageTokenAsync and RedeemLeverageTokenAsync response models
+        * Updated various response models
+        * Fixed PurchaseLeverageTokenAsync, RedeemLeverageTokenAsync and GetLeverageTokenOrderHistoryAsync request path
+	* Updated CoinEx to 7.0.5
+	* Updated CoinGecko to 2.2.7
+	* Updated Huobi to 5.2.8
+	* Updated Kraken to 4.6.5
+        * Updated various models
+        * Fixed deserialization issue in SpotApi.ExchangeData.GetSymbolsAsync endpoint
+	* Updated Kucoin to 5.5.5
+        * Added SpotApi.Trading.GetOcoOrderByClientOrderIdAsync to interface
+		* Fixed universal transfer endpoint
+        * Fixed FuturesApi.SubscribeToStopOrderUpdatesAsync deserialization
+        * Updated various response models
+	* Updated Mexc to 1.2.4
+	* Updated OKX to 1.8.4
+
 * Version 1.0.0 - 28 Apr 2024
     * Initial version
