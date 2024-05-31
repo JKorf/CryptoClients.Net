@@ -6,6 +6,7 @@ using Bybit.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CryptoClients.Net.Enums;
 using CryptoExchange.Net.Interfaces.CommonClients;
+using Huobi.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
@@ -43,6 +44,10 @@ namespace CryptoClients.Net.Interfaces
         /// CoinEx REST API
         /// </summary>
         ICoinExRestClient CoinEx { get; }
+        /// <summary>
+        /// Huobi REST API
+        /// </summary>
+        IHuobiRestClient Huobi { get; }
         /// <summary>
         /// Kraken REST API
         /// </summary>

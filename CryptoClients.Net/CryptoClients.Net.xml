@@ -401,6 +401,11 @@
             CoinEx REST API
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.Huobi">
+            <summary>
+            Huobi REST API
+            </summary>
+        </member>
         <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.Kraken">
             <summary>
             Kraken REST API
