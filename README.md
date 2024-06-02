@@ -130,6 +130,34 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.2.0 - 02 Jun 2024
+	* Added missing Huobi API to IExchangeRestClient interface
+	* Updated Binance to 9.9.8
+		* Added SpotApi.Account.GetAccountVipLevelAndStatusAsync endpoint
+		* Added UsdFuturesApi.Account.GetBnbBurnStatusAsync and UsdFuturesApi.Account.SetBnbBurnStatusAsync endpoints
+		* Added missing GoodTillDate TimeInForce conversion
+	* Updated BingX to 1.2.0
+		* Added PerpetualFuturesApi.SubscribeToPartialOrderBookUpdatesAsync, PerpetualFuturesApi.SubscribeToKlineUpdatesAsync and PerpetualFuturesApi.SubscribeToTickerUpdatesAsync subscriptions for all symbols
+		* Added PerpetualFuturesApi.Trading.GetPositionAndMarginInfoAsync endpoint
+		* Added optional symbol parameter PerpetualFuturesApi.ExchangeData.GetContractsAsync
+		* Updated BingXWithdrawal response model
+		* Updated BingXPosition response model
+	* Updated Bitget to 1.3.8
+		* Added simulated product types to BitgetInstrumentType enum
+	* Updated Bybit to 3.8.9
+		* Added missing StopLossTakeProfitMode enum value
+		* Added Status property to V5Api.Account.CreateUniversalTransfer response model
+		* Added cursor parameter to V5Api.ExchangeData.GetRiskLimitAsync
+	* Updated Kraken to 4.6.6
+		* Added margin parameter to websocket SpotApi.PlaceOrderAsync
+		* Added countryCode parameter to SpotApi.ExchangeData.GetSymbolsAsync
+	* Updated Mexc to 1.2.5
+		* Added SpotApi.Account.GetTradeFeeAsync endpoint
+	* Updated OKX to 1.9.0
+		* Added UnifiedApi.Account.GetAssetValuationAsync endpoint
+		* Renamed BestAskSize to BestAskQuantity in OKXTicker model
+		* Fixed OKXSocketOptions not using OKXApiCredentials
+
 * Version 1.1.0
     * Added support for GlobalExchangeOptions when constructing clients without dependency injection
 	* Updated CryptoExchange.Net to 7.5.2
