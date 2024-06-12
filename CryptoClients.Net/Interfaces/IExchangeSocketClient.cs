@@ -4,6 +4,7 @@ using Bitfinex.Net.Interfaces.Clients;
 using Bitget.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
+using GateIo.Net.Interfaces.Clients;
 using Huobi.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kucoin.Net.Interfaces.Clients;
@@ -42,6 +43,10 @@ namespace CryptoClients.Net.Interfaces
         /// CoinEx Websocket API
         /// </summary>
         ICoinExSocketClient CoinEx { get; }
+        /// <summary>
+        /// Gate.io Websocket API
+        /// </summary>
+        IGateIoSocketClient GateIo { get; }
         /// <summary>
         /// Huobi Websocket API
         /// </summary>

@@ -30,6 +30,10 @@
         /// </summary>
         CoinEx,
         /// <summary>
+        /// Gate.io
+        /// </summary>
+        GateIo,
+        /// <summary>
         /// Huobi
         /// </summary>
         Huobi,

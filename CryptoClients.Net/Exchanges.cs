@@ -5,6 +5,7 @@ using Bitget.Net;
 using Bybit.Net;
 using CoinEx.Net;
 using CryptoExchange.Net.RateLimiting;
+using GateIo.Net;
 using Huobi.Net;
 using Kraken.Net;
 using Kucoin.Net;
@@ -80,6 +81,16 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
+        /// GateIo exchange info
+        /// </summary>
+        public static ExchangeInfo GateIo { get; } = new ExchangeInfo
+        {
+            Name = GateIoExchange.ExchangeName,
+            Url = GateIoExchange.Url,
+            ApiDocsUrl = GateIoExchange.ApiDocsUrl
+        };
+
+        /// <summary>
         /// Huobi exchange info
         /// </summary>
         public static ExchangeInfo Huobi { get; } = new ExchangeInfo
@@ -140,6 +151,7 @@ namespace CryptoClients.Net
             Bitget,
             Bybit,
             CoinEx,
+            GateIo,
             Huobi,
             Kucoin,
             Kraken,
@@ -155,12 +167,14 @@ namespace CryptoClients.Net
             add
             {
                 BinanceExchange.RateLimiter.RateLimitTriggered += value;
+                GateIoExchange.RateLimiter.RateLimitTriggered += value;
                 KrakenExchange.RateLimiter.RateLimitTriggered += value;
                 KucoinExchange.RateLimiter.RateLimitTriggered += value;
             }
             remove
             {
                 BinanceExchange.RateLimiter.RateLimitTriggered -= value;
+                GateIoExchange.RateLimiter.RateLimitTriggered -= value;
                 KrakenExchange.RateLimiter.RateLimitTriggered -= value;
                 KucoinExchange.RateLimiter.RateLimitTriggered -= value;
             }

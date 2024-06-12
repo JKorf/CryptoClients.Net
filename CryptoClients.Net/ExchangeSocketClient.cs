@@ -20,6 +20,9 @@ using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Objects.Options;
+using GateIo.Net.Clients;
+using GateIo.Net.Interfaces.Clients;
+using GateIo.Net.Objects.Options;
 using Huobi.Net.Clients;
 using Huobi.Net.Interfaces.Clients;
 using Huobi.Net.Objects.Options;
@@ -56,6 +59,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public ICoinExSocketClient CoinEx { get; }
         /// <inheritdoc />
+        public IGateIoSocketClient GateIo { get; }
+        /// <inheritdoc />
         public IHuobiSocketClient Huobi { get; }
         /// <inheritdoc />
         public IKrakenSocketClient Kraken { get; }
@@ -77,6 +82,7 @@ namespace CryptoClients.Net
             Bitget = new BitgetSocketClient();
             Bybit = new BybitSocketClient();
             CoinEx = new CoinExSocketClient();
+            GateIo = new GateIoSocketClient();
             Huobi = new HuobiSocketClient();
             Kraken = new KrakenSocketClient();
             Kucoin = new KucoinSocketClient();
@@ -95,6 +101,7 @@ namespace CryptoClients.Net
             Action<BitgetSocketOptions>? bitgetSocketOptions = null,
             Action<BybitSocketOptions>? bybitSocketOptions = null,
             Action<CoinExSocketOptions>? coinExSocketOptions = null,
+            Action<GateIoSocketOptions>? gateIoSocketOptions = null,
             Action<HuobiSocketOptions>? huobiSocketOptions = null,
             Action<KrakenSocketOptions>? krakenSocketOptions = null,
             Action<KucoinSocketOptions>? kucoinSocketOptions = null,
@@ -131,6 +138,7 @@ namespace CryptoClients.Net
                 bitgetSocketOptions = SetGlobalSocketOptions(global, bitgetSocketOptions, credentials?.Bitget);
                 bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions, credentials?.Bybit);
                 coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx);
+                gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions, credentials?.GateIo);
                 huobiSocketOptions = SetGlobalSocketOptions(global, huobiSocketOptions, credentials?.Huobi);
                 krakenSocketOptions = SetGlobalSocketOptions(global, krakenSocketOptions, credentials?.Kraken);
                 kucoinSocketOptions = SetGlobalSocketOptions(global, kucoinSocketOptions, credentials?.Kucoin);
@@ -145,6 +153,7 @@ namespace CryptoClients.Net
             Bybit = new BybitSocketClient(bybitSocketOptions ?? new Action<BybitSocketOptions>((x) => { }));
             CoinEx = new CoinExSocketClient(coinExSocketOptions ?? new Action<CoinExSocketOptions>((x) => { }));
             Huobi = new HuobiSocketClient(huobiSocketOptions ?? new Action<HuobiSocketOptions>((x) => { }));
+            GateIo = new GateIoSocketClient(gateIoSocketOptions ?? new Action<GateIoSocketOptions>((x) => { }));
             Kraken = new KrakenSocketClient(krakenSocketOptions ?? new Action<KrakenSocketOptions>((x) => { }));
             Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? new Action<KucoinSocketOptions>((x) => { }));
             Mexc = new MexcSocketClient(mexcSocketOptions ?? new Action<MexcSocketOptions>((x) => { }));
@@ -161,6 +170,7 @@ namespace CryptoClients.Net
             IBitgetSocketClient bitget,
             IBybitSocketClient bybit,
             ICoinExSocketClient coinEx,
+            IGateIoSocketClient gateIo,
             IHuobiSocketClient huobi,
             IKrakenSocketClient kraken,
             IKucoinSocketClient kucoin,
@@ -173,6 +183,7 @@ namespace CryptoClients.Net
             Bitget = bitget;
             Bybit = bybit;
             CoinEx = coinEx;
+            GateIo = gateIo;
             Huobi = huobi;
             Kraken = kraken;
             Kucoin = kucoin;
@@ -191,6 +202,7 @@ namespace CryptoClients.Net
                 Bitget.UnsubscribeAllAsync(),
                 Bybit.UnsubscribeAllAsync(),
                 CoinEx.UnsubscribeAllAsync(),
+                GateIo.UnsubscribeAllAsync(),
                 Huobi.UnsubscribeAllAsync(),
                 Kraken.UnsubscribeAllAsync(),
                 Kucoin.UnsubscribeAllAsync(),

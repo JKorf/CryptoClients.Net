@@ -4,6 +4,7 @@ using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using CoinEx.Net.Interfaces;
+using GateIo.Net.Interfaces;
 using Huobi.Net.Interfaces;
 using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
@@ -41,6 +42,10 @@ namespace CryptoClients.Net.Interfaces
         /// CoinEx order book factory
         /// </summary>
         ICoinExOrderBookFactory CoinEx { get; }
+        /// <summary>
+        /// Gate.io order book factory
+        /// </summary>
+        IGateIoOrderBookFactory GateIo { get; }
         /// <summary>
         /// Huobi order book factory
         /// </summary>

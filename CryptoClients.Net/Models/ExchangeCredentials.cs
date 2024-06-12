@@ -41,6 +41,11 @@ namespace CryptoClients.Net.Models
         public ApiCredentials? CoinEx { get; set; }
 
         /// <summary>
+        /// Gate.io API credentials
+        /// </summary>
+        public ApiCredentials? GateIo { get; set; }
+
+        /// <summary>
         /// Huobi API credentials
         /// </summary>
         public ApiCredentials? Huobi { get; set; }

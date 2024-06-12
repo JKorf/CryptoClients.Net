@@ -5,6 +5,7 @@ using Bitget.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using CryptoClients.Net.Interfaces;
+using GateIo.Net.Interfaces;
 using Huobi.Net.Interfaces;
 using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
@@ -29,6 +30,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public ICoinExOrderBookFactory CoinEx { get; }
         /// <inheritdoc />
+        public IGateIoOrderBookFactory GateIo { get; }
+        /// <inheritdoc />
         public IHuobiOrderBookFactory Huobi { get; }
         /// <inheritdoc />
         public IKrakenOrderBookFactory Kraken { get; }
@@ -49,6 +52,7 @@ namespace CryptoClients.Net
             IBitgetOrderBookFactory bitget,
             IBybitOrderBookFactory bybit,
             ICoinExOrderBookFactory coinEx,
+            IGateIoOrderBookFactory gateIo,
             IHuobiOrderBookFactory huobi,
             IKrakenOrderBookFactory kraken,
             IKucoinOrderBookFactory kucoin,
@@ -61,6 +65,7 @@ namespace CryptoClients.Net
             Bitget = bitget;
             Bybit = bybit;
             CoinEx = coinEx;
+            GateIo = gateIo;
             Huobi = huobi;
             Kraken = kraken;
             Kucoin = kucoin;

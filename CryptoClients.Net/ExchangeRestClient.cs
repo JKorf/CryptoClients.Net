@@ -22,6 +22,9 @@ using CryptoClients.Net.Models;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects.Options;
+using GateIo.Net.Clients;
+using GateIo.Net.Interfaces.Clients;
+using GateIo.Net.Objects.Options;
 using Huobi.Net.Clients;
 using Huobi.Net.Interfaces.Clients;
 using Huobi.Net.Objects.Options;
@@ -56,6 +59,7 @@ namespace CryptoClients.Net
             { Exchange.Bitget, "Bitget" },
             { Exchange.Bybit, "Bybit" },
             { Exchange.CoinEx, "CoinEx" },
+            { Exchange.GateIo, "GateIo" },
             { Exchange.Huobi, "Huobi" },
             { Exchange.Kraken, "Kraken" },
             { Exchange.Kucoin, "Kucoin" },
@@ -75,6 +79,8 @@ namespace CryptoClients.Net
         public IBybitRestClient Bybit { get; }
         /// <inheritdoc />
         public ICoinExRestClient CoinEx { get; }
+        /// <inheritdoc />
+        public IGateIoRestClient GateIo { get; }
         /// <inheritdoc />
         public IHuobiRestClient Huobi { get; }
         /// <inheritdoc />
@@ -97,6 +103,7 @@ namespace CryptoClients.Net
             Bitget = new BitgetRestClient();
             Bybit = new BybitRestClient();
             CoinEx = new CoinExRestClient();
+            GateIo = new GateIoRestClient();
             Huobi = new HuobiRestClient();
             Kraken = new KrakenRestClient();
             Kucoin = new KucoinRestClient();
@@ -117,6 +124,7 @@ namespace CryptoClients.Net
             Action<BitgetRestOptions>? bitgetRestOptions = null,
             Action<BybitRestOptions>? bybitRestOptions = null,
             Action<CoinExRestOptions>? coinExRestOptions = null,
+            Action<GateIoRestOptions>? gateIoRestOptions = null,
             Action<HuobiRestOptions>? huobiRestOptions = null,
             Action<KrakenRestOptions>? krakenRestOptions = null,
             Action<KucoinRestOptions>? kucoinRestOptions = null,
@@ -151,6 +159,7 @@ namespace CryptoClients.Net
                 bitgetRestOptions = SetGlobalRestOptions(global, bitgetRestOptions, credentials?.Bitget);
                 bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions, credentials?.Bybit);
                 coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx);
+                gateIoRestOptions = SetGlobalRestOptions(global, gateIoRestOptions, credentials?.GateIo);
                 huobiRestOptions = SetGlobalRestOptions(global, huobiRestOptions, credentials?.Huobi);
                 krakenRestOptions = SetGlobalRestOptions(global, krakenRestOptions, credentials?.Kraken);
                 kucoinRestOptions = SetGlobalRestOptions(global, kucoinRestOptions, credentials?.Kucoin);
@@ -164,6 +173,7 @@ namespace CryptoClients.Net
             Bitget = new BitgetRestClient(bitgetRestOptions);
             Bybit = new BybitRestClient(bybitRestOptions);
             CoinEx = new CoinExRestClient(coinExRestOptions);
+            GateIo = new GateIoRestClient(gateIoRestOptions);
             Huobi = new HuobiRestClient(huobiRestOptions);
             Kraken = new KrakenRestClient(krakenRestOptions);
             Kucoin = new KucoinRestClient(kucoinRestOptions);
@@ -183,6 +193,7 @@ namespace CryptoClients.Net
                 Bitget.SpotApi.CommonSpotClient,
                 Bybit.V5Api.CommonSpotClient,
                 CoinEx.SpotApiV2.CommonSpotClient,
+                GateIo.SpotApi.CommonSpotClient,
                 Huobi.SpotApi.CommonSpotClient,
                 Kraken.SpotApi.CommonSpotClient,
                 Kucoin.SpotApi.CommonSpotClient,
@@ -201,6 +212,7 @@ namespace CryptoClients.Net
             IBitgetRestClient bitget,
             IBybitRestClient bybit,
             ICoinExRestClient coinEx,
+            IGateIoRestClient gateIo,
             IHuobiRestClient huobi,
             IKrakenRestClient kraken,
             IKucoinRestClient kucoin,
@@ -216,6 +228,7 @@ namespace CryptoClients.Net
             Bitget = bitget;
             Bybit = bybit;
             CoinEx = coinEx;
+            GateIo = gateIo;
             Huobi = huobi;
             Kraken = kraken;
             Kucoin = kucoin;
