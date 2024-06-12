@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
@@ -9,9 +9,9 @@
   <PropertyGroup>
     <PackageId>CryptoClients.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>1.2.1</PackageVersion>
-    <AssemblyVersion>1.2.1</AssemblyVersion>
-    <FileVersion>1.2.1</FileVersion>
+    <PackageVersion>1.3.0</PackageVersion>
+    <AssemblyVersion>1.3.0</AssemblyVersion>
+    <FileVersion>1.3.0</FileVersion>
     <Description>CryptoClients.Net offers API clients for multiple cryptocurrency exchanges. The clients allow for accessing market data as well as managing accounts and trading cryptocurrencies.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>CryptoClients;CryptoClients.Net;OKX;OKX.Net;Mexc;Mexc.Net;Kucoin;Kucoin.Net;Kraken;Kraken.Net;Huobi;Huobi.Net;CoinEx;CoinEx.Net;Bybit;Bybit.Net;Bitget;Bitget.Net;Bitfinex;Bitfinex.Net;BingX;BingX.Net;Binance;Binance.Net;CryptoCurrency;CryptoCurrency Exchange</PackageTags>

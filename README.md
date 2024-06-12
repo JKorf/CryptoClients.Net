@@ -131,6 +131,34 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.3.0 - 12 Jun 2024
+    * Added Gate.io implementation
+	* Updated CryptoExchange.Net referenced version to 7.6.0
+		* Added support for specifying seperate uri and body parameters
+		* Added support for different message and handling generic types on socket queries
+		* Added support for PATCH http method requests
+		* Added support for setting http request body to a specific type directly
+		* Split DataEvent.Topic into StreamId and Symbol properties
+		* Added support for negative time values parsing
+		* Added some helper methods for converting DataEvent to CallResult
+		* Added support for GZip/Deflate automatic decompressing in the default HttpClient
+		* Updated some testing methods
+    * Updated Binance to 9.10.0
+		* Added new SpotApi.Trading.PlaceOtoOrderListAsync and SpotApi.Trading.PlaceOtocoOrderListAsync endpoints
+		* Fixed GetProductsAsync endpoints by allowing automatic decompression
+    * Updated Bitfinex to 7.3.0
+	* Updated BingX to 1.3.0
+	* Updated Bitget to 1.4.0
+	* Updated Bybit to 3.9.0
+		* Added socketClient.V5PrivateApi.SubscribeToMinimalUserTradeUpdatesAsync private subscription
+	* Updated CoinEx to 7.1.0
+	* Updated CoinGecko to 2.2.8
+	* Updated Huobi to 5.3.0
+	* Updated Kraken to 4.7.0
+		* Fix Asset not set on response model in SpotApi.Account.GetAvailableBalancesAsync
+	* Updated Kucoin to 5.6.0
+	* Updated OKX to 1.10.0
+
 * Version 1.2.0 - 02 Jun 2024
 	* Added missing Huobi API to IExchangeRestClient interface
 	* Updated Binance to 9.9.8
