@@ -131,6 +131,74 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.5.0 - 25 Jun 2024
+    * Updated CryptoExchange.Net referenced version to 7.7.2
+        * Caching support
+            * Caching is supported for GET requests within a certain time frame
+            * Enable caching by setting CachingEnabled to true in the client options
+            * Added DataSource to CallResult object
+        * Dedicated websocket connection
+            * Added functionality for always having a connection open which can then be used for order operations
+            * This eliminates the initial connection time for the first request
+            * WebSocket connection can be prepared by calling PrepareConnectionsAsync on the Api client, for example `await binanceSocketClient.SpotApi.PrepareConnectionsAsync()`. This is only needed initially; it will be reconnected when connection is lost.
+        * Added CancellationToken support for websocket queries
+        * Added SocketConnection parameter to SocketApiClient.GetAuthenticationRequest method
+        * Added ObjectStringConverter base converter for deserializing nested json strings
+        * Fixed websocket issue with ratelimiting and reconnecting interaction
+        * Fixed rate limiting issue with sub-millisecond delays
+        * Fixed websocket connection will now close if authentication fails because of not set credentials
+		* Fixed ratelimiting issue possibly creating negative delays
+        * Updated websocket reconnection handling and options, added backoff policy
+        * Removed check for confirmed subscription as data often is pushed before the subscription is confirmed
+	
+	* Updated Binance to 9.11.0
+	    * Added dedicated connection configuration; a websocket connection can now be established before making the first request by calling `binanceSocketClient.SpotApi.PrepareConnectionsAsync();`
+        * Added CancellationToken optional parameter to websocket requests
+        * Updated response models from classes to records
+	* Updated BingX to 1.3.2
+	* Updated Bitfinex to 7.4.1
+	    * Updated response models from classes to records
+        * Fixed exception during order status parsing
+        * Fixed SpotApi.ExchangeData.GetLiquidationsAsync deserializations
+    * Updated Bitget to 1.5.1
+        * Added V2 SpotApi and V2 Futures API implementation
+	* Updated Bybit to 3.10.1
+	    * Added V5 websocket order placement API
+        * Updated response models from classes to records
+        * Added and updated DCP endpoints end subscription
+        * Added dedicated connection configuration; a websocket connection can now be established before making the first request by calling `bybitSocketClient.V5PrivateApi.PrepareConnectionsAsync();`
+        * Fixed deserialization issue BybitPosition model
+    * Updated CoinEx to 7.2.0
+        * Updated response models from classes to records
+    * Updated CoinGecko to 2.2.9
+    * Updated GateIo to 1.2.0
+        * Added dedicated connection configuration; a websocket connection can now be established before making the first request by calling `gateIoSocketClient.SpotApi.PrepareConnectionsAsync();`
+        * Added SpotApi.Account.GetGTDeductionStatusAsync endpoint
+        * Added SpotApi.Account.SetGTDeductionStatusAsync endpoint
+	* Updated Huobi to 5.4.0
+        * Updated response models from classes to records
+    * Updated Kraken to 4.8.0
+        * Updated response models from classes to records
+        * Added CancellationToken optional parameter to websocket requests
+    * Updated Kucoin to 5.8.0
+	    * Added missing HF/ProAccount endpoints
+        * Renamed ProAccount SpotApi topic to HFTrading
+        * Added FuturesApi.Account.GetPositionHistoryAsync endpoint Added FuturesApi.Account.GetTradingFeeAsync endpoint
+        * Added SpotApi.SubscribeToIsolatedMarginPositionUpdatesAsync subscription
+    	* Added SpotApi.Margin.GetCrossMarginSymbolsAsync endpoint
+        * Added SpotApi.Margin.SetLeverageMultiplierAsync
+        * Added SpotApi.HfTrading.GetMarginSymbolsWithOpenOrdersAsync endpoint
+        * Updated response models from classes to records
+    * Updated Mexc to 1.4.0
+    	* Added websocket connection ratelimit
+        * Updated SpotApi.Account.WithdrawAsync parameters and SpotApi.Account.GetUserAssetsAsync response
+        * Updated response models from classes to records
+    * Updated OKX to 1.11.1
+	    * Added CancellationToken optional parameter to websocket requests
+        * Added dedicated connection configuration; a websocket connection can now be established before making the first request by calling `okxSocketClient.UnifiedApi.PrepareConnectionsAsync();`
+        * Fixed deserialization issue in OkxTicker
+        * Fixed deserialization issue in SetLeverage
+	
 * Version 1.3.1 - 17 Jun 2024
     * Updated GateIo to 1.0.1
 		* Fixed startTime/endTime filtering on multiple endpoints
