@@ -644,9 +644,14 @@
             What should happen when a rate limit is reached
             </summary>
         </member>
-        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.AutoReconnect">
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.CachingEnabled">
             <summary>
-            Whether or not a socket connection should automatically reconnect when losing connection
+            Whether or not client side caching is enabled for Rest GET requests
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.ReconnectPolicy">
+            <summary>
+            The reconnect policy for websocket connections
             </summary>
         </member>
         <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.ReconnectInterval">

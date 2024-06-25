@@ -113,6 +113,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     restOptions.RequestTimeout = globalOptions.RequestTimeout;
                     restOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
                     restOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
+                    restOptions.CachingEnabled = globalOptions.CachingEnabled;
                     exchangeDelegate?.Invoke(restOptions);
                 };
 
@@ -129,7 +130,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     socketOptions.RequestTimeout = globalOptions.RequestTimeout;
                     socketOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
                     socketOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
-                    socketOptions.AutoReconnect = globalOptions.AutoReconnect;
+                    socketOptions.ReconnectPolicy = globalOptions.ReconnectPolicy;
                     socketOptions.ReconnectInterval = globalOptions.ReconnectInterval;
                     exchangeDelegate?.Invoke(socketOptions);
                 };

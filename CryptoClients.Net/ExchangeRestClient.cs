@@ -141,6 +141,7 @@ namespace CryptoClients.Net
                     restOptions.RequestTimeout = globalOptions.RequestTimeout;
                     restOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
                     restOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
+                    restOptions.CachingEnabled = globalOptions.CachingEnabled;
                     exchangeDelegate?.Invoke(restOptions);
                 };
 

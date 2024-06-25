@@ -44,13 +44,17 @@ namespace CryptoClients.Net.Models
         /// </summary>
         public RateLimitingBehaviour RateLimitingBehaviour { get; set; } = RateLimitingBehaviour.Wait;
 
+        /// <summary>
+        /// Whether or not client side caching is enabled for Rest GET requests
+        /// </summary>
+        public bool CachingEnabled { get; set; } = true;
 
         // --- Socket options ---
 
         /// <summary>
-        /// Whether or not a socket connection should automatically reconnect when losing connection
+        /// The reconnect policy for websocket connections
         /// </summary>
-        public bool AutoReconnect { get; set; } = true;
+        public ReconnectPolicy ReconnectPolicy { get; set; } = ReconnectPolicy.ExponentialBackoff;
 
         /// <summary>
         /// Time to wait between socket reconnect attempts
@@ -66,8 +70,9 @@ namespace CryptoClients.Net.Models
                 RequestTimeout = RequestTimeout,
                 RateLimiterEnabled = RateLimiterEnabled,
                 RateLimitingBehaviour = RateLimitingBehaviour,
-                AutoReconnect = AutoReconnect,
-                ReconnectInterval = ReconnectInterval
+                ReconnectPolicy = ReconnectPolicy,
+                ReconnectInterval = ReconnectInterval,
+                CachingEnabled = CachingEnabled
             };
             return options;
         }

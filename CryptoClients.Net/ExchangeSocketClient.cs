@@ -118,7 +118,7 @@ namespace CryptoClients.Net
                     socketOptions.RequestTimeout = globalOptions.RequestTimeout;
                     socketOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
                     socketOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
-                    socketOptions.AutoReconnect = globalOptions.AutoReconnect;
+                    socketOptions.ReconnectPolicy = globalOptions.ReconnectPolicy;
                     socketOptions.ReconnectInterval = globalOptions.ReconnectInterval;
                     exchangeDelegate?.Invoke(socketOptions);
                 };
