@@ -131,6 +131,74 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.6.0 - 03 Jul 2024
+    * Updated CryptoExchange.Net referenced version to 7.8.0
+        * Updated single endpoint limit configuration
+        * Added LongConverter for nullable longs
+        * Updated SystemTextJsonComparer logic
+        * Fixed request ids not matching in logging
+        * Added nullable int converter for System.Text.Json
+        * Small fixes in tests
+    * Updated Binance to 9.11.1
+        * Updated ratelimiting for per-endpoint limits 
+    * Updated BingX to 1.5.0
+        * Added TakeProfit/StopLoss parameters to perpetual futures order endpoints
+        * Added rate limiting ratelimiting implementation
+        * Updated BingXPosition model
+    * Updated Bitfinex to 7.4.3
+        * Fixed SpotApi.Account.GetMovementsDetailsAsync deserialization
+        * Fixed SpotApi.SubscribeToDerivativesUpdatesAsync subscription
+        * Fixed funding info subscription
+    * Updated Bitget to 1.6.1
+        * Updated ratelimiting for per-endpoint limits
+        * Fixed V1 socket subscriptions
+        * Fixed FuturesApiV2.Trading.GetOpenOrdersAsync deserialization
+        * Updated V2 websocket kline interval Enum values
+    * Updated Bybit to 3.10.3
+        * Added Turkey environment
+        * Added prelisting properties to V5 linear/inverse tickers and symbols response models
+        * Fixed OrderBook model deserialization when updateId is too large for integer
+    * Updated CoinEx to 7.2.1
+        * Added FuturesApi.ExchangeData.GetPremiumIndexPriceHistoryAsync endpoint
+    * Updated CoinGecko to 2.2.10
+    * Updated GateIo to 1.2.1
+        * Updated ratelimiting for per-endpoint limits
+    * Updated Huobi to 5.4.1
+    * Updated Kraken to 4.8.1
+        * Updated KrakenAllocatedAmount model
+    * Updated Kucoin to 5.8.3
+        * Fixed incorrect response mapping SpotApi.HfTrading.PlaceMultipleOrdersAsync
+        * Fixed CancelAfter parameter on SpotApi.HfTrading.PlaceMultipleOrdersAsync endpoint
+        * Removed symbol base parameter from SpotApi.HfTrading.PlaceMultipleOrdersAsync as its not needed
+    * Updated Mexc to 1.4.1
+    * Updated OKX to 2.0.0
+        * Added client side rate limiting
+        * Added Trading.CancelAllAfterAsync endpoint
+        * Updated json serializer from Newtonsoft.Json to System.Text.Json
+        * Updated request sending to new CryptoExchange.Net implementation
+        * Updated all enum conversions to use new EnumConverter
+        * Updated websocket kline subscriptions models to IEnumerable
+        * Updated AccountBillSubType enum values
+        * Updated AccountBillType enum values
+        * Updated FundingBillType enum values
+        * Updated InstrumentAlias enum values
+        * Updated various response models
+        * Updated response checking from every endpoint to central method
+        * Renamed all enums, OKX prefix removed. For example OKXOrderSide is now OrderSide
+        * Renamed OrderType.MarketOrder to OrderType.Market
+        * Renamed OrderType.LimitOrder to OrderType.Limit
+        * Renamed Candlestick references to Kline
+        * Renamed OKXPeriod to KlineInterval
+        * Renamed Account.GetAccountPositionsAsync to GetPositionsAsync
+        * Renamed Account.GetAccountPositionHistoryAsync to GetPositionHistoryAsync
+        * Renamed Account.GetAccountPositionRiskAsync to GetPositionRiskAsync
+        * Renamed Account.SetAccountPositionModeAsync to SetPositionModeAsync
+        * Renamed Account.GetAccountLeverageAsync to GetLeverageAsync
+        * Renamed Account.SetAccountLeverageAsync to SetLeverageAsync
+        * Renamed Account.GetLightningWithdrawalsAsync to GetLightningWithdrawalAsync
+        * Renamed ExchangeData.GetRubik* to GetTradeStats*
+        * Cleanup unnused types
+
 * Version 1.5.0 - 25 Jun 2024
     * Updated CryptoExchange.Net referenced version to 7.7.2
         * Caching support
