@@ -131,6 +131,67 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.7.0 - 16 Jul 2024
+    * Updated CryptoExchange.Net referenced version to 7.9.0
+        * Added some checks in websocket connection handling
+        * Added As<T> and AsError<T> methods on untyped WebCallResult
+        * Updated System.Text.Json package to version 8.0.4 to fix vulnerability
+        * Updated websocket subscription response handling to remove the thread blocking ManualResetEvent usage
+        * Updated static logging classes access modifier from internal to public so they can be called in overriden methods
+        * Updated some testing object implementations
+        * Fixed authentication error when reconnecting an unauthenticated connection which was marked as dedicated query connection
+        * Small improvements in SystemTextJsonMessageAccessor
+        * Fixed System.Text.Json ArrayConverter implementation nullable value types handling
+    * Updated Binance.Net to version 9.12.0
+        * Updated internal classes to internal access modifier
+        * Updated WebSocket rate limit rule to prevent triggering disconnect
+    * Updated Bybit.Net to version 3.11.0
+        * Updated internal classes to internal access modifier
+        * Added V5Api.Account.GetConvertAssetsAsync
+        * Added V5Api.Account.GetConvertQuoteAsync
+        * Added V5Api.Account.ConvertConfirmQuoteAsync
+        * Added V5Api.Account.GetConvertStatusAsync
+        * Added V5Api.Account.GetConvertHistoryAsync
+        * Added Convert property to V5Api.Account.GetBrokerAccountInfoAsync and GetBrokerEarningsAsync response models
+    * Updated CoinEx.Net to version 7.3.0
+        * Updated internal classes to internal access modifier
+        * Added SpotApiV2.ExchangeData.GetAssetsAsync endpoint
+    * Updated CoinGecko.Net to version 2.3.0
+    * Updated GateIo.Net to version 1.3.0
+        * Updated internal classes to internal access modifier
+        * Added BorrowType property to SpotApi.Account.GetUnifiedAccountLoanHistoryAsync response model
+        * Added AccumelatedSize to FuturesApi.Trading.GetPositionCloseHistoryAsync response model
+    * Updated Huobi.Net to version 5.5.0
+        * Updated internal classes to internal access modifier
+    * Updated BingX.Net to version 1.6.0
+        * Updated internal classes to internal access modifier
+        * Added PerpetualFuturesApi.ExchangeData.GetTickersAsync endpoint
+        * Added PerpetualFuturesApi.ExchangeData.GetLastTradePricesAsync endpoint
+        * Added PerpetualFuturesApi.ExchangeData.GetFundingRatesAsync endpoint
+        * Added SpotApi.ExchangeData.GetLastTradesAsync endpoint
+        * Added SpotApi.Account.GetUserIdAsync endpoint
+        * Added SpotApi.Account.GetApiKeyPermissionsAsync endpoint
+        * Added sync parameter to SpotApi.Trading.PlaceMultipleOrdersAsync
+        * Updated API endpoint docs references
+        * Fixed Spot and Futures KeepAliveUserStreamAsync endpoint
+        * Fixed clientOrderId deserialization in websocket order updates
+    * Updated Bitget.Net to version 1.7.0
+        * Updated internal classes to internal access modifier
+        * Fixed deserialization error on BitgetPosition model
+        * Fixed positionSide parameter on FuturesApiV2.Trading.PlaceOrderAsync endpoint
+        * Fixed websocket error response identification
+        * Fixed CreateTime and UpdateTime deserialization on FuturesApiV2.Trading.GetPositionHistoryAsync
+    * Updated Mexc.Net to version 1.5.0
+        * Updated internal classes to internal access modifier
+        * Fixed StartTime and EndTime mapping on MexcStreamKline model
+    * Updated OKX.Net to version 2.1.0
+        * Fixed error during parsing of error response
+        * Fixed exception during CancelOrderAsync error response
+        * Updated internal classes to internal access modifier
+    * Updated Kraken.Net to version 4.9.0
+    * Updated Kucoin.Net to version 5.9.0
+        * Updated internal classes to internal access modifier
+
 * Version 1.6.0 - 03 Jul 2024
     * Updated CryptoExchange.Net referenced version to 7.8.0
         * Updated single endpoint limit configuration
