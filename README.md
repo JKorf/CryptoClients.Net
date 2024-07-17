@@ -1,10 +1,21 @@
 # ![.CryptoClients.Net](https://github.com/JKorf/CryptoClients.Net/blob/a1b8acedaabeb8366372180384a286dd3dc63a09/CryptoClients.Net/Icon/icon.png) CryptoClients.Net  
 
-[![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/CryptoClients.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/CryptoClients.Net/actions/workflows/dotnet.yml) [![Nuget downloads](https://img.shields.io/nuget/dt/CryptoClients.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoClients.Net) ![License](https://img.shields.io/github/license/JKorf/CryptoClients.Net?style=for-the-badge)
+[![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/CryptoClients.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/CryptoClients.Net/actions/workflows/dotnet.yml) ![License](https://img.shields.io/github/license/JKorf/CryptoClients.Net?style=for-the-badge)
 
-CryptoClients.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). CryptoClients.Net bundles the different client libraries in a single package and adds some additional tools to make use of them. The client libraries offer access to market data, Spot and Futures trading and various other topics depending on the API.
+CryptoClients.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). CryptoClients.Net bundles the different client libraries in a single package and adds some additional tools to make use of them.
 
-For more information on what CryptoExchange.Net and it's client libraries offers see the [Documentation](https://jkorf.github.io/CryptoExchange.Net/).
+## Features
+* Direct full access to 12 different exchanges, public and private data
+* Client per exchange, or single client for accessing all exchanges
+* Response data is mapped to descriptive models
+* Input parameters and response values are mapped to discriptive enum values where possible
+* Automatic websocket (re)connection management 
+* Client side rate limiting 
+* Cient side order book implementation
+* Extensive logging
+* Support for different environments
+
+For more information on what CryptoExchange.Net and its client libraries offers see the [Documentation](https://jkorf.github.io/CryptoExchange.Net/).
 
 ## Supported Frameworks
 The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility
@@ -28,14 +39,22 @@ The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for op
 ### Get a client
 There are 2 main clients, the `ExchangeRestClient` and `ExchangeSocketClient`, for accessing the REST and Websocket API respectively. All exchange API's are available via these clients.  
 Alternatively exchange specific clients can be used, for example `BinanceRestClient` or `KucoinSocketClient`.
-Either create new clients directly or use Dotnet dependency injection:
+Either create new clients directly or use Dotnet dependency injection.
+
+*Construction*
 ```csharp
-// Construction
-var restClient = new ExchangeRestClient();
-var socketClient = new ExchangeSocketClient();
+// Client for accessing all exchanges
+IExchangeRestClient restClient = new ExchangeRestClient();
+IExchangeSocketClient socketClient = new ExchangeSocketClient();
 
-
-// Dependency injection, allows the injection of `IExchangeRestClient`, `IExchangeSocketClient`, `IExchangeOrderBookFactory` and for all exchanges the `I[ExchangeName]RestClient`, `I[ExchangeName]SocketClient` and `I[ExchangeName]OrderBookFactory` types
+// Exchange specific clients
+IBinanceRestClient binanceRestClient = new BinanceRestClient();
+IKucoinSocketClient kucoinSocketClient = new KucoinSocketClient();
+```
+*Dependency injection*
+```csharp
+// Dependency injection, allows the injection of `IExchangeRestClient`, `IExchangeSocketClient` and `IExchangeOrderBookFactory` interfaces
+// as well as for all exchanges the `I[ExchangeName]RestClient`, `I[ExchangeName]SocketClient` and `I[ExchangeName]OrderBookFactory` types
 services.AddCryptoClients();
 ```
 
