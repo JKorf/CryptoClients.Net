@@ -183,6 +183,52 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.8.0 - 28 Jul 2024
+    * Updated CryptoExchange.Net referenced version to 7.10.0
+        * Added System.Text.Json NumberStringConverter
+        * Added integration testing base class
+        * Added AddSecondsString and AddOptionalSecondsString to ParameterCollection
+        * Added Decompress method for ReadOnlyMemory using non-GZip deflate
+        * Added SocketConnection parameter to SocketConnection PreprocessStreamMessage
+        * Fixed websocket reconnect/unsubscribe timing bug
+        * Fixed issue in System.Text.Json array object deserialization skipping property when skipping an index
+        * Fixed order book logging bug
+        * Fixed bug in ParameterCollection AddEnumAsInt
+    * Updated Binance to version 10.0.0
+        * Switch from Newtonsoft.Json implementation to System.Text.Json for (de)serialization
+        * Refactored from old per type enum converter to EnumConverter usage
+        * Added SpotApi.Account.GetCommissionRatesAsync endpoint
+        * Added UsdFuturesApi.Account.GetSymbolConfigurationAsync endpoint
+        * Added UsdFuturesApi.Account.GetAccountConfigurationAsync endpoint
+        * Added UsdFuturesApi.Trading.GetPositionsAsync endpoint
+        * Added PermissionSets property to SpotApi.ExchangeData.GetExchangeInfoAsync symbol response
+        * Updated UsdFuturesApi.Account.GetBalancesAsync to V3
+        * Updated UsdFuturesApi.Account.GetAccountInfoAsync to V3
+    * Updated BingX to version 1.7.0**
+    * Updated Bitfinex to version 7.6.0**
+        * Fixed stats endpoints last stats by splitting endpoints into Last and History variants
+    * Updated Bitget to version 1.8.0**
+        * Fixed body serialization FuturesV2, fixing PlaceMultipleOrders and CancelMultipleOrdersAsync endpoints
+        * Fixed futures plan type parameters
+        * Fixed spot GetHistoricalKlinesAsync endTime parameter being required
+        * Fixed BitgetFuturesOrder response mapping
+    * Updated Bybit to version 3.12.0**
+        * Added V5Api.Account.GetSpotMarginInterestRateHistoryAsync endpoint
+    * Updated CoinEx to version 7.4.0**
+    * Updated CoinGecko to version 2.4.0**
+    * Updated GateIo to version 1.4.0**
+        * Fixed FuturesApi.Trading.GetOrdersAsync status parameter being required
+    * Updated Huobi to version 5.6.0**
+    * Updated Kraken to version 4.10.0**
+    * Updated Kucoin to version 5.10.0**
+        * Added SpotApi.Margin.GetMarginMarkPricesAsync endpoint
+        * Updated KC-API-KEY-VERSION header from '2' to '3' (V2 keys will still work)
+    * Updated Mexc to version 1.6.0**
+    * Updated OKX to version 2.2.0**
+        * Added RuleType property on UnifiedApi.ExchangeData.GetSymbolsAsync response model
+        * Fixed marginMode serialization in multiple endpoints
+
+
 * Version 1.7.0 - 16 Jul 2024
     * Updated CryptoExchange.Net referenced version to 7.9.0
         * Added some checks in websocket connection handling
