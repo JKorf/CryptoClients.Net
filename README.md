@@ -183,6 +183,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.9.0 - 02 Aug 2024
+    * Added BitMart.Net support
+
 * Version 1.8.0 - 28 Jul 2024
     * Updated CryptoExchange.Net referenced version to 7.10.0
         * Added System.Text.Json NumberStringConverter
