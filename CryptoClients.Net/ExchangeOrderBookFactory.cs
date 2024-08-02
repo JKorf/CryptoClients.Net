@@ -2,6 +2,7 @@
 using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
+using BitMart.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using CryptoClients.Net.Interfaces;
@@ -25,6 +26,8 @@ namespace CryptoClients.Net
         public IBitfinexOrderBookFactory Bitfinex { get; }
         /// <inheritdoc />
         public IBitgetOrderBookFactory Bitget { get; }
+        /// <inheritdoc />
+        public IBitMartOrderBookFactory BitMart { get; }
         /// <inheritdoc />
         public IBybitOrderBookFactory Bybit { get; }
         /// <inheritdoc />
@@ -50,6 +53,7 @@ namespace CryptoClients.Net
             IBingXOrderBookFactory bingx,
             IBitfinexOrderBookFactory bitfinex,
             IBitgetOrderBookFactory bitget,
+            IBitMartOrderBookFactory bitMart,
             IBybitOrderBookFactory bybit,
             ICoinExOrderBookFactory coinEx,
             IGateIoOrderBookFactory gateIo,
@@ -63,6 +67,7 @@ namespace CryptoClients.Net
             BingX = bingx;
             Bitfinex = bitfinex;
             Bitget = bitget;
+            BitMart = bitMart;
             Bybit = bybit;
             CoinEx = coinEx;
             GateIo = gateIo;

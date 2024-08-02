@@ -31,6 +31,11 @@ namespace CryptoClients.Net.Models
         public BitgetApiCredentials? Bitget { get; set; }
 
         /// <summary>
+        /// BitMart API credentials
+        /// </summary>
+        public BitgetApiCredentials? BitMart { get; set; }
+
+        /// <summary>
         /// Bybit API credentials
         /// </summary>
         public ApiCredentials? Bybit { get; set; }

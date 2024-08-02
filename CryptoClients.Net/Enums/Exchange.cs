@@ -22,6 +22,10 @@
         /// </summary>
         Bitget,
         /// <summary>
+        /// BitMart
+        /// </summary>
+        BitMart,
+        /// <summary>
         /// Bybit
         /// </summary>
         Bybit,

@@ -10,6 +10,9 @@ using Bitfinex.Net.Objects.Options;
 using Bitget.Net.Clients;
 using Bitget.Net.Interfaces.Clients;
 using Bitget.Net.Objects.Options;
+using BitMart.Net.Clients;
+using BitMart.Net.Interfaces.Clients;
+using BitMart.Net.Objects.Options;
 using Bybit.Net.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Bybit.Net.Objects.Options;
@@ -55,6 +58,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IBitgetSocketClient Bitget { get; }
         /// <inheritdoc />
+        public IBitMartSocketClient BitMart { get; }
+        /// <inheritdoc />
         public IBybitSocketClient Bybit { get; }
         /// <inheritdoc />
         public ICoinExSocketClient CoinEx { get; }
@@ -80,6 +85,7 @@ namespace CryptoClients.Net
             BingX = new BingXSocketClient();
             Bitfinex = new BitfinexSocketClient();
             Bitget = new BitgetSocketClient();
+            BitMart = new BitMartSocketClient();
             Bybit = new BybitSocketClient();
             CoinEx = new CoinExSocketClient();
             GateIo = new GateIoSocketClient();
@@ -99,6 +105,7 @@ namespace CryptoClients.Net
             Action<BingXSocketOptions>? bingxSocketOptions = null,
             Action<BitfinexSocketOptions>? bitfinexSocketOptions = null,
             Action<BitgetSocketOptions>? bitgetSocketOptions = null,
+            Action<BitMartSocketOptions>? bitMartSocketOptions = null,
             Action<BybitSocketOptions>? bybitSocketOptions = null,
             Action<CoinExSocketOptions>? coinExSocketOptions = null,
             Action<GateIoSocketOptions>? gateIoSocketOptions = null,
@@ -136,6 +143,7 @@ namespace CryptoClients.Net
                 bingxSocketOptions = SetGlobalSocketOptions(global, bingxSocketOptions, credentials?.BingX);
                 bitfinexSocketOptions = SetGlobalSocketOptions(global, bitfinexSocketOptions, credentials?.Bitfinex);
                 bitgetSocketOptions = SetGlobalSocketOptions(global, bitgetSocketOptions, credentials?.Bitget);
+                bitMartSocketOptions = SetGlobalSocketOptions(global, bitMartSocketOptions, credentials?.BitMart);
                 bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions, credentials?.Bybit);
                 coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx);
                 gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions, credentials?.GateIo);
@@ -150,6 +158,7 @@ namespace CryptoClients.Net
             BingX = new BingXSocketClient(bingxSocketOptions ?? new Action<BingXSocketOptions>((x) => { }));
             Bitfinex = new BitfinexSocketClient(bitfinexSocketOptions ?? new Action<BitfinexSocketOptions>((x) => { }));
             Bitget = new BitgetSocketClient(bitgetSocketOptions ?? new Action<BitgetSocketOptions>((x) => { }));
+            BitMart = new BitMartSocketClient(bitMartSocketOptions ?? new Action<BitMartSocketOptions>((x) => { }));
             Bybit = new BybitSocketClient(bybitSocketOptions ?? new Action<BybitSocketOptions>((x) => { }));
             CoinEx = new CoinExSocketClient(coinExSocketOptions ?? new Action<CoinExSocketOptions>((x) => { }));
             Huobi = new HuobiSocketClient(huobiSocketOptions ?? new Action<HuobiSocketOptions>((x) => { }));
@@ -168,6 +177,7 @@ namespace CryptoClients.Net
             IBingXSocketClient bingx,
             IBitfinexSocketClient bitfinex,
             IBitgetSocketClient bitget,
+            IBitMartSocketClient bitMart,
             IBybitSocketClient bybit,
             ICoinExSocketClient coinEx,
             IGateIoSocketClient gateIo,
@@ -181,6 +191,7 @@ namespace CryptoClients.Net
             BingX = bingx;
             Bitfinex = bitfinex;
             Bitget = bitget;
+            BitMart = bitMart;
             Bybit = bybit;
             CoinEx = coinEx;
             GateIo = gateIo;
@@ -200,6 +211,7 @@ namespace CryptoClients.Net
                 BingX.UnsubscribeAllAsync(),
                 Bitfinex.UnsubscribeAllAsync(),
                 Bitget.UnsubscribeAllAsync(),
+                BitMart.UnsubscribeAllAsync(),
                 Bybit.UnsubscribeAllAsync(),
                 CoinEx.UnsubscribeAllAsync(),
                 GateIo.UnsubscribeAllAsync(),

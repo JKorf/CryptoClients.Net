@@ -10,6 +10,9 @@ using Bitfinex.Net.Objects.Options;
 using Bitget.Net.Clients;
 using Bitget.Net.Interfaces.Clients;
 using Bitget.Net.Objects.Options;
+using BitMart.Net.Clients;
+using BitMart.Net.Interfaces.Clients;
+using BitMart.Net.Objects.Options;
 using Bybit.Net.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Bybit.Net.Objects.Options;
@@ -57,6 +60,7 @@ namespace CryptoClients.Net
             { Exchange.BingX, "BingX" },
             { Exchange.Bitfinex, "Bitfinex" },
             { Exchange.Bitget, "Bitget" },
+            { Exchange.BitMart, "BitMart" },
             { Exchange.Bybit, "Bybit" },
             { Exchange.CoinEx, "CoinEx" },
             { Exchange.GateIo, "GateIo" },
@@ -75,6 +79,8 @@ namespace CryptoClients.Net
         public IBitfinexRestClient Bitfinex { get; }
         /// <inheritdoc />
         public IBitgetRestClient Bitget { get; }
+        /// <inheritdoc />
+        public IBitMartRestClient BitMart { get; }
         /// <inheritdoc />
         public IBybitRestClient Bybit { get; }
         /// <inheritdoc />
@@ -101,6 +107,7 @@ namespace CryptoClients.Net
             BingX = new BingXRestClient();
             Bitfinex = new BitfinexRestClient();
             Bitget = new BitgetRestClient();
+            BitMart = new BitMartRestClient();
             Bybit = new BybitRestClient();
             CoinEx = new CoinExRestClient();
             GateIo = new GateIoRestClient();
@@ -122,6 +129,7 @@ namespace CryptoClients.Net
             Action<BingXRestOptions>? bingxRestOptions = null,
             Action<BitfinexRestOptions>? bitfinexRestOptions = null,
             Action<BitgetRestOptions>? bitgetRestOptions = null,
+            Action<BitMartRestOptions>? bitMartRestOptions = null,
             Action<BybitRestOptions>? bybitRestOptions = null,
             Action<CoinExRestOptions>? coinExRestOptions = null,
             Action<GateIoRestOptions>? gateIoRestOptions = null,
@@ -158,6 +166,7 @@ namespace CryptoClients.Net
                 bingxRestOptions = SetGlobalRestOptions(global, bingxRestOptions, credentials?.BingX);
                 bitfinexRestOptions = SetGlobalRestOptions(global, bitfinexRestOptions, credentials?.Bitfinex);
                 bitgetRestOptions = SetGlobalRestOptions(global, bitgetRestOptions, credentials?.Bitget);
+                bitMartRestOptions = SetGlobalRestOptions(global, bitMartRestOptions, credentials?.BitMart);
                 bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions, credentials?.Bybit);
                 coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx);
                 gateIoRestOptions = SetGlobalRestOptions(global, gateIoRestOptions, credentials?.GateIo);
@@ -172,6 +181,7 @@ namespace CryptoClients.Net
             BingX = new BingXRestClient(bingxRestOptions);
             Bitfinex = new BitfinexRestClient(bitfinexRestOptions);
             Bitget = new BitgetRestClient(bitgetRestOptions);
+            BitMart = new BitMartRestClient(bitMartRestOptions);
             Bybit = new BybitRestClient(bybitRestOptions);
             CoinEx = new CoinExRestClient(coinExRestOptions);
             GateIo = new GateIoRestClient(gateIoRestOptions);
@@ -192,6 +202,7 @@ namespace CryptoClients.Net
                 BingX.SpotApi.CommonSpotClient,
                 Bitfinex.SpotApi.CommonSpotClient,
                 Bitget.SpotApi.CommonSpotClient,
+                BitMart.SpotApi.CommonSpotClient,
                 Bybit.V5Api.CommonSpotClient,
                 CoinEx.SpotApiV2.CommonSpotClient,
                 GateIo.SpotApi.CommonSpotClient,
@@ -211,6 +222,7 @@ namespace CryptoClients.Net
             IBingXRestClient bingx,
             IBitfinexRestClient bitfinex,
             IBitgetRestClient bitget,
+            IBitMartRestClient bitMart,
             IBybitRestClient bybit,
             ICoinExRestClient coinEx,
             IGateIoRestClient gateIo,
@@ -227,6 +239,7 @@ namespace CryptoClients.Net
             BingX = bingx;
             Bitfinex = bitfinex;
             Bitget = bitget;
+            BitMart = bitMart;
             Bybit = bybit;
             CoinEx = coinEx;
             GateIo = gateIo;

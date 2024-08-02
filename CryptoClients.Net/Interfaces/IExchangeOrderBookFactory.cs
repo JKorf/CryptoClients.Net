@@ -2,6 +2,7 @@
 using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
+using BitMart.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using GateIo.Net.Interfaces;
@@ -34,6 +35,10 @@ namespace CryptoClients.Net.Interfaces
         /// Bitget order book factory
         /// </summary>
         IBitgetOrderBookFactory Bitget { get; }
+        /// <summary>
+        /// BitMart order book factory
+        /// </summary>
+        IBitMartOrderBookFactory BitMart { get; }
         /// <summary>
         /// Bybit order book factory
         /// </summary>

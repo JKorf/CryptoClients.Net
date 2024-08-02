@@ -2,6 +2,7 @@
 using BingX.Net.Interfaces.Clients;
 using Bitfinex.Net.Interfaces.Clients;
 using Bitget.Net.Interfaces.Clients;
+using BitMart.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CryptoClients.Net.Enums;
@@ -37,6 +38,10 @@ namespace CryptoClients.Net.Interfaces
         /// Bitget REST API
         /// </summary>
         IBitgetRestClient Bitget { get; }
+        /// <summary>
+        /// BitMart REST API
+        /// </summary>
+        IBitMartRestClient BitMart { get; }
         /// <summary>
         /// Bybit REST API
         /// </summary>

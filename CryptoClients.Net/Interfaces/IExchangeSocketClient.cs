@@ -2,6 +2,7 @@
 using BingX.Net.Interfaces.Clients;
 using Bitfinex.Net.Interfaces.Clients;
 using Bitget.Net.Interfaces.Clients;
+using BitMart.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using GateIo.Net.Interfaces.Clients;
@@ -35,6 +36,10 @@ namespace CryptoClients.Net.Interfaces
         /// Bitget Websocket API
         /// </summary>
         IBitgetSocketClient Bitget { get; }
+        /// <summary>
+        /// BitMart Websocket API
+        /// </summary>
+        IBitMartSocketClient BitMart { get; }
         /// <summary>
         /// Bybit Websocket API
         /// </summary>

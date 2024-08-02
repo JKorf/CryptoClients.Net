@@ -2,6 +2,7 @@
 using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
+using BitMart.Net;
 using Bybit.Net;
 using CoinEx.Net;
 using CryptoExchange.Net.RateLimiting;
@@ -58,6 +59,16 @@ namespace CryptoClients.Net
             Name = BitgetExchange.ExchangeName,
             Url = BitgetExchange.Url,
             ApiDocsUrl = BitgetExchange.ApiDocsUrl
+        };
+
+        /// <summary>
+        /// BitMart exchange info
+        /// </summary>
+        public static ExchangeInfo BitMart { get; } = new ExchangeInfo
+        {
+            Name = BitMartExchange.ExchangeName,
+            Url = BitMartExchange.Url,
+            ApiDocsUrl = BitMartExchange.ApiDocsUrl
         };
 
         /// <summary>
