@@ -183,19 +183,19 @@
         <member name="P:CryptoClients.Net.ExchangeRestClient.OKX">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolClients(CryptoClients.Net.Enums.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolClients(CryptoExchange.Net.Objects.ApiType)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClients(CryptoClients.Net.Enums.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClients(CryptoExchange.Net.Objects.ApiType)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTickerClients(CryptoClients.Net.Enums.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTickerClients(CryptoExchange.Net.Objects.ApiType)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeClients(CryptoClients.Net.Enums.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeClients(CryptoExchange.Net.Objects.ApiType)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients(CryptoClients.Net.Enums.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients(CryptoExchange.Net.Objects.ApiType)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor">
@@ -213,22 +213,22 @@
             DI constructor
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTickersAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TickerRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTickersAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TickerRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.StreamTickersAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TickerRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.StreamTickersAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TickerRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.KlineRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.RequestModels.KlineRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.StreamKlinesAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.KlineRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.StreamKlinesAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.RequestModels.KlineRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradesAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TradeRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradesAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TradeRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.StreamTradesAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TradeRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.StreamTradesAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TradeRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetUnifiedSpotClient(CryptoClients.Net.Enums.Exchange)">

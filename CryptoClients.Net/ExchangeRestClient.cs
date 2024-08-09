@@ -242,16 +242,21 @@ namespace CryptoClients.Net
             _sharedClients[ApiType.Spot] = new[]
             {
                 Binance.SpotApi.SharedClient,
-                BingX.SpotApi.SharedClient
+                BingX.SpotApi.SharedClient,
+                Bitfinex.SpotApi.SharedClient,
+                Bybit.V5Api.SharedClient,
+                Kraken.SpotApi.SharedClient
             };
             _sharedClients[ApiType.LinearFutures] = new[]
             {
                 Binance.UsdFuturesApi.SharedClient,
+                Bybit.V5Api.SharedClient,
                 BingX.SpotApi.SharedClient
             };
             _sharedClients[ApiType.InverseFutures] = new[]
             {
-                Binance.CoinFuturesApi.SharedClient
+                Binance.CoinFuturesApi.SharedClient,
+                Bybit.V5Api.SharedClient
             };
         }
 
@@ -311,8 +316,7 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
 
-            request.FuturesType = apiType == ApiType.Spot ? null : apiType == ApiType.LinearFutures ? FuturesType.Linear : FuturesType.Inverse;
-
+            request.ApiType = apiType;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
@@ -339,8 +343,7 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
 
-            request.FuturesType = apiType == ApiType.Spot ? null : apiType == ApiType.LinearFutures ? FuturesType.Linear : FuturesType.Inverse;
-
+            request.ApiType = apiType;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
@@ -367,8 +370,7 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
 
-            request.FuturesType = apiType == ApiType.Spot ? null : apiType == ApiType.LinearFutures ? FuturesType.Linear : FuturesType.Inverse;
-
+            request.ApiType = apiType;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
