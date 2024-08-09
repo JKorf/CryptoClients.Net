@@ -183,6 +183,21 @@
         <member name="P:CryptoClients.Net.ExchangeRestClient.OKX">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolClients(CryptoClients.Net.Enums.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClients(CryptoClients.Net.Enums.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTickerClients(CryptoClients.Net.Enums.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeClients(CryptoClients.Net.Enums.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients(CryptoClients.Net.Enums.ApiType)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor">
             <summary>
             Create a new ExchangeRestClient instance. Client instances will be created with default options.
@@ -197,6 +212,24 @@
             <summary>
             DI constructor
             </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTickersAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TickerRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.StreamTickersAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TickerRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.KlineRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.StreamKlinesAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.KlineRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradesAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TradeRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.StreamTradesAsync(CryptoClients.Net.Enums.ApiType,CryptoExchange.Net.SharedApis.RequestModels.TradeRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetUnifiedSpotClient(CryptoClients.Net.Enums.Exchange)">
             <inheritdoc />
@@ -641,6 +674,22 @@
         <member name="P:CryptoClients.Net.Models.ExchangeCredentials.OKX">
             <summary>
             OKX API credentials
+            </summary>
+        </member>
+        <member name="T:CryptoClients.Net.Models.ExchangeResult`1">
+            <summary>
+            A WebCallResult from an exchange
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeResult`1.Exchange">
+            <summary>
+            The exchange
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeResult`1.#ctor(CryptoClients.Net.Enums.Exchange,CryptoExchange.Net.Objects.WebCallResult{`0})">
+            <summary>
+            ctor
             </summary>
         </member>
         <member name="T:CryptoClients.Net.Models.GlobalExchangeOptions">
