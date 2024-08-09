@@ -38,9 +38,9 @@
         /// </summary>
         GateIo,
         /// <summary>
-        /// Huobi
+        /// HTX
         /// </summary>
-        Huobi,
+        HTX,
         /// <summary>
         /// Kraken
         /// </summary>

@@ -8,7 +8,7 @@ using CoinEx.Net.Interfaces.Clients;
 using CryptoClients.Net.Enums;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using GateIo.Net.Interfaces.Clients;
-using Huobi.Net.Interfaces.Clients;
+using HTX.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
@@ -55,9 +55,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         IGateIoRestClient GateIo { get; }
         /// <summary>
-        /// Huobi REST API
+        /// HTX REST API
         /// </summary>
-        IHuobiRestClient Huobi { get; }
+        IHTXRestClient HTX { get; }
         /// <summary>
         /// Kraken REST API
         /// </summary>

@@ -21,19 +21,17 @@ using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects.Options;
 using GateIo.Net.Interfaces.Clients;
 using GateIo.Net.Objects.Options;
-using Huobi.Net.Interfaces.Clients;
-using Huobi.Net.Objects.Options;
+using HTX.Net.Interfaces.Clients;
+using HTX.Net.Objects.Options;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Options;
 using Kucoin.Net.Interfaces.Clients;
 using Kucoin.Net.Objects.Options;
 using Mexc.Net.Interfaces.Clients;
 using Mexc.Net.Objects.Options;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -65,8 +63,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="coinGeckoRestOptions">The options options for the CoinGecko rest client. Will override options provided in the global options</param>
         /// <param name="gateIoRestOptions">The options options for the Gate.io rest client. Will override options provided in the global options</param>
         /// <param name="gateIoSocketOptions">The options options for the Gate.io socket client. Will override options provided in the global options</param>
-        /// <param name="huobiRestOptions">The options options for the Huobi rest client. Will override options provided in the global options</param>
-        /// <param name="huobiSocketOptions">The options options for the Huobi socket client. Will override options provided in the global options</param>
+        /// <param name="htxRestOptions">The options options for the HTX rest client. Will override options provided in the global options</param>
+        /// <param name="htxSocketOptions">The options options for the HTX socket client. Will override options provided in the global options</param>
         /// <param name="krakenRestOptions">The options options for the Kraken rest client. Will override options provided in the global options</param>
         /// <param name="krakenSocketOptions">The options options for the Kraken socket client. Will override options provided in the global options</param>
         /// <param name="kucoinRestOptions">The options options for the Kucoin rest client. Will override options provided in the global options</param>
@@ -97,8 +95,8 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<CoinGeckoRestOptions>? coinGeckoRestOptions = null,
             Action<GateIoRestOptions>? gateIoRestOptions = null,
             Action<GateIoSocketOptions>? gateIoSocketOptions = null,
-            Action<HuobiRestOptions>? huobiRestOptions = null,
-            Action<HuobiSocketOptions>? huobiSocketOptions = null,
+            Action<HTXRestOptions>? htxRestOptions = null,
+            Action<HTXSocketOptions>? htxSocketOptions = null,
             Action<KrakenRestOptions>? krakenRestOptions = null,
             Action<KrakenSocketOptions>? krakenSocketOptions = null,
             Action<KucoinRestOptions>? kucoinRestOptions = null,
@@ -167,8 +165,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 coinGeckoRestOptions = SetGlobalRestOptions<CoinGeckoRestOptions, ApiCredentials>(global, coinGeckoRestOptions, default);
                 gateIoRestOptions = SetGlobalRestOptions(global, gateIoRestOptions, credentials?.GateIo);
                 gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions, credentials?.GateIo);
-                huobiRestOptions = SetGlobalRestOptions(global, huobiRestOptions, credentials?.Huobi);
-                huobiSocketOptions = SetGlobalSocketOptions(global, huobiSocketOptions, credentials?.Huobi);
+                htxRestOptions = SetGlobalRestOptions(global, htxRestOptions, credentials?.HTX);
+                htxSocketOptions = SetGlobalSocketOptions(global, htxSocketOptions, credentials?.HTX);
                 krakenRestOptions = SetGlobalRestOptions(global, krakenRestOptions, credentials?.Kraken);
                 krakenSocketOptions = SetGlobalSocketOptions(global, krakenSocketOptions, credentials?.Kraken);
                 kucoinRestOptions = SetGlobalRestOptions(global, kucoinRestOptions, credentials?.Kucoin);
@@ -188,7 +186,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddCoinEx(coinExRestOptions, coinExSocketOptions, socketClientLifetime);
             services.AddCoinGecko(coinGeckoRestOptions);
             services.AddGateIo(gateIoRestOptions, gateIoSocketOptions, socketClientLifetime);
-            services.AddHuobi(huobiRestOptions, huobiSocketOptions, socketClientLifetime);
+            services.AddHTX(htxRestOptions, htxSocketOptions, socketClientLifetime);
             services.AddKraken(krakenRestOptions, krakenSocketOptions, socketClientLifetime);
             services.AddKucoin(kucoinRestOptions, kucoinSocketOptions, socketClientLifetime);
             services.AddMexc(mexcRestOptions, mexcSocketOptions, socketClientLifetime);
@@ -205,7 +203,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IBybitRestClient>(),
                     x.GetRequiredService<ICoinExRestClient>(),
                     x.GetRequiredService<IGateIoRestClient>(),
-                    x.GetRequiredService<IHuobiRestClient>(),
+                    x.GetRequiredService<IHTXRestClient>(),
                     x.GetRequiredService<IKrakenRestClient>(),
                     x.GetRequiredService<IKucoinRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
@@ -225,7 +223,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IBybitSocketClient>(),
                     x.GetRequiredService<ICoinExSocketClient>(),
                     x.GetRequiredService<IGateIoSocketClient>(),
-                    x.GetRequiredService<IHuobiSocketClient>(),
+                    x.GetRequiredService<IHTXSocketClient>(),
                     x.GetRequiredService<IKrakenSocketClient>(),
                     x.GetRequiredService<IKucoinSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),

@@ -51,9 +51,9 @@ namespace CryptoClients.Net.Models
         public ApiCredentials? GateIo { get; set; }
 
         /// <summary>
-        /// Huobi API credentials
+        /// HTX API credentials
         /// </summary>
-        public ApiCredentials? Huobi { get; set; }
+        public ApiCredentials? HTX { get; set; }
 
         /// <summary>
         /// Kraken API credentials

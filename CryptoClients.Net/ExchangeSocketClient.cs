@@ -26,9 +26,9 @@ using CryptoExchange.Net.Objects.Options;
 using GateIo.Net.Clients;
 using GateIo.Net.Interfaces.Clients;
 using GateIo.Net.Objects.Options;
-using Huobi.Net.Clients;
-using Huobi.Net.Interfaces.Clients;
-using Huobi.Net.Objects.Options;
+using HTX.Net.Clients;
+using HTX.Net.Interfaces.Clients;
+using HTX.Net.Objects.Options;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Options;
@@ -66,7 +66,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IGateIoSocketClient GateIo { get; }
         /// <inheritdoc />
-        public IHuobiSocketClient Huobi { get; }
+        public IHTXSocketClient HTX { get; }
         /// <inheritdoc />
         public IKrakenSocketClient Kraken { get; }
         /// <inheritdoc />
@@ -89,7 +89,7 @@ namespace CryptoClients.Net
             Bybit = new BybitSocketClient();
             CoinEx = new CoinExSocketClient();
             GateIo = new GateIoSocketClient();
-            Huobi = new HuobiSocketClient();
+            HTX = new HTXSocketClient();
             Kraken = new KrakenSocketClient();
             Kucoin = new KucoinSocketClient();
             Mexc = new MexcSocketClient();
@@ -109,7 +109,7 @@ namespace CryptoClients.Net
             Action<BybitSocketOptions>? bybitSocketOptions = null,
             Action<CoinExSocketOptions>? coinExSocketOptions = null,
             Action<GateIoSocketOptions>? gateIoSocketOptions = null,
-            Action<HuobiSocketOptions>? huobiSocketOptions = null,
+            Action<HTXSocketOptions>? htxSocketOptions = null,
             Action<KrakenSocketOptions>? krakenSocketOptions = null,
             Action<KucoinSocketOptions>? kucoinSocketOptions = null,
             Action<MexcSocketOptions>? mexcSocketOptions = null,
@@ -147,7 +147,7 @@ namespace CryptoClients.Net
                 bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions, credentials?.Bybit);
                 coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx);
                 gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions, credentials?.GateIo);
-                huobiSocketOptions = SetGlobalSocketOptions(global, huobiSocketOptions, credentials?.Huobi);
+                htxSocketOptions = SetGlobalSocketOptions(global, htxSocketOptions, credentials?.HTX);
                 krakenSocketOptions = SetGlobalSocketOptions(global, krakenSocketOptions, credentials?.Kraken);
                 kucoinSocketOptions = SetGlobalSocketOptions(global, kucoinSocketOptions, credentials?.Kucoin);
                 mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions, credentials?.Mexc);
@@ -161,7 +161,7 @@ namespace CryptoClients.Net
             BitMart = new BitMartSocketClient(bitMartSocketOptions ?? new Action<BitMartSocketOptions>((x) => { }));
             Bybit = new BybitSocketClient(bybitSocketOptions ?? new Action<BybitSocketOptions>((x) => { }));
             CoinEx = new CoinExSocketClient(coinExSocketOptions ?? new Action<CoinExSocketOptions>((x) => { }));
-            Huobi = new HuobiSocketClient(huobiSocketOptions ?? new Action<HuobiSocketOptions>((x) => { }));
+            HTX = new HTXSocketClient(htxSocketOptions ?? new Action<HTXSocketOptions>((x) => { }));
             GateIo = new GateIoSocketClient(gateIoSocketOptions ?? new Action<GateIoSocketOptions>((x) => { }));
             Kraken = new KrakenSocketClient(krakenSocketOptions ?? new Action<KrakenSocketOptions>((x) => { }));
             Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? new Action<KucoinSocketOptions>((x) => { }));
@@ -181,7 +181,7 @@ namespace CryptoClients.Net
             IBybitSocketClient bybit,
             ICoinExSocketClient coinEx,
             IGateIoSocketClient gateIo,
-            IHuobiSocketClient huobi,
+            IHTXSocketClient htx,
             IKrakenSocketClient kraken,
             IKucoinSocketClient kucoin,
             IMexcSocketClient mexc,
@@ -195,7 +195,7 @@ namespace CryptoClients.Net
             Bybit = bybit;
             CoinEx = coinEx;
             GateIo = gateIo;
-            Huobi = huobi;
+            HTX = htx;
             Kraken = kraken;
             Kucoin = kucoin;
             Mexc = mexc;
@@ -215,7 +215,7 @@ namespace CryptoClients.Net
                 Bybit.UnsubscribeAllAsync(),
                 CoinEx.UnsubscribeAllAsync(),
                 GateIo.UnsubscribeAllAsync(),
-                Huobi.UnsubscribeAllAsync(),
+                HTX.UnsubscribeAllAsync(),
                 Kraken.UnsubscribeAllAsync(),
                 Kucoin.UnsubscribeAllAsync(),
                 Mexc.UnsubscribeAllAsync(),

@@ -6,7 +6,7 @@ using BitMart.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using GateIo.Net.Interfaces.Clients;
-using Huobi.Net.Interfaces.Clients;
+using HTX.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
@@ -53,9 +53,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         IGateIoSocketClient GateIo { get; }
         /// <summary>
-        /// Huobi Websocket API
+        /// HTX Websocket API
         /// </summary>
-        IHuobiSocketClient Huobi { get; }
+        IHTXSocketClient HTX { get; }
         /// <summary>
         /// Kraken Websocket API
         /// </summary>

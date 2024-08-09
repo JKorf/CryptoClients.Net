@@ -6,7 +6,7 @@ using BitMart.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using GateIo.Net.Interfaces;
-using Huobi.Net.Interfaces;
+using HTX.Net.Interfaces;
 using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
@@ -52,9 +52,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         IGateIoOrderBookFactory GateIo { get; }
         /// <summary>
-        /// Huobi order book factory
+        /// HTX order book factory
         /// </summary>
-        IHuobiOrderBookFactory Huobi { get; }
+        IHTXOrderBookFactory HTX { get; }
         /// <summary>
         /// Kraken order book factory
         /// </summary>

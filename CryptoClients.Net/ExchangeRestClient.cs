@@ -23,14 +23,16 @@ using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
+using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
 using GateIo.Net.Clients;
 using GateIo.Net.Interfaces.Clients;
 using GateIo.Net.Objects.Options;
-using Huobi.Net.Clients;
-using Huobi.Net.Interfaces.Clients;
-using Huobi.Net.Objects.Options;
+using HTX.Net.Clients;
+using HTX.Net.Interfaces.Clients;
+using HTX.Net.Objects.Options;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Options;
@@ -46,6 +48,7 @@ using OKX.Net.Objects.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace CryptoClients.Net
 {
@@ -64,7 +67,7 @@ namespace CryptoClients.Net
             { Exchange.Bybit, "Bybit" },
             { Exchange.CoinEx, "CoinEx" },
             { Exchange.GateIo, "GateIo" },
-            { Exchange.Huobi, "Huobi" },
+            { Exchange.HTX, "HTX" },
             { Exchange.Kraken, "Kraken" },
             { Exchange.Kucoin, "Kucoin" },
             { Exchange.Mexc, "Mexc" },
@@ -88,7 +91,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IGateIoRestClient GateIo { get; }
         /// <inheritdoc />
-        public IHuobiRestClient Huobi { get; }
+        public IHTXRestClient HTX { get; }
         /// <inheritdoc />
         public IKrakenRestClient Kraken { get; }
         /// <inheritdoc />
@@ -111,7 +114,7 @@ namespace CryptoClients.Net
             Bybit = new BybitRestClient();
             CoinEx = new CoinExRestClient();
             GateIo = new GateIoRestClient();
-            Huobi = new HuobiRestClient();
+            HTX = new HTXRestClient();
             Kraken = new KrakenRestClient();
             Kucoin = new KucoinRestClient();
             Mexc = new MexcRestClient();
@@ -133,7 +136,7 @@ namespace CryptoClients.Net
             Action<BybitRestOptions>? bybitRestOptions = null,
             Action<CoinExRestOptions>? coinExRestOptions = null,
             Action<GateIoRestOptions>? gateIoRestOptions = null,
-            Action<HuobiRestOptions>? huobiRestOptions = null,
+            Action<HTXRestOptions>? htxRestOptions = null,
             Action<KrakenRestOptions>? krakenRestOptions = null,
             Action<KucoinRestOptions>? kucoinRestOptions = null,
             Action<MexcRestOptions>? mexcRestOptions = null,
@@ -170,7 +173,7 @@ namespace CryptoClients.Net
                 bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions, credentials?.Bybit);
                 coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx);
                 gateIoRestOptions = SetGlobalRestOptions(global, gateIoRestOptions, credentials?.GateIo);
-                huobiRestOptions = SetGlobalRestOptions(global, huobiRestOptions, credentials?.Huobi);
+                htxRestOptions = SetGlobalRestOptions(global, htxRestOptions, credentials?.HTX);
                 krakenRestOptions = SetGlobalRestOptions(global, krakenRestOptions, credentials?.Kraken);
                 kucoinRestOptions = SetGlobalRestOptions(global, kucoinRestOptions, credentials?.Kucoin);
                 mexcRestOptions = SetGlobalRestOptions(global, mexcRestOptions, credentials?.Mexc);
@@ -185,7 +188,7 @@ namespace CryptoClients.Net
             Bybit = new BybitRestClient(bybitRestOptions);
             CoinEx = new CoinExRestClient(coinExRestOptions);
             GateIo = new GateIoRestClient(gateIoRestOptions);
-            Huobi = new HuobiRestClient(huobiRestOptions);
+            HTX = new HTXRestClient(htxRestOptions);
             Kraken = new KrakenRestClient(krakenRestOptions);
             Kucoin = new KucoinRestClient(kucoinRestOptions);
             Mexc = new MexcRestClient(mexcRestOptions);
@@ -206,7 +209,7 @@ namespace CryptoClients.Net
                 Bybit.V5Api.CommonSpotClient,
                 CoinEx.SpotApiV2.CommonSpotClient,
                 GateIo.SpotApi.CommonSpotClient,
-                Huobi.SpotApi.CommonSpotClient,
+                HTX.SpotApi.CommonSpotClient,
                 Kraken.SpotApi.CommonSpotClient,
                 Kucoin.SpotApi.CommonSpotClient,
                 Mexc.SpotApi.CommonSpotClient,
@@ -226,7 +229,7 @@ namespace CryptoClients.Net
             IBybitRestClient bybit,
             ICoinExRestClient coinEx,
             IGateIoRestClient gateIo,
-            IHuobiRestClient huobi,
+            IHTXRestClient htx,
             IKrakenRestClient kraken,
             IKucoinRestClient kucoin,
             IMexcRestClient mexc,
@@ -243,7 +246,7 @@ namespace CryptoClients.Net
             Bybit = bybit;
             CoinEx = coinEx;
             GateIo = gateIo;
-            Huobi = huobi;
+            HTX = htx;
             Kraken = kraken;
             Kucoin = kucoin;
             Mexc = mexc;

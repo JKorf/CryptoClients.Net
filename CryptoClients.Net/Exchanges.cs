@@ -7,7 +7,7 @@ using Bybit.Net;
 using CoinEx.Net;
 using CryptoExchange.Net.RateLimiting;
 using GateIo.Net;
-using Huobi.Net;
+using HTX.Net;
 using Kraken.Net;
 using Kucoin.Net;
 using Mexc.Net;
@@ -102,13 +102,13 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
-        /// Huobi exchange info
+        /// HTX exchange info
         /// </summary>
-        public static ExchangeInfo Huobi { get; } = new ExchangeInfo
+        public static ExchangeInfo HTX { get; } = new ExchangeInfo
         {
-            Name = HuobiExchange.ExchangeName,
-            Url = HuobiExchange.Url,
-            ApiDocsUrl = HuobiExchange.ApiDocsUrl
+            Name = HTXExchange.ExchangeName,
+            Url = HTXExchange.Url,
+            ApiDocsUrl = HTXExchange.ApiDocsUrl
         };
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace CryptoClients.Net
             Bybit,
             CoinEx,
             GateIo,
-            Huobi,
+            HTX,
             Kucoin,
             Kraken,
             Mexc,
@@ -178,16 +178,28 @@ namespace CryptoClients.Net
             add
             {
                 BinanceExchange.RateLimiter.RateLimitTriggered += value;
+                BingXExchange.RateLimiter.RateLimitTriggered += value;
+                BitgetExchange.RateLimiter.RateLimitTriggered += value;
+                BitMartExchange.RateLimiter.RateLimitTriggered += value;
                 GateIoExchange.RateLimiter.RateLimitTriggered += value;
+                HTXExchange.RateLimiter.RateLimitTriggered += value;
                 KrakenExchange.RateLimiter.RateLimitTriggered += value;
                 KucoinExchange.RateLimiter.RateLimitTriggered += value;
+                MexcExchange.RateLimiter.RateLimitTriggered += value;
+                OKXExchange.RateLimiter.RateLimitTriggered += value;
             }
             remove
             {
                 BinanceExchange.RateLimiter.RateLimitTriggered -= value;
+                BingXExchange.RateLimiter.RateLimitTriggered -= value;
+                BitgetExchange.RateLimiter.RateLimitTriggered -= value;
+                BitMartExchange.RateLimiter.RateLimitTriggered -= value;
                 GateIoExchange.RateLimiter.RateLimitTriggered -= value;
+                HTXExchange.RateLimiter.RateLimitTriggered -= value;
                 KrakenExchange.RateLimiter.RateLimitTriggered -= value;
                 KucoinExchange.RateLimiter.RateLimitTriggered -= value;
+                MexcExchange.RateLimiter.RateLimitTriggered -= value;
+                OKXExchange.RateLimiter.RateLimitTriggered -= value;
             }
         }
     }
