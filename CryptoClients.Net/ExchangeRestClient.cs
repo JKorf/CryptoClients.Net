@@ -20,6 +20,7 @@ using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
 using CryptoClients.Net.Enums;
+using CryptoClients.Net.ExtensionMethods;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoExchange.Net.Authentication;
@@ -27,6 +28,9 @@ using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
+using CryptoExchange.Net.SharedApis.Interfaces;
+using CryptoExchange.Net.SharedApis.RequestModels;
+using CryptoExchange.Net.SharedApis.ResponseModels;
 using GateIo.Net.Clients;
 using GateIo.Net.Interfaces.Clients;
 using GateIo.Net.Objects.Options;
@@ -48,6 +52,8 @@ using OKX.Net.Objects.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace CryptoClients.Net
@@ -56,6 +62,7 @@ namespace CryptoClients.Net
     public class ExchangeRestClient : IExchangeRestClient
     {
         private IEnumerable<ISpotClient> _spotClients = Array.Empty<ISpotClient>();
+        private Dictionary<ApiType, ISharedClient[]> _sharedClients = new Dictionary<ApiType, ISharedClient[]>();
 
         private readonly Dictionary<Exchange, string> _exchangeMapping = new()
         {
@@ -101,6 +108,17 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOKXRestClient OKX { get; }
 
+        /// <inheritdoc />
+        public IEnumerable<ISpotSymbolClient> GetSpotSymbolClients(ApiType api) => _sharedClients[api].OfType<ISpotSymbolClient>();
+        /// <inheritdoc />
+        public IEnumerable<IFuturesSymbolClient> GetFuturesSymbolClients(ApiType api) => _sharedClients[api].OfType<IFuturesSymbolClient>();
+        /// <inheritdoc />
+        public IEnumerable<ITickerClient> GetTickerClients(ApiType api) => _sharedClients[api].OfType<ITickerClient>();
+        /// <inheritdoc />
+        public IEnumerable<ITradeClient> GetTradeClients(ApiType api) => _sharedClients[api].OfType<ITradeClient>();
+        /// <inheritdoc />
+        public IEnumerable<IKlineClient> GetKlineClients(ApiType api) => _sharedClients[api].OfType<IKlineClient>();
+
         /// <summary>
         /// Create a new ExchangeRestClient instance. Client instances will be created with default options.
         /// </summary>
@@ -121,6 +139,7 @@ namespace CryptoClients.Net
             OKX = new OKXRestClient();
 
             InitSpotClients();
+            InitSharedClients();
         }
 
         /// <summary>
@@ -195,6 +214,7 @@ namespace CryptoClients.Net
             OKX = new OKXRestClient(okxRestOptions);
 
             InitSpotClients();
+            InitSharedClients();
         }
 
         private void InitSpotClients()
@@ -214,6 +234,24 @@ namespace CryptoClients.Net
                 Kucoin.SpotApi.CommonSpotClient,
                 Mexc.SpotApi.CommonSpotClient,
                 OKX.UnifiedApi.CommonSpotClient,
+            };
+        }
+
+        private void InitSharedClients()
+        {
+            _sharedClients[ApiType.Spot] = new[]
+            {
+                Binance.SpotApi.SharedClient,
+                BingX.SpotApi.SharedClient
+            };
+            _sharedClients[ApiType.LinearFutures] = new[]
+            {
+                Binance.UsdFuturesApi.SharedClient,
+                BingX.SpotApi.SharedClient
+            };
+            _sharedClients[ApiType.InverseFutures] = new[]
+            {
+                Binance.CoinFuturesApi.SharedClient
             };
         }
 
@@ -251,6 +289,92 @@ namespace CryptoClients.Net
             Kucoin = kucoin;
             Mexc = mexc;
             OKX = okx;
+
+            InitSharedClients();
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeResult<SharedTicker>>> GetTickersAsync(ApiType apiType, TickerRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetTickersInt(apiType, request, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeResult<SharedTicker>> StreamTickersAsync(ApiType apiType, TickerRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetTickersInt(apiType, request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeResult<SharedTicker>>> GetTickersInt(ApiType apiType, TickerRequest request, IEnumerable<Exchange>? exchanges, CancellationToken ct)
+        {
+            var clients = GetTickerClients(apiType);
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
+
+            request.FuturesType = apiType == ApiType.Spot ? null : apiType == ApiType.LinearFutures ? FuturesType.Linear : FuturesType.Inverse;
+
+            var tasks = clients.Select(x => Task.Run(async () =>
+            {
+                var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
+                return new ExchangeResult<SharedTicker>(exchange, await x.GetTickerAsync(request, ct));
+            }));
+            return tasks;
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeResult<IEnumerable<SharedKline>>>> GetKlinesAsync(ApiType apiType, KlineRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetKlinesIntAsync(apiType, request, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeResult<IEnumerable<SharedKline>>> StreamKlinesAsync(ApiType apiType, KlineRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetKlinesIntAsync(apiType, request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeResult<IEnumerable<SharedKline>>>> GetKlinesIntAsync(ApiType apiType, KlineRequest request, IEnumerable<Exchange>? exchanges, CancellationToken ct)
+        {
+            var clients = GetKlineClients(apiType);
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
+
+            request.FuturesType = apiType == ApiType.Spot ? null : apiType == ApiType.LinearFutures ? FuturesType.Linear : FuturesType.Inverse;
+
+            var tasks = clients.Select(x => Task.Run(async () =>
+            {
+                var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
+                return new ExchangeResult<IEnumerable<SharedKline>>(exchange, await x.GetKlinesAsync(request, ct));
+            }));
+            return tasks;
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeResult<IEnumerable<SharedTrade>>>> GetTradesAsync(ApiType apiType, TradeRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetTradesIntAsync(apiType, request, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeResult<IEnumerable<SharedTrade>>> StreamTradesAsync(ApiType apiType, TradeRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetTradesIntAsync(apiType, request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeResult<IEnumerable<SharedTrade>>>> GetTradesIntAsync(ApiType apiType, TradeRequest request, IEnumerable<Exchange>? exchanges, CancellationToken ct)
+        {
+            var clients = GetTradeClients(apiType);
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
+
+            request.FuturesType = apiType == ApiType.Spot ? null : apiType == ApiType.LinearFutures ? FuturesType.Linear : FuturesType.Inverse;
+
+            var tasks = clients.Select(x => Task.Run(async () =>
+            {
+                var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
+                return new ExchangeResult<IEnumerable<SharedTrade>>(exchange, await x.GetTradesAsync(request, ct));
+            }));
+            return tasks;
         }
 
         /// <inheritdoc />

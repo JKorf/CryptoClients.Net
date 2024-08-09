@@ -6,7 +6,13 @@ using BitMart.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CryptoClients.Net.Enums;
+using CryptoClients.Net.Models;
+using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
+using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.SharedApis.Interfaces;
+using CryptoExchange.Net.SharedApis.RequestModels;
+using CryptoExchange.Net.SharedApis.ResponseModels;
 using GateIo.Net.Interfaces.Clients;
 using HTX.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
@@ -14,6 +20,8 @@ using Kucoin.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -87,5 +95,21 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <returns></returns>
         IEnumerable<ISpotClient> GetUnifiedSpotClients();
+
+        IEnumerable<IFuturesSymbolClient> GetFuturesSymbolClients(ApiType api);
+        IEnumerable<ISpotSymbolClient> GetSpotSymbolClients(ApiType api);
+        IEnumerable<ITickerClient> GetTickerClients(ApiType api);
+        IEnumerable<IKlineClient> GetKlineClients(ApiType api);
+        IEnumerable<ITradeClient> GetTradeClients(ApiType api);
+
+        IAsyncEnumerable<ExchangeResult<SharedTicker>> StreamTickersAsync(ApiType api, TickerRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<SharedTicker>>> GetTickersAsync(ApiType api, TickerRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+
+        IAsyncEnumerable<ExchangeResult<IEnumerable<SharedKline>>> StreamKlinesAsync(ApiType api, KlineRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<IEnumerable<SharedKline>>>> GetKlinesAsync(ApiType api, KlineRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+
+        IAsyncEnumerable<ExchangeResult<IEnumerable<SharedTrade>>> StreamTradesAsync(ApiType api, TradeRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<IEnumerable<SharedTrade>>>> GetTradesAsync(ApiType api, TradeRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+
     }
 }
