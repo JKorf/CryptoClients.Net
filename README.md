@@ -183,6 +183,78 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.10.0 - 09 Aug 2024
+    * Updated reference CryptoExchange version to 7.11.0
+        * Added ParseString static method on EnumConverter for parsing strings manually
+        * Added support for decimal values in System.Text.Json NumberStringConverter 
+        * Added support for `null` string values in System.Text.Json DecimalConverter
+        * Added support for number deserialization when requesting string in System.Text.Json MessageAccessor.GetValue<T>
+        * Added deserialization handling of json values too big to fit decimal value
+        * Decreased some memory allocations during rest request authentication
+        * Fixed subscriptions trying to send unsubscribe request when the socket connection will be closed anyway
+        * Removed SecureString usage in credentials; it's not recommended to be used
+        * Removed some extension methods no longer relevant
+        * Improved testing checks
+    * Updated Binance.Net to version 10.1.1
+        * Updated XML code comments
+        * Fixed BinanceFuturesAccountAsset MaintMargin deserialization
+        * Fixed BinancePosition MaintMargin deserialization
+        * Fixed BinancePosition UnrealizedProfit deserialization for Coin-M futures
+    * Updated BingX.Net to version 1.8.0
+        * Updated XML code comments
+        * Fixed PerpetualFuturesApi.Account.SetMarginModeAsync endpoint
+    * Updated Bitfinex.Net to version 7.7.0
+        * Updated XML code comments
+        * Fixed BitfinexPosition model Type enum being nullable
+    * Updated Bitget.Net to version 1.9.0
+        * Updated XML code comments
+        * Fixed order status and order type deserialization futures models
+    * Updated BitMart.Net to version 1.1.1
+        * Updated XML code comments
+        * Added SpotApi.Trading.CancelAllOrdersAsync endpoint
+        * Fixed SpotApi.GetSymbolName not being implemented
+    * Updated Bybit.Net to version 3.13.0
+        * Updated XML code comments
+        * Added IsMaker to socketClient.V5Api.SubscribeToMinimalUserTradeUpdatesAsync update model
+    * Updated CoinEx.Net to version 7.5.0
+        * Updated XML code comments
+        * Added deprecation notice to V1 Spot API
+    * Updated CoinGecko.Net to version 2.5.0
+    * Updated GateIo.Net to version 1.5.0
+        * Updated XML code comments
+	* Removed Huobi.Net
+	* Added HTX.Net, the Huobi.Net package renamed and fully updated
+        * Renamed library from Huobi.Net to HTX.Net, following the renaming of the exchange
+        * Renamed all models and references from Huobi... to HTX...
+        * Renamed UsdtMarginSwapApi to UsdtFuturesApi
+        * Renamed some endpoints to match standardized endpoint names
+        * Split Margin and SubAccount endpoints into separate topics in the rest SpotApi
+        * Split SubAccount endpoints into separate topics in the rest FuturesApi
+        * Added UsdtFuturesSymbolOrderBook implementation
+        * Added client side ratelimiting
+        * Added various missing endpoints
+        * Added Usdt Futures API account websocket streams
+        * Updated from Newtonsoft.Json to System.Text.Json for json handling
+        * Updated code xml comments
+        * Updated API documentation references
+        * Fixed a large number of bugs
+    * Updated Kraken.Net to version 4.11.0
+        * Updated XML code comments
+    * Updated Kucoin.Net to version 5.11.0
+        * Updated XML code comments
+        * Add caching for passphrase authentication sign
+        * Renamed SpotApi.SubscribeToBestOfferUpdatesAsync to SubscribeToBookTickerUpdatesAsync 
+        * Fixed KucoinOrder and KucoinUserTrade model Stop property being nullable Enum
+    * Updated Mexc.Net to version 1.7.2
+        * Updated XML code comments
+        * Fixed deserialization errors due to too large numbers
+    * Updated OKX.Net to version 2.3.0
+        * Updated CryptoExchange.Net to version 7.11.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/7.11.0
+        * Updated XML code comments
+        * Added UnifiedApi.Trading.CheckOrderAsync endpoint
+        * Added PositionSide property to UnifiedApi.Account.GetPositionHistoryAsync response model
+        * Updated property nullability for OKXInterestAccrued.MarginMode and OKXAlgoOrder.PositionSide properties
+
 * Version 1.9.0 - 02 Aug 2024
     * Added BitMart.Net support
 
