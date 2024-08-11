@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
@@ -52,7 +52,7 @@
     <ProjectReference Include="..\..\CoinEx.Net\CoinEx.Net\CoinEx.Net.csproj" />
     <ProjectReference Include="..\..\CoinGecko.Net\CoinGecko.Net\CoinGecko.Net.csproj" />
     <ProjectReference Include="..\..\GateIo.Net\GateIo.Net\GateIo.Net.csproj" />
-    <ProjectReference Include="..\..\Huobi.Net\HTX.Net\HTX.Net.csproj" />
+    <ProjectReference Include="..\..\HTX.Net\HTX.Net\HTX.Net.csproj" />
     <ProjectReference Include="..\..\Kraken.Net\Kraken.Net\Kraken.Net.csproj" />
     <ProjectReference Include="..\..\Kucoin.Net\Kucoin.Net\Kucoin.Net.csproj" />
     <ProjectReference Include="..\..\Mexc.Net\Mexc.Net\Mexc.Net.csproj" />
