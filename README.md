@@ -11,7 +11,7 @@ CryptoClients.Net is a collection of different cryptocurrency exchange client li
 * Input parameters and response values are mapped to discriptive enum values where possible
 * Automatic websocket (re)connection management 
 * Client side rate limiting 
-* Cient side order book implementation
+* Client side order book implementation
 * Extensive logging
 * Support for different environments
 
