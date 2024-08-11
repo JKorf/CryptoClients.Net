@@ -5,12 +5,22 @@ using Bitget.Net.Interfaces.Clients;
 using BitMart.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
+using CryptoClients.Net.Enums;
+using CryptoClients.Net.Models;
+using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.SharedApis.Interfaces;
+using CryptoExchange.Net.SharedApis.RequestModels;
+using CryptoExchange.Net.SharedApis.SubscribeModels;
 using GateIo.Net.Interfaces.Clients;
 using HTX.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CryptoClients.Net.Interfaces
@@ -72,6 +82,15 @@ namespace CryptoClients.Net.Interfaces
         /// OKX Websocket API
         /// </summary>
         IOKXSocketClient OKX { get; }
+
+        IEnumerable<ITickerSocketClient> GetTickerClients(ApiType apiType);
+        ITickerSocketClient TickerClient(ApiType api, Exchange exchange);
+
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedTicker>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToAllTickerUpdatesEnumerateAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedTicker>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(ApiType apiType, TickerSubscribeRequest request, Action<ExchangeEvent<SharedTicker>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTickerUpdatesEnumerateAsync(ApiType apiType, TickerSubscribeRequest request, Action<ExchangeEvent<SharedTicker>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Unsubscribe and close every connection

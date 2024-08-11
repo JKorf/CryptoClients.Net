@@ -19,10 +19,17 @@ using Bybit.Net.Objects.Options;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
+using CryptoClients.Net.Enums;
+using CryptoClients.Net.ExtensionMethods;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
+using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.SharedApis.Interfaces;
+using CryptoExchange.Net.SharedApis.RequestModels;
+using CryptoExchange.Net.SharedApis.SubscribeModels;
 using GateIo.Net.Clients;
 using GateIo.Net.Interfaces.Clients;
 using GateIo.Net.Objects.Options;
@@ -42,6 +49,9 @@ using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CryptoClients.Net
@@ -49,6 +59,27 @@ namespace CryptoClients.Net
     /// <inheritdoc />
     public class ExchangeSocketClient : IExchangeSocketClient
     {
+        private Dictionary<ApiType, ISharedClient[]> _sharedClients = new Dictionary<ApiType, ISharedClient[]>();
+
+#warning defined 2 times, move to somewhere shared
+        private readonly Dictionary<Exchange, string> _exchangeMapping = new()
+        {
+            { Exchange.Binance, "Binance" },
+            { Exchange.BingX, "BingX" },
+            { Exchange.Bitfinex, "Bitfinex" },
+            { Exchange.Bitget, "Bitget" },
+            { Exchange.BitMart, "BitMart" },
+            { Exchange.Bybit, "Bybit" },
+            { Exchange.CoinEx, "CoinEx" },
+            { Exchange.GateIo, "GateIo" },
+            { Exchange.HTX, "HTX" },
+            { Exchange.Kraken, "Kraken" },
+            { Exchange.Kucoin, "Kucoin" },
+            { Exchange.Mexc, "Mexc" },
+            { Exchange.OKX, "OKX" },
+        };
+
+
         /// <inheritdoc />
         public IBinanceSocketClient Binance { get; }
         /// <inheritdoc />
@@ -76,6 +107,16 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOKXSocketClient OKX { get; }
 
+        /// <inheritdoc />
+        public IEnumerable<ITickerSocketClient> GetTickerClients(ApiType apiType) => _sharedClients[apiType].OfType<ITickerSocketClient>();
+        /// <inheritdoc />
+        public ITickerSocketClient TickerClient(ApiType api, Exchange exchange) => _sharedClients[api].OfType<ITickerSocketClient>().Single(s => s.Exchange == _exchangeMapping[exchange]);
+
+        /// <inheritdoc />
+        public IEnumerable<ITickersSocketClient> GetTickersClients(ApiType apiType) => _sharedClients[apiType].OfType<ITickersSocketClient>();
+        /// <inheritdoc />
+        public ITickersSocketClient TickersClient(ApiType api, Exchange exchange) => _sharedClients[api].OfType<ITickersSocketClient>().Single(s => s.Exchange == _exchangeMapping[exchange]);
+
         /// <summary>
         /// Create a new ExchangeSocketClient instance. Client instances will be created with default options.
         /// </summary>
@@ -94,6 +135,8 @@ namespace CryptoClients.Net
             Kucoin = new KucoinSocketClient();
             Mexc = new MexcSocketClient();
             OKX = new OKXSocketClient();
+
+            InitSharedClients();
         }
 
         /// <summary>
@@ -167,6 +210,8 @@ namespace CryptoClients.Net
             Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? new Action<KucoinSocketOptions>((x) => { }));
             Mexc = new MexcSocketClient(mexcSocketOptions ?? new Action<MexcSocketOptions>((x) => { }));
             OKX = new OKXSocketClient(okxSocketOptions ?? new Action<OKXSocketOptions>((x) => { }));
+
+            InitSharedClients();
         }
 
         /// <summary>
@@ -200,6 +245,89 @@ namespace CryptoClients.Net
             Kucoin = kucoin;
             Mexc = mexc;
             OKX = okx;
+
+            InitSharedClients();
+        }
+
+        private void InitSharedClients()
+        {
+            _sharedClients[ApiType.Spot] = new ISharedClient[]
+            {
+                Binance.SpotApi.SharedClient,
+                BingX.SpotApi.SharedClient,
+                Bitfinex.SpotApi.SharedClient,
+                Bitget.SpotApiV2.SharedClient,
+                BitMart.SpotApi.SharedClient,
+                Bybit.V5SpotApi.SharedClient,
+                CoinEx.SpotApiV2.SharedClient,
+                GateIo.SpotApi.SharedClient,
+                HTX.SpotApi.SharedClient,
+                Kraken.SpotApi.SharedClient,
+                Kucoin.SpotApi.SharedClient,
+                Mexc.SpotApi.SharedClient,
+                OKX.UnifiedApi.SharedClient,
+            };
+            _sharedClients[ApiType.LinearFutures] = new ISharedClient[]
+            {
+            };
+            _sharedClients[ApiType.InverseFutures] = new ISharedClient[]
+            {
+            };
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedTicker>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(SubscribeToAllTickerUpdatesInt(apiType, handler, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToAllTickerUpdatesEnumerateAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedTicker>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return SubscribeToAllTickerUpdatesInt(apiType, handler, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesInt(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedTicker>>> handler, IEnumerable<Exchange>? exchanges, CancellationToken ct = default)
+        {
+            var clients = GetTickersClients(apiType);
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
+
+            var request = new SharedRequest();
+            request.ApiType = apiType;
+            var tasks = clients.Select(x => Task.Run(async () =>
+            {
+                var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
+                return new ExchangeResult<UpdateSubscription>(exchange, await x.SubscribeToAllTickerUpdatesAsync(request, x => handler(new ExchangeEvent<IEnumerable<SharedTicker>>(exchange, x)), ct));
+            }));
+            return tasks;
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(ApiType apiType, TickerSubscribeRequest request, Action<ExchangeEvent<SharedTicker>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(SubscribeToTickerUpdatesInt(apiType, request, handler, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTickerUpdatesEnumerateAsync(ApiType apiType, TickerSubscribeRequest request, Action<ExchangeEvent<SharedTicker>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return SubscribeToTickerUpdatesInt(apiType, request, handler, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesInt(ApiType apiType, TickerSubscribeRequest request, Action<ExchangeEvent<SharedTicker>> handler, IEnumerable<Exchange>? exchanges, CancellationToken ct = default)
+        {
+            var clients = GetTickerClients(apiType);
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
+
+            request.ApiType = apiType;
+            var tasks = clients.Select(x => Task.Run(async () =>
+            {
+                var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
+                return new ExchangeResult<UpdateSubscription>(exchange, await x.SubscribeToTickerUpdatesAsync(request, x => handler(new ExchangeEvent<SharedTicker>(exchange, x)), ct));
+            }));
+            return tasks;
         }
 
         /// <inheritdoc />

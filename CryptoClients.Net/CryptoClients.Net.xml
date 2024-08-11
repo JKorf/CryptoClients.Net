@@ -183,19 +183,76 @@
         <member name="P:CryptoClients.Net.ExchangeRestClient.OKX">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetClients">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.AssetClient(CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalanceClients">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.BalanceClient(CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositClients">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.DepositClient(CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesOrderClients(CryptoExchange.Net.Objects.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.FuturesOrderClient(CryptoExchange.Net.Objects.ApiType,CryptoClients.Net.Enums.Exchange)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClients(CryptoExchange.Net.Objects.ApiType)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.FuturesSymbolClient(CryptoExchange.Net.Objects.ApiType,CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients(CryptoExchange.Net.Objects.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.KlineClient(CryptoExchange.Net.Objects.ApiType,CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookClients(CryptoExchange.Net.Objects.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.OrderBookClient(CryptoExchange.Net.Objects.ApiType,CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOrderClients">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SpotOrderClient(CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolClients">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SpotSymbolClient(CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetTickerClients(CryptoExchange.Net.Objects.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.TickerClient(CryptoExchange.Net.Objects.ApiType,CryptoClients.Net.Enums.Exchange)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeClients(CryptoExchange.Net.Objects.ApiType)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.TradeClient(CryptoExchange.Net.Objects.ApiType,CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalClients(CryptoExchange.Net.Objects.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.WithdrawalClient(CryptoExchange.Net.Objects.ApiType,CryptoClients.Net.Enums.Exchange)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor">
@@ -359,6 +416,18 @@
         <member name="P:CryptoClients.Net.ExchangeSocketClient.OKX">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickerClients(CryptoExchange.Net.Objects.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.TickerClient(CryptoExchange.Net.Objects.ApiType,CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickersClients(CryptoExchange.Net.Objects.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.TickersClient(CryptoExchange.Net.Objects.ApiType,CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.#ctor">
             <summary>
             Create a new ExchangeSocketClient instance. Client instances will be created with default options.
@@ -373,6 +442,18 @@
             <summary>
             DI constructor
             </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.Objects.ApiType,System.Action{CryptoClients.Net.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.RequestModels.SharedTicker}}},System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesEnumerateAsync(CryptoExchange.Net.Objects.ApiType,System.Action{CryptoClients.Net.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.RequestModels.SharedTicker}}},System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTickerUpdatesAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.SubscribeModels.TickerSubscribeRequest,System.Action{CryptoClients.Net.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.RequestModels.SharedTicker}},System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTickerUpdatesEnumerateAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.SubscribeModels.TickerSubscribeRequest,System.Action{CryptoClients.Net.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.RequestModels.SharedTicker}},System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.UnsubscribeAllAsync">
             <inheritdoc />
@@ -676,6 +757,14 @@
             OKX API credentials
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeEvent`1.Exchange">
+            <summary>
+            The exchange
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeEvent`1.ToString">
+            <inheritdoc />
+        </member>
         <member name="T:CryptoClients.Net.Models.ExchangeResult`1">
             <summary>
             A WebCallResult from an exchange
@@ -687,10 +776,32 @@
             The exchange
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Models.ExchangeResult`1.#ctor(CryptoClients.Net.Enums.Exchange,CryptoExchange.Net.Objects.WebCallResult{`0})">
+        <member name="M:CryptoClients.Net.Models.ExchangeResult`1.#ctor(CryptoClients.Net.Enums.Exchange,CryptoExchange.Net.Objects.CallResult{`0})">
             <summary>
             ctor
             </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeResult`1.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:CryptoClients.Net.Models.ExchangeWebResult`1">
+            <summary>
+            A WebCallResult from an exchange
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeWebResult`1.Exchange">
+            <summary>
+            The exchange
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeWebResult`1.#ctor(CryptoClients.Net.Enums.Exchange,CryptoExchange.Net.Objects.WebCallResult{`0})">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeWebResult`1.ToString">
+            <inheritdoc />
         </member>
         <member name="T:CryptoClients.Net.Models.GlobalExchangeOptions">
             <summary>

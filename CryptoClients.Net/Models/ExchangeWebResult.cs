@@ -7,7 +7,7 @@ namespace CryptoClients.Net.Models
     /// A WebCallResult from an exchange
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ExchangeResult<T> : CallResult<T>
+    public class ExchangeWebResult<T> : WebCallResult<T>
     {
         /// <summary>
         /// The exchange
@@ -17,12 +17,21 @@ namespace CryptoClients.Net.Models
         /// <summary>
         /// ctor
         /// </summary>
-        public ExchangeResult(
+        public ExchangeWebResult(
             Exchange exchange,
-            CallResult<T> result) : 
-            base(
-                result.Data,
+            WebCallResult<T> result) : 
+            base(result.ResponseStatusCode,
+                result.ResponseHeaders,
+                result.ResponseTime,
+                result.ResponseLength,
                 result.OriginalData,
+                result.RequestId,
+                result.RequestUrl,
+                result.RequestBody,
+                result.RequestMethod,
+                result.RequestHeaders,
+                result.DataSource,
+                result.Data,
                 result.Error)
         {
             Exchange = exchange;
