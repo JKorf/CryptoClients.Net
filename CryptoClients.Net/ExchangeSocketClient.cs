@@ -282,6 +282,7 @@ namespace CryptoClients.Net
                 Bitget.SpotApiV2.SharedClient,
                 BitMart.SpotApi.SharedClient,
                 Bybit.V5SpotApi.SharedClient,
+                Bybit.V5PrivateApi.SharedClient,
                 CoinEx.SpotApiV2.SharedClient,
                 GateIo.SpotApi.SharedClient,
                 HTX.SpotApi.SharedClient,
