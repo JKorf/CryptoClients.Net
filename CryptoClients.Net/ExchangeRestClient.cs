@@ -116,9 +116,9 @@ namespace CryptoClients.Net
         public IAssetRestClient AssetClient(Exchange exchange) => GetAssetClients().Single(s => s.Exchange == _exchangeMapping[exchange]);
 
         /// <inheritdoc />
-        public IEnumerable<IBalanceRestClient> GetBalanceClients() => _sharedClients[ApiType.Spot].OfType<IBalanceRestClient>();
+        public IEnumerable<IBalanceRestClient> GetBalanceClients(ApiType api) => _sharedClients[api].OfType<IBalanceRestClient>();
         /// <inheritdoc />
-        public IBalanceRestClient BalanceClient(Exchange exchange) => GetBalanceClients().Single(s => s.Exchange == _exchangeMapping[exchange]);
+        public IBalanceRestClient BalanceClient(ApiType api, Exchange exchange) => GetBalanceClients(api).Single(s => s.Exchange == _exchangeMapping[exchange]);
 
         /// <inheritdoc />
         public IEnumerable<IDepositRestClient> GetDepositClients() => _sharedClients[ApiType.Spot].OfType<IDepositRestClient>();
@@ -295,8 +295,16 @@ namespace CryptoClients.Net
                 Binance.SpotApi.SharedClient,
                 BingX.SpotApi.SharedClient,
                 Bitfinex.SpotApi.SharedClient,
+                Bitget.SpotApiV2.SharedClient,
+                BitMart.SpotApi.SharedClient,
                 Bybit.V5Api.SharedClient,
-                Kraken.SpotApi.SharedClient
+                CoinEx.SpotApiV2.SharedClient,
+                GateIo.SpotApi.SharedClient,
+                HTX.SpotApi.SharedClient,
+                Kraken.SpotApi.SharedClient,
+                Kucoin.SpotApi.SharedClient,
+                Mexc.SpotApi.SharedClient,
+                OKX.UnifiedApi.SharedClient
             };
             _sharedClients[ApiType.LinearFutures] = new[]
             {
@@ -426,6 +434,34 @@ namespace CryptoClients.Net
             {
                 var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
                 return new ExchangeWebResult<IEnumerable<SharedTrade>>(exchange, await x.GetTradesAsync(request, ct));
+            }));
+            return tasks;
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesAsync(ApiType apiType, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetBalancesIntAsync(apiType, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> StreamBalancesAsync(ApiType apiType, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetBalancesIntAsync(apiType, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesIntAsync(ApiType apiType, IEnumerable<Exchange>? exchanges, CancellationToken ct)
+        {
+            var clients = GetBalanceClients(apiType);
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
+
+            var request = new SharedRequest();
+            request.ApiType = apiType;
+            var tasks = clients.Select(x => Task.Run(async () =>
+            {
+                var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
+                return new ExchangeWebResult<IEnumerable<SharedBalance>>(exchange, await x.GetBalancesAsync(request, ct));
             }));
             return tasks;
         }

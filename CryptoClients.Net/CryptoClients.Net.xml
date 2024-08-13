@@ -189,10 +189,10 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.AssetClient(CryptoClients.Net.Enums.Exchange)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalanceClients">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalanceClients(CryptoExchange.Net.Objects.ApiType)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.BalanceClient(CryptoClients.Net.Enums.Exchange)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.BalanceClient(CryptoExchange.Net.Objects.ApiType,CryptoClients.Net.Enums.Exchange)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositClients">
@@ -286,6 +286,12 @@
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.StreamTradesAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.Models.Rest.GetTradesRequest,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsync(CryptoExchange.Net.Objects.ApiType,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.StreamBalancesAsync(CryptoExchange.Net.Objects.ApiType,System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetUnifiedSpotClient(CryptoClients.Net.Enums.Exchange)">
@@ -452,6 +458,12 @@
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SpotOrderClient(CryptoClients.Net.Enums.Exchange)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetSpotUserTradeClients">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SpotUserTradeClient(CryptoClients.Net.Enums.Exchange)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.#ctor">
             <summary>
             Create a new ExchangeSocketClient instance. Client instances will be created with default options.
@@ -501,6 +513,12 @@
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotOrderUpdatesEnumerateAsync(System.Action{CryptoClients.Net.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotOrder}}},System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotUserTradeUpdatesAsync(System.Action{CryptoClients.Net.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedUserTrade}}},System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotUserTradeUpdatesEnumerateAsync(System.Action{CryptoClients.Net.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedUserTrade}}},System.Collections.Generic.IEnumerable{CryptoClients.Net.Enums.Exchange},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.UnsubscribeAllAsync">

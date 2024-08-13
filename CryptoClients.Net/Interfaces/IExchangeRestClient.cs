@@ -100,8 +100,8 @@ namespace CryptoClients.Net.Interfaces
         IEnumerable<IAssetRestClient> GetAssetClients();
         IAssetRestClient AssetClient(Exchange exchange);
 
-        IEnumerable<IBalanceRestClient> GetBalanceClients();
-        IBalanceRestClient BalanceClient(Exchange exchange);
+        IEnumerable<IBalanceRestClient> GetBalanceClients(ApiType api);
+        IBalanceRestClient BalanceClient(ApiType api, Exchange exchange);
 
         IEnumerable<IDepositRestClient> GetDepositClients();
         IDepositRestClient DepositClient(Exchange exchange);
@@ -141,6 +141,9 @@ namespace CryptoClients.Net.Interfaces
 
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> StreamTradesAsync(ApiType api, GetTradesRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradesAsync(ApiType api, GetTradesRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> StreamBalancesAsync(ApiType api, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesAsync(ApiType api, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
 
     }
 }
