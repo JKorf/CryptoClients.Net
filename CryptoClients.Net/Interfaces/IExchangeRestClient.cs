@@ -145,5 +145,17 @@ namespace CryptoClients.Net.Interfaces
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> StreamBalancesAsync(ApiType api, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesAsync(ApiType api, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
 
+        IAsyncEnumerable<ExchangeWebResult<SharedOrderId>> PlaceSpotOrderStreamAsync(PlaceSpotOrderRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<SharedOrderId>>> PlaceSpotOrderWaitAsync(PlaceSpotOrderRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotOpenOrdersStreamAsync(GetSpotOpenOrdersRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersWaitAsync( GetSpotOpenOrdersRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotClosedOrdersStreamAsync(GetSpotClosedOrdersRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersWaitAsync(GetSpotClosedOrdersRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>> GetUserTradesStreamAsync(ApiType api, GetUserTradesRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetUserTradesWaitAsync(ApiType api, GetUserTradesRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+
     }
 }

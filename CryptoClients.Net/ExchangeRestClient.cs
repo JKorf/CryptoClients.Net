@@ -467,6 +467,115 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<SharedOrderId>>> PlaceSpotOrderWaitAsync(PlaceSpotOrderRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(PlaceSpotOrderAsync(request, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<SharedOrderId>> PlaceSpotOrderStreamAsync(PlaceSpotOrderRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return PlaceSpotOrderAsync(request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<SharedOrderId>>> PlaceSpotOrderAsync(PlaceSpotOrderRequest request, IEnumerable<Exchange>? exchanges, CancellationToken ct)
+        {
+            var clients = GetSpotOrderClients();
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
+
+            request.ApiType = ApiType.Spot;
+            var tasks = clients.Select(x => Task.Run(async () =>
+            {
+                var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
+                return new ExchangeWebResult<SharedOrderId>(exchange, await x.PlaceOrderAsync(request, ct));
+            }));
+            return tasks;
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersWaitAsync(GetSpotOpenOrdersRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetSpotOpenOrdersAsync(request, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotOpenOrdersStreamAsync(GetSpotOpenOrdersRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetSpotOpenOrdersAsync(request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersAsync(GetSpotOpenOrdersRequest request, IEnumerable<Exchange>? exchanges, CancellationToken ct)
+        {
+            var clients = GetSpotOrderClients();
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
+
+            request.ApiType = ApiType.Spot;
+            var tasks = clients.Select(x => Task.Run(async () =>
+            {
+                var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
+                return new ExchangeWebResult<IEnumerable<SharedSpotOrder>>(exchange, await x.GetOpenOrdersAsync(request, ct));
+            }));
+            return tasks;
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersWaitAsync(GetSpotClosedOrdersRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetSpotClosedOrdersAsync(request, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotClosedOrdersStreamAsync(GetSpotClosedOrdersRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetSpotClosedOrdersAsync(request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersAsync(GetSpotClosedOrdersRequest request, IEnumerable<Exchange>? exchanges, CancellationToken ct)
+        {
+            var clients = GetSpotOrderClients();
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
+
+            request.ApiType = ApiType.Spot;
+            var tasks = clients.Select(x => Task.Run(async () =>
+            {
+                var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
+                return new ExchangeWebResult<IEnumerable<SharedSpotOrder>>(exchange, await x.GetClosedOrdersAsync(request, ct));
+            }));
+            return tasks;
+        }
+
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetUserTradesWaitAsync(ApiType apiType, GetUserTradesRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetUserTradesAsync(apiType, request, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>> GetUserTradesStreamAsync(ApiType apiType, GetUserTradesRequest request, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetUserTradesAsync(apiType, request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetUserTradesAsync(ApiType apiType, GetUserTradesRequest request, IEnumerable<Exchange>? exchanges, CancellationToken ct)
+        {
+            var clients = GetSpotOrderClients();
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Select(x => _exchangeMapping[x]).Contains(c.Exchange));
+
+            request.ApiType = apiType;
+            var tasks = clients.Select(x => Task.Run(async () =>
+            {
+                var exchange = _exchangeMapping.Single(m => m.Value == x.Exchange).Key;
+                return new ExchangeWebResult<IEnumerable<SharedUserTrade>>(exchange, await x.GetUserTradesAsync(request, ct));
+            }));
+            return tasks;
+        }
+
+        /// <inheritdoc />
         public ISpotClient GetUnifiedSpotClient(Exchange name)
         {
             return _spotClients.Single(s => s.ExchangeName == _exchangeMapping[name]);
