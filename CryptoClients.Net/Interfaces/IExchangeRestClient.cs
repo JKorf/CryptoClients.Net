@@ -128,8 +128,8 @@ namespace CryptoClients.Net.Interfaces
         IEnumerable<ITickerRestClient> GetTickerClients(ApiType api);
         ITickerRestClient TickerClient(ApiType api, string exchange);
 
-        IEnumerable<ITradeRestClient> GetTradeClients(ApiType api);
-        ITradeRestClient TradeClient(ApiType api, string exchange);
+        IEnumerable<IRecentTradeRestClient> GetTradeClients(ApiType api);
+        IRecentTradeRestClient TradeClient(ApiType api, string exchange);
 
         IEnumerable<IWithdrawalRestClient> GetWithdrawalClients(ApiType api);
         IWithdrawalRestClient WithdrawalClient(ApiType api, string exchange);
@@ -140,8 +140,8 @@ namespace CryptoClients.Net.Interfaces
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>> GetKlinesStreamAsync(ApiType api, GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesWaitAsync(ApiType api, GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetTradesStreamAsync(ApiType api, GetTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradesWaitAsync(ApiType api, GetTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetRecentTradesStreamAsync(ApiType api, GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesWaitAsync(ApiType api, GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default);
 
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> GetBalancesStreamAsync(ApiType api, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesWaitAsync(ApiType api, IEnumerable<string>? exchanges = null, CancellationToken ct = default);

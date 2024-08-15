@@ -282,10 +282,10 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesStreamAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradesWaitAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.Models.Rest.GetTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesWaitAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.Models.Rest.GetRecentTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradesStreamAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.Models.Rest.GetTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesStreamAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.Models.Rest.GetRecentTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesWaitAsync(CryptoExchange.Net.Objects.ApiType,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">

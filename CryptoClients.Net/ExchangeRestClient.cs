@@ -145,9 +145,9 @@ namespace CryptoClients.Net
         public ITickerRestClient TickerClient(ApiType api, string exchange) => _sharedClients[api].OfType<ITickerRestClient>().Single(s => s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<ITradeRestClient> GetTradeClients(ApiType api) => _sharedClients[api].OfType<ITradeRestClient>();
+        public IEnumerable<IRecentTradeRestClient> GetTradeClients(ApiType api) => _sharedClients[api].OfType<IRecentTradeRestClient>();
         /// <inheritdoc />
-        public ITradeRestClient TradeClient(ApiType api, string exchange) => _sharedClients[api].OfType<ITradeRestClient>().Single(s => s.Exchange == exchange);
+        public IRecentTradeRestClient TradeClient(ApiType api, string exchange) => _sharedClients[api].OfType<IRecentTradeRestClient>().Single(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IWithdrawalRestClient> GetWithdrawalClients(ApiType api) => _sharedClients[api].OfType<IWithdrawalRestClient>();
@@ -360,10 +360,7 @@ namespace CryptoClients.Net
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = apiType;
-            var tasks = clients.Select(x => Task.Run(async () =>
-            {
-                return new ExchangeWebResult<SharedTicker>(x.Exchange, await x.GetTickerAsync(request, ct));
-            }));
+            var tasks = clients.Select(x => x.GetTickerAsync(request, ct));
             return tasks;
         }
 
@@ -386,36 +383,30 @@ namespace CryptoClients.Net
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = apiType;
-            var tasks = clients.Select(x => Task.Run(async () =>
-            {
-                return new ExchangeWebResult<IEnumerable<SharedKline>>(x.Exchange, await x.GetKlinesAsync(request, ct));
-            }));
+            var tasks = clients.Select(x => x.GetKlinesAsync(request, ct));
             return tasks;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradesWaitAsync(ApiType apiType, GetTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesWaitAsync(ApiType apiType, GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetTradesIntAsync(apiType, request, exchanges, ct));
+            return await Task.WhenAll(GetRecentTradesIntAsync(apiType, request, exchanges, nextPageTokens, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetTradesStreamAsync(ApiType apiType, GetTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetRecentTradesStreamAsync(ApiType apiType, GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default)
         {
-            return GetTradesIntAsync(apiType, request, exchanges, ct).ParallelEnumerateAsync();
+            return GetRecentTradesIntAsync(apiType, request, exchanges, nextPageTokens, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradesIntAsync(ApiType apiType, GetTradesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesIntAsync(ApiType apiType, GetRecentTradesRequest request, IEnumerable<string>? exchanges, IEnumerable<INextPageToken>? nextPageTokens, CancellationToken ct)
         {
             var clients = GetTradeClients(apiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = apiType;
-            var tasks = clients.Select(x => Task.Run(async () =>
-            {
-                return new ExchangeWebResult<IEnumerable<SharedTrade>>(x.Exchange, await x.GetTradesAsync(request, ct));
-            }));
+            var tasks = clients.Select(x => x.GetRecentTradesAsync(request, ct));
             return tasks;
         }
 
@@ -439,10 +430,7 @@ namespace CryptoClients.Net
 
             var request = new SharedRequest();
             request.ApiType = apiType;
-            var tasks = clients.Select(x => Task.Run(async () =>
-            {
-                return new ExchangeWebResult<IEnumerable<SharedBalance>>(x.Exchange, await x.GetBalancesAsync(request, ct));
-            }));
+            var tasks = clients.Select(x => x.GetBalancesAsync(request, ct));
             return tasks;
         }
 
@@ -465,10 +453,7 @@ namespace CryptoClients.Net
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = ApiType.Spot;
-            var tasks = clients.Select(x => Task.Run(async () =>
-            {
-                return new ExchangeWebResult<SharedOrderId>(x.Exchange, await x.PlaceOrderAsync(request, ct));
-            }));
+            var tasks = clients.Select(x => x.PlaceOrderAsync(request, ct));
             return tasks;
         }
 
@@ -491,10 +476,7 @@ namespace CryptoClients.Net
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = ApiType.Spot;
-            var tasks = clients.Select(x => Task.Run(async () =>
-            {
-                return new ExchangeWebResult<IEnumerable<SharedSpotOrder>>(x.Exchange, await x.GetOpenOrdersAsync(request, ct));
-            }));
+            var tasks = clients.Select(x => x.GetOpenOrdersAsync(request, ct));
             return tasks;
         }
 
@@ -517,10 +499,7 @@ namespace CryptoClients.Net
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = ApiType.Spot;
-            var tasks = clients.Select(x => Task.Run(async () =>
-            {
-                return new ExchangeWebResult<IEnumerable<SharedSpotOrder>>(x.Exchange, await x.GetClosedOrdersAsync(request, ct));
-            }));
+            var tasks = clients.Select(x => x.GetClosedOrdersAsync(request, ct));
             return tasks;
         }
 
@@ -544,10 +523,7 @@ namespace CryptoClients.Net
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = apiType;
-            var tasks = clients.Select(x => Task.Run(async () =>
-            {
-                return new ExchangeWebResult<IEnumerable<SharedUserTrade>>(x.Exchange, await x.GetUserTradesAsync(request, ct));
-            }));
+            var tasks = clients.Select(x => x.GetUserTradesAsync(request, null, ct));
             return tasks;
         }
 
