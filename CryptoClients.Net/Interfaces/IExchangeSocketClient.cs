@@ -10,6 +10,7 @@ using CryptoClients.Net.Models;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis.Interfaces.Socket;
+using CryptoExchange.Net.SharedApis.Models;
 using CryptoExchange.Net.SharedApis.Models.Socket;
 using CryptoExchange.Net.SharedApis.RequestModels;
 using CryptoExchange.Net.SharedApis.ResponseModels;
@@ -86,46 +87,46 @@ namespace CryptoClients.Net.Interfaces
         IOKXSocketClient OKX { get; }
 
         IEnumerable<ITickerSocketClient> GetTickerClients(ApiType apiType);
-        ITickerSocketClient TickerClient(ApiType api, Exchange exchange);
+        ITickerSocketClient TickerClient(ApiType api, string exchange);
 
         IEnumerable<ITickersSocketClient> GetTickersClients(ApiType apiType);
-        ITickersSocketClient TickersClient(ApiType api, Exchange exchange);
+        ITickersSocketClient TickersClient(ApiType api, string exchange);
 
         IEnumerable<ITradeSocketClient> GetTradeClients(ApiType apiType);
-        ITradeSocketClient TradeClient(ApiType api, Exchange exchange);
+        ITradeSocketClient TradeClient(ApiType api, string exchange);
 
         IEnumerable<IBookTickerSocketClient> GetBookTickerClients(ApiType apiType);
-        IBookTickerSocketClient BookTickerClient(ApiType api, Exchange exchange);
+        IBookTickerSocketClient BookTickerClient(ApiType api, string exchange);
 
         IEnumerable<IBalanceSocketClient> GetBalanceClients(ApiType apiType);
-        IBalanceSocketClient BalanceClient(ApiType api, Exchange exchange);
+        IBalanceSocketClient BalanceClient(ApiType api, string exchange);
 
         IEnumerable<ISpotOrderSocketClient> GetSpotOrderClients();
-        ISpotOrderSocketClient SpotOrderClient(Exchange exchange);
+        ISpotOrderSocketClient SpotOrderClient(string exchange);
 
         IEnumerable<ISpotUserTradeSocketClient> GetSpotUserTradeClients();
-        ISpotUserTradeSocketClient SpotUserTradeClient(Exchange exchange);
+        ISpotUserTradeSocketClient SpotUserTradeClient(string exchange);
 
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedTicker>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToAllTickerUpdatesEnumerateAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedTicker>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedTicker>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToAllTickerUpdatesEnumerateAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedTicker>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(ApiType apiType, TickerSubscribeRequest request, Action<ExchangeEvent<SharedTicker>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTickerUpdatesEnumerateAsync(ApiType apiType, TickerSubscribeRequest request, Action<ExchangeEvent<SharedTicker>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(ApiType apiType, TickerSubscribeRequest request, Action<ExchangeEvent<SharedTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTickerUpdatesEnumerateAsync(ApiType apiType, TickerSubscribeRequest request, Action<ExchangeEvent<SharedTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesAsync(ApiType apiType, TradeSubscribeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTradeUpdatesEnumerateAsync(ApiType apiType, TradeSubscribeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesAsync(ApiType apiType, TradeSubscribeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTradeUpdatesEnumerateAsync(ApiType apiType, TradeSubscribeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesAsync(ApiType apiType, BookTickerSubscribeRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBookTickerUpdatesEnumerateAsync(ApiType apiType, BookTickerSubscribeRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesAsync(ApiType apiType, BookTickerSubscribeRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBookTickerUpdatesEnumerateAsync(ApiType apiType, BookTickerSubscribeRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBalanceUpdatesEnumerateAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBalanceUpdatesEnumerateAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesAsync(Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToSpotOrderUpdatesEnumerateAsync(Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesAsync(Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToSpotOrderUpdatesEnumerateAsync(Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotUserTradeUpdatesAsync(Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToSpotUserTradeUpdatesEnumerateAsync(Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<Exchange>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotUserTradeUpdatesAsync(Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToSpotUserTradeUpdatesEnumerateAsync(Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Unsubscribe and close every connection
