@@ -274,7 +274,7 @@ namespace CryptoClients.Net
 
         private void InitSharedClients()
         {
-            _sharedClients[ApiType.Spot] = new[]
+            _sharedClients[ApiType.Spot] = new ISharedClient[]
             {
                 Binance.SpotApi.SharedClient,
                 BingX.SpotApi.SharedClient,
@@ -290,13 +290,13 @@ namespace CryptoClients.Net
                 Mexc.SpotApi.SharedClient,
                 OKX.UnifiedApi.SharedClient
             };
-            _sharedClients[ApiType.LinearFutures] = new[]
+            _sharedClients[ApiType.LinearFutures] = new ISharedClient[]
             {
                 Binance.UsdFuturesApi.SharedClient,
                 Bybit.V5Api.SharedClient,
                 BingX.SpotApi.SharedClient
             };
-            _sharedClients[ApiType.InverseFutures] = new[]
+            _sharedClients[ApiType.InverseFutures] = new ISharedClient[]
             {
                 Binance.CoinFuturesApi.SharedClient,
                 Bybit.V5Api.SharedClient
@@ -383,7 +383,7 @@ namespace CryptoClients.Net
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = apiType;
-            var tasks = clients.Select(x => x.GetKlinesAsync(request, ct));
+            var tasks = clients.Select(x => x.GetKlinesAsync(request, null, ct));
             return tasks;
         }
 
@@ -499,7 +499,7 @@ namespace CryptoClients.Net
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = ApiType.Spot;
-            var tasks = clients.Select(x => x.GetClosedOrdersAsync(request, ct));
+            var tasks = clients.Select(x => x.GetClosedOrdersAsync(request, null, ct));
             return tasks;
         }
 
