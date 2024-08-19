@@ -9,9 +9,9 @@
   <PropertyGroup>
     <PackageId>CryptoClients.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>1.10.0</PackageVersion>
-    <AssemblyVersion>1.10.0</AssemblyVersion>
-    <FileVersion>1.10.0</FileVersion>
+    <PackageVersion>1.11.0</PackageVersion>
+    <AssemblyVersion>1.11.0</AssemblyVersion>
+    <FileVersion>1.11.0</FileVersion>
     <Description>CryptoClients.Net is a collection of multiple cryptocurrency exchange API clients for accessing both the REST API's and WebSocket API's. Supports order and account management and requesting and streaming both public and private data.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>CryptoClients;CryptoClients.Net;OKX;OKX.Net;Mexc;Mexc.Net;Kucoin;Kucoin.Net;Kraken;Kraken.Net;Huobi;Huobi.Net;HTX;HTX.Net;CoinEx;CoinEx.Net;Bybit;Bybit.Net;Bitget;Bitget.Net;Bitfinex;Bitfinex.Net;BingX;BingX.Net;Binance;Binance.Net;GateIo.Net;Gate.io;BitMart;BitMart.Net;CryptoCurrency;CryptoCurrency Exchange</PackageTags>
