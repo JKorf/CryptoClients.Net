@@ -342,188 +342,185 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<SharedTicker>>> GetTickersWaitAsync(ApiType apiType, GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<SharedTicker>>> GetTickersWaitAsync(ApiType apiType, GetTickerRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetTickersInt(apiType, request, exchanges, ct));
+            return await Task.WhenAll(GetTickersInt(apiType, request, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedTicker>> GetTickersStreamAsync(ApiType apiType, GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<SharedTicker>> GetTickersStreamAsync(ApiType apiType, GetTickerRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetTickersInt(apiType, request, exchanges, ct).ParallelEnumerateAsync();
+            return GetTickersInt(apiType, request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedTicker>>> GetTickersInt(ApiType apiType, GetTickerRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<SharedTicker>>> GetTickersInt(ApiType apiType, GetTickerRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var clients = GetTickerClients(apiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = apiType;
-            var tasks = clients.Select(x => x.GetTickerAsync(request, ct));
+            var tasks = clients.Select(x => x.GetTickerAsync(request, exchangeParameters, ct));
             return tasks;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesWaitAsync(ApiType apiType, GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesWaitAsync(ApiType apiType, GetKlinesRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetKlinesIntAsync(apiType, request, exchanges, ct));
+            return await Task.WhenAll(GetKlinesIntAsync(apiType, request, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>> GetKlinesStreamAsync(ApiType apiType, GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>> GetKlinesStreamAsync(ApiType apiType, GetKlinesRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetKlinesIntAsync(apiType, request, exchanges, ct).ParallelEnumerateAsync();
+            return GetKlinesIntAsync(apiType, request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesIntAsync(ApiType apiType, GetKlinesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesIntAsync(ApiType apiType, GetKlinesRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var clients = GetKlineClients(apiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = apiType;
-            var tasks = clients.Select(x => x.GetKlinesAsync(request, null, ct));
+            var tasks = clients.Select(x => x.GetKlinesAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesWaitAsync(ApiType apiType, GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesWaitAsync(ApiType apiType, GetRecentTradesRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetRecentTradesIntAsync(apiType, request, exchanges, nextPageTokens, ct));
+            return await Task.WhenAll(GetRecentTradesIntAsync(apiType, request, exchangeParameters, exchanges, nextPageTokens, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetRecentTradesStreamAsync(ApiType apiType, GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetRecentTradesStreamAsync(ApiType apiType, GetRecentTradesRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default)
         {
-            return GetRecentTradesIntAsync(apiType, request, exchanges, nextPageTokens, ct).ParallelEnumerateAsync();
+            return GetRecentTradesIntAsync(apiType, request, exchangeParameters, exchanges, nextPageTokens, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesIntAsync(ApiType apiType, GetRecentTradesRequest request, IEnumerable<string>? exchanges, IEnumerable<INextPageToken>? nextPageTokens, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesIntAsync(ApiType apiType, GetRecentTradesRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, IEnumerable<INextPageToken>? nextPageTokens, CancellationToken ct)
         {
             var clients = GetTradeClients(apiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = apiType;
-            var tasks = clients.Select(x => x.GetRecentTradesAsync(request, ct));
+            var tasks = clients.Select(x => x.GetRecentTradesAsync(request, exchangeParameters, ct));
             return tasks;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesWaitAsync(ApiType apiType, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesWaitAsync(ApiType apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetBalancesIntAsync(apiType, exchanges, ct));
+            return await Task.WhenAll(GetBalancesIntAsync(apiType, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> GetBalancesStreamAsync(ApiType apiType, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> GetBalancesStreamAsync(ApiType apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetBalancesIntAsync(apiType, exchanges, ct).ParallelEnumerateAsync();
+            return GetBalancesIntAsync(apiType, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesIntAsync(ApiType apiType, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesIntAsync(ApiType apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var clients = GetBalanceClients(apiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            var request = new SharedRequest();
-            request.ApiType = apiType;
-            var tasks = clients.Select(x => x.GetBalancesAsync(request, ct));
+            var tasks = clients.Select(x => x.GetBalancesAsync(apiType, exchangeParameters, ct));
             return tasks;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<SharedId>>> PlaceSpotOrderWaitAsync(PlaceSpotOrderRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<SharedId>>> PlaceSpotOrderWaitAsync(PlaceSpotOrderRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(PlaceSpotOrderAsync(request, exchanges, ct));
+            return await Task.WhenAll(PlaceSpotOrderAsync(request, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedId>> PlaceSpotOrderStreamAsync(PlaceSpotOrderRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<SharedId>> PlaceSpotOrderStreamAsync(PlaceSpotOrderRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return PlaceSpotOrderAsync(request, exchanges, ct).ParallelEnumerateAsync();
+            return PlaceSpotOrderAsync(request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedId>>> PlaceSpotOrderAsync(PlaceSpotOrderRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<SharedId>>> PlaceSpotOrderAsync(PlaceSpotOrderRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = ApiType.Spot;
-            var tasks = clients.Select(x => x.PlaceOrderAsync(request, ct));
+            var tasks = clients.Select(x => x.PlaceSpotOrderAsync(request, exchangeParameters, ct));
             return tasks;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersWaitAsync(GetSpotOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersWaitAsync(GetSpotOpenOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetSpotOpenOrdersAsync(request, exchanges, ct));
+            return await Task.WhenAll(GetSpotOpenOrdersAsync(request, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotOpenOrdersStreamAsync(GetSpotOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotOpenOrdersStreamAsync(GetSpotOpenOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetSpotOpenOrdersAsync(request, exchanges, ct).ParallelEnumerateAsync();
+            return GetSpotOpenOrdersAsync(request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersAsync(GetSpotOpenOrdersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersAsync(GetSpotOpenOrdersRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
+        {
+            var clients = GetSpotOrderClients();
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+
+            var tasks = clients.Select(x => x.GetOpenOrdersAsync(request, exchangeParameters, ct));
+            return tasks;
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersWaitAsync(GetSpotClosedOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetSpotClosedOrdersAsync(request, exchangeParameters, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotClosedOrdersStreamAsync(GetSpotClosedOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetSpotClosedOrdersAsync(request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersAsync(GetSpotClosedOrdersRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = ApiType.Spot;
-            var tasks = clients.Select(x => x.GetOpenOrdersAsync(request, ct));
-            return tasks;
-        }
-
-        /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersWaitAsync(GetSpotClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(GetSpotClosedOrdersAsync(request, exchanges, ct));
-        }
-
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotClosedOrdersStreamAsync(GetSpotClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return GetSpotClosedOrdersAsync(request, exchanges, ct).ParallelEnumerateAsync();
-        }
-
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersAsync(GetSpotClosedOrdersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
-        {
-            var clients = GetSpotOrderClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
-
-            request.ApiType = ApiType.Spot;
-            var tasks = clients.Select(x => x.GetClosedOrdersAsync(request, null, ct));
+            var tasks = clients.Select(x => x.GetClosedOrdersAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
 
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetUserTradesWaitAsync(ApiType apiType, GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetUserTradesWaitAsync(ApiType apiType, GetUserTradesRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetUserTradesAsync(apiType, request, exchanges, ct));
+            return await Task.WhenAll(GetUserTradesAsync(apiType, request, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>> GetUserTradesStreamAsync(ApiType apiType, GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>> GetUserTradesStreamAsync(ApiType apiType, GetUserTradesRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetUserTradesAsync(apiType, request, exchanges, ct).ParallelEnumerateAsync();
+            return GetUserTradesAsync(apiType, request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetUserTradesAsync(ApiType apiType, GetUserTradesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetUserTradesAsync(ApiType apiType, GetUserTradesRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = apiType;
-            var tasks = clients.Select(x => x.GetUserTradesAsync(request, null, ct));
+            var tasks = clients.Select(x => x.GetUserTradesAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
 

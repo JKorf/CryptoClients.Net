@@ -134,29 +134,29 @@ namespace CryptoClients.Net.Interfaces
         IEnumerable<IWithdrawalRestClient> GetWithdrawalClients(ApiType api);
         IWithdrawalRestClient WithdrawalClient(ApiType api, string exchange);
 
-        IAsyncEnumerable<ExchangeWebResult<SharedTicker>> GetTickersStreamAsync(ApiType api, GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<SharedTicker>>> GetTickersWaitAsync(ApiType api, GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<SharedTicker>> GetTickersStreamAsync(ApiType api, GetTickerRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<SharedTicker>>> GetTickersWaitAsync(ApiType api, GetTickerRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>> GetKlinesStreamAsync(ApiType api, GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesWaitAsync(ApiType api, GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>> GetKlinesStreamAsync(ApiType api, GetKlinesRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesWaitAsync(ApiType api, GetKlinesRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetRecentTradesStreamAsync(ApiType api, GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesWaitAsync(ApiType api, GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetRecentTradesStreamAsync(ApiType api, GetRecentTradesRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesWaitAsync(ApiType api, GetRecentTradesRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> GetBalancesStreamAsync(ApiType api, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesWaitAsync(ApiType api, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> GetBalancesStreamAsync(ApiType api, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesWaitAsync(ApiType api, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<SharedId>> PlaceSpotOrderStreamAsync(PlaceSpotOrderRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<SharedId>>> PlaceSpotOrderWaitAsync(PlaceSpotOrderRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<SharedId>> PlaceSpotOrderStreamAsync(PlaceSpotOrderRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<SharedId>>> PlaceSpotOrderWaitAsync(PlaceSpotOrderRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotOpenOrdersStreamAsync(GetSpotOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersWaitAsync( GetSpotOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotOpenOrdersStreamAsync(GetSpotOpenOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersWaitAsync( GetSpotOpenOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotClosedOrdersStreamAsync(GetSpotClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersWaitAsync(GetSpotClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotClosedOrdersStreamAsync(GetSpotClosedOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersWaitAsync(GetSpotClosedOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>> GetUserTradesStreamAsync(ApiType api, GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetUserTradesWaitAsync(ApiType api, GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>> GetUserTradesStreamAsync(ApiType api, GetUserTradesRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetUserTradesWaitAsync(ApiType api, GetUserTradesRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
     }
 }

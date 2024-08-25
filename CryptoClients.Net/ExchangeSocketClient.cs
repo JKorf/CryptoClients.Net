@@ -304,11 +304,9 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            var request = new SharedRequest();
-            request.ApiType = apiType;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToAllTickerUpdatesAsync(request, y => handler(new ExchangeEvent<IEnumerable<SharedTicker>>(x.Exchange, y)), ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToAllTickerUpdatesAsync(apiType, y => handler(new ExchangeEvent<IEnumerable<SharedTicker>>(x.Exchange, y)), ct));
             }));
             return tasks;
         }
@@ -412,12 +410,10 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            var request = new SharedRequest();
-            request.ApiType = apiType;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBalanceUpdatesAsync(request, y => handler(new ExchangeEvent<IEnumerable<SharedBalance>>(x.Exchange, y)), ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBalanceUpdatesAsync(apiType, y => handler(new ExchangeEvent<IEnumerable<SharedBalance>>(x.Exchange, y)), ct));
             }));
             return tasks;
         }
@@ -440,40 +436,36 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            var request = new SharedRequest();
-            request.ApiType = ApiType.Spot;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToOrderUpdatesAsync(request, y => handler(new ExchangeEvent<IEnumerable<SharedSpotOrder>>(x.Exchange, y)), ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToSpotOrderUpdatesAsync(y => handler(new ExchangeEvent<IEnumerable<SharedSpotOrder>>(x.Exchange, y)), ct));
             }));
             return tasks;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotUserTradeUpdatesAsync(Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(SubscribeToSpotUserTradeUpdatesInt(handler, exchanges, ct));
+            return await Task.WhenAll(SubscribeToUserTradeUpdatesInt(apiType, handler, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToSpotUserTradeUpdatesEnumerateAsync(Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToUserTradeUpdatesEnumerateAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return SubscribeToSpotUserTradeUpdatesInt(handler, exchanges, ct).ParallelEnumerateAsync();
+            return SubscribeToUserTradeUpdatesInt(apiType, handler, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToSpotUserTradeUpdatesInt(Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesInt(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetSpotUserTradeClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            var request = new SharedRequest();
-            request.ApiType = ApiType.Spot;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToUserTradeUpdatesAsync(request, y => handler(new ExchangeEvent<IEnumerable<SharedUserTrade>>(x.Exchange, y)), ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToUserTradeUpdatesAsync(apiType, y => handler(new ExchangeEvent<IEnumerable<SharedUserTrade>>(x.Exchange, y)), ct));
             }));
             return tasks;
         }
