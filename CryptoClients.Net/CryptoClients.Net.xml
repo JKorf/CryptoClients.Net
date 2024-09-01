@@ -330,6 +330,12 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsyncEnumerable(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetDepositsRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetDepositsRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsAsync(CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>

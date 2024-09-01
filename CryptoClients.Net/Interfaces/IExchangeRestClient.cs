@@ -98,8 +98,8 @@ namespace CryptoClients.Net.Interfaces
         /// <returns></returns>
         IEnumerable<ISpotClient> GetUnifiedSpotClients();
 
-        IEnumerable<IAssetRestClient> GetAssetClients();
-        IAssetRestClient AssetClient(string exchange);
+        IEnumerable<IAssetsRestClient> GetAssetClients();
+        IAssetsRestClient AssetClient(string exchange);
 
         IEnumerable<IBalanceRestClient> GetBalanceClients(ApiType api);
         IBalanceRestClient BalanceClient(ApiType api, string exchange);
@@ -167,11 +167,11 @@ namespace CryptoClients.Net.Interfaces
         IAsyncEnumerable<ExchangeWebResult<SharedId>> PlaceSpotOrderAsyncEnumerable(PlaceSpotOrderRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<SharedId>>> PlaceSpotOrderAsync(PlaceSpotOrderRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotOpenOrdersAsyncEnumerable(GetSpotOpenOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersAsync( GetSpotOpenOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotOpenOrdersAsyncEnumerable(GetOpenOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersAsync( GetOpenOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotClosedOrdersAsyncEnumerable(GetSpotClosedOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersAsync(GetSpotClosedOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotClosedOrdersAsyncEnumerable(GetClosedOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersAsync(GetClosedOrdersRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>> GetUserTradesAsyncEnumerable(ApiType api, GetUserTradesRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetUserTradesAsync(ApiType api, GetUserTradesRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);

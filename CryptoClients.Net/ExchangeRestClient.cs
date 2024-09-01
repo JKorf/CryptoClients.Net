@@ -95,9 +95,9 @@ namespace CryptoClients.Net
 
 
         /// <inheritdoc />
-        public IEnumerable<IAssetRestClient> GetAssetClients() => _sharedClients[ApiType.Spot].OfType<IAssetRestClient>();
+        public IEnumerable<IAssetsRestClient> GetAssetClients() => _sharedClients[ApiType.Spot].OfType<IAssetsRestClient>();
         /// <inheritdoc />
-        public IAssetRestClient AssetClient(string exchange) => GetAssetClients().Single(s => s.Exchange == exchange);
+        public IAssetsRestClient AssetClient(string exchange) => GetAssetClients().Single(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IBalanceRestClient> GetBalanceClients(ApiType api) => _sharedClients[api].OfType<IBalanceRestClient>();
@@ -651,24 +651,24 @@ namespace CryptoClients.Net
         #region Get Spot Open Orders
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersAsync(GetSpotOpenOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersAsync(GetOpenOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetSpotOpenOrdersInt(request, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotOpenOrdersAsyncEnumerable(GetSpotOpenOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotOpenOrdersAsyncEnumerable(GetOpenOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetSpotOpenOrdersInt(request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersInt(GetSpotOpenOrdersRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersInt(GetOpenOrdersRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            var tasks = clients.Select(x => x.GetOpenOrdersAsync(request, exchangeParameters, ct));
+            var tasks = clients.Select(x => x.GetOpenSpotOrdersAsync(request, exchangeParameters, ct));
             return tasks;
         }
 
@@ -677,25 +677,25 @@ namespace CryptoClients.Net
         #region Get Spot Closed Orders
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersAsync(GetSpotClosedOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersAsync(GetClosedOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetSpotClosedOrdersInt(request, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotClosedOrdersAsyncEnumerable(GetSpotClosedOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotClosedOrdersAsyncEnumerable(GetClosedOrdersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetSpotClosedOrdersInt(request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersInt(GetSpotClosedOrdersRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersInt(GetClosedOrdersRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = ApiType.Spot;
-            var tasks = clients.Select(x => x.GetClosedOrdersAsync(request, null, exchangeParameters, ct));
+            var tasks = clients.Select(x => x.GetClosedSpotOrdersAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
 
@@ -722,7 +722,7 @@ namespace CryptoClients.Net
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             request.ApiType = apiType;
-            var tasks = clients.Select(x => x.GetUserTradesAsync(request, null, exchangeParameters, ct));
+            var tasks = clients.Select(x => x.GetSpotUserTradesAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
 
