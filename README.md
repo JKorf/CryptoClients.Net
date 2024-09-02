@@ -11,7 +11,7 @@ CryptoClients.Net is a collection of different cryptocurrency exchange client li
 * Input parameters and response values are mapped to discriptive enum values where possible
 * Automatic websocket (re)connection management 
 * Client side rate limiting 
-* Cient side order book implementation
+* Client side order book implementation
 * Extensive logging
 * Support for different environments
 
@@ -184,6 +184,35 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.11.0 - 19 Aug 2024
+    * Updated Binance.Net to version 10.2.1
+        * Fixed walletType serialization on SpotApi.Trading.ConvertQuoteRequestAsync endpoint
+        * Re-added the UsdFuturesApi.Account.GetAccountInfoV2Async endpoint as the V3 endpoint is missing data
+        * Renamend UsdFuturesApi.Account.GetAccountInfoAsync to GetAccountInfoV3Async
+        * Fixed SpotApi.ExchangeData.GetProductsAsync deserialization
+    * Updated BingX.Net to version 1.9.0
+        * Added PerpetualFuturesApi.Trading.GetPositionHistoryAsync endpoint
+        * Updated PerpetualFuturesApi.Account.GetBalancesAsync to V3, returning both USDT and USDC balances
+        * Added sync parameter to SpotApi.Trading.PlaceMultipleOrderAsync endpoint
+    * Updated Bitget.Net to 1.9.1
+        * Added PositionId to FuturesApiV2.Trading.GetPositionHistoryAsync response model
+        * Updated some endpoint ratelimits
+    * Updated Bybit.Net to version 3.13.1
+        * Added addOrReduce parameter to V5Api.Account.RequestDemoFundsAsync endpoint
+        * Added referer to V5Api.Account.GetConvertQuoteAsync endpoint
+    * Updated CoinEx.Net to version 7.6.0
+        * Added futures API batch endpoints:FuturesApi.Trading.PlaceMultipleOrdersAsync, PlaceMultipleStopOrdersAsync, CancelOrdersAsync and CancelStopOrdersAsync
+        * Added spot API batch endpoints: SpotApiV2.Trading.PlaceMultipleOrdersAsync, PlaceMultipleStopOrdersAsync, CancelOrdersAsync and CancelStopOrdersAsync
+        * Added stpMode parameters to spot and futures PlaceOrderAsync and PlaceStopOrderAsync endpoints
+    * Updated HTX.Net to version 6.0.2
+        * Fix deserialization undocumented canceled-source field value
+        * Fixed websocket SpotApi queries (GetXX methods)
+    * Updated Kucoin.Net to version 5.12.0
+        * Added FuturesApi.SubscribeToKlineUpdatesAsync subscription
+        * Added FuturesApi.ExchangeData.GetTickersAsync endpoint
+        * Added FuturesApi.Trading.GetMaxOpenPositionSizeAsync endpoint
+        * Added migration endpoints SpotApi.Account.GetHfMigrationStatusAsync and MigrateHfAccountAsync
+
 * Version 1.10.0 - 09 Aug 2024
     * Updated reference CryptoExchange version to 7.11.0
         * Added ParseString static method on EnumConverter for parsing strings manually
