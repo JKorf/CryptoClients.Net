@@ -11,6 +11,8 @@ using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis.Interfaces;
+using CryptoExchange.Net.SharedApis.Interfaces.Rest.Futures;
+using CryptoExchange.Net.SharedApis.Interfaces.Rest.Spot;
 using CryptoExchange.Net.SharedApis.Models;
 using CryptoExchange.Net.SharedApis.Models.Rest;
 using CryptoExchange.Net.SharedApis.RequestModels;
@@ -134,11 +136,11 @@ namespace CryptoClients.Net.Interfaces
         IEnumerable<IWithdrawalRestClient> GetWithdrawalClients(ApiType api);
         IWithdrawalRestClient WithdrawalClient(ApiType api, string exchange);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTicker>>> GetTickersAsyncEnumerable(ApiType api, GetTickerRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTicker>>>> GetTickersAsync(ApiType api, GetTickerRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotTicker>>> GetTickersAsyncEnumerable(ApiType api, GetTickerRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotTicker>>>> GetTickersAsync(ApiType api, GetTickerRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<SharedTicker>> GetTickerAsyncEnumerable(ApiType api, GetTickerRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<SharedTicker>>> GetTickerAsync(ApiType api, GetTickerRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<SharedSpotTicker>> GetTickerAsyncEnumerable(ApiType api, GetTickerRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<SharedSpotTicker>>> GetTickerAsync(ApiType api, GetTickerRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>> GetKlinesAsyncEnumerable(ApiType api, GetKlinesRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesAsync(ApiType api, GetKlinesRequest request, ExchangeParameters? exchangeParamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);

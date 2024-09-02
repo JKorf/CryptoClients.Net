@@ -348,16 +348,16 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.PlaceSpotOrderAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.PlaceSpotOrderRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetSpotOpenOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetSpotOpenOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetSpotClosedOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetClosedOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetSpotClosedOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetClosedOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetUserTradesAsync(CryptoExchange.Net.Objects.ApiType,CryptoExchange.Net.SharedApis.Models.Rest.GetUserTradesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
