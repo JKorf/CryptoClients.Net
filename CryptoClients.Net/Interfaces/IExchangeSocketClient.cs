@@ -86,11 +86,11 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         IOKXSocketClient OKX { get; }
 
-        IEnumerable<ITickerSocketClient> GetTickerClients(ApiType apiType);
-        ITickerSocketClient TickerClient(ApiType api, string exchange);
+        IEnumerable<ITickerSocketClient> GetSpotTickerClients(ApiType apiType);
+        ITickerSocketClient SpotTickerClient(ApiType api, string exchange);
 
-        IEnumerable<ITickersSocketClient> GetTickersClients(ApiType apiType);
-        ITickersSocketClient TickersClient(ApiType api, string exchange);
+        IEnumerable<ITickersSocketClient> GetSpotTickersClients(ApiType apiType);
+        ITickersSocketClient TickersSpotClient(ApiType api, string exchange);
 
         IEnumerable<ITradeSocketClient> GetTradeClients(ApiType apiType);
         ITradeSocketClient TradeClient(ApiType api, string exchange);

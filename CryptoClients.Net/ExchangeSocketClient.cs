@@ -93,14 +93,14 @@ namespace CryptoClients.Net
         public IOKXSocketClient OKX { get; }
 
         /// <inheritdoc />
-        public IEnumerable<ITickerSocketClient> GetTickerClients(ApiType apiType) => _sharedClients[apiType].OfType<ITickerSocketClient>();
+        public IEnumerable<ITickerSocketClient> GetSpotTickerClients(ApiType apiType) => _sharedClients[apiType].OfType<ITickerSocketClient>();
         /// <inheritdoc />
-        public ITickerSocketClient TickerClient(ApiType api, string exchange) => _sharedClients[api].OfType<ITickerSocketClient>().Single(s => s.Exchange == exchange);
+        public ITickerSocketClient SpotTickerClient(ApiType api, string exchange) => _sharedClients[api].OfType<ITickerSocketClient>().Single(s => s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<ITickersSocketClient> GetTickersClients(ApiType apiType) => _sharedClients[apiType].OfType<ITickersSocketClient>();
+        public IEnumerable<ITickersSocketClient> GetSpotTickersClients(ApiType apiType) => _sharedClients[apiType].OfType<ITickersSocketClient>();
         /// <inheritdoc />
-        public ITickersSocketClient TickersClient(ApiType api, string exchange) => _sharedClients[api].OfType<ITickersSocketClient>().Single(s => s.Exchange == exchange);
+        public ITickersSocketClient TickersSpotClient(ApiType api, string exchange) => _sharedClients[api].OfType<ITickersSocketClient>().Single(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ITradeSocketClient> GetTradeClients(ApiType apiType) => _sharedClients[apiType].OfType<ITradeSocketClient>();
@@ -300,7 +300,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesInt(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetTickersClients(apiType);
+            var clients = GetSpotTickersClients(apiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -325,7 +325,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesInt(ApiType apiType, TickerSubscribeRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetTickerClients(apiType);
+            var clients = GetSpotTickerClients(apiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
