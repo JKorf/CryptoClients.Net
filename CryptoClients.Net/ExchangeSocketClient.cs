@@ -278,10 +278,16 @@ namespace CryptoClients.Net
                 Mexc.SpotApi.SharedClient,
                 OKX.UnifiedApi.SharedClient,
             };
-            _sharedClients[ApiType.LinearFutures] = new ISharedClient[]
+            _sharedClients[ApiType.PerpetualLinear] = new ISharedClient[]
             {
             };
-            _sharedClients[ApiType.InverseFutures] = new ISharedClient[]
+            _sharedClients[ApiType.DeliveryLinear] = new ISharedClient[]
+            {
+            };
+            _sharedClients[ApiType.PerpetualInverse] = new ISharedClient[]
+            {
+            };
+            _sharedClients[ApiType.DeliveryInverse] = new ISharedClient[]
             {
             };
         }

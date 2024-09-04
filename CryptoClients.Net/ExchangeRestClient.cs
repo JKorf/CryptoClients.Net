@@ -332,7 +332,7 @@ namespace CryptoClients.Net
                 Mexc.SpotApi.SharedClient,
                 OKX.UnifiedApi.SharedClient
             };
-            _sharedClients[ApiType.LinearFutures] = new ISharedClient[]
+            _sharedClients[ApiType.PerpetualLinear] = new ISharedClient[]
             {
                 Binance.UsdFuturesApi.SharedClient,
                 BingX.PerpetualFuturesApi.SharedClient,
@@ -346,7 +346,21 @@ namespace CryptoClients.Net
                 Kucoin.FuturesApi.SharedClient,
                 OKX.UnifiedApi.SharedClient
             };
-            _sharedClients[ApiType.InverseFutures] = new ISharedClient[]
+            _sharedClients[ApiType.PerpetualInverse] = new ISharedClient[]
+           {
+                Binance.UsdFuturesApi.SharedClient,
+                BingX.PerpetualFuturesApi.SharedClient,
+                Bitget.FuturesApiV2.SharedClient,
+                BitMart.UsdFuturesApi.SharedClient,
+                Bybit.V5Api.SharedClient,
+                CoinEx.FuturesApi.SharedClient,
+                GateIo.PerpetualFuturesApi.SharedClient,
+                HTX.UsdtFuturesApi.SharedClient,
+                Kraken.FuturesApi.SharedClient,
+                Kucoin.FuturesApi.SharedClient,
+                OKX.UnifiedApi.SharedClient
+           };
+            _sharedClients[ApiType.DeliveryLinear] = new ISharedClient[]
             {
                 Binance.CoinFuturesApi.SharedClient,
                 BingX.PerpetualFuturesApi.SharedClient,
@@ -356,6 +370,17 @@ namespace CryptoClients.Net
                 Kucoin.FuturesApi.SharedClient,
                 OKX.UnifiedApi.SharedClient
             };
+            _sharedClients[ApiType.DeliveryInverse] = new ISharedClient[]
+           {
+                Binance.CoinFuturesApi.SharedClient,
+                BingX.PerpetualFuturesApi.SharedClient,
+                Bitget.FuturesApiV2.SharedClient,
+                Bybit.V5Api.SharedClient,
+                GateIo.PerpetualFuturesApi.SharedClient,
+                Kucoin.FuturesApi.SharedClient,
+                OKX.UnifiedApi.SharedClient
+           };
+#warning check clients are correct grouped
         }
 
         /// <summary>
@@ -454,7 +479,6 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType = ApiType.Spot;
             var tasks = clients.Select(x => x.GetSpotTickerAsync(request, exchangeParameters, ct));
             return tasks;
         }
@@ -507,7 +531,6 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType = ApiType.Spot;
             var tasks = clients.Select(x => x.PlaceSpotOrderAsync(request, exchangeParameters, ct));
             return tasks;
         }
@@ -534,7 +557,6 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType = ApiType.Spot;
             var tasks = clients.Select(x => x.GetOpenSpotOrdersAsync(request, exchangeParameters, ct));
             return tasks;
         }
@@ -561,7 +583,6 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType = ApiType.Spot;
             var tasks = clients.Select(x => x.GetClosedSpotOrdersAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
@@ -588,7 +609,6 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType = ApiType.Spot;
             var tasks = clients.Select(x => x.GetSpotUserTradesAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
@@ -598,20 +618,20 @@ namespace CryptoClients.Net
         #region Get Futures Tickers
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersAsync(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersAsync(ApiType apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetFuturesTickersInt(apiType, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>> GetFuturesTickersAsyncEnumerable(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>> GetFuturesTickersAsyncEnumerable(ApiType apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetFuturesTickersInt(apiType, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersInt(ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersInt(ApiType apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFuturesTickerClients(apiType ?? ApiType.LinearFutures);
+            var clients = GetFuturesTickerClients(apiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -637,11 +657,10 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<SharedFuturesTicker>>> GetFuturesTickerInt(GetTickerRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFuturesTickerClients(request.ApiType ?? ApiType.LinearFutures);
+            var clients = GetFuturesTickerClients(request.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType ??= ApiType.LinearFutures;
             var tasks = clients.Select(x => x.GetFuturesTickerAsync(request, exchangeParameters, ct));
             return tasks;
         }
@@ -663,11 +682,10 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesIntAsync(GetKlinesRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetKlineClients(request.ApiType ?? ApiType.Spot);
+            var clients = GetKlineClients(request.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType ??= ApiType.Spot;
             var tasks = clients.Select(x => x.GetKlinesAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
@@ -689,11 +707,10 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedMarkKline>>>> GetMarkPriceKlinesIntAsync(GetKlinesRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetMarkPriceKlineClients(request.ApiType ?? ApiType.LinearFutures);
+            var clients = GetMarkPriceKlineClients(request.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType ??= ApiType.LinearFutures;
             var tasks = clients.Select(x => x.GetMarkPriceKlinesAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
@@ -715,11 +732,10 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedMarkKline>>>> GetIndexPriceKlinesIntAsync(GetKlinesRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetIndexPriceKlineClients(request.ApiType ?? ApiType.LinearFutures);
+            var clients = GetIndexPriceKlineClients(request.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType ??= ApiType.LinearFutures;
             var tasks = clients.Select(x => x.GetIndexPriceKlinesAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
@@ -742,11 +758,10 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesIntAsync(GetRecentTradesRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, IEnumerable<INextPageToken>? nextPageTokens, CancellationToken ct)
         {
-            var clients = GetRecentTradesClients(request.ApiType ?? ApiType.Spot);
+            var clients = GetRecentTradesClients(request.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType ??= ApiType.Spot;
             var tasks = clients.Select(x => x.GetRecentTradesAsync(request, exchangeParameters, ct));
             return tasks;
         }
@@ -769,11 +784,10 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradeHistoryInt(GetTradeHistoryRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, IEnumerable<INextPageToken>? nextPageTokens, CancellationToken ct)
         {
-            var clients = GetTradeHistoryClients(request.ApiType ?? ApiType.Spot);
+            var clients = GetTradeHistoryClients(request.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType ??= ApiType.Spot;
             var tasks = clients.Select(x => x.GetTradeHistoryAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
@@ -796,11 +810,10 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<SharedOrderBook>>> GetOrderBookInt(GetOrderBookRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetOrderBookClients(request.ApiType ?? ApiType.Spot);
+            var clients = GetOrderBookClients(request.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType ??= ApiType.Spot;
             var tasks = clients.Select(x => x.GetOrderBookAsync(request, exchangeParameters, ct));
             return tasks;
         }
@@ -953,11 +966,10 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFundingRate>>>> GetFundingRateHistoryInt(GetFundingRateHistoryRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFundingRateClients(request.ApiType ?? ApiType.LinearFutures);
+            var clients = GetFundingRateClients(request.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType ??= ApiType.LinearFutures;
             var tasks = clients.Select(x => x.GetFundingRateHistoryAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
@@ -980,11 +992,10 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<SharedOpenInterest>>> GetOpenInterestInt(GetOpenInterestRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetOpenInterestClients(request.ApiType ?? ApiType.LinearFutures);
+            var clients = GetOpenInterestClients(request.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType ??= ApiType.LinearFutures;
             var tasks = clients.Select(x => x.GetOpenInterestAsync(request, exchangeParameters, ct));
             return tasks;
         }
@@ -994,20 +1005,20 @@ namespace CryptoClients.Net
         #region Get Futures Symbols
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsAsync(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsAsync(ApiType apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetFuturesSymbolsInt(apiType, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>> GetFuturesSymbolsAsyncEnumerable(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>> GetFuturesSymbolsAsyncEnumerable(ApiType apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetFuturesSymbolsInt(apiType, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsInt(ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsInt(ApiType apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFuturesSymbolClients(apiType ?? ApiType.LinearFutures);
+            var clients = GetFuturesSymbolClients(apiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
