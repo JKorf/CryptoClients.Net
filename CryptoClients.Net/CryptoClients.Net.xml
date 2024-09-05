@@ -303,6 +303,12 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.OpenInterestClient(CryptoExchange.Net.Objects.ApiType,System.String)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionModeClients(CryptoExchange.Net.Objects.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.PositionModeClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor">
             <summary>
             Create a new ExchangeRestClient instance. Client instances will be created with default options.

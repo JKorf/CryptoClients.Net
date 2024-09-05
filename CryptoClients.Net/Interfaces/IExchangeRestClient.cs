@@ -160,6 +160,9 @@ namespace CryptoClients.Net.Interfaces
         IEnumerable<IOpenInterestRestClient> GetOpenInterestClients(ApiType api);
         IOpenInterestRestClient? OpenInterestClient(ApiType api, string exchange);
 
+        IEnumerable<IPositionModeRestClient> GetPositionModeClients(ApiType api);
+        IPositionModeRestClient? PositionModeClient(ApiType api, string exchange);
+
 
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotTicker>>> GetSpotTickersAsyncEnumerable(GetTickerRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotTicker>>>> GetSpotTickersAsync(GetTickerRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);

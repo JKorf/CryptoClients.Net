@@ -196,6 +196,11 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOpenInterestRestClient? OpenInterestClient(ApiType api, string exchange) => _sharedClients[api].OfType<IOpenInterestRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
+        /// <inheritdoc />
+        public IEnumerable<IPositionModeRestClient> GetPositionModeClients(ApiType api) => _sharedClients[api].OfType<IPositionModeRestClient>();
+        /// <inheritdoc />
+        public IPositionModeRestClient? PositionModeClient(ApiType api, string exchange) => _sharedClients[api].OfType<IPositionModeRestClient>().SingleOrDefault(s => s.Exchange == exchange);
+
         /// <summary>
         /// Create a new ExchangeRestClient instance. Client instances will be created with default options.
         /// </summary>
