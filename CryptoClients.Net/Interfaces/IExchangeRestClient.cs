@@ -101,64 +101,64 @@ namespace CryptoClients.Net.Interfaces
         IEnumerable<ISpotClient> GetUnifiedSpotClients();
 
         IEnumerable<IAssetsRestClient> GetAssetClients();
-        IAssetsRestClient AssetClient(string exchange);
+        IAssetsRestClient? AssetClient(string exchange);
 
         IEnumerable<IBalanceRestClient> GetBalanceClients(ApiType api);
-        IBalanceRestClient BalanceClient(ApiType api, string exchange);
+        IBalanceRestClient? BalanceClient(ApiType api, string exchange);
 
         IEnumerable<IDepositRestClient> GetDepositClients();
-        IDepositRestClient DepositClient(string exchange);
+        IDepositRestClient? DepositClient(string exchange);
 
         IEnumerable<IKlineRestClient> GetKlineClients(ApiType api);
-        IKlineRestClient KlineClient(ApiType api, string exchange);
+        IKlineRestClient? KlineClient(ApiType api, string exchange);
 
         IEnumerable<IOrderBookRestClient> GetOrderBookClients(ApiType api);
-        IOrderBookRestClient OrderBookClient(ApiType api, string exchange);
+        IOrderBookRestClient? OrderBookClient(ApiType api, string exchange);
 
         IEnumerable<IRecentTradeRestClient> GetRecentTradesClients(ApiType api);
-        IRecentTradeRestClient RecentTradesClient(ApiType api, string exchange);
+        IRecentTradeRestClient? RecentTradesClient(ApiType api, string exchange);
 
         IEnumerable<ITradeHistoryRestClient> GetTradeHistoryClients(ApiType api);
-        ITradeHistoryRestClient TradeHistoryClient(ApiType api, string exchange);
+        ITradeHistoryRestClient? TradeHistoryClient(ApiType api, string exchange);
 
         IEnumerable<IWithdrawalRestClient> GetWithdrawalClients();
-        IWithdrawalRestClient WithdrawalClient(string exchange);
+        IWithdrawalRestClient? WithdrawalClient(string exchange);
 
         IEnumerable<IWithdrawRestClient> GetWithdrawClients();
-        IWithdrawRestClient WithdrawClient(string exchange);
+        IWithdrawRestClient? WithdrawClient(string exchange);
 
         IEnumerable<ISpotOrderRestClient> GetSpotOrderClients();
-        ISpotOrderRestClient SpotOrderClient(string exchange);
+        ISpotOrderRestClient? SpotOrderClient(string exchange);
 
         IEnumerable<ISpotSymbolRestClient> GetSpotSymbolClients();
-        ISpotSymbolRestClient SpotSymbolClient(string exchange);
+        ISpotSymbolRestClient? SpotSymbolClient(string exchange);
 
         IEnumerable<ISpotTickerRestClient> GetSpotTickerClients();
-        ISpotTickerRestClient SpotTickerClient(string exchange);
+        ISpotTickerRestClient? SpotTickerClient(string exchange);
 
         IEnumerable<IFundingRateRestClient> GetFundingRateClients(ApiType api);
-        IFundingRateRestClient FundingRateClient(ApiType api, string exchange);
+        IFundingRateRestClient? FundingRateClient(ApiType api, string exchange);
 
         IEnumerable<IFuturesOrderRestClient> GetFuturesOrderClients(ApiType api);
-        IFuturesOrderRestClient FuturesOrderClient(ApiType api, string exchange);
+        IFuturesOrderRestClient? FuturesOrderClient(ApiType api, string exchange);
 
         IEnumerable<IFuturesSymbolRestClient> GetFuturesSymbolClients(ApiType api);
-        IFuturesSymbolRestClient FuturesSymbolClient(ApiType api, string exchange);
+        IFuturesSymbolRestClient? FuturesSymbolClient(ApiType api, string exchange);
 
         IEnumerable<IFuturesTickerRestClient> GetFuturesTickerClients(ApiType api);
-        IFuturesTickerRestClient FuturesTickerClient(ApiType api, string exchange);
+        IFuturesTickerRestClient? FuturesTickerClient(ApiType api, string exchange);
 
         IEnumerable<IIndexPriceKlineRestClient> GetIndexPriceKlineClients(ApiType api);
-        IIndexPriceKlineRestClient IndexPriceKlineClient(ApiType api, string exchange);
+        IIndexPriceKlineRestClient? IndexPriceKlineClient(ApiType api, string exchange);
 
         IEnumerable<ILeverageRestClient> GetLeverageClients(ApiType api);
-        ILeverageRestClient LeverageClient(ApiType api, string exchange);
+        ILeverageRestClient? LeverageClient(ApiType api, string exchange);
 
         IEnumerable<IMarkPriceKlineRestClient> GetMarkPriceKlineClients(ApiType api);
-        IMarkPriceKlineRestClient MarkPriceKlineClient(ApiType api, string exchange);
+        IMarkPriceKlineRestClient? MarkPriceKlineClient(ApiType api, string exchange);
 
         IEnumerable<IOpenInterestRestClient> GetOpenInterestClients(ApiType api);
-        IOpenInterestRestClient OpenInterestClient(ApiType api, string exchange);
+        IOpenInterestRestClient? OpenInterestClient(ApiType api, string exchange);
 
 
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotTicker>>> GetSpotTickersAsyncEnumerable(GetTickerRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);

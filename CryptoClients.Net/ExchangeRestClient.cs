@@ -99,102 +99,102 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IAssetsRestClient> GetAssetClients() => _sharedClients[ApiType.Spot].OfType<IAssetsRestClient>();
         /// <inheritdoc />
-        public IAssetsRestClient AssetClient(string exchange) => GetAssetClients().Single(s => s.Exchange == exchange);
+        public IAssetsRestClient? AssetClient(string exchange) => GetAssetClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IBalanceRestClient> GetBalanceClients(ApiType api) => _sharedClients[api].OfType<IBalanceRestClient>();
         /// <inheritdoc />
-        public IBalanceRestClient BalanceClient(ApiType api, string exchange) => GetBalanceClients(api).Single(s => s.Exchange == exchange);
+        public IBalanceRestClient? BalanceClient(ApiType api, string exchange) => GetBalanceClients(api).SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IDepositRestClient> GetDepositClients() => _sharedClients[ApiType.Spot].OfType<IDepositRestClient>();
         /// <inheritdoc />
-        public IDepositRestClient DepositClient(string exchange) => GetDepositClients().Single(s => s.Exchange == exchange);
+        public IDepositRestClient? DepositClient(string exchange) => GetDepositClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IKlineRestClient> GetKlineClients(ApiType api) => _sharedClients[api].OfType<IKlineRestClient>();
         /// <inheritdoc />
-        public IKlineRestClient KlineClient(ApiType api, string exchange) => _sharedClients[api].OfType<IKlineRestClient>().Single(s => s.Exchange == exchange);
+        public IKlineRestClient? KlineClient(ApiType api, string exchange) => _sharedClients[api].OfType<IKlineRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IOrderBookRestClient> GetOrderBookClients(ApiType api) => _sharedClients[api].OfType<IOrderBookRestClient>();
         /// <inheritdoc />
-        public IOrderBookRestClient OrderBookClient(ApiType api, string exchange) => _sharedClients[api].OfType<IOrderBookRestClient>().Single(s => s.Exchange == exchange);
+        public IOrderBookRestClient? OrderBookClient(ApiType api, string exchange) => _sharedClients[api].OfType<IOrderBookRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IRecentTradeRestClient> GetRecentTradesClients(ApiType api) => _sharedClients[api].OfType<IRecentTradeRestClient>();
         /// <inheritdoc />
-        public IRecentTradeRestClient RecentTradesClient(ApiType api, string exchange) => _sharedClients[api].OfType<IRecentTradeRestClient>().Single(s => s.Exchange == exchange);
+        public IRecentTradeRestClient? RecentTradesClient(ApiType api, string exchange) => _sharedClients[api].OfType<IRecentTradeRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ITradeHistoryRestClient> GetTradeHistoryClients(ApiType api) => _sharedClients[api].OfType<ITradeHistoryRestClient>();
         /// <inheritdoc />
-        public ITradeHistoryRestClient TradeHistoryClient(ApiType api, string exchange) => _sharedClients[api].OfType<ITradeHistoryRestClient>().Single(s => s.Exchange == exchange);
+        public ITradeHistoryRestClient? TradeHistoryClient(ApiType api, string exchange) => _sharedClients[api].OfType<ITradeHistoryRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IWithdrawalRestClient> GetWithdrawalClients() => _sharedClients[ApiType.Spot].OfType<IWithdrawalRestClient>();
         /// <inheritdoc />
-        public IWithdrawalRestClient WithdrawalClient(string exchange) => _sharedClients[ApiType.Spot].OfType<IWithdrawalRestClient>().Single(s => s.Exchange == exchange);
+        public IWithdrawalRestClient? WithdrawalClient(string exchange) => _sharedClients[ApiType.Spot].OfType<IWithdrawalRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IWithdrawRestClient> GetWithdrawClients() => _sharedClients[ApiType.Spot].OfType<IWithdrawRestClient>();
         /// <inheritdoc />
-        public IWithdrawRestClient WithdrawClient(string exchange) => _sharedClients[ApiType.Spot].OfType<IWithdrawRestClient>().Single(s => s.Exchange == exchange);
+        public IWithdrawRestClient? WithdrawClient(string exchange) => _sharedClients[ApiType.Spot].OfType<IWithdrawRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ISpotOrderRestClient> GetSpotOrderClients() => _sharedClients[ApiType.Spot].OfType<ISpotOrderRestClient>();
         /// <inheritdoc />
-        public ISpotOrderRestClient SpotOrderClient(string exchange) => GetSpotOrderClients().Single(s => s.Exchange == exchange);
+        public ISpotOrderRestClient? SpotOrderClient(string exchange) => GetSpotOrderClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ISpotSymbolRestClient> GetSpotSymbolClients() => _sharedClients[ApiType.Spot].OfType<ISpotSymbolRestClient>();
         /// <inheritdoc />
-        public ISpotSymbolRestClient SpotSymbolClient(string exchange) => GetSpotSymbolClients().Single(s => s.Exchange == exchange);
+        public ISpotSymbolRestClient? SpotSymbolClient(string exchange) => GetSpotSymbolClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ISpotTickerRestClient> GetSpotTickerClients() => _sharedClients[ApiType.Spot].OfType<ISpotTickerRestClient>();
         /// <inheritdoc />
-        public ISpotTickerRestClient SpotTickerClient(string exchange) => _sharedClients[ApiType.Spot].OfType<ISpotTickerRestClient>().Single(s => s.Exchange == exchange);
+        public ISpotTickerRestClient? SpotTickerClient(string exchange) => _sharedClients[ApiType.Spot].OfType<ISpotTickerRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IFundingRateRestClient> GetFundingRateClients(ApiType api) => _sharedClients[api].OfType<IFundingRateRestClient>();
         /// <inheritdoc />
-        public IFundingRateRestClient FundingRateClient(ApiType api, string exchange) => _sharedClients[api].OfType<IFundingRateRestClient>().Single(s => s.Exchange == exchange);
+        public IFundingRateRestClient? FundingRateClient(ApiType api, string exchange) => _sharedClients[api].OfType<IFundingRateRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IFuturesOrderRestClient> GetFuturesOrderClients(ApiType api) => _sharedClients[api].OfType<IFuturesOrderRestClient>();
         /// <inheritdoc />
-        public IFuturesOrderRestClient FuturesOrderClient(ApiType api, string exchange) => _sharedClients[api].OfType<IFuturesOrderRestClient>().Single(s => s.Exchange == exchange);
+        public IFuturesOrderRestClient? FuturesOrderClient(ApiType api, string exchange) => _sharedClients[api].OfType<IFuturesOrderRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IFuturesSymbolRestClient> GetFuturesSymbolClients(ApiType api) => _sharedClients[api].OfType<IFuturesSymbolRestClient>();
         /// <inheritdoc />
-        public IFuturesSymbolRestClient FuturesSymbolClient(ApiType api, string exchange) => _sharedClients[api].OfType<IFuturesSymbolRestClient>().Single(s => s.Exchange == exchange);
+        public IFuturesSymbolRestClient? FuturesSymbolClient(ApiType api, string exchange) => _sharedClients[api].OfType<IFuturesSymbolRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IFuturesTickerRestClient> GetFuturesTickerClients(ApiType api) => _sharedClients[api].OfType<IFuturesTickerRestClient>();
         /// <inheritdoc />
-        public IFuturesTickerRestClient FuturesTickerClient(ApiType api, string exchange) => _sharedClients[api].OfType<IFuturesTickerRestClient>().Single(s => s.Exchange == exchange);
+        public IFuturesTickerRestClient? FuturesTickerClient(ApiType api, string exchange) => _sharedClients[api].OfType<IFuturesTickerRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IIndexPriceKlineRestClient> GetIndexPriceKlineClients(ApiType api) => _sharedClients[api].OfType<IIndexPriceKlineRestClient>();
         /// <inheritdoc />
-        public IIndexPriceKlineRestClient IndexPriceKlineClient(ApiType api, string exchange) => _sharedClients[api].OfType<IIndexPriceKlineRestClient>().Single(s => s.Exchange == exchange);
+        public IIndexPriceKlineRestClient? IndexPriceKlineClient(ApiType api, string exchange) => _sharedClients[api].OfType<IIndexPriceKlineRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ILeverageRestClient> GetLeverageClients(ApiType api) => _sharedClients[api].OfType<ILeverageRestClient>();
         /// <inheritdoc />
-        public ILeverageRestClient LeverageClient(ApiType api, string exchange) => _sharedClients[api].OfType<ILeverageRestClient>().Single(s => s.Exchange == exchange);
+        public ILeverageRestClient? LeverageClient(ApiType api, string exchange) => _sharedClients[api].OfType<ILeverageRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IMarkPriceKlineRestClient> GetMarkPriceKlineClients(ApiType api) => _sharedClients[api].OfType<IMarkPriceKlineRestClient>();
         /// <inheritdoc />
-        public IMarkPriceKlineRestClient MarkPriceKlineClient(ApiType api, string exchange) => _sharedClients[api].OfType<IMarkPriceKlineRestClient>().Single(s => s.Exchange == exchange);
+        public IMarkPriceKlineRestClient? MarkPriceKlineClient(ApiType api, string exchange) => _sharedClients[api].OfType<IMarkPriceKlineRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IOpenInterestRestClient> GetOpenInterestClients(ApiType api) => _sharedClients[api].OfType<IOpenInterestRestClient>();
         /// <inheritdoc />
-        public IOpenInterestRestClient OpenInterestClient(ApiType api, string exchange) => _sharedClients[api].OfType<IOpenInterestRestClient>().Single(s => s.Exchange == exchange);
+        public IOpenInterestRestClient? OpenInterestClient(ApiType api, string exchange) => _sharedClients[api].OfType<IOpenInterestRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <summary>
         /// Create a new ExchangeRestClient instance. Client instances will be created with default options.
@@ -348,35 +348,30 @@ namespace CryptoClients.Net
             };
             _sharedClients[ApiType.PerpetualInverse] = new ISharedClient[]
            {
-                Binance.UsdFuturesApi.SharedClient,
-                BingX.PerpetualFuturesApi.SharedClient,
+                Binance.CoinFuturesApi.SharedClient,
                 Bitget.FuturesApiV2.SharedClient,
-                BitMart.UsdFuturesApi.SharedClient,
                 Bybit.V5Api.SharedClient,
                 CoinEx.FuturesApi.SharedClient,
                 GateIo.PerpetualFuturesApi.SharedClient,
-                HTX.UsdtFuturesApi.SharedClient,
                 Kraken.FuturesApi.SharedClient,
                 Kucoin.FuturesApi.SharedClient,
                 OKX.UnifiedApi.SharedClient
            };
             _sharedClients[ApiType.DeliveryLinear] = new ISharedClient[]
             {
-                Binance.CoinFuturesApi.SharedClient,
-                BingX.PerpetualFuturesApi.SharedClient,
+                Binance.UsdFuturesApi.SharedClient,
                 Bitget.FuturesApiV2.SharedClient,
+                BitMart.UsdFuturesApi.SharedClient,
                 Bybit.V5Api.SharedClient,
-                GateIo.PerpetualFuturesApi.SharedClient,
+                HTX.UsdtFuturesApi.SharedClient,
                 Kucoin.FuturesApi.SharedClient,
                 OKX.UnifiedApi.SharedClient
             };
             _sharedClients[ApiType.DeliveryInverse] = new ISharedClient[]
            {
                 Binance.CoinFuturesApi.SharedClient,
-                BingX.PerpetualFuturesApi.SharedClient,
                 Bitget.FuturesApiV2.SharedClient,
                 Bybit.V5Api.SharedClient,
-                GateIo.PerpetualFuturesApi.SharedClient,
                 Kucoin.FuturesApi.SharedClient,
                 OKX.UnifiedApi.SharedClient
            };
