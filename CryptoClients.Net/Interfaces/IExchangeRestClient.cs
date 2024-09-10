@@ -103,21 +103,26 @@ namespace CryptoClients.Net.Interfaces
         IEnumerable<IAssetsRestClient> GetAssetClients();
         IAssetsRestClient? AssetClient(string exchange);
 
+        IEnumerable<IBalanceRestClient> GetBalanceClients();
         IEnumerable<IBalanceRestClient> GetBalanceClients(ApiType api);
         IBalanceRestClient? BalanceClient(ApiType api, string exchange);
 
         IEnumerable<IDepositRestClient> GetDepositClients();
         IDepositRestClient? DepositClient(string exchange);
 
+        IEnumerable<IKlineRestClient> GetKlineClients();
         IEnumerable<IKlineRestClient> GetKlineClients(ApiType api);
         IKlineRestClient? KlineClient(ApiType api, string exchange);
 
+        IEnumerable<IOrderBookRestClient> GetOrderBookClients();
         IEnumerable<IOrderBookRestClient> GetOrderBookClients(ApiType api);
         IOrderBookRestClient? OrderBookClient(ApiType api, string exchange);
 
+        IEnumerable<IRecentTradeRestClient> GetRecentTradesClients();
         IEnumerable<IRecentTradeRestClient> GetRecentTradesClients(ApiType api);
         IRecentTradeRestClient? RecentTradesClient(ApiType api, string exchange);
 
+        IEnumerable<ITradeHistoryRestClient> GetTradeHistoryClients();
         IEnumerable<ITradeHistoryRestClient> GetTradeHistoryClients(ApiType api);
         ITradeHistoryRestClient? TradeHistoryClient(ApiType api, string exchange);
 
@@ -136,30 +141,39 @@ namespace CryptoClients.Net.Interfaces
         IEnumerable<ISpotTickerRestClient> GetSpotTickerClients();
         ISpotTickerRestClient? SpotTickerClient(string exchange);
 
+        IEnumerable<IFundingRateRestClient> GetFundingRateClients();
         IEnumerable<IFundingRateRestClient> GetFundingRateClients(ApiType api);
         IFundingRateRestClient? FundingRateClient(ApiType api, string exchange);
 
+        IEnumerable<IFuturesOrderRestClient> GetFuturesOrderClients();
         IEnumerable<IFuturesOrderRestClient> GetFuturesOrderClients(ApiType api);
         IFuturesOrderRestClient? FuturesOrderClient(ApiType api, string exchange);
 
+        IEnumerable<IFuturesSymbolRestClient> GetFuturesSymbolClients();
         IEnumerable<IFuturesSymbolRestClient> GetFuturesSymbolClients(ApiType api);
         IFuturesSymbolRestClient? FuturesSymbolClient(ApiType api, string exchange);
 
+        IEnumerable<IFuturesTickerRestClient> GetFuturesTickerClients();
         IEnumerable<IFuturesTickerRestClient> GetFuturesTickerClients(ApiType api);
         IFuturesTickerRestClient? FuturesTickerClient(ApiType api, string exchange);
 
+        IEnumerable<IIndexPriceKlineRestClient> GetIndexPriceKlineClients();
         IEnumerable<IIndexPriceKlineRestClient> GetIndexPriceKlineClients(ApiType api);
         IIndexPriceKlineRestClient? IndexPriceKlineClient(ApiType api, string exchange);
 
+        IEnumerable<ILeverageRestClient> GetLeverageClients();
         IEnumerable<ILeverageRestClient> GetLeverageClients(ApiType api);
         ILeverageRestClient? LeverageClient(ApiType api, string exchange);
 
+        IEnumerable<IMarkPriceKlineRestClient> GetMarkPriceKlineClients();
         IEnumerable<IMarkPriceKlineRestClient> GetMarkPriceKlineClients(ApiType api);
         IMarkPriceKlineRestClient? MarkPriceKlineClient(ApiType api, string exchange);
 
+        IEnumerable<IOpenInterestRestClient> GetOpenInterestClients();
         IEnumerable<IOpenInterestRestClient> GetOpenInterestClients(ApiType api);
         IOpenInterestRestClient? OpenInterestClient(ApiType api, string exchange);
 
+        IEnumerable<IPositionModeRestClient> GetPositionModeClients();
         IEnumerable<IPositionModeRestClient> GetPositionModeClients(ApiType api);
         IPositionModeRestClient? PositionModeClient(ApiType api, string exchange);
 
@@ -170,8 +184,8 @@ namespace CryptoClients.Net.Interfaces
         IAsyncEnumerable<ExchangeWebResult<SharedSpotTicker>> GetSpotTickerAsyncEnumerable(GetTickerRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<SharedSpotTicker>>> GetSpotTickerAsync(GetTickerRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>> GetFuturesTickersAsyncEnumerable(ApiType apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersAsync(ApiType apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>> GetFuturesTickersAsyncEnumerable(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersAsync(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         IAsyncEnumerable<ExchangeWebResult<SharedFuturesTicker>> GetFuturesTickerAsyncEnumerable(GetTickerRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<SharedFuturesTicker>>> GetFuturesTickerAsync(GetTickerRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
@@ -200,8 +214,8 @@ namespace CryptoClients.Net.Interfaces
         IAsyncEnumerable<ExchangeWebResult<SharedAsset>> GetAssetAsyncEnumerable(GetAssetRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<SharedAsset>>> GetAssetAsync(GetAssetRequest request, ExchangeParameters? exchangeParexchangeParametersamters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> GetBalancesAsyncEnumerable(ApiType api, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesAsync(ApiType api, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> GetBalancesAsyncEnumerable(ApiType? api, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesAsync(ApiType? api, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedDeposit>>> GetDepositsAsyncEnumerable(GetDepositsRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedDeposit>>>> GetDepositsAsync(GetDepositsRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
@@ -230,8 +244,8 @@ namespace CryptoClients.Net.Interfaces
         IAsyncEnumerable<ExchangeWebResult<SharedOpenInterest>> GetOpenInterestAsyncEnumerable(GetOpenInterestRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         Task<IEnumerable<ExchangeWebResult<SharedOpenInterest>>> GetOpenInterestAsync(GetOpenInterestRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>> GetFuturesSymbolsAsyncEnumerable(ApiType apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsAsync(ApiType apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>> GetFuturesSymbolsAsyncEnumerable(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsAsync(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
     }
 }

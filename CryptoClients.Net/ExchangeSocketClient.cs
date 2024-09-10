@@ -63,7 +63,7 @@ namespace CryptoClients.Net
     /// <inheritdoc />
     public class ExchangeSocketClient : IExchangeSocketClient
     {
-        private Dictionary<ApiType, ISharedClient[]> _sharedClients = new Dictionary<ApiType, ISharedClient[]>();
+        private IEnumerable<ISharedClient> _sharedClients;
 
         /// <inheritdoc />
         public IBinanceSocketClient Binance { get; }
@@ -93,54 +93,72 @@ namespace CryptoClients.Net
         public IOKXSocketClient OKX { get; }
 
         /// <inheritdoc />
-        public IEnumerable<ITickerSocketClient> GetTickerClients(ApiType apiType) => _sharedClients[apiType].OfType<ITickerSocketClient>();
+        public IEnumerable<ITickerSocketClient> GetTickerClients() => _sharedClients.OfType<ITickerSocketClient>();
         /// <inheritdoc />
-        public ITickerSocketClient TickerClient(ApiType api, string exchange) => _sharedClients[api].OfType<ITickerSocketClient>().Single(s => s.Exchange == exchange);
+        public IEnumerable<ITickerSocketClient> GetTickerClients(ApiType api) => _sharedClients.OfType<ITickerSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        /// <inheritdoc />
+        public ITickerSocketClient TickerClient(ApiType api, string exchange) => _sharedClients.OfType<ITickerSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<ITickersSocketClient> GetTickersClients(ApiType apiType) => _sharedClients[apiType].OfType<ITickersSocketClient>();
+        public IEnumerable<ITickersSocketClient> GetTickersClients() => _sharedClients.OfType<ITickersSocketClient>();
         /// <inheritdoc />
-        public ITickersSocketClient TickersClient(ApiType api, string exchange) => _sharedClients[api].OfType<ITickersSocketClient>().Single(s => s.Exchange == exchange);
+        public IEnumerable<ITickersSocketClient> GetTickersClients(ApiType api) => _sharedClients.OfType<ITickersSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        /// <inheritdoc />
+        public ITickersSocketClient TickersClient(ApiType api, string exchange) => _sharedClients.OfType<ITickersSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<ITradeSocketClient> GetTradeClients(ApiType apiType) => _sharedClients[apiType].OfType<ITradeSocketClient>();
+        public IEnumerable<ITradeSocketClient> GetTradeClients() => _sharedClients.OfType<ITradeSocketClient>();
         /// <inheritdoc />
-        public ITradeSocketClient TradeClient(ApiType api, string exchange) => _sharedClients[api].OfType<ITradeSocketClient>().Single(s => s.Exchange == exchange);
+        public IEnumerable<ITradeSocketClient> GetTradeClients(ApiType api) => _sharedClients.OfType<ITradeSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        /// <inheritdoc />
+        public ITradeSocketClient TradeClient(ApiType api, string exchange) => _sharedClients.OfType<ITradeSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<IKlineSocketClient> GetKlineClients(ApiType apiType) => _sharedClients[apiType].OfType<IKlineSocketClient>();
+        public IEnumerable<IKlineSocketClient> GetKlineClients() => _sharedClients.OfType<IKlineSocketClient>();
         /// <inheritdoc />
-        public IKlineSocketClient KlineClient(ApiType api, string exchange) => _sharedClients[api].OfType<IKlineSocketClient>().Single(s => s.Exchange == exchange);
+        public IEnumerable<IKlineSocketClient> GetKlineClients(ApiType api) => _sharedClients.OfType<IKlineSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        /// <inheritdoc />
+        public IKlineSocketClient KlineClient(ApiType api, string exchange) => _sharedClients.OfType<IKlineSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<IOrderBookSocketClient> GetOrderBookClients(ApiType apiType) => _sharedClients[apiType].OfType<IOrderBookSocketClient>();
+        public IEnumerable<IOrderBookSocketClient> GetOrderBookClients() => _sharedClients.OfType<IOrderBookSocketClient>();
         /// <inheritdoc />
-        public IOrderBookSocketClient OrderBookClient(ApiType api, string exchange) => _sharedClients[api].OfType<IOrderBookSocketClient>().Single(s => s.Exchange == exchange);
+        public IEnumerable<IOrderBookSocketClient> GetOrderBookClients(ApiType api) => _sharedClients.OfType<IOrderBookSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        /// <inheritdoc />
+        public IOrderBookSocketClient OrderBookClient(ApiType api, string exchange) => _sharedClients.OfType<IOrderBookSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<IBalanceSocketClient> GetBalanceClients(ApiType apiType) => _sharedClients[apiType].OfType<IBalanceSocketClient>();
+        public IEnumerable<IBalanceSocketClient> GetBalanceClients() => _sharedClients.OfType<IBalanceSocketClient>();
         /// <inheritdoc />
-        public IBalanceSocketClient BalanceClient(ApiType api, string exchange) => _sharedClients[api].OfType<IBalanceSocketClient>().Single(s => s.Exchange == exchange);
+        public IEnumerable<IBalanceSocketClient> GetBalanceClients(ApiType api) => _sharedClients.OfType<IBalanceSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        /// <inheritdoc />
+        public IBalanceSocketClient BalanceClient(ApiType api, string exchange) => _sharedClients.OfType<IBalanceSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<IBookTickerSocketClient> GetBookTickerClients(ApiType apiType) => _sharedClients[apiType].OfType<IBookTickerSocketClient>();
+        public IEnumerable<IBookTickerSocketClient> GetBookTickerClients() => _sharedClients.OfType<IBookTickerSocketClient>();
         /// <inheritdoc />
-        public IBookTickerSocketClient BookTickerClient(ApiType api, string exchange) => _sharedClients[api].OfType<IBookTickerSocketClient>().Single(s => s.Exchange == exchange);
+        public IEnumerable<IBookTickerSocketClient> GetBookTickerClients(ApiType api) => _sharedClients.OfType<IBookTickerSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        /// <inheritdoc />
+        public IBookTickerSocketClient BookTickerClient(ApiType api, string exchange) => _sharedClients.OfType<IBookTickerSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<ISpotOrderSocketClient> GetSpotOrderClients() => _sharedClients[ApiType.Spot].OfType<ISpotOrderSocketClient>();
+        public IEnumerable<ISpotOrderSocketClient> GetSpotOrderClients() => _sharedClients.OfType<ISpotOrderSocketClient>();
         /// <inheritdoc />
-        public ISpotOrderSocketClient SpotOrderClient(string exchange) => _sharedClients[ApiType.Spot].OfType<ISpotOrderSocketClient>().Single(s => s.Exchange == exchange);
+        public ISpotOrderSocketClient SpotOrderClient(string exchange) => _sharedClients.OfType<ISpotOrderSocketClient>().Single(s => s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients(ApiType apiType) => _sharedClients[apiType].OfType<IFuturesOrderSocketClient>();
+        public IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients() => _sharedClients.OfType<IFuturesOrderSocketClient>();
         /// <inheritdoc />
-        public IFuturesOrderSocketClient FuturesOrderClient(ApiType apiType, string exchange) => _sharedClients[apiType].OfType<IFuturesOrderSocketClient>().Single(s => s.Exchange == exchange);
+        public IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients(ApiType api) => _sharedClients.OfType<IFuturesOrderSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        /// <inheritdoc />
+        public IFuturesOrderSocketClient FuturesOrderClient(ApiType api, string exchange) => _sharedClients.OfType<IFuturesOrderSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<IUserTradeSocketClient> GetUserTradeClients(ApiType apiType) => _sharedClients[apiType].OfType<IUserTradeSocketClient>();
+        public IEnumerable<IUserTradeSocketClient> GetUserTradeClients() => _sharedClients.OfType<IUserTradeSocketClient>();
         /// <inheritdoc />
-        public IUserTradeSocketClient UserTradeClient(ApiType apiType, string exchange) => _sharedClients[apiType].OfType<IUserTradeSocketClient>().Single(s => s.Exchange == exchange);
+        public IEnumerable<IUserTradeSocketClient> GetUserTradeClients(ApiType api) => _sharedClients.OfType<IUserTradeSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        /// <inheritdoc />
+        public IUserTradeSocketClient UserTradeClient(ApiType api, string exchange) => _sharedClients.OfType<IUserTradeSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <summary>
         /// Create a new ExchangeSocketClient instance. Client instances will be created with default options.
@@ -276,111 +294,80 @@ namespace CryptoClients.Net
 
         private void InitSharedClients()
         {
-            _sharedClients[ApiType.Spot] = new ISharedClient[]
+            _sharedClients = new ISharedClient[]
             {
                 Binance.SpotApi.SharedClient,
+                Binance.UsdFuturesApi.SharedClient,
+                Binance.CoinFuturesApi.SharedClient,
                 BingX.SpotApi.SharedClient,
+                BingX.PerpetualFuturesApi.SharedClient,
                 Bitfinex.SpotApi.SharedClient,
                 Bitget.SpotApiV2.SharedClient,
+                Bitget.FuturesApiV2.SharedClient,
                 BitMart.SpotApi.SharedClient,
-                Bybit.V5SpotApi.SharedClient,
+                BitMart.UsdFuturesApi.SharedClient,
+                Bybit.V5InverseApi.SharedClient,
+                Bybit.V5LinearApi.SharedClient,
                 Bybit.V5PrivateApi.SharedClient,
+                Bybit.V5SpotApi.SharedClient,
                 CoinEx.SpotApiV2.SharedClient,
+                CoinEx.FuturesApi.SharedClient,
                 GateIo.SpotApi.SharedClient,
+                GateIo.PerpetualFuturesApi.SharedClient,
                 HTX.SpotApi.SharedClient,
+                HTX.UsdtFuturesApi.SharedClient,
                 Kraken.SpotApi.SharedClient,
+                //Kraken.FuturesApi.SharedClient,
                 Kucoin.SpotApi.SharedClient,
+                Kucoin.FuturesApi.SharedClient,
                 Mexc.SpotApi.SharedClient,
                 OKX.UnifiedApi.SharedClient
             };
-            _sharedClients[ApiType.PerpetualLinear] = new ISharedClient[]
-            {
-                Binance.UsdFuturesApi.SharedClient,
-                BingX.PerpetualFuturesApi.SharedClient,
-                Bitget.FuturesApiV2.SharedClient,
-                BitMart.UsdFuturesApi.SharedClient,
-                Bybit.V5LinearApi.SharedClient,
-                CoinEx.FuturesApi.SharedClient,
-                GateIo.PerpetualFuturesApi.SharedClient,
-                HTX.UsdtFuturesApi.SharedClient,
-                Kucoin.FuturesApi.SharedClient,
-                OKX.UnifiedApi.SharedClient
-            };
-            _sharedClients[ApiType.DeliveryLinear] = new ISharedClient[]
-            {
-                Binance.UsdFuturesApi.SharedClient,
-                Bitget.FuturesApiV2.SharedClient,
-                BitMart.UsdFuturesApi.SharedClient,
-                Bybit.V5LinearApi.SharedClient,
-                HTX.UsdtFuturesApi.SharedClient,
-                Kucoin.FuturesApi.SharedClient,
-                OKX.UnifiedApi.SharedClient
-            };
-            _sharedClients[ApiType.PerpetualInverse] = new ISharedClient[]
-            {
-                Binance.CoinFuturesApi.SharedClient,
-                BingX.PerpetualFuturesApi.SharedClient,
-                Bitget.FuturesApiV2.SharedClient,
-                Bybit.V5InverseApi.SharedClient,
-                CoinEx.FuturesApi.SharedClient,
-                GateIo.PerpetualFuturesApi.SharedClient,
-                Kucoin.FuturesApi.SharedClient,
-                OKX.UnifiedApi.SharedClient
-            };
-            _sharedClients[ApiType.DeliveryInverse] = new ISharedClient[]
-            {
-                Binance.CoinFuturesApi.SharedClient,
-                Bitget.FuturesApiV2.SharedClient,
-                Bybit.V5InverseApi.SharedClient,
-                Kucoin.FuturesApi.SharedClient,
-                OKX.UnifiedApi.SharedClient
-            };
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(SubscribeToAllTickerUpdatesInt(apiType, handler, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(SubscribeToAllTickerUpdatesInt(handler, apiType, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToAllTickerUpdatesAsyncEnumerable(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToAllTickerUpdatesAsyncEnumerable(Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return SubscribeToAllTickerUpdatesInt(apiType, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return SubscribeToAllTickerUpdatesInt(handler, apiType, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesInt(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesInt(Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetTickersClients(apiType);
+            var clients = GetTickersClients().Where(x => apiType == null ? true: x.SupportedApiTypes.Contains(apiType.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToAllTickersUpdatesAsync(apiType, handler, exchangeParameters, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToAllTickersUpdatesAsync(handler, apiType, exchangeParameters, ct));
             }));
             return tasks;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(ApiType apiType, SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(SubscribeToTickerUpdatesInt(apiType, request, handler, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(SubscribeToTickerUpdatesInt(request, handler, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTickerUpdatesAsyncEnumerable(ApiType apiType, SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTickerUpdatesAsyncEnumerable(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return SubscribeToTickerUpdatesInt(apiType, request, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return SubscribeToTickerUpdatesInt(request, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesInt(ApiType apiType, SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesInt(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetTickerClients(apiType);
+            var clients = GetTickerClients(request.Symbol.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType = apiType;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 
@@ -390,24 +377,23 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesAsync(ApiType apiType, SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(SubscribeToTradeUpdatesInt(apiType, request, handler, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(SubscribeToTradeUpdatesInt(request, handler, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTradeUpdatesAsyncEnumerable(ApiType apiType, SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTradeUpdatesAsyncEnumerable(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return SubscribeToTradeUpdatesInt(apiType, request, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return SubscribeToTradeUpdatesInt(request, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesInt(ApiType apiType, SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesInt(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetTradeClients(apiType);
+            var clients = GetTradeClients(request.Symbol.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType = apiType;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 
@@ -417,24 +403,23 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesAsync(ApiType apiType, SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(SubscribeToBookTickerUpdatesInt(apiType, request, handler, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(SubscribeToBookTickerUpdatesInt(request, handler, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBookTickerUpdatesAsyncEnumerable(ApiType apiType, SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBookTickerUpdatesAsyncEnumerable(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return SubscribeToBookTickerUpdatesInt(apiType, request, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return SubscribeToBookTickerUpdatesInt(request, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesInt(ApiType apiType, SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesInt(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetBookTickerClients(apiType);
+            var clients = GetBookTickerClients(request.Symbol.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType = apiType;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 
@@ -444,24 +429,23 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToKlineUpdatesAsync(ApiType apiType, SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(SubscribeToKlineUpdatesInt(apiType, request, handler, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(SubscribeToKlineUpdatesInt(request, handler, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToKlineUpdatesAsyncEnumerable(ApiType apiType, SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToKlineUpdatesAsyncEnumerable(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return SubscribeToKlineUpdatesInt(apiType, request, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return SubscribeToKlineUpdatesInt(request, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToKlineUpdatesInt(ApiType apiType, SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToKlineUpdatesInt(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetKlineClients(apiType);
+            var clients = GetKlineClients(request.Symbol.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType = apiType;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
 
@@ -471,24 +455,23 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToOrderBookUpdatesAsync(ApiType apiType, SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToOrderBookUpdatesAsync(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(SubscribeToOrderBookUpdatesInt(apiType, request, handler, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(SubscribeToOrderBookUpdatesInt(request, handler, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsyncEnumerable(ApiType apiType, SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsyncEnumerable(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return SubscribeToOrderBookUpdatesInt(apiType, request, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return SubscribeToOrderBookUpdatesInt(request, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToOrderBookUpdatesInt(ApiType apiType, SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToOrderBookUpdatesInt(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetOrderBookClients(apiType);
+            var clients = GetOrderBookClients(request.Symbol.ApiType);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            request.ApiType = apiType;
             var tasks = clients.Select(x => Task.Run(async () =>
             {
 
@@ -498,27 +481,27 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(SubscribeToBalanceUpdatesInt(apiType, handler, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(SubscribeToBalanceUpdatesInt(handler, apiType, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsyncEnumerable(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsyncEnumerable(Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return SubscribeToBalanceUpdatesInt(apiType, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return SubscribeToBalanceUpdatesInt(handler, apiType,  exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesInt(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesInt(Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetBalanceClients(apiType);
+            var clients = GetBalanceClients().Where(x => apiType == null ? true : x.SupportedApiTypes.Contains(apiType.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBalanceUpdatesAsync(apiType, handler, exchangeParameters, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBalanceUpdatesAsync(handler, apiType, exchangeParameters, ct));
             }));
             return tasks;
         }
@@ -550,53 +533,53 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesAsync(Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(SubscribeToFuturesOrderUpdatesInt(apiType, handler, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(SubscribeToFuturesOrderUpdatesInt(handler, apiType, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToFuturesOrderUpdatesAsyncEnumerable(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToFuturesOrderUpdatesAsyncEnumerable(Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return SubscribeToFuturesOrderUpdatesInt(apiType, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return SubscribeToFuturesOrderUpdatesInt(handler, apiType, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesInt(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesInt(Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, ApiType? apiType,ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetFuturesOrderClients(apiType);
+            var clients = GetFuturesOrderClients().Where(x => apiType == null ? true : x.SupportedApiTypes.Contains(apiType.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
 
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToFuturesOrderUpdatesAsync(apiType, handler, exchangeParameters, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToFuturesOrderUpdatesAsync(handler, apiType,exchangeParameters, ct));
             }));
             return tasks;
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesAsync(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesAsync(Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(SubscribeToUserTradeUpdatesInt(apiType, handler, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(SubscribeToUserTradeUpdatesInt(handler, apiType, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsyncEnumerable(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsyncEnumerable(Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return SubscribeToUserTradeUpdatesInt(apiType, handler, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return SubscribeToUserTradeUpdatesInt(handler, apiType, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesInt(ApiType apiType, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesInt(Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetUserTradeClients(apiType);
+            var clients = GetUserTradeClients().Where(x => apiType == null ? true : x.SupportedApiTypes.Contains(apiType.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToUserTradeUpdatesAsync(apiType, handler, exchangeParameters, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToUserTradeUpdatesAsync(handler, apiType, exchangeParameters, ct));
             }));
             return tasks;
         }
