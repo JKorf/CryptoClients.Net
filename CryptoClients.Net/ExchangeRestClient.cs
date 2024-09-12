@@ -229,6 +229,13 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IPositionModeRestClient? PositionModeClient(ApiType api, string exchange) => _sharedClients.OfType<IPositionModeRestClient>().SingleOrDefault(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
+        /// <inheritdoc />
+        public IEnumerable<IPositionHistoryRestClient> GetPositionHistoryClients() => _sharedClients.OfType<IPositionHistoryRestClient>();
+        /// <inheritdoc />
+        public IEnumerable<IPositionHistoryRestClient> GetPositionHistoryClients(ApiType api) => _sharedClients.OfType<IPositionHistoryRestClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        /// <inheritdoc />
+        public IPositionHistoryRestClient? PositionHistoryClient(ApiType api, string exchange) => _sharedClients.OfType<IPositionHistoryRestClient>().SingleOrDefault(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
+
         /// <summary>
         /// Create a new ExchangeRestClient instance. Client instances will be created with default options.
         /// </summary>
@@ -612,24 +619,24 @@ namespace CryptoClients.Net
         #region Get Futures Tickers
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersAsync(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersAsync(GetTickersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetFuturesTickersInt(apiType, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(GetFuturesTickersInt(request, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>> GetFuturesTickersAsyncEnumerable(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>> GetFuturesTickersAsyncEnumerable(GetTickersRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetFuturesTickersInt(apiType, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return GetFuturesTickersInt(request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersInt(ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersInt(GetTickersRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFuturesTickerClients().Where(x => apiType == null ? true : x.SupportedApiTypes.Contains(apiType.Value));
+            var clients = GetFuturesTickerClients().Where(x => request.ApiType == null ? true : x.SupportedApiTypes.Contains(request.ApiType.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            var tasks = clients.Select(x => x.GetFuturesTickersAsync(apiType, exchangeParameters, ct));
+            var tasks = clients.Select(x => x.GetFuturesTickersAsync(request, exchangeParameters, ct));
             return tasks;
         }
 
@@ -869,24 +876,24 @@ namespace CryptoClients.Net
         #region Get Balances
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesAsync(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesAsync(GetBalancesRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetBalancesIntAsync(apiType, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(GetBalancesIntAsync(request, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> GetBalancesAsyncEnumerable(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> GetBalancesAsyncEnumerable(GetBalancesRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetBalancesIntAsync(apiType, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return GetBalancesIntAsync(request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesIntAsync(ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesIntAsync(GetBalancesRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetBalanceClients().Where(x => apiType == null ? true : x.SupportedApiTypes.Contains(apiType.Value));
+            var clients = GetBalanceClients().Where(x => request.ApiType == null ? true : x.SupportedApiTypes.Contains(request.ApiType.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            var tasks = clients.Select(x => x.GetBalancesAsync(apiType, exchangeParameters, ct));
+            var tasks = clients.Select(x => x.GetBalancesAsync(request, exchangeParameters, ct));
             return tasks;
         }
 
@@ -999,24 +1006,50 @@ namespace CryptoClients.Net
         #region Get Futures Symbols
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsAsync(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsAsync(GetFuturesSymbolsRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetFuturesSymbolsInt(apiType, exchangeParameters, exchanges, ct));
+            return await Task.WhenAll(GetFuturesSymbolsInt(request, exchangeParameters, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>> GetFuturesSymbolsAsyncEnumerable(ApiType? apiType, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>> GetFuturesSymbolsAsyncEnumerable(GetFuturesSymbolsRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetFuturesSymbolsInt(apiType, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+            return GetFuturesSymbolsInt(request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsInt(ApiType? apiType, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsInt(GetFuturesSymbolsRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFuturesSymbolClients().Where(x => apiType == null ? true: x.SupportedApiTypes.Contains(apiType.Value));
+            var clients = GetFuturesSymbolClients().Where(x => request.ApiType == null ? true: x.SupportedApiTypes.Contains(request.ApiType.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
-            var tasks = clients.Select(x => x.GetFuturesSymbolsAsync(apiType, exchangeParameters, ct));
+            var tasks = clients.Select(x => x.GetFuturesSymbolsAsync(request, exchangeParameters, ct));
+            return tasks;
+        }
+
+        #endregion
+
+        #region Get Position History
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedPositionHistory>>>> GetPositionHistoryAsync(GetPositionHistoryRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetPositionHistoryInt(request, exchangeParameters, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedPositionHistory>>> GetPositionHistoryAsyncEnumerable(GetPositionHistoryRequest request, ExchangeParameters? exchangeParameters = null, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetPositionHistoryInt(request, exchangeParameters, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedPositionHistory>>>> GetPositionHistoryInt(GetPositionHistoryRequest request, ExchangeParameters? exchangeParameters, IEnumerable<string>? exchanges, CancellationToken ct)
+        {
+            var clients = GetPositionHistoryClients(request.Symbol?.ApiType ?? request.ApiType!.Value);
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+
+            var tasks = clients.Select(x => x.GetPositionHistoryAsync(request, null, exchangeParameters, ct));
             return tasks;
         }
 

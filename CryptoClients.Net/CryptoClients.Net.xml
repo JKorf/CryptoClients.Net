@@ -351,6 +351,15 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.PositionModeClient(CryptoExchange.Net.Objects.ApiType,System.String)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryClients">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryClients(CryptoExchange.Net.Objects.ApiType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.PositionHistoryClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor">
             <summary>
             Create a new ExchangeRestClient instance. Client instances will be created with default options.
@@ -414,10 +423,10 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotUserTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetUserTradesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsync(System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsyncEnumerable(System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
@@ -474,10 +483,10 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetAssetRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsync(System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetBalancesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsyncEnumerable(System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetBalancesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetDepositsRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
@@ -504,10 +513,16 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenInterestRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsync(System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetFuturesSymbolsRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsyncEnumerable(System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetFuturesSymbolsRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetPositionHistoryRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetPositionHistoryRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:CryptoClients.Net.Exchanges">
