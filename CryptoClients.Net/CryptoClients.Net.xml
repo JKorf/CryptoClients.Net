@@ -381,148 +381,148 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetUnifiedSpotClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickerAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickerAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickerAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickerAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsAsync(CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.PlaceSpotOrderAsync(CryptoExchange.Net.SharedApis.Models.Rest.PlaceSpotOrderRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.PlaceSpotOrderAsync(CryptoExchange.Net.SharedApis.Models.Rest.PlaceSpotOrderRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.PlaceSpotOrderAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.PlaceSpotOrderRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.PlaceSpotOrderAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.PlaceSpotOrderRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetClosedOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetClosedOrdersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotUserTradesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetUserTradesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotUserTradesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotUserTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetUserTradesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotUserTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlinesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlinesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlinesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlinesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetRecentTradesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetRecentTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetRecentTradesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetRecentTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTradeHistoryRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTradeHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTradeHistoryRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTradeHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetOrderBookRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetOrderBookRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetOrderBookRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetOrderBookRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetsAsync(CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetAssetsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetAssetsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetAssetRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetAssetRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetAssetRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetAssetRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetBalancesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetBalancesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetBalancesRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetBalancesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetDepositsRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetDepositsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetDepositsRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetDepositsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetWithdrawalsRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetWithdrawalsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetWithdrawalsRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetWithdrawalsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateHistoryAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetFundingRateHistoryRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateHistoryAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetFundingRateHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetFundingRateHistoryRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetFundingRateHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenInterestRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenInterestRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenInterestRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenInterestRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetFuturesSymbolsRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetFuturesSymbolsRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetPositionHistoryRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetPositionHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetPositionHistoryRequest,CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetPositionHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:CryptoClients.Net.Exchanges">
@@ -749,64 +749,64 @@
             DI constructor
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.RequestModels.SharedSpotTicker}}},System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.RequestModels.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsyncEnumerable(System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.RequestModels.SharedSpotTicker}}},System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.RequestModels.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTickerUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.RequestModels.SharedSpotTicker}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTickerUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.RequestModels.SharedSpotTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTickerUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.RequestModels.SharedSpotTicker}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTickerUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.RequestModels.SharedSpotTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeModels.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedTrade}}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeModels.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTradeUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.SubscribeModels.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedTrade}}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTradeUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.SubscribeModels.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBookTickerUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeBookTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedBookTicker}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBookTickerUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeBookTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedBookTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBookTickerUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeBookTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedBookTicker}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBookTickerUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeBookTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedBookTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToKlineUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeKlineRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.RequestModels.SharedKline}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToKlineUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeKlineRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.RequestModels.SharedKline}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToKlineUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeKlineRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.RequestModels.SharedKline}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToKlineUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeKlineRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.RequestModels.SharedKline}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToOrderBookUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeOrderBookRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedOrderBook}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToOrderBookUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeOrderBookRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedOrderBook}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToOrderBookUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeOrderBookRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedOrderBook}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToOrderBookUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeOrderBookRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedOrderBook}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBalanceUpdatesAsync(System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedBalance}}},System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBalanceUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeBalancesRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedBalance}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBalanceUpdatesAsyncEnumerable(System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedBalance}}},System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBalanceUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeBalancesRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedBalance}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotOrderUpdatesAsync(System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotOrder}}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotOrderUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeSpotOrderRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotOrderUpdatesAsyncEnumerable(System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotOrder}}},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotOrderUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeSpotOrderRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsync(System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedFuturesOrder}}},System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeFuturesOrderRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedFuturesOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsyncEnumerable(System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedFuturesOrder}}},System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeFuturesOrderRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedFuturesOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToUserTradeUpdatesAsync(System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedUserTrade}}},System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToUserTradeUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeUserTradeRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedUserTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToUserTradeUpdatesAsyncEnumerable(System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedUserTrade}}},System.Nullable{CryptoExchange.Net.Objects.ApiType},CryptoExchange.Net.SharedApis.Models.ExchangeParameters,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToUserTradeUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeUserTradeRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedUserTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.UnsubscribeAllAsync">
