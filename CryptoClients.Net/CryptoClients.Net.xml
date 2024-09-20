@@ -192,10 +192,10 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalanceClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalanceClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalanceClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.BalanceClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.BalanceClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositClients">
@@ -207,37 +207,37 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.KlineClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.KlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.OrderBookClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.OrderBookClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.RecentTradesClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.RecentTradesClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.TradeHistoryClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.TradeHistoryClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalClients">
@@ -273,91 +273,91 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.FundingRateClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.FundingRateClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesOrderClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesOrderClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesOrderClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.FuturesOrderClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.FuturesOrderClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.FuturesSymbolClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.FuturesSymbolClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.FuturesTickerClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.FuturesTickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlineClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlineClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlineClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.IndexPriceKlineClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.IndexPriceKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetLeverageClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetLeverageClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetLeverageClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.LeverageClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.LeverageClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlineClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlineClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlineClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.MarkPriceKlineClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.MarkPriceKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.OpenInterestClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.OpenInterestClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionModeClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionModeClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionModeClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.PositionModeClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.PositionModeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.PositionHistoryClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.PositionHistoryClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor">
@@ -650,64 +650,64 @@
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickerClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickerClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickerClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.TickerClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.TickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickersClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickersClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickersClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.TickersClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.TickersClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTradeClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTradeClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTradeClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.TradeClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.TradeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetKlineClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetKlineClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetKlineClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.KlineClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.KlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetOrderBookClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetOrderBookClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetOrderBookClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.OrderBookClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.OrderBookClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBalanceClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBalanceClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBalanceClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.BalanceClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.BalanceClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBookTickerClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBookTickerClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBookTickerClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.BookTickerClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.BookTickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetSpotOrderClients">
@@ -719,19 +719,19 @@
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetFuturesOrderClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetFuturesOrderClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetFuturesOrderClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.FuturesOrderClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.FuturesOrderClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetUserTradeClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetUserTradeClients(CryptoExchange.Net.Objects.ApiType)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetUserTradeClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.UserTradeClient(CryptoExchange.Net.Objects.ApiType,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.UserTradeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.#ctor">

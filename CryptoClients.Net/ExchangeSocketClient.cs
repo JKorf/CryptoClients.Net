@@ -95,51 +95,51 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<ITickerSocketClient> GetTickerClients() => _sharedClients.OfType<ITickerSocketClient>();
         /// <inheritdoc />
-        public IEnumerable<ITickerSocketClient> GetTickerClients(ApiType api) => _sharedClients.OfType<ITickerSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        public IEnumerable<ITickerSocketClient> GetTickerClients(TradingMode api) => _sharedClients.OfType<ITickerSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
         /// <inheritdoc />
-        public ITickerSocketClient TickerClient(ApiType api, string exchange) => _sharedClients.OfType<ITickerSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
+        public ITickerSocketClient TickerClient(TradingMode api, string exchange) => _sharedClients.OfType<ITickerSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ITickersSocketClient> GetTickersClients() => _sharedClients.OfType<ITickersSocketClient>();
         /// <inheritdoc />
-        public IEnumerable<ITickersSocketClient> GetTickersClients(ApiType api) => _sharedClients.OfType<ITickersSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        public IEnumerable<ITickersSocketClient> GetTickersClients(TradingMode api) => _sharedClients.OfType<ITickersSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
         /// <inheritdoc />
-        public ITickersSocketClient TickersClient(ApiType api, string exchange) => _sharedClients.OfType<ITickersSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
+        public ITickersSocketClient TickersClient(TradingMode api, string exchange) => _sharedClients.OfType<ITickersSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ITradeSocketClient> GetTradeClients() => _sharedClients.OfType<ITradeSocketClient>();
         /// <inheritdoc />
-        public IEnumerable<ITradeSocketClient> GetTradeClients(ApiType api) => _sharedClients.OfType<ITradeSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        public IEnumerable<ITradeSocketClient> GetTradeClients(TradingMode api) => _sharedClients.OfType<ITradeSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
         /// <inheritdoc />
-        public ITradeSocketClient TradeClient(ApiType api, string exchange) => _sharedClients.OfType<ITradeSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
+        public ITradeSocketClient TradeClient(TradingMode api, string exchange) => _sharedClients.OfType<ITradeSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IKlineSocketClient> GetKlineClients() => _sharedClients.OfType<IKlineSocketClient>();
         /// <inheritdoc />
-        public IEnumerable<IKlineSocketClient> GetKlineClients(ApiType api) => _sharedClients.OfType<IKlineSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        public IEnumerable<IKlineSocketClient> GetKlineClients(TradingMode api) => _sharedClients.OfType<IKlineSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
         /// <inheritdoc />
-        public IKlineSocketClient KlineClient(ApiType api, string exchange) => _sharedClients.OfType<IKlineSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
+        public IKlineSocketClient KlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IKlineSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IOrderBookSocketClient> GetOrderBookClients() => _sharedClients.OfType<IOrderBookSocketClient>();
         /// <inheritdoc />
-        public IEnumerable<IOrderBookSocketClient> GetOrderBookClients(ApiType api) => _sharedClients.OfType<IOrderBookSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        public IEnumerable<IOrderBookSocketClient> GetOrderBookClients(TradingMode api) => _sharedClients.OfType<IOrderBookSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
         /// <inheritdoc />
-        public IOrderBookSocketClient OrderBookClient(ApiType api, string exchange) => _sharedClients.OfType<IOrderBookSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
+        public IOrderBookSocketClient OrderBookClient(TradingMode api, string exchange) => _sharedClients.OfType<IOrderBookSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IBalanceSocketClient> GetBalanceClients() => _sharedClients.OfType<IBalanceSocketClient>();
         /// <inheritdoc />
-        public IEnumerable<IBalanceSocketClient> GetBalanceClients(ApiType api) => _sharedClients.OfType<IBalanceSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        public IEnumerable<IBalanceSocketClient> GetBalanceClients(TradingMode api) => _sharedClients.OfType<IBalanceSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
         /// <inheritdoc />
-        public IBalanceSocketClient BalanceClient(ApiType api, string exchange) => _sharedClients.OfType<IBalanceSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
+        public IBalanceSocketClient BalanceClient(TradingMode api, string exchange) => _sharedClients.OfType<IBalanceSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IBookTickerSocketClient> GetBookTickerClients() => _sharedClients.OfType<IBookTickerSocketClient>();
         /// <inheritdoc />
-        public IEnumerable<IBookTickerSocketClient> GetBookTickerClients(ApiType api) => _sharedClients.OfType<IBookTickerSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        public IEnumerable<IBookTickerSocketClient> GetBookTickerClients(TradingMode api) => _sharedClients.OfType<IBookTickerSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
         /// <inheritdoc />
-        public IBookTickerSocketClient BookTickerClient(ApiType api, string exchange) => _sharedClients.OfType<IBookTickerSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
+        public IBookTickerSocketClient BookTickerClient(TradingMode api, string exchange) => _sharedClients.OfType<IBookTickerSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ISpotOrderSocketClient> GetSpotOrderClients() => _sharedClients.OfType<ISpotOrderSocketClient>();
@@ -149,16 +149,16 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients() => _sharedClients.OfType<IFuturesOrderSocketClient>();
         /// <inheritdoc />
-        public IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients(ApiType api) => _sharedClients.OfType<IFuturesOrderSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        public IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients(TradingMode api) => _sharedClients.OfType<IFuturesOrderSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
         /// <inheritdoc />
-        public IFuturesOrderSocketClient FuturesOrderClient(ApiType api, string exchange) => _sharedClients.OfType<IFuturesOrderSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
+        public IFuturesOrderSocketClient FuturesOrderClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesOrderSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IUserTradeSocketClient> GetUserTradeClients() => _sharedClients.OfType<IUserTradeSocketClient>();
         /// <inheritdoc />
-        public IEnumerable<IUserTradeSocketClient> GetUserTradeClients(ApiType api) => _sharedClients.OfType<IUserTradeSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
+        public IEnumerable<IUserTradeSocketClient> GetUserTradeClients(TradingMode api) => _sharedClients.OfType<IUserTradeSocketClient>().Where(s => s.SupportedApiTypes.Contains(api));
         /// <inheritdoc />
-        public IUserTradeSocketClient UserTradeClient(ApiType api, string exchange) => _sharedClients.OfType<IUserTradeSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
+        public IUserTradeSocketClient UserTradeClient(TradingMode api, string exchange) => _sharedClients.OfType<IUserTradeSocketClient>().Single(s => s.SupportedApiTypes.Contains(api) && s.Exchange == exchange);
 
         /// <summary>
         /// Create a new ExchangeSocketClient instance. Client instances will be created with default options.
