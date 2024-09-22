@@ -10,11 +10,11 @@ using CryptoClients.Net.Models;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis.Interfaces.Socket;
+using CryptoExchange.Net.SharedApis.Interfaces.Socket.Futures;
+using CryptoExchange.Net.SharedApis.Interfaces.Socket.Spot;
 using CryptoExchange.Net.SharedApis.Models;
 using CryptoExchange.Net.SharedApis.Models.Socket;
-using CryptoExchange.Net.SharedApis.RequestModels;
 using CryptoExchange.Net.SharedApis.ResponseModels;
-using CryptoExchange.Net.SharedApis.SubscribeModels;
 using GateIo.Net.Interfaces.Clients;
 using HTX.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
@@ -88,42 +88,46 @@ namespace CryptoClients.Net.Interfaces
 
         IEnumerable<ITickerSocketClient> GetTickerClients();
         IEnumerable<ITickerSocketClient> GetTickerClients(TradingMode apiType);
-        ITickerSocketClient TickerClient(TradingMode api, string exchange);
+        ITickerSocketClient? TickerClient(TradingMode api, string exchange);
 
         IEnumerable<ITickersSocketClient> GetTickersClients();
         IEnumerable<ITickersSocketClient> GetTickersClients(TradingMode apiType);
-        ITickersSocketClient TickersClient(TradingMode api, string exchange);
+        ITickersSocketClient? TickersClient(TradingMode api, string exchange);
 
         IEnumerable<ITradeSocketClient> GetTradeClients();
         IEnumerable<ITradeSocketClient> GetTradeClients(TradingMode apiType);
-        ITradeSocketClient TradeClient(TradingMode api, string exchange);
+        ITradeSocketClient? TradeClient(TradingMode api, string exchange);
 
         IEnumerable<IBookTickerSocketClient> GetBookTickerClients();
         IEnumerable<IBookTickerSocketClient> GetBookTickerClients(TradingMode apiType);
-        IBookTickerSocketClient BookTickerClient(TradingMode api, string exchange);
+        IBookTickerSocketClient? BookTickerClient(TradingMode api, string exchange);
 
         IEnumerable<IKlineSocketClient> GetKlineClients();
         IEnumerable<IKlineSocketClient> GetKlineClients(TradingMode apiType);
-        IKlineSocketClient KlineClient(TradingMode api, string exchange);
+        IKlineSocketClient? KlineClient(TradingMode api, string exchange);
 
         IEnumerable<IOrderBookSocketClient> GetOrderBookClients();
         IEnumerable<IOrderBookSocketClient> GetOrderBookClients(TradingMode apiType);
-        IOrderBookSocketClient OrderBookClient(TradingMode api, string exchange);
+        IOrderBookSocketClient? OrderBookClient(TradingMode api, string exchange);
 
         IEnumerable<IBalanceSocketClient> GetBalanceClients();
         IEnumerable<IBalanceSocketClient> GetBalanceClients(TradingMode apiType);
-        IBalanceSocketClient BalanceClient(TradingMode api, string exchange);
+        IBalanceSocketClient? BalanceClient(TradingMode api, string exchange);
 
         IEnumerable<ISpotOrderSocketClient> GetSpotOrderClients();
-        ISpotOrderSocketClient SpotOrderClient(string exchange);
+        ISpotOrderSocketClient? SpotOrderClient(string exchange);
 
         IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients();
         IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients(TradingMode apiType);
-        IFuturesOrderSocketClient FuturesOrderClient(TradingMode apiType, string exchange);
+        IFuturesOrderSocketClient? FuturesOrderClient(TradingMode apiType, string exchange);
 
         IEnumerable<IUserTradeSocketClient> GetUserTradeClients();
         IEnumerable<IUserTradeSocketClient> GetUserTradeClients(TradingMode apiType);
-        IUserTradeSocketClient UserTradeClient(TradingMode apiType, string exchange);
+        IUserTradeSocketClient? UserTradeClient(TradingMode apiType, string exchange);
+
+        IEnumerable<IPositionSocketClient> GetPositionClients();
+        IEnumerable<IPositionSocketClient> GetPositionClients(TradingMode apiType);
+        IPositionSocketClient? PositionClient(TradingMode apiType, string exchange);
 
         Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToAllTickerUpdatesAsyncEnumerable(SubscribeAllTickersRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
