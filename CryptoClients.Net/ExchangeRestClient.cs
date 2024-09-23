@@ -19,13 +19,10 @@ using Bybit.Net.Objects.Options;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
-using CryptoClients.Net.Enums;
 using CryptoClients.Net.ExtensionMethods;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
-using CryptoExchange.Net;
 using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
@@ -434,6 +431,12 @@ namespace CryptoClients.Net
             return _spotClients.ToList();
         }
 
+        /// <inheritdoc />
+        public IEnumerable<ISharedClient> GetExchangeSharedClients(string name)
+        {
+            return _sharedClients.Where(s => s.Exchange == name).ToList();
+        }
+
         #region Get Spot Tickers
 
         /// <inheritdoc />
@@ -658,7 +661,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<SharedFuturesTicker>>> GetFuturesTickerInt(GetTickerRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFuturesTickerClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.ApiType));
+            var clients = GetFuturesTickerClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -683,7 +686,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesIntAsync(GetKlinesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetKlineClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.ApiType));
+            var clients = GetKlineClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -709,7 +712,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesKline>>>> GetMarkPriceKlinesIntAsync(GetKlinesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetMarkPriceKlineClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.ApiType));
+            var clients = GetMarkPriceKlineClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -734,7 +737,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesKline>>>> GetIndexPriceKlinesIntAsync(GetKlinesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetIndexPriceKlineClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.ApiType));
+            var clients = GetIndexPriceKlineClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -760,7 +763,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesIntAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges, IEnumerable<INextPageToken>? nextPageTokens, CancellationToken ct)
         {
-            var clients = GetRecentTradesClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.ApiType));
+            var clients = GetRecentTradesClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -786,7 +789,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradeHistoryInt(GetTradeHistoryRequest request, IEnumerable<string>? exchanges, IEnumerable<INextPageToken>? nextPageTokens, CancellationToken ct)
         {
-            var clients = GetTradeHistoryClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.ApiType));
+            var clients = GetTradeHistoryClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -812,7 +815,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<SharedOrderBook>>> GetOrderBookInt(GetOrderBookRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetOrderBookClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.ApiType));
+            var clients = GetOrderBookClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -968,7 +971,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFundingRate>>>> GetFundingRateHistoryInt(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFundingRateClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.ApiType));
+            var clients = GetFundingRateClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -994,7 +997,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<SharedOpenInterest>>> GetOpenInterestInt(GetOpenInterestRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetOpenInterestClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.ApiType));
+            var clients = GetOpenInterestClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -1046,7 +1049,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedPositionHistory>>>> GetPositionHistoryInt(GetPositionHistoryRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetPositionHistoryClients(request.Symbol?.ApiType ?? request.TradingMode!.Value);
+            var clients = GetPositionHistoryClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 

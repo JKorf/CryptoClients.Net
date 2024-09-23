@@ -19,7 +19,6 @@ using Bybit.Net.Objects.Options;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
-using CryptoClients.Net.Enums;
 using CryptoClients.Net.ExtensionMethods;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
@@ -333,6 +332,12 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
+        public IEnumerable<ISharedClient> GetExchangeSharedClients(string name)
+        {
+            return _sharedClients.Where(s => s.Exchange == name).ToList();
+        }
+
+        /// <inheritdoc />
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(SubscribeToAllTickerUpdatesInt(request, handler, exchanges, ct));
@@ -371,7 +376,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesInt(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetTickerClients(request.Symbol.ApiType);
+            var clients = GetTickerClients(request.Symbol.TradingMode);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -397,7 +402,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesInt(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetTradeClients(request.Symbol.ApiType);
+            var clients = GetTradeClients(request.Symbol.TradingMode);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -423,7 +428,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesInt(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetBookTickerClients(request.Symbol.ApiType);
+            var clients = GetBookTickerClients(request.Symbol.TradingMode);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -449,7 +454,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToKlineUpdatesInt(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetKlineClients(request.Symbol.ApiType);
+            var clients = GetKlineClients(request.Symbol.TradingMode);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -475,7 +480,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToOrderBookUpdatesInt(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetOrderBookClients(request.Symbol.ApiType);
+            var clients = GetOrderBookClients(request.Symbol.TradingMode);
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 

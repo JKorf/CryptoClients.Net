@@ -74,6 +74,11 @@
             OKX
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.Enums.Exchange.All">
+            <summary>
+            All exchange names
+            </summary>
+        </member>
         <member name="T:CryptoClients.Net.ExchangeInfo">
             <summary>
             Exchange information
@@ -379,6 +384,9 @@
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetUnifiedSpotClients">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangeSharedClients(System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
@@ -758,6 +766,9 @@
             DI constructor
             </summary>
         </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetExchangeSharedClients(System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -820,6 +831,18 @@
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.UnsubscribeAllAsync">
             <inheritdoc />
+        </member>
+        <member name="T:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions">
+            <summary>
+            Extension methods
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.ParallelEnumerateAsync``1(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Return the task results in the form of an IAsyncEnumerable, returning the first completed task first
+            </summary>
+            <typeparam name="T">Type of task result</typeparam>
+            <param name="tasks">Task list</param>
         </member>
         <member name="T:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory">
             <summary>

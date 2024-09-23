@@ -100,6 +100,8 @@ namespace CryptoClients.Net.Interfaces
         /// <returns></returns>
         IEnumerable<ISpotClient> GetUnifiedSpotClients();
 
+        IEnumerable<ISharedClient> GetExchangeSharedClients(string exchange);
+
         IEnumerable<IAssetsRestClient> GetAssetClients();
         IAssetsRestClient? AssetClient(string exchange);
 

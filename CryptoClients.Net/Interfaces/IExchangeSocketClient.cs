@@ -9,6 +9,7 @@ using CryptoClients.Net.Enums;
 using CryptoClients.Net.Models;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.SharedApis.Interfaces;
 using CryptoExchange.Net.SharedApis.Interfaces.Socket;
 using CryptoExchange.Net.SharedApis.Interfaces.Socket.Futures;
 using CryptoExchange.Net.SharedApis.Interfaces.Socket.Spot;
@@ -85,6 +86,8 @@ namespace CryptoClients.Net.Interfaces
         /// OKX Websocket API
         /// </summary>
         IOKXSocketClient OKX { get; }
+
+        IEnumerable<ISharedClient> GetExchangeSharedClients(string exchange);
 
         IEnumerable<ITickerSocketClient> GetTickerClients();
         IEnumerable<ITickerSocketClient> GetTickerClients(TradingMode apiType);

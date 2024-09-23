@@ -11,6 +11,8 @@ using Kraken.Net;
 using Kucoin.Net;
 using Mexc.Net;
 using OKX.Net;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CryptoClients.Net.Enums
 {
@@ -71,5 +73,27 @@ namespace CryptoClients.Net.Enums
         /// OKX
         /// </summary>
         public static string OKX => OKXExchange.ExchangeName;
+
+        /// <summary>
+        /// All exchange names
+        /// </summary>
+        public static IEnumerable<string> All { get; } = new[]
+        {
+            Binance,
+            BingX,
+            Bitfinex,
+            Bitget,
+            BitMart,
+            Bitget,
+            BitMart,
+            Bybit,
+            CoinEx,
+            GateIo,
+            HTX,
+            Kraken,
+            Kucoin,
+            Mexc,
+            OKX
+        };
     }
 }
