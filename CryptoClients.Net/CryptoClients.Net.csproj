@@ -50,6 +50,7 @@
     <ProjectReference Include="..\..\BitMart.Net\BitMart.Net\BitMart.Net.csproj" />
     <ProjectReference Include="..\..\Bybit.Net\ByBit.Net\Bybit.Net.csproj" />
     <ProjectReference Include="..\..\CoinEx.Net\CoinEx.Net\CoinEx.Net.csproj" />
+    <ProjectReference Include="..\..\CryptoExchange.Net\CryptoExchange.Net\CryptoExchange.Net.csproj" />
     <ProjectReference Include="..\..\CoinGecko.Net\CoinGecko.Net\CoinGecko.Net.csproj" />
     <ProjectReference Include="..\..\GateIo.Net\GateIo.Net\GateIo.Net.csproj" />
     <ProjectReference Include="..\..\HTX.Net\HTX.Net\HTX.Net.csproj" />
