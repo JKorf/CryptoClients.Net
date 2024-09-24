@@ -5,17 +5,9 @@ using Bitget.Net.Interfaces.Clients;
 using BitMart.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
-using CryptoClients.Net.Enums;
-using CryptoClients.Net.Models;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
-using CryptoExchange.Net.SharedApis.Interfaces;
-using CryptoExchange.Net.SharedApis.Interfaces.Socket;
-using CryptoExchange.Net.SharedApis.Interfaces.Socket.Futures;
-using CryptoExchange.Net.SharedApis.Interfaces.Socket.Spot;
-using CryptoExchange.Net.SharedApis.Models;
-using CryptoExchange.Net.SharedApis.Models.Socket;
-using CryptoExchange.Net.SharedApis.ResponseModels;
+using CryptoExchange.Net.SharedApis;
 using GateIo.Net.Interfaces.Clients;
 using HTX.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
@@ -87,81 +79,273 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         IOKXSocketClient OKX { get; }
 
+        /// <summary>
+        /// Get all ISharedClient Socket Api interfaces supported for the specified exchange
+        /// </summary>
+        /// <param name="exchange">The exchange name</param>
         IEnumerable<ISharedClient> GetExchangeSharedClients(string exchange);
 
+        /// <summary>
+        /// Get the <see cref="ITickerSocketClient"/> clients for all exchanges which have support for it
+        /// </summary>
         IEnumerable<ITickerSocketClient> GetTickerClients();
-        IEnumerable<ITickerSocketClient> GetTickerClients(TradingMode apiType);
-        ITickerSocketClient? TickerClient(TradingMode api, string exchange);
 
+        /// <summary>
+        /// Get all <see cref="ITickerSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<ITickerSocketClient> GetTickerClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="ITickerSocketClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        ITickerSocketClient? TickerClient(TradingMode tradingMode, string exchange);
+
+        /// <summary>
+        /// Get the <see cref="ITickersSocketClient"/> clients for all exchanges which have support for it
+        /// </summary>
         IEnumerable<ITickersSocketClient> GetTickersClients();
-        IEnumerable<ITickersSocketClient> GetTickersClients(TradingMode apiType);
-        ITickersSocketClient? TickersClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="ITickersSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<ITickersSocketClient> GetTickersClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="ITickersSocketClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        ITickersSocketClient? TickersClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="ITradeSocketClient"/> clients for all exchanges which have support for it
+        /// </summary>
         IEnumerable<ITradeSocketClient> GetTradeClients();
-        IEnumerable<ITradeSocketClient> GetTradeClients(TradingMode apiType);
-        ITradeSocketClient? TradeClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="ITradeSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<ITradeSocketClient> GetTradeClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="ITradeSocketClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        ITradeSocketClient? TradeClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IBookTickerSocketClient"/> clients for all exchanges which have support for it
+        /// </summary>
         IEnumerable<IBookTickerSocketClient> GetBookTickerClients();
-        IEnumerable<IBookTickerSocketClient> GetBookTickerClients(TradingMode apiType);
-        IBookTickerSocketClient? BookTickerClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IBookTickerSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IBookTickerSocketClient> GetBookTickerClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IBookTickerSocketClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IBookTickerSocketClient? BookTickerClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IKlineSocketClient"/> clients for all exchanges which have support for it
+        /// </summary>
         IEnumerable<IKlineSocketClient> GetKlineClients();
-        IEnumerable<IKlineSocketClient> GetKlineClients(TradingMode apiType);
-        IKlineSocketClient? KlineClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IKlineSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IKlineSocketClient> GetKlineClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IKlineSocketClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IKlineSocketClient? KlineClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IOrderBookSocketClient"/> clients for all exchanges which have support for it
+        /// </summary>
         IEnumerable<IOrderBookSocketClient> GetOrderBookClients();
-        IEnumerable<IOrderBookSocketClient> GetOrderBookClients(TradingMode apiType);
-        IOrderBookSocketClient? OrderBookClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IOrderBookSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IOrderBookSocketClient> GetOrderBookClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IOrderBookSocketClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IOrderBookSocketClient? OrderBookClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IBalanceSocketClient"/> clients for all exchanges which have support for it
+        /// </summary>
         IEnumerable<IBalanceSocketClient> GetBalanceClients();
-        IEnumerable<IBalanceSocketClient> GetBalanceClients(TradingMode apiType);
-        IBalanceSocketClient? BalanceClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IBalanceSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IBalanceSocketClient> GetBalanceClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IBalanceSocketClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IBalanceSocketClient? BalanceClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="ISpotOrderSocketClient"/> clients for all exchanges which have support for it
+        /// </summary>
         IEnumerable<ISpotOrderSocketClient> GetSpotOrderClients();
+        /// <summary>
+        /// Get the <see cref="ISpotOrderSocketClient"/> client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
         ISpotOrderSocketClient? SpotOrderClient(string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IFuturesOrderSocketClient"/> clients for all exchanges which have support for it
+        /// </summary>
         IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients();
-        IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients(TradingMode apiType);
-        IFuturesOrderSocketClient? FuturesOrderClient(TradingMode apiType, string exchange);
+        /// <summary>
+        /// Get all <see cref="IFuturesOrderSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IFuturesOrderSocketClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IFuturesOrderSocketClient? FuturesOrderClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IUserTradeSocketClient"/> clients for all exchanges which have support for it
+        /// </summary>
         IEnumerable<IUserTradeSocketClient> GetUserTradeClients();
-        IEnumerable<IUserTradeSocketClient> GetUserTradeClients(TradingMode apiType);
-        IUserTradeSocketClient? UserTradeClient(TradingMode apiType, string exchange);
+        /// <summary>
+        /// Get all <see cref="IUserTradeSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IUserTradeSocketClient> GetUserTradeClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IUserTradeSocketClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IUserTradeSocketClient? UserTradeClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IPositionSocketClient"/> clients for all exchanges which have support for it
+        /// </summary>
         IEnumerable<IPositionSocketClient> GetPositionClients();
-        IEnumerable<IPositionSocketClient> GetPositionClients(TradingMode apiType);
-        IPositionSocketClient? PositionClient(TradingMode apiType, string exchange);
+        /// <summary>
+        /// Get all <see cref="IPositionSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IPositionSocketClient> GetPositionClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IPositionSocketClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IPositionSocketClient? PositionClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Subscribe to ticker updates for all symbols on all exchanges that support this subscription
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="handler">The data handler callback</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancellation token, can be used to stop the updates</param>
         Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToAllTickerUpdatesAsyncEnumerable(SubscribeAllTickersRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Subscribe to ticker updates for a specific symbol on all exchanges that support this subscription
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="handler">The data handler callback</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancellation token, can be used to stop the updates</param>
         Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTickerUpdatesAsyncEnumerable(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Subscribe to public trade updates for a symbol on all exchanges that support this subscription
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="handler">The data handler callback</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancellation token, can be used to stop the updates</param>
         Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTradeUpdatesAsyncEnumerable(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Subscribe to book ticker (best ask/bid price) updates for a symbol on all exchanges that support this subscription
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="handler">The data handler callback</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancellation token, can be used to stop the updates</param>
         Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBookTickerUpdatesAsyncEnumerable(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Subscribe to kline/candlestick updates for a symbol on all exchanges that support this subscription
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="handler">The data handler callback</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancellation token, can be used to stop the updates</param>
         Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToKlineUpdatesAsyncEnumerable(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Subscribe to order book snapshot updates for a symbol on all exchanges that support this subscription
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="handler">The data handler callback</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancellation token, can be used to stop the updates</param>
         Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToOrderBookUpdatesAsync(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsyncEnumerable(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Subscribe to user balance updates on all exchanges that support this subscription
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="handler">The data handler callback</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancellation token, can be used to stop the updates</param>
         Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsyncEnumerable(SubscribeBalancesRequest request, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Subscribe to user spot orders updates on all exchanges that support this subscription
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="handler">The data handler callback</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancellation token, can be used to stop the updates</param>
         Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToSpotOrderUpdatesAsyncEnumerable(SubscribeSpotOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Subscribe to user futures orders updates on all exchanges that support this subscription
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="handler">The data handler callback</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancellation token, can be used to stop the updates</param>
         Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToFuturesOrderUpdatesAsyncEnumerable(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Subscribe to user trade execution updates on all exchanges that support this subscription
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="handler">The data handler callback</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancellation token, can be used to stop the updates</param>
         Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesAsync(SubscribeUserTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsyncEnumerable(SubscribeUserTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
+        
         /// <summary>
         /// Unsubscribe and close every connection
         /// </summary>

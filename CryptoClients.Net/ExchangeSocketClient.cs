@@ -26,13 +26,7 @@ using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
 using CryptoExchange.Net.Objects.Sockets;
-using CryptoExchange.Net.SharedApis.Interfaces;
-using CryptoExchange.Net.SharedApis.Interfaces.Socket;
-using CryptoExchange.Net.SharedApis.Interfaces.Socket.Futures;
-using CryptoExchange.Net.SharedApis.Interfaces.Socket.Spot;
-using CryptoExchange.Net.SharedApis.Models;
-using CryptoExchange.Net.SharedApis.Models.Socket;
-using CryptoExchange.Net.SharedApis.ResponseModels;
+using CryptoExchange.Net.SharedApis;
 using GateIo.Net.Clients;
 using GateIo.Net.Interfaces.Clients;
 using GateIo.Net.Objects.Options;
@@ -343,12 +337,6 @@ namespace CryptoClients.Net
             return await Task.WhenAll(SubscribeToAllTickerUpdatesInt(request, handler, exchanges, ct));
         }
 
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToAllTickerUpdatesAsyncEnumerable(SubscribeAllTickersRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return SubscribeToAllTickerUpdatesInt(request, handler, exchanges, ct).ParallelEnumerateAsync();
-        }
-
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesInt(SubscribeAllTickersRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetTickersClients().Where(x => request.TradingMode == null ? true: x.SupportedTradingModes.Contains(request.TradingMode.Value));
@@ -366,12 +354,6 @@ namespace CryptoClients.Net
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(SubscribeToTickerUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTickerUpdatesAsyncEnumerable(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return SubscribeToTickerUpdatesInt(request, handler, exchanges, ct).ParallelEnumerateAsync();
         }
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesInt(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
@@ -394,12 +376,6 @@ namespace CryptoClients.Net
             return await Task.WhenAll(SubscribeToTradeUpdatesInt(request, handler, exchanges, ct));
         }
 
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToTradeUpdatesAsyncEnumerable(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return SubscribeToTradeUpdatesInt(request, handler, exchanges, ct).ParallelEnumerateAsync();
-        }
-
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesInt(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetTradeClients(request.Symbol.TradingMode);
@@ -418,12 +394,6 @@ namespace CryptoClients.Net
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(SubscribeToBookTickerUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBookTickerUpdatesAsyncEnumerable(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return SubscribeToBookTickerUpdatesInt(request, handler, exchanges, ct).ParallelEnumerateAsync();
         }
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesInt(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
@@ -446,12 +416,6 @@ namespace CryptoClients.Net
             return await Task.WhenAll(SubscribeToKlineUpdatesInt(request, handler, exchanges, ct));
         }
 
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToKlineUpdatesAsyncEnumerable(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return SubscribeToKlineUpdatesInt(request, handler, exchanges, ct).ParallelEnumerateAsync();
-        }
-
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToKlineUpdatesInt(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetKlineClients(request.Symbol.TradingMode);
@@ -470,12 +434,6 @@ namespace CryptoClients.Net
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToOrderBookUpdatesAsync(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(SubscribeToOrderBookUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsyncEnumerable(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return SubscribeToOrderBookUpdatesInt(request, handler, exchanges, ct).ParallelEnumerateAsync();
         }
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToOrderBookUpdatesInt(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
@@ -498,12 +456,6 @@ namespace CryptoClients.Net
             return await Task.WhenAll(SubscribeToBalanceUpdatesInt(request, handler, exchanges, ct));
         }
 
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsyncEnumerable(SubscribeBalancesRequest request, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return SubscribeToBalanceUpdatesInt(request, handler, exchanges, ct).ParallelEnumerateAsync();
-        }
-
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesInt(SubscribeBalancesRequest request, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetBalanceClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
@@ -522,12 +474,6 @@ namespace CryptoClients.Net
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(SubscribeToSpotOrderUpdatesInt(request,handler, exchanges, ct));
-        }
-
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToSpotOrderUpdatesAsyncEnumerable(SubscribeSpotOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return SubscribeToSpotOrderUpdatesInt(request, handler, exchanges, ct).ParallelEnumerateAsync();
         }
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesInt(SubscribeSpotOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
@@ -550,12 +496,6 @@ namespace CryptoClients.Net
             return await Task.WhenAll(SubscribeToFuturesOrderUpdatesInt(request, handler, exchanges, ct));
         }
 
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToFuturesOrderUpdatesAsyncEnumerable(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return SubscribeToFuturesOrderUpdatesInt(request, handler, exchanges, ct).ParallelEnumerateAsync();
-        }
-
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesInt(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetFuturesOrderClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
@@ -574,12 +514,6 @@ namespace CryptoClients.Net
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesAsync(SubscribeUserTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(SubscribeToUserTradeUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsyncEnumerable(SubscribeUserTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return SubscribeToUserTradeUpdatesInt(request, handler, exchanges, ct).ParallelEnumerateAsync();
         }
 
         private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesInt(SubscribeUserTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)

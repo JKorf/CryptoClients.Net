@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoClients.Examples.Api"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoClients.Examples.Blazor", "CryptoClients.Examples.Blazor\CryptoClients.Examples.Blazor.csproj", "{42D2A652-7713-4E39-9D07-F9135E07E5A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamSymbolPrices", "MonitorSpread\StreamSymbolPrices.csproj", "{907343AB-DCA2-45BB-B31D-CF4091A8BD95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamSymbolPrices", "StreamSymbolPrices\StreamSymbolPrices.csproj", "{907343AB-DCA2-45BB-B31D-CF4091A8BD95}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestCurrentPrices.AsyncEnumerable", "RequestCurrentPrices\RequestCurrentPrices.AsyncEnumerable.csproj", "{1707FF64-BC8C-460E-AB1B-D4E967A28637}"
 EndProject

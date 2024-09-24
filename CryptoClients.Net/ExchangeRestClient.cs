@@ -26,13 +26,7 @@ using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
-using CryptoExchange.Net.SharedApis.Interfaces;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest.Futures;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest.Spot;
-using CryptoExchange.Net.SharedApis.Models;
-using CryptoExchange.Net.SharedApis.Models.Rest;
-using CryptoExchange.Net.SharedApis.ResponseModels;
+using CryptoExchange.Net.SharedApis;
 using GateIo.Net.Clients;
 using GateIo.Net.Interfaces.Clients;
 using GateIo.Net.Objects.Options;
@@ -94,21 +88,21 @@ namespace CryptoClients.Net
 
 
         /// <inheritdoc />
-        public IEnumerable<IAssetsRestClient> GetAssetClients() => _sharedClients.OfType<IAssetsRestClient>();
+        public IEnumerable<IAssetsRestClient> GetAssetsClients() => _sharedClients.OfType<IAssetsRestClient>();
         /// <inheritdoc />
-        public IAssetsRestClient? AssetClient(string exchange) => GetAssetClients().SingleOrDefault(s => s.Exchange == exchange);
+        public IAssetsRestClient? AssetsClient(string exchange) => GetAssetsClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<IBalanceRestClient> GetBalanceClients() => _sharedClients.OfType<IBalanceRestClient>();
+        public IEnumerable<IBalanceRestClient> GetBalancesClients() => _sharedClients.OfType<IBalanceRestClient>();
         /// <inheritdoc />
-        public IEnumerable<IBalanceRestClient> GetBalanceClients(TradingMode api) => _sharedClients.OfType<IBalanceRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
+        public IEnumerable<IBalanceRestClient> GetBalancesClients(TradingMode api) => _sharedClients.OfType<IBalanceRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IBalanceRestClient? BalanceClient(TradingMode api, string exchange) => _sharedClients.OfType<IBalanceRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IBalanceRestClient? BalancesClient(TradingMode api, string exchange) => _sharedClients.OfType<IBalanceRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<IDepositRestClient> GetDepositClients() => _sharedClients.OfType<IDepositRestClient>();
+        public IEnumerable<IDepositRestClient> GetDepositsClients() => _sharedClients.OfType<IDepositRestClient>();
         /// <inheritdoc />
-        public IDepositRestClient? DepositClient(string exchange) => GetDepositClients().SingleOrDefault(s => s.Exchange == exchange);
+        public IDepositRestClient? DepositsClient(string exchange) => GetDepositsClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IKlineRestClient> GetKlineClients() => _sharedClients.OfType<IKlineRestClient>();
@@ -139,9 +133,9 @@ namespace CryptoClients.Net
         public ITradeHistoryRestClient? TradeHistoryClient(TradingMode api, string exchange) => _sharedClients.OfType<ITradeHistoryRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<IWithdrawalRestClient> GetWithdrawalClients() => _sharedClients.OfType<IWithdrawalRestClient>();
+        public IEnumerable<IWithdrawalRestClient> GetWithdrawalsClients() => _sharedClients.OfType<IWithdrawalRestClient>();
         /// <inheritdoc />
-        public IWithdrawalRestClient? WithdrawalClient(string exchange) => _sharedClients.OfType<IWithdrawalRestClient>().SingleOrDefault(s => s.Exchange == exchange);
+        public IWithdrawalRestClient? WithdrawalsClient(string exchange) => _sharedClients.OfType<IWithdrawalRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IWithdrawRestClient> GetWithdrawClients() => _sharedClients.OfType<IWithdrawRestClient>();
@@ -515,32 +509,6 @@ namespace CryptoClients.Net
 
         #endregion
 
-        #region Place Spot Order
-
-        /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<SharedId>>> PlaceSpotOrderAsync(PlaceSpotOrderRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(PlaceSpotOrderInt(request, exchanges, ct));
-        }
-
-        /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedId>> PlaceSpotOrderAsyncEnumerable(PlaceSpotOrderRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return PlaceSpotOrderInt(request, exchanges, ct).ParallelEnumerateAsync();
-        }
-
-        private IEnumerable<Task<ExchangeWebResult<SharedId>>> PlaceSpotOrderInt(PlaceSpotOrderRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
-        {
-            var clients = GetSpotOrderClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
-
-            var tasks = clients.Select(x => x.PlaceSpotOrderAsync(request, ct));
-            return tasks;
-        }
-
-        #endregion
-
         #region Get Spot Open Orders
 
         /// <inheritdoc />
@@ -750,18 +718,18 @@ namespace CryptoClients.Net
         #region Get Recent Trades
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetRecentTradesIntAsync(request, exchanges, nextPageTokens, ct));
+            return await Task.WhenAll(GetRecentTradesIntAsync(request, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetRecentTradesAsyncEnumerable(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetRecentTradesAsyncEnumerable(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetRecentTradesIntAsync(request, exchanges, nextPageTokens, ct).ParallelEnumerateAsync();
+            return GetRecentTradesIntAsync(request, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesIntAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges, IEnumerable<INextPageToken>? nextPageTokens, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesIntAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var clients = GetRecentTradesClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
@@ -776,18 +744,18 @@ namespace CryptoClients.Net
         #region Get Trade History
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradeHistoryAsync(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradeHistoryAsync(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetTradeHistoryInt(request, exchanges, nextPageTokens, ct));
+            return await Task.WhenAll(GetTradeHistoryInt(request, exchanges, ct));
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetTradeHistoryAsyncEnumerable(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default)
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetTradeHistoryAsyncEnumerable(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetTradeHistoryInt(request, exchanges, nextPageTokens, ct).ParallelEnumerateAsync();
+            return GetTradeHistoryInt(request, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradeHistoryInt(GetTradeHistoryRequest request, IEnumerable<string>? exchanges, IEnumerable<INextPageToken>? nextPageTokens, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradeHistoryInt(GetTradeHistoryRequest request, IEnumerable<string>? exchanges,CancellationToken ct)
         {
             var clients = GetTradeHistoryClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
@@ -841,7 +809,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedAsset>>>> GetAssetsIntAsync(GetAssetsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetAssetClients();
+            var clients = GetAssetsClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -867,11 +835,89 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<SharedAsset>>> GetAssetIntAsync(GetAssetRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetAssetClients();
+            var clients = GetAssetsClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             var tasks = clients.Select(x => x.GetAssetAsync(request, ct));
+            return tasks;
+        }
+
+        #endregion
+
+        #region Get Futures Open Orders
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>>> GetFuturesOpenOrdersAsync(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetFuturesOpenOrdersInt(request, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>> GetFuturesOpenOrdersAsyncEnumerable(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetFuturesOpenOrdersInt(request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>>> GetFuturesOpenOrdersInt(GetOpenOrdersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        {
+            var clients = GetFuturesOrderClients();
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+
+            var tasks = clients.Select(x => x.GetOpenFuturesOrdersAsync(request, ct));
+            return tasks;
+        }
+
+        #endregion
+
+        #region Get Futures Closed Orders
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>>> GetFuturesClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetFuturesClosedOrdersInt(request, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>> GetFuturesClosedOrdersAsyncEnumerable(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetFuturesClosedOrdersInt(request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>>> GetFuturesClosedOrdersInt(GetClosedOrdersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        {
+            var clients = GetFuturesOrderClients();
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+
+            var tasks = clients.Select(x => x.GetClosedFuturesOrdersAsync(request, null, ct));
+            return tasks;
+        }
+
+        #endregion
+
+        #region Get Futures User Trades
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetFuturesUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetFuturesUserTradesInt(request, exchanges, ct));
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>> GetFuturesUserTradesAsyncEnumerable(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetFuturesUserTradesInt(request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetFuturesUserTradesInt(GetUserTradesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        {
+            var clients = GetFuturesOrderClients();
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+
+            var tasks = clients.Select(x => x.GetFuturesUserTradesAsync(request, null, ct));
             return tasks;
         }
 
@@ -893,7 +939,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesIntAsync(GetBalancesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetBalanceClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
+            var clients = GetBalancesClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -919,7 +965,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedDeposit>>>> GetDepositsInt(GetDepositsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetDepositClients();
+            var clients = GetDepositsClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
@@ -945,7 +991,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<IEnumerable<SharedWithdrawal>>>> GetWithdrawalsInt(GetWithdrawalsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetWithdrawalClients();
+            var clients = GetWithdrawalsClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 

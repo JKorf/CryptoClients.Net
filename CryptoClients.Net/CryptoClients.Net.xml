@@ -188,25 +188,25 @@
         <member name="P:CryptoClients.Net.ExchangeRestClient.OKX">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetClients">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetsClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.AssetClient(System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.AssetsClient(System.String)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalanceClients">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalanceClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesClients(CryptoExchange.Net.Objects.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.BalanceClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.BalancesClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositClients">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.DepositClient(System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.DepositsClient(System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients">
@@ -245,10 +245,10 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.TradeHistoryClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalClients">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalsClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.WithdrawalClient(System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.WithdrawalsClient(System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawClients">
@@ -389,148 +389,160 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangeSharedClients(System.String)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsync(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickerAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickerAsync(CryptoExchange.Net.SharedApis.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickerAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickerAsyncEnumerable(CryptoExchange.Net.SharedApis.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsAsync(CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsAsyncEnumerable(CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.PlaceSpotOrderAsync(CryptoExchange.Net.SharedApis.Models.Rest.PlaceSpotOrderRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsync(CryptoExchange.Net.SharedApis.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.PlaceSpotOrderAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.PlaceSpotOrderRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsync(CryptoExchange.Net.SharedApis.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotOpenOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotUserTradesAsync(CryptoExchange.Net.SharedApis.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotClosedOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotUserTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotUserTradesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsync(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotUserTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerAsync(CryptoExchange.Net.SharedApis.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickersAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerAsyncEnumerable(CryptoExchange.Net.SharedApis.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsync(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlinesAsync(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlinesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlinesAsync(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlinesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesAsync(CryptoExchange.Net.SharedApis.GetRecentTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetRecentTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetRecentTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryAsync(CryptoExchange.Net.SharedApis.GetTradeHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetRecentTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.GetTradeHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetTradeHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookAsync(CryptoExchange.Net.SharedApis.GetOrderBookRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetTradeHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.Interfaces.INextPageToken},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookAsyncEnumerable(CryptoExchange.Net.SharedApis.GetOrderBookRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetOrderBookRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetsAsync(CryptoExchange.Net.SharedApis.GetAssetsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetOrderBookRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetsAsyncEnumerable(CryptoExchange.Net.SharedApis.GetAssetsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetAssetsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetAsync(CryptoExchange.Net.SharedApis.GetAssetRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetAssetsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetAsyncEnumerable(CryptoExchange.Net.SharedApis.GetAssetRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetAssetRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesOpenOrdersAsync(CryptoExchange.Net.SharedApis.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetAssetRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesOpenOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetBalancesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesClosedOrdersAsync(CryptoExchange.Net.SharedApis.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetBalancesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesClosedOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetDepositsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesUserTradesAsync(CryptoExchange.Net.SharedApis.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetDepositsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesUserTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetWithdrawalsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsync(CryptoExchange.Net.SharedApis.GetBalancesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetWithdrawalsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetBalancesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateHistoryAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetFundingRateHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsAsync(CryptoExchange.Net.SharedApis.GetDepositsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetFundingRateHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsAsyncEnumerable(CryptoExchange.Net.SharedApis.GetDepositsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenInterestRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalsAsync(CryptoExchange.Net.SharedApis.GetWithdrawalsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetOpenInterestRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalsAsyncEnumerable(CryptoExchange.Net.SharedApis.GetWithdrawalsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateHistoryAsync(CryptoExchange.Net.SharedApis.GetFundingRateHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.GetFundingRateHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryAsync(CryptoExchange.Net.SharedApis.Models.Rest.GetPositionHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestAsync(CryptoExchange.Net.SharedApis.GetOpenInterestRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Rest.GetPositionHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestAsyncEnumerable(CryptoExchange.Net.SharedApis.GetOpenInterestRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsync(CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsyncEnumerable(CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryAsync(CryptoExchange.Net.SharedApis.GetPositionHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.GetPositionHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:CryptoClients.Net.Exchanges">
@@ -769,64 +781,34 @@
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetExchangeSharedClients(System.String)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeTickerRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedSpotTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTickerUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTickerUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBookTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeBookTickerRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedBookTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTradeUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToKlineUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeKlineRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedKline}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTradeUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToOrderBookUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeOrderBookRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedOrderBook}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBookTickerUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeBookTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedBookTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBalanceUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeBalancesRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedBalance}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBookTickerUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeBookTickerRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedBookTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeSpotOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToKlineUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeKlineRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedKline}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeFuturesOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedFuturesOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToKlineUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeKlineRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedKline}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToOrderBookUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeOrderBookRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedOrderBook}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToOrderBookUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeOrderBookRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{CryptoExchange.Net.SharedApis.ResponseModels.SharedOrderBook}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBalanceUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeBalancesRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedBalance}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBalanceUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeBalancesRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedBalance}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotOrderUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeSpotOrderRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotOrderUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeSpotOrderRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedSpotOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeFuturesOrderRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedFuturesOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeFuturesOrderRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedFuturesOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToUserTradeUpdatesAsync(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeUserTradeRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedUserTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToUserTradeUpdatesAsyncEnumerable(CryptoExchange.Net.SharedApis.Models.Socket.SubscribeUserTradeRequest,System.Action{CryptoExchange.Net.SharedApis.Models.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ResponseModels.SharedUserTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToUserTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeUserTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedUserTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.UnsubscribeAllAsync">
@@ -843,6 +825,176 @@
             </summary>
             <typeparam name="T">Type of task result</typeparam>
             <param name="tasks">Task list</param>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.AssetsRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IAssetsRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.BalanceRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.DepositRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IDepositRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.KlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.ListenKeyRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IListenKeyRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.OrderBookRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.RecentTradesRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IRecentTradeRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.TradeHistoryRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeHistoryRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.WithdrawalRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IWithdrawalRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.WithdrawRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IWithdrawRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.SpotTickerRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotTickerRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.SpotSymbolRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotTickerRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.SpotOrderRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotOrderRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.FundingRateRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFundingRateRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.FuturesOrderRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.FuturesSymbolRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesSymbolRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.FuturesTickerRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesTickerRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.IndexPriceKlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IIndexPriceKlineRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.LeverageRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ILeverageRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.MarkPriceKlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IMarkPriceKlineRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.OpenInterestRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IOpenInterestRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.PositionHistoryRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionHistoryRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.PositionModeRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionModeRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.BalanceSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceSocketClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.BookTickerSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IBookTickerSocketClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.KlineSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineSocketClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.OrderBookSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookSocketClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.TickerSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickerSocketClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.TickersSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickersSocketClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.TradeSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeSocketClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.UserTradeSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IUserTradeSocketClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.SpotOrderSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotOrderSocketClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.PositionSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionSocketClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.FuturesOrderSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderSocketClient"/> if available
+            </summary>
         </member>
         <member name="T:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory">
             <summary>
@@ -997,6 +1149,775 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangeSharedClients(System.String)">
+            <summary>
+            Get all ISharedClient REST Api interfaces supported for the specified exchange
+            </summary>
+            <param name="exchange">The exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetAssetsClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IAssetsRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.AssetsClient(System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IAssetsRestClient"/> client for a specific exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetBalancesClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetBalancesClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IBalanceRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.BalancesClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IAssetsRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetDepositsClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IDepositRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.DepositsClient(System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IDepositRestClient"/> client for a specific exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetKlineClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IKlineRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.KlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOrderBookClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOrderBookClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.OrderBookClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetRecentTradesClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IRecentTradeRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetRecentTradesClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IRecentTradeRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.RecentTradesClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IRecentTradeRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetTradeHistoryClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeHistoryRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetTradeHistoryClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.ITradeHistoryRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.TradeHistoryClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeHistoryRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetWithdrawalsClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IWithdrawalRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.WithdrawalsClient(System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IWithdrawalRestClient"/> client for a specific exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetWithdrawClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IWithdrawRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.WithdrawClient(System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IWithdrawRestClient"/> client for a specific exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotOrderClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotOrderRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SpotOrderClient(System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotOrderRestClient"/> client for a specific exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotSymbolClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotSymbolRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SpotSymbolClient(System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotSymbolRestClient"/> client for a specific exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotTickerClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotTickerRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SpotTickerClient(System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotTickerRestClient"/> client for a specific exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFundingRateClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFundingRateRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFundingRateClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IFundingRateRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.FundingRateClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFundingRateRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesOrderClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFundingRateRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesOrderClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.FuturesOrderClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesSymbolRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IFuturesSymbolRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.FuturesSymbolClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesSymbolRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesTickerClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesTickerRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesTickerClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IFuturesTickerRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.FuturesTickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesTickerRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetIndexPriceKlineClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IIndexPriceKlineRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetIndexPriceKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IIndexPriceKlineRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.IndexPriceKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IIndexPriceKlineRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetLeverageClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ILeverageRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetLeverageClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.ILeverageRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.LeverageClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ILeverageRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetMarkPriceKlineClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IMarkPriceKlineRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetMarkPriceKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IMarkPriceKlineRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.MarkPriceKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IMarkPriceKlineRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOpenInterestClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IOpenInterestRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOpenInterestClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IOpenInterestRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.OpenInterestClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IOpenInterestRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionModeClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionModeRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionModeClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IPositionModeRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.PositionModeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionModeRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionHistoryClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionHistoryRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionHistoryClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IPositionHistoryRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.PositionHistoryClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionHistoryRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotTickersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get spot ticker information for all symbols on all exchanges, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotTickersAsync(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get spot ticker information for all symbols on all exchanges, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotTickerAsyncEnumerable(CryptoExchange.Net.SharedApis.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get spot ticker information for a specific symbol from all exchanges, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotTickerAsync(CryptoExchange.Net.SharedApis.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get spot ticker information for a specific symbol from all exchanges, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesTickersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get futures ticker information for all symbols on all exchanges, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesTickersAsync(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get futures ticker information for all symbols on all exchanges, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesTickerAsyncEnumerable(CryptoExchange.Net.SharedApis.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get futures ticker information for a specific symbol from all exchanges, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesTickerAsync(CryptoExchange.Net.SharedApis.GetTickerRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get futures ticker information for a specific symbol from all exchanges, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get kline data for a specific symbol from all exchanges, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetKlinesAsync(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get kline data for a specific symbol from all exchanges, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetMarkPriceKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get mark price kline data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetMarkPriceKlinesAsync(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get mark price kline data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetIndexPriceKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get index price kline data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetIndexPriceKlinesAsync(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get index price kline data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetRecentTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetRecentTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get recent trades public data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetRecentTradesAsync(CryptoExchange.Net.SharedApis.GetRecentTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get recent trades public data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetTradeHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.GetTradeHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get public trade history data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetTradeHistoryAsync(CryptoExchange.Net.SharedApis.GetTradeHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get public trade history data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOrderBookAsyncEnumerable(CryptoExchange.Net.SharedApis.GetOrderBookRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get order book data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOrderBookAsync(CryptoExchange.Net.SharedApis.GetOrderBookRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get order book data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetAssetsAsyncEnumerable(CryptoExchange.Net.SharedApis.GetAssetsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get asset info of all assets on all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetAssetsAsync(CryptoExchange.Net.SharedApis.GetAssetsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get asset info of all assets on all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetAssetAsyncEnumerable(CryptoExchange.Net.SharedApis.GetAssetRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get asset info of a specific asset on all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetAssetAsync(CryptoExchange.Net.SharedApis.GetAssetRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get asset info of a specific asset on all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetBalancesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetBalancesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user balances from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetBalancesAsync(CryptoExchange.Net.SharedApis.GetBalancesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user balances from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetDepositsAsyncEnumerable(CryptoExchange.Net.SharedApis.GetDepositsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user deposit history from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetDepositsAsync(CryptoExchange.Net.SharedApis.GetDepositsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user deposit history from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetWithdrawalsAsyncEnumerable(CryptoExchange.Net.SharedApis.GetWithdrawalsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user withdrawal history from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetWithdrawalsAsync(CryptoExchange.Net.SharedApis.GetWithdrawalsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user withdrawal history from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotSymbolsAsyncEnumerable(CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get spot symbol info of all symbols from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotSymbolsAsync(CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get spot symbol info of all symbols from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotOpenOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get open spot orders for the user from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotOpenOrdersAsync(CryptoExchange.Net.SharedApis.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get open spot orders for the user from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotClosedOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get closed spot orders for a symbol for the user from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotClosedOrdersAsync(CryptoExchange.Net.SharedApis.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get closed spot orders for a symbol for the user from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotUserTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user executed trades from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotUserTradesAsync(CryptoExchange.Net.SharedApis.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user executed trades from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFundingRateHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.GetFundingRateHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get funding rate history for a symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFundingRateHistoryAsync(CryptoExchange.Net.SharedApis.GetFundingRateHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get funding rate history for a symbol from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOpenInterestAsyncEnumerable(CryptoExchange.Net.SharedApis.GetOpenInterestRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get current open interest for a symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOpenInterestAsync(CryptoExchange.Net.SharedApis.GetOpenInterestRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get current open interest for a symbol from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolsAsyncEnumerable(CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get futures symbol info of all symbols from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolsAsync(CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get futures symbol info of all symbols from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.GetPositionHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user position history from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionHistoryAsync(CryptoExchange.Net.SharedApis.GetPositionHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user position history from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesOpenOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get open Futures orders for the user from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesOpenOrdersAsync(CryptoExchange.Net.SharedApis.GetOpenOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get open Futures orders for the user from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesClosedOrdersAsyncEnumerable(CryptoExchange.Net.SharedApis.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get closed Futures orders for a symbol for the user from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesClosedOrdersAsync(CryptoExchange.Net.SharedApis.GetClosedOrdersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get closed Futures orders for a symbol for the user from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesUserTradesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user executed trades from all exchanges supporting this request, async returning in the order the response from the server is received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesUserTradesAsync(CryptoExchange.Net.SharedApis.GetUserTradesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Get user executed trades from all exchanges supporting this request, returning all results when all responses have been received
+            </summary>
+            <param name="request">The request</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancelation token</param>
+        </member>
         <member name="T:CryptoClients.Net.Interfaces.IExchangeSocketClient">
             <summary>
             Client for accessing the exchange Websocket API's.
@@ -1066,6 +1987,293 @@
             <summary>
             OKX Websocket API
             </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetExchangeSharedClients(System.String)">
+            <summary>
+            Get all ISharedClient Socket Api interfaces supported for the specified exchange
+            </summary>
+            <param name="exchange">The exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickerClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickerSocketClient"/> clients for all exchanges which have support for it
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickerClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.ITickerSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.TickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickerSocketClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickersClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickersSocketClient"/> clients for all exchanges which have support for it
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickersClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.ITickersSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.TickersClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickersSocketClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTradeClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeSocketClient"/> clients for all exchanges which have support for it
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTradeClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.ITradeSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.TradeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeSocketClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBookTickerClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IBookTickerSocketClient"/> clients for all exchanges which have support for it
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBookTickerClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IBookTickerSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.BookTickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IBookTickerSocketClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetKlineClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineSocketClient"/> clients for all exchanges which have support for it
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IKlineSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.KlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineSocketClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetOrderBookClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookSocketClient"/> clients for all exchanges which have support for it
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetOrderBookClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.OrderBookClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookSocketClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBalanceClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceSocketClient"/> clients for all exchanges which have support for it
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBalanceClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IBalanceSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.BalanceClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceSocketClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetSpotOrderClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotOrderSocketClient"/> clients for all exchanges which have support for it
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SpotOrderClient(System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotOrderSocketClient"/> client for a specific exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetFuturesOrderClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderSocketClient"/> clients for all exchanges which have support for it
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetFuturesOrderClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.FuturesOrderClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderSocketClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetUserTradeClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IUserTradeSocketClient"/> clients for all exchanges which have support for it
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetUserTradeClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IUserTradeSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.UserTradeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IUserTradeSocketClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetPositionClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionSocketClient"/> clients for all exchanges which have support for it
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetPositionClients(CryptoExchange.Net.Objects.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IPositionSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.PositionClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionSocketClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to ticker updates for all symbols on all exchanges that support this subscription
+            </summary>
+            <param name="request">The request</param>
+            <param name="handler">The data handler callback</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancellation token, can be used to stop the updates</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeTickerRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedSpotTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to ticker updates for a specific symbol on all exchanges that support this subscription
+            </summary>
+            <param name="request">The request</param>
+            <param name="handler">The data handler callback</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancellation token, can be used to stop the updates</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to public trade updates for a symbol on all exchanges that support this subscription
+            </summary>
+            <param name="request">The request</param>
+            <param name="handler">The data handler callback</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancellation token, can be used to stop the updates</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToBookTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeBookTickerRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedBookTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to book ticker (best ask/bid price) updates for a symbol on all exchanges that support this subscription
+            </summary>
+            <param name="request">The request</param>
+            <param name="handler">The data handler callback</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancellation token, can be used to stop the updates</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToKlineUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeKlineRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedKline}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to kline/candlestick updates for a symbol on all exchanges that support this subscription
+            </summary>
+            <param name="request">The request</param>
+            <param name="handler">The data handler callback</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancellation token, can be used to stop the updates</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToOrderBookUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeOrderBookRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedOrderBook}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to order book snapshot updates for a symbol on all exchanges that support this subscription
+            </summary>
+            <param name="request">The request</param>
+            <param name="handler">The data handler callback</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancellation token, can be used to stop the updates</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToBalanceUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeBalancesRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedBalance}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to user balance updates on all exchanges that support this subscription
+            </summary>
+            <param name="request">The request</param>
+            <param name="handler">The data handler callback</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancellation token, can be used to stop the updates</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToSpotOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeSpotOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to user spot orders updates on all exchanges that support this subscription
+            </summary>
+            <param name="request">The request</param>
+            <param name="handler">The data handler callback</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancellation token, can be used to stop the updates</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeFuturesOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedFuturesOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to user futures orders updates on all exchanges that support this subscription
+            </summary>
+            <param name="request">The request</param>
+            <param name="handler">The data handler callback</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancellation token, can be used to stop the updates</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToUserTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeUserTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedUserTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to user trade execution updates on all exchanges that support this subscription
+            </summary>
+            <param name="request">The request</param>
+            <param name="handler">The data handler callback</param>
+            <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+            <param name="ct">Cancellation token, can be used to stop the updates</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.UnsubscribeAllAsync">
             <summary>

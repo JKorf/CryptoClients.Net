@@ -5,18 +5,9 @@ using Bitget.Net.Interfaces.Clients;
 using BitMart.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
-using CryptoClients.Net.Enums;
-using CryptoClients.Net.Models;
-using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.SharedApis.Interfaces;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest.Futures;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest.Spot;
-using CryptoExchange.Net.SharedApis.Models;
-using CryptoExchange.Net.SharedApis.Models.Rest;
-using CryptoExchange.Net.SharedApis.ResponseModels;
+using CryptoExchange.Net.SharedApis;
 using GateIo.Net.Interfaces.Clients;
 using HTX.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
@@ -100,161 +91,711 @@ namespace CryptoClients.Net.Interfaces
         /// <returns></returns>
         IEnumerable<ISpotClient> GetUnifiedSpotClients();
 
+        /// <summary>
+        /// Get all ISharedClient REST Api interfaces supported for the specified exchange
+        /// </summary>
+        /// <param name="exchange">The exchange name</param>
         IEnumerable<ISharedClient> GetExchangeSharedClients(string exchange);
 
-        IEnumerable<IAssetsRestClient> GetAssetClients();
-        IAssetsRestClient? AssetClient(string exchange);
+        /// <summary>
+        /// Get the <see cref="IAssetsRestClient"/> clients for all exchanges
+        /// </summary>
+        IEnumerable<IAssetsRestClient> GetAssetsClients();
+        /// <summary>
+        /// Get the <see cref="IAssetsRestClient"/> client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        IAssetsRestClient? AssetsClient(string exchange);
 
-        IEnumerable<IBalanceRestClient> GetBalanceClients();
-        IEnumerable<IBalanceRestClient> GetBalanceClients(TradingMode api);
-        IBalanceRestClient? BalanceClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get the <see cref="IBalanceRestClient"/> clients for all exchanges
+        /// </summary>
+        IEnumerable<IBalanceRestClient> GetBalancesClients();
+        /// <summary>
+        /// Get all <see cref="IBalanceRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IBalanceRestClient> GetBalancesClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IAssetsRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IBalanceRestClient? BalancesClient(TradingMode tradingMode, string exchange);
 
-        IEnumerable<IDepositRestClient> GetDepositClients();
-        IDepositRestClient? DepositClient(string exchange);
+        /// <summary>
+        /// Get the <see cref="IDepositRestClient"/> clients for all exchanges
+        /// </summary>
+        IEnumerable<IDepositRestClient> GetDepositsClients();
+        /// <summary>
+        /// Get the <see cref="IDepositRestClient"/> client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        IDepositRestClient? DepositsClient(string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IKlineRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IKlineRestClient> GetKlineClients();
-        IEnumerable<IKlineRestClient> GetKlineClients(TradingMode api);
-        IKlineRestClient? KlineClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IKlineRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IKlineRestClient> GetKlineClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IKlineRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IKlineRestClient? KlineClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IOrderBookRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IOrderBookRestClient> GetOrderBookClients();
-        IEnumerable<IOrderBookRestClient> GetOrderBookClients(TradingMode api);
-        IOrderBookRestClient? OrderBookClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IOrderBookRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IOrderBookRestClient> GetOrderBookClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IOrderBookRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IOrderBookRestClient? OrderBookClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IRecentTradeRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IRecentTradeRestClient> GetRecentTradesClients();
-        IEnumerable<IRecentTradeRestClient> GetRecentTradesClients(TradingMode api);
-        IRecentTradeRestClient? RecentTradesClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IRecentTradeRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IRecentTradeRestClient> GetRecentTradesClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IRecentTradeRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IRecentTradeRestClient? RecentTradesClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="ITradeHistoryRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<ITradeHistoryRestClient> GetTradeHistoryClients();
-        IEnumerable<ITradeHistoryRestClient> GetTradeHistoryClients(TradingMode api);
-        ITradeHistoryRestClient? TradeHistoryClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="ITradeHistoryRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<ITradeHistoryRestClient> GetTradeHistoryClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="ITradeHistoryRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        ITradeHistoryRestClient? TradeHistoryClient(TradingMode tradingMode, string exchange);
 
-        IEnumerable<IWithdrawalRestClient> GetWithdrawalClients();
-        IWithdrawalRestClient? WithdrawalClient(string exchange);
+        /// <summary>
+        /// Get the <see cref="IWithdrawalRestClient"/> clients for all exchanges
+        /// </summary>
+        IEnumerable<IWithdrawalRestClient> GetWithdrawalsClients();
+        /// <summary>
+        /// Get the <see cref="IWithdrawalRestClient"/> client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        IWithdrawalRestClient? WithdrawalsClient(string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IWithdrawRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IWithdrawRestClient> GetWithdrawClients();
+        /// <summary>
+        /// Get the <see cref="IWithdrawRestClient"/> client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
         IWithdrawRestClient? WithdrawClient(string exchange);
 
+        /// <summary>
+        /// Get the <see cref="ISpotOrderRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<ISpotOrderRestClient> GetSpotOrderClients();
+        /// <summary>
+        /// Get the <see cref="ISpotOrderRestClient"/> client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
         ISpotOrderRestClient? SpotOrderClient(string exchange);
 
+        /// <summary>
+        /// Get the <see cref="ISpotSymbolRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<ISpotSymbolRestClient> GetSpotSymbolClients();
+        /// <summary>
+        /// Get the <see cref="ISpotSymbolRestClient"/> client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
         ISpotSymbolRestClient? SpotSymbolClient(string exchange);
 
+        /// <summary>
+        /// Get the <see cref="ISpotTickerRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<ISpotTickerRestClient> GetSpotTickerClients();
+        /// <summary>
+        /// Get the <see cref="ISpotTickerRestClient"/> client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
         ISpotTickerRestClient? SpotTickerClient(string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IFundingRateRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IFundingRateRestClient> GetFundingRateClients();
-        IEnumerable<IFundingRateRestClient> GetFundingRateClients(TradingMode api);
-        IFundingRateRestClient? FundingRateClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IFundingRateRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IFundingRateRestClient> GetFundingRateClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IFundingRateRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IFundingRateRestClient? FundingRateClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IFundingRateRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IFuturesOrderRestClient> GetFuturesOrderClients();
-        IEnumerable<IFuturesOrderRestClient> GetFuturesOrderClients(TradingMode api);
-        IFuturesOrderRestClient? FuturesOrderClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IFuturesOrderRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IFuturesOrderRestClient> GetFuturesOrderClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IFuturesOrderRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IFuturesOrderRestClient? FuturesOrderClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IFuturesSymbolRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IFuturesSymbolRestClient> GetFuturesSymbolClients();
-        IEnumerable<IFuturesSymbolRestClient> GetFuturesSymbolClients(TradingMode api);
-        IFuturesSymbolRestClient? FuturesSymbolClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IFuturesSymbolRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IFuturesSymbolRestClient> GetFuturesSymbolClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IFuturesSymbolRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IFuturesSymbolRestClient? FuturesSymbolClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IFuturesTickerRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IFuturesTickerRestClient> GetFuturesTickerClients();
-        IEnumerable<IFuturesTickerRestClient> GetFuturesTickerClients(TradingMode api);
-        IFuturesTickerRestClient? FuturesTickerClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IFuturesTickerRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IFuturesTickerRestClient> GetFuturesTickerClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IFuturesTickerRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IFuturesTickerRestClient? FuturesTickerClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IIndexPriceKlineRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IIndexPriceKlineRestClient> GetIndexPriceKlineClients();
-        IEnumerable<IIndexPriceKlineRestClient> GetIndexPriceKlineClients(TradingMode api);
-        IIndexPriceKlineRestClient? IndexPriceKlineClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IIndexPriceKlineRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IIndexPriceKlineRestClient> GetIndexPriceKlineClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IIndexPriceKlineRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IIndexPriceKlineRestClient? IndexPriceKlineClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="ILeverageRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<ILeverageRestClient> GetLeverageClients();
-        IEnumerable<ILeverageRestClient> GetLeverageClients(TradingMode api);
-        ILeverageRestClient? LeverageClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="ILeverageRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<ILeverageRestClient> GetLeverageClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="ILeverageRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        ILeverageRestClient? LeverageClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IMarkPriceKlineRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IMarkPriceKlineRestClient> GetMarkPriceKlineClients();
-        IEnumerable<IMarkPriceKlineRestClient> GetMarkPriceKlineClients(TradingMode api);
-        IMarkPriceKlineRestClient? MarkPriceKlineClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IMarkPriceKlineRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IMarkPriceKlineRestClient> GetMarkPriceKlineClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IMarkPriceKlineRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IMarkPriceKlineRestClient? MarkPriceKlineClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IOpenInterestRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IOpenInterestRestClient> GetOpenInterestClients();
-        IEnumerable<IOpenInterestRestClient> GetOpenInterestClients(TradingMode api);
-        IOpenInterestRestClient? OpenInterestClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IOpenInterestRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IOpenInterestRestClient> GetOpenInterestClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IOpenInterestRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IOpenInterestRestClient? OpenInterestClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IPositionModeRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IPositionModeRestClient> GetPositionModeClients();
-        IEnumerable<IPositionModeRestClient> GetPositionModeClients(TradingMode api);
-        IPositionModeRestClient? PositionModeClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IPositionModeRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IPositionModeRestClient> GetPositionModeClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IPositionModeRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IPositionModeRestClient? PositionModeClient(TradingMode tradingMode, string exchange);
 
+        /// <summary>
+        /// Get the <see cref="IPositionHistoryRestClient"/> clients for all exchanges
+        /// </summary>
         IEnumerable<IPositionHistoryRestClient> GetPositionHistoryClients();
-        IEnumerable<IPositionHistoryRestClient> GetPositionHistoryClients(TradingMode api);
-        IPositionHistoryRestClient? PositionHistoryClient(TradingMode api, string exchange);
+        /// <summary>
+        /// Get all <see cref="IPositionHistoryRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IPositionHistoryRestClient> GetPositionHistoryClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IPositionHistoryRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IPositionHistoryRestClient? PositionHistoryClient(TradingMode tradingMode, string exchange);
 
-
+        /// <summary>
+        /// Get spot ticker information for all symbols on all exchanges, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotTicker>>> GetSpotTickersAsyncEnumerable(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get spot ticker information for all symbols on all exchanges, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotTicker>>>> GetSpotTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get spot ticker information for a specific symbol from all exchanges, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<SharedSpotTicker>> GetSpotTickerAsyncEnumerable(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get spot ticker information for a specific symbol from all exchanges, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<SharedSpotTicker>>> GetSpotTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get futures ticker information for all symbols on all exchanges, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>> GetFuturesTickersAsyncEnumerable(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get futures ticker information for all symbols on all exchanges, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
+        
+        /// <summary>
+        /// Get futures ticker information for a specific symbol from all exchanges, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<SharedFuturesTicker>> GetFuturesTickerAsyncEnumerable(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get futures ticker information for a specific symbol from all exchanges, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<SharedFuturesTicker>>> GetFuturesTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get kline data for a specific symbol from all exchanges, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>> GetKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get kline data for a specific symbol from all exchanges, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        
+
+        /// <summary>
+        /// Get mark price kline data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesKline>>> GetMarkPriceKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get mark price kline data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesKline>>>> GetMarkPriceKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get index price kline data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesKline>>> GetIndexPriceKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get index price kline data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesKline>>>> GetIndexPriceKlinesAsync( GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetRecentTradesAsyncEnumerable(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get recent trades public data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetRecentTradesAsyncEnumerable(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get recent trades public data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
-        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetTradeHistoryAsyncEnumerable(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradeHistoryAsync(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, IEnumerable<INextPageToken>? nextPageTokens = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get public trade history data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>> GetTradeHistoryAsyncEnumerable(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get public trade history data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradeHistoryAsync(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get order book data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<SharedOrderBook>> GetOrderBookAsyncEnumerable(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get order book data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<SharedOrderBook>>> GetOrderBookAsync(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
+        
+        /// <summary>
+        /// Get asset info of all assets on all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedAsset>>> GetAssetsAsyncEnumerable(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get asset info of all assets on all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedAsset>>>> GetAssetsAsync(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get asset info of a specific asset on all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<SharedAsset>> GetAssetAsyncEnumerable(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get asset info of a specific asset on all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<SharedAsset>>> GetAssetAsync(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get user balances from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>> GetBalancesAsyncEnumerable(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get user balances from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesAsync(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get user deposit history from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedDeposit>>> GetDepositsAsyncEnumerable(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get user deposit history from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedDeposit>>>> GetDepositsAsync(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get user withdrawal history from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedWithdrawal>>> GetWithdrawalsAsyncEnumerable(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get user withdrawal history from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedWithdrawal>>>> GetWithdrawalsAsync(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
+        
+        /// <summary>
+        /// Get spot symbol info of all symbols from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> GetSpotSymbolsAsyncEnumerable(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get spot symbol info of all symbols from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>>> GetSpotSymbolsAsync(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
-        IAsyncEnumerable<ExchangeWebResult<SharedId>> PlaceSpotOrderAsyncEnumerable(PlaceSpotOrderRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-        Task<IEnumerable<ExchangeWebResult<SharedId>>> PlaceSpotOrderAsync(PlaceSpotOrderRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
+        
+        /// <summary>
+        /// Get open spot orders for the user from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotOpenOrdersAsyncEnumerable(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get open spot orders for the user from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersAsync( GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get closed spot orders for a symbol for the user from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> GetSpotClosedOrdersAsyncEnumerable(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get closed spot orders for a symbol for the user from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get user executed trades from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>> GetSpotUserTradesAsyncEnumerable(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get user executed trades from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetSpotUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get funding rate history for a symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFundingRate>>> GetFundingRateHistoryAsyncEnumerable(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get funding rate history for a symbol from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFundingRate>>>> GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get current open interest for a symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<SharedOpenInterest>> GetOpenInterestAsyncEnumerable(GetOpenInterestRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get current open interest for a symbol from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<SharedOpenInterest>>> GetOpenInterestAsync(GetOpenInterestRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get futures symbol info of all symbols from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>> GetFuturesSymbolsAsyncEnumerable(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get futures symbol info of all symbols from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsAsync(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
+        /// <summary>
+        /// Get user position history from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedPositionHistory>>> GetPositionHistoryAsyncEnumerable(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get user position history from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedPositionHistory>>>> GetPositionHistoryAsync(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get open Futures orders for the user from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>> GetFuturesOpenOrdersAsyncEnumerable(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get open Futures orders for the user from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>>> GetFuturesOpenOrdersAsync(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get closed Futures orders for a symbol for the user from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>> GetFuturesClosedOrdersAsyncEnumerable(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get closed Futures orders for a symbol for the user from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>>> GetFuturesClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get user executed trades from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        IAsyncEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>> GetFuturesUserTradesAsyncEnumerable(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get user executed trades from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetFuturesUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
     }
 }
