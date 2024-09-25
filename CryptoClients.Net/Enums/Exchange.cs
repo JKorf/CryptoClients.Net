@@ -52,7 +52,7 @@ namespace CryptoClients.Net.Enums
         /// <summary>
         /// Gate.io
         /// </summary>
-        public static string GateIo => GateIoExchange.ExchangeName;
+        public static string GateIo => "GateIo";
         /// <summary>
         /// HTX
         /// </summary>
@@ -82,8 +82,6 @@ namespace CryptoClients.Net.Enums
             Binance,
             BingX,
             Bitfinex,
-            Bitget,
-            BitMart,
             Bitget,
             BitMart,
             Bybit,

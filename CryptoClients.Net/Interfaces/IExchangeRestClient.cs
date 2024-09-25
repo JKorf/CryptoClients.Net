@@ -95,7 +95,8 @@ namespace CryptoClients.Net.Interfaces
         /// Get all ISharedClient REST Api interfaces supported for the specified exchange
         /// </summary>
         /// <param name="exchange">The exchange name</param>
-        IEnumerable<ISharedClient> GetExchangeSharedClients(string exchange);
+        /// <param name="tradingMode">Filter clients by trading mode</param>
+        IEnumerable<ISharedClient> GetExchangeSharedClients(string exchange, TradingMode? tradingMode = null);
 
         /// <summary>
         /// Get the <see cref="IAssetsRestClient"/> clients for all exchanges

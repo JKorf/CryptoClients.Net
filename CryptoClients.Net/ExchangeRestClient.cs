@@ -19,7 +19,6 @@ using Bybit.Net.Objects.Options;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
-using CryptoClients.Net.ExtensionMethods;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoExchange.Net.Authentication;
@@ -426,9 +425,12 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public IEnumerable<ISharedClient> GetExchangeSharedClients(string name)
+        public IEnumerable<ISharedClient> GetExchangeSharedClients(string name, TradingMode? tradingMode = null)
         {
-            return _sharedClients.Where(s => s.Exchange == name).ToList();
+            var result = _sharedClients.Where(s => s.Exchange == name);
+            if (tradingMode.HasValue)
+                result = result.Where(x => x.SupportedTradingModes.Contains(tradingMode.Value));
+            return result.ToList();
         }
 
         #region Get Spot Tickers

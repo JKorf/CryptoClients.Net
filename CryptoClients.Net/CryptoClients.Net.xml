@@ -386,7 +386,7 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetUnifiedSpotClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangeSharedClients(System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.Objects.TradingMode})">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsync(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
@@ -778,7 +778,7 @@
             DI constructor
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetExchangeSharedClients(System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.Objects.TradingMode})">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
@@ -814,184 +814,184 @@
         <member name="M:CryptoClients.Net.ExchangeSocketClient.UnsubscribeAllAsync">
             <inheritdoc />
         </member>
-        <member name="T:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions">
+        <member name="T:CryptoClients.Net.CryptoClientsExtensions">
             <summary>
             Extension methods
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.ParallelEnumerateAsync``1(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}})">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.ParallelEnumerateAsync``1(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}})">
             <summary>
             Return the task results in the form of an IAsyncEnumerable, returning the first completed task first
             </summary>
             <typeparam name="T">Type of task result</typeparam>
             <param name="tasks">Task list</param>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.AssetsRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.AssetsRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IAssetsRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.BalanceRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.BalanceRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.DepositRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.DepositRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IDepositRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.KlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.KlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.ListenKeyRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.ListenKeyRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IListenKeyRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.OrderBookRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.OrderBookRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.RecentTradesRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.RecentTradesRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IRecentTradeRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.TradeHistoryRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TradeHistoryRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeHistoryRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.WithdrawalRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.WithdrawalRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IWithdrawalRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.WithdrawRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.WithdrawRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IWithdrawRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.SpotTickerRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.SpotTickerRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotTickerRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.SpotSymbolRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.SpotSymbolRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotTickerRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.SpotOrderRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.SpotOrderRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotOrderRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.FundingRateRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FundingRateRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFundingRateRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.FuturesOrderRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesOrderRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.FuturesSymbolRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesSymbolRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesSymbolRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.FuturesTickerRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesTickerRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesTickerRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.IndexPriceKlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.IndexPriceKlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IIndexPriceKlineRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.LeverageRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.LeverageRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ILeverageRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.MarkPriceKlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.MarkPriceKlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IMarkPriceKlineRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.OpenInterestRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.OpenInterestRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOpenInterestRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.PositionHistoryRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.PositionHistoryRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionHistoryRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.PositionModeRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.PositionModeRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionModeRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.BalanceSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.BalanceSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.BookTickerSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.BookTickerSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IBookTickerSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.KlineSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.KlineSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.OrderBookSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.OrderBookSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.TickerSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TickerSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickerSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.TickersSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TickersSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickersSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.TradeSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TradeSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.UserTradeSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.UserTradeSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IUserTradeSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.SpotOrderSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.SpotOrderSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotOrderSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.PositionSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.PositionSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExtensionMethods.CryptoClientsExtensions.FuturesOrderSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesOrderSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderSocketClient"/> if available
             </summary>
@@ -1149,11 +1149,12 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangeSharedClients(System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.Objects.TradingMode})">
             <summary>
             Get all ISharedClient REST Api interfaces supported for the specified exchange
             </summary>
             <param name="exchange">The exchange name</param>
+            <param name="tradingMode">Filter clients by trading mode</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetAssetsClients">
             <summary>
@@ -1988,11 +1989,12 @@
             OKX Websocket API
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetExchangeSharedClients(System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.Objects.TradingMode})">
             <summary>
             Get all ISharedClient Socket Api interfaces supported for the specified exchange
             </summary>
             <param name="exchange">The exchange name</param>
+            <param name="tradingMode">Filter clients by trading mode</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickerClients">
             <summary>

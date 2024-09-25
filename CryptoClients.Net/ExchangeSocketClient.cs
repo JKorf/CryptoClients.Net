@@ -19,7 +19,6 @@ using Bybit.Net.Objects.Options;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
-using CryptoClients.Net.ExtensionMethods;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoExchange.Net.Authentication;
@@ -326,9 +325,12 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public IEnumerable<ISharedClient> GetExchangeSharedClients(string name)
+        public IEnumerable<ISharedClient> GetExchangeSharedClients(string name, TradingMode? tradingMode = null)
         {
-            return _sharedClients.Where(s => s.Exchange == name).ToList();
+            var result = _sharedClients.Where(s => s.Exchange == name);
+            if (tradingMode.HasValue)
+                result = result.Where(x => x.SupportedTradingModes.Contains(tradingMode.Value));
+            return result.ToList();
         }
 
         /// <inheritdoc />
@@ -464,7 +466,7 @@ namespace CryptoClients.Net
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
-                var exchangeRequest = request with { ListenKey = request.ExchangeParameters?.GetValue<string>(x.Exchange, nameof(SubscribeBalancesRequest.ListenKey)) ?? request.ListenKey };
+                var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey)) ?? request.ListenKey };
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBalanceUpdatesAsync(exchangeRequest, handler, ct));
             }));
             return tasks;
@@ -484,7 +486,7 @@ namespace CryptoClients.Net
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
-                var exchangeRequest = request with { ListenKey = request.ExchangeParameters?.GetValue<string>(x.Exchange, nameof(SubscribeSpotOrderRequest.ListenKey)) ?? request.ListenKey };
+                var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeSpotOrderRequest.ListenKey)) ?? request.ListenKey };
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToSpotOrderUpdatesAsync(exchangeRequest, handler, ct));
             }));
             return tasks;
@@ -504,7 +506,7 @@ namespace CryptoClients.Net
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
-                var exchangeRequest = request with { ListenKey = request.ExchangeParameters?.GetValue<string>(x.Exchange, nameof(SubscribeFuturesOrderRequest.ListenKey)) ?? request.ListenKey };
+                var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeFuturesOrderRequest.ListenKey)) ?? request.ListenKey };
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToFuturesOrderUpdatesAsync(request, handler, ct));
             }));
             return tasks;
@@ -524,7 +526,7 @@ namespace CryptoClients.Net
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
-                var exchangeRequest = request with { ListenKey = request.ExchangeParameters?.GetValue<string>(x.Exchange, nameof(SubscribeUserTradeRequest.ListenKey)) ?? request.ListenKey };
+                var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeUserTradeRequest.ListenKey)) ?? request.ListenKey };
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToUserTradeUpdatesAsync(request, handler, ct));
             }));
             return tasks;
