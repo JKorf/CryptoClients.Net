@@ -79,10 +79,8 @@ namespace CryptoClients.Net.Interfaces
         IOKXRestClient OKX { get; }
 
         /// <summary>
-        /// Get an ISpotClient for the specific exchange. 
+        /// DEPRECATED; use <see cref="ISharedClient" /> instead for common/shared functionality. See <see href="SHAREDDOCSURL" /> for more info.
         /// </summary>
-        /// <param name="exchange">Exchange</param>
-        /// <returns></returns>
         ISpotClient GetUnifiedSpotClient(string exchange);
 
         /// <summary>
