@@ -113,7 +113,6 @@ bybitRestOptions: bybitOptions =>
 
 ### Using the client
 There are multiple options for accessing exchange API's. Options 1 and 2 allow access to the full exchange API while option 3 uses a common interface which allows exchange agnostic requesting, but is therefor limited in functionality.  
-Option 3 is currently only supported for the Spot REST API's.
 ```csharp
 // Option 1
 // Use exchange clients directly, full functionality
@@ -132,13 +131,14 @@ var kucoinResult2 = await restClient2.Kucoin.SpotApi.ExchangeData.GetTickerAsync
 
 // Option 3
 // Use unified spot client via GetUnifiedSpotClient, most generic but only supports common functionality
-var restClient3 = new ExchangeRestClient();
-var baseAsset3 = "ETH";
-var quoteAsset3 = "USDT";
-var unifiedBinanceClient3 = restClient3.GetUnifiedSpotClient(Exchange.Binance);
-var unifiedKucoinClient3 = restClient3.GetUnifiedSpotClient(Exchange.Kucoin);
-var binanceResult3 = await unifiedBinanceClient3.GetTickerAsync(unifiedBinanceClient3.GetSymbolName(baseAsset3, quoteAsset3));
-var kucoinResult3 = await unifiedKucoinClient3.GetTickerAsync(unifiedKucoinClient3.GetSymbolName(baseAsset3, quoteAsset3));
+
+// Define functionality based on shared interface
+async Task<ExchangeWebResult<SharedSpotTicker>> GetTickerAsync(ISpotTickerRestClient client, SharedSymbol symbol)
+    => await client.GetSpotTickerAsync(new GetTickerRequest(symbol));
+	
+// Execute for multiple exchanges
+var binanceResult3 = await GetTickerAsync(restClient3.Binance.SpotApi.SharedClient, symbol);
+var kucoinResult3 = await GetTickerAsync(restClient3.Kucoin.SpotApi.SharedClient, symbol);
 ```
 
 For information on the specific exchange clients, dependency injection, response processing and more see the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net) or have a look at the examples [here](https://github.com/JKorf/CryptoClients.Net/tree/main/Examples). See the [CryptoExchange.Net examples](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples) for client examples which also apply to CryptClients.Net

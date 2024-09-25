@@ -77,7 +77,7 @@ namespace CryptoClients.Net.Enums
         /// <summary>
         /// All exchange names
         /// </summary>
-        public static IEnumerable<string> All { get; } = new[]
+        public static string[] All { get; } = new[]
         {
             Binance,
             BingX,

@@ -51,10 +51,10 @@
 @code
 {
     private string[] _assets = new[] { "BTC", "ETH", "SOL", "ZZZ" };
-    private Exchange[] _exchanges = Enum.GetValues<Exchange>();
+    private string[] _exchanges = Exchange.All;
 
     private string _selectedAsset = "BTC";
-    private Exchange _selectedExchange = Exchange.Bybit;
+    private string _selectedExchange = Exchange.Bybit;
 
     private string? _error;
     private decimal? _open;
