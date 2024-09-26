@@ -1,10 +1,6 @@
-﻿
-
-
-using CryptoClients.Net;
+﻿using CryptoClients.Net;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis;
-using CryptoExchange.Net.SharedApis.Models.Socket;
 using System.Collections.Concurrent;
 
 var cache = new ConcurrentDictionary<string, List<ExchangeTicker>>();
@@ -19,7 +15,7 @@ var symbols = new[]
 var client = new ExchangeSocketClient();
 foreach (var symbol in symbols) 
 {
-    // Subscribe to ticker updates for each symbol
+    // Subscribe to ticker updates on all exchanges for each symbol
     var result = await client.SubscribeToTickerUpdatesAsync(new SubscribeTickerRequest(symbol), x =>
     {
         if (!cache.ContainsKey(x.Exchange))
@@ -59,7 +55,7 @@ while (true)
         Console.WriteLine();
     }
 
-    await Task.Delay(200);
+    await Task.Delay(500);
 }
 
 

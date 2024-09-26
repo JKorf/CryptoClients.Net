@@ -101,7 +101,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        ITickerSocketClient? TickerClient(TradingMode tradingMode, string exchange);
+        ITickerSocketClient? GetTickerClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="ITickersSocketClient"/> clients for all exchanges which have support for it
@@ -117,7 +117,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        ITickersSocketClient? TickersClient(TradingMode tradingMode, string exchange);
+        ITickersSocketClient? GetTickersClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="ITradeSocketClient"/> clients for all exchanges which have support for it
@@ -133,7 +133,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        ITradeSocketClient? TradeClient(TradingMode tradingMode, string exchange);
+        ITradeSocketClient? GetTradeClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IBookTickerSocketClient"/> clients for all exchanges which have support for it
@@ -149,7 +149,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IBookTickerSocketClient? BookTickerClient(TradingMode tradingMode, string exchange);
+        IBookTickerSocketClient? GetBookTickerClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IKlineSocketClient"/> clients for all exchanges which have support for it
@@ -165,7 +165,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IKlineSocketClient? KlineClient(TradingMode tradingMode, string exchange);
+        IKlineSocketClient? GetKlineClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IOrderBookSocketClient"/> clients for all exchanges which have support for it
@@ -181,7 +181,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IOrderBookSocketClient? OrderBookClient(TradingMode tradingMode, string exchange);
+        IOrderBookSocketClient? GetOrderBookClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IBalanceSocketClient"/> clients for all exchanges which have support for it
@@ -197,7 +197,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IBalanceSocketClient? BalanceClient(TradingMode tradingMode, string exchange);
+        IBalanceSocketClient? GetBalanceClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="ISpotOrderSocketClient"/> clients for all exchanges which have support for it
@@ -207,7 +207,7 @@ namespace CryptoClients.Net.Interfaces
         /// Get the <see cref="ISpotOrderSocketClient"/> client for a specific exchange
         /// </summary>
         /// <param name="exchange">Exchange name</param>
-        ISpotOrderSocketClient? SpotOrderClient(string exchange);
+        ISpotOrderSocketClient? GetSpotOrderClient(string exchange);
 
         /// <summary>
         /// Get the <see cref="IFuturesOrderSocketClient"/> clients for all exchanges which have support for it
@@ -223,7 +223,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IFuturesOrderSocketClient? FuturesOrderClient(TradingMode tradingMode, string exchange);
+        IFuturesOrderSocketClient? GetFuturesOrderClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IUserTradeSocketClient"/> clients for all exchanges which have support for it
@@ -239,7 +239,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IUserTradeSocketClient? UserTradeClient(TradingMode tradingMode, string exchange);
+        IUserTradeSocketClient? GetUserTradeClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IPositionSocketClient"/> clients for all exchanges which have support for it
@@ -255,7 +255,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IPositionSocketClient? PositionClient(TradingMode tradingMode, string exchange);
+        IPositionSocketClient? GetPositionClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Subscribe to ticker updates for all symbols on all exchanges that support this subscription

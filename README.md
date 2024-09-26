@@ -71,6 +71,13 @@ There are 2 main clients, the `ExchangeRestClient` and `ExchangeSocketClient`, f
 Alternatively exchange specific clients can be used, for example `BinanceRestClient` or `KucoinSocketClient`.
 Either create new clients directly or use Dotnet dependency injection.
 
+*Dependency injection*
+```csharp
+// Dependency injection, allows the injection of `IExchangeRestClient`, `IExchangeSocketClient` and `IExchangeOrderBookFactory` interfaces
+// as well as for all exchanges the `I[ExchangeName]RestClient`, `I[ExchangeName]SocketClient` and `I[ExchangeName]OrderBookFactory` types
+services.AddCryptoClients();
+```
+
 *Construction*
 ```csharp
 // Client for accessing all exchanges
@@ -81,15 +88,9 @@ IExchangeSocketClient socketClient = new ExchangeSocketClient();
 IBinanceRestClient binanceRestClient = new BinanceRestClient();
 IKucoinSocketClient kucoinSocketClient = new KucoinSocketClient();
 ```
-*Dependency injection*
-```csharp
-// Dependency injection, allows the injection of `IExchangeRestClient`, `IExchangeSocketClient` and `IExchangeOrderBookFactory` interfaces
-// as well as for all exchanges the `I[ExchangeName]RestClient`, `I[ExchangeName]SocketClient` and `I[ExchangeName]OrderBookFactory` types
-services.AddCryptoClients();
-```
 
 ### Configuration
-Clients can be configured when doing the dependency injection registration, or when constructing the clients. Configuration can be done for all exchanges/clients, can be set per exchange or a combination:
+Clients can be configured during the dependency injection registration, or when constructing the clients. Configuration can be done for all exchanges/clients, can be set per exchange or a combination:
 ```csharp
 builder.Services.AddCryptoClients(globalOptions =>
 {
@@ -111,55 +112,67 @@ bybitRestOptions: bybitOptions =>
 });
 ```
 
-### Using the client
-There are multiple options for accessing exchange API's. Options 1 and 2 allow access to the full exchange API while option 3 uses a common interface which allows exchange agnostic requesting, but is therefor limited in functionality.  
+More info on options available for each client can be found in the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net/#idocs_options_def).
+
+### Usage
+There are multiple ways to access exchange API's. Options 1 and 2 allow access to the full exchange API while option 3 uses a common interface which allows exchange agnostic requesting, but is therefor limited in functionality.  
+
+<b>Option 1</b>  
+Using the exchange specific clients directly. This offers full functionality of the exchange API's.
 ```csharp
-// Option 1
-// Use exchange clients directly, full functionality
 var kucoinClient1 = new KucoinRestClient();
 var binanceClient1 = new BinanceRestClient();
 var binanceResult1 = await binanceClient1.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT");
 var kucoinResult1 = await kucoinClient1.SpotApi.ExchangeData.GetTickerAsync("ETH-USDT");
+```
 
-// Option 2
-// Use exchange client via ExchangeRestClient, full functionality
+<b>Option 2</b>  
+Using the exchange clients via the main client, also allows for full functionality of the exchange API's.
+```csharp
 var restClient2 = new ExchangeRestClient();
-var baseAsset2 = "ETH";
-var quoteAsset2 = "USDT";
-var binanceResult2 = await restClient2.Binance.SpotApi.ExchangeData.GetTickerAsync(restClient2.Binance.SpotApi.FormatSymbol(baseAsset2, quoteAsset2));
-var kucoinResult2 = await restClient2.Kucoin.SpotApi.ExchangeData.GetTickerAsync(restClient2.Kucoin.SpotApi.FormatSymbol(baseAsset2, quoteAsset2));
+var binanceResult2 = await restClient2.Binance.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT");
+var kucoinResult2 = await restClient2.Kucoin.SpotApi.ExchangeData.GetTickerAsync("ETH-USDT");
+```
 
-// Option 3
-// Use unified spot client via GetUnifiedSpotClient, most generic but only supports common functionality
-
+<b>Option 3</b>  
+Using the shared client interfaces to access exchanges. This is the most generic and exchange agnostic way, but might not support all functionality the full API offers.
+```csharp
 // Define functionality based on shared interface
 async Task<ExchangeWebResult<SharedSpotTicker>> GetTickerAsync(ISpotTickerRestClient client, SharedSymbol symbol)
     => await client.GetSpotTickerAsync(new GetTickerRequest(symbol));
 	
 // Execute for multiple exchanges
+var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
 var binanceResult3 = await GetTickerAsync(restClient3.Binance.SpotApi.SharedClient, symbol);
 var kucoinResult3 = await GetTickerAsync(restClient3.Kucoin.SpotApi.SharedClient, symbol);
 ```
 
-For information on the specific exchange clients, dependency injection, response processing and more see the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net) or have a look at the examples [here](https://github.com/JKorf/CryptoClients.Net/tree/main/Examples). See the [CryptoExchange.Net examples](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples) for client examples which also apply to CryptClients.Net
+<b>Option 4</b>  
+Using the shared client interfaces thought the main client. For this the same limitation applies as option 3.
+```csharp
+var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
+var tickers = await restClient.GetSpotTickerAsync(new GetTickerRequest(symbol), [Exchange.Binance, Exchange.Kucoin]);
+```
+
+For information on the specific exchange clients, dependency injection, response processing and more see the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net) or have a look at the examples [here](https://github.com/JKorf/CryptoClients.Net/tree/main/Examples). See the [CryptoExchange.Net examples](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples) for client examples which also apply to CryptoClients.Net
 
 ### Example
-An API allowing the requesting of any ticker on any (supported) exchange in 13 lines;  
+An API allowing the requesting of any ticker on any (supported) exchange in 14 lines;  
 For example `GET /Ticker/Kraken/ETH/BTC` or `GET /Ticker/Kucoin/BTC/USDT`
 ```csharp
-using CryptoExchange.Net.Interfaces;
-using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
+using CryptoExchange.Net.SharedApis;
+using CryptoExchange.Net.Objects;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCryptoClients();
 var app = builder.Build();
 
-app.MapGet("Ticker/{exchange}/{baseAsset}/{quoteAsset}", async ([FromServices] IExchangeRestClient client, Exchange exchange, string baseAsset, string quoteAsset) =>
+app.MapGet("Ticker/{exchange}/{baseAsset}/{quoteAsset}", async ([FromServices] IExchangeRestClient client, string exchange, string baseAsset, string quoteAsset) =>
 {
-    var spotClient = client.GetUnifiedSpotClient(exchange)!;
-    var result = await spotClient.GetTickerAsync(spotClient.GetSymbolName(baseAsset, quoteAsset));
+    var spotClient = client.GetSpotTickerClient(exchange)!;
+    var result = await spotClient.GetSpotTickerAsync(new GetTickerRequest(new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset)));
     return result.Data;
 });
 
@@ -171,7 +184,7 @@ app.Run();
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free to join for discussion and/or questions around the CryptoExchange.Net and implementation libraries.
 
 ## Support the project
-I develop and maintain this package on my own for free in my spare time, any support is greatly appreciated.
+Any support is greatly appreciated.
 
 ### Donate
 Make a one time donation in a crypto currency of your choice. If you prefer to donate a currency not listed here please contact me.

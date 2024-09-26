@@ -21,7 +21,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("priceFromRequest", async (IExchangeRestClient restClient, string exchange, string baseAsset, string quoteAsset) =>
 {
-    var exchangeClient = restClient.SpotTickerClient(exchange);
+    var exchangeClient = restClient.GetSpotTickerClient(exchange);
     if (exchangeClient == null)
         return Results.Problem("Exchange not found");
 

@@ -89,75 +89,75 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<ITickerSocketClient> GetTickerClients(TradingMode api) => _sharedClients.OfType<ITickerSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public ITickerSocketClient? TickerClient(TradingMode api, string exchange) => _sharedClients.OfType<ITickerSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public ITickerSocketClient? GetTickerClient(TradingMode api, string exchange) => _sharedClients.OfType<ITickerSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ITickersSocketClient> GetTickersClients() => _sharedClients.OfType<ITickersSocketClient>();
         /// <inheritdoc />
         public IEnumerable<ITickersSocketClient> GetTickersClients(TradingMode api) => _sharedClients.OfType<ITickersSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public ITickersSocketClient? TickersClient(TradingMode api, string exchange) => _sharedClients.OfType<ITickersSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public ITickersSocketClient? GetTickersClient(TradingMode api, string exchange) => _sharedClients.OfType<ITickersSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ITradeSocketClient> GetTradeClients() => _sharedClients.OfType<ITradeSocketClient>();
         /// <inheritdoc />
         public IEnumerable<ITradeSocketClient> GetTradeClients(TradingMode api) => _sharedClients.OfType<ITradeSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public ITradeSocketClient? TradeClient(TradingMode api, string exchange) => _sharedClients.OfType<ITradeSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public ITradeSocketClient? GetTradeClient(TradingMode api, string exchange) => _sharedClients.OfType<ITradeSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IKlineSocketClient> GetKlineClients() => _sharedClients.OfType<IKlineSocketClient>();
         /// <inheritdoc />
         public IEnumerable<IKlineSocketClient> GetKlineClients(TradingMode api) => _sharedClients.OfType<IKlineSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IKlineSocketClient? KlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IKlineSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IKlineSocketClient? GetKlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IKlineSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IOrderBookSocketClient> GetOrderBookClients() => _sharedClients.OfType<IOrderBookSocketClient>();
         /// <inheritdoc />
         public IEnumerable<IOrderBookSocketClient> GetOrderBookClients(TradingMode api) => _sharedClients.OfType<IOrderBookSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IOrderBookSocketClient? OrderBookClient(TradingMode api, string exchange) => _sharedClients.OfType<IOrderBookSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IOrderBookSocketClient? GetOrderBookClient(TradingMode api, string exchange) => _sharedClients.OfType<IOrderBookSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IBalanceSocketClient> GetBalanceClients() => _sharedClients.OfType<IBalanceSocketClient>();
         /// <inheritdoc />
         public IEnumerable<IBalanceSocketClient> GetBalanceClients(TradingMode api) => _sharedClients.OfType<IBalanceSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IBalanceSocketClient? BalanceClient(TradingMode api, string exchange) => _sharedClients.OfType<IBalanceSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IBalanceSocketClient? GetBalanceClient(TradingMode api, string exchange) => _sharedClients.OfType<IBalanceSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IBookTickerSocketClient> GetBookTickerClients() => _sharedClients.OfType<IBookTickerSocketClient>();
         /// <inheritdoc />
         public IEnumerable<IBookTickerSocketClient> GetBookTickerClients(TradingMode api) => _sharedClients.OfType<IBookTickerSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IBookTickerSocketClient? BookTickerClient(TradingMode api, string exchange) => _sharedClients.OfType<IBookTickerSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IBookTickerSocketClient? GetBookTickerClient(TradingMode api, string exchange) => _sharedClients.OfType<IBookTickerSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ISpotOrderSocketClient> GetSpotOrderClients() => _sharedClients.OfType<ISpotOrderSocketClient>();
         /// <inheritdoc />
-        public ISpotOrderSocketClient? SpotOrderClient(string exchange) => _sharedClients.OfType<ISpotOrderSocketClient>().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotOrderSocketClient? GetSpotOrderClient(string exchange) => _sharedClients.OfType<ISpotOrderSocketClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients() => _sharedClients.OfType<IFuturesOrderSocketClient>();
         /// <inheritdoc />
         public IEnumerable<IFuturesOrderSocketClient> GetFuturesOrderClients(TradingMode api) => _sharedClients.OfType<IFuturesOrderSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFuturesOrderSocketClient? FuturesOrderClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesOrderSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IFuturesOrderSocketClient? GetFuturesOrderClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesOrderSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IUserTradeSocketClient> GetUserTradeClients() => _sharedClients.OfType<IUserTradeSocketClient>();
         /// <inheritdoc />
         public IEnumerable<IUserTradeSocketClient> GetUserTradeClients(TradingMode api) => _sharedClients.OfType<IUserTradeSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IUserTradeSocketClient? UserTradeClient(TradingMode api, string exchange) => _sharedClients.OfType<IUserTradeSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IUserTradeSocketClient? GetUserTradeClient(TradingMode api, string exchange) => _sharedClients.OfType<IUserTradeSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IPositionSocketClient> GetPositionClients() => _sharedClients.OfType<IPositionSocketClient>();
         /// <inheritdoc />
         public IEnumerable<IPositionSocketClient> GetPositionClients(TradingMode api) => _sharedClients.OfType<IPositionSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IPositionSocketClient? PositionClient(TradingMode api, string exchange) => _sharedClients.OfType<IPositionSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IPositionSocketClient? GetPositionClient(TradingMode api, string exchange) => _sharedClients.OfType<IPositionSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <summary>
         /// Create a new ExchangeSocketClient instance. Client instances will be created with default options.
@@ -316,7 +316,7 @@ namespace CryptoClients.Net
                 HTX.SpotApi.SharedClient,
                 HTX.UsdtFuturesApi.SharedClient,
                 Kraken.SpotApi.SharedClient,
-                //Kraken.FuturesApi.SharedClient,
+                Kraken.FuturesApi.SharedClient,
                 Kucoin.SpotApi.SharedClient,
                 Kucoin.FuturesApi.SharedClient,
                 Mexc.SpotApi.SharedClient,
@@ -333,13 +333,10 @@ namespace CryptoClients.Net
             return result.ToList();
         }
 
-        /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(SubscribeToAllTickerUpdatesInt(request, handler, exchanges, ct));
-        }
+        #region Subscribe All Ticker
 
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesInt(SubscribeAllTickersRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetTickersClients().Where(x => request.TradingMode == null ? true: x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
@@ -347,18 +344,17 @@ namespace CryptoClients.Net
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToAllTickersUpdatesAsync(request, handler, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToAllTickersUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
-            return tasks;
+            return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Subscribe Ticker
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(SubscribeToTickerUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesInt(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetTickerClients(request.Symbol.TradingMode);
             if (exchanges != null)
@@ -366,19 +362,17 @@ namespace CryptoClients.Net
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
-                
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToTickerUpdatesAsync(request, handler, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToTickerUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
-            return tasks;
+            return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Subscribe Trade
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(SubscribeToTradeUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesInt(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetTradeClients(request.Symbol.TradingMode);
             if (exchanges != null)
@@ -387,18 +381,17 @@ namespace CryptoClients.Net
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToTradeUpdatesAsync(request, handler, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToTradeUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
-            return tasks;
+            return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Subscribe Book Ticker
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(SubscribeToBookTickerUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesInt(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetBookTickerClients(request.Symbol.TradingMode);
             if (exchanges != null)
@@ -406,19 +399,17 @@ namespace CryptoClients.Net
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
-                
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBookTickerUpdatesAsync(request, handler, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBookTickerUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
-            return tasks;
+            return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Subscribe Kline
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(SubscribeToKlineUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToKlineUpdatesInt(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetKlineClients(request.Symbol.TradingMode);
             if (exchanges != null)
@@ -426,19 +417,17 @@ namespace CryptoClients.Net
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
-
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToKlineUpdatesAsync(request, handler, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToKlineUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
-            return tasks;
+            return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Subscribe Order Book
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToOrderBookUpdatesAsync(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(SubscribeToOrderBookUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToOrderBookUpdatesInt(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetOrderBookClients(request.Symbol.TradingMode);
             if (exchanges != null)
@@ -446,19 +435,17 @@ namespace CryptoClients.Net
 
             var tasks = clients.Select(x => Task.Run(async () =>
             {
-
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToOrderBookUpdatesAsync(request, handler, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToOrderBookUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
-            return tasks;
+            return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Subscribe Balance
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(SubscribeToBalanceUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesInt(SubscribeBalancesRequest request, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetBalanceClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
@@ -467,18 +454,17 @@ namespace CryptoClients.Net
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey)) ?? request.ListenKey };
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBalanceUpdatesAsync(exchangeRequest, handler, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBalanceUpdatesAsync(exchangeRequest, handler, ct).ConfigureAwait(false));
             }));
-            return tasks;
+            return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Subscribe Spot Order
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(SubscribeToSpotOrderUpdatesInt(request,handler, exchanges, ct));
-        }
-
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesInt(SubscribeSpotOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
@@ -487,18 +473,17 @@ namespace CryptoClients.Net
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeSpotOrderRequest.ListenKey)) ?? request.ListenKey };
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToSpotOrderUpdatesAsync(exchangeRequest, handler, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToSpotOrderUpdatesAsync(exchangeRequest, handler, ct).ConfigureAwait(false));
             }));
-            return tasks;
+            return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Subscribe Futures Order
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(SubscribeToFuturesOrderUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesInt(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetFuturesOrderClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
@@ -507,18 +492,17 @@ namespace CryptoClients.Net
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeFuturesOrderRequest.ListenKey)) ?? request.ListenKey };
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToFuturesOrderUpdatesAsync(request, handler, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToFuturesOrderUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
-            return tasks;
+            return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
+
+        #endregion
+
+        #region Subscribe User Trade
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesAsync(SubscribeUserTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
-        {
-            return await Task.WhenAll(SubscribeToUserTradeUpdatesInt(request, handler, exchanges, ct));
-        }
-
-        private IEnumerable<Task<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesInt(SubscribeUserTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetUserTradeClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
@@ -527,10 +511,12 @@ namespace CryptoClients.Net
             var tasks = clients.Select(x => Task.Run(async () =>
             {
                 var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeUserTradeRequest.ListenKey)) ?? request.ListenKey };
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToUserTradeUpdatesAsync(request, handler, ct));
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToUserTradeUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
-            return tasks;
+            return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
+
+        #endregion
 
         /// <inheritdoc />
         public async Task UnsubscribeAllAsync()

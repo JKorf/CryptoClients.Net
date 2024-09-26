@@ -53,6 +53,12 @@
     {
         public string Exchange { get; set; }
         public Trade Trade { get; set; }
+
+        public ExchangeTrade(string exchange, Trade trade)
+        {
+            Exchange = exchange;
+            Trade = trade;
+        }
     }
 
     private object _lock = new object();
@@ -84,16 +90,12 @@
     {
         lock (_lock)
         {
-            _trades.Add(new ExchangeTrade
+            _trades.Add(new ExchangeTrade(exchange, new Trade
                 {
-                    Exchange = exchange,
-                    Trade = new Trade
-                    {
-                        Price = price,
-                        Quantity = quantity,
-                        Timestamp = timestamp
-                    }
-                });
+                    Price = price,
+                    Quantity = quantity,
+                    Timestamp = timestamp
+                }));
 
             if (_volume.ContainsKey(exchange))
                 _volume[exchange] += quantity;

@@ -23,9 +23,9 @@ namespace CryptoClients.Net
 
             while (remaining.Count != 0)
             {
-                var task = await Task.WhenAny(remaining);
+                var task = await Task.WhenAny(remaining).ConfigureAwait(false);
                 remaining.Remove(task);
-                yield return (await task);
+                yield return task.Result;
             }
         }
 

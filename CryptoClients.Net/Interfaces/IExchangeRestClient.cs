@@ -104,7 +104,7 @@ namespace CryptoClients.Net.Interfaces
         /// Get the <see cref="IAssetsRestClient"/> client for a specific exchange
         /// </summary>
         /// <param name="exchange">Exchange name</param>
-        IAssetsRestClient? AssetsClient(string exchange);
+        IAssetsRestClient? GetAssetClient(string exchange);
 
         /// <summary>
         /// Get the <see cref="IBalanceRestClient"/> clients for all exchanges
@@ -120,7 +120,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IBalanceRestClient? BalancesClient(TradingMode tradingMode, string exchange);
+        IBalanceRestClient? GetBalancesClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IDepositRestClient"/> clients for all exchanges
@@ -130,7 +130,7 @@ namespace CryptoClients.Net.Interfaces
         /// Get the <see cref="IDepositRestClient"/> client for a specific exchange
         /// </summary>
         /// <param name="exchange">Exchange name</param>
-        IDepositRestClient? DepositsClient(string exchange);
+        IDepositRestClient? GetDepositsClient(string exchange);
 
         /// <summary>
         /// Get the <see cref="IKlineRestClient"/> clients for all exchanges
@@ -146,7 +146,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IKlineRestClient? KlineClient(TradingMode tradingMode, string exchange);
+        IKlineRestClient? GetKlineClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IOrderBookRestClient"/> clients for all exchanges
@@ -162,7 +162,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IOrderBookRestClient? OrderBookClient(TradingMode tradingMode, string exchange);
+        IOrderBookRestClient? GetOrderBookClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IRecentTradeRestClient"/> clients for all exchanges
@@ -178,7 +178,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IRecentTradeRestClient? RecentTradesClient(TradingMode tradingMode, string exchange);
+        IRecentTradeRestClient? GetRecentTradesClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="ITradeHistoryRestClient"/> clients for all exchanges
@@ -194,7 +194,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        ITradeHistoryRestClient? TradeHistoryClient(TradingMode tradingMode, string exchange);
+        ITradeHistoryRestClient? GetTradeHistoryClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IWithdrawalRestClient"/> clients for all exchanges
@@ -204,7 +204,7 @@ namespace CryptoClients.Net.Interfaces
         /// Get the <see cref="IWithdrawalRestClient"/> client for a specific exchange
         /// </summary>
         /// <param name="exchange">Exchange name</param>
-        IWithdrawalRestClient? WithdrawalsClient(string exchange);
+        IWithdrawalRestClient? GetWithdrawalsClient(string exchange);
 
         /// <summary>
         /// Get the <see cref="IWithdrawRestClient"/> clients for all exchanges
@@ -214,7 +214,7 @@ namespace CryptoClients.Net.Interfaces
         /// Get the <see cref="IWithdrawRestClient"/> client for a specific exchange
         /// </summary>
         /// <param name="exchange">Exchange name</param>
-        IWithdrawRestClient? WithdrawClient(string exchange);
+        IWithdrawRestClient? GetWithdrawClient(string exchange);
 
         /// <summary>
         /// Get the <see cref="ISpotOrderRestClient"/> clients for all exchanges
@@ -224,7 +224,7 @@ namespace CryptoClients.Net.Interfaces
         /// Get the <see cref="ISpotOrderRestClient"/> client for a specific exchange
         /// </summary>
         /// <param name="exchange">Exchange name</param>
-        ISpotOrderRestClient? SpotOrderClient(string exchange);
+        ISpotOrderRestClient? GetSpotOrderClient(string exchange);
 
         /// <summary>
         /// Get the <see cref="ISpotSymbolRestClient"/> clients for all exchanges
@@ -234,7 +234,7 @@ namespace CryptoClients.Net.Interfaces
         /// Get the <see cref="ISpotSymbolRestClient"/> client for a specific exchange
         /// </summary>
         /// <param name="exchange">Exchange name</param>
-        ISpotSymbolRestClient? SpotSymbolClient(string exchange);
+        ISpotSymbolRestClient? GetSpotSymbolClient(string exchange);
 
         /// <summary>
         /// Get the <see cref="ISpotTickerRestClient"/> clients for all exchanges
@@ -244,7 +244,7 @@ namespace CryptoClients.Net.Interfaces
         /// Get the <see cref="ISpotTickerRestClient"/> client for a specific exchange
         /// </summary>
         /// <param name="exchange">Exchange name</param>
-        ISpotTickerRestClient? SpotTickerClient(string exchange);
+        ISpotTickerRestClient? GetSpotTickerClient(string exchange);
 
         /// <summary>
         /// Get the <see cref="IFundingRateRestClient"/> clients for all exchanges
@@ -260,7 +260,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IFundingRateRestClient? FundingRateClient(TradingMode tradingMode, string exchange);
+        IFundingRateRestClient? GetFundingRateClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IFundingRateRestClient"/> clients for all exchanges
@@ -276,7 +276,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IFuturesOrderRestClient? FuturesOrderClient(TradingMode tradingMode, string exchange);
+        IFuturesOrderRestClient? GetFuturesOrderClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IFuturesSymbolRestClient"/> clients for all exchanges
@@ -292,7 +292,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IFuturesSymbolRestClient? FuturesSymbolClient(TradingMode tradingMode, string exchange);
+        IFuturesSymbolRestClient? GetFuturesSymbolClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IFuturesTickerRestClient"/> clients for all exchanges
@@ -308,7 +308,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IFuturesTickerRestClient? FuturesTickerClient(TradingMode tradingMode, string exchange);
+        IFuturesTickerRestClient? GetFuturesTickerClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IIndexPriceKlineRestClient"/> clients for all exchanges
@@ -324,7 +324,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IIndexPriceKlineRestClient? IndexPriceKlineClient(TradingMode tradingMode, string exchange);
+        IIndexPriceKlineRestClient? GetIndexPriceKlineClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="ILeverageRestClient"/> clients for all exchanges
@@ -340,7 +340,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        ILeverageRestClient? LeverageClient(TradingMode tradingMode, string exchange);
+        ILeverageRestClient? GetLeverageClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IMarkPriceKlineRestClient"/> clients for all exchanges
@@ -356,7 +356,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IMarkPriceKlineRestClient? MarkPriceKlineClient(TradingMode tradingMode, string exchange);
+        IMarkPriceKlineRestClient? GetMarkPriceKlineClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IOpenInterestRestClient"/> clients for all exchanges
@@ -372,7 +372,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IOpenInterestRestClient? OpenInterestClient(TradingMode tradingMode, string exchange);
+        IOpenInterestRestClient? GetOpenInterestClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IPositionModeRestClient"/> clients for all exchanges
@@ -388,7 +388,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IPositionModeRestClient? PositionModeClient(TradingMode tradingMode, string exchange);
+        IPositionModeRestClient? GetPositionModeClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IPositionHistoryRestClient"/> clients for all exchanges
@@ -404,7 +404,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IPositionHistoryRestClient? PositionHistoryClient(TradingMode tradingMode, string exchange);
+        IPositionHistoryRestClient? GetPositionHistoryClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get spot ticker information for all symbols on all exchanges, async returning in the order the response from the server is received

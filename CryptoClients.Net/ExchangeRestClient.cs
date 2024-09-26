@@ -89,142 +89,142 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IAssetsRestClient> GetAssetsClients() => _sharedClients.OfType<IAssetsRestClient>();
         /// <inheritdoc />
-        public IAssetsRestClient? AssetsClient(string exchange) => GetAssetsClients().SingleOrDefault(s => s.Exchange == exchange);
+        public IAssetsRestClient? GetAssetClient(string exchange) => GetAssetsClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IBalanceRestClient> GetBalancesClients() => _sharedClients.OfType<IBalanceRestClient>();
         /// <inheritdoc />
         public IEnumerable<IBalanceRestClient> GetBalancesClients(TradingMode api) => _sharedClients.OfType<IBalanceRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IBalanceRestClient? BalancesClient(TradingMode api, string exchange) => _sharedClients.OfType<IBalanceRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IBalanceRestClient? GetBalancesClient(TradingMode api, string exchange) => _sharedClients.OfType<IBalanceRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IDepositRestClient> GetDepositsClients() => _sharedClients.OfType<IDepositRestClient>();
         /// <inheritdoc />
-        public IDepositRestClient? DepositsClient(string exchange) => GetDepositsClients().SingleOrDefault(s => s.Exchange == exchange);
+        public IDepositRestClient? GetDepositsClient(string exchange) => GetDepositsClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IKlineRestClient> GetKlineClients() => _sharedClients.OfType<IKlineRestClient>();
         /// <inheritdoc />
         public IEnumerable<IKlineRestClient> GetKlineClients(TradingMode api) => _sharedClients.OfType<IKlineRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IKlineRestClient? KlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IKlineRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IKlineRestClient? GetKlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IKlineRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IOrderBookRestClient> GetOrderBookClients() => _sharedClients.OfType<IOrderBookRestClient>();
         /// <inheritdoc />
         public IEnumerable<IOrderBookRestClient> GetOrderBookClients(TradingMode api) => _sharedClients.OfType<IOrderBookRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IOrderBookRestClient? OrderBookClient(TradingMode api, string exchange) => _sharedClients.OfType<IOrderBookRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IOrderBookRestClient? GetOrderBookClient(TradingMode api, string exchange) => _sharedClients.OfType<IOrderBookRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IRecentTradeRestClient> GetRecentTradesClients() => _sharedClients.OfType<IRecentTradeRestClient>();
         /// <inheritdoc />
         public IEnumerable<IRecentTradeRestClient> GetRecentTradesClients(TradingMode api) => _sharedClients.OfType<IRecentTradeRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IRecentTradeRestClient? RecentTradesClient(TradingMode api, string exchange) => _sharedClients.OfType<IRecentTradeRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IRecentTradeRestClient? GetRecentTradesClient(TradingMode api, string exchange) => _sharedClients.OfType<IRecentTradeRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ITradeHistoryRestClient> GetTradeHistoryClients() => _sharedClients.OfType<ITradeHistoryRestClient>();
         /// <inheritdoc />
         public IEnumerable<ITradeHistoryRestClient> GetTradeHistoryClients(TradingMode api) => _sharedClients.OfType<ITradeHistoryRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public ITradeHistoryRestClient? TradeHistoryClient(TradingMode api, string exchange) => _sharedClients.OfType<ITradeHistoryRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public ITradeHistoryRestClient? GetTradeHistoryClient(TradingMode api, string exchange) => _sharedClients.OfType<ITradeHistoryRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IWithdrawalRestClient> GetWithdrawalsClients() => _sharedClients.OfType<IWithdrawalRestClient>();
         /// <inheritdoc />
-        public IWithdrawalRestClient? WithdrawalsClient(string exchange) => _sharedClients.OfType<IWithdrawalRestClient>().SingleOrDefault(s => s.Exchange == exchange);
+        public IWithdrawalRestClient? GetWithdrawalsClient(string exchange) => _sharedClients.OfType<IWithdrawalRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IWithdrawRestClient> GetWithdrawClients() => _sharedClients.OfType<IWithdrawRestClient>();
         /// <inheritdoc />
-        public IWithdrawRestClient? WithdrawClient(string exchange) => _sharedClients.OfType<IWithdrawRestClient>().SingleOrDefault(s => s.Exchange == exchange);
+        public IWithdrawRestClient? GetWithdrawClient(string exchange) => _sharedClients.OfType<IWithdrawRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ISpotOrderRestClient> GetSpotOrderClients() => _sharedClients.OfType<ISpotOrderRestClient>();
         /// <inheritdoc />
-        public ISpotOrderRestClient? SpotOrderClient(string exchange) => GetSpotOrderClients().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotOrderRestClient? GetSpotOrderClient(string exchange) => GetSpotOrderClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ISpotSymbolRestClient> GetSpotSymbolClients() => _sharedClients.OfType<ISpotSymbolRestClient>();
         /// <inheritdoc />
-        public ISpotSymbolRestClient? SpotSymbolClient(string exchange) => GetSpotSymbolClients().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotSymbolRestClient? GetSpotSymbolClient(string exchange) => GetSpotSymbolClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ISpotTickerRestClient> GetSpotTickerClients() => _sharedClients.OfType<ISpotTickerRestClient>();
         /// <inheritdoc />
-        public ISpotTickerRestClient? SpotTickerClient(string exchange) => _sharedClients.OfType<ISpotTickerRestClient>().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotTickerRestClient? GetSpotTickerClient(string exchange) => _sharedClients.OfType<ISpotTickerRestClient>().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IFundingRateRestClient> GetFundingRateClients() => _sharedClients.OfType<IFundingRateRestClient>();
         /// <inheritdoc />
         public IEnumerable<IFundingRateRestClient> GetFundingRateClients(TradingMode api) => _sharedClients.OfType<IFundingRateRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFundingRateRestClient? FundingRateClient(TradingMode api, string exchange) => _sharedClients.OfType<IFundingRateRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IFundingRateRestClient? GetFundingRateClient(TradingMode api, string exchange) => _sharedClients.OfType<IFundingRateRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IFuturesOrderRestClient> GetFuturesOrderClients() => _sharedClients.OfType<IFuturesOrderRestClient>();
         /// <inheritdoc />
         public IEnumerable<IFuturesOrderRestClient> GetFuturesOrderClients(TradingMode api) => _sharedClients.OfType<IFuturesOrderRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFuturesOrderRestClient? FuturesOrderClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesOrderRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IFuturesOrderRestClient? GetFuturesOrderClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesOrderRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IFuturesSymbolRestClient> GetFuturesSymbolClients() => _sharedClients.OfType<IFuturesSymbolRestClient>();
         /// <inheritdoc />
         public IEnumerable<IFuturesSymbolRestClient> GetFuturesSymbolClients(TradingMode api) => _sharedClients.OfType<IFuturesSymbolRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFuturesSymbolRestClient? FuturesSymbolClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesSymbolRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IFuturesSymbolRestClient? GetFuturesSymbolClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesSymbolRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IFuturesTickerRestClient> GetFuturesTickerClients() => _sharedClients.OfType<IFuturesTickerRestClient>();
         /// <inheritdoc />
         public IEnumerable<IFuturesTickerRestClient> GetFuturesTickerClients(TradingMode api) => _sharedClients.OfType<IFuturesTickerRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFuturesTickerRestClient? FuturesTickerClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesTickerRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IFuturesTickerRestClient? GetFuturesTickerClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesTickerRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IIndexPriceKlineRestClient> GetIndexPriceKlineClients() => _sharedClients.OfType<IIndexPriceKlineRestClient>();
         /// <inheritdoc />
         public IEnumerable<IIndexPriceKlineRestClient> GetIndexPriceKlineClients(TradingMode api) => _sharedClients.OfType<IIndexPriceKlineRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IIndexPriceKlineRestClient? IndexPriceKlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IIndexPriceKlineRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IIndexPriceKlineRestClient? GetIndexPriceKlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IIndexPriceKlineRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ILeverageRestClient> GetLeverageClients() => _sharedClients.OfType<ILeverageRestClient>();
         /// <inheritdoc />
         public IEnumerable<ILeverageRestClient> GetLeverageClients(TradingMode api) => _sharedClients.OfType<ILeverageRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public ILeverageRestClient? LeverageClient(TradingMode api, string exchange) => _sharedClients.OfType<ILeverageRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public ILeverageRestClient? GetLeverageClient(TradingMode api, string exchange) => _sharedClients.OfType<ILeverageRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IMarkPriceKlineRestClient> GetMarkPriceKlineClients() => _sharedClients.OfType<IMarkPriceKlineRestClient>();
         /// <inheritdoc />
         public IEnumerable<IMarkPriceKlineRestClient> GetMarkPriceKlineClients(TradingMode api) => _sharedClients.OfType<IMarkPriceKlineRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IMarkPriceKlineRestClient? MarkPriceKlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IMarkPriceKlineRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IMarkPriceKlineRestClient? GetMarkPriceKlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IMarkPriceKlineRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IOpenInterestRestClient> GetOpenInterestClients() => _sharedClients.OfType<IOpenInterestRestClient>();
         /// <inheritdoc />
         public IEnumerable<IOpenInterestRestClient> GetOpenInterestClients(TradingMode api) => _sharedClients.OfType<IOpenInterestRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IOpenInterestRestClient? OpenInterestClient(TradingMode api, string exchange) => _sharedClients.OfType<IOpenInterestRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IOpenInterestRestClient? GetOpenInterestClient(TradingMode api, string exchange) => _sharedClients.OfType<IOpenInterestRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IPositionModeRestClient> GetPositionModeClients() => _sharedClients.OfType<IPositionModeRestClient>();
         /// <inheritdoc />
         public IEnumerable<IPositionModeRestClient> GetPositionModeClients(TradingMode api) => _sharedClients.OfType<IPositionModeRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IPositionModeRestClient? PositionModeClient(TradingMode api, string exchange) => _sharedClients.OfType<IPositionModeRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IPositionModeRestClient? GetPositionModeClient(TradingMode api, string exchange) => _sharedClients.OfType<IPositionModeRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IPositionHistoryRestClient> GetPositionHistoryClients() => _sharedClients.OfType<IPositionHistoryRestClient>();
         /// <inheritdoc />
         public IEnumerable<IPositionHistoryRestClient> GetPositionHistoryClients(TradingMode api) => _sharedClients.OfType<IPositionHistoryRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IPositionHistoryRestClient? PositionHistoryClient(TradingMode api, string exchange) => _sharedClients.OfType<IPositionHistoryRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IPositionHistoryRestClient? GetPositionHistoryClient(TradingMode api, string exchange) => _sharedClients.OfType<IPositionHistoryRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <summary>
         /// Create a new ExchangeRestClient instance. Client instances will be created with default options.
@@ -438,7 +438,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotTicker>>>> GetSpotTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetSpotTickersInt(request, exchanges, ct));
+            return await Task.WhenAll(GetSpotTickersInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -464,7 +464,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedSpotTicker>>> GetSpotTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetSpotTickerInt(request, exchanges, ct));
+            return await Task.WhenAll(GetSpotTickerInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -490,7 +490,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>>> GetSpotSymbolsAsync(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetSpotSymbolsInt(request, exchanges, ct));
+            return await Task.WhenAll(GetSpotSymbolsInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -516,7 +516,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotOpenOrdersAsync(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetSpotOpenOrdersInt(request, exchanges, ct));
+            return await Task.WhenAll(GetSpotOpenOrdersInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -542,7 +542,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedSpotOrder>>>> GetSpotClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetSpotClosedOrdersInt(request, exchanges, ct));
+            return await Task.WhenAll(GetSpotClosedOrdersInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -568,7 +568,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetSpotUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetSpotUserTradesInt(request, exchanges, ct));
+            return await Task.WhenAll(GetSpotUserTradesInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -594,7 +594,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesTicker>>>> GetFuturesTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetFuturesTickersInt(request, exchanges, ct));
+            return await Task.WhenAll(GetFuturesTickersInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -620,7 +620,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedFuturesTicker>>> GetFuturesTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetFuturesTickerInt(request, exchanges, ct));
+            return await Task.WhenAll(GetFuturesTickerInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -645,7 +645,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedKline>>>> GetKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetKlinesIntAsync(request, exchanges, ct));
+            return await Task.WhenAll(GetKlinesIntAsync(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -671,7 +671,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesKline>>>> GetMarkPriceKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetMarkPriceKlinesIntAsync(request, exchanges, ct));
+            return await Task.WhenAll(GetMarkPriceKlinesIntAsync(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -696,7 +696,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesKline>>>> GetIndexPriceKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetIndexPriceKlinesIntAsync(request, exchanges, ct));
+            return await Task.WhenAll(GetIndexPriceKlinesIntAsync(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -722,7 +722,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetRecentTradesAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetRecentTradesIntAsync(request, exchanges, ct));
+            return await Task.WhenAll(GetRecentTradesIntAsync(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -748,7 +748,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedTrade>>>> GetTradeHistoryAsync(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetTradeHistoryInt(request, exchanges, ct));
+            return await Task.WhenAll(GetTradeHistoryInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -774,7 +774,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedOrderBook>>> GetOrderBookAsync(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetOrderBookInt(request, exchanges, ct));
+            return await Task.WhenAll(GetOrderBookInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -800,7 +800,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedAsset>>>> GetAssetsAsync(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetAssetsIntAsync(request, exchanges, ct));
+            return await Task.WhenAll(GetAssetsIntAsync(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -826,7 +826,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedAsset>>> GetAssetAsync(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetAssetIntAsync(request, exchanges, ct));
+            return await Task.WhenAll(GetAssetIntAsync(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -852,7 +852,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>>> GetFuturesOpenOrdersAsync(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetFuturesOpenOrdersInt(request, exchanges, ct));
+            return await Task.WhenAll(GetFuturesOpenOrdersInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -878,7 +878,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesOrder>>>> GetFuturesClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetFuturesClosedOrdersInt(request, exchanges, ct));
+            return await Task.WhenAll(GetFuturesClosedOrdersInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -904,7 +904,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetFuturesUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetFuturesUserTradesInt(request, exchanges, ct));
+            return await Task.WhenAll(GetFuturesUserTradesInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -930,7 +930,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedBalance>>>> GetBalancesAsync(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetBalancesIntAsync(request, exchanges, ct));
+            return await Task.WhenAll(GetBalancesIntAsync(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -956,7 +956,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedDeposit>>>> GetDepositsAsync(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetDepositsInt(request, exchanges, ct));
+            return await Task.WhenAll(GetDepositsInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -982,7 +982,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedWithdrawal>>>> GetWithdrawalsAsync(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetWithdrawalsInt(request, exchanges, ct));
+            return await Task.WhenAll(GetWithdrawalsInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -1008,7 +1008,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFundingRate>>>> GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetFundingRateHistoryInt(request, exchanges, ct));
+            return await Task.WhenAll(GetFundingRateHistoryInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -1034,7 +1034,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedOpenInterest>>> GetOpenInterestAsync(GetOpenInterestRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetOpenInterestInt(request, exchanges, ct));
+            return await Task.WhenAll(GetOpenInterestInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -1060,7 +1060,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>>> GetFuturesSymbolsAsync(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetFuturesSymbolsInt(request, exchanges, ct));
+            return await Task.WhenAll(GetFuturesSymbolsInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -1086,7 +1086,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedPositionHistory>>>> GetPositionHistoryAsync(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetPositionHistoryInt(request, exchanges, ct));
+            return await Task.WhenAll(GetPositionHistoryInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
