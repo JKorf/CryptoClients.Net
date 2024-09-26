@@ -197,10 +197,10 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetDepositsClients">
@@ -212,37 +212,37 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlineClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOrderBookClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetRecentTradesClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawalsClients">
@@ -278,91 +278,91 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFundingRateClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesOrderClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesOrderClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesOrderClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesOrderClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesOrderClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesTickerClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlineClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlineClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetIndexPriceKlineClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetLeverageClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetLeverageClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetLeverageClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetLeverageClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetLeverageClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlineClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlineClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlineClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetOpenInterestClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionModeClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionModeClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionModeClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionModeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionModeClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor">
@@ -386,7 +386,7 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetUnifiedSpotClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.Objects.TradingMode})">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsync(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
@@ -670,64 +670,64 @@
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickerClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickerClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickerClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickerClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickersClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickersClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickersClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickersClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTickersClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTradeClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTradeClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTradeClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTradeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetTradeClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetKlineClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetKlineClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetKlineClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetOrderBookClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetOrderBookClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetOrderBookClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetOrderBookClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetOrderBookClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBalanceClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBalanceClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBalanceClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBalanceClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBalanceClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBookTickerClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBookTickerClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBookTickerClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBookTickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetBookTickerClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetSpotOrderClients">
@@ -739,28 +739,28 @@
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetFuturesOrderClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetFuturesOrderClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetFuturesOrderClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetFuturesOrderClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetFuturesOrderClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetUserTradeClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetUserTradeClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetUserTradeClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetUserTradeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetUserTradeClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetPositionClients">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetPositionClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetPositionClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetPositionClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetPositionClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.#ctor">
@@ -778,7 +778,7 @@
             DI constructor
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.Objects.TradingMode})">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
@@ -831,7 +831,7 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IAssetsRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.BalanceRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.BalanceRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceRestClient"/> if available
             </summary>
@@ -841,27 +841,27 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IDepositRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.KlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.KlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.ListenKeyRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.ListenKeyRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IListenKeyRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.OrderBookRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.OrderBookRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.RecentTradesRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.RecentTradesRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IRecentTradeRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TradeHistoryRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TradeHistoryRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeHistoryRestClient"/> if available
             </summary>
@@ -891,92 +891,92 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotOrderRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FundingRateRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FundingRateRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFundingRateRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesOrderRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesOrderRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesSymbolRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesSymbolRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesSymbolRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesTickerRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesTickerRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesTickerRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.IndexPriceKlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.IndexPriceKlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IIndexPriceKlineRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.LeverageRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.LeverageRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ILeverageRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.MarkPriceKlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.MarkPriceKlineRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IMarkPriceKlineRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.OpenInterestRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.OpenInterestRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOpenInterestRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.PositionHistoryRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.PositionHistoryRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionHistoryRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.PositionModeRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.PositionModeRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionModeRestClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.BalanceSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.BalanceSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.BookTickerSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.BookTickerSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IBookTickerSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.KlineSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.KlineSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.OrderBookSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.OrderBookSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TickerSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TickerSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickerSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TickersSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TickersSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickersSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TradeSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.TradeSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeSocketClient"/> if available
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.CryptoClientsExtensions.UserTradeSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.UserTradeSocketClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient},CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IUserTradeSocketClient"/> if available
             </summary>
@@ -1147,7 +1147,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.Objects.TradingMode})">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
             <summary>
             Get all ISharedClient REST Api interfaces supported for the specified exchange
             </summary>
@@ -1170,13 +1170,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetBalancesClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetBalancesClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IBalanceRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetBalancesClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetBalancesClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IAssetsRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1199,13 +1199,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetKlineClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IKlineRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetKlineClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1217,13 +1217,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOrderBookClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOrderBookClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOrderBookClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOrderBookClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1235,13 +1235,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IRecentTradeRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetRecentTradesClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetRecentTradesClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IRecentTradeRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetRecentTradesClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetRecentTradesClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IRecentTradeRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1253,13 +1253,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeHistoryRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetTradeHistoryClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetTradeHistoryClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.ITradeHistoryRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetTradeHistoryClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetTradeHistoryClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeHistoryRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1326,13 +1326,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFundingRateRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFundingRateClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFundingRateClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IFundingRateRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFundingRateClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFundingRateClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFundingRateRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1344,13 +1344,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFundingRateRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesOrderClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesOrderClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesOrderClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesOrderClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1362,13 +1362,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesSymbolRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IFuturesSymbolRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesSymbolRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1380,13 +1380,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesTickerRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesTickerClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesTickerClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IFuturesTickerRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesTickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesTickerClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesTickerRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1398,13 +1398,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IIndexPriceKlineRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetIndexPriceKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetIndexPriceKlineClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IIndexPriceKlineRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetIndexPriceKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetIndexPriceKlineClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IIndexPriceKlineRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1416,13 +1416,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ILeverageRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetLeverageClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetLeverageClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.ILeverageRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetLeverageClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetLeverageClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ILeverageRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1434,13 +1434,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IMarkPriceKlineRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetMarkPriceKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetMarkPriceKlineClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IMarkPriceKlineRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetMarkPriceKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetMarkPriceKlineClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IMarkPriceKlineRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1452,13 +1452,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOpenInterestRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOpenInterestClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOpenInterestClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IOpenInterestRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOpenInterestClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetOpenInterestClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOpenInterestRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1470,13 +1470,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionModeRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionModeClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionModeClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IPositionModeRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionModeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionModeClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionModeRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1488,13 +1488,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionHistoryRestClient"/> clients for all exchanges
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionHistoryClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionHistoryClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IPositionHistoryRestClient"/> clients for all exchanges which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionHistoryClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionHistoryClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionHistoryRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -1987,7 +1987,7 @@
             OKX Websocket API
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.Objects.TradingMode})">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
             <summary>
             Get all ISharedClient Socket Api interfaces supported for the specified exchange
             </summary>
@@ -1999,13 +1999,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickerSocketClient"/> clients for all exchanges which have support for it
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickerClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickerClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.ITickerSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickerClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickerSocketClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -2017,13 +2017,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickersSocketClient"/> clients for all exchanges which have support for it
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickersClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickersClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.ITickersSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickersClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTickersClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITickersSocketClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -2035,13 +2035,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeSocketClient"/> clients for all exchanges which have support for it
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTradeClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTradeClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.ITradeSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTradeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetTradeClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ITradeSocketClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -2053,13 +2053,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IBookTickerSocketClient"/> clients for all exchanges which have support for it
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBookTickerClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBookTickerClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IBookTickerSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBookTickerClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBookTickerClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IBookTickerSocketClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -2071,13 +2071,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineSocketClient"/> clients for all exchanges which have support for it
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetKlineClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetKlineClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IKlineSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetKlineClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetKlineClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IKlineSocketClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -2089,13 +2089,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookSocketClient"/> clients for all exchanges which have support for it
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetOrderBookClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetOrderBookClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetOrderBookClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetOrderBookClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IOrderBookSocketClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -2107,13 +2107,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceSocketClient"/> clients for all exchanges which have support for it
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBalanceClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBalanceClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IBalanceSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBalanceClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetBalanceClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IBalanceSocketClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -2136,13 +2136,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderSocketClient"/> clients for all exchanges which have support for it
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetFuturesOrderClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetFuturesOrderClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetFuturesOrderClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetFuturesOrderClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderSocketClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -2154,13 +2154,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IUserTradeSocketClient"/> clients for all exchanges which have support for it
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetUserTradeClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetUserTradeClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IUserTradeSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetUserTradeClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetUserTradeClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IUserTradeSocketClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
@@ -2172,13 +2172,13 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionSocketClient"/> clients for all exchanges which have support for it
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetPositionClients(CryptoExchange.Net.Objects.TradingMode)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetPositionClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <summary>
             Get all <see cref="T:CryptoExchange.Net.SharedApis.IPositionSocketClient"/> clients for all exchanges which have support for it and which supports the provided trading mode
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetPositionClient(CryptoExchange.Net.Objects.TradingMode,System.String)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetPositionClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionSocketClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
