@@ -197,6 +197,174 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.0.0 - 27 Sep 2024
+    * Added support for ISharedClient interface usage
+    * Added support for requesting various data from all or specific exchanges in a single call to the rest client
+    * Added support for subscribing data streams of all or specific exchanges in a single call to the socket client
+    * Changed the Exchange type from Enum to string
+    * Marked ISpotClient usage as deprecated
+    * Updated reference CryptoExchange version to 8.0.0
+        * Added new cross exchange interfaces implementation
+            * Supports REST, WebSocket, Spot and Futures API's
+            * Added various client interfaces for specific functionality
+            * Added SharedSymbol type, taking care of symbol formatting for different exchanges
+            * Added dynamic pagination support for shared functionality
+            * Added various shared Enum definitions
+            * Added ExchangeWebResult and ExchangeEvent, exchange specific versions of WebCallResult and DataEvent
+            * See https://jkorf.github.io/CryptoExchange.Net/index.html#idocs_shared for more info
+        * Added tradingMode and deliverData parameters to BaseApiClient FormatSymbol method
+        * Added ExecutePages method to ExchangeHelpers static class
+        * Added ApplySymbolRules method to ExchangeHelpers static class
+        * Added ResubscribingFailed event for websocket connections
+        * Added handling of http result 429 (ratelimited) during websocket connection
+        * Added Websocket dispose before creating new connection when reconnecting
+        * Updated Sourcelink package version
+        * Improved closing logic websockets
+        * Fixed issues when ratelimiting is canceled using the provided cancellation token
+        * Marked ISpotClient and IFuturesClient references as deprecated
+    * Updated Binance.Net to version 10.5.0
+        * Added Shared client interfaces implementation for Spot, USD-M Futures, Coin-M Futures Rest and Socket clients
+        * Added GeneralApi.AutoInvest endpoints
+        * Added UsdFuturesApi convert endpoints
+        * Added onTradeUpdate callback for UsdFuturesApi.SubscribeToUserDataUpdatesAsync
+        * Fixed SubAccountId property deserialization in deposit history
+        * Updated some request weights for ratelimiting
+        * Updated Id property from `string?` to `string` on BinanceWithdrawalPlaced model
+        * Updated Sourcelink package version
+        * Changed CrossUnrealizedPnl field in futures balances to support testnet response
+        * Fix for UsdFuturesApi.Trading.EditMultipleOrdersAsync order id serialization
+        * Fix for GeneralApi.AutoInvest.GetPlansAsync deserialization
+        * Fixed incorrect api docs reference for CoinFuturesApi.ExchangeData.GetFundingRatesAsync
+        * Marked ISpotClient and IFuturesClient references as deprecated
+    * Updated BingX.Net to version 1.11.0
+        * Added RealizedPnl property to PerpetualFuturesApi websocket position update
+        * Added TimeOffline, TimeMaintenance properties to SpotApi symbol model
+        * Added BrokerProhibited property to PerpetualFuturesApi contract response model
+        * Added SpotApi Oco endpoints
+        * Added Shared client interfaces implementation for Spot and Perpetual Futures Rest and Socket clients
+        * Added check for api credentials in rest user stream operations
+        * Added PerpetualFuturesApi.Trading.GetUserTradesAsync endpoint
+        * Added timeInForce parameter to SpotApi.Trading.PlaceOrderAsync endpoint
+        * Updated fromId parameter on SpotApi.Trading.GetuserTradesAsync from int? to long?
+        * Updated KlineInterval Enum values to match number of seconds
+        * Updated Sourcelink package version
+        * Fixed Boolean parameter serialization on PerpetualFuturesApi.Trading order endpoints
+        * Fixed enum type on OrderType property on socket perpetual futures order update
+        * Fixed request signing for requests with special characters
+        * Marked ISpotClient references as deprecated    
+    * Updated Bitfinex.Net to version 7.8.0
+        * Added Shared client interfaces implementation for Spot Rest and Socket clients
+        * Added SpotApi.Account.WithdrawV2Async endpoint
+        * Updated SpotApi.ExchangeData.GetTradeHistoryAsync limit parameter max value from 5000 to 10000
+        * Updated Sourcelink package version
+        * Marked ISpotClient references as deprecated
+    * Updated Bitget.Net to version 1.10.0
+        * Added missing Price property on SpotApi websocket order update model
+        * Added Shared client interfaces implementation for Spot Rest and Socket clients
+        * Added oneWaySide parameter to FuturesV2.Trading.PlaceTpSlOrderAsync and renamed positionSide parameter to hedgeModePositionSide
+        * Updated QuoteQuantityFilled property name to QuoteQuantity on BitgetFuturesOrderUpdate
+        * Updated LastTradeId property type from decimal to string? on BitgetFuturesOrderUpdate
+        * Updated LastTradeQuantity, AveragePrice, LastTradeFillPrice and LastTradeFillTime property types from decimal to decimal? on BitgetFuturesOrderUpdate
+        * Updated BitgetStreamKlineIntervalV2 Enum values to match number of seconds
+        * Updated QuantityDecimals and PriceDecimals property types from decimal to int on BitgetContract model
+        * Updated Sourcelink package version
+        * Fixed deserialization issue in FuturesApiV2.Account.SetLeverageAsync and SetMarginModeAsync response
+        * Fixed UsdcPerpetualSimulated Enum value serialization
+        * Fixed ClientOrderId websocket order update deserialization
+        * Fixed FuturesV2.ExchangeData.GetNextFundingTimeAsync potentially throwing InvalidOperationException
+        * Fixed various endpoints on FuturesV2.Trading returning null data instead of empty collection
+        * Fixed typo in IsolatedMarginProfitAndLoss property on BitgetFuturesBalance model
+        * Fixed websocket message identification on subscriptions without symbol parameter
+        * Marked ISpotClient references as deprecated
+    * Updated BitMart.Net to version 1.2.0
+        * Added websocket connection ratelimiter
+        * Added Shared client interfaces implementation for Spot and Usd Futures Rest and Socket clients
+        * Added SpotApi.Account.GetDepositHistoryAsync endpoint
+        * Added SpotApi.Account.GetwithdrawalHistoryAsync endpoint
+        * Updated Sourcelink package version
+        * Updated FuturesKlineInterval, FuturesStreamKlineInterval and KlineStreamInterval Enum values to match number of seconds
+        * Updated TradeStatus property type from string to SymbolStatus? Enum on BitMartSymbol model
+        * Fixed SpotApi Websocket error response parsing
+        * Fixed UsdFuturesApi.Trading.GetClosedOrdersAsync and GetUserTradesAsync startTime/endTime filter
+        * Marked ISpotClient references as deprecated
+    * Updated Bybit.Net to version 3.14.0
+        * Added Shared client interfaces implementation for V5 Rest and Socket clients
+        * Updated Sourcelink package version
+        * Marked ISpotClient references as deprecated
+    * Updated CoinEx.Net to version 7.7.0
+        * Added SpotApiV2.Account.GetTransactionHistoryAsync endpoint
+        * Added Shared client interfaces implementation for Spot and Futures Rest and Socket clients
+        * Added memo parameter to SpotApi.Account.WithdrawAsync
+        * Added Role property to CoinExUserTrade model
+        * Updated Sourcelink package version
+        * Updated QuantityPrecision and PricePrecision property types from decimal to int on CoinExFuturesSymbol
+        * Fixed Quantity property type from long to decimal in CoinExDeposit model
+        * Fixed QuantityCredited property type from long to decimal? in CoinExDepositModel
+        * Fixed FuturesApi.SubscribeToTickerUpdatesAsync subscription
+        * Marked ISpotClient references as deprecated
+    * Updated CoinGecko.Net to version 2.6.0
+        * Updated Sourcelink package version
+    * Updated GateIo.Net to version 1.6.0
+        * Added startTime and endTime filter to SpotApi.Account.GetUnifiedAccountInterestHistoryAsync endpoint
+        * Added options to SpotApi.Account.SetUnifiedAccountModeAsync and GetUnifiedAccountModeAsync endpoints
+        * Added BlockNumber field to SpotApi.Account.GetWithdrawalsAsync response
+        * Added Shared client interfaces implementation for Spot and Perpetual Futures Rest and Socket clients
+        * Added api credentials check for Spot user subscriptions
+        * Added InitialMargin and MaintenanceMargin properties to GateIoPosition model
+        * Added FeeAsset property to GateIoUserTradeUpdate model
+        * Updated Sourcelink package version
+        * Updated KlineInterval Enum values to match number of seconds
+        * Fixed PerpetualFutures.Account.UpdatePositionModeAsync endpoint
+        * Fixed SpotApi.ExchangeData.GetTradesAsync reverse parameter
+        * Marked ISpotClient references as deprecated
+    * Updated HTX.Net to version 6.1.0
+        * Added Shared client interfaces implementation for Spot and UsdtFuturesApi Rest and Socket clients
+        * Added QuoteQuantity property to HTXOrderUpdate model
+        * Updated from parameter type from int? to long? on SpotApi.Account.GetWithdrawalDepositHistoryAsync
+        * Updated Status property type from string to SymbolStatus on HTXSymbolConfig model
+        * Updated OrderSide property type from string to OrderSide on HTXUsdtMarginSwapOrderUpdate
+        * Updated Sourcelink package version
+        * Fixed UsdtFuturesApi.Account.SetIsolatedMarginPositionModeAsync, SetCrossmarginPositionModeAsync, GetIsolatedMarginPositionModeAsync and GetCrossMarginPositionMode response deserialization
+        * Marked ISpotClient references as deprecated
+    * Updated Kraken.Net to version 4.12.0
+        * Added partial Shared client interfaces implementation for Spot and FuturesApi Rest and Socket clients
+        * Added SpotApi.Account.GetDepositHistoryAsync endpoint
+        * Added SpotApi.Account.GetWithdrawalHistoryAsync endpoint
+        * Added trades parameter to SpotApi.Trading.GetOrderAsync and GetOrdersAsync endpoints
+        * Added Maker property on KrakenUserTrade model
+        * Renamed Decimals to PriceDecimals on KrakenSymbol model
+        * Updated Status property type from string? to SymbolStatus on KrakenSymbol model
+        * Updated Sourcelink package version
+        * Marked ISpotClient references as deprecated
+    * Updated Kucoin.Net to version 5.14.0
+        * Added Shared client interfaces implementation for Spot and FuturesApi Rest and Socket clients
+        * Added QuoteQuantityRemaining property on KucoinStreamOrderUpdate model
+        * Added SpotApi.ExchangeData.GetSymbolAsync endpoint
+        * Added FuturesApi.Trading.PlaceTpSlOrderAsync endpoint, added ClientOrderId property to futures order placement response
+        * Added sub account endpoints under SpotApi.SubAccount.*
+        * Updated Status property type from string to OrderStatus on KucoinFuturesOrder model
+        * Updated FuturesKlineInterval Enum values to match number of seconds
+        * Updated Sourcelink package version
+        * Moved SpotApi.Account.GetSubUserInfoAsync to new SubAccount topic
+        * Fixed various endpoints returning null instead of empty collection in SpotApi.HfTrading
+        * Fixed futures kline deserialization issue
+        * Marked ISpotClient and IFuturesClient references as deprecated
+    * Updated Mexc to version 1.8.0
+        * Added Shared client interfaces implementation for Spot Rest and Socket clients
+        * Added QuoteQuantity property to MexcOrder model
+        * Updated KlineInterval Enum values to match number of seconds
+        * Updated Sourcelink package version
+        * Marked ISpotClient references as deprecated
+    * Updated OKX.Net to version 2.4.0
+        * Added Spot fields to Balance response models
+        * Added OpenInterestUsd field to ExchangeData.GetOpenInterestAsync response model
+        * Added RuleType parameter and response field to Account.GetFeeRatesAsync
+        * Added Attachment field to Account.GetDepositAddressAsync response model
+        * Added Shared client interfaces implementation for Unified Rest and Socket clients
+        * Updated Sourcelink package version
+        * Fixed UnifiedApi.ExchangeData.GetOpenInterestsAsync request for Swap instruments
+        * Marked ISpotClient references as deprecated
+
 * Version 1.11.0 - 19 Aug 2024
     * Updated Binance.Net to version 10.2.1
         * Fixed walletType serialization on SpotApi.Trading.ConvertQuoteRequestAsync endpoint
