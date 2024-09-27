@@ -1143,9 +1143,8 @@
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetUnifiedSpotClients">
             <summary>
-            Get all ISpotClient interfaces
+            DEPRECATED; use <see cref="T:CryptoExchange.Net.SharedApis.ISharedClient" /> instead for common/shared functionality. See <see href="https://jkorf.github.io/CryptoExchange.Net/docs/index.html#shared" /> for more info.
             </summary>
-            <returns></returns>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
             <summary>
