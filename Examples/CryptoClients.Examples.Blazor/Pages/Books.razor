@@ -42,17 +42,17 @@
 
 @code
 {
-    private Dictionary<string, ISymbolOrderBook> _books = new Dictionary<string, ISymbolOrderBook>();
+    private Dictionary<Exchange, ISymbolOrderBook> _books = new Dictionary<Exchange, ISymbolOrderBook>();
 
     private string _baseAsset = "BTC";
     private string _quoteAsset = "USDT";
-    private Timer? _timer;
+    private Timer _timer;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            _books = new Dictionary<string, ISymbolOrderBook>
+            _books = new Dictionary<Exchange, ISymbolOrderBook>
             {
                 { Exchange.Binance, BookFactory.Binance.Spot.Create(_baseAsset, _quoteAsset) },
                 { Exchange.BingX, BookFactory.BingX.Spot.Create(_baseAsset, _quoteAsset) },
@@ -60,7 +60,7 @@
                 { Exchange.Bitget, BookFactory.Bitget.Spot.Create(_baseAsset, _quoteAsset) },
                 { Exchange.Bybit, BookFactory.Bybit.Spot.Create(_baseAsset, _quoteAsset) },
                 { Exchange.CoinEx, BookFactory.CoinEx.Spot.Create(_baseAsset, _quoteAsset) },
-                { Exchange.HTX, BookFactory.HTX.Spot.Create(_baseAsset, _quoteAsset) },
+                { Exchange.Huobi, BookFactory.Huobi.Spot.Create(_baseAsset, _quoteAsset) },
                 { Exchange.Kraken, BookFactory.Kraken.Spot.Create(_baseAsset, _quoteAsset) },
                 { Exchange.Kucoin, BookFactory.Kucoin.Spot.Create(_baseAsset, _quoteAsset) },
                 { Exchange.Mexc, BookFactory.Mexc.Spot.Create(_baseAsset, _quoteAsset) },
@@ -81,6 +81,6 @@
         foreach (var book in _books)
             book.Value.StopAsync();
 
-        _timer?.Dispose();
+        _timer.Dispose();
     }
 }

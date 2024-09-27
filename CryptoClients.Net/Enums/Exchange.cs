@@ -1,97 +1,61 @@
-﻿using Binance.Net;
-using BingX.Net;
-using Bitfinex.Net;
-using Bitget.Net;
-using BitMart.Net;
-using Bybit.Net;
-using CoinEx.Net;
-using GateIo.Net;
-using HTX.Net;
-using Kraken.Net;
-using Kucoin.Net;
-using Mexc.Net;
-using OKX.Net;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace CryptoClients.Net.Enums
+﻿namespace CryptoClients.Net.Enums
 {
     /// <summary>
     /// Exchange
     /// </summary>
-    public static class Exchange
+    public enum Exchange
     {
         /// <summary>
         /// Binance
         /// </summary>
-        public static string Binance => BinanceExchange.ExchangeName;
+        Binance,
         /// <summary>
         /// BingX
         /// </summary>
-        public static string BingX => BingXExchange.ExchangeName;
+        BingX,
         /// <summary>
         /// Bitfinex
         /// </summary>
-        public static string Bitfinex => BitfinexExchange.ExchangeName;
+        Bitfinex,
         /// <summary>
         /// Bitget
         /// </summary>
-        public static string Bitget => BitgetExchange.ExchangeName;
+        Bitget,
         /// <summary>
         /// BitMart
         /// </summary>
-        public static string BitMart => BitMartExchange.ExchangeName;
+        BitMart,
         /// <summary>
         /// Bybit
         /// </summary>
-        public static string Bybit => BybitExchange.ExchangeName;
+        Bybit,
         /// <summary>
         /// CoinEx
         /// </summary>
-        public static string CoinEx => CoinExExchange.ExchangeName;
+        CoinEx,
         /// <summary>
         /// Gate.io
         /// </summary>
-        public static string GateIo => "GateIo";
+        GateIo,
         /// <summary>
         /// HTX
         /// </summary>
-        public static string HTX => HTXExchange.ExchangeName;
+        HTX,
         /// <summary>
         /// Kraken
         /// </summary>
-        public static string Kraken => KrakenExchange.ExchangeName;
+        Kraken,
         /// <summary>
         /// Kucoin
         /// </summary>
-        public static string Kucoin => KucoinExchange.ExchangeName;
+        Kucoin,
         /// <summary>
         /// Mexc
         /// </summary>
-        public static string Mexc => MexcExchange.ExchangeName;
+        Mexc,
         /// <summary>
         /// OKX
         /// </summary>
-        public static string OKX => OKXExchange.ExchangeName;
-
-        /// <summary>
-        /// All exchange names
-        /// </summary>
-        public static string[] All { get; } = new[]
-        {
-            Binance,
-            BingX,
-            Bitfinex,
-            Bitget,
-            BitMart,
-            Bybit,
-            CoinEx,
-            GateIo,
-            HTX,
-            Kraken,
-            Kucoin,
-            Mexc,
-            OKX
-        };
+        OKX
     }
 }

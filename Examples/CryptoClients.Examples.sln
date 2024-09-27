@@ -9,15 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoClients.Net", "..\Cry
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoClients.Examples.Api", "CryptoClients.Examples.Api\CryptoClients.Examples.Api.csproj", "{4068C1D1-DCCC-451F-8542-4ADAAF7086C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoClients.Examples.Blazor", "CryptoClients.Examples.Blazor\CryptoClients.Examples.Blazor.csproj", "{42D2A652-7713-4E39-9D07-F9135E07E5A9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamSymbolPrices", "StreamSymbolPrices\StreamSymbolPrices.csproj", "{907343AB-DCA2-45BB-B31D-CF4091A8BD95}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestCurrentPrices", "RequestCurrentPrices\RequestCurrentPrices.csproj", "{A2DCF957-9F8D-44A1-94D5-BC9C7962BCDC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestSpotSymbols", "RequestSpotSymbols\RequestSpotSymbols.csproj", "{1CE8B5BF-D778-425A-979A-8B9805F489E2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamTrades", "StreamTrades\StreamTrades.csproj", "{FE48688D-6FDA-4853-AC7B-1744C2C408EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoClients.Examples.Blazor", "CryptoClients.Examples.Blazor\CryptoClients.Examples.Blazor.csproj", "{42D2A652-7713-4E39-9D07-F9135E07E5A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,22 +33,6 @@ Global
 		{42D2A652-7713-4E39-9D07-F9135E07E5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42D2A652-7713-4E39-9D07-F9135E07E5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42D2A652-7713-4E39-9D07-F9135E07E5A9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{907343AB-DCA2-45BB-B31D-CF4091A8BD95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{907343AB-DCA2-45BB-B31D-CF4091A8BD95}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{907343AB-DCA2-45BB-B31D-CF4091A8BD95}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{907343AB-DCA2-45BB-B31D-CF4091A8BD95}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2DCF957-9F8D-44A1-94D5-BC9C7962BCDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2DCF957-9F8D-44A1-94D5-BC9C7962BCDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2DCF957-9F8D-44A1-94D5-BC9C7962BCDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2DCF957-9F8D-44A1-94D5-BC9C7962BCDC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1CE8B5BF-D778-425A-979A-8B9805F489E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1CE8B5BF-D778-425A-979A-8B9805F489E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1CE8B5BF-D778-425A-979A-8B9805F489E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1CE8B5BF-D778-425A-979A-8B9805F489E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE48688D-6FDA-4853-AC7B-1744C2C408EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE48688D-6FDA-4853-AC7B-1744C2C408EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE48688D-6FDA-4853-AC7B-1744C2C408EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE48688D-6FDA-4853-AC7B-1744C2C408EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

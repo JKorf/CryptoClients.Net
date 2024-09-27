@@ -1,5 +1,4 @@
 ﻿using Bitget.Net.Objects;
-using BitMart.Net.Objects;
 using CryptoExchange.Net.Authentication;
 using Kucoin.Net.Objects;
 using OKX.Net.Objects;
@@ -34,7 +33,7 @@ namespace CryptoClients.Net.Models
         /// <summary>
         /// BitMart API credentials
         /// </summary>
-        public BitMartApiCredentials? BitMart { get; set; }
+        public BitgetApiCredentials? BitMart { get; set; }
 
         /// <summary>
         /// Bybit API credentials

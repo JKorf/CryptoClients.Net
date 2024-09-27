@@ -1,8 +1,6 @@
 using CryptoClients.Examples.Api;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
-using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.SharedApis;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,13 +17,10 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
-app.MapGet("priceFromRequest", async (IExchangeRestClient restClient, string exchange, string baseAsset, string quoteAsset) =>
+app.MapGet("priceFromRequest", async (IExchangeRestClient restClient, Exchange exchange, string baseAsset, string quoteAsset) =>
 {
-    var exchangeClient = restClient.GetSpotTickerClient(exchange);
-    if (exchangeClient == null)
-        return Results.Problem("Exchange not found");
-
-    var result = await exchangeClient.GetSpotTickerAsync(new GetTickerRequest(new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset)));
+    var exchangeClient = restClient.GetUnifiedSpotClient(exchange);
+    var result = await exchangeClient.GetTickerAsync(exchangeClient.GetSymbolName(baseAsset, quoteAsset));
     if (!result)
         return Results.Problem(result.Error!.ToString());
 
@@ -34,7 +29,7 @@ app.MapGet("priceFromRequest", async (IExchangeRestClient restClient, string exc
 .WithName("GetPriceRequest")
 .WithOpenApi();
 
-app.MapGet("priceFromSocket", ([FromServices]PriceService service, string exchange) =>
+app.MapGet("priceFromSocket", ([FromServices]PriceService service, Exchange exchange) =>
 {
     return Results.Ok(service.GetPrice(exchange));
 })
