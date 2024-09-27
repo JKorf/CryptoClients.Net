@@ -84,9 +84,8 @@ namespace CryptoClients.Net.Interfaces
         ISpotClient GetUnifiedSpotClient(string exchange);
 
         /// <summary>
-        /// Get all ISpotClient interfaces
+        /// DEPRECATED; use <see cref="ISharedClient" /> instead for common/shared functionality. See <see href="https://jkorf.github.io/CryptoExchange.Net/docs/index.html#shared" /> for more info.
         /// </summary>
-        /// <returns></returns>
         IEnumerable<ISpotClient> GetUnifiedSpotClients();
 
         /// <summary>
