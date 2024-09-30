@@ -365,6 +365,15 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetPositionHistoryClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetListenKeyClients">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetListenKeyClients(CryptoExchange.Net.SharedApis.TradingMode)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetListenKeyClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor">
             <summary>
             Create a new ExchangeRestClient instance. Client instances will be created with default options.
@@ -1496,6 +1505,24 @@
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetPositionHistoryClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IPositionHistoryRestClient"/> client for a specific exchange which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetListenKeyClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IListenKeyRestClient"/> clients for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetListenKeyClients(CryptoExchange.Net.SharedApis.TradingMode)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IListenKeyRestClient"/> clients for all exchanges which supports the provided trading mode
+            </summary>
+            <param name="tradingMode">The trading mode the client should support</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetListenKeyClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IListenKeyRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
             <param name="tradingMode">Trading mode</param>
             <param name="exchange">Exchange name</param>

@@ -226,6 +226,13 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IPositionHistoryRestClient? GetPositionHistoryClient(TradingMode api, string exchange) => _sharedClients.OfType<IPositionHistoryRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
+        /// <inheritdoc />
+        public IEnumerable<IListenKeyRestClient> GetListenKeyClients() => _sharedClients.OfType<IListenKeyRestClient>();
+        /// <inheritdoc />
+        public IEnumerable<IListenKeyRestClient> GetListenKeyClients(TradingMode api) => _sharedClients.OfType<IListenKeyRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
+        /// <inheritdoc />
+        public IListenKeyRestClient? GetListenKeyClient(TradingMode api, string exchange) => _sharedClients.OfType<IListenKeyRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+
         /// <summary>
         /// Create a new ExchangeRestClient instance. Client instances will be created with default options.
         /// </summary>

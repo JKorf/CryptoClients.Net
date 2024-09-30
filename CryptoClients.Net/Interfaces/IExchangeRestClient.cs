@@ -406,6 +406,22 @@ namespace CryptoClients.Net.Interfaces
         IPositionHistoryRestClient? GetPositionHistoryClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
+        /// Get the <see cref="IListenKeyRestClient"/> clients for all exchanges
+        /// </summary>
+        IEnumerable<IListenKeyRestClient> GetListenKeyClients();
+        /// <summary>
+        /// Get all <see cref="IListenKeyRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IListenKeyRestClient> GetListenKeyClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IListenKeyRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IListenKeyRestClient? GetListenKeyClient(TradingMode tradingMode, string exchange);
+
+        /// <summary>
         /// Get spot ticker information for all symbols on all exchanges, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
