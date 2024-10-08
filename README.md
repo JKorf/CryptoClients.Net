@@ -198,6 +198,57 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.1.0 - 08 Oct 2024
+  * Added Coinbase support with Coinbase.Net 1.0.0
+  * Updated reference CryptoExchange version to 8.0.1
+    * Added cached library version properties on base client
+    * Added support for derserializing 0001-01-01 as datetime null value
+    * Added ToRfc3339String extension method for DateTime type
+  * Updated Bitfinex.Net to version 7.8.1
+    * Limit shared interface GetBalancesAsync result to Exchange balances to prevent duplicate asset balances
+  * Updated Bitget.Net to version 1.10.1
+    * Added BitgetSymbolStatus.Halt Enum value
+    * Added converting to uppercase for CancelAllOrdersAsync marginAsset parameter
+    * Fixed FutureApiV2.Trading.CancelTriggerOrdersAsync endpoint
+  * Updated BitMart.Net to version 1.3.0
+    * Added UsdFuturesApi.Trading.PlaceTpSlOrderAsync endpoint
+    * Added UsdFuturesApi.Trading.EditTpSlOrderAsync endpoint
+    * Added UsdFuturesApi.Trading.EditTriggerOrderAsync endpoint
+    * Added UsdFuturesApi.Trading.EditPresetTriggerOrderAsync endpoint
+    * Added clientOrderId parameter to CancelOrderAsync and CancelTriggerOrderAsync endpoints
+    * Added planType parameter to GetTriggerOrdersAsync endpoint
+  * Updated Bybit.Net to version 3.14.1
+    * Added ClosedPnl property to BybitOrderUpdate model
+    * Added Pnl property to BybitUserTradeUpdate model
+  * Updated GateIo.Net to version 1.7.0
+    * Added SpotApi.Account.GetTransferHistoryAsync endpoint
+    * Added SpotApi.Account.TransferToAccountAsync endpoint
+    * Added PerpetualFuturesApi.Trading.EditMultipleOrdersAsync endpoint
+    * Added BestBidQuantity/BestAskQuantity properties to GateIoPerpTicker response model
+    * Added startTime/endTime parameters to PerpetualFuturesApi.ExchangeData.GetFundingRateHistoryAsync and updated shared implementation to support pagination
+    * Added support for clientOrderId to SpotApi.Trading.GetOrderAsync endpoint
+    * Fixed some serialization issues in batch endpoints
+  * Updated HTX.Net to version 6.1.1
+    * Fixed LastPrice value on SpotTicker Shared implementation
+  * Updated Kucoin.Net to version 5.15.0
+    * Added FuturesApi.Account.GetMarginModeAsync endpoint
+    * Added FuturesApi.Account.SetMarginModeAsync endpoint
+    * Added FuturesApi.Account.GetCrossMarginLeverageAsync endpoint
+    * Added FuturesApi.Account.SetCrossMarginLeverageAsync endpoint
+    * Added marginMode parameter to FuturesApi.Trading.PlaceOrderAsync and PlaceMultipleOrdersAsync endpoints
+    * Added onWalletUpdate update handler to FuturesApi.SubscribeToBalanceUpdatesAsync stream
+    * Added FuturesApi.SubscribeToMarginModeUpdatesAsync stream
+    * Added FuturesApi.SubscribeToCrossMarginLeverageUpdatesAsync stream
+    * Updated various order and trade response/update models with margin mode properties
+    * Update position models with MarginMode, PositionSide, Leverage and PositionFunding properties
+    * Fixed cancellation token not getting passed in shared ticker subscriptions
+  * Updated OKX.Net to version 2.5.0
+    * Added ExchangeData.GetAnnouncementsAsync and GetAnnouncementTypesAsync endpoints
+    * Added asset parameter to Account.GetLeverageAsync endpoint
+    * Added IsTradeBorrowMode property to Algo order response model
+    * Updated OKXAccountConfiguration response model
+    * Updated OKXDiscountInfo response model
+
 * Version 2.0.0 - 27 Sep 2024
     * Added support for ISharedClient interface usage
     * Added support for requesting various data from all or specific exchanges in a single call to the rest client
