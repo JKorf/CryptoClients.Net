@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using CryptoExchange.Net.SharedApis
 @inject IExchangeRestClient RestClient
 
 <PageTitle>Index</PageTitle>
@@ -12,10 +13,6 @@
     else
     {
         <table>
-            <tr>
-                <td><b>Open price:</b></td>
-                <td>@_open</td>
-            </tr>
             <tr>
                 <td><b>High price:</b></td>
                 <td>@_high</td>
@@ -57,7 +54,6 @@
     private string _selectedExchange = Exchange.Bybit;
 
     private string? _error;
-    private decimal? _open;
     private decimal? _high;
     private decimal? _low;
     private decimal? _last;
@@ -72,15 +68,14 @@
     private async Task GetDataAsync()
     {
         _error = null;
-        var exchangeClient = RestClient.GetUnifiedSpotClient(_selectedExchange);
-        var ticker = await exchangeClient.GetTickerAsync(exchangeClient.GetSymbolName(_selectedAsset, "USDT"));
+        var exchangeClient = RestClient.GetSpotTickerClient(_selectedExchange);
+        var ticker = await exchangeClient.GetSpotTickerAsync(new GetTickerRequest(new SharedSymbol(TradingMode.Spot, _selectedAsset, "USDT")));
         if (!ticker.Success)
         {
             _error = "Error: " + ticker.Error;
             return;
         }
 
-        _open = ticker.Data.Price24H;
         _high = ticker.Data.HighPrice;
         _low = ticker.Data.LowPrice;
         _last = ticker.Data.LastPrice;

@@ -4,6 +4,7 @@ using Bitfinex.Net.Interfaces.Clients;
 using Bitget.Net.Interfaces.Clients;
 using BitMart.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
+using Coinbase.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
@@ -50,6 +51,10 @@ namespace CryptoClients.Net.Interfaces
         /// Bybit Websocket API
         /// </summary>
         IBybitSocketClient Bybit { get; }
+        /// <summary>
+        /// Coinbase Websocket API
+        /// </summary>
+        ICoinbaseSocketClient Coinbase { get; }
         /// <summary>
         /// CoinEx Websocket API
         /// </summary>

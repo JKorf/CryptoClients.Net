@@ -16,6 +16,9 @@ using BitMart.Net.Objects.Options;
 using Bybit.Net.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Bybit.Net.Objects.Options;
+using Coinbase.Net.Clients;
+using Coinbase.Net.Interfaces.Clients;
+using Coinbase.Net.Objects.Options;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
@@ -70,6 +73,8 @@ namespace CryptoClients.Net
         public IBitMartRestClient BitMart { get; }
         /// <inheritdoc />
         public IBybitRestClient Bybit { get; }
+        /// <inheritdoc />
+        public ICoinbaseRestClient Coinbase { get; }
         /// <inheritdoc />
         public ICoinExRestClient CoinEx { get; }
         /// <inheritdoc />
@@ -244,6 +249,7 @@ namespace CryptoClients.Net
             Bitget = new BitgetRestClient();
             BitMart = new BitMartRestClient();
             Bybit = new BybitRestClient();
+            Coinbase = new CoinbaseRestClient();
             CoinEx = new CoinExRestClient();
             GateIo = new GateIoRestClient();
             HTX = new HTXRestClient();
@@ -267,6 +273,7 @@ namespace CryptoClients.Net
             Action<BitgetRestOptions>? bitgetRestOptions = null,
             Action<BitMartRestOptions>? bitMartRestOptions = null,
             Action<BybitRestOptions>? bybitRestOptions = null,
+            Action<CoinbaseRestOptions>? coinbaseRestOptions = null,
             Action<CoinExRestOptions>? coinExRestOptions = null,
             Action<GateIoRestOptions>? gateIoRestOptions = null,
             Action<HTXRestOptions>? htxRestOptions = null,
@@ -304,6 +311,7 @@ namespace CryptoClients.Net
                 bitgetRestOptions = SetGlobalRestOptions(global, bitgetRestOptions, credentials?.Bitget);
                 bitMartRestOptions = SetGlobalRestOptions(global, bitMartRestOptions, credentials?.BitMart);
                 bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions, credentials?.Bybit);
+                coinbaseRestOptions = SetGlobalRestOptions(global, coinbaseRestOptions, credentials?.Coinbase);
                 coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx);
                 gateIoRestOptions = SetGlobalRestOptions(global, gateIoRestOptions, credentials?.GateIo);
                 htxRestOptions = SetGlobalRestOptions(global, htxRestOptions, credentials?.HTX);
@@ -319,6 +327,7 @@ namespace CryptoClients.Net
             Bitget = new BitgetRestClient(bitgetRestOptions);
             BitMart = new BitMartRestClient(bitMartRestOptions);
             Bybit = new BybitRestClient(bybitRestOptions);
+            Coinbase = new CoinbaseRestClient(coinbaseRestOptions);
             CoinEx = new CoinExRestClient(coinExRestOptions);
             GateIo = new GateIoRestClient(gateIoRestOptions);
             HTX = new HTXRestClient(htxRestOptions);
@@ -366,6 +375,7 @@ namespace CryptoClients.Net
                 BitMart.SpotApi.SharedClient,
                 BitMart.UsdFuturesApi.SharedClient,
                 Bybit.V5Api.SharedClient,
+                Coinbase.AdvancedTradeApi.SharedClient,
                 CoinEx.SpotApiV2.SharedClient,
                 CoinEx.FuturesApi.SharedClient,
                 GateIo.SpotApi.SharedClient,
@@ -391,6 +401,7 @@ namespace CryptoClients.Net
             IBitgetRestClient bitget,
             IBitMartRestClient bitMart,
             IBybitRestClient bybit,
+            ICoinbaseRestClient coinbase,
             ICoinExRestClient coinEx,
             IGateIoRestClient gateIo,
             IHTXRestClient htx,
@@ -408,6 +419,7 @@ namespace CryptoClients.Net
             Bitget = bitget;
             BitMart = bitMart;
             Bybit = bybit;
+            Coinbase = coinbase;
             CoinEx = coinEx;
             GateIo = gateIo;
             HTX = htx;

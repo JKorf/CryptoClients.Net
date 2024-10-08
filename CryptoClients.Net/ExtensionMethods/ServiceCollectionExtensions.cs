@@ -10,6 +10,8 @@ using BitMart.Net.Interfaces.Clients;
 using BitMart.Net.Objects.Options;
 using Bybit.Net.Interfaces.Clients;
 using Bybit.Net.Objects.Options;
+using Coinbase.Net.Interfaces.Clients;
+using Coinbase.Net.Objects.Options;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
 using CoinGecko.Net.Objects.Options;
@@ -58,6 +60,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="bitMartSocketOptions">The options options for the BitMart socket client. Will override options provided in the global options</param>
         /// <param name="bybitRestOptions">The options options for the Bybit rest client. Will override options provided in the global options</param>
         /// <param name="bybitSocketOptions">The options options for the Bybit socket client. Will override options provided in the global options</param>
+        /// <param name="coinbaseRestOptions">The options options for the Coinbase rest client. Will override options provided in the global options</param>
+        /// <param name="coinbaseSocketOptions">The options options for the Coinbase socket client. Will override options provided in the global options</param>
         /// <param name="coinExRestOptions">The options options for the CoinEx rest client. Will override options provided in the global options</param>
         /// <param name="coinExSocketOptions">The options options for the CoinEx socket client. Will override options provided in the global options</param>
         /// <param name="coinGeckoRestOptions">The options options for the CoinGecko rest client. Will override options provided in the global options</param>
@@ -90,6 +94,8 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<BitMartSocketOptions>? bitMartSocketOptions = null,
             Action<BybitRestOptions>? bybitRestOptions = null,
             Action<BybitSocketOptions>? bybitSocketOptions = null,
+            Action<CoinbaseRestOptions>? coinbaseRestOptions = null,
+            Action<CoinbaseSocketOptions>? coinbaseSocketOptions = null,
             Action<CoinExRestOptions>? coinExRestOptions = null,
             Action<CoinExSocketOptions>? coinExSocketOptions = null,
             Action<CoinGeckoRestOptions>? coinGeckoRestOptions = null,
@@ -160,6 +166,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 bitMartSocketOptions = SetGlobalSocketOptions(global, bitMartSocketOptions, credentials?.BitMart);
                 bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions, credentials?.Bybit);
                 bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions, credentials?.Bybit);
+                coinbaseRestOptions = SetGlobalRestOptions(global, coinbaseRestOptions, credentials?.Coinbase);
+                coinbaseSocketOptions = SetGlobalSocketOptions(global, coinbaseSocketOptions, credentials?.Coinbase);
                 coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx);
                 coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx);
                 coinGeckoRestOptions = SetGlobalRestOptions<CoinGeckoRestOptions, ApiCredentials>(global, coinGeckoRestOptions, default);
@@ -183,6 +191,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddBitget(bitgetRestOptions, bitgetSocketOptions, socketClientLifetime);
             services.AddBitMart(bitMartRestOptions, bitMartSocketOptions, socketClientLifetime);
             services.AddBybit(bybitRestOptions, bybitSocketOptions, socketClientLifetime);
+            services.AddCoinbase(coinbaseRestOptions, coinbaseSocketOptions, socketClientLifetime);
             services.AddCoinEx(coinExRestOptions, coinExSocketOptions, socketClientLifetime);
             services.AddCoinGecko(coinGeckoRestOptions);
             services.AddGateIo(gateIoRestOptions, gateIoSocketOptions, socketClientLifetime);
@@ -201,6 +210,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IBitgetRestClient>(),
                     x.GetRequiredService<IBitMartRestClient>(),
                     x.GetRequiredService<IBybitRestClient>(),
+                    x.GetRequiredService<ICoinbaseRestClient>(),
                     x.GetRequiredService<ICoinExRestClient>(),
                     x.GetRequiredService<IGateIoRestClient>(),
                     x.GetRequiredService<IHTXRestClient>(),
@@ -221,6 +231,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IBitgetSocketClient>(),
                     x.GetRequiredService<IBitMartSocketClient>(),
                     x.GetRequiredService<IBybitSocketClient>(),
+                    x.GetRequiredService<ICoinbaseSocketClient>(),
                     x.GetRequiredService<ICoinExSocketClient>(),
                     x.GetRequiredService<IGateIoSocketClient>(),
                     x.GetRequiredService<IHTXSocketClient>(),

@@ -39,6 +39,11 @@
             Bybit
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.Enums.Exchange.Coinbase">
+            <summary>
+            Coinbase
+            </summary>
+        </member>
         <member name="P:CryptoClients.Net.Enums.Exchange.CoinEx">
             <summary>
             CoinEx
@@ -120,6 +125,9 @@
         <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.Bybit">
             <inheritdoc />
         </member>
+        <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.Coinbase">
+            <inheritdoc />
+        </member>
         <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.CoinEx">
             <inheritdoc />
         </member>
@@ -141,7 +149,7 @@
         <member name="P:CryptoClients.Net.ExchangeOrderBookFactory.OKX">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeOrderBookFactory.#ctor(Binance.Net.Interfaces.IBinanceOrderBookFactory,BingX.Net.Interfaces.IBingXOrderBookFactory,Bitfinex.Net.Interfaces.IBitfinexOrderBookFactory,Bitget.Net.Interfaces.IBitgetOrderBookFactory,BitMart.Net.Interfaces.IBitMartOrderBookFactory,Bybit.Net.Interfaces.IBybitOrderBookFactory,CoinEx.Net.Interfaces.ICoinExOrderBookFactory,GateIo.Net.Interfaces.IGateIoOrderBookFactory,HTX.Net.Interfaces.IHTXOrderBookFactory,Kraken.Net.Interfaces.IKrakenOrderBookFactory,Kucoin.Net.Interfaces.IKucoinOrderBookFactory,Mexc.Net.Interfaces.IMexcOrderBookFactory,OKX.Net.Interfaces.IOKXOrderBookFactory)">
+        <member name="M:CryptoClients.Net.ExchangeOrderBookFactory.#ctor(Binance.Net.Interfaces.IBinanceOrderBookFactory,BingX.Net.Interfaces.IBingXOrderBookFactory,Bitfinex.Net.Interfaces.IBitfinexOrderBookFactory,Bitget.Net.Interfaces.IBitgetOrderBookFactory,BitMart.Net.Interfaces.IBitMartOrderBookFactory,Bybit.Net.Interfaces.IBybitOrderBookFactory,Coinbase.Net.Interfaces.ICoinbaseOrderBookFactory,CoinEx.Net.Interfaces.ICoinExOrderBookFactory,GateIo.Net.Interfaces.IGateIoOrderBookFactory,HTX.Net.Interfaces.IHTXOrderBookFactory,Kraken.Net.Interfaces.IKrakenOrderBookFactory,Kucoin.Net.Interfaces.IKucoinOrderBookFactory,Mexc.Net.Interfaces.IMexcOrderBookFactory,OKX.Net.Interfaces.IOKXOrderBookFactory)">
             <summary>
             DI constructor
             </summary>
@@ -165,6 +173,9 @@
             <inheritdoc />
         </member>
         <member name="P:CryptoClients.Net.ExchangeRestClient.Bybit">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeRestClient.Coinbase">
             <inheritdoc />
         </member>
         <member name="P:CryptoClients.Net.ExchangeRestClient.CoinEx">
@@ -379,12 +390,12 @@
             Create a new ExchangeRestClient instance. Client instances will be created with default options.
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor(System.Action{CryptoClients.Net.Models.GlobalExchangeOptions},System.Action{Binance.Net.Objects.Options.BinanceRestOptions},System.Action{BingX.Net.Objects.Options.BingXRestOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexRestOptions},System.Action{Bitget.Net.Objects.Options.BitgetRestOptions},System.Action{BitMart.Net.Objects.Options.BitMartRestOptions},System.Action{Bybit.Net.Objects.Options.BybitRestOptions},System.Action{CoinEx.Net.Objects.Options.CoinExRestOptions},System.Action{GateIo.Net.Objects.Options.GateIoRestOptions},System.Action{HTX.Net.Objects.Options.HTXRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kucoin.Net.Objects.Options.KucoinRestOptions},System.Action{Mexc.Net.Objects.Options.MexcRestOptions},System.Action{OKX.Net.Objects.Options.OKXRestOptions})">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor(System.Action{CryptoClients.Net.Models.GlobalExchangeOptions},System.Action{Binance.Net.Objects.Options.BinanceRestOptions},System.Action{BingX.Net.Objects.Options.BingXRestOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexRestOptions},System.Action{Bitget.Net.Objects.Options.BitgetRestOptions},System.Action{BitMart.Net.Objects.Options.BitMartRestOptions},System.Action{Bybit.Net.Objects.Options.BybitRestOptions},System.Action{Coinbase.Net.Objects.Options.CoinbaseRestOptions},System.Action{CoinEx.Net.Objects.Options.CoinExRestOptions},System.Action{GateIo.Net.Objects.Options.GateIoRestOptions},System.Action{HTX.Net.Objects.Options.HTXRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kucoin.Net.Objects.Options.KucoinRestOptions},System.Action{Mexc.Net.Objects.Options.MexcRestOptions},System.Action{OKX.Net.Objects.Options.OKXRestOptions})">
             <summary>
             Create a new ExchangeRestClient instance
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor(Binance.Net.Interfaces.Clients.IBinanceRestClient,BingX.Net.Interfaces.Clients.IBingXRestClient,Bitfinex.Net.Interfaces.Clients.IBitfinexRestClient,Bitget.Net.Interfaces.Clients.IBitgetRestClient,BitMart.Net.Interfaces.Clients.IBitMartRestClient,Bybit.Net.Interfaces.Clients.IBybitRestClient,CoinEx.Net.Interfaces.Clients.ICoinExRestClient,GateIo.Net.Interfaces.Clients.IGateIoRestClient,HTX.Net.Interfaces.Clients.IHTXRestClient,Kraken.Net.Interfaces.Clients.IKrakenRestClient,Kucoin.Net.Interfaces.Clients.IKucoinRestClient,Mexc.Net.Interfaces.Clients.IMexcRestClient,OKX.Net.Interfaces.Clients.IOKXRestClient,System.Collections.Generic.IEnumerable{CryptoExchange.Net.Interfaces.CommonClients.ISpotClient})">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor(Binance.Net.Interfaces.Clients.IBinanceRestClient,BingX.Net.Interfaces.Clients.IBingXRestClient,Bitfinex.Net.Interfaces.Clients.IBitfinexRestClient,Bitget.Net.Interfaces.Clients.IBitgetRestClient,BitMart.Net.Interfaces.Clients.IBitMartRestClient,Bybit.Net.Interfaces.Clients.IBybitRestClient,Coinbase.Net.Interfaces.Clients.ICoinbaseRestClient,CoinEx.Net.Interfaces.Clients.ICoinExRestClient,GateIo.Net.Interfaces.Clients.IGateIoRestClient,HTX.Net.Interfaces.Clients.IHTXRestClient,Kraken.Net.Interfaces.Clients.IKrakenRestClient,Kucoin.Net.Interfaces.Clients.IKucoinRestClient,Mexc.Net.Interfaces.Clients.IMexcRestClient,OKX.Net.Interfaces.Clients.IOKXRestClient,System.Collections.Generic.IEnumerable{CryptoExchange.Net.Interfaces.CommonClients.ISpotClient})">
             <summary>
             DI constructor
             </summary>
@@ -589,6 +600,11 @@
             Bybit exchange info
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.Exchanges.Coinbase">
+            <summary>
+            Coinbase exchange info
+            </summary>
+        </member>
         <member name="P:CryptoClients.Net.Exchanges.CoinEx">
             <summary>
             CoinEx exchange info
@@ -653,6 +669,9 @@
             <inheritdoc />
         </member>
         <member name="P:CryptoClients.Net.ExchangeSocketClient.Bybit">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.Coinbase">
             <inheritdoc />
         </member>
         <member name="P:CryptoClients.Net.ExchangeSocketClient.CoinEx">
@@ -777,12 +796,12 @@
             Create a new ExchangeSocketClient instance. Client instances will be created with default options.
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.#ctor(System.Action{CryptoClients.Net.Models.GlobalExchangeOptions},System.Action{Binance.Net.Objects.Options.BinanceSocketOptions},System.Action{BingX.Net.Objects.Options.BingXSocketOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexSocketOptions},System.Action{Bitget.Net.Objects.Options.BitgetSocketOptions},System.Action{BitMart.Net.Objects.Options.BitMartSocketOptions},System.Action{Bybit.Net.Objects.Options.BybitSocketOptions},System.Action{CoinEx.Net.Objects.Options.CoinExSocketOptions},System.Action{GateIo.Net.Objects.Options.GateIoSocketOptions},System.Action{HTX.Net.Objects.Options.HTXSocketOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Action{Kucoin.Net.Objects.Options.KucoinSocketOptions},System.Action{Mexc.Net.Objects.Options.MexcSocketOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions})">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.#ctor(System.Action{CryptoClients.Net.Models.GlobalExchangeOptions},System.Action{Binance.Net.Objects.Options.BinanceSocketOptions},System.Action{BingX.Net.Objects.Options.BingXSocketOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexSocketOptions},System.Action{Bitget.Net.Objects.Options.BitgetSocketOptions},System.Action{BitMart.Net.Objects.Options.BitMartSocketOptions},System.Action{Bybit.Net.Objects.Options.BybitSocketOptions},System.Action{CoinEx.Net.Objects.Options.CoinExSocketOptions},System.Action{Coinbase.Net.Objects.Options.CoinbaseSocketOptions},System.Action{GateIo.Net.Objects.Options.GateIoSocketOptions},System.Action{HTX.Net.Objects.Options.HTXSocketOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Action{Kucoin.Net.Objects.Options.KucoinSocketOptions},System.Action{Mexc.Net.Objects.Options.MexcSocketOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions})">
             <summary>
             Create a new ExchangeSocketClient instance
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.#ctor(Binance.Net.Interfaces.Clients.IBinanceSocketClient,BingX.Net.Interfaces.Clients.IBingXSocketClient,Bitfinex.Net.Interfaces.Clients.IBitfinexSocketClient,Bitget.Net.Interfaces.Clients.IBitgetSocketClient,BitMart.Net.Interfaces.Clients.IBitMartSocketClient,Bybit.Net.Interfaces.Clients.IBybitSocketClient,CoinEx.Net.Interfaces.Clients.ICoinExSocketClient,GateIo.Net.Interfaces.Clients.IGateIoSocketClient,HTX.Net.Interfaces.Clients.IHTXSocketClient,Kraken.Net.Interfaces.Clients.IKrakenSocketClient,Kucoin.Net.Interfaces.Clients.IKucoinSocketClient,Mexc.Net.Interfaces.Clients.IMexcSocketClient,OKX.Net.Interfaces.Clients.IOKXSocketClient)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.#ctor(Binance.Net.Interfaces.Clients.IBinanceSocketClient,BingX.Net.Interfaces.Clients.IBingXSocketClient,Bitfinex.Net.Interfaces.Clients.IBitfinexSocketClient,Bitget.Net.Interfaces.Clients.IBitgetSocketClient,BitMart.Net.Interfaces.Clients.IBitMartSocketClient,Bybit.Net.Interfaces.Clients.IBybitSocketClient,Coinbase.Net.Interfaces.Clients.ICoinbaseSocketClient,CoinEx.Net.Interfaces.Clients.ICoinExSocketClient,GateIo.Net.Interfaces.Clients.IGateIoSocketClient,HTX.Net.Interfaces.Clients.IHTXSocketClient,Kraken.Net.Interfaces.Clients.IKrakenSocketClient,Kucoin.Net.Interfaces.Clients.IKucoinSocketClient,Mexc.Net.Interfaces.Clients.IMexcSocketClient,OKX.Net.Interfaces.Clients.IOKXSocketClient)">
             <summary>
             DI constructor
             </summary>
@@ -1040,6 +1059,11 @@
             Bybit order book factory
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.Coinbase">
+            <summary>
+            Coinbase order book factory
+            </summary>
+        </member>
         <member name="P:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.CoinEx">
             <summary>
             CoinEx order book factory
@@ -1108,6 +1132,11 @@
         <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.Bybit">
             <summary>
             Bybit REST API
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.Coinbase">
+            <summary>
+            Coinbase REST API
             </summary>
         </member>
         <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.CoinEx">
@@ -1978,6 +2007,11 @@
             Bybit Websocket API
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.Coinbase">
+            <summary>
+            Coinbase Websocket API
+            </summary>
+        </member>
         <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.CoinEx">
             <summary>
             CoinEx Websocket API
@@ -2342,6 +2376,11 @@
             Bybit API credentials
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.Models.ExchangeCredentials.Coinbase">
+            <summary>
+            Coinbase API credentials
+            </summary>
+        </member>
         <member name="P:CryptoClients.Net.Models.ExchangeCredentials.CoinEx">
             <summary>
             CoinEx API credentials
@@ -2437,7 +2476,7 @@
             Extensions for DI
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddCryptoClients(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{CryptoClients.Net.Models.GlobalExchangeOptions},System.Action{Binance.Net.Objects.Options.BinanceRestOptions},System.Action{Binance.Net.Objects.Options.BinanceSocketOptions},System.Action{BingX.Net.Objects.Options.BingXRestOptions},System.Action{BingX.Net.Objects.Options.BingXSocketOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexRestOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexSocketOptions},System.Action{Bitget.Net.Objects.Options.BitgetRestOptions},System.Action{Bitget.Net.Objects.Options.BitgetSocketOptions},System.Action{BitMart.Net.Objects.Options.BitMartRestOptions},System.Action{BitMart.Net.Objects.Options.BitMartSocketOptions},System.Action{Bybit.Net.Objects.Options.BybitRestOptions},System.Action{Bybit.Net.Objects.Options.BybitSocketOptions},System.Action{CoinEx.Net.Objects.Options.CoinExRestOptions},System.Action{CoinEx.Net.Objects.Options.CoinExSocketOptions},System.Action{CoinGecko.Net.Objects.Options.CoinGeckoRestOptions},System.Action{GateIo.Net.Objects.Options.GateIoRestOptions},System.Action{GateIo.Net.Objects.Options.GateIoSocketOptions},System.Action{HTX.Net.Objects.Options.HTXRestOptions},System.Action{HTX.Net.Objects.Options.HTXSocketOptions},System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Action{Kucoin.Net.Objects.Options.KucoinRestOptions},System.Action{Kucoin.Net.Objects.Options.KucoinSocketOptions},System.Action{Mexc.Net.Objects.Options.MexcRestOptions},System.Action{Mexc.Net.Objects.Options.MexcSocketOptions},System.Action{OKX.Net.Objects.Options.OKXRestOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddCryptoClients(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{CryptoClients.Net.Models.GlobalExchangeOptions},System.Action{Binance.Net.Objects.Options.BinanceRestOptions},System.Action{Binance.Net.Objects.Options.BinanceSocketOptions},System.Action{BingX.Net.Objects.Options.BingXRestOptions},System.Action{BingX.Net.Objects.Options.BingXSocketOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexRestOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexSocketOptions},System.Action{Bitget.Net.Objects.Options.BitgetRestOptions},System.Action{Bitget.Net.Objects.Options.BitgetSocketOptions},System.Action{BitMart.Net.Objects.Options.BitMartRestOptions},System.Action{BitMart.Net.Objects.Options.BitMartSocketOptions},System.Action{Bybit.Net.Objects.Options.BybitRestOptions},System.Action{Bybit.Net.Objects.Options.BybitSocketOptions},System.Action{Coinbase.Net.Objects.Options.CoinbaseRestOptions},System.Action{Coinbase.Net.Objects.Options.CoinbaseSocketOptions},System.Action{CoinEx.Net.Objects.Options.CoinExRestOptions},System.Action{CoinEx.Net.Objects.Options.CoinExSocketOptions},System.Action{CoinGecko.Net.Objects.Options.CoinGeckoRestOptions},System.Action{GateIo.Net.Objects.Options.GateIoRestOptions},System.Action{GateIo.Net.Objects.Options.GateIoSocketOptions},System.Action{HTX.Net.Objects.Options.HTXRestOptions},System.Action{HTX.Net.Objects.Options.HTXSocketOptions},System.Action{Kraken.Net.Objects.Options.KrakenRestOptions},System.Action{Kraken.Net.Objects.Options.KrakenSocketOptions},System.Action{Kucoin.Net.Objects.Options.KucoinRestOptions},System.Action{Kucoin.Net.Objects.Options.KucoinSocketOptions},System.Action{Mexc.Net.Objects.Options.MexcRestOptions},System.Action{Mexc.Net.Objects.Options.MexcSocketOptions},System.Action{OKX.Net.Objects.Options.OKXRestOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
             <summary>
             Add all the exchange clients to the service collection as well as the IExchangeRestClient, IExchangeSocketClient and IExchangeOrderBookFactory aggregation interfaces
             </summary>
@@ -2455,6 +2494,8 @@
             <param name="bitMartSocketOptions">The options options for the BitMart socket client. Will override options provided in the global options</param>
             <param name="bybitRestOptions">The options options for the Bybit rest client. Will override options provided in the global options</param>
             <param name="bybitSocketOptions">The options options for the Bybit socket client. Will override options provided in the global options</param>
+            <param name="coinbaseRestOptions">The options options for the Coinbase rest client. Will override options provided in the global options</param>
+            <param name="coinbaseSocketOptions">The options options for the Coinbase socket client. Will override options provided in the global options</param>
             <param name="coinExRestOptions">The options options for the CoinEx rest client. Will override options provided in the global options</param>
             <param name="coinExSocketOptions">The options options for the CoinEx socket client. Will override options provided in the global options</param>
             <param name="coinGeckoRestOptions">The options options for the CoinGecko rest client. Will override options provided in the global options</param>

@@ -16,6 +16,9 @@ using BitMart.Net.Objects.Options;
 using Bybit.Net.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Bybit.Net.Objects.Options;
+using Coinbase.Net.Clients;
+using Coinbase.Net.Interfaces.Clients;
+using Coinbase.Net.Objects.Options;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
@@ -69,6 +72,8 @@ namespace CryptoClients.Net
         public IBitMartSocketClient BitMart { get; }
         /// <inheritdoc />
         public IBybitSocketClient Bybit { get; }
+        /// <inheritdoc />
+        public ICoinbaseSocketClient Coinbase { get; }
         /// <inheritdoc />
         public ICoinExSocketClient CoinEx { get; }
         /// <inheritdoc />
@@ -170,6 +175,7 @@ namespace CryptoClients.Net
             Bitget = new BitgetSocketClient();
             BitMart = new BitMartSocketClient();
             Bybit = new BybitSocketClient();
+            Coinbase = new CoinbaseSocketClient();
             CoinEx = new CoinExSocketClient();
             GateIo = new GateIoSocketClient();
             HTX = new HTXSocketClient();
@@ -193,6 +199,7 @@ namespace CryptoClients.Net
             Action<BitMartSocketOptions>? bitMartSocketOptions = null,
             Action<BybitSocketOptions>? bybitSocketOptions = null,
             Action<CoinExSocketOptions>? coinExSocketOptions = null,
+            Action<CoinbaseSocketOptions>? coinbaseSocketOptions = null,
             Action<GateIoSocketOptions>? gateIoSocketOptions = null,
             Action<HTXSocketOptions>? htxSocketOptions = null,
             Action<KrakenSocketOptions>? krakenSocketOptions = null,
@@ -230,6 +237,7 @@ namespace CryptoClients.Net
                 bitgetSocketOptions = SetGlobalSocketOptions(global, bitgetSocketOptions, credentials?.Bitget);
                 bitMartSocketOptions = SetGlobalSocketOptions(global, bitMartSocketOptions, credentials?.BitMart);
                 bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions, credentials?.Bybit);
+                coinbaseSocketOptions = SetGlobalSocketOptions(global, coinbaseSocketOptions, credentials?.Coinbase);
                 coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx);
                 gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions, credentials?.GateIo);
                 htxSocketOptions = SetGlobalSocketOptions(global, htxSocketOptions, credentials?.HTX);
@@ -245,6 +253,7 @@ namespace CryptoClients.Net
             Bitget = new BitgetSocketClient(bitgetSocketOptions ?? new Action<BitgetSocketOptions>((x) => { }));
             BitMart = new BitMartSocketClient(bitMartSocketOptions ?? new Action<BitMartSocketOptions>((x) => { }));
             Bybit = new BybitSocketClient(bybitSocketOptions ?? new Action<BybitSocketOptions>((x) => { }));
+            Coinbase = new CoinbaseSocketClient(coinbaseSocketOptions ?? new Action<CoinbaseSocketOptions>((x) => { }));
             CoinEx = new CoinExSocketClient(coinExSocketOptions ?? new Action<CoinExSocketOptions>((x) => { }));
             HTX = new HTXSocketClient(htxSocketOptions ?? new Action<HTXSocketOptions>((x) => { }));
             GateIo = new GateIoSocketClient(gateIoSocketOptions ?? new Action<GateIoSocketOptions>((x) => { }));
@@ -266,6 +275,7 @@ namespace CryptoClients.Net
             IBitgetSocketClient bitget,
             IBitMartSocketClient bitMart,
             IBybitSocketClient bybit,
+            ICoinbaseSocketClient coinbase,
             ICoinExSocketClient coinEx,
             IGateIoSocketClient gateIo,
             IHTXSocketClient htx,
@@ -280,6 +290,7 @@ namespace CryptoClients.Net
             Bitget = bitget;
             BitMart = bitMart;
             Bybit = bybit;
+            Coinbase = coinbase;
             CoinEx = coinEx;
             GateIo = gateIo;
             HTX = htx;
@@ -309,6 +320,7 @@ namespace CryptoClients.Net
                 Bybit.V5LinearApi.SharedClient,
                 Bybit.V5PrivateApi.SharedClient,
                 Bybit.V5SpotApi.SharedClient,
+                Coinbase.AdvancedTradeApi.SharedClient,
                 CoinEx.SpotApiV2.SharedClient,
                 CoinEx.FuturesApi.SharedClient,
                 GateIo.SpotApi.SharedClient,
@@ -354,7 +366,7 @@ namespace CryptoClients.Net
         #region Subscribe Ticker
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             var clients = GetTickerClients(request.Symbol.TradingMode);
             if (exchanges != null)
@@ -529,6 +541,7 @@ namespace CryptoClients.Net
                 Bitget.UnsubscribeAllAsync(),
                 BitMart.UnsubscribeAllAsync(),
                 Bybit.UnsubscribeAllAsync(),
+                Coinbase.UnsubscribeAllAsync(),
                 CoinEx.UnsubscribeAllAsync(),
                 GateIo.UnsubscribeAllAsync(),
                 HTX.UnsubscribeAllAsync(),

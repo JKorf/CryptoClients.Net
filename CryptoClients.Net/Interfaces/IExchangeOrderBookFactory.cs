@@ -4,6 +4,7 @@ using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
 using BitMart.Net.Interfaces;
 using Bybit.Net.Interfaces;
+using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
@@ -43,6 +44,10 @@ namespace CryptoClients.Net.Interfaces
         /// Bybit order book factory
         /// </summary>
         IBybitOrderBookFactory Bybit { get; }
+        /// <summary>
+        /// Coinbase order book factory
+        /// </summary>
+        ICoinbaseOrderBookFactory Coinbase { get; }
         /// <summary>
         /// CoinEx order book factory
         /// </summary>

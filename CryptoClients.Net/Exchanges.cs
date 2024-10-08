@@ -4,6 +4,7 @@ using Bitfinex.Net;
 using Bitget.Net;
 using BitMart.Net;
 using Bybit.Net;
+using Coinbase.Net;
 using CoinEx.Net;
 using CryptoExchange.Net.RateLimiting;
 using GateIo.Net;
@@ -79,6 +80,16 @@ namespace CryptoClients.Net
             Name = BybitExchange.ExchangeName,
             Url = BybitExchange.Url,
             ApiDocsUrl = BybitExchange.ApiDocsUrl
+        };
+
+        /// <summary>
+        /// Coinbase exchange info
+        /// </summary>
+        public static ExchangeInfo Coinbase { get; } = new ExchangeInfo
+        {
+            Name = CoinbaseExchange.ExchangeName,
+            Url = CoinbaseExchange.Url,
+            ApiDocsUrl = CoinbaseExchange.ApiDocsUrl
         };
 
         /// <summary>
@@ -160,7 +171,9 @@ namespace CryptoClients.Net
             BingX,
             Bitfinex,
             Bitget,
+            BitMart,
             Bybit,
+            Coinbase,
             CoinEx,
             GateIo,
             HTX,
@@ -181,6 +194,7 @@ namespace CryptoClients.Net
                 BingXExchange.RateLimiter.RateLimitTriggered += value;
                 BitgetExchange.RateLimiter.RateLimitTriggered += value;
                 BitMartExchange.RateLimiter.RateLimitTriggered += value;
+                CoinbaseExchange.RateLimiter.RateLimitTriggered += value;
                 GateIoExchange.RateLimiter.RateLimitTriggered += value;
                 HTXExchange.RateLimiter.RateLimitTriggered += value;
                 KrakenExchange.RateLimiter.RateLimitTriggered += value;
@@ -194,6 +208,7 @@ namespace CryptoClients.Net
                 BingXExchange.RateLimiter.RateLimitTriggered -= value;
                 BitgetExchange.RateLimiter.RateLimitTriggered -= value;
                 BitMartExchange.RateLimiter.RateLimitTriggered -= value;
+                CoinbaseExchange.RateLimiter.RateLimitTriggered -= value;
                 GateIoExchange.RateLimiter.RateLimitTriggered -= value;
                 HTXExchange.RateLimiter.RateLimitTriggered -= value;
                 KrakenExchange.RateLimiter.RateLimitTriggered -= value;

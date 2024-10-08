@@ -42,6 +42,11 @@ namespace CryptoClients.Net.Models
         public ApiCredentials? Bybit { get; set; }
 
         /// <summary>
+        /// Coinbase API credentials
+        /// </summary>
+        public ApiCredentials? Coinbase { get; set; }
+
+        /// <summary>
         /// CoinEx API credentials
         /// </summary>
         public ApiCredentials? CoinEx { get; set; }

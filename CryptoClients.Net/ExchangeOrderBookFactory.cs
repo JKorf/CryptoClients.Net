@@ -4,6 +4,7 @@ using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
 using BitMart.Net.Interfaces;
 using Bybit.Net.Interfaces;
+using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using CryptoClients.Net.Interfaces;
 using GateIo.Net.Interfaces;
@@ -31,6 +32,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IBybitOrderBookFactory Bybit { get; }
         /// <inheritdoc />
+        public ICoinbaseOrderBookFactory Coinbase { get; }
+        /// <inheritdoc />
         public ICoinExOrderBookFactory CoinEx { get; }
         /// <inheritdoc />
         public IGateIoOrderBookFactory GateIo { get; }
@@ -55,6 +58,7 @@ namespace CryptoClients.Net
             IBitgetOrderBookFactory bitget,
             IBitMartOrderBookFactory bitMart,
             IBybitOrderBookFactory bybit,
+            ICoinbaseOrderBookFactory coinbase,
             ICoinExOrderBookFactory coinEx,
             IGateIoOrderBookFactory gateIo,
             IHTXOrderBookFactory htx,
@@ -69,6 +73,7 @@ namespace CryptoClients.Net
             Bitget = bitget;
             BitMart = bitMart;
             Bybit = bybit;
+            Coinbase = coinbase;
             CoinEx = coinEx;
             GateIo = gateIo;
             HTX = htx;
