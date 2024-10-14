@@ -198,6 +198,58 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.2.0 - 14 Oct 2024
+  * Updated reference CryptoExchange version to 8.0.3
+    * Updated dependency versions, including System.Text.Json from 8.0.4 to 8.0.5 containing a vulnerability fix
+    * Added support for duplicate array indexes in System.Text.Json ArrayConverter
+    * Added fallback for unparsable value in System.Text.Json NumberStringConverter
+    * Added Authenticated property on base client and shared client
+    * Added GetValues System.Text.Json implementation in message accessor
+  * Updated Binance.Net to version 10.6.0
+    * Added USD-M Futures web socket order API
+    * Fixed pagination for shared closed orders USD futures
+  * Updated BitMart.Net to version 1.3.1
+    * Fixed symbol formatting order book factory
+    * Fixed IBitMartOrderBookFactory DI lifetime
+  * Updated Bybit.Net to version 3.14.2
+    * Fixed restClient.V5Api.Account.GetBalancesAsync deserialization in demo environment without any transactions
+    * Added missing TrailingProfit value to StopOrderType Enum
+  * Updated CoinEx.Net to version 7.7.1
+    * Fixed Shared interface REST spot order quantity parsing
+    * Fixed Shared interface REST spot order status parsing
+  * Updated GateIo.Net to version 1.8.0
+    * Fixed ICoinbaseOrderBookFactory DI lifetime
+    * Added clientOrderId parameter to restClient.SpotApi.Trading.EditOrderAsync
+    * Added clientOrderId parameter to socketClient.SpotApi.EditOrderAsync
+  * Updated HTX.Net to version 6.1.2
+    * Fixed cancellation token not being passed to subscribe method in Shared client
+  * Updated Kraken.Net to version 5.0.0
+    * Updated the library to use System.Text.Json for (de)serialization instead of Json.Net
+    * Updated Spot websocket implementation from V1 to V2
+      * Moved requesting of WebSocket token for private endpoints from user endpoint to internal
+      * Removed automatic mapping of BTC to XBT (V2 API used BTC as symbol instead of the previous XBT)
+      * Respone models have been updated to V2
+      * Spread subscription has been removed, part of Ticker stream now
+      * Added individual order book subscription
+      * Added instrument subscription
+      * Added user balances subscription
+      * UserTrade subscription has been removed, part of Order stream now
+      * Added socketClient.SpotApi.PlaceMultipleOrdersAsync endpoint
+      * Added socketClient.SpotApi.EditOrderAsync endpoint
+    * Added socketClient.SpotApi.ReplaceOrderAsync endpoint
+    * Added Shared implementation for Futures WebSocket and REST APIs
+    * Extended Shared implementation for Spot WebSocket API
+    * Added restClient.SpotApi.Trading.CancelAllOrdersAfterAsync endpoint
+    * Added restClient.FuturesApi.ExchangeData.GetTickerAsync endpoint
+    * Added restClient.FuturesApi.Trading.GetOrdrAync endpoint
+    * Renamed clientOrderId to userReference parameters in Spot orders as it was implemented with the `userref` field
+    * Added new clientOrderId parameter to Spot orders using the correct `cl_ord_id` field
+    * Updated Shared Spot REST implementation to use new clientOrderId property
+    * Updated restClient.FuturesApi.GetBalancesAsync response so it's more discoverable
+    * Updated AssetStatus Enum values
+    * Updated SymbolStatus Enum values
+    * Fixed deserialization issue FuturesApi.Trading.GetOpenPositionsAsync
+
 * Version 2.1.0 - 08 Oct 2024
   * Added Coinbase support with Coinbase.Net 1.0.0
   * Updated reference CryptoExchange version to 8.0.1
