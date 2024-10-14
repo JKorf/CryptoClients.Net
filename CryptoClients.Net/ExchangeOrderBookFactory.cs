@@ -121,7 +121,7 @@ namespace CryptoClients.Net
                     return Bitfinex.Spot.Create(symbol.GetSymbol(bitfinexClient.SpotApi.FormatSymbol));
                 case "Bitget":
                     var bitgetClient = new BitgetRestClient();
-                    return symbol.TradingMode == TradingMode.Spot ? Bitget.Spot.Create(symbol.GetSymbol(bitgetClient.SpotApi.FormatSymbol))
+                    return symbol.TradingMode == TradingMode.Spot ? Bitget.Spot.Create(symbol.GetSymbol(bitgetClient.SpotApiV2.FormatSymbol))
                         : symbol.TradingMode.IsInverse() ? Bitget.CoinFutures.Create(symbol.GetSymbol(bitgetClient.FuturesApiV2.FormatSymbol))
                         : ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "ProductType") == "UsdtFutures" ? Bitget.UsdtFutures.Create(symbol.GetSymbol(bitgetClient.FuturesApiV2.FormatSymbol))
                         : Bitget.UsdcFutures.Create(symbol.GetSymbol(bitgetClient.FuturesApiV2.FormatSymbol));
@@ -151,7 +151,7 @@ namespace CryptoClients.Net
                     return symbol.TradingMode == TradingMode.Spot ? HTX.Spot.Create(symbol.GetSymbol(htxClient.SpotApi.FormatSymbol))
                         : HTX.UsdtFutures.Create(symbol.GetSymbol(htxClient.UsdtFuturesApi.FormatSymbol));
                 case "Kraken":
-                    var krakenClient = new KrakenRestClient();
+                    var krakenClient = new KrakenSocketClient();
                     return symbol.TradingMode == TradingMode.Spot ? Kraken.Spot.Create(symbol.GetSymbol(krakenClient.SpotApi.FormatSymbol))
                         : Kraken.Futures.Create(symbol.GetSymbol(krakenClient.FuturesApi.FormatSymbol));
                 case "Kucoin":
