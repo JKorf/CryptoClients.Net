@@ -6,6 +6,8 @@ using BitMart.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
+using CryptoExchange.Net.Interfaces;
+using CryptoExchange.Net.SharedApis;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
 using Kraken.Net.Interfaces;
@@ -76,5 +78,14 @@ namespace CryptoClients.Net.Interfaces
         /// OKX order book factory
         /// </summary>
         IOKXOrderBookFactory OKX { get; }
+
+        /// <summary>
+        /// Create a new ISymbolOrderBook instance for the provided symbol on the provided exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="symbol">Symbol</param>
+        /// <param name="exchangeParameters">Exchange specific parameters</param>
+        /// <returns>ISymbolOrderBook implementation</returns>
+        ISymbolOrderBook? Create(string exchange, SharedSymbol symbol, ExchangeParameters? exchangeParameters = null);
     }
 }

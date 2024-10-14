@@ -154,6 +154,9 @@
             DI constructor
             </summary>
         </member>
+        <member name="M:CryptoClients.Net.ExchangeOrderBookFactory.Create(System.String,CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <inheritdoc />
+        </member>
         <member name="T:CryptoClients.Net.ExchangeRestClient">
             <inheritdoc />
         </member>
@@ -1098,6 +1101,15 @@
             <summary>
             OKX order book factory
             </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.Create(System.String,CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <summary>
+            Create a new ISymbolOrderBook instance for the provided symbol on the provided exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="symbol">Symbol</param>
+            <param name="exchangeParameters">Exchange specific parameters</param>
+            <returns>ISymbolOrderBook implementation</returns>
         </member>
         <member name="T:CryptoClients.Net.Interfaces.IExchangeRestClient">
             <summary>
