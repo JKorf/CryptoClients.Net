@@ -198,6 +198,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.2.1 - 14 Oct 2024
+    * Updated library client versions
+    * Fixed TypeLoadException during initialization
+
 * Version 2.2.0 - 14 Oct 2024
   * Updated reference CryptoExchange version to 8.0.3
     * Updated dependency versions, including System.Text.Json from 8.0.4 to 8.0.5 containing a vulnerability fix
