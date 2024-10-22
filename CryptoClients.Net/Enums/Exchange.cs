@@ -6,6 +6,7 @@ using BitMart.Net;
 using Bybit.Net;
 using Coinbase.Net;
 using CoinEx.Net;
+using CryptoCom.Net;
 using GateIo.Net;
 using HTX.Net;
 using Kraken.Net;
@@ -55,6 +56,10 @@ namespace CryptoClients.Net.Enums
         /// </summary>
         public static string CoinEx => CoinExExchange.ExchangeName;
         /// <summary>
+        /// Crypto.com
+        /// </summary>
+        public static string CryptoCom => CryptoComExchange.ExchangeName;
+        /// <summary>
         /// Gate.io
         /// </summary>
         public static string GateIo => "GateIo";
@@ -92,6 +97,7 @@ namespace CryptoClients.Net.Enums
             Bybit,
             Coinbase,
             CoinEx,
+            CryptoCom,
             GateIo,
             HTX,
             Kraken,

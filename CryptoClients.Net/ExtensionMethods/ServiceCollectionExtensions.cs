@@ -18,6 +18,8 @@ using CoinGecko.Net.Objects.Options;
 using CryptoClients.Net;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
+using CryptoCom.Net.Interfaces.Clients;
+using CryptoCom.Net.Objects.Options;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects.Options;
@@ -65,6 +67,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="coinExRestOptions">The options options for the CoinEx rest client. Will override options provided in the global options</param>
         /// <param name="coinExSocketOptions">The options options for the CoinEx socket client. Will override options provided in the global options</param>
         /// <param name="coinGeckoRestOptions">The options options for the CoinGecko rest client. Will override options provided in the global options</param>
+        /// <param name="cryptoComRestOptions">The options options for the Crypto.com rest client. Will override options provided in the global options</param>
+        /// <param name="cryptoComSocketOptions">The options options for the Crypto.com socket client. Will override options provided in the global options</param>
         /// <param name="gateIoRestOptions">The options options for the Gate.io rest client. Will override options provided in the global options</param>
         /// <param name="gateIoSocketOptions">The options options for the Gate.io socket client. Will override options provided in the global options</param>
         /// <param name="htxRestOptions">The options options for the HTX rest client. Will override options provided in the global options</param>
@@ -99,6 +103,8 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<CoinExRestOptions>? coinExRestOptions = null,
             Action<CoinExSocketOptions>? coinExSocketOptions = null,
             Action<CoinGeckoRestOptions>? coinGeckoRestOptions = null,
+            Action<CryptoComRestOptions>? cryptoComRestOptions = null,
+            Action<CryptoComSocketOptions>? cryptoComSocketOptions = null,
             Action<GateIoRestOptions>? gateIoRestOptions = null,
             Action<GateIoSocketOptions>? gateIoSocketOptions = null,
             Action<HTXRestOptions>? htxRestOptions = null,
@@ -171,6 +177,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx);
                 coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx);
                 coinGeckoRestOptions = SetGlobalRestOptions<CoinGeckoRestOptions, ApiCredentials>(global, coinGeckoRestOptions, default);
+                cryptoComRestOptions = SetGlobalRestOptions(global, cryptoComRestOptions, credentials?.CryptoCom);
+                cryptoComSocketOptions = SetGlobalSocketOptions(global, cryptoComSocketOptions, credentials?.CryptoCom);
                 gateIoRestOptions = SetGlobalRestOptions(global, gateIoRestOptions, credentials?.GateIo);
                 gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions, credentials?.GateIo);
                 htxRestOptions = SetGlobalRestOptions(global, htxRestOptions, credentials?.HTX);
@@ -194,6 +202,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddCoinbase(coinbaseRestOptions, coinbaseSocketOptions, socketClientLifetime);
             services.AddCoinEx(coinExRestOptions, coinExSocketOptions, socketClientLifetime);
             services.AddCoinGecko(coinGeckoRestOptions);
+            services.AddCryptoCom(cryptoComRestOptions, cryptoComSocketOptions, socketClientLifetime);
             services.AddGateIo(gateIoRestOptions, gateIoSocketOptions, socketClientLifetime);
             services.AddHTX(htxRestOptions, htxSocketOptions, socketClientLifetime);
             services.AddKraken(krakenRestOptions, krakenSocketOptions, socketClientLifetime);
@@ -212,6 +221,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IBybitRestClient>(),
                     x.GetRequiredService<ICoinbaseRestClient>(),
                     x.GetRequiredService<ICoinExRestClient>(),
+                    x.GetRequiredService<ICryptoComRestClient>(),
                     x.GetRequiredService<IGateIoRestClient>(),
                     x.GetRequiredService<IHTXRestClient>(),
                     x.GetRequiredService<IKrakenRestClient>(),
@@ -233,6 +243,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IBybitSocketClient>(),
                     x.GetRequiredService<ICoinbaseSocketClient>(),
                     x.GetRequiredService<ICoinExSocketClient>(),
+                    x.GetRequiredService<ICryptoComSocketClient>(),
                     x.GetRequiredService<IGateIoSocketClient>(),
                     x.GetRequiredService<IHTXSocketClient>(),
                     x.GetRequiredService<IKrakenSocketClient>(),

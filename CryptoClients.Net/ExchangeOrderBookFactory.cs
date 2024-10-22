@@ -16,6 +16,8 @@ using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
+using CryptoCom.Net.Clients;
+using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
@@ -54,6 +56,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public ICoinExOrderBookFactory CoinEx { get; }
         /// <inheritdoc />
+        public ICryptoComOrderBookFactory CryptoCom { get; }
+        /// <inheritdoc />
         public IGateIoOrderBookFactory GateIo { get; }
         /// <inheritdoc />
         public IHTXOrderBookFactory HTX { get; }
@@ -78,6 +82,7 @@ namespace CryptoClients.Net
             IBybitOrderBookFactory bybit,
             ICoinbaseOrderBookFactory coinbase,
             ICoinExOrderBookFactory coinEx,
+            ICryptoComOrderBookFactory cryptoCom,
             IGateIoOrderBookFactory gateIo,
             IHTXOrderBookFactory htx,
             IKrakenOrderBookFactory kraken,
@@ -93,6 +98,7 @@ namespace CryptoClients.Net
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
+            CryptoCom = cryptoCom;
             GateIo = gateIo;
             HTX = htx;
             Kraken = kraken;
@@ -140,6 +146,9 @@ namespace CryptoClients.Net
                     var coinexClient = new CoinExRestClient();
                     return symbol.TradingMode == TradingMode.Spot ? CoinEx.Spot.Create(symbol.GetSymbol(coinexClient.SpotApiV2.FormatSymbol))
                         : CoinEx.Futures.Create(symbol.GetSymbol(coinexClient.FuturesApi.FormatSymbol));
+                case "CryptoCom":
+                    var cryptoComClient = new CryptoComSocketClient();
+                    return CryptoCom.Exchange.Create(symbol.GetSymbol(cryptoComClient.ExchangeApi.FormatSymbol));
                 case "GateIo":
                     var gateClient = new GateIoRestClient();
                     return symbol.TradingMode == TradingMode.Spot ? GateIo.Spot.Create(symbol.GetSymbol(gateClient.SpotApi.FormatSymbol))

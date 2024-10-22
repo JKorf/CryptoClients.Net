@@ -6,6 +6,7 @@ using BitMart.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Coinbase.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
+using CryptoCom.Net.Interfaces.Clients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
@@ -59,6 +60,10 @@ namespace CryptoClients.Net.Interfaces
         /// CoinEx Websocket API
         /// </summary>
         ICoinExSocketClient CoinEx { get; }
+        /// <summary>
+        /// Crypto.com Websocket API
+        /// </summary>
+        ICryptoComSocketClient CryptoCom { get; }
         /// <summary>
         /// Gate.io Websocket API
         /// </summary>

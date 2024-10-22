@@ -24,6 +24,9 @@ using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
+using CryptoCom.Net.Clients;
+using CryptoCom.Net.Interfaces.Clients;
+using CryptoCom.Net.Objects.Options;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
@@ -76,6 +79,8 @@ namespace CryptoClients.Net
         public ICoinbaseSocketClient Coinbase { get; }
         /// <inheritdoc />
         public ICoinExSocketClient CoinEx { get; }
+        /// <inheritdoc />
+        public ICryptoComSocketClient CryptoCom { get; }
         /// <inheritdoc />
         public IGateIoSocketClient GateIo { get; }
         /// <inheritdoc />
@@ -177,6 +182,7 @@ namespace CryptoClients.Net
             Bybit = new BybitSocketClient();
             Coinbase = new CoinbaseSocketClient();
             CoinEx = new CoinExSocketClient();
+            CryptoCom = new CryptoComSocketClient();
             GateIo = new GateIoSocketClient();
             HTX = new HTXSocketClient();
             Kraken = new KrakenSocketClient();
@@ -200,6 +206,7 @@ namespace CryptoClients.Net
             Action<BybitSocketOptions>? bybitSocketOptions = null,
             Action<CoinExSocketOptions>? coinExSocketOptions = null,
             Action<CoinbaseSocketOptions>? coinbaseSocketOptions = null,
+            Action<CryptoComSocketOptions>? cryptoComSocketOptions = null,
             Action<GateIoSocketOptions>? gateIoSocketOptions = null,
             Action<HTXSocketOptions>? htxSocketOptions = null,
             Action<KrakenSocketOptions>? krakenSocketOptions = null,
@@ -239,6 +246,7 @@ namespace CryptoClients.Net
                 bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions, credentials?.Bybit);
                 coinbaseSocketOptions = SetGlobalSocketOptions(global, coinbaseSocketOptions, credentials?.Coinbase);
                 coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx);
+                cryptoComSocketOptions = SetGlobalSocketOptions(global, cryptoComSocketOptions, credentials?.CryptoCom);
                 gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions, credentials?.GateIo);
                 htxSocketOptions = SetGlobalSocketOptions(global, htxSocketOptions, credentials?.HTX);
                 krakenSocketOptions = SetGlobalSocketOptions(global, krakenSocketOptions, credentials?.Kraken);
@@ -256,6 +264,7 @@ namespace CryptoClients.Net
             Coinbase = new CoinbaseSocketClient(coinbaseSocketOptions ?? new Action<CoinbaseSocketOptions>((x) => { }));
             CoinEx = new CoinExSocketClient(coinExSocketOptions ?? new Action<CoinExSocketOptions>((x) => { }));
             HTX = new HTXSocketClient(htxSocketOptions ?? new Action<HTXSocketOptions>((x) => { }));
+            CryptoCom = new CryptoComSocketClient(cryptoComSocketOptions ?? new Action<CryptoComSocketOptions>((x) => { }));
             GateIo = new GateIoSocketClient(gateIoSocketOptions ?? new Action<GateIoSocketOptions>((x) => { }));
             Kraken = new KrakenSocketClient(krakenSocketOptions ?? new Action<KrakenSocketOptions>((x) => { }));
             Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? new Action<KucoinSocketOptions>((x) => { }));
@@ -277,6 +286,7 @@ namespace CryptoClients.Net
             IBybitSocketClient bybit,
             ICoinbaseSocketClient coinbase,
             ICoinExSocketClient coinEx,
+            ICryptoComSocketClient cryptoCom,
             IGateIoSocketClient gateIo,
             IHTXSocketClient htx,
             IKrakenSocketClient kraken,
@@ -292,6 +302,7 @@ namespace CryptoClients.Net
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
+            CryptoCom = cryptoCom;
             GateIo = gateIo;
             HTX = htx;
             Kraken = kraken;
@@ -323,6 +334,7 @@ namespace CryptoClients.Net
                 Coinbase.AdvancedTradeApi.SharedClient,
                 CoinEx.SpotApiV2.SharedClient,
                 CoinEx.FuturesApi.SharedClient,
+                CryptoCom.ExchangeApi.SharedClient,
                 GateIo.SpotApi.SharedClient,
                 GateIo.PerpetualFuturesApi.SharedClient,
                 HTX.SpotApi.SharedClient,
@@ -543,6 +555,7 @@ namespace CryptoClients.Net
                 Bybit.UnsubscribeAllAsync(),
                 Coinbase.UnsubscribeAllAsync(),
                 CoinEx.UnsubscribeAllAsync(),
+                CryptoCom.UnsubscribeAllAsync(),
                 GateIo.UnsubscribeAllAsync(),
                 HTX.UnsubscribeAllAsync(),
                 Kraken.UnsubscribeAllAsync(),

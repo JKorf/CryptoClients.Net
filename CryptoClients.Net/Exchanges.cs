@@ -6,6 +6,7 @@ using BitMart.Net;
 using Bybit.Net;
 using Coinbase.Net;
 using CoinEx.Net;
+using CryptoCom.Net;
 using CryptoExchange.Net.RateLimiting;
 using GateIo.Net;
 using HTX.Net;
@@ -103,6 +104,16 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
+        /// Crypto.com exchange info
+        /// </summary>
+        public static ExchangeInfo CryptoCom { get; } = new ExchangeInfo
+        {
+            Name = CryptoComExchange.ExchangeName,
+            Url = CryptoComExchange.Url,
+            ApiDocsUrl = CryptoComExchange.ApiDocsUrl
+        };
+
+        /// <summary>
         /// GateIo exchange info
         /// </summary>
         public static ExchangeInfo GateIo { get; } = new ExchangeInfo
@@ -175,6 +186,7 @@ namespace CryptoClients.Net
             Bybit,
             Coinbase,
             CoinEx,
+            CryptoCom,
             GateIo,
             HTX,
             Kucoin,
@@ -195,6 +207,7 @@ namespace CryptoClients.Net
                 BitgetExchange.RateLimiter.RateLimitTriggered += value;
                 BitMartExchange.RateLimiter.RateLimitTriggered += value;
                 CoinbaseExchange.RateLimiter.RateLimitTriggered += value;
+                CryptoComExchange.RateLimiter.RateLimitTriggered += value;
                 GateIoExchange.RateLimiter.RateLimitTriggered += value;
                 HTXExchange.RateLimiter.RateLimitTriggered += value;
                 KrakenExchange.RateLimiter.RateLimitTriggered += value;
@@ -209,6 +222,7 @@ namespace CryptoClients.Net
                 BitgetExchange.RateLimiter.RateLimitTriggered -= value;
                 BitMartExchange.RateLimiter.RateLimitTriggered -= value;
                 CoinbaseExchange.RateLimiter.RateLimitTriggered -= value;
+                CryptoComExchange.RateLimiter.RateLimitTriggered -= value;
                 GateIoExchange.RateLimiter.RateLimitTriggered -= value;
                 HTXExchange.RateLimiter.RateLimitTriggered -= value;
                 KrakenExchange.RateLimiter.RateLimitTriggered -= value;

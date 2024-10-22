@@ -6,6 +6,7 @@ using BitMart.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
+using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
 using GateIo.Net.Interfaces;
@@ -54,6 +55,10 @@ namespace CryptoClients.Net.Interfaces
         /// CoinEx order book factory
         /// </summary>
         ICoinExOrderBookFactory CoinEx { get; }
+        /// <summary>
+        /// Crypto.com order book factory
+        /// </summary>
+        ICryptoComOrderBookFactory CryptoCom { get; }
         /// <summary>
         /// Gate.io order book factory
         /// </summary>

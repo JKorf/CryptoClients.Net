@@ -24,6 +24,9 @@ using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
+using CryptoCom.Net.Clients;
+using CryptoCom.Net.Interfaces.Clients;
+using CryptoCom.Net.Objects.Options;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
@@ -77,6 +80,8 @@ namespace CryptoClients.Net
         public ICoinbaseRestClient Coinbase { get; }
         /// <inheritdoc />
         public ICoinExRestClient CoinEx { get; }
+        /// <inheritdoc />
+        public ICryptoComRestClient CryptoCom { get; }
         /// <inheritdoc />
         public IGateIoRestClient GateIo { get; }
         /// <inheritdoc />
@@ -251,6 +256,7 @@ namespace CryptoClients.Net
             Bybit = new BybitRestClient();
             Coinbase = new CoinbaseRestClient();
             CoinEx = new CoinExRestClient();
+            CryptoCom = new CryptoComRestClient();
             GateIo = new GateIoRestClient();
             HTX = new HTXRestClient();
             Kraken = new KrakenRestClient();
@@ -275,6 +281,7 @@ namespace CryptoClients.Net
             Action<BybitRestOptions>? bybitRestOptions = null,
             Action<CoinbaseRestOptions>? coinbaseRestOptions = null,
             Action<CoinExRestOptions>? coinExRestOptions = null,
+            Action<CryptoComRestOptions>? cryptoComRestOptions = null,
             Action<GateIoRestOptions>? gateIoRestOptions = null,
             Action<HTXRestOptions>? htxRestOptions = null,
             Action<KrakenRestOptions>? krakenRestOptions = null,
@@ -313,6 +320,7 @@ namespace CryptoClients.Net
                 bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions, credentials?.Bybit);
                 coinbaseRestOptions = SetGlobalRestOptions(global, coinbaseRestOptions, credentials?.Coinbase);
                 coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx);
+                cryptoComRestOptions = SetGlobalRestOptions(global, cryptoComRestOptions, credentials?.CryptoCom);
                 gateIoRestOptions = SetGlobalRestOptions(global, gateIoRestOptions, credentials?.GateIo);
                 htxRestOptions = SetGlobalRestOptions(global, htxRestOptions, credentials?.HTX);
                 krakenRestOptions = SetGlobalRestOptions(global, krakenRestOptions, credentials?.Kraken);
@@ -329,6 +337,7 @@ namespace CryptoClients.Net
             Bybit = new BybitRestClient(bybitRestOptions);
             Coinbase = new CoinbaseRestClient(coinbaseRestOptions);
             CoinEx = new CoinExRestClient(coinExRestOptions);
+            CryptoCom = new CryptoComRestClient(cryptoComRestOptions);
             GateIo = new GateIoRestClient(gateIoRestOptions);
             HTX = new HTXRestClient(htxRestOptions);
             Kraken = new KrakenRestClient(krakenRestOptions);
@@ -378,6 +387,7 @@ namespace CryptoClients.Net
                 Coinbase.AdvancedTradeApi.SharedClient,
                 CoinEx.SpotApiV2.SharedClient,
                 CoinEx.FuturesApi.SharedClient,
+                CryptoCom.ExchangeApi.SharedClient,
                 GateIo.SpotApi.SharedClient,
                 GateIo.PerpetualFuturesApi.SharedClient,
                 HTX.SpotApi.SharedClient,
@@ -403,6 +413,7 @@ namespace CryptoClients.Net
             IBybitRestClient bybit,
             ICoinbaseRestClient coinbase,
             ICoinExRestClient coinEx,
+            ICryptoComRestClient cryptoCom,
             IGateIoRestClient gateIo,
             IHTXRestClient htx,
             IKrakenRestClient kraken,
@@ -421,6 +432,7 @@ namespace CryptoClients.Net
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
+            CryptoCom = cryptoCom;
             GateIo = gateIo;
             HTX = htx;
             Kraken = kraken;
