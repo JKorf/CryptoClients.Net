@@ -89,8 +89,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">Exchange name</param>
         /// <param name="symbol">Symbol</param>
+        /// <param name="minimalDepth">Minimal depth of the order book. Order book might be larger depending on what the API supports. Might be smaller if the requested depth is above what the API can support.</param>
         /// <param name="exchangeParameters">Exchange specific parameters</param>
         /// <returns>ISymbolOrderBook implementation</returns>
-        ISymbolOrderBook? Create(string exchange, SharedSymbol symbol, ExchangeParameters? exchangeParameters = null);
+        ISymbolOrderBook? Create(string exchange, SharedSymbol symbol, int? minimalDepth = null, ExchangeParameters? exchangeParameters = null);
     }
 }

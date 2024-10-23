@@ -33,6 +33,7 @@ using Mexc.Net.Clients;
 using Mexc.Net.Interfaces;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces;
+using System.Linq;
 
 namespace CryptoClients.Net
 {
@@ -108,74 +109,104 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public ISymbolOrderBook? Create(string exchange, SharedSymbol symbol, ExchangeParameters? exchangeParameters = null)
+        public ISymbolOrderBook? Create(string exchange, SharedSymbol symbol, int? minimalDepth = null,  ExchangeParameters? exchangeParameters = null)
         {
             // Might want to make this more generic, don't want to create a client just to format symbol
             switch (exchange)
             {
                 case "Binance":
                     var binanceClient = new BinanceRestClient();
-                    return symbol.TradingMode == TradingMode.Spot ? Binance.Spot.Create(symbol.GetSymbol(binanceClient.SpotApi.FormatSymbol))
-                        : symbol.TradingMode.IsLinear() ? Binance.UsdFutures.Create(symbol.GetSymbol(binanceClient.UsdFuturesApi.FormatSymbol))
-                        : Binance.CoinFutures.Create(symbol.GetSymbol(binanceClient.CoinFuturesApi.FormatSymbol));
+                    var binanceLimit = GetBookDepth(minimalDepth, true, 5, 10, 20); 
+                    return symbol.TradingMode == TradingMode.Spot ? Binance.Spot.Create(symbol.GetSymbol(binanceClient.SpotApi.FormatSymbol), opts => { opts.Limit = binanceLimit; })
+                        : symbol.TradingMode.IsLinear() ? Binance.UsdFutures.Create(symbol.GetSymbol(binanceClient.UsdFuturesApi.FormatSymbol), opts => { opts.Limit = binanceLimit; })
+                        : Binance.CoinFutures.Create(symbol.GetSymbol(binanceClient.CoinFuturesApi.FormatSymbol), opts => { opts.Limit = binanceLimit; });
                 case "BingX":
                     var bingXClient = new BingXRestClient();
-                    return symbol.TradingMode == TradingMode.Spot ? BingX.Spot.Create(symbol.GetSymbol(bingXClient.SpotApi.FormatSymbol))
-                        : BingX.PerpetualFutures.Create(symbol.GetSymbol(bingXClient.PerpetualFuturesApi.FormatSymbol));
+                    var bingXLimit = GetBookDepth(minimalDepth, false, 5, 10, 20, 50, 100);
+                    return symbol.TradingMode == TradingMode.Spot ? BingX.Spot.Create(symbol.GetSymbol(bingXClient.SpotApi.FormatSymbol), opts => { opts.Limit = bingXLimit; })
+                        : BingX.PerpetualFutures.Create(symbol.GetSymbol(bingXClient.PerpetualFuturesApi.FormatSymbol), opts => { opts.Limit = bingXLimit; });
                 case "Bitfinex":
                     var bitfinexClient = new BitfinexRestClient();
-                    return Bitfinex.Spot.Create(symbol.GetSymbol(bitfinexClient.SpotApi.FormatSymbol));
+                    var bitfinexLimit = GetBookDepth(minimalDepth, false, 1, 25, 100, 250);
+                    return Bitfinex.Spot.Create(symbol.GetSymbol(bitfinexClient.SpotApi.FormatSymbol), opts => { opts.Limit = bitfinexLimit; });
                 case "Bitget":
                     var bitgetClient = new BitgetRestClient();
-                    return symbol.TradingMode == TradingMode.Spot ? Bitget.Spot.Create(symbol.GetSymbol(bitgetClient.SpotApiV2.FormatSymbol))
-                        : symbol.TradingMode.IsInverse() ? Bitget.CoinFutures.Create(symbol.GetSymbol(bitgetClient.FuturesApiV2.FormatSymbol))
-                        : ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "ProductType") == "UsdtFutures" ? Bitget.UsdtFutures.Create(symbol.GetSymbol(bitgetClient.FuturesApiV2.FormatSymbol))
-                        : Bitget.UsdcFutures.Create(symbol.GetSymbol(bitgetClient.FuturesApiV2.FormatSymbol));
+                    var bitgetLimit = GetBookDepth(minimalDepth, true, 5, 15);
+                    return symbol.TradingMode == TradingMode.Spot ? Bitget.Spot.Create(symbol.GetSymbol(bitgetClient.SpotApiV2.FormatSymbol), opts => { opts.Limit = bitgetLimit; })
+                        : symbol.TradingMode.IsInverse() ? Bitget.CoinFutures.Create(symbol.GetSymbol(bitgetClient.FuturesApiV2.FormatSymbol), opts => { opts.Limit = bitgetLimit; })
+                        : ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "ProductType") == "UsdtFutures" ? Bitget.UsdtFutures.Create(symbol.GetSymbol(bitgetClient.FuturesApiV2.FormatSymbol), opts => { opts.Limit = bitgetLimit; })
+                        : Bitget.UsdcFutures.Create(symbol.GetSymbol(bitgetClient.FuturesApiV2.FormatSymbol), opts => { opts.Limit = bitgetLimit; });
                 case "BitMart":
                     var bitmartClient = new BitMartRestClient();
-                    return symbol.TradingMode == TradingMode.Spot ? BitMart.Spot.Create(symbol.GetSymbol(bitmartClient.SpotApi.FormatSymbol))
-                        : BitMart.UsdFutures.Create(symbol.GetSymbol(bitmartClient.UsdFuturesApi.FormatSymbol));
+                    var bitmartLimit = GetBookDepth(minimalDepth, true, 5, 20, 50);
+                    return symbol.TradingMode == TradingMode.Spot ? BitMart.Spot.Create(symbol.GetSymbol(bitmartClient.SpotApi.FormatSymbol), opts => { opts.Limit = bitmartLimit; })
+                        : BitMart.UsdFutures.Create(symbol.GetSymbol(bitmartClient.UsdFuturesApi.FormatSymbol), opts => { opts.Limit = bitmartLimit; });
                 case "Bybit":
                     var bybitClient = new BybitRestClient();
-                    return symbol.TradingMode == TradingMode.Spot ? Bybit.Spot.Create(symbol.GetSymbol(bybitClient.V5Api.FormatSymbol))
-                        : Bybit.LinearInverse.Create(symbol.GetSymbol(bybitClient.V5Api.FormatSymbol));
+                    var bybitLimit = GetBookDepth(minimalDepth, false, 1, 50, 200);
+                    return symbol.TradingMode == TradingMode.Spot ? Bybit.Spot.Create(symbol.GetSymbol(bybitClient.V5Api.FormatSymbol), opts => { opts.Limit = bybitLimit; })
+                        : Bybit.LinearInverse.Create(symbol.GetSymbol(bybitClient.V5Api.FormatSymbol), opts => { opts.Limit = bybitLimit; });
                 case "Coinbase":
                     var coinbaseClient = new CoinbaseRestClient();
                     return Coinbase.AdvancedTrade.Create(symbol.GetSymbol(coinbaseClient.AdvancedTradeApi.FormatSymbol));
                 case "CoinEx":
                     var coinexClient = new CoinExRestClient();
-                    return symbol.TradingMode == TradingMode.Spot ? CoinEx.Spot.Create(symbol.GetSymbol(coinexClient.SpotApiV2.FormatSymbol))
-                        : CoinEx.Futures.Create(symbol.GetSymbol(coinexClient.FuturesApi.FormatSymbol));
+                    var coinexLimit = GetBookDepth(minimalDepth, false, 5, 10, 20, 50);
+                    return symbol.TradingMode == TradingMode.Spot ? CoinEx.Spot.Create(symbol.GetSymbol(coinexClient.SpotApiV2.FormatSymbol), opts => { opts.Limit = coinexLimit; })
+                        : CoinEx.Futures.Create(symbol.GetSymbol(coinexClient.FuturesApi.FormatSymbol), opts => { opts.Limit = coinexLimit; });
                 case "CryptoCom":
                     var cryptoComClient = new CryptoComSocketClient();
-                    return CryptoCom.Exchange.Create(symbol.GetSymbol(cryptoComClient.ExchangeApi.FormatSymbol));
+                    var cryptoComLimit = GetBookDepth(minimalDepth, false, 10, 50);
+                    return CryptoCom.Exchange.Create(symbol.GetSymbol(cryptoComClient.ExchangeApi.FormatSymbol), opts => { opts.Limit = cryptoComLimit; });
                 case "GateIo":
                     var gateClient = new GateIoRestClient();
-                    return symbol.TradingMode == TradingMode.Spot ? GateIo.Spot.Create(symbol.GetSymbol(gateClient.SpotApi.FormatSymbol))
-                        : symbol.QuoteAsset == "USDT" ? GateIo.PerpetualFuturesUsdt.Create(symbol.GetSymbol(gateClient.PerpetualFuturesApi.FormatSymbol))
-                        : symbol.QuoteAsset == "USD" ? GateIo.PerpetualFuturesUsd.Create(symbol.GetSymbol(gateClient.PerpetualFuturesApi.FormatSymbol))
-                        : GateIo.PerpetualFuturesBtc.Create(symbol.GetSymbol(gateClient.PerpetualFuturesApi.FormatSymbol));
+                    var gateIoLimit = GetBookDepth(minimalDepth, true, 5, 10, 20, 50, 100);
+                    return symbol.TradingMode == TradingMode.Spot ? GateIo.Spot.Create(symbol.GetSymbol(gateClient.SpotApi.FormatSymbol), opts => { opts.Limit = gateIoLimit; })
+                        : symbol.QuoteAsset == "USDT" ? GateIo.PerpetualFuturesUsdt.Create(symbol.GetSymbol(gateClient.PerpetualFuturesApi.FormatSymbol), opts => { opts.Limit = gateIoLimit; })
+                        : symbol.QuoteAsset == "USD" ? GateIo.PerpetualFuturesUsd.Create(symbol.GetSymbol(gateClient.PerpetualFuturesApi.FormatSymbol), opts => { opts.Limit = gateIoLimit; })
+                        : GateIo.PerpetualFuturesBtc.Create(symbol.GetSymbol(gateClient.PerpetualFuturesApi.FormatSymbol), opts => { opts.Limit = gateIoLimit; });
                 case "HTX":
                     var htxClient = new HTXRestClient();
-                    return symbol.TradingMode == TradingMode.Spot ? HTX.Spot.Create(symbol.GetSymbol(htxClient.SpotApi.FormatSymbol))
-                        : HTX.UsdtFutures.Create(symbol.GetSymbol(htxClient.UsdtFuturesApi.FormatSymbol));
+                    var htxLimit = GetBookDepth(minimalDepth, true, 5, 20, 150, 400);
+                    var htxUsdLimit = GetBookDepth(minimalDepth, true, 20, 150);
+                    return symbol.TradingMode == TradingMode.Spot ? HTX.Spot.Create(symbol.GetSymbol(htxClient.SpotApi.FormatSymbol), opts => { opts.Levels = htxLimit; })
+                        : HTX.UsdtFutures.Create(symbol.GetSymbol(htxClient.UsdtFuturesApi.FormatSymbol), opts => { opts.Levels = htxUsdLimit; });
                 case "Kraken":
                     var krakenClient = new KrakenSocketClient();
-                    return symbol.TradingMode == TradingMode.Spot ? Kraken.Spot.Create(symbol.GetSymbol(krakenClient.SpotApi.FormatSymbol))
+                    var krakenLimit = GetBookDepth(minimalDepth, false, 10, 25, 100, 500, 1000);
+                    return symbol.TradingMode == TradingMode.Spot ? Kraken.Spot.Create(symbol.GetSymbol(krakenClient.SpotApi.FormatSymbol), opts => { opts.Limit = krakenLimit; })
                         : Kraken.Futures.Create(symbol.GetSymbol(krakenClient.FuturesApi.FormatSymbol));
                 case "Kucoin":
                     var kucoinClient = new KucoinRestClient();
-                    return symbol.TradingMode == TradingMode.Spot ? Kucoin.Spot.Create(symbol.GetSymbol(kucoinClient.SpotApi.FormatSymbol))
-                        : Kucoin.Futures.Create(symbol.GetSymbol(kucoinClient.FuturesApi.FormatSymbol));
+                    var kucoinLimit = GetBookDepth(minimalDepth, true, 5, 50);
+                    return symbol.TradingMode == TradingMode.Spot ? Kucoin.Spot.Create(symbol.GetSymbol(kucoinClient.SpotApi.FormatSymbol), opts => { opts.Limit = kucoinLimit; })
+                        : Kucoin.Futures.Create(symbol.GetSymbol(kucoinClient.FuturesApi.FormatSymbol), opts => { opts.Limit = kucoinLimit; });
                 case "Mexc":
                     var mexcClient = new MexcRestClient();
-                    return Mexc.Spot.Create(symbol.GetSymbol(mexcClient.SpotApi.FormatSymbol));
+                    var mexcLimit = GetBookDepth(minimalDepth, true, 5, 10, 20);
+                    return Mexc.Spot.Create(symbol.GetSymbol(mexcClient.SpotApi.FormatSymbol), opts => { opts.Limit = mexcLimit; });
                 case "OKX":
                     var okxClient = new OKXRestClient();
-                    return  OKX.Unified.Create(symbol.GetSymbol(okxClient.UnifiedApi.FormatSymbol));
+                    var okxLimit = GetBookDepth(minimalDepth, true, 1, 5, 50, 400);
+                    return OKX.Unified.Create(symbol.GetSymbol(okxClient.UnifiedApi.FormatSymbol)); // Apply limit when order book implementation supports it
             }
 
             return null;
         }
+
+        private int? GetBookDepth(int? minimal, bool supportsFull, params int[] supportedLevels)
+        {
+            if (minimal == null)
+                return null;
+
+            foreach (var level in supportedLevels)
+            {
+                if (minimal <= level)
+                    return level;
+            }
+
+            return supportsFull ? null : supportedLevels.Last();
+        }
+
     }
 }
