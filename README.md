@@ -198,9 +198,63 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.3.0 - 23 Oct 2024
+  * Added Crypto.com support with CryptoCom.Net to version 1.0.1
+  * Added minimalDepth parameter to ExchangeOrderBookFactory Create method
+  * Updated Binance.Net to version 10.7.0
+    * Added SelfTradePreventionMode and PriceMatch parameters and responses for Coin-M Futures API
+    * Added returnPermissionSets and symbolStatus parameters to restClient.SpotApi.ExchangeData.GetExchangeInfoAsync endpoint
+    * Fixed issues with restClient.GeneralApi.AutoInvest.GetSubscriptionTransactionHistoryAsync
+    * Fixed deserialization issue subaccount transfer
+  * Updated BingX.Net to version 1.11.2
+    * Added Tier property to restClient.PerpetualFuturesApi.Trading.GetPositionAndMarginInfoAsync response model
+    * Added ReduceOnly property to socketClient.PerpetualFuturesApi.SubscribeToUserDataUpdatesAsync order update model
+  * Updated Bitget.Net to version 1.10.4
+    * Fixed V1 GET request signing without parameters
+    * Fixed request signing V2 with special characters
+    * Fixed restClient.SpotApi.Trading.GetOrderAsync exception when order not found
+  * Updated BitMart.Net to version 1.4.0
+    * Added restClient.UsdFuturesApi.Account.GetSymbolTradeFeeAsync endpoint
+    * Added TakerFeeRateD and MakerFeeRateD properties to restClient.SpotApi.Account.GetBaseTradeFeesAsync response model
+    * Added FundingIntervalHours to restClient.UsdFuturesApi.ExchangeData.GetContractsAsync response model
+  * Updated Coinbase.Net to version 1.1.2
+    * Updated ExchangeData endpoints to use the Products endpoint instead of Public endpoint if API credentials are provided
+    * Added restClient.AdvancedTradeApi.ExchangeData.GetBookTickersAsync and GetBookTickerAsync endpoints
+    * Fixed websocket market data subscriptions for "USDT-USDC" and "EURC-USDC" symbols
+    * Fixed deserialization issue on websocket ticker updates
+  * Updated GateIo.Net to version 1.9.0
+    * Added restClient.SpotApi.Account.GetRateLimitsAsync endpoint
+    * Added support for clientOrderId to restClient.PerpetualFuturesApi.Trading.GetOrderAsync, CancelOrderAsync and EditOrderAsync endpoints
+  * Updated Kraken.Net to version 5.0.2
+    * Fixed socketClient.SpotApi.SubscribeToAggregatedOrderBookUpdatesAsync and SubscribeToInvidualOrderBookUpdatesAsync not passing the depth parameter to the server
+    * Fixed userReference parameter incorrectly set at restClient.SpotApi.Trading.PlaceOrderAsync
+    * Fixed timestamp serialization for socketClient.SpotApi queries
+    * Fixed websocket subscription request revitalization throwing an exception
+  * Updated Kucoin.Net to version 5.16.0
+    * Added restClient.FuturesApi.Trading.CancelMultipleOrdersAsync endpoint
+    * Added restClient.SpotApi.Account.GetIsHfAccountAsync endpoint
+    * Added restClient.SpotApi.ExchangeData.GetAnnouncementsAsync endpoint
+    * Added AveragePrice to Futures order response model
+    * Added AveragePrice setting to Shared IFuturesOrderRestClient responses
+    * Updated restClient.SpotApi.Account.WithdrawAsync to V3 endpoint
+    * Updated KucoinAssetNetwork response model
+    * Fixed CancelAfter parameter type for restClient.SpotApi.Trading.PlaceBulkOrderAsync endpoint
+    * Fixed Shared IBalanceRestClient implementation to only return spot balances
+  * Updated Mexc.Net to version 1.9.0
+    * Added mexcRestClient.SpotApi.Account.GetKycStatusAsync endpoint
+    * Added ListenkeyRenewed event to socketClient.SpotApi client so users can react to updated listenkeys for keep-alive caused by reconnecting
+  * Updated OKX.Net to version 2.6.0
+    * Added restClient.UnifiedApi.Account.ManualBorrowRepayAsync, SetAutoRepayAsync and GetBorrowRepayHistoryAsync endpoints
+    * Added EasyConvertDustAsync, GetEasyConvertDustAssetsAsync and GetEasyConvertDustHistoryAsync endpoints
+    * Added BurningFeeRate property to restClient.UnifiedApi.Account.GetAssetsAsync response model
+    * Updated AccountBillSubType and AccountSubType Enum values
+    * Refactored restClient.UnifiedApi.Trading.PlaceOrderAsync take profit / stop loss parameters to support the full functionality offered by the API
+    * Fixed restClient.UnifiedApi.Trading.CancelMultipleOrdersAsync order canceled event processing
+    * Removed restClient.UnifiedApi.Account.ConvertDustAsync deprecated endpoint
+
 * Version 2.2.1 - 14 Oct 2024
-    * Updated library client versions
-    * Fixed TypeLoadException during initialization
+  * Updated library client versions
+  * Fixed TypeLoadException during initialization
 
 * Version 2.2.0 - 14 Oct 2024
   * Updated reference CryptoExchange version to 8.0.3
