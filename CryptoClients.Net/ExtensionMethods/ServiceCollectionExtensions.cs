@@ -254,6 +254,7 @@ namespace Microsoft.Extensions.DependencyInjection
             }, socketClientLifetime ?? ServiceLifetime.Singleton));
 
             services.AddTransient<IExchangeOrderBookFactory, ExchangeOrderBookFactory>();
+            services.AddTransient<IExchangeTrackerFactory, ExchangeTrackerFactory>();
             return services;
         }
     }
