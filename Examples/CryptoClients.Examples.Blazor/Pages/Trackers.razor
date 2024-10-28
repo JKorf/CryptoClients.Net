@@ -1,0 +1,85 @@
+﻿@page "/trackers"
+@using CryptoExchange.Net.Interfaces
+@using CryptoExchange.Net.SharedApis
+@using CryptoExchange.Net.Trackers.Trades
+@inject IExchangeTrackerFactory TrackerFactory
+@implements IDisposable
+
+<PageTitle>Live Trade Tracking</PageTitle>
+
+<div>
+    <h2>BTC USDT Live Trade Tracking</h2>
+
+    @foreach (var tracker in _trackers)
+    {
+        <div style="margin-top: 20px">
+            <b>@tracker.Exchange - @tracker.SymbolName [@tracker.Status]</b>
+            <table style="border: 1px solid;">
+                <tr>
+                    <th></th>
+                    <th style="padding: 0 10px;">-2 min</th>
+                    <th style="padding: 0 10px;">-1 min</th>
+                    <th style="padding: 0 10px;">last min</th>
+                    <th style="padding: 0 10px;">Dif -2 to now</th>
+                </tr>
+
+                @{
+                    var stats2Min = tracker.GetStats(DateTime.UtcNow.AddMinutes(-3), DateTime.UtcNow.AddMinutes(-2));
+                    var stats1Min = tracker.GetStats(DateTime.UtcNow.AddMinutes(-2), DateTime.UtcNow.AddMinutes(-1));
+                    var statsNow = tracker.GetStats(DateTime.UtcNow.AddMinutes(-1));
+                    var compare = stats2Min.CompareTo(statsNow);
+
+                    <tr>
+                        <td>Trades</td>
+                        <td style="padding: 0 10px;border: 1px solid;">@stats2Min.TradeCount</td>
+                        <td style="padding: 0 10px;border: 1px solid;">@stats1Min.TradeCount</td>
+                        <td style="padding: 0 10px;border: 1px solid;">@statsNow.TradeCount</td>
+                        <td style="padding: 0 10px;border: 1px solid;">@compare.TradeCountDif.Difference</td>
+                    </tr>
+                    <tr>
+                        <td>Avg Price</td>
+                        <td style="padding: 0 10px;border: 1px solid;">@stats2Min.VolumeWeightedAveragePrice</td>
+                        <td style="padding: 0 10px;border: 1px solid;">@stats1Min.VolumeWeightedAveragePrice</td>
+                        <td style="padding: 0 10px;border: 1px solid;">@statsNow.VolumeWeightedAveragePrice</td>
+                        <td style="padding: 0 10px;border: 1px solid;">@compare.VolumeWeightedAveragePriceDif?.PercentageDifference%</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>
+
+@code
+{
+    private List<ITradeTracker> _trackers = new List<ITradeTracker>();
+
+    private Timer? _timer;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
+            _trackers = new List<ITradeTracker>();
+            foreach (var exchange in Exchange.All)
+            {
+                _trackers.Add(TrackerFactory.CreateTradeTracker(exchange, symbol, period: TimeSpan.FromMinutes(5))!);
+            };
+
+            var tasks = new List<Task>();
+            foreach (var tracker in _trackers)
+                tasks.Add(tracker.StartAsync());
+            await Task.WhenAll(tasks);
+
+            _timer = new Timer(async (x) => await InvokeAsync(StateHasChanged), null, 0, 1000);
+        }
+    }
+
+    public void Dispose()
+    {
+        foreach (var tracker in _trackers)
+            tracker.StopAsync();
+
+        _timer?.Dispose();
+    }
+}

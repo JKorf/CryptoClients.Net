@@ -1,12 +1,13 @@
 ﻿@page "/books"
 @using CryptoExchange.Net.Interfaces
+@using CryptoExchange.Net.SharedApis
 @inject IExchangeOrderBookFactory BookFactory
 @implements IDisposable
 
 <PageTitle>Live Local Order Books</PageTitle>
 
 <div>
-    <h2>@_baseAsset @_quoteAsset live books</h2>
+    <h2>BTC USDT live books</h2>
 
     @foreach(var book in _books)
     {
@@ -44,31 +45,15 @@
 {
     private Dictionary<string, ISymbolOrderBook> _books = new Dictionary<string, ISymbolOrderBook>();
 
-    private string _baseAsset = "BTC";
-    private string _quoteAsset = "USDT";
     private Timer? _timer;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            _books = new Dictionary<string, ISymbolOrderBook>
-            {
-                { Exchange.Binance, BookFactory.Binance.Spot.Create(_baseAsset, _quoteAsset) },
-                { Exchange.BingX, BookFactory.BingX.Spot.Create(_baseAsset, _quoteAsset) },
-                { Exchange.Bitfinex, BookFactory.Bitfinex.Spot.Create(_baseAsset, "UST") },
-                { Exchange.Bitget, BookFactory.Bitget.Spot.Create(_baseAsset, _quoteAsset) },
-                //{ Exchange.BitMart, BookFactory.BitMart.Spot.Create(_baseAsset, _quoteAsset) },
-                { Exchange.Bybit, BookFactory.Bybit.Spot.Create(_baseAsset, _quoteAsset) },
-                //{ Exchange.Coinbase, BookFactory.Coinbase.AdvancedTrade.Create(_baseAsset, _quoteAsset) },
-                { Exchange.CoinEx, BookFactory.CoinEx.Spot.Create(_baseAsset, _quoteAsset) },
-                //{ Exchange.GateIo, BookFactory.GateIo.Spot.Create(_baseAsset, _quoteAsset) },
-                { Exchange.HTX, BookFactory.HTX.Spot.Create(_baseAsset, _quoteAsset) },
-                { Exchange.Kraken, BookFactory.Kraken.Spot.Create(_baseAsset, _quoteAsset) },
-                { Exchange.Kucoin, BookFactory.Kucoin.Spot.Create(_baseAsset, _quoteAsset) },
-                { Exchange.Mexc, BookFactory.Mexc.Spot.Create(_baseAsset, _quoteAsset) },
-                { Exchange.OKX, BookFactory.OKX.Unified.Create(_baseAsset, _quoteAsset) },
-            };
+            var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
+            foreach (var exchange in Exchange.All)
+                _books.Add(exchange, BookFactory.Create(exchange, symbol, 5)!);
 
             var tasks = new List<Task>();
             foreach (var book in _books.Values)
