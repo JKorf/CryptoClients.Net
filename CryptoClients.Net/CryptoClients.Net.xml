@@ -864,6 +864,65 @@
         <member name="M:CryptoClients.Net.ExchangeSocketClient.UnsubscribeAllAsync">
             <inheritdoc />
         </member>
+        <member name="T:CryptoClients.Net.ExchangeTrackerFactory">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.Binance">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.BingX">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.Bitfinex">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.Bitget">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.BitMart">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.Bybit">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.Coinbase">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.CoinEx">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.CryptoCom">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.GateIo">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.HTX">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.Kraken">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.Kucoin">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.Mexc">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeTrackerFactory.OKX">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.#ctor(Binance.Net.Interfaces.IBinanceTrackerFactory,BingX.Net.Interfaces.IBingXTrackerFactory,Bitfinex.Net.Interfaces.IBitfinexTrackerFactory,Bitget.Net.Interfaces.IBitgetTrackerFactory,BitMart.Net.Interfaces.IBitMartTrackerFactory,Bybit.Net.Interfaces.IBybitTrackerFactory,Coinbase.Net.Interfaces.ICoinbaseTrackerFactory,CoinEx.Net.Interfaces.ICoinExTrackerFactory,CryptoCom.Net.Interfaces.ICryptoComTrackerFactory,GateIo.Net.Interfaces.IGateIoTrackerFactory,HTX.Net.Interfaces.IHTXTrackerFactory,Kraken.Net.Interfaces.IKrakenTrackerFactory,Kucoin.Net.Interfaces.IKucoinTrackerFactory,Mexc.Net.Interfaces.IMexcTrackerFactory,OKX.Net.Interfaces.IOKXTrackerFactory)">
+            <summary>
+            DI constructor
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateKlineTracker(System.String,CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval,System.Nullable{System.Int32},System.Nullable{System.TimeSpan},CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateTradeTracker(System.String,CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Nullable{System.TimeSpan},CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <inheritdoc />
+        </member>
         <member name="T:CryptoClients.Net.CryptoClientsExtensions">
             <summary>
             Extension methods
@@ -2387,6 +2446,107 @@
             Unsubscribe and close every connection
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:CryptoClients.Net.Interfaces.IExchangeTrackerFactory">
+            <summary>
+            Factory for creating tracker instances
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.Binance">
+            <summary>
+            Binance tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.BingX">
+            <summary>
+            BingX tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.Bitfinex">
+            <summary>
+            Bitfinex tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.Bitget">
+            <summary>
+            Bitget tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.BitMart">
+            <summary>
+            BitMart tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.Bybit">
+            <summary>
+            Bybit tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.Coinbase">
+            <summary>
+            Coinbase tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CoinEx">
+            <summary>
+            CoinEx tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CryptoCom">
+            <summary>
+            Crypto.com tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.GateIo">
+            <summary>
+            Gate.io tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.HTX">
+            <summary>
+            HTX tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.Kraken">
+            <summary>
+            Kraken tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.Kucoin">
+            <summary>
+            Kucoin tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.Mexc">
+            <summary>
+            Mexc tracker factory
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.OKX">
+            <summary>
+            OKX tracker factory
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateKlineTracker(System.String,CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval,System.Nullable{System.Int32},System.Nullable{System.TimeSpan},CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <summary>
+            Create a new kline tracker
+            </summary>
+            <param name="exchange">The exchange the tracker is for</param>
+            <param name="symbol">Symbol the tracker is for</param>
+            <param name="interval">Interval of the klines</param>
+            <param name="limit">The max number of klines to be tracked, when the max is reached the oldest klines are removed to make room for newer klines</param>
+            <param name="period">The max age of the klines to be tracked, any kline older than this period will be removed</param>
+            <param name="exchangeParameters">Exchange specific paramters</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateTradeTracker(System.String,CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Nullable{System.TimeSpan},CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <summary>
+            Create a new trade tracker
+            </summary>
+            <param name="exchange">The exchange the tracker is for</param>
+            <param name="symbol">Symbol the tracker is for</param>
+            <param name="limit">The max number of trades to be tracked, when the max is reached the oldest trades are removed to make room for newer trades</param>
+            <param name="period">The max age of the trades to be tracked, any trade older than this period will be removed</param>
+            <param name="exchangeParameters">Exchange specific paramters</param>
         </member>
         <member name="T:CryptoClients.Net.Models.ExchangeCredentials">
             <summary>
