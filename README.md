@@ -198,6 +198,111 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.4.0 - 28 Oct 2024
+  * Simplified ExchangeOrderBookFactory.Create implementation
+  * Added ExchangeTrackerFactory for creating Kline/Trade trackers
+  * Updated reference CryptoExchange version to 8.1.0
+    * Added KlineTracker and TradeTracker implementation
+    * Added Side to SharedTrade model
+    * Added overload for Create method in OrderBookFactory using SharedSymbol
+    * Added ValidateMessage method to websocket Query object to filter messages even though it is matched to the query based on the  ListenIdentifier
+    * Added DoHandleReset method for websocket subscriptions
+    * Added ConnectionId to RequestDefinition to correctly handle connection and path rate limiting configuration
+    * Added System.Text.Json ArrayConverter Write implementation
+    * Updated SharedFuturesTicker LastPrice, HighPrice and LowPrice properties to be nullable
+    * Updated SetApiCredentials method to also updated the credentials on the client specific options to prevent unknown client credentials in some situations
+  * Updated Binance.Net to version 10.8.0
+    * Moved FormatSymbol to BinanceExchange class
+    * Added support Side setting on SharedTrade model
+    * Added BinanceTrackerFactory for creating trackers
+    * Added overload to Create method on BinanceOrderBookFactory support SharedSymbol parameter
+    * Fixed Shared rest GetTradeHistoryAsync pagination
+    * Added catch around HttpClientHandler.AutomaticDecompression setting as it's not support on Blazor WASM
+  * Updated BingX.Net to version 1.12.0
+    * Moved FormatSymbol to BingXExchange class
+    * Added support Side setting on SharedTrade model
+    * Added BingXTrackerFactory for creating trackers
+    * Added overload to Create method on BingXOrderBookFactory support SharedSymbol parameter
+    * Added Shared websocket kline subscription implementation for futures and spot APIs
+  * Updated Bitfinex.Net to version 7.9.0
+    * Moved FormatSymbol to BitfinexExchange class
+    * Added support Side setting on SharedTrade model
+    * Added BitfinexTrackerFactory for creating trackers
+    * Added overload to Create method on BitfinexOrderBookFactory support SharedSymbol parameter
+    * Added filtering of TradeUpdate messages in Shared rest trade socket subscription (Trade execution messages are still processed)
+  * Updated Bitget.Net to version 1.11.0
+    * Moved FormatSymbol to BitgetExchange class
+    * Added support Side setting on SharedTrade model
+    * Added BitgetTrackerFactory for creating trackers
+    * Added overload to Create method on BitgetOrderBookFactory support SharedSymbol parameter
+  * Updated BitMart.Net to version 1.5.0
+    * Moved FormatSymbol to BitMartExchange class
+    * Added support Side setting on SharedTrade model
+    * Added BitMartTrackerFactory for creating trackers
+    * Added overload to Create method on BitMartOrderBookFactory support SharedSymbol parameter
+  * Updated Bybit.Net to version 3.15.0
+    * Moved FormatSymbol to BybitExchange class
+    * Added support Side setting on SharedTrade model
+    * Added BybitTrackerFactory for creating trackers
+    * Added overload to Create method on BybitOrderBookFactory support SharedSymbol parameter
+    * Added websocket stream URI for Turkey users
+  * Updated Coinbase.Net to version 1.2.0
+    * Moved FormatSymbol to CoinbaseExchange class
+    * Added support Side setting on SharedTrade model
+    * Added CoinbaseTrackerFactory for creating trackers
+    * Added overload to Create method on CoinbaseOrderBookFactory support SharedSymbol parameter
+    * Added GetKlinesAsync to Shared rest client
+    * Fixed exception on restClient.AdvancedTradingAi.Trading.CancelOrderAynsc when order not found
+    * Fixed exception on restClient.AdvancedTradingAi.Trading.CancelOrdersAynsc when request fails
+    * Fixed restClient.AdvancedTradingAi.ExchangeData.GetKlinesAsync time filter
+    * Fixed issue with concurrent websocket subscription acknowledgements
+    * Removed incorrect rate limit of 100 message per second per ip for websockets
+  * Updated CoinEx.Net to version 7.8.0
+    * Moved FormatSymbol to CoinExExchange class
+    * Added support Side setting on SharedTrade model
+    * Added CoinExTrackerFactory for creating trackers
+    * Added overload to Create method on CoinExOrderBookFactory support SharedSymbol parameter
+  * Updated CoinGecko.Net to version 2.7.0
+  * Updated CryptoCom.Net to version 1.1.0
+    * Moved FormatSymbol to CryptoComExchange class
+    * Added support Side setting on SharedTrade model
+    * Added CryptoComTrackerFactory for creating trackers
+    * Added overload to Create method on CryptoComOrderBookFactory support SharedSymbol parameter
+    * Renamed CreateExchange method on CryptoComOrderBookFactory to Create
+  * Updated GateIo.Net to version 1.10.0
+    * Moved FormatSymbol to GateIoExchange class
+    * Added support Side setting on SharedTrade model
+    * Added GateIoTrackerFactory for creating trackers
+    * Added overload to Create method on GateIoOrderBookFactory support SharedSymbol parameter
+  * Updated HTX.Net to version 6.3.0
+    * Moved FormatSymbol to HTXExchange class
+    * Added support Side setting on SharedTrade model
+    * Added HTXTrackerFactory for creating trackers
+    * Added overload to Create method on HTXOrderBookFactory support SharedSymbol parameter
+    * Fixed rate limiting incorrectly applied to websocket market data connections
+  * Updated Kraken.Net to version 5.1.0
+    * Moved FormatSymbol to KrakenExchange class
+    * Added support Side setting on SharedTrade model
+    * Added KrakenTrackerFactory for creating trackers
+    * Added overload to Create method on KrakenOrderBookFactory support SharedSymbol parameter
+    * Fixed websocket Unsubscribe for orderbook subscriptions
+  * Updated Kucoin.Net to version 5.17.0
+    * Moved FormatSymbol to KucoinExchange class
+    * Added support Side setting on SharedTrade model
+    * Added KucoinTrackerFactory for creating trackers
+    * Added overload to Create method on KucoinOrderBookFactory support SharedSymbol parameter
+  * Updated Mexc.Net to version 1.10.0
+    * Moved FormatSymbol to MexcExchange class
+    * Added support Side setting on SharedTrade model
+    * Added MexcTrackerFactory for creating trackers
+    * Added overload to Create method on MexcOrderBookFactory support SharedSymbol parameter
+  * Updated OKX.Net to version 2.7.0
+    * Moved FormatSymbol to OKXExchange class
+    * Added support Side setting on SharedTrade model
+    * Added OKXTrackerFactory for creating trackers
+    * Added overload to Create method on OKXOrderBookFactory support SharedSymbol parameter
+    * Added support for different order book levels in OKXSymbolOrderBook
+
 * Version 2.3.0 - 23 Oct 2024
   * Added Crypto.com support with CryptoCom.Net to version 1.0.1
   * Added minimalDepth parameter to ExchangeOrderBookFactory Create method
