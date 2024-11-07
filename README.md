@@ -208,6 +208,60 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.5.0 - 07 Nov 2024
+  * Added support for the WhiteBit exchange with WhiteBit.Net 1.0.0
+  * Updated reference CryptoExchange version to 8.2.0
+    * Added support for not allowing duplicate subscription topics on the same websocket connection
+    * Added PerAccount SharedLeverageSettingMode enum value, changed Side on SharedUserTrade to nullable
+    * Added support for object deserialization in SystemTextJsonMessageAccessor.GetValue<T>
+    * Changed SocketApiClient GetAuthenticationRequest to GetAuthenticationRequestAsync to allow for requesting token
+    * Fixed socket connections trying to authenticated connection when it's marked as dedicated request connection even when no authentication is needed
+    * Fixed System.Text.Json ArrayConverter not passing serializer options to nested deserialization
+    * Fixed System.Text.Json ArrayConverter creating new serializer options each time a JsonConverter attribute is encountered
+  * Updated Binance.Net to version 10.9.0
+    * Added restClient.CoinFuturesApi.Account.GetDownloadIdForOrderHistoryAsync endpoint
+    * Added restClient.CoinFuturesApi.Account.GetDownloadLinkForOrderHistoryAsync endpoint
+    * Added restClient.CoinFuturesApi.Account.GetDownloadIdForTradeHistoryAsync endpoint
+    * Added restClient.CoinFuturesApi.Account.GetDownloadLinkForTradeHistoryAsync endpoint
+  * Updated BingX.Net to version 1.14.0
+    * Added restClient.PerpetualFuturesApi.Account.GetIsolatedMarginChangeHistoryAsync endpoint
+    * Added settleAsset parameter to FuturesApi.Trading endpoints
+  * Updated Bitfinex.Net to version 7.10.0
+  * Updated Bitget.Net to version 1.13.0
+    * Added Cross and Isolated Margin API implementation
+    * Fixed V1 API GET request authentication for requests without parameters
+    * Fixed warning log when subscribing multiple symbols at the same time
+  * Updated BitMart.Net to version 1.7.0
+    * Added socketClient.UsdFuturesApi.SubscribeToOrderBookSnapshotUpdatesAsync subscription
+    * Added socketClient.UsdFuturesApi.SubscribeToOrderBookIncrementalUpdatesAsync subscription
+    * Added IOrderBookSocketClient to UsdFuturesApi Shared socket implementations
+    * Added MaxMarketOrderQuantity to BitMartContract response model
+  * Updated Bybit.Net to version 3.16.0
+    * Added OtherBorrowAmount to restClient.V5Api.Account.GetCollateralInfoAsync response model
+    * Added Kazakhstan environment urls
+    * Added restClient.V5Api.Account.GetClassicContractTransactionHistoryAsync endpoint
+  * Updated Coinbase.Net to version 1.4.0
+    * Updated restClient.AdvancedTradeApi.Account.WithdrawCryptoAsync parameters
+    * Removed restClient.AdvancedTradeApi.Account.TransferAsync as it's no longer supported
+  * Updated CoinEx.Net to version 7.9.0
+  * Updated CoinGecko.Net to version 2.8.0
+  * Updated CryptoCom.Net to version 1.2.0
+  * Updated GateIo.Net to version 1.12.0
+    * Added restClient.SpotApi.Account.GetUnifiedLeverageConfigsAsync endpoint
+    * Added restClient.SpotApi.Account.GetUnifiedLeverageAsync endpoint
+    * Added restClient.SpotApi.Account.SetUnifiedLeverageAsync endpoint
+    * Added Id property to restClient.PerpetualFuturesApi.Account.GetLedgerAsync response model
+    * Added Leverage property to restClient.SpotApi.ExchangeData.GetDiscountTiersAsync response model
+    * Added BestAskQuantity, BestBidQuantity properties to restClient.SpotApi.ExchangeData.GetTickersAsync response model
+  * Updated HTX.Net to version 6.4.0
+  * Updated Kraken.Net to version 5.2.0
+    * Fixed exception during websocket reconnection when using websocket requests
+  * Updated Kucoin.Net to version 5.18.0
+    * Added restClient.SpotApi.Account.GetApiKeyInfoAsync endpoint
+  * Updated Mexc.Net to version 1.11.0
+  * Updated OKX.Net to version 2.8.0
+    * Added AuctionEndTime property to restClient.UnifiedApi.ExchangeData.GetSymbolsAsync and socketClient.UnifiedApi.ExchangeData.SubscribeToSymbolUpdatesAsync models
+
 * Version 2.4.0 - 28 Oct 2024
   * Simplified ExchangeOrderBookFactory.Create implementation
   * Added ExchangeTrackerFactory for creating Kline/Trade trackers
