@@ -18,6 +18,7 @@ using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
 using System.Linq;
+using WhiteBit.Net.Interfaces;
 
 namespace CryptoClients.Net
 {
@@ -54,6 +55,8 @@ namespace CryptoClients.Net
         public IMexcOrderBookFactory Mexc { get; }
         /// <inheritdoc />
         public IOKXOrderBookFactory OKX { get; }
+        /// <inheritdoc />
+        public IWhiteBitOrderBookFactory WhiteBit { get; }
 
         /// <summary>
         /// DI constructor
@@ -73,7 +76,8 @@ namespace CryptoClients.Net
             IKrakenOrderBookFactory kraken,
             IKucoinOrderBookFactory kucoin,
             IMexcOrderBookFactory mexc,
-            IOKXOrderBookFactory okx)
+            IOKXOrderBookFactory okx,
+            IWhiteBitOrderBookFactory whiteBit)
         {
             Binance = binance;
             BingX = bingx;
@@ -90,6 +94,7 @@ namespace CryptoClients.Net
             Kucoin = kucoin;
             Mexc = mexc;
             OKX = okx;
+            WhiteBit = whiteBit;
         }
 
         /// <inheritdoc />
@@ -143,6 +148,9 @@ namespace CryptoClients.Net
                 case "OKX":
                     var okxLimit = GetBookDepth(minimalDepth, true, 1, 5, 400);
                     return OKX.Create(symbol, opts => { opts.Limit = okxLimit; });
+                case "WhiteBit":
+                    var whiteBitLimit = GetBookDepth(minimalDepth, true, 1, 5, 10, 20, 30, 50, 100);
+                    return WhiteBit.Create(symbol, opts => { opts.Limit = whiteBitLimit; });
             }
 
             return null;

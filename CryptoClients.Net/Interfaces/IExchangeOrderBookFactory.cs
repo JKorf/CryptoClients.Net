@@ -15,6 +15,7 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using WhiteBit.Net.Interfaces;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -83,6 +84,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX order book factory
         /// </summary>
         IOKXOrderBookFactory OKX { get; }
+        /// <summary>
+        /// WhiteBit order book factory
+        /// </summary>
+        IWhiteBitOrderBookFactory WhiteBit { get; }
 
         /// <summary>
         /// Create a new ISymbolOrderBook instance for the provided symbol on the provided exchange

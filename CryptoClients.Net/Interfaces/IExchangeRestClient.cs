@@ -8,7 +8,6 @@ using Coinbase.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CryptoCom.Net.Interfaces.Clients;
 using CryptoExchange.Net.Interfaces.CommonClients;
-using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis;
 using GateIo.Net.Interfaces.Clients;
 using HTX.Net.Interfaces.Clients;
@@ -19,6 +18,7 @@ using OKX.Net.Interfaces.Clients;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WhiteBit.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -87,6 +87,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX REST API
         /// </summary>
         IOKXRestClient OKX { get; }
+        /// <summary>
+        /// WhiteBit REST API
+        /// </summary>
+        IWhiteBitRestClient WhiteBit { get; }
 
         /// <summary>
         /// DEPRECATED; use <see cref="ISharedClient" /> instead for common/shared functionality. See <see href="https://jkorf.github.io/CryptoExchange.Net/docs/index.html#shared" /> for more info.

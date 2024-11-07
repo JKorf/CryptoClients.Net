@@ -55,6 +55,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WhiteBit.Net.Clients;
+using WhiteBit.Net.Interfaces.Clients;
+using WhiteBit.Net.Objects.Options;
 
 namespace CryptoClients.Net
 {
@@ -94,6 +97,8 @@ namespace CryptoClients.Net
         public IMexcRestClient Mexc { get; }
         /// <inheritdoc />
         public IOKXRestClient OKX { get; }
+        /// <inheritdoc />
+        public IWhiteBitRestClient WhiteBit { get; }
 
 
         /// <inheritdoc />
@@ -263,6 +268,7 @@ namespace CryptoClients.Net
             Kucoin = new KucoinRestClient();
             Mexc = new MexcRestClient();
             OKX = new OKXRestClient();
+            WhiteBit = new WhiteBitRestClient();
 
             InitSpotClients();
             InitSharedClients();
@@ -287,7 +293,8 @@ namespace CryptoClients.Net
             Action<KrakenRestOptions>? krakenRestOptions = null,
             Action<KucoinRestOptions>? kucoinRestOptions = null,
             Action<MexcRestOptions>? mexcRestOptions = null,
-            Action<OKXRestOptions>? okxRestOptions = null)
+            Action<OKXRestOptions>? okxRestOptions = null,
+            Action<WhiteBitRestOptions>? whiteBitRestOptions = null)
         {
             Action<TOptions> SetGlobalRestOptions<TOptions, TCredentials>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials) where TOptions : RestExchangeOptions where TCredentials : ApiCredentials
             {
@@ -327,6 +334,7 @@ namespace CryptoClients.Net
                 kucoinRestOptions = SetGlobalRestOptions(global, kucoinRestOptions, credentials?.Kucoin);
                 mexcRestOptions = SetGlobalRestOptions(global, mexcRestOptions, credentials?.Mexc);
                 okxRestOptions = SetGlobalRestOptions(global, okxRestOptions, credentials?.OKX);
+                whiteBitRestOptions = SetGlobalRestOptions(global, whiteBitRestOptions, credentials?.WhiteBit);
             }
 
             Binance = new BinanceRestClient(binanceRestOptions);
@@ -344,6 +352,7 @@ namespace CryptoClients.Net
             Kucoin = new KucoinRestClient(kucoinRestOptions);
             Mexc = new MexcRestClient(mexcRestOptions);
             OKX = new OKXRestClient(okxRestOptions);
+            WhiteBit = new WhiteBitRestClient(whiteBitRestOptions);
 
             InitSpotClients();
             InitSharedClients();
@@ -397,7 +406,8 @@ namespace CryptoClients.Net
                 Kucoin.SpotApi.SharedClient,
                 Kucoin.FuturesApi.SharedClient,
                 Mexc.SpotApi.SharedClient,
-                OKX.UnifiedApi.SharedClient
+                OKX.UnifiedApi.SharedClient,
+                WhiteBit.V4Api.SharedClient
             };           
         }
 
@@ -420,6 +430,7 @@ namespace CryptoClients.Net
             IKucoinRestClient kucoin,
             IMexcRestClient mexc,
             IOKXRestClient okx,
+            IWhiteBitRestClient whiteBit,
             IEnumerable<ISpotClient> spotClients)
         {
             _spotClients = spotClients;
@@ -439,6 +450,7 @@ namespace CryptoClients.Net
             Kucoin = kucoin;
             Mexc = mexc;
             OKX = okx;
+            WhiteBit = whiteBit;
 
             InitSharedClients();
         }

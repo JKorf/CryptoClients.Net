@@ -15,6 +15,7 @@ using Mexc.Net;
 using OKX.Net;
 using System.Collections;
 using System.Collections.Generic;
+using WhiteBit.Net;
 
 namespace CryptoClients.Net.Enums
 {
@@ -83,6 +84,10 @@ namespace CryptoClients.Net.Enums
         /// OKX
         /// </summary>
         public static string OKX => OKXExchange.ExchangeName;
+        /// <summary>
+        /// WhiteBit
+        /// </summary>
+        public static string WhiteBit => WhiteBitExchange.ExchangeName;
 
         /// <summary>
         /// All exchange names
@@ -103,7 +108,8 @@ namespace CryptoClients.Net.Enums
             Kraken,
             Kucoin,
             Mexc,
-            OKX
+            OKX,
+            WhiteBit
         };
     }
 }

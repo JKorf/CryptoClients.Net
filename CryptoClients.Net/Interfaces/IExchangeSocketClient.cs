@@ -7,7 +7,6 @@ using Bybit.Net.Interfaces.Clients;
 using Coinbase.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CryptoCom.Net.Interfaces.Clients;
-using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using GateIo.Net.Interfaces.Clients;
@@ -20,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using WhiteBit.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -88,6 +88,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX Websocket API
         /// </summary>
         IOKXSocketClient OKX { get; }
+        /// <summary>
+        /// WhiteBit Websocket API
+        /// </summary>
+        IWhiteBitSocketClient WhiteBit { get; }
 
         /// <summary>
         /// Get all ISharedClient Socket Api interfaces supported for the specified exchange

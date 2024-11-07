@@ -85,5 +85,10 @@ namespace CryptoClients.Net.Models
         /// OKX API credentials
         /// </summary>
         public OKXApiCredentials? OKX { get; set; }
+
+        /// <summary>
+        /// WhiteBit API credentials
+        /// </summary>
+        public ApiCredentials? WhiteBit { get; set; }
     }
 }

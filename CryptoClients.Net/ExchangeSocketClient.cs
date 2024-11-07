@@ -55,6 +55,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WhiteBit.Net.Clients;
+using WhiteBit.Net.Interfaces.Clients;
+using WhiteBit.Net.Objects.Options;
 
 namespace CryptoClients.Net
 {
@@ -93,6 +96,8 @@ namespace CryptoClients.Net
         public IMexcSocketClient Mexc { get; }
         /// <inheritdoc />
         public IOKXSocketClient OKX { get; }
+        /// <inheritdoc />
+        public IWhiteBitSocketClient WhiteBit { get; }
 
         /// <inheritdoc />
         public IEnumerable<ITickerSocketClient> GetTickerClients() => _sharedClients.OfType<ITickerSocketClient>();
@@ -189,6 +194,7 @@ namespace CryptoClients.Net
             Kucoin = new KucoinSocketClient();
             Mexc = new MexcSocketClient();
             OKX = new OKXSocketClient();
+            WhiteBit = new WhiteBitSocketClient();
 
             InitSharedClients();
         }
@@ -212,7 +218,8 @@ namespace CryptoClients.Net
             Action<KrakenSocketOptions>? krakenSocketOptions = null,
             Action<KucoinSocketOptions>? kucoinSocketOptions = null,
             Action<MexcSocketOptions>? mexcSocketOptions = null,
-            Action<OKXSocketOptions>? okxSocketOptions = null)
+            Action<OKXSocketOptions>? okxSocketOptions = null,
+            Action<WhiteBitSocketOptions>? whiteBitSocketOptions = null)
         {
             Action<TOptions> SetGlobalSocketOptions<TOptions, TCredentials>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials) where TOptions : SocketExchangeOptions where TCredentials : ApiCredentials
             {
@@ -253,6 +260,7 @@ namespace CryptoClients.Net
                 kucoinSocketOptions = SetGlobalSocketOptions(global, kucoinSocketOptions, credentials?.Kucoin);
                 mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions, credentials?.Mexc);
                 okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions, credentials?.OKX);
+                whiteBitSocketOptions = SetGlobalSocketOptions(global, whiteBitSocketOptions, credentials?.WhiteBit);
             }
 
             Binance = new BinanceSocketClient(binanceSocketOptions ?? new Action<BinanceSocketOptions>((x) => { }));
@@ -270,6 +278,7 @@ namespace CryptoClients.Net
             Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? new Action<KucoinSocketOptions>((x) => { }));
             Mexc = new MexcSocketClient(mexcSocketOptions ?? new Action<MexcSocketOptions>((x) => { }));
             OKX = new OKXSocketClient(okxSocketOptions ?? new Action<OKXSocketOptions>((x) => { }));
+            WhiteBit = new WhiteBitSocketClient(whiteBitSocketOptions ?? new Action<WhiteBitSocketOptions>((x) => { }));
 
             InitSharedClients();
         }
@@ -292,7 +301,8 @@ namespace CryptoClients.Net
             IKrakenSocketClient kraken,
             IKucoinSocketClient kucoin,
             IMexcSocketClient mexc,
-            IOKXSocketClient okx)
+            IOKXSocketClient okx,
+            IWhiteBitSocketClient whiteBit)
         {
             Binance = binance;
             BingX = bingx;
@@ -309,6 +319,7 @@ namespace CryptoClients.Net
             Kucoin = kucoin;
             Mexc = mexc;
             OKX = okx;
+            WhiteBit = whiteBit;
 
             InitSharedClients();
         }
@@ -344,7 +355,8 @@ namespace CryptoClients.Net
                 Kucoin.SpotApi.SharedClient,
                 Kucoin.FuturesApi.SharedClient,
                 Mexc.SpotApi.SharedClient,
-                OKX.UnifiedApi.SharedClient
+                OKX.UnifiedApi.SharedClient,
+                WhiteBit.V4Api.SharedClient
             };
         }
 
@@ -561,7 +573,8 @@ namespace CryptoClients.Net
                 Kraken.UnsubscribeAllAsync(),
                 Kucoin.UnsubscribeAllAsync(),
                 Mexc.UnsubscribeAllAsync(),
-                OKX.UnsubscribeAllAsync()
+                OKX.UnsubscribeAllAsync(),
+                WhiteBit.UnsubscribeAllAsync()
             };
             await Task.WhenAll(tasks).ConfigureAwait(false);
         }

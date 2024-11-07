@@ -37,6 +37,8 @@ using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
 using System;
 using System.Collections.Generic;
+using WhiteBit.Net.Interfaces.Clients;
+using WhiteBit.Net.Objects.Options;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -81,6 +83,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="mexcSocketOptions">The options options for the Mexc socket client. Will override options provided in the global options</param>
         /// <param name="okxRestOptions">The options options for the OKX rest client. Will override options provided in the global options</param>
         /// <param name="okxSocketOptions">The options options for the OKX socket client. Will override options provided in the global options</param>
+        /// <param name="whiteBitRestOptions">The options options for the WhiteBit rest client. Will override options provided in the global options</param>
+        /// <param name="whiteBitSocketOptions">The options options for the WhiteBit socket client. Will override options provided in the global options</param>
         /// <param name="socketClientLifetime">The lifetime for the Socket clients. Defaults to Singleton</param>
         /// <returns></returns>
         public static IServiceCollection AddCryptoClients(
@@ -117,6 +121,8 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<MexcSocketOptions>? mexcSocketOptions = null,
             Action<OKXRestOptions>? okxRestOptions = null,
             Action<OKXSocketOptions>? okxSocketOptions = null,
+            Action<WhiteBitRestOptions>? whiteBitRestOptions = null,
+            Action<WhiteBitSocketOptions>? whiteBitSocketOptions = null,
             ServiceLifetime? socketClientLifetime = null)
         {
             Action<TOptions> SetGlobalRestOptions<TOptions, TCredentials>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials) where TOptions : RestExchangeOptions where TCredentials : ApiCredentials
@@ -191,6 +197,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions, credentials?.Mexc);
                 okxRestOptions = SetGlobalRestOptions(global, okxRestOptions, credentials?.OKX);
                 okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions, credentials?.OKX);
+                whiteBitRestOptions = SetGlobalRestOptions(global, whiteBitRestOptions, credentials?.WhiteBit);
+                whiteBitSocketOptions = SetGlobalSocketOptions(global, whiteBitSocketOptions, credentials?.WhiteBit);
             }
 
             services.AddBinance(binanceRestOptions, binanceSocketOptions, socketClientLifetime);
@@ -209,6 +217,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddKucoin(kucoinRestOptions, kucoinSocketOptions, socketClientLifetime);
             services.AddMexc(mexcRestOptions, mexcSocketOptions, socketClientLifetime);
             services.AddOKX(okxRestOptions, okxSocketOptions, socketClientLifetime);
+            services.AddWhiteBit(whiteBitRestOptions, whiteBitSocketOptions, socketClientLifetime);
 
             services.AddTransient<IExchangeRestClient, ExchangeRestClient>(x =>
             {
@@ -228,6 +237,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IKucoinRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
+                    x.GetRequiredService<IWhiteBitRestClient>(),
                     x.GetRequiredService<IEnumerable<ISpotClient>>()
                     );
             });
@@ -249,7 +259,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IKrakenSocketClient>(),
                     x.GetRequiredService<IKucoinSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),
-                    x.GetRequiredService<IOKXSocketClient>()
+                    x.GetRequiredService<IOKXSocketClient>(),
+                    x.GetRequiredService<IWhiteBitSocketClient>()
                     );
             }, socketClientLifetime ?? ServiceLifetime.Singleton));
 

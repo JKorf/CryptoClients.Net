@@ -15,6 +15,7 @@ using Kucoin.Net;
 using Mexc.Net;
 using OKX.Net;
 using System;
+using WhiteBit.Net;
 
 namespace CryptoClients.Net
 {
@@ -174,6 +175,16 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
+        /// WhiteBit exchange info
+        /// </summary>
+        public static ExchangeInfo WhiteBit { get; } = new ExchangeInfo
+        {
+            Name = WhiteBitExchange.ExchangeName,
+            Url = WhiteBitExchange.Url,
+            ApiDocsUrl = WhiteBitExchange.ApiDocsUrl
+        };
+
+        /// <summary>
         /// Information on all supported exchanges
         /// </summary>
         public static ExchangeInfo[] All { get; } = new[]
@@ -192,7 +203,8 @@ namespace CryptoClients.Net
             Kucoin,
             Kraken,
             Mexc,
-            OKX
+            OKX,
+            WhiteBit
         };
 
         /// <summary>
@@ -214,6 +226,7 @@ namespace CryptoClients.Net
                 KucoinExchange.RateLimiter.RateLimitTriggered += value;
                 MexcExchange.RateLimiter.RateLimitTriggered += value;
                 OKXExchange.RateLimiter.RateLimitTriggered += value;
+                WhiteBitExchange.RateLimiter.RateLimitTriggered += value;
             }
             remove
             {
@@ -229,6 +242,7 @@ namespace CryptoClients.Net
                 KucoinExchange.RateLimiter.RateLimitTriggered -= value;
                 MexcExchange.RateLimiter.RateLimitTriggered -= value;
                 OKXExchange.RateLimiter.RateLimitTriggered -= value;
+                WhiteBitExchange.RateLimiter.RateLimitTriggered -= value;
             }
         }
     }

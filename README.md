@@ -5,7 +5,7 @@
 CryptoClients.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). CryptoClients.Net bundles the different client libraries in a single package and adds some additional tools to make use of them.
 
 ## Features
-* Direct full access to 14 different exchanges, public and private data
+* Direct full access to 16 different exchanges, public and private data
 * Client per exchange, or single client for accessing all exchanges
 * Response data is mapped to descriptive models
 * Input parameters and response values are mapped to discriptive enum values where possible
@@ -50,6 +50,7 @@ The following API's are included in CryptoClients.Net:
 |Kucoin|[JKorf/Kucoin.Net](https://github.com/JKorf/Kucoin.Net)|[![Nuget version](https://img.shields.io/nuget/v/Kucoin.net.svg?style=flat-square)](https://www.nuget.org/packages/Kucoin.Net)|
 |Mexc|[JKorf/Mexc.Net](https://github.com/JKorf/Mexc.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.Mexc.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.Mexc.Net)|
 |OKX|[JKorf/OKX.Net](https://github.com/JKorf/OKX.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.OKX.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.OKX.Net)|
+|WhiteBit|[JKorf/WhiteBit.Net](https://github.com/JKorf/WhiteBit.Net)|[![Nuget version](https://img.shields.io/nuget/v/WhiteBit.net.svg?style=flat-square)](https://www.nuget.org/packages/WhiteBit.Net)|
 
 ## Install the library
 
@@ -74,9 +75,18 @@ Either create new clients directly or use Dotnet dependency injection.
 
 *Dependency injection*
 ```csharp
-// Dependency injection, allows the injection of `IExchangeRestClient`, `IExchangeSocketClient` and `IExchangeOrderBookFactory` interfaces
-// as well as for all exchanges the `I[ExchangeName]RestClient`, `I[ExchangeName]SocketClient` and `I[ExchangeName]OrderBookFactory` types
+// Dependency injection, allows the injection of `IExchangeRestClient`, `IExchangeSocketClient`, `IExchangeOrderBookFactory` and `IExchangeTrackerFactory` interfaces
+// as well as for all exchanges the `I[ExchangeName]RestClient`, `I[ExchangeName]SocketClient`, `I[ExchangeName]OrderBookFactory` and `I[ExchangeName]TrackerFactory` types
+// During service registration in application startup:
 services.AddCryptoClients();
+
+
+// Inject the clients later on:
+public class TradingBot
+{
+	public TradingBot(IExchangeRestClient restClient, IExchangeSocketClient socketClient)
+	{}
+}
 ```
 
 *Construction*
@@ -97,7 +107,7 @@ builder.Services.AddCryptoClients(globalOptions =>
 {
     // Global options apply to each exchange/client
     globalOptions.OutputOriginalData = true;
-	// Set credentials for the different exchanges, will be applied to both REST and socket clients
+    // Set credentials for the different exchanges, will be applied to both REST and socket clients
     globalOptions.ApiCredentials = new CryptoClients.Net.Models.ExchangeCredentials
     {
         Binance = new ApiCredentials("BinanceKey", "BinanceSecret"),

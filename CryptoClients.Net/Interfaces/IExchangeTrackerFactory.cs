@@ -17,6 +17,7 @@ using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
 using System;
+using WhiteBit.Net.Interfaces;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -85,6 +86,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX tracker factory
         /// </summary>
         IOKXTrackerFactory OKX { get; }
+        /// <summary>
+        /// WhiteBit tracker factory
+        /// </summary>
+        IWhiteBitTrackerFactory WhiteBit { get; }
 
         /// <summary>
         /// Create a new kline tracker
