@@ -208,6 +208,39 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.6.0 - 19 Nov 2024
+  * Updated Binance.Net to version 10.9.2
+    * Added page parameter to restClient.UsdFuturesApi.Account.GetIncomeHistoryAsync endpoint
+  * Updated BingX.Net to version 1.15.1
+    * Added initial SubAccount API implementation
+    * Fixed available balance response on shared futures implementation
+    * Removed symbol parameters from GetPositionModeAsync and SetPositionModeAsync endpoints
+  * Updated Bitget.Net to version 1.15.1
+    * Split and corrected futures trigger plan type parameters
+    * Added status filter to restClient.FuturesApiV2.Trading.GetClosedTriggerOrdersAsync
+    * Added missing futures trigger order statuses
+    * Updated restClient.FuturesApiV2.Account.GetLedgerAsync response model
+  * Updated CoinGecko to version 3.0.0
+    * Switched json (de)serialization from Newtonsoft.Json to System.Text.Json
+    * Added support for setting API key
+    * Added error parsing implementation
+    * Added pro API endpoint to CoinGeckoEnvironment
+    * Added GetMarketsAsync endpoint
+    * Added GetCompanyHoldingsAsync endpoint
+    * Added GetExchangeDerivativesDetailsAsync endpoint
+    * Added GetApiUsageAsync endpoint
+    * Added precision parameter to GetMarketChartAsync, GetOhlcAsync
+    * Updated response models
+    * Updated API doc references
+    * Removed includeTickers parameter from GetDerivativesAsync endpoint
+    * Removed assetPlatformId parameter from GetNftsAsync endpoint
+  * Updated CryptoCom.Net to version 1.2.1
+    * Fixed deserialization issue in restClient.ExchangeApi.ExchangeData.GetTickerAsync
+  * Updated GateIo.Net to version 1.12.1
+    * Fixed restClient.PerpetualFuturesApi.Trading.PlaceTriggerOrderAsync parameter serialization
+  * Updated HTX.Net to version 6.4.1
+    * Fixed deserialization issue in restClient.UsdtFuturesApi.ExchangeData.GetTickersAsync endpoint
+
 * Version 2.5.0 - 07 Nov 2024
   * Added support for the WhiteBit exchange with WhiteBit.Net 1.0.0
   * Updated reference CryptoExchange version to 8.2.0
