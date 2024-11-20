@@ -6,6 +6,7 @@ using BitMart.Net;
 using Bybit.Net;
 using Coinbase.Net;
 using CoinEx.Net;
+using CoinGecko.Net;
 using CryptoCom.Net;
 using CryptoExchange.Net.RateLimiting;
 using GateIo.Net;
@@ -30,6 +31,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo Binance { get; } = new ExchangeInfo
         {
             Name = BinanceExchange.ExchangeName,
+            DisplayName = BinanceExchange.DisplayName,
+            ImageUrl = BinanceExchange.ImageUrl,
             Url = BinanceExchange.Url,
             ApiDocsUrl = BinanceExchange.ApiDocsUrl
         };
@@ -40,6 +43,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo BingX { get; } = new ExchangeInfo
         {
             Name = BingXExchange.ExchangeName,
+            DisplayName = BingXExchange.DisplayName,
+            ImageUrl = BingXExchange.ImageUrl,
             Url = BingXExchange.Url,
             ApiDocsUrl = BingXExchange.ApiDocsUrl
         };
@@ -50,6 +55,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo Bitfinex { get; } = new ExchangeInfo
         {
             Name = BitfinexExchange.ExchangeName,
+            DisplayName = BitfinexExchange.DisplayName,
+            ImageUrl = BitfinexExchange.ImageUrl,
             Url = BitfinexExchange.Url,
             ApiDocsUrl = BitfinexExchange.ApiDocsUrl
         };
@@ -60,6 +67,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo Bitget { get; } = new ExchangeInfo
         {
             Name = BitgetExchange.ExchangeName,
+            DisplayName = BitgetExchange.DisplayName,
+            ImageUrl = BitgetExchange.ImageUrl,
             Url = BitgetExchange.Url,
             ApiDocsUrl = BitgetExchange.ApiDocsUrl
         };
@@ -70,6 +79,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo BitMart { get; } = new ExchangeInfo
         {
             Name = BitMartExchange.ExchangeName,
+            DisplayName = BitMartExchange.DisplayName,
+            ImageUrl = BitMartExchange.ImageUrl,
             Url = BitMartExchange.Url,
             ApiDocsUrl = BitMartExchange.ApiDocsUrl
         };
@@ -80,6 +91,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo Bybit { get; } = new ExchangeInfo
         {
             Name = BybitExchange.ExchangeName,
+            DisplayName = BybitExchange.DisplayName,
+            ImageUrl = BybitExchange.ImageUrl,
             Url = BybitExchange.Url,
             ApiDocsUrl = BybitExchange.ApiDocsUrl
         };
@@ -90,6 +103,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo Coinbase { get; } = new ExchangeInfo
         {
             Name = CoinbaseExchange.ExchangeName,
+            DisplayName = CoinbaseExchange.DisplayName,
+            ImageUrl = CoinbaseExchange.ImageUrl,
             Url = CoinbaseExchange.Url,
             ApiDocsUrl = CoinbaseExchange.ApiDocsUrl
         };
@@ -100,6 +115,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo CoinEx { get; } = new ExchangeInfo
         {
             Name = CoinExExchange.ExchangeName,
+            DisplayName = CoinExExchange.DisplayName,
+            ImageUrl = CoinExExchange.ImageUrl,
             Url = CoinExExchange.Url,
             ApiDocsUrl = CoinExExchange.ApiDocsUrl
         };
@@ -110,6 +127,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo CryptoCom { get; } = new ExchangeInfo
         {
             Name = CryptoComExchange.ExchangeName,
+            DisplayName = CryptoComExchange.DisplayName,
+            ImageUrl = CryptoComExchange.ImageUrl,
             Url = CryptoComExchange.Url,
             ApiDocsUrl = CryptoComExchange.ApiDocsUrl
         };
@@ -120,6 +139,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo GateIo { get; } = new ExchangeInfo
         {
             Name = GateIoExchange.ExchangeName,
+            DisplayName = GateIoExchange.DisplayName,
+            ImageUrl = GateIoExchange.ImageUrl,
             Url = GateIoExchange.Url,
             ApiDocsUrl = GateIoExchange.ApiDocsUrl
         };
@@ -130,6 +151,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo HTX { get; } = new ExchangeInfo
         {
             Name = HTXExchange.ExchangeName,
+            DisplayName = HTXExchange.DisplayName,
+            ImageUrl = HTXExchange.ImageUrl,
             Url = HTXExchange.Url,
             ApiDocsUrl = HTXExchange.ApiDocsUrl
         };
@@ -140,6 +163,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo Kraken { get; } = new ExchangeInfo
         {
             Name = KrakenExchange.ExchangeName,
+            DisplayName = KrakenExchange.DisplayName,
+            ImageUrl = KrakenExchange.ImageUrl,
             Url = KrakenExchange.Url,
             ApiDocsUrl = KrakenExchange.ApiDocsUrl
         };
@@ -150,6 +175,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo Kucoin { get; } = new ExchangeInfo
         {
             Name = KucoinExchange.ExchangeName,
+            DisplayName = KucoinExchange.DisplayName,
+            ImageUrl = KucoinExchange.ImageUrl,
             Url = KucoinExchange.Url,
             ApiDocsUrl = KucoinExchange.ApiDocsUrl
         };
@@ -160,6 +187,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo Mexc { get; } = new ExchangeInfo
         {
             Name = MexcExchange.ExchangeName,
+            DisplayName = MexcExchange.DisplayName,
+            ImageUrl = MexcExchange.ImageUrl,
             Url = MexcExchange.Url,
             ApiDocsUrl = MexcExchange.ApiDocsUrl
         };
@@ -170,6 +199,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo OKX { get; } = new ExchangeInfo
         {
             Name = OKXExchange.ExchangeName,
+            DisplayName = OKXExchange.DisplayName,
+            ImageUrl = OKXExchange.ImageUrl,
             Url = OKXExchange.Url,
             ApiDocsUrl = OKXExchange.ApiDocsUrl
         };
@@ -180,6 +211,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo WhiteBit { get; } = new ExchangeInfo
         {
             Name = WhiteBitExchange.ExchangeName,
+            DisplayName = WhiteBitExchange.DisplayName,
+            ImageUrl = WhiteBitExchange.ImageUrl,
             Url = WhiteBitExchange.Url,
             ApiDocsUrl = WhiteBitExchange.ApiDocsUrl
         };
@@ -219,6 +252,7 @@ namespace CryptoClients.Net
                 BitgetExchange.RateLimiter.RateLimitTriggered += value;
                 BitMartExchange.RateLimiter.RateLimitTriggered += value;
                 CoinbaseExchange.RateLimiter.RateLimitTriggered += value;
+                CoinGeckoApi.RateLimiter.RateLimitTriggered += value;
                 CryptoComExchange.RateLimiter.RateLimitTriggered += value;
                 GateIoExchange.RateLimiter.RateLimitTriggered += value;
                 HTXExchange.RateLimiter.RateLimitTriggered += value;
@@ -235,6 +269,7 @@ namespace CryptoClients.Net
                 BitgetExchange.RateLimiter.RateLimitTriggered -= value;
                 BitMartExchange.RateLimiter.RateLimitTriggered -= value;
                 CoinbaseExchange.RateLimiter.RateLimitTriggered -= value;
+                CoinGeckoApi.RateLimiter.RateLimitTriggered -= value;
                 CryptoComExchange.RateLimiter.RateLimitTriggered -= value;
                 GateIoExchange.RateLimiter.RateLimitTriggered -= value;
                 HTXExchange.RateLimiter.RateLimitTriggered -= value;

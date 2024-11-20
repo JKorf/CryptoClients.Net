@@ -60,21 +60,5 @@ namespace CryptoClients.Net.Models
         /// Time to wait between socket reconnect attempts
         /// </summary>
         public TimeSpan ReconnectInterval { get; set; } = TimeSpan.FromSeconds(5);
-
-        internal GlobalExchangeOptions Copy()
-        {
-            var options = new GlobalExchangeOptions
-            {
-                Proxy = Proxy,
-                OutputOriginalData = OutputOriginalData,
-                RequestTimeout = RequestTimeout,
-                RateLimiterEnabled = RateLimiterEnabled,
-                RateLimitingBehaviour = RateLimitingBehaviour,
-                ReconnectPolicy = ReconnectPolicy,
-                ReconnectInterval = ReconnectInterval,
-                CachingEnabled = CachingEnabled
-            };
-            return options;
-        }
     }
 }

@@ -63,7 +63,7 @@ namespace CryptoClients.Net.Enums
         /// <summary>
         /// Gate.io
         /// </summary>
-        public static string GateIo => "GateIo";
+        public static string GateIo => GateIoExchange.ExchangeName;
         /// <summary>
         /// HTX
         /// </summary>
