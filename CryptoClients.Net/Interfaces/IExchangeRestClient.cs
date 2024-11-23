@@ -110,6 +110,15 @@ namespace CryptoClients.Net.Interfaces
         IEnumerable<ISharedClient> GetExchangeSharedClients(string exchange, TradingMode? tradingMode = null);
 
         /// <summary>
+        /// Set API credentials for an exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="apiKey">API key</param>
+        /// <param name="apiSecret">API secret</param>
+        /// <param name="apiPass">API passphrase</param>
+        void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null);
+
+        /// <summary>
         /// Get the <see cref="IAssetsRestClient"/> clients for all exchanges
         /// </summary>
         IEnumerable<IAssetsRestClient> GetAssetsClients();
