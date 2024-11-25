@@ -9,9 +9,11 @@ using Bitfinex.Net.Interfaces.Clients;
 using Bitfinex.Net.Objects.Options;
 using Bitget.Net.Clients;
 using Bitget.Net.Interfaces.Clients;
+using Bitget.Net.Objects;
 using Bitget.Net.Objects.Options;
 using BitMart.Net.Clients;
 using BitMart.Net.Interfaces.Clients;
+using BitMart.Net.Objects;
 using BitMart.Net.Objects.Options;
 using Bybit.Net.Clients;
 using Bybit.Net.Interfaces.Clients;
@@ -22,6 +24,7 @@ using Coinbase.Net.Objects.Options;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
+using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoCom.Net.Clients;
@@ -43,12 +46,14 @@ using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Options;
 using Kucoin.Net.Clients;
 using Kucoin.Net.Interfaces.Clients;
+using Kucoin.Net.Objects;
 using Kucoin.Net.Objects.Options;
 using Mexc.Net.Clients;
 using Mexc.Net.Interfaces.Clients;
 using Mexc.Net.Objects.Options;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
+using OKX.Net.Objects;
 using OKX.Net.Objects.Options;
 using System;
 using System.Collections.Generic;
@@ -474,6 +479,31 @@ namespace CryptoClients.Net
             if (tradingMode.HasValue)
                 result = result.Where(x => x.SupportedTradingModes.Contains(tradingMode.Value));
             return result.ToList();
+        }
+
+        /// <inheritdoc />
+        public void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null)
+        {
+            switch (exchange)
+            {
+                case "Binance": Binance.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "BingX": BingX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "Bitfinex": Bitfinex.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "Bitget": Bitget.SetApiCredentials(new BitgetApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Bitget credentials", nameof(apiPass)))); break;
+                case "BitMart": BitMart.SetApiCredentials(new BitMartApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BitMart credentials", nameof(apiPass)))); break;
+                case "Bybit": Bybit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "Coinbase": Coinbase.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "CoinEx": CoinEx.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "CryptoCom": CryptoCom.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "GateIo": GateIo.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "HTX": HTX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "Kraken": Kraken.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "Kucoin": Kraken.SetApiCredentials(new KucoinApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
+                case "Mexc": Kraken.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "OKX": Kraken.SetApiCredentials(new OKXApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
+                case "WhiteBit": Kraken.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                default: throw new ArgumentException("Exchange not recognized", nameof(exchange));
+            }
         }
 
         #region Get Spot Tickers

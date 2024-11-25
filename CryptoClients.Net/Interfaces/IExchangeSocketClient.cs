@@ -94,6 +94,15 @@ namespace CryptoClients.Net.Interfaces
         IWhiteBitSocketClient WhiteBit { get; }
 
         /// <summary>
+        /// Set API credentials for an exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="apiKey">API key</param>
+        /// <param name="apiSecret">API secret</param>
+        /// <param name="apiPass">API passphrase</param>
+        void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null);
+
+        /// <summary>
         /// Get all ISharedClient Socket Api interfaces supported for the specified exchange
         /// </summary>
         /// <param name="exchange">The exchange name</param>

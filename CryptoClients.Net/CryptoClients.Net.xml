@@ -434,6 +434,9 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsync(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -848,6 +851,9 @@
             </summary>
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
@@ -1323,6 +1329,15 @@
             </summary>
             <param name="exchange">The exchange name</param>
             <param name="tradingMode">Filter clients by trading mode</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
+            <summary>
+            Set API credentials for an exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="apiKey">API key</param>
+            <param name="apiSecret">API secret</param>
+            <param name="apiPass">API passphrase</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetAssetsClients">
             <summary>
@@ -2189,6 +2204,15 @@
             <summary>
             WhiteBit Websocket API
             </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
+            <summary>
+            Set API credentials for an exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="apiKey">API key</param>
+            <param name="apiSecret">API secret</param>
+            <param name="apiPass">API passphrase</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
             <summary>
