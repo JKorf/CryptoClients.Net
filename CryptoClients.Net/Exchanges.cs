@@ -17,6 +17,7 @@ using Mexc.Net;
 using OKX.Net;
 using System;
 using WhiteBit.Net;
+using XT.Net;
 
 namespace CryptoClients.Net
 {
@@ -218,6 +219,18 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
+        /// XT exchange info
+        /// </summary>
+        public static ExchangeInfo XT { get; } = new ExchangeInfo
+        {
+            Name = XTExchange.ExchangeName,
+            DisplayName = XTExchange.DisplayName,
+            ImageUrl = XTExchange.ImageUrl,
+            Url = XTExchange.Url,
+            ApiDocsUrl = XTExchange.ApiDocsUrl
+        };
+
+        /// <summary>
         /// Information on all supported exchanges
         /// </summary>
         public static ExchangeInfo[] All { get; } = new[]
@@ -237,7 +250,8 @@ namespace CryptoClients.Net
             Kraken,
             Mexc,
             OKX,
-            WhiteBit
+            WhiteBit,
+            XT
         };
 
         /// <summary>
@@ -261,6 +275,7 @@ namespace CryptoClients.Net
                 MexcExchange.RateLimiter.RateLimitTriggered += value;
                 OKXExchange.RateLimiter.RateLimitTriggered += value;
                 WhiteBitExchange.RateLimiter.RateLimitTriggered += value;
+                XTExchange.RateLimiter.RateLimitTriggered += value;
             }
             remove
             {
@@ -278,6 +293,7 @@ namespace CryptoClients.Net
                 MexcExchange.RateLimiter.RateLimitTriggered -= value;
                 OKXExchange.RateLimiter.RateLimitTriggered -= value;
                 WhiteBitExchange.RateLimiter.RateLimitTriggered -= value;
+                XTExchange.RateLimiter.RateLimitTriggered -= value;
             }
         }
     }

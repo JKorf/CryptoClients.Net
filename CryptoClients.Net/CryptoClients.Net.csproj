@@ -49,23 +49,24 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Binance.Net" Version="10.10.0" />
-    <PackageReference Include="Bitfinex.Net" Version="7.11.0" />
-    <PackageReference Include="BitMart.Net" Version="1.8.0" />
-    <PackageReference Include="Bybit.Net" Version="3.17.0" />
-    <PackageReference Include="CoinEx.Net" Version="7.10.0" />
-    <PackageReference Include="CoinGecko.Net" Version="3.1.0" />
-    <PackageReference Include="CryptoCom.Net" Version="1.3.0" />
-    <PackageReference Include="GateIo.Net" Version="1.13.0" />
-    <PackageReference Include="JK.BingX.Net" Version="1.16.0" />
-    <PackageReference Include="JK.Bitget.Net" Version="1.16.0" />
-    <PackageReference Include="JK.Mexc.Net" Version="1.12.0" />
-    <PackageReference Include="JK.OKX.Net" Version="2.9.0" />
-    <PackageReference Include="JKorf.Coinbase.Net" Version="1.5.0" />
-    <PackageReference Include="JKorf.HTX.Net" Version="6.5.0" />
-    <PackageReference Include="KrakenExchange.Net" Version="5.3.0" />
-    <PackageReference Include="Kucoin.Net" Version="5.19.0" />
-    <PackageReference Include="WhiteBit.Net" Version="1.1.0" />
+    <ProjectReference Include="..\..\Binance.Net\Binance.Net\Binance.Net.csproj" />
+    <ProjectReference Include="..\..\BingX.Net\BingX.Net\BingX.Net.csproj" />
+    <ProjectReference Include="..\..\Bitfinex.Net\Bitfinex.Net\Bitfinex.Net.csproj" />
+    <ProjectReference Include="..\..\Bitget.Net\Bitget.Net\Bitget.Net.csproj" />
+    <ProjectReference Include="..\..\BitMart.Net\BitMart.Net\BitMart.Net.csproj" />
+    <ProjectReference Include="..\..\Bybit.Net\ByBit.Net\Bybit.Net.csproj" />
+    <ProjectReference Include="..\..\Coinbase.Net\Coinbase.Net\Coinbase.Net.csproj" />
+    <ProjectReference Include="..\..\CoinEx.Net\CoinEx.Net\CoinEx.Net.csproj" />
+    <ProjectReference Include="..\..\CoinGecko.Net\CoinGecko.Net\CoinGecko.Net.csproj" />
+    <ProjectReference Include="..\..\CryptoCom.Net\CryptoCom.Net\CryptoCom.Net.csproj" />
+    <ProjectReference Include="..\..\GateIo.Net\GateIo.Net\GateIo.Net.csproj" />
+    <ProjectReference Include="..\..\HTX.Net\HTX.Net\HTX.Net.csproj" />
+    <ProjectReference Include="..\..\Kraken.Net\Kraken.Net\Kraken.Net.csproj" />
+    <ProjectReference Include="..\..\Kucoin.Net\Kucoin.Net\Kucoin.Net.csproj" />
+    <ProjectReference Include="..\..\Mexc.Net\Mexc.Net\Mexc.Net.csproj" />
+    <ProjectReference Include="..\..\OKX.Net\OKX.Net\OKX.Net.csproj" />
+    <ProjectReference Include="..\..\WhiteBit.Net\WhiteBit.Net\WhiteBit.Net.csproj" />
+    <ProjectReference Include="..\..\XT.Net\XT.Net\XT.Net.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <DocumentationFile>CryptoClients.Net.xml</DocumentationFile>

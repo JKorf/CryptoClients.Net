@@ -16,16 +16,18 @@
         <tr>
             <th>Exchange</th>
             <th style="padding-left: 20px">Total volume</th>
+            <th style="padding-left: 20px">Total value</th>
         </tr>
         @foreach(var exchangeVolume in _volume.OrderByDescending(v => v.Value))
         {
         <tr>
             <td>@exchangeVolume.Key</td>
-            <td style="padding-left: 20px">@Math.Round(exchangeVolume.Value, 8)</td>
+                <td style="padding-left: 20px">@Math.Round(exchangeVolume.Value.BaseVolume, 8)</td>
+                <td style="padding-left: 20px">@exchangeVolume.Value.QuoteVolume.ToString("C")</td>
         </tr>
         }
     </table>
-    <div>Total volume: @Math.Round(_volume.Select(v => v.Value).Sum(),8)</div>
+    <div>Total volume: @Math.Round(_volume.Select(x => x.Value.BaseVolume).Sum(), 8) / @_volume.Select(x => x.Value.QuoteVolume).Sum().ToString("C")</div>
 
     
     <table style="margin-top: 20px;">
@@ -64,7 +66,7 @@
     private object _lock = new object();
     private int _max = 100;
     private List<ExchangeTrade> _trades = new List<ExchangeTrade>();
-    private Dictionary<string, decimal> _volume = new Dictionary<string, decimal>();
+    private Dictionary<string, (decimal BaseVolume, decimal QuoteVolume)> _volume = new Dictionary<string, (decimal, decimal)>();
 
     private string _baseAsset = "BTC";
     private string _quoteAsset = "USDT";
@@ -97,10 +99,10 @@
                     Timestamp = timestamp
                 }));
 
-            if (_volume.ContainsKey(exchange))
-                _volume[exchange] += quantity;
+            if (_volume.TryGetValue(exchange, out var val))
+                _volume[exchange] = (val.BaseVolume + quantity, val.QuoteVolume + (price * quantity));
             else
-                _volume[exchange] = quantity;
+                _volume[exchange] = (quantity, price * quantity);
 
             if (_trades.Count > _max)
                 _trades.RemoveAt(0);
