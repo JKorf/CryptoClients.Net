@@ -12,6 +12,14 @@ namespace CryptoClients.Net
         /// </summary>
         public string Name { get; set; } = string.Empty;
         /// <summary>
+        /// Display name for the exchange
+        /// </summary>
+        public string DisplayName { get; set; } = string.Empty;
+        /// <summary>
+        /// Image url
+        /// </summary>
+        public string ImageUrl { get; set; } = string.Empty;
+        /// <summary>
         /// Website URL
         /// </summary>
         public string Url { get; set; } = string.Empty;

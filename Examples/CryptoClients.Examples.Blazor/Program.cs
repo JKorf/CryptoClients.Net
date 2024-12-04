@@ -6,6 +6,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddBlazorBootstrap();
 
 builder.Services.AddCryptoClients(socketClientLifetime: ServiceLifetime.Scoped);
+builder.Services.AddLocalization();
 
 var app = builder.Build();
 
@@ -20,7 +21,7 @@ if (!app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 
 app.UseStaticFiles();
-
+app.UseRequestLocalization("en-US");
 app.UseRouting();
 
 app.MapBlazorHub();

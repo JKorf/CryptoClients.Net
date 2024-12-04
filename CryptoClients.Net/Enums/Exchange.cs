@@ -16,6 +16,7 @@ using OKX.Net;
 using System.Collections;
 using System.Collections.Generic;
 using WhiteBit.Net;
+using XT.Net;
 
 namespace CryptoClients.Net.Enums
 {
@@ -63,7 +64,7 @@ namespace CryptoClients.Net.Enums
         /// <summary>
         /// Gate.io
         /// </summary>
-        public static string GateIo => "GateIo";
+        public static string GateIo => GateIoExchange.ExchangeName;
         /// <summary>
         /// HTX
         /// </summary>
@@ -88,6 +89,10 @@ namespace CryptoClients.Net.Enums
         /// WhiteBit
         /// </summary>
         public static string WhiteBit => WhiteBitExchange.ExchangeName;
+        /// <summary>
+        /// XT
+        /// </summary>
+        public static string XT => XTExchange.ExchangeName;
 
         /// <summary>
         /// All exchange names
@@ -109,7 +114,8 @@ namespace CryptoClients.Net.Enums
             Kucoin,
             Mexc,
             OKX,
-            WhiteBit
+            WhiteBit,
+            XT
         };
     }
 }

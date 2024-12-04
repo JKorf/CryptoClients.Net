@@ -18,6 +18,7 @@ using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
 using System;
 using WhiteBit.Net.Interfaces;
+using XT.Net.Interfaces;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -90,6 +91,10 @@ namespace CryptoClients.Net.Interfaces
         /// WhiteBit tracker factory
         /// </summary>
         IWhiteBitTrackerFactory WhiteBit { get; }
+        /// <summary>
+        /// XT tracker factory
+        /// </summary>
+        IXTTrackerFactory XT { get; }
 
         /// <summary>
         /// Create a new kline tracker

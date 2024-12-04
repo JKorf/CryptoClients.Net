@@ -62,6 +62,9 @@ using System.Threading.Tasks;
 using WhiteBit.Net.Clients;
 using WhiteBit.Net.Interfaces.Clients;
 using WhiteBit.Net.Objects.Options;
+using XT.Net.Clients;
+using XT.Net.Interfaces.Clients;
+using XT.Net.Objects.Options;
 
 namespace CryptoClients.Net
 {
@@ -102,6 +105,8 @@ namespace CryptoClients.Net
         public IOKXSocketClient OKX { get; }
         /// <inheritdoc />
         public IWhiteBitSocketClient WhiteBit { get; }
+        /// <inheritdoc />
+        public IXTSocketClient XT { get; }
 
         /// <inheritdoc />
         public IEnumerable<ITickerSocketClient> GetTickerClients() => _sharedClients.OfType<ITickerSocketClient>();
@@ -199,6 +204,7 @@ namespace CryptoClients.Net
             Mexc = new MexcSocketClient();
             OKX = new OKXSocketClient();
             WhiteBit = new WhiteBitSocketClient();
+            XT = new XTSocketClient();
 
             InitSharedClients();
         }
@@ -223,7 +229,8 @@ namespace CryptoClients.Net
             Action<KucoinSocketOptions>? kucoinSocketOptions = null,
             Action<MexcSocketOptions>? mexcSocketOptions = null,
             Action<OKXSocketOptions>? okxSocketOptions = null,
-            Action<WhiteBitSocketOptions>? whiteBitSocketOptions = null)
+            Action<WhiteBitSocketOptions>? whiteBitSocketOptions = null,
+            Action<XTSocketOptions>? xtSocketOptions = null)
         {
             Action<TOptions> SetGlobalSocketOptions<TOptions, TCredentials>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials) where TOptions : SocketExchangeOptions where TCredentials : ApiCredentials
             {
@@ -231,12 +238,12 @@ namespace CryptoClients.Net
                 {
                     socketOptions.Proxy = globalOptions.Proxy;
                     socketOptions.ApiCredentials = credentials;
-                    socketOptions.OutputOriginalData = globalOptions.OutputOriginalData;
-                    socketOptions.RequestTimeout = globalOptions.RequestTimeout;
-                    socketOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
-                    socketOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
-                    socketOptions.ReconnectPolicy = globalOptions.ReconnectPolicy;
-                    socketOptions.ReconnectInterval = globalOptions.ReconnectInterval;
+                    socketOptions.OutputOriginalData = globalOptions.OutputOriginalData ?? socketOptions.OutputOriginalData;
+                    socketOptions.RequestTimeout = globalOptions.RequestTimeout ?? socketOptions.RequestTimeout;
+                    socketOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled ?? socketOptions.RateLimiterEnabled;
+                    socketOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour ?? socketOptions.RateLimitingBehaviour;
+                    socketOptions.ReconnectPolicy = globalOptions.ReconnectPolicy ?? socketOptions.ReconnectPolicy;
+                    socketOptions.ReconnectInterval = globalOptions.ReconnectInterval ?? socketOptions.ReconnectInterval;
                     exchangeDelegate?.Invoke(socketOptions);
                 };
 
@@ -265,6 +272,7 @@ namespace CryptoClients.Net
                 mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions, credentials?.Mexc);
                 okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions, credentials?.OKX);
                 whiteBitSocketOptions = SetGlobalSocketOptions(global, whiteBitSocketOptions, credentials?.WhiteBit);
+                xtSocketOptions = SetGlobalSocketOptions(global, xtSocketOptions, credentials?.XT);
             }
 
             Binance = new BinanceSocketClient(binanceSocketOptions ?? new Action<BinanceSocketOptions>((x) => { }));
@@ -283,6 +291,7 @@ namespace CryptoClients.Net
             Mexc = new MexcSocketClient(mexcSocketOptions ?? new Action<MexcSocketOptions>((x) => { }));
             OKX = new OKXSocketClient(okxSocketOptions ?? new Action<OKXSocketOptions>((x) => { }));
             WhiteBit = new WhiteBitSocketClient(whiteBitSocketOptions ?? new Action<WhiteBitSocketOptions>((x) => { }));
+            XT = new XTSocketClient(xtSocketOptions ?? new Action<XTSocketOptions>((x) => { }));
 
             InitSharedClients();
         }
@@ -306,7 +315,8 @@ namespace CryptoClients.Net
             IKucoinSocketClient kucoin,
             IMexcSocketClient mexc,
             IOKXSocketClient okx,
-            IWhiteBitSocketClient whiteBit)
+            IWhiteBitSocketClient whiteBit,
+            IXTSocketClient xt)
         {
             Binance = binance;
             BingX = bingx;
@@ -324,6 +334,7 @@ namespace CryptoClients.Net
             Mexc = mexc;
             OKX = okx;
             WhiteBit = whiteBit;
+            XT = xt;
 
             InitSharedClients();
         }
@@ -360,7 +371,9 @@ namespace CryptoClients.Net
                 Kucoin.FuturesApi.SharedClient,
                 Mexc.SpotApi.SharedClient,
                 OKX.UnifiedApi.SharedClient,
-                WhiteBit.V4Api.SharedClient
+                WhiteBit.V4Api.SharedClient,
+                XT.SpotApi.SharedClient,
+                XT.FuturesApi.SharedClient
             };
         }
 
@@ -390,10 +403,11 @@ namespace CryptoClients.Net
                 case "GateIo": GateIo.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "HTX": HTX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Kraken": Kraken.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "Kucoin": Kraken.SetApiCredentials(new KucoinApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
-                case "Mexc": Kraken.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "OKX": Kraken.SetApiCredentials(new OKXApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
-                case "WhiteBit": Kraken.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "Kucoin": Kucoin.SetApiCredentials(new KucoinApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
+                case "Mexc": Mexc.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "OKX": OKX.SetApiCredentials(new OKXApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
+                case "WhiteBit": WhiteBit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "XT": XT.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 default: throw new ArgumentException("Exchange not recognized", nameof(exchange));
             }
         }
@@ -603,7 +617,8 @@ namespace CryptoClients.Net
                 Kucoin.UnsubscribeAllAsync(),
                 Mexc.UnsubscribeAllAsync(),
                 OKX.UnsubscribeAllAsync(),
-                WhiteBit.UnsubscribeAllAsync()
+                WhiteBit.UnsubscribeAllAsync(),
+                XT.UnsubscribeAllAsync()
             };
             await Task.WhenAll(tasks).ConfigureAwait(false);
         }
