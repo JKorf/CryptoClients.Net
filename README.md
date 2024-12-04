@@ -219,6 +219,266 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.7.0 - 04 Dec 2024
+  * Added XT.Net 1.0.0
+  * Added DisplayName and ImageUrl to ExchangeInfo model
+  * Added GetFeeClients methods on ExchangeRestClient
+  * Added GetFeesAsync and GetFeesAsyncEnumerable methods on ExchangeRestClient
+  * Added AddCryptoClients DI extension to support for loading settings from IConfiguration
+  * Added dynamic SetApiCredentials method on ExchangeRestClient and ExchangeSocketClient
+  * Refactored AddCryptoClients method to specify options in code to use a single callback per exchange
+  * Updated reference CryptoExchange.Net version from 8.2.0 to 8.4.3
+    * Added support for IOptions injection, allowing options to be read from IConfiguration
+    * Added handling of Infinity values in decimal converter
+    * Added rate limit update event
+    * Added GetFeesAsync Shared REST client support
+    * Added LibraryOptions base class
+    * Added CommaSplitEnumConverter System.Text.Json converter
+    * Added TimePeriodFilterSupport and MaxLimit properties to PaginatedEndpointOptions
+    * Added JsonConverterCtorAttribute to allow specifying a custom JsonConverter with constructor parameters on properties
+    * Added ReplaceConverter System.Text.Json converter
+    * Added LibraryHelpers class for internal helper methods
+    * Updated package dependency versions
+    * Small refactor on client options internals
+    * Fixed concurrency issue when unsubscribing websocket subscription during reconnection
+    * Fixed KlineTracker update handling
+  * Updated Binance.Net from version 10.9.2 to version 10.13.0
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to BinanceExchange class  
+    * Added WithdrawInternalMin to restClient.SpotApi.Account.GetUserAssetsAsync response model
+    * Added EnableFixApiTrade and EnableFixReadOnly to restClient.SpotApi.Account.GetAPIKeyPermissionsAsync response model
+    * Added IsOptionsEnabled and IsPortfolioMarginRetailEnabled to restClient.SpotApi.Account.GetAccountVipLevelAndStatusAsync response model
+    * Added listClientOrderId parameter to restClient.SpotApi.Trading.PlaceOcoOrderListAsync
+    * Added GetFeesAsync Shared REST client implementations
+    * Added AllowAppendingClientOrderId option
+    * Updated BinanceOptions to LibraryOptions implementation
+    * Updated client constructors to accept IOptions from DI
+    * Updated test and analyzer package versions
+    * Updated client order id logic
+    * Removed BrokerId option
+    * Removed redundant BinanceSocketClient constructor
+    * Removed restClient.SpotApi.Account.GetAutoConvertStableCoinConfigAsync, SetAutoConvertStableCoinConfigAsync and ConvertBusdAsync as theyre deprecated
+    * Fixed inverted order side for Shared trades
+    * Fixed ListenKey property not set on spot websocket account data updates
+    * Fixed restClient.GeneralApi.SimpleEarn.GetLockedProductPositionsAsync deserialization
+    * Fixed orderbook creation via BinanceOrderBookFactory
+  * Updated BingX.Net from version 1.15.1 to version 1.18.1
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to BingXExchange class
+    * Added restClient.PerpetualFuturesApi.Account.ApplyForVSTAssetsAsync
+    * Added restClient.PerpetualFuturesApi.Account.SetMultiAssetModeAsync
+    * Added restClient.PerpetualFuturesApi.Account.GetMultiAssetModeAsync
+    * Added restClient.PerpetualFuturesApi.Account.GetMultiAssetRulesAsync
+    * Added restClient.PerpetualFuturesApi.Account.GetMultiAssetsMarginAsync
+    * Added restClient.PerpetualFuturesApi.Trading.GetOrdersAsync
+    * Added restClient.PerpetualFuturesApi.Trading.PlaceTwapOrderAsync
+    * Added restClient.PerpetualFuturesApi.Trading.GetOpenTwapOrdersAsync
+    * Added restClient.PerpetualFuturesApi.Trading.GetTwapOrderAsync
+    * Added restClient.PerpetualFuturesApi.Trading.GetClosedTwapOrdersAsync
+    * Added restClient.PerpetualFuturesApi.Trading.CancelTwapOrderAsync
+    * Added Demo BingXEnvironment
+    * Added websocket connection limit perpetual futures
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated client constructors to accept IOptions from DI
+    * Updated BingXOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Removed redundant BingXSocketClient constructor
+    * Fixed inverted order side for Shared trades
+    * Fixed orderbook creation via BingXOrderBookFactory
+  * Updated Bitfinex.Net from version 7.10.0 to version 7.12.1
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to BitfinexExchange class
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated BitfinexOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Updated client constructors to accept IOptions from DI
+    * Removed redundant BitfinexSocketClient constructor
+    * Fixed orderbook creation via BitfinexOrderBookFactory
+  * Updated Bitget.Net from version 1.15.1 to version 1.18.1
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to BitgetExchange class
+    * Updated client constructors to accept IOptions from DI
+    * Added restClient.SpotApiV2.Account.TransferSubAccountAsync endpoint
+    * Added restClient.SpotApiV2.Account.GetSubAccountBalancesAsync endpoint
+    * Added restClient.SpotApiV2.Account.GetSubAccountTransferHistoryAsync endpoint
+    * Added restClient.SpotApiV2.Account.GetSubAccountDepositAddressAsync endpoint
+    * Added restClient.SpotApiV2.Account.GetSubAccountDepositHistoryAsync endpoint
+    * Added websocket rate limiting rules
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated BitgetOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Changed restClient.FuturesApiV2.Account.GetLedgerAsync idLessThan parameter to long type to match response model id type
+    * Removed redundant BitgetSocketClient constructor
+    * Fixed restClient.SetApiCredentials having incorrect ApiCredentials type
+    * Fixed orderbook creation via BitgetOrderBookFactory
+  * Updated BitMart.Net from version 1.7.0 to version 1.10.0
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to BitMartExchange class  
+    * Added socketClient.UsdFuturesApi.SubscribeToFundingRateUpdatesAsync stream
+    * Added Approval enum mapping for Status property on socketClient.UsdFuturesApi.SubscribeToOrderUpdatesAsync update model
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated client constructors to accept IOptions from DI
+    * Updated PlaceMarginOrderAsync ratelimit from 1 per second per key to 20
+    * Updated BitMartOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Removed clientOrderId parameter from restCLient.UsdFuturesApi.Trading.EditTpSlOrderAsync
+    * Removed redundant BitMartSocketClient constructor
+    * Fixed orderbook creation via BitMartOrderBookFactory
+  * Updated Bybit.Net from version 3.16.0 to version 3.18.1
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to BybitExchange class
+    * Added GetFeesAsync Shared REST client implementations
+    * Added startTime/endTime params to restClient.V5Api.ExchangeData.GetLongShortRatioAsync endpoint
+    * Added SpecialTreatmentLabel to restClient.V5Api.ExchangeData.GetSpotSymbolsAsync response model
+    * Updated client constructors to accept IOptions from DI
+    * Updated UnifiedMarginStatus enum values
+    * Updated BybitOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Removed redundant BybitSocketClient constructor
+    * Fixed orderbook creation via BybitOrderBookFactory
+  * Updated Coinbase.Net from version 1.4.0 to version 1.6.1
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to CoinbaseExchange class
+    * Added Platform property to restClient.AdvancedTradeApi.Account.GetAccountsAsync and GetAccountAsync response model
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated CoinbaseOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Updated client constructors to accept IOptions from DI
+    * Removed redundant CoinbaseSocketClient constructor
+    * Fixed deserialization error in SubscribeToBatchedTickerUpdatesAsync subscription when there is no trade price
+    * Fixed orderbook creation via CoinbaseBookFactory
+  * Updated CoinEx.Net from version 7.9.0 to version 7.12.0
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to CoinExExchange class
+    * Added AllowAppendingClientOrderId option
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated client constructors to accept IOptions from DI
+    * Updated CoinExOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Updated client order id logic for client reference
+    * Removed redundant CoinExSocketClient constructor
+    * Fix for orderbook creation via CoinExOrderBookFactory
+  * Updated CoinGecko.Net from version 3.0.0 to version 3.2.0
+    * Added support for loading client settings from IConfiguration
+    * Updated client constructors to accept IOptions from DI
+    * Updated test and analyzer package versions
+  * Updated CryptoCom.Net from version 1.2.1 to version 1.4.1
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to CryptoComExchange class
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated client constructors to accept IOptions from DI
+    * Updated CryptoComOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Removed redundant CryptoComSocketClient constructor
+    * Fixed orderbook creation via CryptoComBookFactory
+  * Updated GateIo.Net from version 1.12.1 to version 1.15.0
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to GateIoExchange class
+    * Added GetFeesAsync Shared REST client implementations
+    * Added restClient.SpotApi.Account.GetTransferStatusAsync endpoint
+    * Added UpdateId to Position model
+    * Updated client constructors to accept IOptions from DI
+    * Updated GateIoExchange.ExchangeName value from Gate.io to GateIo
+    * Updated GateIoOptions to LibraryOptions implementation
+    * Updated UpdatePositionModeAsync response model
+    * Updated test and analyzer package versions
+    * Removed redundant GateIoSocketClient constructor
+    * Removed socketClient.SpotApi.SubscribeToOrderBookUpdatesAsync updateMs parameter
+    * Removed socketClient.PerpetualFuturesApi.SubscribeToOrderBookUpdatesAsync 1000ms updateMs and 5 and 10 depth valid parameter values
+    * Fixed orderbook creation via GateIoBookFactory
+  * Updated HTX.Net from version 6.4.1 to version 6.7.1
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to HTXExchange class
+    * Added GetFeesAsync Shared REST client implementations
+    * Added AllowAppendingClientOrderId option
+    * Updated client constructors to accept IOptions from DI
+    * Updated HTXOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Updated client order id logic for client reference for the Spot API
+    * Removed redundant HTXSocketClient constructor
+    * Fix for orderbook creation via HTXOrderBookFactory
+  * Updated Kraken.Net from version 5.2.0 to version 5.4.1
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to KrakenExchange class
+    * Added newAssetNameResponse parameter to restClient.SpotApi.ExchangeData.GetSymbolsAsync and restClient.SpotApi.ExchangeData.GetAssetsAsync
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated client constructors to accept IOptions from DI
+    * Updated BinanceOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Removed redundant KrakenSocketClient constructor
+    * Fixed restClient.FuturesApi.Account.GetFeeScheduleVolumeAsync deserialization
+    * Fixed orderbook creation via KrakenOrderBookFactory
+  * Updated Kucoin.Net from version 5.18.0 to version 5.22.0
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to KucoinExchange class
+    * Added restClient.SpotApi.SubAccount.EnableMarginPermissionsAsync and EnableFuturesPermissionsAsync endpoints
+    * Added symbol parameter to restClient.FuturesApi.Trading.CancelMultipleOrdersAsync endpoint
+    * Added tradeTypes parameter to restClient.FuturesApi.Trading.GetUserTradesAsync endpoint
+    * Added Option enum values for account types
+    * Added quantityInBaseAsset and quantityInQuoteAsset to futures orders endpoints
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated websocket connections limit from 50 to 150 for spot
+    * Updated some futures response models
+    * Updated KucoinOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Updated client constructors to accept IOptions from DI
+    * Removed redundant KucoinSocketClient constructor
+    * Fixed orderbook creation via KucoinOrderBookFactory
+  * Updated Mexc.Net from version 1.11.0 to version 1.13.1
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to MexcExchange class
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated MexcOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Updated client constructors to accept IOptions from DI
+    * Removed redundant MexcSocketClient constructor
+    * Fixed some deserialization issues on decimal larger than Decimal.MaxValue on websocket streams
+    * Fixed orderbook creation via MexcOrderBookFactory
+  * Updated OKX.Net from version 2.8.0 to version 2.12.0
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to OKXExchange class
+    * Added Chase Algo order support
+    * Added AccountType property to restClient.UnifiedApi.Account.GetAccountConfigurationAsync response model
+    * Added GetFeesAsync Shared REST client implementations
+    * Added AllowAppendingClientOrderId option
+    * Added Cash value to MarginMode Enum
+    * Updated restClient.UnifiedApi.Account.GetAssetsAsync response model
+    * Updated restClient.UnifiedApi.Account.GetMaximumLoanAmountAsync parameters
+    * Updated OKXOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Updated client constructors to accept IOptions from DI
+    * Updated client order id logic
+    * Removed redundant OKXSocketClient constructor
+    * Removed BrokerId option
+    * Fixed deserialization issue in okxRestClient.UnifiedApi.ExchangeData.GetDiscountInfoAsync
+    * Fixed orderbook creation via OKXOrderBookFactory
+  * Updated WhiteBit.Net from version 1.0.0 to version 1.2.1
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to WhiteBitExchange class
+    * Added GetFeesAsync Shared REST client implementations
+    * Updated WhiteBitOptions to LibraryOptions implementation
+    * Updated test and analyzer package versions
+    * Updated client constructors to accept IOptions from DI
+    * Removed redundant WhiteBitSocketClient constructor
+    * Fixed orderbook creation via WhiteBitOrderBookFactory
+
+
 * Version 2.6.0 - 19 Nov 2024
   * Updated Binance.Net to version 10.9.2
     * Added page parameter to restClient.UsdFuturesApi.Account.GetIncomeHistoryAsync endpoint
