@@ -90,5 +90,10 @@ namespace CryptoClients.Net.Models
         /// WhiteBit API credentials
         /// </summary>
         public ApiCredentials? WhiteBit { get; set; }
+
+        /// <summary>
+        /// XT API credentials
+        /// </summary>
+        public ApiCredentials? XT { get; set; }
     }
 }

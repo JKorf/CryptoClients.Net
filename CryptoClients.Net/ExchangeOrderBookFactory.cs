@@ -19,6 +19,7 @@ using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
 using System.Linq;
 using WhiteBit.Net.Interfaces;
+using XT.Net.Interfaces;
 
 namespace CryptoClients.Net
 {
@@ -57,6 +58,8 @@ namespace CryptoClients.Net
         public IOKXOrderBookFactory OKX { get; }
         /// <inheritdoc />
         public IWhiteBitOrderBookFactory WhiteBit { get; }
+        /// <inheritdoc />
+        public IXTOrderBookFactory XT { get; }
 
         /// <summary>
         /// DI constructor
@@ -77,7 +80,8 @@ namespace CryptoClients.Net
             IKucoinOrderBookFactory kucoin,
             IMexcOrderBookFactory mexc,
             IOKXOrderBookFactory okx,
-            IWhiteBitOrderBookFactory whiteBit)
+            IWhiteBitOrderBookFactory whiteBit,
+            IXTOrderBookFactory xt)
         {
             Binance = binance;
             BingX = bingx;
@@ -95,6 +99,7 @@ namespace CryptoClients.Net
             Mexc = mexc;
             OKX = okx;
             WhiteBit = whiteBit;
+            XT = xt;
         }
 
         /// <inheritdoc />
@@ -130,7 +135,7 @@ namespace CryptoClients.Net
                     var cryptoComLimit = GetBookDepth(minimalDepth, false, 10, 50);
                     return CryptoCom.Create(symbol, opts => { opts.Limit = cryptoComLimit; });
                 case "GateIo":
-                    var gateIoLimit = GetBookDepth(minimalDepth, true, 5, 10, 20, 50, 100);
+                    var gateIoLimit = GetBookDepth(minimalDepth, true, 20, 50, 100);
                     return GateIo.Create(symbol, symbol.QuoteAsset, opts => { opts.Limit = gateIoLimit; });
                 case "HTX":
                     var htxLimit = GetBookDepth(minimalDepth, true, 5, 20, 150, 400);
@@ -151,6 +156,9 @@ namespace CryptoClients.Net
                 case "WhiteBit":
                     var whiteBitLimit = GetBookDepth(minimalDepth, true, 1, 5, 10, 20, 30, 50, 100);
                     return WhiteBit.Create(symbol, opts => { opts.Limit = whiteBitLimit; });
+                case "XT":
+                    var xtLimit = GetBookDepth(minimalDepth, true, 5, 10, 20, 50);
+                    return XT.Create(symbol, opts => { opts.Limit = xtLimit; });
             }
 
             return null;

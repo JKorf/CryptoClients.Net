@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using WhiteBit.Net.Interfaces.Clients;
+using XT.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -92,6 +93,10 @@ namespace CryptoClients.Net.Interfaces
         /// WhiteBit Websocket API
         /// </summary>
         IWhiteBitSocketClient WhiteBit { get; }
+        /// <summary>
+        /// XT Websocket API
+        /// </summary>
+        IXTSocketClient XT { get; }
 
         /// <summary>
         /// Set API credentials for an exchange

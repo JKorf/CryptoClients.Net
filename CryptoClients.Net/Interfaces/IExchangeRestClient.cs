@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using WhiteBit.Net.Interfaces.Clients;
+using XT.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -91,6 +92,10 @@ namespace CryptoClients.Net.Interfaces
         /// WhiteBit REST API
         /// </summary>
         IWhiteBitRestClient WhiteBit { get; }
+        /// <summary>
+        /// XT REST API
+        /// </summary>
+        IXTRestClient XT { get; }
 
         /// <summary>
         /// DEPRECATED; use <see cref="ISharedClient" /> instead for common/shared functionality. See <see href="https://jkorf.github.io/CryptoExchange.Net/docs/index.html#shared" /> for more info.
@@ -443,6 +448,22 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
         IListenKeyRestClient? GetListenKeyClient(TradingMode tradingMode, string exchange);
+
+        /// <summary>
+        /// Get the <see cref="IFeeRestClient"/> clients for all exchanges
+        /// </summary>
+        IEnumerable<IFeeRestClient> GetFeeClients();
+        /// <summary>
+        /// Get all <see cref="IFeeRestClient"/> clients for all exchanges which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IEnumerable<IFeeRestClient> GetFeeClients(TradingMode tradingMode);
+        /// <summary>
+        /// Get the <see cref="IFeeRestClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
+        IFeeRestClient? GetFeeClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get spot ticker information for all symbols on all exchanges, async returning in the order the response from the server is received
@@ -833,6 +854,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
         Task<IEnumerable<ExchangeWebResult<IEnumerable<SharedUserTrade>>>> GetFuturesUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get Maker and Taker trading fees for a symbol from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        IAsyncEnumerable<ExchangeWebResult<SharedFee>> GetFeesAsyncEnumerable(GetFeeRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get Maker and Taker trading fees for a symbol from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<IEnumerable<ExchangeWebResult<SharedFee>>> GetFeesAsync(GetFeeRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
     }
 }

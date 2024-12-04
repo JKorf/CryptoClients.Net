@@ -63,6 +63,9 @@ using System.Threading.Tasks;
 using WhiteBit.Net.Clients;
 using WhiteBit.Net.Interfaces.Clients;
 using WhiteBit.Net.Objects.Options;
+using XT.Net.Clients;
+using XT.Net.Interfaces.Clients;
+using XT.Net.Objects.Options;
 
 namespace CryptoClients.Net
 {
@@ -104,6 +107,8 @@ namespace CryptoClients.Net
         public IOKXRestClient OKX { get; }
         /// <inheritdoc />
         public IWhiteBitRestClient WhiteBit { get; }
+        /// <inheritdoc />
+        public IXTRestClient XT { get; }
 
 
         /// <inheritdoc />
@@ -253,6 +258,13 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IListenKeyRestClient? GetListenKeyClient(TradingMode api, string exchange) => _sharedClients.OfType<IListenKeyRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
+        /// <inheritdoc />
+        public IEnumerable<IFeeRestClient> GetFeeClients() => _sharedClients.OfType<IFeeRestClient>();
+        /// <inheritdoc />
+        public IEnumerable<IFeeRestClient> GetFeeClients(TradingMode api) => _sharedClients.OfType<IFeeRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
+        /// <inheritdoc />
+        public IFeeRestClient? GetFeeClient(TradingMode api, string exchange) => _sharedClients.OfType<IFeeRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+
         /// <summary>
         /// Create a new ExchangeRestClient instance. Client instances will be created with default options.
         /// </summary>
@@ -274,6 +286,7 @@ namespace CryptoClients.Net
             Mexc = new MexcRestClient();
             OKX = new OKXRestClient();
             WhiteBit = new WhiteBitRestClient();
+            XT = new XTRestClient();
 
             InitSpotClients();
             InitSharedClients();
@@ -299,7 +312,8 @@ namespace CryptoClients.Net
             Action<KucoinRestOptions>? kucoinRestOptions = null,
             Action<MexcRestOptions>? mexcRestOptions = null,
             Action<OKXRestOptions>? okxRestOptions = null,
-            Action<WhiteBitRestOptions>? whiteBitRestOptions = null)
+            Action<WhiteBitRestOptions>? whiteBitRestOptions = null,
+            Action<XTRestOptions>? xtRestOptions = null)
         {
             Action<TOptions> SetGlobalRestOptions<TOptions, TCredentials>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials) where TOptions : RestExchangeOptions where TCredentials : ApiCredentials
             {
@@ -307,11 +321,11 @@ namespace CryptoClients.Net
                 {
                     restOptions.Proxy = globalOptions.Proxy;
                     restOptions.ApiCredentials = credentials;
-                    restOptions.OutputOriginalData = globalOptions.OutputOriginalData;
-                    restOptions.RequestTimeout = globalOptions.RequestTimeout;
-                    restOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
-                    restOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
-                    restOptions.CachingEnabled = globalOptions.CachingEnabled;
+                    restOptions.OutputOriginalData = globalOptions.OutputOriginalData ?? restOptions.OutputOriginalData;
+                    restOptions.RequestTimeout = globalOptions.RequestTimeout ?? restOptions.RequestTimeout;
+                    restOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled ?? restOptions.RateLimiterEnabled;
+                    restOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour ?? restOptions.RateLimitingBehaviour;
+                    restOptions.CachingEnabled = globalOptions.CachingEnabled ?? restOptions.CachingEnabled;
                     exchangeDelegate?.Invoke(restOptions);
                 };
 
@@ -340,6 +354,7 @@ namespace CryptoClients.Net
                 mexcRestOptions = SetGlobalRestOptions(global, mexcRestOptions, credentials?.Mexc);
                 okxRestOptions = SetGlobalRestOptions(global, okxRestOptions, credentials?.OKX);
                 whiteBitRestOptions = SetGlobalRestOptions(global, whiteBitRestOptions, credentials?.WhiteBit);
+                xtRestOptions = SetGlobalRestOptions(global, xtRestOptions, credentials?.XT);
             }
 
             Binance = new BinanceRestClient(binanceRestOptions);
@@ -358,6 +373,7 @@ namespace CryptoClients.Net
             Mexc = new MexcRestClient(mexcRestOptions);
             OKX = new OKXRestClient(okxRestOptions);
             WhiteBit = new WhiteBitRestClient(whiteBitRestOptions);
+            XT = new XTRestClient(xtRestOptions);
 
             InitSpotClients();
             InitSharedClients();
@@ -412,7 +428,10 @@ namespace CryptoClients.Net
                 Kucoin.FuturesApi.SharedClient,
                 Mexc.SpotApi.SharedClient,
                 OKX.UnifiedApi.SharedClient,
-                WhiteBit.V4Api.SharedClient
+                WhiteBit.V4Api.SharedClient,
+                XT.SpotApi.SharedClient,
+                XT.CoinFuturesApi.SharedClient,
+                XT.UsdtFuturesApi.SharedClient
             };           
         }
 
@@ -436,6 +455,7 @@ namespace CryptoClients.Net
             IMexcRestClient mexc,
             IOKXRestClient okx,
             IWhiteBitRestClient whiteBit,
+            IXTRestClient xt,
             IEnumerable<ISpotClient> spotClients)
         {
             _spotClients = spotClients;
@@ -456,6 +476,7 @@ namespace CryptoClients.Net
             Mexc = mexc;
             OKX = okx;
             WhiteBit = whiteBit;
+            XT = xt;
 
             InitSharedClients();
         }
@@ -498,10 +519,11 @@ namespace CryptoClients.Net
                 case "GateIo": GateIo.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "HTX": HTX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Kraken": Kraken.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "Kucoin": Kraken.SetApiCredentials(new KucoinApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
-                case "Mexc": Kraken.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "OKX": Kraken.SetApiCredentials(new OKXApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
-                case "WhiteBit": Kraken.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "Kucoin": Kucoin.SetApiCredentials(new KucoinApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
+                case "Mexc": Mexc.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "OKX": OKX.SetApiCredentials(new OKXApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
+                case "WhiteBit": WhiteBit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "XT": XT.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 default: throw new ArgumentException("Exchange not recognized", nameof(exchange));
             }
         }
@@ -1175,6 +1197,32 @@ namespace CryptoClients.Net
                 clients = clients.Where(c => exchanges.Contains(c.Exchange));
 
             var tasks = clients.Select(x => x.GetPositionHistoryAsync(request, null, ct));
+            return tasks;
+        }
+
+        #endregion
+
+        #region Get Fees 
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<SharedFee>>> GetFeesAsync(GetFeeRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetFeesInt(request, exchanges, ct)).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<SharedFee>> GetFeesAsyncEnumerable(GetFeeRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetFeesInt(request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<SharedFee>>> GetFeesInt(GetFeeRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        {
+            var clients = GetFeeClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+
+            var tasks = clients.Select(x => x.GetFeesAsync(request, ct));
             return tasks;
         }
 

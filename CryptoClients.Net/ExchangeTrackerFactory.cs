@@ -22,6 +22,7 @@ using OKX.Net.Interfaces;
 using System;
 using System.Linq;
 using WhiteBit.Net.Interfaces;
+using XT.Net.Interfaces;
 
 namespace CryptoClients.Net
 {
@@ -60,6 +61,8 @@ namespace CryptoClients.Net
         public IOKXTrackerFactory OKX { get; }
         /// <inheritdoc />
         public IWhiteBitTrackerFactory WhiteBit { get; }
+        /// <inheritdoc />
+        public IXTTrackerFactory XT { get; }
 
         /// <summary>
         /// DI constructor
@@ -80,7 +83,8 @@ namespace CryptoClients.Net
             IKucoinTrackerFactory kucoin,
             IMexcTrackerFactory mexc,
             IOKXTrackerFactory okx,
-            IWhiteBitTrackerFactory whiteBit)
+            IWhiteBitTrackerFactory whiteBit,
+            IXTTrackerFactory xt)
         {
             Binance = binance;
             BingX = bingx;
@@ -98,6 +102,7 @@ namespace CryptoClients.Net
             Mexc = mexc;
             OKX = okx;
             WhiteBit = whiteBit;
+            XT = xt;
         }
 
         /// <inheritdoc />
@@ -140,6 +145,8 @@ namespace CryptoClients.Net
                 case "WhiteBit":
                     // No tracker available because there is no kline REST request
                     return null;
+                case "XT":
+                    return XT.CreateKlineTracker(symbol, interval, limit, period);
             }
 
             return null;
@@ -183,6 +190,8 @@ namespace CryptoClients.Net
                     return OKX.CreateTradeTracker(symbol, limit, period);
                 case "WhiteBit":
                     return WhiteBit.CreateTradeTracker(symbol, limit, period);
+                case "XT":
+                    return XT.CreateTradeTracker(symbol, limit, period);
             }
 
             return null;
