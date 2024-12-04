@@ -9,11 +9,6 @@ namespace CryptoClients.Net.Models
     public record GlobalExchangeOptions
     {
         /// <summary>
-        /// Default global options
-        /// </summary>
-        public static GlobalExchangeOptions Default { get; set; } = new GlobalExchangeOptions();
-
-        /// <summary>
         /// API credentials configuration for exchanges
         /// </summary>
         public ExchangeCredentials? ApiCredentials { get; set; }

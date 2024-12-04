@@ -153,7 +153,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             if (globalOptions != null)
             {
-                var global = GlobalExchangeOptions.Default;
+                var global = new GlobalExchangeOptions();
                 globalOptions.Invoke(global);
 
                 ExchangeCredentials? credentials = global.ApiCredentials;
