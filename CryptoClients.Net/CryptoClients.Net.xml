@@ -2810,11 +2810,6 @@
             Options to apply to any exchange client (if not overridden)
             </summary>
         </member>
-        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.Default">
-            <summary>
-            Default global options
-            </summary>
-        </member>
         <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.ApiCredentials">
             <summary>
             API credentials configuration for exchanges
