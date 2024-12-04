@@ -252,10 +252,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">The service collection</param>
         /// <param name="configuration">The configuration (section) to load configuration from</param>
+        /// <param name="socketClientLifetime">The lifetime for the Socket clients. Defaults to Singleton</param>
         /// <returns></returns>
         public static IServiceCollection AddCryptoClients(
             this IServiceCollection services,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ServiceLifetime? socketClientLifetime = null)
         {
             var globalOptions = new GlobalExchangeOptions();
             configuration.Bind(globalOptions);
@@ -289,6 +291,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 UpdateIfNotSpecified($"{exchange}:Rest:CachingEnabled", globalOptions.CachingEnabled?.ToString().ToLower());
                 UpdateIfNotSpecified($"{exchange}:Socket:ReconnectPolicy", globalOptions.ReconnectPolicy?.ToString());
                 UpdateIfNotSpecified($"{exchange}:Socket:ReconnectInterval", globalOptions.ReconnectInterval?.ToString());
+                UpdateIfNotSpecified($"{exchange}:SocketClientLifeTime", socketClientLifetime?.ToString());
             }
 
             UpdateExchangeOptions("Binance", globalOptions);
@@ -374,7 +377,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IWhiteBitSocketClient>(),
                     x.GetRequiredService<IXTSocketClient>()
                     );
-            }, ServiceLifetime.Singleton));
+            }, socketClientLifetime ?? ServiceLifetime.Singleton));
 
             services.AddTransient<IExchangeOrderBookFactory, ExchangeOrderBookFactory>();
             services.AddTransient<IExchangeTrackerFactory, ExchangeTrackerFactory>();

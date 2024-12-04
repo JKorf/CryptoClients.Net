@@ -2892,12 +2892,13 @@
             <param name="socketClientLifetime">The lifetime for the Socket clients. Defaults to Singleton</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddCryptoClients(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddCryptoClients(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
             <summary>
             Add all the exchange clients to the service collection as well as the IExchangeRestClient, IExchangeSocketClient and IExchangeOrderBookFactory aggregation interfaces
             </summary>
             <param name="services">The service collection</param>
             <param name="configuration">The configuration (section) to load configuration from</param>
+            <param name="socketClientLifetime">The lifetime for the Socket clients. Defaults to Singleton</param>
             <returns></returns>
         </member>
     </members>
