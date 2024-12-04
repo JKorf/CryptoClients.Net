@@ -2892,29 +2892,12 @@
             <param name="socketClientLifetime">The lifetime for the Socket clients. Defaults to Singleton</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddCryptoClients(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddCryptoClients(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Add all the exchange clients to the service collection as well as the IExchangeRestClient, IExchangeSocketClient and IExchangeOrderBookFactory aggregation interfaces
             </summary>
             <param name="services">The service collection</param>
-            <param name="binanceOptions">The options options for the Binance services. Will override options provided in the global options</param>
-            <param name="bingxOptions">The options options for the BingX services. Will override options provided in the global options</param>
-            <param name="bitfinexOptions">The options options for the Bitfinex services. Will override options provided in the global options</param>
-            <param name="bitgetOptions">The options options for the Bitget services. Will override options provided in the global options</param>
-            <param name="bitMartOptions">The options options for the BitMart services. Will override options provided in the global options</param>
-            <param name="bybitOptions">The options options for the Bybit services. Will override options provided in the global options</param>
-            <param name="coinbaseOptions">The options options for the Coinbase services. Will override options provided in the global options</param>
-            <param name="coinExOptions">The options options for the CoinEx services. Will override options provided in the global options</param>
-            <param name="coinGeckoOptions">The options options for the CoinGecko services. Will override options provided in the global options</param>
-            <param name="cryptoComOptions">The options options for the Crypto.com services. Will override options provided in the global options</param>
-            <param name="gateIoOptions">The options options for the Gate.io services. Will override options provided in the global options</param>
-            <param name="htxOptions">The options options for the HTX services. Will override options provided in the global options</param>
-            <param name="krakenOptions">The options options for the Kraken services. Will override options provided in the global options</param>
-            <param name="kucoinOptions">The options options for the Kucoin services. Will override options provided in the global options</param>
-            <param name="mexcOptions">The options options for the Mexc services. Will override options provided in the global options</param>
-            <param name="okxOptions">The options options for the OKX services. Will override options provided in the global options</param>
-            <param name="whiteBitOptions">The options options for the WhiteBit services. Will override options provided in the global options</param>
-            <param name="xtOptions">The options options for the XT services. Will override options provided in the global options</param>
+            <param name="configuration">The configuration (section) to load configuration from</param>
             <returns></returns>
         </member>
     </members>

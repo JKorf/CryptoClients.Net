@@ -321,11 +321,11 @@ namespace CryptoClients.Net
                 {
                     restOptions.Proxy = globalOptions.Proxy;
                     restOptions.ApiCredentials = credentials;
-                    restOptions.OutputOriginalData = globalOptions.OutputOriginalData;
-                    restOptions.RequestTimeout = globalOptions.RequestTimeout;
-                    restOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
-                    restOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
-                    restOptions.CachingEnabled = globalOptions.CachingEnabled;
+                    restOptions.OutputOriginalData = globalOptions.OutputOriginalData ?? restOptions.OutputOriginalData;
+                    restOptions.RequestTimeout = globalOptions.RequestTimeout ?? restOptions.RequestTimeout;
+                    restOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled ?? restOptions.RateLimiterEnabled;
+                    restOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour ?? restOptions.RateLimitingBehaviour;
+                    restOptions.CachingEnabled = globalOptions.CachingEnabled ?? restOptions.CachingEnabled;
                     exchangeDelegate?.Invoke(restOptions);
                 };
 

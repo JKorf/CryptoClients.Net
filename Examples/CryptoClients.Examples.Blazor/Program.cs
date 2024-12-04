@@ -5,11 +5,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddBlazorBootstrap();
 
-builder.Services.AddCryptoClients(opts =>
-{
-    opts.CachingEnabled = true;
-},
-socketClientLifetime: ServiceLifetime.Scoped);
+builder.Services.AddCryptoClients(socketClientLifetime: ServiceLifetime.Scoped);
 builder.Services.AddLocalization();
 
 var app = builder.Build();

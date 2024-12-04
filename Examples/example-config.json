@@ -1,0 +1,48 @@
+{
+  "CryptoClients": {
+    // Global options
+    "Proxy": {
+      "Host": "http://localhost",
+      "Port": 8080
+    },
+    "OutputOriginalData": true,
+	"RequestTime": "00:00:30",
+	"RateLimiterEnabled": true,
+	"RateLimiterBehaviour": "Wait",
+	"CachingEnabled": true,
+	"ReconnectPolicy": "FixedDelay",
+	"ReconnectInterval": "00:00:05",
+    // Binance specific options
+    "Binance": {
+      "ApiCredentials": {
+        "Key": "123",
+        "Secret": "456"
+      },
+	  "Environment": { "Name": "live" },
+	  "AllowAppendingClientOrderId": true,
+      "Rest": {
+        "OutputOriginalData": true,
+		"ReceiveWindow": "00:00:05"
+      },
+      "Socket": {
+        "OutputOriginalData": false,
+		"SpotOptions":{
+			"SocketNoDataConnection": "00:01:00"
+		}		
+      }
+    },
+    // OKX specific options
+    "OKX": {
+      "ApiCredentials": {
+        "Key": "789",
+        "Secret": "101",
+        "Passphrase": "000"
+      },
+	  "Rest": {
+        "OutputOriginalData": false
+      }
+    }
+    // Other exchange specific options
+    // ..
+  }
+}

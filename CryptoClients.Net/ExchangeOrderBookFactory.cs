@@ -135,7 +135,7 @@ namespace CryptoClients.Net
                     var cryptoComLimit = GetBookDepth(minimalDepth, false, 10, 50);
                     return CryptoCom.Create(symbol, opts => { opts.Limit = cryptoComLimit; });
                 case "GateIo":
-                    var gateIoLimit = GetBookDepth(minimalDepth, true, 5, 10, 20, 50, 100);
+                    var gateIoLimit = GetBookDepth(minimalDepth, true, 20, 50, 100);
                     return GateIo.Create(symbol, symbol.QuoteAsset, opts => { opts.Limit = gateIoLimit; });
                 case "HTX":
                     var htxLimit = GetBookDepth(minimalDepth, true, 5, 20, 150, 400);

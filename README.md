@@ -80,8 +80,17 @@ Either create new clients directly or use Dotnet dependency injection.
 // Dependency injection, allows the injection of `IExchangeRestClient`, `IExchangeSocketClient`, `IExchangeOrderBookFactory` and `IExchangeTrackerFactory` interfaces
 // as well as for all exchanges the `I[ExchangeName]RestClient`, `I[ExchangeName]SocketClient`, `I[ExchangeName]OrderBookFactory` and `I[ExchangeName]TrackerFactory` types
 // During service registration in application startup:
-services.AddCryptoClients();
 
+// Configure options from config file
+// see https://github.com/JKorf/CryptoClients.Net/tree/main/Examples/example-config.json for an example
+builder.Services.AddCryptoClients(builder.Configuration.GetSection("CryptoClients"));
+		  
+// OR
+		  
+ builder.Services.AddCryptoClients(options => {
+  // Configure options in code
+  options.OutputOriginalData = true;
+});
 
 // Inject the clients later on:
 public class TradingBot

@@ -238,12 +238,12 @@ namespace CryptoClients.Net
                 {
                     socketOptions.Proxy = globalOptions.Proxy;
                     socketOptions.ApiCredentials = credentials;
-                    socketOptions.OutputOriginalData = globalOptions.OutputOriginalData;
-                    socketOptions.RequestTimeout = globalOptions.RequestTimeout;
-                    socketOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
-                    socketOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
-                    socketOptions.ReconnectPolicy = globalOptions.ReconnectPolicy;
-                    socketOptions.ReconnectInterval = globalOptions.ReconnectInterval;
+                    socketOptions.OutputOriginalData = globalOptions.OutputOriginalData ?? socketOptions.OutputOriginalData;
+                    socketOptions.RequestTimeout = globalOptions.RequestTimeout ?? socketOptions.RequestTimeout;
+                    socketOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled ?? socketOptions.RateLimiterEnabled;
+                    socketOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour ?? socketOptions.RateLimitingBehaviour;
+                    socketOptions.ReconnectPolicy = globalOptions.ReconnectPolicy ?? socketOptions.ReconnectPolicy;
+                    socketOptions.ReconnectInterval = globalOptions.ReconnectInterval ?? socketOptions.ReconnectInterval;
                     exchangeDelegate?.Invoke(socketOptions);
                 };
 

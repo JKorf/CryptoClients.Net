@@ -99,7 +99,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddCryptoClients(
             this IServiceCollection services,
-            Action<GlobalExchangeOptions> globalOptions,
+            Action<GlobalExchangeOptions>? globalOptions = null,
             Action<BinanceOptions>? binanceOptions = null,
             Action<BingXOptions>? bingxOptions = null,
             Action<BitfinexOptions>? bitfinexOptions = null,
@@ -133,17 +133,17 @@ namespace Microsoft.Extensions.DependencyInjection
                     options.SocketClientLifeTime = socketClientLifetime;
                     options.Rest.Proxy = globalOptions.Proxy;
                     options.Socket.Proxy = globalOptions.Proxy;
-                    options.Rest.OutputOriginalData = globalOptions.OutputOriginalData;
-                    options.Socket.OutputOriginalData = globalOptions.OutputOriginalData;
-                    options.Rest.RequestTimeout = globalOptions.RequestTimeout;
-                    options.Socket.RequestTimeout = globalOptions.RequestTimeout;
-                    options.Rest.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
-                    options.Socket.RateLimiterEnabled = globalOptions.RateLimiterEnabled;
-                    options.Rest.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
-                    options.Socket.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour;
-                    options.Rest.CachingEnabled = globalOptions.CachingEnabled;
-                    options.Socket.ReconnectPolicy = globalOptions.ReconnectPolicy;
-                    options.Socket.ReconnectInterval = globalOptions.ReconnectInterval;
+                    options.Rest.OutputOriginalData = globalOptions.OutputOriginalData ?? options.Rest.OutputOriginalData;
+                    options.Socket.OutputOriginalData = globalOptions.OutputOriginalData ?? options.Socket.OutputOriginalData;
+                    options.Rest.RequestTimeout = globalOptions.RequestTimeout ?? options.Rest.RequestTimeout;
+                    options.Socket.RequestTimeout = globalOptions.RequestTimeout ?? options.Socket.RequestTimeout;
+                    options.Rest.RateLimiterEnabled = globalOptions.RateLimiterEnabled ?? options.Rest.RateLimiterEnabled;
+                    options.Socket.RateLimiterEnabled = globalOptions.RateLimiterEnabled ?? options.Socket.RateLimiterEnabled;
+                    options.Rest.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour ?? options.Rest.RateLimitingBehaviour;
+                    options.Socket.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour ?? options.Socket.RateLimitingBehaviour;
+                    options.Rest.CachingEnabled = globalOptions.CachingEnabled ?? options.Rest.CachingEnabled;
+                    options.Socket.ReconnectPolicy = globalOptions.ReconnectPolicy ?? options.Socket.ReconnectPolicy;
+                    options.Socket.ReconnectInterval = globalOptions.ReconnectInterval ?? options.Socket.ReconnectInterval;
 
                     exchangeDelegate?.Invoke(options);
                 };
@@ -251,72 +251,83 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Add all the exchange clients to the service collection as well as the IExchangeRestClient, IExchangeSocketClient and IExchangeOrderBookFactory aggregation interfaces
         /// </summary>
         /// <param name="services">The service collection</param>
-        /// <param name="binanceOptions">The options options for the Binance services. Will override options provided in the global options</param>
-        /// <param name="bingxOptions">The options options for the BingX services. Will override options provided in the global options</param>
-        /// <param name="bitfinexOptions">The options options for the Bitfinex services. Will override options provided in the global options</param>
-        /// <param name="bitgetOptions">The options options for the Bitget services. Will override options provided in the global options</param>
-        /// <param name="bitMartOptions">The options options for the BitMart services. Will override options provided in the global options</param>
-        /// <param name="bybitOptions">The options options for the Bybit services. Will override options provided in the global options</param>
-        /// <param name="coinbaseOptions">The options options for the Coinbase services. Will override options provided in the global options</param>
-        /// <param name="coinExOptions">The options options for the CoinEx services. Will override options provided in the global options</param>
-        /// <param name="coinGeckoOptions">The options options for the CoinGecko services. Will override options provided in the global options</param>
-        /// <param name="cryptoComOptions">The options options for the Crypto.com services. Will override options provided in the global options</param>
-        /// <param name="gateIoOptions">The options options for the Gate.io services. Will override options provided in the global options</param>
-        /// <param name="htxOptions">The options options for the HTX services. Will override options provided in the global options</param>
-        /// <param name="krakenOptions">The options options for the Kraken services. Will override options provided in the global options</param>
-        /// <param name="kucoinOptions">The options options for the Kucoin services. Will override options provided in the global options</param>
-        /// <param name="mexcOptions">The options options for the Mexc services. Will override options provided in the global options</param>
-        /// <param name="okxOptions">The options options for the OKX services. Will override options provided in the global options</param>
-        /// <param name="whiteBitOptions">The options options for the WhiteBit services. Will override options provided in the global options</param>
-        /// <param name="xtOptions">The options options for the XT services. Will override options provided in the global options</param>
+        /// <param name="configuration">The configuration (section) to load configuration from</param>
         /// <returns></returns>
         public static IServiceCollection AddCryptoClients(
             this IServiceCollection services,
-            IConfiguration? binanceOptions = null,
-            IConfiguration? bingxOptions = null,
-            IConfiguration? bitfinexOptions = null,
-            IConfiguration? bitgetOptions = null,
-            IConfiguration? bitMartOptions = null,
-            IConfiguration? bybitOptions = null,
-            IConfiguration? coinbaseOptions = null,
-            IConfiguration? coinExOptions = null,
-            IConfiguration? coinGeckoOptions = null,
-            IConfiguration? cryptoComOptions = null,
-            IConfiguration? gateIoOptions = null,
-            IConfiguration? htxOptions = null,
-            IConfiguration? krakenOptions = null,
-            IConfiguration? kucoinOptions = null,
-            IConfiguration? mexcOptions = null,
-            IConfiguration? okxOptions = null,
-            IConfiguration? whiteBitOptions = null,
-            IConfiguration? xtOptions = null)
+            IConfiguration configuration)
         {
-            void Add(IConfiguration? config, Func<IConfiguration, IServiceCollection> funcConfig, Func<IServiceCollection> funcDefault)
+            var globalOptions = new GlobalExchangeOptions();
+            configuration.Bind(globalOptions);
+
+            void UpdateIfNotSpecified(string key, string? value)
             {
-                if (config != null)
-                    funcConfig(config);
-                else
-                    funcDefault();
+                if (value == null || !string.IsNullOrEmpty(configuration[key]))
+                    return;
+
+                configuration[key] = value;
             }
 
-            Add(binanceOptions, services.AddBinance, () => services.AddBinance());
-            Add(bingxOptions, services.AddBingX, () => services.AddBingX());
-            Add(bitfinexOptions, services.AddBitfinex, () => services.AddBitfinex());
-            Add(bitgetOptions, services.AddBitget, () => services.AddBitget());
-            Add(bitMartOptions, services.AddBitMart, () => services.AddBitMart());
-            Add(bybitOptions, services.AddBybit, () => services.AddBybit());
-            Add(coinbaseOptions, services.AddCoinbase, () => services.AddCoinbase());
-            Add(coinExOptions, services.AddCoinEx, () => services.AddCoinEx());
-            Add(coinGeckoOptions, services.AddCoinGecko, () => services.AddCoinGecko());
-            Add(cryptoComOptions, services.AddCryptoCom, () => services.AddCryptoCom());
-            Add(gateIoOptions, services.AddGateIo, () => services.AddGateIo());
-            Add(htxOptions, services.AddHTX, () => services.AddHTX());
-            Add(krakenOptions, services.AddKraken, () => services.AddKraken());
-            Add(kucoinOptions, services.AddKucoin, () => services.AddKucoin());
-            Add(mexcOptions, services.AddMexc, () => services.AddMexc());
-            Add(okxOptions, services.AddOKX, () => services.AddOKX());
-            Add(whiteBitOptions, services.AddWhiteBit, () => services.AddWhiteBit());
-            Add(xtOptions, services.AddXT, () => services.AddXT());
+            void UpdateExchangeOptions(string exchange, GlobalExchangeOptions globalOptions)
+            {
+                UpdateIfNotSpecified($"{exchange}:Rest:Proxy:Host", globalOptions.Proxy?.Host);
+                UpdateIfNotSpecified($"{exchange}:Rest:Proxy:Port", globalOptions.Proxy?.Port.ToString());
+                UpdateIfNotSpecified($"{exchange}:Rest:Proxy:Login", globalOptions.Proxy?.Login);
+                UpdateIfNotSpecified($"{exchange}:Rest:Proxy:Password", globalOptions.Proxy?.Password);
+                UpdateIfNotSpecified($"{exchange}:Socket:Proxy:Host", globalOptions.Proxy?.Host);
+                UpdateIfNotSpecified($"{exchange}:Socket:Proxy:Port", globalOptions.Proxy?.Port.ToString());
+                UpdateIfNotSpecified($"{exchange}:Socket:Proxy:Login", globalOptions.Proxy?.Login);
+                UpdateIfNotSpecified($"{exchange}:Socket:Proxy:Password", globalOptions.Proxy?.Password);
+                UpdateIfNotSpecified($"{exchange}:Rest:OutputOriginalData", globalOptions.OutputOriginalData?.ToString().ToLower());
+                UpdateIfNotSpecified($"{exchange}:Socket:OutputOriginalData", globalOptions.OutputOriginalData?.ToString().ToLower());
+                UpdateIfNotSpecified($"{exchange}:Rest:RequestTimeout", globalOptions.RequestTimeout?.ToString());
+                UpdateIfNotSpecified($"{exchange}:Socket:RequestTimeout", globalOptions.RequestTimeout?.ToString());
+                UpdateIfNotSpecified($"{exchange}:Rest:RateLimiterEnabled", globalOptions.RateLimiterEnabled?.ToString().ToLower());
+                UpdateIfNotSpecified($"{exchange}:Socket:RateLimiterEnabled", globalOptions.RateLimiterEnabled?.ToString().ToLower());
+                UpdateIfNotSpecified($"{exchange}:Rest:RateLimitingBehaviour", globalOptions.RateLimitingBehaviour?.ToString());
+                UpdateIfNotSpecified($"{exchange}:Socket:RateLimitingBehaviour", globalOptions.RateLimitingBehaviour?.ToString());
+                UpdateIfNotSpecified($"{exchange}:Rest:CachingEnabled", globalOptions.CachingEnabled?.ToString().ToLower());
+                UpdateIfNotSpecified($"{exchange}:Socket:ReconnectPolicy", globalOptions.ReconnectPolicy?.ToString());
+                UpdateIfNotSpecified($"{exchange}:Socket:ReconnectInterval", globalOptions.ReconnectInterval?.ToString());
+            }
+
+            UpdateExchangeOptions("Binance", globalOptions);
+            UpdateExchangeOptions("BingX", globalOptions);
+            UpdateExchangeOptions("Bitfinex", globalOptions);
+            UpdateExchangeOptions("Bitget", globalOptions);
+            UpdateExchangeOptions("BitMart", globalOptions);
+            UpdateExchangeOptions("Bybit", globalOptions);
+            UpdateExchangeOptions("Coinbase", globalOptions);
+            UpdateExchangeOptions("CoinEx", globalOptions);
+            UpdateExchangeOptions("CoinGecko", globalOptions);
+            UpdateExchangeOptions("CryptoCom", globalOptions);
+            UpdateExchangeOptions("GateIo", globalOptions);
+            UpdateExchangeOptions("HTX", globalOptions);
+            UpdateExchangeOptions("Kraken", globalOptions);
+            UpdateExchangeOptions("Kucoin", globalOptions);
+            UpdateExchangeOptions("Mexc", globalOptions);
+            UpdateExchangeOptions("OKX", globalOptions);
+            UpdateExchangeOptions("WhiteBit", globalOptions);
+            UpdateExchangeOptions("XT", globalOptions);
+
+            services.AddBinance(configuration.GetSection("Binance"));
+            services.AddBingX(configuration.GetSection("BingX"));
+            services.AddBitfinex(configuration.GetSection("Bitfinex"));
+            services.AddBitget(configuration.GetSection("Bitget"));
+            services.AddBitMart(configuration.GetSection("BitMart"));
+            services.AddBybit(configuration.GetSection("Bybit"));
+            services.AddCoinbase(configuration.GetSection("Coinbase"));
+            services.AddCoinEx(configuration.GetSection("CoinEx"));
+            services.AddCoinGecko(configuration.GetSection("CoinGecko"));
+            services.AddCryptoCom(configuration.GetSection("CryptoCom"));
+            services.AddGateIo(configuration.GetSection("GateIo"));
+            services.AddHTX(configuration.GetSection("HTX"));
+            services.AddKraken(configuration.GetSection("Kraken"));
+            services.AddKucoin(configuration.GetSection("Kucoin"));
+            services.AddMexc(configuration.GetSection("Mexc"));
+            services.AddOKX(configuration.GetSection("OKX"));
+            services.AddWhiteBit(configuration.GetSection("WhiteBit"));
+            services.AddXT(configuration.GetSection("XT"));
 
             services.AddTransient<IExchangeRestClient, ExchangeRestClient>(x =>
             {
