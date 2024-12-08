@@ -219,6 +219,26 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.7.1 - 08 Dec 2024
+  * Updated reference CryptoExchange.Net version from 8.4.3 to 8.4.4
+    * Changed JsonConverterCtorAttribute to use constructor type parameter instead of generic type parameter to support .net framework
+  * Updated Binance from version 10.13.0 to version 10.13.2
+    * Fixed deserialization error in .net framework
+    * Fixed null exception caused by invalid key for copy trading
+    * Fixed BinanceSubAccountTransferSubAccount model deserialization
+  * Updated Bitfinex from version 7.12.1 to version 7.12.2
+    * Fixed Shared balance subscription also sending funding balances
+  * Updated BitMart from version 1.10.1 to version 1.10.1
+    * Fixed clientOrderId parameter serialization in restClient.SpotApi.Trading.PlaceMultipleOrdersAsync
+  * Updated CoinEx from version7.12.0 to version 7.12.1
+    * Fixed deserialization error in .net framework
+  * Updated HTX from version 6.7.1 to version 6.7.2
+    * Fixed deserialization error in .net framework
+  * Updated OKX from version 2.12.0 to version 2.12.1
+    * Fixed deserialization error in .net framework
+  * Updated XT from version 1.0.0 to version 1.0.1
+    * Fixed change percentage response in Shared spot symbol response not being actual percentage
+
 * Version 2.7.0 - 04 Dec 2024
   * Added XT.Net 1.0.0
   * Added DisplayName and ImageUrl to ExchangeInfo model
