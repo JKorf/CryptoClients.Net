@@ -219,6 +219,120 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.8.0 - 23 Dec 2024
+  * Updated reference CryptoExchange.Net version from 8.4.3 to 8.5.0
+    * Added EmptyArrayObjectConverter System.Text.Json JsonConverter
+    * Added JsonSerializerOptions parameter to SystemTextJsonMessageAccessor constructor
+    * Changed JsonConverterCtorAttribute to use constructor type parameter instead of generic type parameter to support .net framework
+    * Added SetOptions method to update client settings
+    * Added SocketConnection parameter to PeriodicQuery callback
+    * Added setting of DefaultProxyCredentials on HttpClient instance when client is not provided by DI
+    * Added support for overriding request timeout per request
+    * Added build target for net9.0
+    * Added setting of KeepAliveTimeout on websocket connections to improve dropped connection detection
+    * Changed max wait time for close handshake response from 5 seconds to 1 second
+    * Fixed exception in trade tracker when there is no data in the initial snapshot
+  * Updated Binance.Net from version 10.13.2 to version 10.15.0
+    * Added initial Agent endpoints
+    * Added onUserDataStreamTerminated and onBalanceLockUpdate updates to socketClient.SpotApi.SubscribeUserDataUpdatesAsync
+    * Added IsLiquidationOrder, IsAdlAutoCloseOrder and IsSettlementOrder helper properties to BinanceFuturesOrder model
+    * Added PreMarket handling to PermissionType enum
+    * Split AccountType enum into AccountType and PermissionType
+    * Changed restClient.UsdFuturesApi.Trading.GetOrdersAsync symbol parameter to be optional
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+    * Set Symbol on Spot and UsdFutures socket ExchangeData.GetOrderBookAsync response
+  * Updated BingX.Net from version 1.18.1 to version 1.19.0
+    * Fixed bingXRestClient.PerpetualFuturesApi.Account.GetIncomesAsync parameter serialization
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+    * Fixed BingXFuturesPlaceOrderRequest serialization
+  * Updated Bitfinex.Net from version 7.12.2 to version 7.13.0
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+  * Updated Bitget.Net from version 1.18.1 to version 1.19.0
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Added page parameter to restClient.SpotApi.Account.GetTransferHistoryAsync, marked idLessThan as deprecated
+    * Improved websocket disconnect detection
+  * Updated BitMart.Net from version 1.10.1 to version 1.12.0
+    * Added socketClient.UsdFuturesApi.SubscribeToBookTickerUpdatesAsync stream subscription
+    * Added restClient.UsdFuturesApi.ExchangeData.GetFundingRateHistoryAsync endpoint
+    * Added restClient.UsdFuturesApi.Account.GetTransactionHistoryAsync endpoint
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Added restClient.UsdFuturesApi.Trading.PlaceTrailingOrderAsync endpoint
+    * Added restClient.UsdFuturesApi.Trading.CancelTrailingOrderAsync endpoint
+    * Improved websocket disconnect detection
+    * Removed trailing stop parameters from restClient.UsdFuturesApi.Trading.PlaceOrderAsync
+  * Updated Bybit.Net from version 3.18.1 to version 3.19.0
+    * Added restClient.V5Api.Account.GetTransferableAsync endpoint
+    * Fixed socketClient.V5PrivateApi.CancelOrderAsync incorrect topic
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+  * Updated Coinbase.Net from version 1.6.1 to version 1.7.0
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+  * Updated CoinEx.Net from version 7.12.1 to version 7.13.0
+    * Fixed socketClient.SpotApiV2.SubscribeToOrderBookUpdatesAsync unsubscribe
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+  * Updated CoinGecko.Net from version 3.2.0 to version 3.3.0
+    * Added SetOptions methods on Rest client
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+  * Updated CryptoCom.Net from version 1.4.1 to version 1.5.0
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+  * Updated GateIo.Net from version 1.15.0 to version 1.16.0
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+  * Updated HTX.Net from version 6.7.2 to version 6.8.0
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+  * Updated Kraken.Net from version 5.4.1 to version 5.5.0
+    * Added newAssetNameResponse parameter to restClient.SpotApi.Account.GetBalancesAsync
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+  * Updated Kucoin.Net from version 5.22.0 to version 5.23.0
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Added TradeType property to socketClient.FuturesApi.SubscribeToOrderUpdatesAsync update
+    * Improved websocket disconnect detection
+    * Updated SpotApi MaxSocketConnections from 150 to 500
+    * Updated restClient.FuturesApi.Trading.CancelAllOrdersAsync from V1 to V3
+  * Updated Mexc.Net from version 1.13.1 to version 1.15.0
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+    * Fixed deserialization of too large decimal values in Ticker and Kline models
+    * Fixed typo in MexcAggregatedTrade and MexcKline models
+    * Fix for restClient.SpotApi.Account.WithdrawAsync deserialization
+  * Updated OKX.Net from version 2.12.1 to version 2.14.0
+    * Added Europe environment
+    * Added restClient.UnifiedApi.Account.PresetAccountModeSwitchAsync endpoint
+    * Added restClient.UnifiedApi.Account.PrecheckAccountModeSwitchAsync endpoint
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+  * Updated WhiteBit.Net from version 1.2.1 to version 1.3.0
+    * Fixed deserialization of restClient.V4Api.Trading.GetClosedOrdersAsync without results
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+  * Updated XT.Net from version 1.0.1 to version 1.1.0
+    * Added client reference
+    * Added SetOptions methods on Rest and Socket clients
+    * Added setting of DefaultProxyCredentials to CredentialCache.DefaultCredentials on the DI http client
+    * Improved websocket disconnect detection
+
 * Version 2.7.1 - 08 Dec 2024
   * Updated reference CryptoExchange.Net version from 8.4.3 to 8.4.4
     * Changed JsonConverterCtorAttribute to use constructor type parameter instead of generic type parameter to support .net framework
