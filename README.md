@@ -219,6 +219,68 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.9.0 - 07 Jan 2025
+  * Added Type to ExchangeInfo model
+  * Updated reference CryptoExchange.Net version from 8.5.0 to 8.6.0
+    * Added support for passing weight to apply to an individual ratelimit guard
+    * Added IFeeRestClient to service registration
+    * Added response headers parameter to RestApiClient.TryParseError method
+    * Added check for ServerRateLimitError on RestApiClient.TryParseError response
+    * Added ExchangeType Enum
+    * Some small improvements
+  * Updated Binance.Net from version 10.15.0 to version 10.16.1
+    * Added PriceMatch parameter to UsdFutures order editing
+    * Added support for premium index klines in socketClient.UsdFuturesApi.ExchangeData.SubscribeToKlineUpdatesAsync
+    * Updated ETH history response models
+    * Added Type property to BinanceExchange class
+  * Updated BingX.Net from version 1.19.0 to version 1.19.1
+    * Added Type property to BingXExchange class
+  * Updated Bitfinex.Net from version 7.13.0 to version 7.13.1
+    * Added Type property to BitfinexExchange class
+  * Updated Bitget.Net from version 1.19.0 to version 1.19.1
+    * Added Type property to BitgetExchange class
+  * Updated BitMart.Net from version 1.12.0 to version 1.12.1
+    * Added Type property to BitMartExchange class
+  * Updated Bybit.Net from version 3.19.0 to version 4.0.0
+    * Updated from Newtonsoft.Json to System.Text.Json
+    * Added CryptoLoan endpoints
+    * Added client side ratelimiting
+    * Added Type property to XTExchange class
+    * Added RiskParameters properties to restClient.V5Api.ExchangeData.GetLinearInverseSymbolsAsync response model
+    * Updated CryptoExchange.Net version
+    * Updated some namespaces
+    * Fixed restClient.V5Api.SubAccount.EditSubAccountApiKeyAsync parameters not getting send
+    * Removed deprecated V1/V2/V3 endpoints, models and enums
+  * Updated Coinbase.Net from version 1.7.0 to version 1.7.2
+    * Updated transaction model to include fee and quantity info
+    * Added Type property to CoinbaseExchange class
+  * Updated CoinEx.Net from version 7.13.0 to version 7.13.1
+    * Added Type property to CoinEx class
+  * Updated CoinGecko.Net from version 3.3.0 to version 3.3.1
+  * Updated CryptoCom.Net from version 1.5.0 to version 1.5.1
+    * Added Type property to CryptoComExchange class
+  * Updated GateIo.Net from version 1.16.0 to version 1.17.1
+    * Added restClient.SpotApi.Account.GetInsuranceFundHistoryAsync endpoint
+    * Added SingleAsset enum value for restClient.SpotApi.Account.SetUnifiedAccountModeAsync
+    * Added Type property to GateIoExchange class
+    * Updated restClient.SpotApi.Account.GetUnifiedAccountInfoAsync() balance response model
+  * Updated HTX.Net from version 6.8.0 to version 6.8.1
+    * Added Type property to HTXExchange class
+  * Updated Kraken.Net from version 5.5.0 to version 5.5.2
+    * Added Type property to KrakenExchange class
+    * Fixed reconnection bug for query connections without active subscription
+  * Updated Kucoin.Net from version 5.23.0 to version 5.23.2
+    * Added Type property to KucoinExchange class
+    * Fixed incorrect caching of passphrase with multiple credentials
+  * Updated Mexc.Net from version 1.15.0 to version 1.15.1
+    * Added Type property to MexcExchange class
+  * Updated OKX.Net from version 2.14.0 to version 2.14.1
+    * Added Type property to OKXExchange class
+  * Updated WhiteBit.Net from version 1.3.0 to version 1.3.1
+    * Added Type property to WhiteBitExchange class
+  * Updated XT.Net from version 1.1.0 to version 1.1.1
+    * Added Type property to XTExchange class
+
 * Version 2.8.0 - 23 Dec 2024
   * Updated reference CryptoExchange.Net version from 8.4.3 to 8.5.0
     * Added EmptyArrayObjectConverter System.Text.Json JsonConverter
