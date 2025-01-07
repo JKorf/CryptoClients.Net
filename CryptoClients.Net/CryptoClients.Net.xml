@@ -129,6 +129,11 @@
             Urls for the API documentation
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.ExchangeInfo.Type">
+            <summary>
+            Exchange type
+            </summary>
+        </member>
         <member name="T:CryptoClients.Net.ExchangeOrderBookFactory">
             <inheritdoc />
         </member>
