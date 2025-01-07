@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CryptoExchange.Net.Objects;
+using System;
 
 namespace CryptoClients.Net
 {
@@ -27,5 +28,9 @@ namespace CryptoClients.Net
         /// Urls for the API documentation
         /// </summary>
         public string[] ApiDocsUrl { get; set; } = Array.Empty<string>();
+        /// <summary>
+        /// Exchange type
+        /// </summary>
+        public ExchangeType Type { get; set; }
     }
 }
