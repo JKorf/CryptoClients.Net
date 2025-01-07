@@ -245,7 +245,7 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
     * Updated from Newtonsoft.Json to System.Text.Json
     * Added CryptoLoan endpoints
     * Added client side ratelimiting
-    * Added Type property to XTExchange class
+    * Added Type property to BybitExchange class
     * Added RiskParameters properties to restClient.V5Api.ExchangeData.GetLinearInverseSymbolsAsync response model
     * Updated CryptoExchange.Net version
     * Updated some namespaces
