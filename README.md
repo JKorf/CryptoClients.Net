@@ -219,6 +219,22 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.9.1 - 09 Jan 2025
+  * Updated reference CryptoExchange.Net version from 8.6.0 to 8.6.1
+    * Fixed websocket connection getting stuck after a ping frame timeout
+    * Removed websocket Error callback when exception is expected
+    * Removed unnecessary type restraints on RestApiClient.SendAsync methods
+  * Updated Bybit.Net from version 4.0.0 to version 4.0.1
+    * Fixed AveragePrice being null in BybitPosition and BybitPositionUpdate models
+  * Updated CoinEx.Net from version 7.13.1 to version 7.13.2
+    * Disable ping frames for socket connections as it's not stable
+  * Updated Kucoin.Net from version 5.23.2 to version 5.23.3
+    * Updated Spot Shared IBalanceRestClient GetBalancesAsync implementation to only filter account types if there are both Trade and SpotHf being returned
+  * Updated WhiteBit.Net from version 1.3.1 to version 1.3.2
+    * Disable ping frames for socket connections as it's not stable
+  * Updated XT.Net from version 1.1.1 to version 1.1.2
+    * Fix for restClient.UsdtFuturesApi.ExchangeData.GetSymbolInfoAsync deserialization
+
 * Version 2.9.0 - 07 Jan 2025
   * Added Type to ExchangeInfo model
   * Updated reference CryptoExchange.Net version from 8.5.0 to 8.6.0
