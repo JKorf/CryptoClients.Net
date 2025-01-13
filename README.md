@@ -219,6 +219,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.9.2 - 13 Jan 2025
+  * Updated ExchangeOrderBookFactory to use lower update intervals where available
+  * Updated XT.Net from version 1.1.2 to version 1.1.3 
+    * Various fixes in UsdtFutures trigger/track/stop limit order endpoints
+	
 * Version 2.9.1 - 09 Jan 2025
   * Updated reference CryptoExchange.Net version from 8.6.0 to 8.6.1
     * Fixed websocket connection getting stuck after a ping frame timeout
