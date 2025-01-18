@@ -219,6 +219,19 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.9.3 - 18 Jan 2025
+  * Updated Bybit.Net from version 4.0.1 to version 4.0.2
+    * Added DepositLimit, DepositType and FromAddress to restClient.V5Api.Account.GetDepositsAsync response model
+    * Added DepositLimit and ContractAddress to restClient.V5Api.Account.GetDepositAddressAsync response model
+    * Added ContractAddress to restClient.V5Api.Account.GetAssetInfoAsync response model
+    * Added TradeId property to restClient.V5Api.Account.GetBrokerEarningsAsync response model
+    * Updated restClient.V5Api.ExchangeData.GetSpotSymbolsAsync PricePercentageFilter response model to new x/y limit value properties
+    * Fixed shared interfaces futures symbols request not returning full data set
+  * Updated Kraken.Net from version 5.5.2 to version 5.5.3
+    * Fixed restClient.FuturesApi.Trading.GetUserTradesAsync startTime parameter not being applied
+  * Updated Kucoin.Net from version 5.23.3 to version 5.23.4
+    * Fixed shared interfaces balance subscription providing updates for all accounts
+
 * Version 2.9.2 - 13 Jan 2025
   * Updated ExchangeOrderBookFactory to use lower update intervals where available
   * Updated XT.Net from version 1.1.2 to version 1.1.3 
