@@ -41,6 +41,9 @@ using GateIo.Net.Objects.Options;
 using HTX.Net;
 using HTX.Net.Interfaces.Clients;
 using HTX.Net.Objects.Options;
+using HyperLiquid.Net;
+using HyperLiquid.Net.Interfaces.Clients;
+using HyperLiquid.Net.Objects.Options;
 using Kraken.Net;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Options;
@@ -89,6 +92,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="cryptoComOptions">The options options for the Crypto.com services. Will override options provided in the global options</param>
         /// <param name="gateIoOptions">The options options for the Gate.io services. Will override options provided in the global options</param>
         /// <param name="htxOptions">The options options for the HTX services. Will override options provided in the global options</param>
+        /// <param name="hyperLiquidOptions">The options options for the HyperLiquid services. Will override options provided in the global options</param>
         /// <param name="krakenOptions">The options options for the Kraken services. Will override options provided in the global options</param>
         /// <param name="kucoinOptions">The options options for the Kucoin services. Will override options provided in the global options</param>
         /// <param name="mexcOptions">The options options for the Mexc services. Will override options provided in the global options</param>
@@ -112,6 +116,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<CryptoComOptions>? cryptoComOptions = null,
             Action<GateIoOptions>? gateIoOptions = null,
             Action<HTXOptions>? htxOptions = null,
+            Action<HyperLiquidOptions>? hyperLiquidOptions = null,
             Action<KrakenOptions>? krakenOptions = null,
             Action<KucoinOptions>? kucoinOptions = null,
             Action<MexcOptions>? mexcOptions = null,
@@ -168,6 +173,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 cryptoComOptions = SetGlobalOptions<CryptoComOptions, CryptoComRestOptions, CryptoComSocketOptions, ApiCredentials, CryptoComEnvironment>(global, cryptoComOptions, credentials?.CryptoCom);
                 gateIoOptions = SetGlobalOptions<GateIoOptions, GateIoRestOptions, GateIoSocketOptions, ApiCredentials, GateIoEnvironment>(global, gateIoOptions, credentials?.GateIo);
                 htxOptions = SetGlobalOptions<HTXOptions, HTXRestOptions, HTXSocketOptions, ApiCredentials, HTXEnvironment>(global, htxOptions, credentials?.HTX);
+                hyperLiquidOptions = SetGlobalOptions<HyperLiquidOptions, HyperLiquidRestOptions, HyperLiquidSocketOptions, ApiCredentials, HyperLiquidEnvironment>(global, hyperLiquidOptions, credentials?.HyperLiquid);
                 krakenOptions = SetGlobalOptions<KrakenOptions, KrakenRestOptions, KrakenSocketOptions, ApiCredentials, KrakenEnvironment>(global, krakenOptions, credentials?.Kraken);
                 kucoinOptions = SetGlobalOptions<KucoinOptions, KucoinRestOptions, KucoinSocketOptions, KucoinApiCredentials, KucoinEnvironment>(global, kucoinOptions, credentials?.Kucoin);
                 mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, ApiCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc);
@@ -188,6 +194,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddCryptoCom(cryptoComOptions);
             services.AddGateIo(gateIoOptions);
             services.AddHTX(htxOptions);
+            services.AddHyperLiquid(hyperLiquidOptions);
             services.AddKraken(krakenOptions);
             services.AddKucoin(kucoinOptions);
             services.AddMexc(mexcOptions);
@@ -209,6 +216,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ICryptoComRestClient>(),
                     x.GetRequiredService<IGateIoRestClient>(),
                     x.GetRequiredService<IHTXRestClient>(),
+                    x.GetRequiredService<IHyperLiquidRestClient>(),
                     x.GetRequiredService<IKrakenRestClient>(),
                     x.GetRequiredService<IKucoinRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
@@ -233,6 +241,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ICryptoComSocketClient>(),
                     x.GetRequiredService<IGateIoSocketClient>(),
                     x.GetRequiredService<IHTXSocketClient>(),
+                    x.GetRequiredService<IHyperLiquidSocketClient>(),
                     x.GetRequiredService<IKrakenSocketClient>(),
                     x.GetRequiredService<IKucoinSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),
@@ -306,6 +315,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("CryptoCom", globalOptions);
             UpdateExchangeOptions("GateIo", globalOptions);
             UpdateExchangeOptions("HTX", globalOptions);
+            UpdateExchangeOptions("HyperLiquid", globalOptions);
             UpdateExchangeOptions("Kraken", globalOptions);
             UpdateExchangeOptions("Kucoin", globalOptions);
             UpdateExchangeOptions("Mexc", globalOptions);
@@ -325,6 +335,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddCryptoCom(configuration.GetSection("CryptoCom"));
             services.AddGateIo(configuration.GetSection("GateIo"));
             services.AddHTX(configuration.GetSection("HTX"));
+            services.AddHyperLiquid(configuration.GetSection("HyperLiquid"));
             services.AddKraken(configuration.GetSection("Kraken"));
             services.AddKucoin(configuration.GetSection("Kucoin"));
             services.AddMexc(configuration.GetSection("Mexc"));
@@ -346,6 +357,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ICryptoComRestClient>(),
                     x.GetRequiredService<IGateIoRestClient>(),
                     x.GetRequiredService<IHTXRestClient>(),
+                    x.GetRequiredService<IHyperLiquidRestClient>(),
                     x.GetRequiredService<IKrakenRestClient>(),
                     x.GetRequiredService<IKucoinRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
@@ -370,6 +382,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ICryptoComSocketClient>(),
                     x.GetRequiredService<IGateIoSocketClient>(),
                     x.GetRequiredService<IHTXSocketClient>(),
+                    x.GetRequiredService<IHyperLiquidSocketClient>(),
                     x.GetRequiredService<IKrakenSocketClient>(),
                     x.GetRequiredService<IKucoinSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),

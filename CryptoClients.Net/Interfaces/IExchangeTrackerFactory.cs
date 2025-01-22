@@ -12,6 +12,7 @@ using CryptoExchange.Net.Trackers.Klines;
 using CryptoExchange.Net.Trackers.Trades;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
+using HyperLiquid.Net.Interfaces;
 using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
@@ -71,6 +72,10 @@ namespace CryptoClients.Net.Interfaces
         /// HTX tracker factory
         /// </summary>
         IHTXTrackerFactory HTX { get; }
+        /// <summary>
+        /// HyperLiquid tracker factory
+        /// </summary>
+        IHyperLiquidTrackerFactory HyperLiquid { get; }
         /// <summary>
         /// Kraken tracker factory
         /// </summary>

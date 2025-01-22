@@ -40,6 +40,9 @@ using GateIo.Net.Objects.Options;
 using HTX.Net.Clients;
 using HTX.Net.Interfaces.Clients;
 using HTX.Net.Objects.Options;
+using HyperLiquid.Net.Clients;
+using HyperLiquid.Net.Interfaces.Clients;
+using HyperLiquid.Net.Objects.Options;
 using Kraken.Net.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Options;
@@ -95,6 +98,8 @@ namespace CryptoClients.Net
         public IGateIoSocketClient GateIo { get; }
         /// <inheritdoc />
         public IHTXSocketClient HTX { get; }
+        /// <inheritdoc />
+        public IHyperLiquidSocketClient HyperLiquid { get; }
         /// <inheritdoc />
         public IKrakenSocketClient Kraken { get; }
         /// <inheritdoc />
@@ -199,6 +204,7 @@ namespace CryptoClients.Net
             CryptoCom = new CryptoComSocketClient();
             GateIo = new GateIoSocketClient();
             HTX = new HTXSocketClient();
+            HyperLiquid = new HyperLiquidSocketClient();
             Kraken = new KrakenSocketClient();
             Kucoin = new KucoinSocketClient();
             Mexc = new MexcSocketClient();
@@ -225,6 +231,7 @@ namespace CryptoClients.Net
             Action<CryptoComSocketOptions>? cryptoComSocketOptions = null,
             Action<GateIoSocketOptions>? gateIoSocketOptions = null,
             Action<HTXSocketOptions>? htxSocketOptions = null,
+            Action<HyperLiquidSocketOptions>? hyperLiquidSocketOptions = null,
             Action<KrakenSocketOptions>? krakenSocketOptions = null,
             Action<KucoinSocketOptions>? kucoinSocketOptions = null,
             Action<MexcSocketOptions>? mexcSocketOptions = null,
@@ -267,6 +274,7 @@ namespace CryptoClients.Net
                 cryptoComSocketOptions = SetGlobalSocketOptions(global, cryptoComSocketOptions, credentials?.CryptoCom);
                 gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions, credentials?.GateIo);
                 htxSocketOptions = SetGlobalSocketOptions(global, htxSocketOptions, credentials?.HTX);
+                hyperLiquidSocketOptions = SetGlobalSocketOptions(global, hyperLiquidSocketOptions, credentials?.HyperLiquid);
                 krakenSocketOptions = SetGlobalSocketOptions(global, krakenSocketOptions, credentials?.Kraken);
                 kucoinSocketOptions = SetGlobalSocketOptions(global, kucoinSocketOptions, credentials?.Kucoin);
                 mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions, credentials?.Mexc);
@@ -284,6 +292,7 @@ namespace CryptoClients.Net
             Coinbase = new CoinbaseSocketClient(coinbaseSocketOptions ?? new Action<CoinbaseSocketOptions>((x) => { }));
             CoinEx = new CoinExSocketClient(coinExSocketOptions ?? new Action<CoinExSocketOptions>((x) => { }));
             HTX = new HTXSocketClient(htxSocketOptions ?? new Action<HTXSocketOptions>((x) => { }));
+            HyperLiquid = new HyperLiquidSocketClient(hyperLiquidSocketOptions ?? new Action<HyperLiquidSocketOptions>((x) => { }));
             CryptoCom = new CryptoComSocketClient(cryptoComSocketOptions ?? new Action<CryptoComSocketOptions>((x) => { }));
             GateIo = new GateIoSocketClient(gateIoSocketOptions ?? new Action<GateIoSocketOptions>((x) => { }));
             Kraken = new KrakenSocketClient(krakenSocketOptions ?? new Action<KrakenSocketOptions>((x) => { }));
@@ -311,6 +320,7 @@ namespace CryptoClients.Net
             ICryptoComSocketClient cryptoCom,
             IGateIoSocketClient gateIo,
             IHTXSocketClient htx,
+            IHyperLiquidSocketClient hyperLiquid,
             IKrakenSocketClient kraken,
             IKucoinSocketClient kucoin,
             IMexcSocketClient mexc,
@@ -329,6 +339,7 @@ namespace CryptoClients.Net
             CryptoCom = cryptoCom;
             GateIo = gateIo;
             HTX = htx;
+            HyperLiquid = hyperLiquid;
             Kraken = kraken;
             Kucoin = kucoin;
             Mexc = mexc;
@@ -365,6 +376,8 @@ namespace CryptoClients.Net
                 GateIo.PerpetualFuturesApi.SharedClient,
                 HTX.SpotApi.SharedClient,
                 HTX.UsdtFuturesApi.SharedClient,
+                HyperLiquid.SpotApi.SharedClient,
+                HyperLiquid.FuturesApi.SharedClient,
                 Kraken.SpotApi.SharedClient,
                 Kraken.FuturesApi.SharedClient,
                 Kucoin.SpotApi.SharedClient,
@@ -402,6 +415,7 @@ namespace CryptoClients.Net
                 case "CryptoCom": CryptoCom.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "GateIo": GateIo.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "HTX": HTX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "HyperLiquid": HyperLiquid.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Kraken": Kraken.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Kucoin": Kucoin.SetApiCredentials(new KucoinApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
                 case "Mexc": Mexc.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
@@ -613,6 +627,7 @@ namespace CryptoClients.Net
                 CryptoCom.UnsubscribeAllAsync(),
                 GateIo.UnsubscribeAllAsync(),
                 HTX.UnsubscribeAllAsync(),
+                HyperLiquid.UnsubscribeAllAsync(),
                 Kraken.UnsubscribeAllAsync(),
                 Kucoin.UnsubscribeAllAsync(),
                 Mexc.UnsubscribeAllAsync(),

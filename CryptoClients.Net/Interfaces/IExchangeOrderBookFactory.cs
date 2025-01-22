@@ -11,6 +11,7 @@ using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
+using HyperLiquid.Net.Interfaces;
 using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
@@ -69,6 +70,10 @@ namespace CryptoClients.Net.Interfaces
         /// HTX order book factory
         /// </summary>
         IHTXOrderBookFactory HTX { get; }
+        /// <summary>
+        /// HyperLiquid order book factory
+        /// </summary>
+        IHyperLiquidOrderBookFactory HyperLiquid { get; }
         /// <summary>
         /// Kraken order book factory
         /// </summary>

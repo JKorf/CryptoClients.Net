@@ -67,6 +67,11 @@ namespace CryptoClients.Net.Models
         public ApiCredentials? HTX { get; set; }
 
         /// <summary>
+        /// HyperLiquid API credentials
+        /// </summary>
+        public ApiCredentials? HyperLiquid { get; set; }
+
+        /// <summary>
         /// Kraken API credentials
         /// </summary>
         public ApiCredentials? Kraken { get; set; }

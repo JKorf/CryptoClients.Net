@@ -9,6 +9,7 @@ using CoinEx.Net;
 using CryptoCom.Net;
 using GateIo.Net;
 using HTX.Net;
+using HyperLiquid.Net;
 using Kraken.Net;
 using Kucoin.Net;
 using Mexc.Net;
@@ -70,6 +71,10 @@ namespace CryptoClients.Net.Enums
         /// </summary>
         public static string HTX => HTXExchange.ExchangeName;
         /// <summary>
+        /// HyperLiquid
+        /// </summary>
+        public static string HyperLiquid => HyperLiquidExchange.ExchangeName;
+        /// <summary>
         /// Kraken
         /// </summary>
         public static string Kraken => KrakenExchange.ExchangeName;
@@ -110,6 +115,7 @@ namespace CryptoClients.Net.Enums
             CryptoCom,
             GateIo,
             HTX,
+            HyperLiquid,
             Kraken,
             Kucoin,
             Mexc,

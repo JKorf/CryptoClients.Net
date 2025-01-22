@@ -15,6 +15,7 @@ using CryptoExchange.Net.Trackers.Klines;
 using CryptoExchange.Net.Trackers.Trades;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
+using HyperLiquid.Net.Interfaces;
 using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
@@ -52,6 +53,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IHTXTrackerFactory HTX { get; }
         /// <inheritdoc />
+        public IHyperLiquidTrackerFactory HyperLiquid { get; }
+        /// <inheritdoc />
         public IKrakenTrackerFactory Kraken { get; }
         /// <inheritdoc />
         public IKucoinTrackerFactory Kucoin { get; }
@@ -79,6 +82,7 @@ namespace CryptoClients.Net
             ICryptoComTrackerFactory cryptoCom,
             IGateIoTrackerFactory gateIo,
             IHTXTrackerFactory htx,
+            IHyperLiquidTrackerFactory hyperLiquid,
             IKrakenTrackerFactory kraken,
             IKucoinTrackerFactory kucoin,
             IMexcTrackerFactory mexc,
@@ -97,6 +101,7 @@ namespace CryptoClients.Net
             CryptoCom = cryptoCom;
             GateIo = gateIo;
             HTX = htx;
+            HyperLiquid = hyperLiquid;
             Kraken = kraken;
             Kucoin = kucoin;
             Mexc = mexc;
@@ -134,6 +139,8 @@ namespace CryptoClients.Net
                     return GateIo.CreateKlineTracker(symbol, interval, limit, period);
                 case "HTX":
                     return HTX.CreateKlineTracker(symbol, interval, limit, period);
+                case "HyperLiquid":
+                    return HyperLiquid.CreateKlineTracker(symbol, interval, limit, period);
                 case "Kraken":
                     return Kraken.CreateKlineTracker(symbol, interval, limit, period);
                 case "Kucoin":
@@ -180,6 +187,8 @@ namespace CryptoClients.Net
                     return GateIo.CreateTradeTracker(symbol, limit, period);
                 case "HTX":
                     return HTX.CreateTradeTracker(symbol, limit, period);
+                case "HyperLiquid":
+                    return HyperLiquid.CreateTradeTracker(symbol, limit, period);
                 case "Kraken":
                     return Kraken.CreateTradeTracker(symbol, limit, period);
                 case "Kucoin":

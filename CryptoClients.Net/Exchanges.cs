@@ -11,6 +11,7 @@ using CryptoCom.Net;
 using CryptoExchange.Net.RateLimiting;
 using GateIo.Net;
 using HTX.Net;
+using HyperLiquid.Net;
 using Kraken.Net;
 using Kucoin.Net;
 using Mexc.Net;
@@ -170,6 +171,19 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
+        /// HyperLiquid exchange info
+        /// </summary>
+        public static ExchangeInfo HyperLiquid { get; } = new ExchangeInfo
+        {
+            Name = HyperLiquidExchange.ExchangeName,
+            DisplayName = HyperLiquidExchange.DisplayName,
+            ImageUrl = HyperLiquidExchange.ImageUrl,
+            Url = HyperLiquidExchange.Url,
+            ApiDocsUrl = HyperLiquidExchange.ApiDocsUrl,
+            Type = HyperLiquidExchange.Type
+        };
+
+        /// <summary>
         /// Kraken exchange info
         /// </summary>
         public static ExchangeInfo Kraken { get; } = new ExchangeInfo
@@ -263,6 +277,7 @@ namespace CryptoClients.Net
             CryptoCom,
             GateIo,
             HTX,
+            HyperLiquid,
             Kucoin,
             Kraken,
             Mexc,
@@ -288,6 +303,7 @@ namespace CryptoClients.Net
                 CryptoComExchange.RateLimiter.RateLimitTriggered += value;
                 GateIoExchange.RateLimiter.RateLimitTriggered += value;
                 HTXExchange.RateLimiter.RateLimitTriggered += value;
+                HyperLiquidExchange.RateLimiter.RateLimitTriggered += value;
                 KrakenExchange.RateLimiter.RateLimitTriggered += value;
                 KucoinExchange.RateLimiter.RateLimitTriggered += value;
                 MexcExchange.RateLimiter.RateLimitTriggered += value;
@@ -307,6 +323,7 @@ namespace CryptoClients.Net
                 CryptoComExchange.RateLimiter.RateLimitTriggered -= value;
                 GateIoExchange.RateLimiter.RateLimitTriggered -= value;
                 HTXExchange.RateLimiter.RateLimitTriggered -= value;
+                HyperLiquidExchange.RateLimiter.RateLimitTriggered -= value;
                 KrakenExchange.RateLimiter.RateLimitTriggered -= value;
                 KucoinExchange.RateLimiter.RateLimitTriggered -= value;
                 MexcExchange.RateLimiter.RateLimitTriggered -= value;

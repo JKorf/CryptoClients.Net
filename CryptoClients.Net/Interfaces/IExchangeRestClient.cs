@@ -11,6 +11,7 @@ using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.SharedApis;
 using GateIo.Net.Interfaces.Clients;
 using HTX.Net.Interfaces.Clients;
+using HyperLiquid.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
@@ -72,6 +73,10 @@ namespace CryptoClients.Net.Interfaces
         /// HTX REST API
         /// </summary>
         IHTXRestClient HTX { get; }
+        /// <summary>
+        /// HyperLiquid REST API
+        /// </summary>
+        IHyperLiquidRestClient HyperLiquid { get; }
         /// <summary>
         /// Kraken REST API
         /// </summary>

@@ -13,6 +13,7 @@ using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
+using HyperLiquid.Net.Interfaces;
 using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
@@ -49,6 +50,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IHTXOrderBookFactory HTX { get; }
         /// <inheritdoc />
+        public IHyperLiquidOrderBookFactory HyperLiquid { get; }
+        /// <inheritdoc />
         public IKrakenOrderBookFactory Kraken { get; }
         /// <inheritdoc />
         public IKucoinOrderBookFactory Kucoin { get; }
@@ -76,6 +79,7 @@ namespace CryptoClients.Net
             ICryptoComOrderBookFactory cryptoCom,
             IGateIoOrderBookFactory gateIo,
             IHTXOrderBookFactory htx,
+            IHyperLiquidOrderBookFactory hyperLiquid,
             IKrakenOrderBookFactory kraken,
             IKucoinOrderBookFactory kucoin,
             IMexcOrderBookFactory mexc,
@@ -94,6 +98,7 @@ namespace CryptoClients.Net
             CryptoCom = cryptoCom;
             GateIo = gateIo;
             HTX = htx;
+            HyperLiquid = hyperLiquid;
             Kraken = kraken;
             Kucoin = kucoin;
             Mexc = mexc;
@@ -149,6 +154,8 @@ namespace CryptoClients.Net
                     var htxLimit = GetBookDepth(minimalDepth, true, 5, 20, 150, 400);
                     var htxUsdLimit = GetBookDepth(minimalDepth, true, 20, 150);
                     return HTX.Create(symbol, opts => { opts.Levels = symbol.TradingMode == TradingMode.Spot ? htxLimit : htxUsdLimit; });
+                case "HyperLiquid":
+                    return HyperLiquid.Create(symbol);
                 case "Kraken":
                     var krakenLimit = GetBookDepth(minimalDepth, false, 10, 25, 100, 500, 1000);
                     return Kraken.Create(symbol, opts => { opts.Limit = krakenLimit; });
