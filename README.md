@@ -237,6 +237,37 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.10.0 - 22 Jan 2025
+  * Added HyperLiquid support with HyperLiquid.Net 1.0.1
+  * Updated reference CryptoExchange.Net version from 8.6.0 to 8.6.1
+    * Added GetMillisecondTimestampLong helper method to AuthenticationProvider
+    * Added PriceSignificationFigures to SharedSpotSymbol model
+  * Updated Binance.Net from version 10.16.1 to version 10.16.2
+    * Updated RewardType Enum values
+    * Updated weight of restClient.SpotApi.Account.WithdrawAsync from 600 to 900
+    * Fixed restClient.SpotApi.Account.GetTradeFeeAsync for Us environment
+  * Updated BitMart.Net from version 1.12.1 to version 1.12.2
+    * Added BuyerIsMaker property to socketClient.UsdFuturesApi.SubscribeToTradeUpdatesAsync update model
+    * Added Side to futures API shared interfaces trade subscription
+  * Updated GateIo.Net from version 1.17.1 to version 1.18.0
+    * Added transactionType parameter to restClient.SpotApi.Account.GetTransferHistoryAsync endpoint
+    * Added NumberOfOrders to restClient.PerpetualFuturesApi.ExchangeData.GetLiquidationsAsync response model
+    * Added PreMarketStatus property to restClient.SpotApi.ExchangeData.GetSymbolsAsync response model
+  * Fixed deserialization error in restClient.SpotApi.Account.GetSmallBalanceConversionsAsync
+  * Updated HTX.Net from version 6.8.1 to version 6.8.2
+    * Added restClient.SpotApi.ExchangeData.GetNetworksAsync
+  * Updated Kraken.Net from version 5.5.3 to version 5.5.4
+    * Fixed IAssetsRestClient.GetAssetAsync not marked as authenticated method
+    * Fixed incorrect int values for OneWeek and FifteenDays in KlineInterval enum
+  * Updated Kucoin.Net from version 5.23.4 to version 5.23.5
+    * Fixed restClient.FuturesApi.Account.GetPositionHistoryAsync deserialization error and updated response model
+* Updated Mexc.Net from version 1.15.1 to version 1.15.2
+    * Added restClient.SpotApi.Account.TransferInternalAsync endpoint
+    * Added restClient.SpotApi.Account.GetInternalTransferHistoryAsync endpoint
+  * Updated OKX.Net from version 2.14.1 to version 2.14.2
+    * Added handling of unknown symbol error in websocket subscribe request
+    * Removed deprecated restClient.UnifiedApi.ExchangeData.GetOracleAsync
+
 * Version 2.9.3 - 18 Jan 2025
   * Updated Bybit.Net from version 4.0.1 to version 4.0.2
     * Added DepositLimit, DepositType and FromAddress to restClient.V5Api.Account.GetDepositsAsync response model
