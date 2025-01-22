@@ -5,7 +5,7 @@
 CryptoClients.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). CryptoClients.Net bundles the different client libraries in a single package and adds some additional tools to make use of them.
 
 ## Features
-* Direct full access to 16 different exchanges, public and private data
+* Direct full access to 16 different CEX's and 1 DEX, public and private data
 * Client per exchange, or single client for accessing all exchanges
 * Response data is mapped to descriptive models
 * Input parameters and response values are mapped to discriptive enum values where possible
@@ -47,6 +47,7 @@ The following API's are included in CryptoClients.Net:
 |Crypto.com|[JKorf/CryptoCom.Net](https://github.com/JKorf/CryptoCom.Net)|[![Nuget version](https://img.shields.io/nuget/v/CryptoCom.net.svg?style=flat-square)](https://www.nuget.org/packages/CryptoCom.Net)|
 |Gate.io|[JKorf/GateIo.Net](https://github.com/JKorf/GateIo.Net)|[![Nuget version](https://img.shields.io/nuget/v/GateIo.net.svg?style=flat-square)](https://www.nuget.org/packages/GateIo.Net)|
 |HTX|[JKorf/HTX.Net](https://github.com/JKorf/HTX.Net)|[![Nuget version](https://img.shields.io/nuget/v/JKorf.HTX.net.svg?style=flat-square)](https://www.nuget.org/packages/JKorf.HTX.Net)|
+|HyperLiquid|[JKorf/HyperLiquid.Net](https://github.com/JKorf/HyperLiquid.Net)|[![Nuget version](https://img.shields.io/nuget/v/HyperLiquid.net.svg?style=flat-square)](https://www.nuget.org/packages/HyperLiquid.Net)|
 |Kraken|[JKorf/Kraken.Net](https://github.com/JKorf/Kraken.Net)|[![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg?style=flat-square)](https://www.nuget.org/packages/KrakenExchange.Net)|
 |Kucoin|[JKorf/Kucoin.Net](https://github.com/JKorf/Kucoin.Net)|[![Nuget version](https://img.shields.io/nuget/v/Kucoin.net.svg?style=flat-square)](https://www.nuget.org/packages/Kucoin.Net)|
 |Mexc|[JKorf/Mexc.Net](https://github.com/JKorf/Mexc.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.Mexc.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.Mexc.Net)|
@@ -207,6 +208,23 @@ A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free t
 
 ## Support the project
 Any support is greatly appreciated.
+
+## Referral
+When creating an account on new exchanges please consider using a referral link from below to support development
+
+|Exchange|Link|
+|--|--|
+|Bybit|[https://partner.bybit.com/b/jkorf](https://partner.bybit.com/b/jkorf)|
+|Coinbase|[https://advanced.coinbase.com/join/T6H54H8](https://advanced.coinbase.com/join/T6H54H8)|
+|CoinEx|[https://www.coinex.com/register?refer_code=hd6gn](https://www.coinex.com/register?refer_code=hd6gn)|
+|Crypto.com|[https://crypto.com/exch/26ge92xbkn](https://crypto.com/exch/26ge92xbkn)|
+|HTX|[https://www.htx.com/invite/en-us/1f?invite_code=fxp9](https://www.htx.com/invite/en-us/1f?invite_code=fxp9)|
+|HyperLiquid|[https://app.hyperliquid.xyz/join/JKORF](https://app.hyperliquid.xyz/join/JKORF)|
+|Kucoin|[https://www.kucoin.com/r/rf/QBS4FPED](https://www.kucoin.com/r/rf/QBS4FPED)|
+|OKX|[https://okx.com/join/48046699](https://okx.com/join/48046699)|
+|WhiteBit|[https://whitebit.com/referral/a8e59b59-186c-4662-824c-3095248e0edf](https://whitebit.com/referral/a8e59b59-186c-4662-824c-3095248e0edf)|
+|XT|[https://www.xt.com/en/accounts/register?ref=1HRM5J](https://www.xt.com/en/accounts/register?ref=1HRM5J)|
+
 
 ### Donate
 Make a one time donation in a crypto currency of your choice. If you prefer to donate a currency not listed here please contact me.
