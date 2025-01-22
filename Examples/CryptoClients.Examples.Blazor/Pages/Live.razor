@@ -3,6 +3,7 @@
 @using CryptoExchange.Net.Objects
 @using CryptoExchange.Net.Objects.Sockets
 @using CryptoExchange.Net.SharedApis
+@using System.Collections.Concurrent
 @inject IExchangeSocketClient SocketClient
 @implements IDisposable
 
@@ -66,7 +67,7 @@
     private object _lock = new object();
     private int _max = 100;
     private List<ExchangeTrade> _trades = new List<ExchangeTrade>();
-    private Dictionary<string, (decimal BaseVolume, decimal QuoteVolume)> _volume = new Dictionary<string, (decimal, decimal)>();
+    private ConcurrentDictionary<string, (decimal BaseVolume, decimal QuoteVolume)> _volume = new ConcurrentDictionary<string, (decimal, decimal)>();
 
     private string _baseAsset = "BTC";
     private string _quoteAsset = "USDT";
