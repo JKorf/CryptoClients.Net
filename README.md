@@ -237,6 +237,49 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.11.0 - 07 Feb 2025
+  * Added BitMEX support with BitMEX.Net 1.0.0
+  * Updated reference CryptoExchange.Net version from 8.6.1 to 8.7.3
+    * Added GetMillisecondTimestampLong helper method to AuthenticationProvider
+    * Added PriceSignificationFigures to SharedSpotSymbol model
+    * Added Authenticated property to IBaseApiClient interface to check if a client was provided API credentials  
+    * Added support for Flags enum deserialization in System.Text.Json EnumConverter
+    * Added handling of negative number DateTime deserialization to default
+    * Updated SharedSymbol from class to record
+    * Some small fixes in the System.Text.Json ArrayConverter
+    * Fixed issue with serialization of nullable types in System.Text.Json ArrayConverter
+    * Fix for unnecessary error message in logging when closing websocket connection
+  * Updated BingX.Net from version 1.19.1 to version 1.20.1
+    * Added AveragePrice to SpotApi order details model and shared implementation
+    * Added missing TimeInForce parameter for restClient.SpotApi.Trading.PlaceMultipleOrderAsync
+    * Added ContractAddress property to BingXAsset model
+    * Added processPartialSuccess parameter to restClient.SpotApi.Trading.CancelOrdersAsync endpoint
+    * Updated restClient.SpotApi.Trading.CancelOrdersAsync response model so failed cancellations can also be returned
+    * Fixed clientOrderId parameter for restClient.PerpetualFuturesApi.Trading.PlaceOrderAsync endpoint
+  * Updated Bitfinex.Net from version 7.13.1 to version 8.0.2
+    * Added client side ratelimit implementation
+    * Updated library to System.Text.Json from Newtonsoft.Json for json (de)serialization
+    * Updated public websocket subscriptions to use the URI specifically for public data
+    * Updated websocket to use bulk updates for order book updates (configurable)
+    * Updated Enum conversions to use EnumConverter
+    * Fixed deserialization error in BitfinexOrder response model
+  * Updated Bitget.Net from version 1.19.1 to version 1.20.0
+    * Added restClient.SpotApiV2.Trading.CancelReplaceOrderAsync endpoint
+    * Added restClient.SpotApiV2.Trading.CancelReplaceMultipleOrdersAsync endpoint
+    * Added TakeProfit/StopLoss parameters to SpotApiV2 place order endpoints
+    * Fixed restClient.SpotApiV2.Margin.GetIsolatedRiskRateAsync response parsing
+    * Fixed an issue with data not being parsed correctly for certain models
+  * Updated CoinEx.Net from version 7.13.2 to version 7.14.0
+    * Added restClient.SpotApiV2.Account.GetAllDepositWithdrawalConfigsAsync endpoint
+    * Updated SpotApi Shared implementation GetAssetsAsync to also return network info
+  * Updated Kraken.Net from version 5.5.4 to version 5.6.0
+    * Added support for `NewAssetNames` ExchangeParameter in shared implementation symbol and asset requests
+    * Added check for authentication when requesting assets, return only asset names if no credentials provided
+    * Updated restClient.SpotApi.Trading.GetClosedOrdersAsync parameters
+  * Updated Mexc.Net from version 1.15.2 to version 2.0.0
+    * Added client side-ratelimiting implementation
+    * Updated json (de)serializer from Newtonsoft.Json to System.Text.Json
+
 * Version 2.10.0 - 22 Jan 2025
   * Added HyperLiquid support with HyperLiquid.Net 1.0.1
   * Updated reference CryptoExchange.Net version from 8.6.0 to 8.6.1
