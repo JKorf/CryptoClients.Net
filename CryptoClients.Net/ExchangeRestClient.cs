@@ -15,6 +15,9 @@ using BitMart.Net.Clients;
 using BitMart.Net.Interfaces.Clients;
 using BitMart.Net.Objects;
 using BitMart.Net.Objects.Options;
+using BitMEX.Net.Clients;
+using BitMEX.Net.Interfaces.Clients;
+using BitMEX.Net.Objects.Options;
 using Bybit.Net.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Bybit.Net.Objects.Options;
@@ -88,6 +91,8 @@ namespace CryptoClients.Net
         public IBitgetRestClient Bitget { get; }
         /// <inheritdoc />
         public IBitMartRestClient BitMart { get; }
+        /// <inheritdoc />
+        public IBitMEXRestClient BitMEX { get; }
         /// <inheritdoc />
         public IBybitRestClient Bybit { get; }
         /// <inheritdoc />
@@ -280,6 +285,7 @@ namespace CryptoClients.Net
             Bitfinex = new BitfinexRestClient();
             Bitget = new BitgetRestClient();
             BitMart = new BitMartRestClient();
+            BitMEX = new BitMEXRestClient();
             Bybit = new BybitRestClient();
             Coinbase = new CoinbaseRestClient();
             CoinEx = new CoinExRestClient();
@@ -308,6 +314,7 @@ namespace CryptoClients.Net
             Action<BitfinexRestOptions>? bitfinexRestOptions = null,
             Action<BitgetRestOptions>? bitgetRestOptions = null,
             Action<BitMartRestOptions>? bitMartRestOptions = null,
+            Action<BitMEXRestOptions>? bitMEXRestOptions = null,
             Action<BybitRestOptions>? bybitRestOptions = null,
             Action<CoinbaseRestOptions>? coinbaseRestOptions = null,
             Action<CoinExRestOptions>? coinExRestOptions = null,
@@ -350,6 +357,7 @@ namespace CryptoClients.Net
                 bitfinexRestOptions = SetGlobalRestOptions(global, bitfinexRestOptions, credentials?.Bitfinex);
                 bitgetRestOptions = SetGlobalRestOptions(global, bitgetRestOptions, credentials?.Bitget);
                 bitMartRestOptions = SetGlobalRestOptions(global, bitMartRestOptions, credentials?.BitMart);
+                bitMEXRestOptions = SetGlobalRestOptions(global, bitMEXRestOptions, credentials?.BitMEX);
                 bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions, credentials?.Bybit);
                 coinbaseRestOptions = SetGlobalRestOptions(global, coinbaseRestOptions, credentials?.Coinbase);
                 coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx);
@@ -370,6 +378,7 @@ namespace CryptoClients.Net
             Bitfinex = new BitfinexRestClient(bitfinexRestOptions);
             Bitget = new BitgetRestClient(bitgetRestOptions);
             BitMart = new BitMartRestClient(bitMartRestOptions);
+            BitMEX = new BitMEXRestClient(bitMEXRestOptions);
             Bybit = new BybitRestClient(bybitRestOptions);
             Coinbase = new CoinbaseRestClient(coinbaseRestOptions);
             CoinEx = new CoinExRestClient(coinExRestOptions);
@@ -422,6 +431,7 @@ namespace CryptoClients.Net
                 Bitget.FuturesApiV2.SharedClient,
                 BitMart.SpotApi.SharedClient,
                 BitMart.UsdFuturesApi.SharedClient,
+                BitMEX.ExchangeApi.SharedClient,
                 Bybit.V5Api.SharedClient,
                 Coinbase.AdvancedTradeApi.SharedClient,
                 CoinEx.SpotApiV2.SharedClient,
@@ -455,6 +465,7 @@ namespace CryptoClients.Net
             IBitfinexRestClient bitfinex,
             IBitgetRestClient bitget,
             IBitMartRestClient bitMart,
+            IBitMEXRestClient bitMEX,
             IBybitRestClient bybit,
             ICoinbaseRestClient coinbase,
             ICoinExRestClient coinEx,
@@ -477,6 +488,7 @@ namespace CryptoClients.Net
             Bitfinex = bitfinex;
             Bitget = bitget;
             BitMart = bitMart;
+            BitMEX = bitMEX;
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
@@ -525,6 +537,7 @@ namespace CryptoClients.Net
                 case "Bitfinex": Bitfinex.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Bitget": Bitget.SetApiCredentials(new BitgetApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Bitget credentials", nameof(apiPass)))); break;
                 case "BitMart": BitMart.SetApiCredentials(new BitMartApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BitMart credentials", nameof(apiPass)))); break;
+                case "BitMEX": BitMEX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Bybit": Bybit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Coinbase": Coinbase.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "CoinEx": CoinEx.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;

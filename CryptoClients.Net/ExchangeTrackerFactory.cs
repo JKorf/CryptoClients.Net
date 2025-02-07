@@ -4,6 +4,7 @@ using Bitfinex.Net.Interfaces;
 using Bitget.Net.Enums;
 using Bitget.Net.Interfaces;
 using BitMart.Net.Interfaces;
+using BitMEX.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
@@ -41,6 +42,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IBitMartTrackerFactory BitMart { get; }
         /// <inheritdoc />
+        public IBitMEXTrackerFactory BitMEX { get; }
+        /// <inheritdoc />
         public IBybitTrackerFactory Bybit { get; }
         /// <inheritdoc />
         public ICoinbaseTrackerFactory Coinbase { get; }
@@ -76,6 +79,7 @@ namespace CryptoClients.Net
             IBitfinexTrackerFactory bitfinex,
             IBitgetTrackerFactory bitget,
             IBitMartTrackerFactory bitMart,
+            IBitMEXTrackerFactory bitMEX,
             IBybitTrackerFactory bybit,
             ICoinbaseTrackerFactory coinbase,
             ICoinExTrackerFactory coinEx,
@@ -95,6 +99,7 @@ namespace CryptoClients.Net
             Bitfinex = bitfinex;
             Bitget = bitget;
             BitMart = bitMart;
+            BitMEX = bitMEX;
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
@@ -126,6 +131,9 @@ namespace CryptoClients.Net
                     return Bitget.CreateKlineTracker(symbol, interval, limit, period);
                 case "BitMart":
                     return BitMart.CreateKlineTracker(symbol, interval, limit, period);
+                case "BitMEX":
+                    // No tracker available
+                    return null;
                 case "Bybit":
                     return Bybit.CreateKlineTracker(symbol, interval, limit, period);
                 case "Coinbase":
@@ -175,6 +183,8 @@ namespace CryptoClients.Net
                     return Bitget.CreateTradeTracker(symbol, limit, period);
                 case "BitMart":
                     return BitMart.CreateTradeTracker(symbol, limit, period);
+                case "BitMEX":
+                    return BitMEX.CreateTradeTracker(symbol, limit, period);
                 case "Bybit":
                     return Bybit.CreateTradeTracker(symbol, limit, period);
                 case "Coinbase":

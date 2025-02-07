@@ -15,6 +15,9 @@ using BitMart.Net.Clients;
 using BitMart.Net.Interfaces.Clients;
 using BitMart.Net.Objects;
 using BitMart.Net.Objects.Options;
+using BitMEX.Net.Clients;
+using BitMEX.Net.Interfaces.Clients;
+using BitMEX.Net.Objects.Options;
 using Bybit.Net.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Bybit.Net.Objects.Options;
@@ -86,6 +89,8 @@ namespace CryptoClients.Net
         public IBitgetSocketClient Bitget { get; }
         /// <inheritdoc />
         public IBitMartSocketClient BitMart { get; }
+        /// <inheritdoc />
+        public IBitMEXSocketClient BitMEX { get; }
         /// <inheritdoc />
         public IBybitSocketClient Bybit { get; }
         /// <inheritdoc />
@@ -198,6 +203,7 @@ namespace CryptoClients.Net
             Bitfinex = new BitfinexSocketClient();
             Bitget = new BitgetSocketClient();
             BitMart = new BitMartSocketClient();
+            BitMEX = new BitMEXSocketClient();
             Bybit = new BybitSocketClient();
             Coinbase = new CoinbaseSocketClient();
             CoinEx = new CoinExSocketClient();
@@ -225,6 +231,7 @@ namespace CryptoClients.Net
             Action<BitfinexSocketOptions>? bitfinexSocketOptions = null,
             Action<BitgetSocketOptions>? bitgetSocketOptions = null,
             Action<BitMartSocketOptions>? bitMartSocketOptions = null,
+            Action<BitMEXSocketOptions>? bitMEXSocketOptions = null,
             Action<BybitSocketOptions>? bybitSocketOptions = null,
             Action<CoinExSocketOptions>? coinExSocketOptions = null,
             Action<CoinbaseSocketOptions>? coinbaseSocketOptions = null,
@@ -268,6 +275,7 @@ namespace CryptoClients.Net
                 bitfinexSocketOptions = SetGlobalSocketOptions(global, bitfinexSocketOptions, credentials?.Bitfinex);
                 bitgetSocketOptions = SetGlobalSocketOptions(global, bitgetSocketOptions, credentials?.Bitget);
                 bitMartSocketOptions = SetGlobalSocketOptions(global, bitMartSocketOptions, credentials?.BitMart);
+                bitMEXSocketOptions = SetGlobalSocketOptions(global, bitMEXSocketOptions, credentials?.BitMEX);
                 bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions, credentials?.Bybit);
                 coinbaseSocketOptions = SetGlobalSocketOptions(global, coinbaseSocketOptions, credentials?.Coinbase);
                 coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx);
@@ -288,6 +296,7 @@ namespace CryptoClients.Net
             Bitfinex = new BitfinexSocketClient(bitfinexSocketOptions ?? new Action<BitfinexSocketOptions>((x) => { }));
             Bitget = new BitgetSocketClient(bitgetSocketOptions ?? new Action<BitgetSocketOptions>((x) => { }));
             BitMart = new BitMartSocketClient(bitMartSocketOptions ?? new Action<BitMartSocketOptions>((x) => { }));
+            BitMEX = new BitMEXSocketClient(bitMEXSocketOptions ?? new Action<BitMEXSocketOptions>((x) => { }));
             Bybit = new BybitSocketClient(bybitSocketOptions ?? new Action<BybitSocketOptions>((x) => { }));
             Coinbase = new CoinbaseSocketClient(coinbaseSocketOptions ?? new Action<CoinbaseSocketOptions>((x) => { }));
             CoinEx = new CoinExSocketClient(coinExSocketOptions ?? new Action<CoinExSocketOptions>((x) => { }));
@@ -314,6 +323,7 @@ namespace CryptoClients.Net
             IBitfinexSocketClient bitfinex,
             IBitgetSocketClient bitget,
             IBitMartSocketClient bitMart,
+            IBitMEXSocketClient bitMEX,
             IBybitSocketClient bybit,
             ICoinbaseSocketClient coinbase,
             ICoinExSocketClient coinEx,
@@ -333,6 +343,7 @@ namespace CryptoClients.Net
             Bitfinex = bitfinex;
             Bitget = bitget;
             BitMart = bitMart;
+            BitMEX = bitMEX;
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
@@ -364,6 +375,7 @@ namespace CryptoClients.Net
                 Bitget.FuturesApiV2.SharedClient,
                 BitMart.SpotApi.SharedClient,
                 BitMart.UsdFuturesApi.SharedClient,
+                BitMEX.ExchangeApi.SharedClient,
                 Bybit.V5InverseApi.SharedClient,
                 Bybit.V5LinearApi.SharedClient,
                 Bybit.V5PrivateApi.SharedClient,
@@ -409,6 +421,7 @@ namespace CryptoClients.Net
                 case "Bitfinex": Bitfinex.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Bitget": Bitget.SetApiCredentials(new BitgetApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Bitget credentials", nameof(apiPass)))); break;
                 case "BitMart": BitMart.SetApiCredentials(new BitMartApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BitMart credentials", nameof(apiPass)))); break;
+                case "BitMEX": BitMEX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Bybit": Bybit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Coinbase": Coinbase.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "CoinEx": CoinEx.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
