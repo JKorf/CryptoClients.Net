@@ -238,6 +238,122 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.12.0 - 12 Feb 2025
+  * Updated reference CryptoExchange.Net version from 8.7.3 to 8.8.0
+    * Split DataEvent.Timestamp in DataEvent.ReceivedTime and DataEvent.DataTime
+    * Added SharedKlineInterval enum values
+    * Fixed exception when creating rest client for mono runtime
+    * Fixed some typos
+  * Updated Binance.Net from version 10.16.2 to version 10.17.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Added contract address and URL properties to BinanceUserAsset model
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated BingX.Net from version 1.20.1 to version 1.21.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Added Status property to restClient.PerpetualFuturesApi.Trading.PlaceOrderAsync response model
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated Bitfinex.Net from version 8.0.2 to version 8.1.1
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Fix Mono runtime exception on rest client construction using DI
+    * Fixed SharedSymbol formatting for assets with more than 3 characters in the name
+    * Fixed unnecessary unsubscribe call when subscribe is never confirmed
+  * Updated Bitget.Net from version 1.20.0 to version 1.21.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Added initial futures CopyTrader endpoints
+    * Updated BitgetFuturesTriggerOrder response model
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated BitMart.Net from version 1.12.2 to version 1.13.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated BitMEX.Net from version 1.0.0 to version 1.1.0
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Added DisplayName and ImageUrl to BitMEXExchange class
+    * Fixed supported SharedKlineInterval not being specified correctly in the options
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated Bybit.Net from version 4.0.2 to version 4.1.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated Coinbase.Net from version 1.7.2 to version 1.8.1
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Added getTradabilityStatus parameter to GetSymbolsAsync method
+    * Renamed KlineInterval.TwoHour to KlineInterval.TwoHours, fixed int value
+    * Fixed missing value PreLaunch for SymbolStatus enum
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated CoinEx.Net from version 7.14.0 to version 7.15.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Fixed deserialization of CoinExBookPriceUpdate.UpdateTime property
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated CoinGecko.Net from version 3.3.1 to version 3.4.0
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated CryptoCom.Net from version 1.5.1 to version 1.6.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Fixed incorrect API docs references for subscription methods
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated GateIo.Net from version 1.18.0 to version 1.19.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Added actionMode parameter to restClient.SpotApi.Trading.PlaceOrderAsync endpoint and socketClient.SpotApi.PlaceOrderAsync
+    * Fix Mono runtime exception on rest client construction using DI
+    * Marked cross margin endpoints as deprecated
+  * Updated HTX.Net from version 6.8.2 to version 6.9.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Added UpdateTime to HTXOrder response model
+    * Added restClient.SpotApi.Trading.CancelAllOrdersAsync endpoint
+    * Added missing parameters to restClient.SpotApi.Trading.GetOpenOrdersAsync endpoint
+    * Added TotalTradeQuantity property to socketClient.SpotApi.SubscribeToOrderUpdatesAsync update model
+    * Added restClient.SpotApi.ExchangeData.GetFullOrderBookAsync endpoint
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated HyperLiquid.Net from version 1.0.1 to version 1.1.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated Kraken.Net from version 5.6.0 to version 5.7.1
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Added mapping of XBT to BTC for websocket SharedSymbol formatting
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated Kucoin.Net from version 5.23.5 to version 5.24.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Fixed incorrect enum value for FeeType
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated Mexc.Net from version 2.0.0 to version 2.1.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated OKX.Net from version 2.14.2 to version 2.15.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Added restClient.UnifiedApi.Account.GetSymbolsAsync endpoint
+    * Fixed setting tag parameter in restClient.UnifiedApi.Trading.PlaceOrderAsync
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated WhiteBit.Net from version 1.3.2 to version 1.4.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Added SelfTradePreventionMode parameter to REST PlaceOrder endpoints, updated Order response model with StpMode and Status properties
+    * Added socketClient.V4Api.SubscribeToAccountMarginPositionEventUpdatesAsync and SubscribeToAccountBorrowEventUpdatesAsync subscriptions
+    * Added TpSl property to WhtieBitPosition model, containing TakeProfit/StopLoss order reference info
+    * Added Role and FeeAsset properties to socketClient.V4Api.SubscribeToUserTradeUpdatesAsync update model
+    * Added restClient.V4Api.Account.GetTradingFeesAsync endpoint
+    * Updated KlineInterval.ThreeMinute to KlineInterval.ThreeMinutes
+    * Fixed socketClient.V4Api.SubscribeToPositionUpdatesAsync UpdateTime being lower case
+    * Fix Mono runtime exception on rest client construction using DI
+  * Updated XT.Net from version 1.1.3 to version 1.2.0
+    * Added support for more SharedKlineInterval values
+    * Added setting of DataTime value on websocket DataEvent updates
+    * Added MinDepositQuantity, DepositConfirmations and WithdrawPrecision properties to restClient.SpotApi.ExchangeData.GetAssetNetworksAsync response model
+    * Fix Mono runtime exception on rest client construction using DI
+
 * Version 2.11.0 - 07 Feb 2025
   * Added BitMEX support with BitMEX.Net 1.0.0
   * Updated reference CryptoExchange.Net version from 8.6.1 to 8.7.3
