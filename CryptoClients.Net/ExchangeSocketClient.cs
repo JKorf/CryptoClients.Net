@@ -439,6 +439,16 @@ namespace CryptoClients.Net
             }
         }
 
+        /// <inheritdoc />
+        public string? GetSymbolName(string exchange, SharedSymbol symbol)
+        {
+            var client = _sharedClients.FirstOrDefault(x => x.Exchange == exchange && x.SupportedTradingModes.Contains(symbol.TradingMode));
+            if (client == null)
+                return null;
+
+            return symbol.GetSymbol(client.FormatSymbol);
+        }
+
         #region Subscribe All Ticker
 
         /// <inheritdoc />

@@ -494,6 +494,9 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSymbolName(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsync(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -941,6 +944,9 @@
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.GetSymbolName(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
@@ -1464,6 +1470,14 @@
             <param name="apiKey">API key</param>
             <param name="apiSecret">API secret</param>
             <param name="apiPass">API passphrase</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSymbolName(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <summary>
+            Return the exchange symbol name
+            </summary>
+            <param name="exchange">Exchange</param>
+            <param name="symbol">Symbol</param>
+            <returns></returns>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetAssetsClients">
             <summary>
@@ -2388,6 +2402,14 @@
             <param name="apiKey">API key</param>
             <param name="apiSecret">API secret</param>
             <param name="apiPass">API passphrase</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetSymbolName(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <summary>
+            Return the exchange symbol name
+            </summary>
+            <param name="exchange">Exchange</param>
+            <param name="symbol">Symbol</param>
+            <returns></returns>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
             <summary>

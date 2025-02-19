@@ -118,6 +118,14 @@ namespace CryptoClients.Net.Interfaces
         void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null);
 
         /// <summary>
+        /// Return the exchange symbol name
+        /// </summary>
+        /// <param name="exchange">Exchange</param>
+        /// <param name="symbol">Symbol</param>
+        /// <returns></returns>
+        string? GetSymbolName(string exchange, SharedSymbol symbol);
+
+        /// <summary>
         /// Get all ISharedClient Socket Api interfaces supported for the specified exchange
         /// </summary>
         /// <param name="exchange">The exchange name</param>
