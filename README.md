@@ -240,6 +240,84 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.13.0 - 04 Mar 2025
+  * Added DeepCoin support with DeepCoin.Net 1.0.1
+  * Added GetSymbolName helper method on clients
+  * Updated Binance.Net from version 10.17.0 to version 10.18.0
+    * Added Coin-M websocket Trade API implementation
+    * Added SOL staking endpoints to restClient.GeneralApi.Staking
+    * Added orderId parameter to Spot.GetMarginUserTradesAsync
+    * Updated futures GetTradeHistoryAsync max limit value from 1000 to 500
+    * Fixed API doc references for endpoints and subscriptions
+    * Fixed various spelling mistakes
+  * Updated BitMart.Net from version 1.13.0 to version 1.14.0
+    * Added restClient.SpotApi.Account.GetWithdrawalAddressesAsync endpoint
+    * Added startTime/endTime filter to restClient.SpotApi.Account.GetDepositHistoryAsync and GetWithdrawalHistoryAsync
+    * Added needUsdValuation to restClient.SpotApi.Account.GetFundingBalancesAsync endpoint
+    * Added asset parameter to restClient.SpotApi.ExchangeData.GetAssetDepositWithdrawInfoAsync endpoint
+    * Added restClient.UsdFuturesApi.ExchangeData.GetMarkKlinesAsync endpoint
+    * Added socketClient.UsdFuturesApi.SubscribeToMarkKlineUpdatesAsync subscription
+    * Added symbol specific overloads for socketClient.UsdFuturesApi.SubscribeToTickerUpdatesAsync subscription
+  * Updated Bybit.Net from version 4.1.0 to version 4.3.2
+    * Added restClient.V5Api.ExchangeData.GetSpotMarginTieredCollateralRatioAsync endpoint
+    * Added restClient.V5Api.Account.GetTransferableAsync multi-asset overload and updated response model
+    * Added quoteAsset parameter to restClient.V5Api.ExchangeData.GetHistoricalVolatilityAsync endpoint
+    * Added support for RPI (RetailPriceImprovement) orders and data
+    * Added Bybit Earn endpoints to restClient.V5Api.Earn
+    * Added socket SubscribeToAllLiquidationUpdatesAsync subscription
+    * Marked SubscribeToLiquidationUpdatesAsync as deprecated
+    * Fix for pagination in restClient.V5Api.SharedClient.GetKlinesAsync
+    * Fixed restClient.V5Api.CryptoLoan.BorrowAsync parameter serialization
+    * Fix for restClient.V5Api.CryptoLoan.GetOpenLoansAsync deserialization
+  * Updated CoinEx.Net from version 7.15.0 to version 8.0.1
+    * Added client side ratelimiter implementation
+    * Updated REST and WebSocket unit tests
+    * Updated REST requests to new CryptoExchange.Net implementation
+    * Updated various response models
+    * Fixed restClient.FuturesApi.Trading.CancelOrderByClientOrderIdAsync response model
+    * Fixed restClient.FuturesApi.Trading.CancelStopOrderByClientOrderIdAsync response model
+    * Fixed restClient.SpotApi.Account.GetCreditAccountAsync response model
+    * Fixed restClient.SpotApi.Account.GetWithdrawalHistoryAsync status parameter
+    * Fixed exception in restClient.SpotApiV2.Account.GetAllDepositWithdrawalConfigsAsync when no credentials provided
+    * Removed V1 API
+  * Updated GateIo.Net from version 1.19.0 to version 1.20.1
+    * Added auto convert to lowercase for settlement asset parameter in futures endpoints and subscriptions
+    * Added overloads for multiple contracts to some public futures Subscribe methods
+    * Added socketClient.SpotApi.GetOrdersAsync query
+    * Added CancellationToken parameter for futures websocket queries
+    * Fixed websocket order operations always logging a warning message
+    * Fixed incorrect pricing parameters mapping for restClient.PerpetualFuturesApi.Trading.PlaceTriggerOrderAsync
+  * Updated Kucoin.Net from version 5.24.0 to version 6.0.0
+    * Updated library from Newtonsoft.Json to System.Text.Json for json (de)serialization
+    * Added USDC balance info to Futures API shared GetBalancesAsync
+    * Added restClient.SpotApi.Account.GetDepositAddressesV3Async endpoint
+    * Added restClient.SpotApi.Account.CreateDepositAddressV3Async endpoint
+    * Added restClient.SpotApi.ExchangeData.GetCallAuctionOrderBookAsync endpoint
+    * Added restClient.SpotApi.ExchangeData.GetCallAuctionInfoAsync endpoint
+    * Added socketClient.SpotApi.SubscribeToCallAuctionOrderBookUpdatesAsync endpoint
+    * Added socketClient.SpotApi.SubscribeToCallAuctionInfoUpdatesAsync endpoint
+    * Updated takeProfitPrice and stopLossPrice on restClient.FuturesApi.Trading.PlaceTpSlOrderAsync to triggerStopUpPrice and triggerStopDownPrice
+    * Updated KucoinSymbol response model with call auction info
+    * Updated Enum mappings
+    * Updated API documentation references to new API docs
+    * Removed no longer needed converters
+    * Renamed restClient.FuturesApi.ExchangeData.GetOpenContractsAsync to GetSymbolsAsync
+    * Renamed restClient.SpotApi.Margin.GetMarginTradingPairConfigurationAsync to GetSymbolsAsync
+    * Renamed socketClient.FuturesApi.SubscribeToTickerUpdatesAsync to SubscribeToBookTickerUpdatesAsync
+    * Renamed socketClient.FuturesApi.SubscribeToMarketUpdatesAsync to SubscribeToSymbolUpdatesAsync
+    * Renamed socketClient.FuturesApi.SubscribeToSystemAnnouncementsAsync to SubscribeToFundingFeeSettlementUpdatesAsync
+    * Renamed socketClient.FuturesApi.SubscribeTo24HourSnapshotUpdatesAsync to SubscribeTo24HTickerUpdatesAsync
+    * Removed deprecated restClient.FuturesApi.Account transfer endpoints
+    * Removed deprecated restClient.SpotApi.Account.InnerTransferAsync
+    * Removed deprecated restClient.SpotApi.Account.GetHistoricalDepositsAsync
+    * Removed deprecated restClient.SpotApi.Account.GetHistoricalWithdrawalsAsync
+    * Removed deprecated restClient.SpotApi.Account.GetDepositAddressAsync
+    * Removed deprecated restClient.SpotApi.Account.CreateDepositAddressAsync
+    * Removed deprecated socketClient.SpotApi.SubscribeToFundingBookUpdatesAsync
+  * Updated XT.Net from version 1.2.0 to version 1.2.1
+    * Fix for balance update deserialization error
+
+
 * Version 2.12.0 - 12 Feb 2025
   * Updated reference CryptoExchange.Net version from 8.7.3 to 8.8.0
     * Split DataEvent.Timestamp in DataEvent.ReceivedTime and DataEvent.DataTime
