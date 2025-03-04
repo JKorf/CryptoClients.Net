@@ -240,6 +240,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.13.1 - 04 Mar 2025
+    * Updated DeepCoin.Net to version 1.0.2 to fix spot subscription issue
+
 * Version 2.13.0 - 04 Mar 2025
   * Added DeepCoin support with DeepCoin.Net 1.0.1
   * Added GetSymbolName helper method on clients
