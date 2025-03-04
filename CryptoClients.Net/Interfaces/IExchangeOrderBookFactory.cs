@@ -10,6 +10,7 @@ using CoinEx.Net.Interfaces;
 using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
+using DeepCoin.Net.Interfaces;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
 using HyperLiquid.Net.Interfaces;
@@ -67,6 +68,10 @@ namespace CryptoClients.Net.Interfaces
         /// Crypto.com order book factory
         /// </summary>
         ICryptoComOrderBookFactory CryptoCom { get; }
+        /// <summary>
+        /// DeepCoin order book factory
+        /// </summary>
+        IDeepCoinOrderBookFactory DeepCoin { get; }
         /// <summary>
         /// Gate.io order book factory
         /// </summary>

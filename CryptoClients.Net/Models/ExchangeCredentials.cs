@@ -1,6 +1,7 @@
 ﻿using Bitget.Net.Objects;
 using BitMart.Net.Objects;
 using CryptoExchange.Net.Authentication;
+using DeepCoin.Net.Objects;
 using Kucoin.Net.Objects;
 using OKX.Net.Objects;
 
@@ -60,6 +61,11 @@ namespace CryptoClients.Net.Models
         /// Crypto.com API credentials
         /// </summary>
         public ApiCredentials? CryptoCom { get; set; }
+
+        /// <summary>
+        /// DeepCoin API credentials
+        /// </summary>
+        public DeepCoinApiCredentials? DeepCoin { get; set; }
 
         /// <summary>
         /// Gate.io API credentials

@@ -38,6 +38,10 @@ using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
 using CryptoExchange.Net.SharedApis;
+using DeepCoin.Net.Clients;
+using DeepCoin.Net.Interfaces.Clients;
+using DeepCoin.Net.Objects;
+using DeepCoin.Net.Objects.Options;
 using GateIo.Net.Clients;
 using GateIo.Net.Interfaces.Clients;
 using GateIo.Net.Objects.Options;
@@ -101,6 +105,8 @@ namespace CryptoClients.Net
         public ICoinExRestClient CoinEx { get; }
         /// <inheritdoc />
         public ICryptoComRestClient CryptoCom { get; }
+        /// <inheritdoc />
+        public IDeepCoinRestClient DeepCoin { get; }
         /// <inheritdoc />
         public IGateIoRestClient GateIo { get; }
         /// <inheritdoc />
@@ -290,6 +296,7 @@ namespace CryptoClients.Net
             Coinbase = new CoinbaseRestClient();
             CoinEx = new CoinExRestClient();
             CryptoCom = new CryptoComRestClient();
+            DeepCoin = new DeepCoinRestClient();
             GateIo = new GateIoRestClient();
             HTX = new HTXRestClient();
             HyperLiquid = new HyperLiquidRestClient();
@@ -319,6 +326,7 @@ namespace CryptoClients.Net
             Action<CoinbaseRestOptions>? coinbaseRestOptions = null,
             Action<CoinExRestOptions>? coinExRestOptions = null,
             Action<CryptoComRestOptions>? cryptoComRestOptions = null,
+            Action<DeepCoinRestOptions>? deepCoinRestOptions = null,
             Action<GateIoRestOptions>? gateIoRestOptions = null,
             Action<HTXRestOptions>? htxRestOptions = null,
             Action<HyperLiquidRestOptions>? hyperLiquidRestOptions = null,
@@ -362,6 +370,7 @@ namespace CryptoClients.Net
                 coinbaseRestOptions = SetGlobalRestOptions(global, coinbaseRestOptions, credentials?.Coinbase);
                 coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx);
                 cryptoComRestOptions = SetGlobalRestOptions(global, cryptoComRestOptions, credentials?.CryptoCom);
+                deepCoinRestOptions = SetGlobalRestOptions(global, deepCoinRestOptions, credentials?.DeepCoin);
                 gateIoRestOptions = SetGlobalRestOptions(global, gateIoRestOptions, credentials?.GateIo);
                 htxRestOptions = SetGlobalRestOptions(global, htxRestOptions, credentials?.HTX);
                 hyperLiquidRestOptions = SetGlobalRestOptions(global, hyperLiquidRestOptions, credentials?.HyperLiquid);
@@ -383,6 +392,7 @@ namespace CryptoClients.Net
             Coinbase = new CoinbaseRestClient(coinbaseRestOptions);
             CoinEx = new CoinExRestClient(coinExRestOptions);
             CryptoCom = new CryptoComRestClient(cryptoComRestOptions);
+            DeepCoin = new DeepCoinRestClient(deepCoinRestOptions);
             GateIo = new GateIoRestClient(gateIoRestOptions);
             HTX = new HTXRestClient(htxRestOptions);
             HyperLiquid = new HyperLiquidRestClient(hyperLiquidRestOptions);
@@ -437,6 +447,7 @@ namespace CryptoClients.Net
                 CoinEx.SpotApiV2.SharedClient,
                 CoinEx.FuturesApi.SharedClient,
                 CryptoCom.ExchangeApi.SharedClient,
+                DeepCoin.ExchangeApi.SharedClient,
                 GateIo.SpotApi.SharedClient,
                 GateIo.PerpetualFuturesApi.SharedClient,
                 HTX.SpotApi.SharedClient,
@@ -470,6 +481,7 @@ namespace CryptoClients.Net
             ICoinbaseRestClient coinbase,
             ICoinExRestClient coinEx,
             ICryptoComRestClient cryptoCom,
+            IDeepCoinRestClient deepCoin,
             IGateIoRestClient gateIo,
             IHTXRestClient htx,
             IHyperLiquidRestClient hyperLiquid,
@@ -493,6 +505,7 @@ namespace CryptoClients.Net
             Coinbase = coinbase;
             CoinEx = coinEx;
             CryptoCom = cryptoCom;
+            DeepCoin = deepCoin;
             GateIo = gateIo;
             HTX = htx;
             HyperLiquid = hyperLiquid;
@@ -542,6 +555,7 @@ namespace CryptoClients.Net
                 case "Coinbase": Coinbase.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "CoinEx": CoinEx.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "CryptoCom": CryptoCom.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "DeepCoin": DeepCoin.SetApiCredentials(new DeepCoinApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for DeepCoin credentials", nameof(apiPass)))); break;
                 case "GateIo": GateIo.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "HTX": HTX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "HyperLiquid": HyperLiquid.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;

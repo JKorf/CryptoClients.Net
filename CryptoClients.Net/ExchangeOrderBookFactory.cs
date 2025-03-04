@@ -12,6 +12,7 @@ using CryptoClients.Net.Interfaces;
 using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
+using DeepCoin.Net.Interfaces;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
 using HyperLiquid.Net.Interfaces;
@@ -49,6 +50,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public ICryptoComOrderBookFactory CryptoCom { get; }
         /// <inheritdoc />
+        public IDeepCoinOrderBookFactory DeepCoin { get; }
+        /// <inheritdoc />
         public IGateIoOrderBookFactory GateIo { get; }
         /// <inheritdoc />
         public IHTXOrderBookFactory HTX { get; }
@@ -81,6 +84,7 @@ namespace CryptoClients.Net
             ICoinbaseOrderBookFactory coinbase,
             ICoinExOrderBookFactory coinEx,
             ICryptoComOrderBookFactory cryptoCom,
+            IDeepCoinOrderBookFactory deepCoin,
             IGateIoOrderBookFactory gateIo,
             IHTXOrderBookFactory htx,
             IHyperLiquidOrderBookFactory hyperLiquid,
@@ -101,6 +105,7 @@ namespace CryptoClients.Net
             Coinbase = coinbase;
             CoinEx = coinEx;
             CryptoCom = cryptoCom;
+            DeepCoin = deepCoin;
             GateIo = gateIo;
             HTX = htx;
             HyperLiquid = hyperLiquid;
@@ -151,6 +156,8 @@ namespace CryptoClients.Net
                 case "CryptoCom":
                     var cryptoComLimit = GetBookDepth(minimalDepth, false, 10, 50);
                     return CryptoCom.Create(symbol, opts => { opts.Limit = cryptoComLimit; });
+                case "DeepCoin":
+                    return DeepCoin.Create(symbol);
                 case "GateIo":
                     var gateIoLimit = GetBookDepth(minimalDepth, true, 20, 50, 100);
                     return GateIo.Create(symbol, symbol.QuoteAsset, opts => 

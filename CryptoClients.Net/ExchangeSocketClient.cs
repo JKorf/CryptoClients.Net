@@ -37,6 +37,10 @@ using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
+using DeepCoin.Net.Clients;
+using DeepCoin.Net.Interfaces.Clients;
+using DeepCoin.Net.Objects;
+using DeepCoin.Net.Objects.Options;
 using GateIo.Net.Clients;
 using GateIo.Net.Interfaces.Clients;
 using GateIo.Net.Objects.Options;
@@ -99,6 +103,8 @@ namespace CryptoClients.Net
         public ICoinExSocketClient CoinEx { get; }
         /// <inheritdoc />
         public ICryptoComSocketClient CryptoCom { get; }
+        /// <inheritdoc />
+        public IDeepCoinSocketClient DeepCoin { get; }
         /// <inheritdoc />
         public IGateIoSocketClient GateIo { get; }
         /// <inheritdoc />
@@ -208,6 +214,7 @@ namespace CryptoClients.Net
             Coinbase = new CoinbaseSocketClient();
             CoinEx = new CoinExSocketClient();
             CryptoCom = new CryptoComSocketClient();
+            DeepCoin = new DeepCoinSocketClient();
             GateIo = new GateIoSocketClient();
             HTX = new HTXSocketClient();
             HyperLiquid = new HyperLiquidSocketClient();
@@ -236,6 +243,7 @@ namespace CryptoClients.Net
             Action<CoinExSocketOptions>? coinExSocketOptions = null,
             Action<CoinbaseSocketOptions>? coinbaseSocketOptions = null,
             Action<CryptoComSocketOptions>? cryptoComSocketOptions = null,
+            Action<DeepCoinSocketOptions>? deepCoinSocketOptions = null,
             Action<GateIoSocketOptions>? gateIoSocketOptions = null,
             Action<HTXSocketOptions>? htxSocketOptions = null,
             Action<HyperLiquidSocketOptions>? hyperLiquidSocketOptions = null,
@@ -280,6 +288,7 @@ namespace CryptoClients.Net
                 coinbaseSocketOptions = SetGlobalSocketOptions(global, coinbaseSocketOptions, credentials?.Coinbase);
                 coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx);
                 cryptoComSocketOptions = SetGlobalSocketOptions(global, cryptoComSocketOptions, credentials?.CryptoCom);
+                deepCoinSocketOptions = SetGlobalSocketOptions(global, deepCoinSocketOptions, credentials?.DeepCoin);
                 gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions, credentials?.GateIo);
                 htxSocketOptions = SetGlobalSocketOptions(global, htxSocketOptions, credentials?.HTX);
                 hyperLiquidSocketOptions = SetGlobalSocketOptions(global, hyperLiquidSocketOptions, credentials?.HyperLiquid);
@@ -303,6 +312,7 @@ namespace CryptoClients.Net
             HTX = new HTXSocketClient(htxSocketOptions ?? new Action<HTXSocketOptions>((x) => { }));
             HyperLiquid = new HyperLiquidSocketClient(hyperLiquidSocketOptions ?? new Action<HyperLiquidSocketOptions>((x) => { }));
             CryptoCom = new CryptoComSocketClient(cryptoComSocketOptions ?? new Action<CryptoComSocketOptions>((x) => { }));
+            DeepCoin = new DeepCoinSocketClient(deepCoinSocketOptions ?? new Action<DeepCoinSocketOptions>((x) => { }));
             GateIo = new GateIoSocketClient(gateIoSocketOptions ?? new Action<GateIoSocketOptions>((x) => { }));
             Kraken = new KrakenSocketClient(krakenSocketOptions ?? new Action<KrakenSocketOptions>((x) => { }));
             Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? new Action<KucoinSocketOptions>((x) => { }));
@@ -328,6 +338,7 @@ namespace CryptoClients.Net
             ICoinbaseSocketClient coinbase,
             ICoinExSocketClient coinEx,
             ICryptoComSocketClient cryptoCom,
+            IDeepCoinSocketClient deepCoin,
             IGateIoSocketClient gateIo,
             IHTXSocketClient htx,
             IHyperLiquidSocketClient hyperLiquid,
@@ -348,6 +359,7 @@ namespace CryptoClients.Net
             Coinbase = coinbase;
             CoinEx = coinEx;
             CryptoCom = cryptoCom;
+            DeepCoin = deepCoin;
             GateIo = gateIo;
             HTX = htx;
             HyperLiquid = hyperLiquid;
@@ -384,6 +396,7 @@ namespace CryptoClients.Net
                 CoinEx.SpotApiV2.SharedClient,
                 CoinEx.FuturesApi.SharedClient,
                 CryptoCom.ExchangeApi.SharedClient,
+                DeepCoin.ExchangeApi.SharedClient,
                 GateIo.SpotApi.SharedClient,
                 GateIo.PerpetualFuturesApi.SharedClient,
                 HTX.SpotApi.SharedClient,
@@ -426,6 +439,7 @@ namespace CryptoClients.Net
                 case "Coinbase": Coinbase.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "CoinEx": CoinEx.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "CryptoCom": CryptoCom.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "DeepCoin": DeepCoin.SetApiCredentials(new DeepCoinApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for DeepCoin credentials", nameof(apiPass)))); break;
                 case "GateIo": GateIo.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "HTX": HTX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "HyperLiquid": HyperLiquid.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
@@ -648,6 +662,7 @@ namespace CryptoClients.Net
                 Coinbase.UnsubscribeAllAsync(),
                 CoinEx.UnsubscribeAllAsync(),
                 CryptoCom.UnsubscribeAllAsync(),
+                DeepCoin.UnsubscribeAllAsync(),
                 GateIo.UnsubscribeAllAsync(),
                 HTX.UnsubscribeAllAsync(),
                 HyperLiquid.UnsubscribeAllAsync(),

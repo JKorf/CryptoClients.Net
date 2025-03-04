@@ -8,6 +8,7 @@ using Bybit.Net;
 using Coinbase.Net;
 using CoinEx.Net;
 using CryptoCom.Net;
+using DeepCoin.Net;
 using GateIo.Net;
 using HTX.Net;
 using HyperLiquid.Net;
@@ -68,6 +69,10 @@ namespace CryptoClients.Net.Enums
         /// </summary>
         public static string CryptoCom => CryptoComExchange.ExchangeName;
         /// <summary>
+        /// DeepCoin
+        /// </summary>
+        public static string DeepCoin => DeepCoinExchange.ExchangeName;
+        /// <summary>
         /// Gate.io
         /// </summary>
         public static string GateIo => GateIoExchange.ExchangeName;
@@ -119,6 +124,7 @@ namespace CryptoClients.Net.Enums
             Coinbase,
             CoinEx,
             CryptoCom,
+            DeepCoin,
             GateIo,
             HTX,
             HyperLiquid,

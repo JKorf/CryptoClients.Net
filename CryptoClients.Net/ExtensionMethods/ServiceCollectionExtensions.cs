@@ -38,6 +38,10 @@ using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
+using DeepCoin.Net;
+using DeepCoin.Net.Interfaces.Clients;
+using DeepCoin.Net.Objects;
+using DeepCoin.Net.Objects.Options;
 using GateIo.Net;
 using GateIo.Net.Interfaces.Clients;
 using GateIo.Net.Objects.Options;
@@ -94,6 +98,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="coinExOptions">The options options for the CoinEx services. Will override options provided in the global options</param>
         /// <param name="coinGeckoOptions">The options options for the CoinGecko services. Will override options provided in the global options</param>
         /// <param name="cryptoComOptions">The options options for the Crypto.com services. Will override options provided in the global options</param>
+        /// <param name="deepCoinOptions">The options options for the DeepCoin services. Will override options provided in the global options</param>
         /// <param name="gateIoOptions">The options options for the Gate.io services. Will override options provided in the global options</param>
         /// <param name="htxOptions">The options options for the HTX services. Will override options provided in the global options</param>
         /// <param name="hyperLiquidOptions">The options options for the HyperLiquid services. Will override options provided in the global options</param>
@@ -119,6 +124,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<CoinExOptions>? coinExOptions = null,
             Action<CoinGeckoRestOptions>? coinGeckoOptions = null,
             Action<CryptoComOptions>? cryptoComOptions = null,
+            Action<DeepCoinOptions>? deepCoinOptions = null,
             Action<GateIoOptions>? gateIoOptions = null,
             Action<HTXOptions>? htxOptions = null,
             Action<HyperLiquidOptions>? hyperLiquidOptions = null,
@@ -177,6 +183,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 coinbaseOptions = SetGlobalOptions<CoinbaseOptions, CoinbaseRestOptions, CoinbaseSocketOptions, ApiCredentials, CoinbaseEnvironment>(global, coinbaseOptions, credentials?.Coinbase);
                 coinExOptions = SetGlobalOptions<CoinExOptions, CoinExRestOptions, CoinExSocketOptions, ApiCredentials, CoinExEnvironment>(global, coinExOptions, credentials?.CoinEx);
                 cryptoComOptions = SetGlobalOptions<CryptoComOptions, CryptoComRestOptions, CryptoComSocketOptions, ApiCredentials, CryptoComEnvironment>(global, cryptoComOptions, credentials?.CryptoCom);
+                deepCoinOptions = SetGlobalOptions<DeepCoinOptions, DeepCoinRestOptions, DeepCoinSocketOptions, DeepCoinApiCredentials, DeepCoinEnvironment>(global, deepCoinOptions, credentials?.DeepCoin);
                 gateIoOptions = SetGlobalOptions<GateIoOptions, GateIoRestOptions, GateIoSocketOptions, ApiCredentials, GateIoEnvironment>(global, gateIoOptions, credentials?.GateIo);
                 htxOptions = SetGlobalOptions<HTXOptions, HTXRestOptions, HTXSocketOptions, ApiCredentials, HTXEnvironment>(global, htxOptions, credentials?.HTX);
                 hyperLiquidOptions = SetGlobalOptions<HyperLiquidOptions, HyperLiquidRestOptions, HyperLiquidSocketOptions, ApiCredentials, HyperLiquidEnvironment>(global, hyperLiquidOptions, credentials?.HyperLiquid);
@@ -199,6 +206,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddCoinEx(coinExOptions);
             services.AddCoinGecko(coinGeckoOptions);
             services.AddCryptoCom(cryptoComOptions);
+            services.AddDeepCoin(deepCoinOptions);
             services.AddGateIo(gateIoOptions);
             services.AddHTX(htxOptions);
             services.AddHyperLiquid(hyperLiquidOptions);
@@ -222,6 +230,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ICoinbaseRestClient>(),
                     x.GetRequiredService<ICoinExRestClient>(),
                     x.GetRequiredService<ICryptoComRestClient>(),
+                    x.GetRequiredService<IDeepCoinRestClient>(),
                     x.GetRequiredService<IGateIoRestClient>(),
                     x.GetRequiredService<IHTXRestClient>(),
                     x.GetRequiredService<IHyperLiquidRestClient>(),
@@ -248,6 +257,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ICoinbaseSocketClient>(),
                     x.GetRequiredService<ICoinExSocketClient>(),
                     x.GetRequiredService<ICryptoComSocketClient>(),
+                    x.GetRequiredService<IDeepCoinSocketClient>(),
                     x.GetRequiredService<IGateIoSocketClient>(),
                     x.GetRequiredService<IHTXSocketClient>(),
                     x.GetRequiredService<IHyperLiquidSocketClient>(),
@@ -323,6 +333,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("CoinEx", globalOptions);
             UpdateExchangeOptions("CoinGecko", globalOptions);
             UpdateExchangeOptions("CryptoCom", globalOptions);
+            UpdateExchangeOptions("DeepCoin", globalOptions);
             UpdateExchangeOptions("GateIo", globalOptions);
             UpdateExchangeOptions("HTX", globalOptions);
             UpdateExchangeOptions("HyperLiquid", globalOptions);
@@ -344,6 +355,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddCoinEx(configuration.GetSection("CoinEx"));
             services.AddCoinGecko(configuration.GetSection("CoinGecko"));
             services.AddCryptoCom(configuration.GetSection("CryptoCom"));
+            services.AddDeepCoin(configuration.GetSection("DeepCoin"));
             services.AddGateIo(configuration.GetSection("GateIo"));
             services.AddHTX(configuration.GetSection("HTX"));
             services.AddHyperLiquid(configuration.GetSection("HyperLiquid"));
@@ -367,6 +379,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ICoinbaseRestClient>(),
                     x.GetRequiredService<ICoinExRestClient>(),
                     x.GetRequiredService<ICryptoComRestClient>(),
+                    x.GetRequiredService<IDeepCoinRestClient>(),
                     x.GetRequiredService<IGateIoRestClient>(),
                     x.GetRequiredService<IHTXRestClient>(),
                     x.GetRequiredService<IHyperLiquidRestClient>(),
@@ -393,6 +406,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ICoinbaseSocketClient>(),
                     x.GetRequiredService<ICoinExSocketClient>(),
                     x.GetRequiredService<ICryptoComSocketClient>(),
+                    x.GetRequiredService<IDeepCoinSocketClient>(),
                     x.GetRequiredService<IGateIoSocketClient>(),
                     x.GetRequiredService<IHTXSocketClient>(),
                     x.GetRequiredService<IHyperLiquidSocketClient>(),

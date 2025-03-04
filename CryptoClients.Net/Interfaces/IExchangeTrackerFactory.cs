@@ -11,6 +11,7 @@ using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Trackers.Klines;
 using CryptoExchange.Net.Trackers.Trades;
+using DeepCoin.Net.Interfaces;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
 using HyperLiquid.Net.Interfaces;
@@ -69,6 +70,10 @@ namespace CryptoClients.Net.Interfaces
         /// Crypto.com tracker factory
         /// </summary>
         ICryptoComTrackerFactory CryptoCom { get; }
+        /// <summary>
+        /// DeepCoin tracker factory
+        /// </summary>
+        IDeepCoinTrackerFactory DeepCoin { get; }
         /// <summary>
         /// Gate.io tracker factory
         /// </summary>

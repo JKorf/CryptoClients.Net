@@ -10,6 +10,7 @@ using CoinEx.Net;
 using CoinGecko.Net;
 using CryptoCom.Net;
 using CryptoExchange.Net.RateLimiting;
+using DeepCoin.Net;
 using GateIo.Net;
 using HTX.Net;
 using HyperLiquid.Net;
@@ -99,11 +100,8 @@ namespace CryptoClients.Net
         public static ExchangeInfo BitMEX { get; } = new ExchangeInfo
         {
             Name = BitMEXExchange.ExchangeName,
-            // TODO Replace with values from Exchange
-            //DisplayName = BitMEXExchange.DisplayName,
-            //ImageUrl = BitMEXExchange.ImageUrl,
-            DisplayName = BitMEXExchange.ExchangeName,
-            ImageUrl = "https://raw.githubusercontent.com/JKorf/BitMEX.Net/main/BitMEX.Net/Icon/icon.png",
+            DisplayName = BitMEXExchange.DisplayName,
+            ImageUrl = BitMEXExchange.ImageUrl,
             Url = BitMEXExchange.Url,
             ApiDocsUrl = BitMEXExchange.ApiDocsUrl,
             Type = BitMEXExchange.Type
@@ -159,6 +157,19 @@ namespace CryptoClients.Net
             Url = CryptoComExchange.Url,
             ApiDocsUrl = CryptoComExchange.ApiDocsUrl,
             Type = CryptoComExchange.Type
+        };
+
+        /// <summary>
+        /// DeepCoin exchange info
+        /// </summary>
+        public static ExchangeInfo DeepCoin { get; } = new ExchangeInfo
+        {
+            Name = DeepCoinExchange.ExchangeName,
+            DisplayName = DeepCoinExchange.DisplayName,
+            ImageUrl = DeepCoinExchange.ImageUrl,
+            Url = DeepCoinExchange.Url,
+            ApiDocsUrl = DeepCoinExchange.ApiDocsUrl,
+            Type = DeepCoinExchange.Type
         };
 
         /// <summary>
@@ -293,6 +304,7 @@ namespace CryptoClients.Net
             Coinbase,
             CoinEx,
             CryptoCom,
+            DeepCoin,
             GateIo,
             HTX,
             HyperLiquid,
@@ -313,6 +325,7 @@ namespace CryptoClients.Net
             {
                 BinanceExchange.RateLimiter.RateLimitTriggered += value;
                 BingXExchange.RateLimiter.RateLimitTriggered += value;
+                BitfinexExchange.RateLimiter.RateLimitTriggered += value;
                 BitgetExchange.RateLimiter.RateLimitTriggered += value;
                 BitMartExchange.RateLimiter.RateLimitTriggered += value;
                 BitMEXExchange.RateLimiter.RateLimitTriggered += value;
@@ -320,6 +333,7 @@ namespace CryptoClients.Net
                 CoinbaseExchange.RateLimiter.RateLimitTriggered += value;
                 CoinGeckoApi.RateLimiter.RateLimitTriggered += value;
                 CryptoComExchange.RateLimiter.RateLimitTriggered += value;
+                DeepCoinExchange.RateLimiter.RateLimitTriggered += value;
                 GateIoExchange.RateLimiter.RateLimitTriggered += value;
                 HTXExchange.RateLimiter.RateLimitTriggered += value;
                 HyperLiquidExchange.RateLimiter.RateLimitTriggered += value;
@@ -334,6 +348,7 @@ namespace CryptoClients.Net
             {
                 BinanceExchange.RateLimiter.RateLimitTriggered -= value;
                 BingXExchange.RateLimiter.RateLimitTriggered -= value;
+                BitfinexExchange.RateLimiter.RateLimitTriggered -= value;
                 BitgetExchange.RateLimiter.RateLimitTriggered -= value;
                 BitMartExchange.RateLimiter.RateLimitTriggered -= value;
                 BitMEXExchange.RateLimiter.RateLimitTriggered -= value;
@@ -341,6 +356,7 @@ namespace CryptoClients.Net
                 CoinbaseExchange.RateLimiter.RateLimitTriggered -= value;
                 CoinGeckoApi.RateLimiter.RateLimitTriggered -= value;
                 CryptoComExchange.RateLimiter.RateLimitTriggered -= value;
+                DeepCoinExchange.RateLimiter.RateLimitTriggered -= value;
                 GateIoExchange.RateLimiter.RateLimitTriggered -= value;
                 HTXExchange.RateLimiter.RateLimitTriggered -= value;
                 HyperLiquidExchange.RateLimiter.RateLimitTriggered -= value;

@@ -14,6 +14,7 @@ using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Trackers.Klines;
 using CryptoExchange.Net.Trackers.Trades;
+using DeepCoin.Net.Interfaces;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
 using HyperLiquid.Net.Interfaces;
@@ -52,6 +53,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public ICryptoComTrackerFactory CryptoCom { get; }
         /// <inheritdoc />
+        public IDeepCoinTrackerFactory DeepCoin { get; }
+        /// <inheritdoc />
         public IGateIoTrackerFactory GateIo { get; }
         /// <inheritdoc />
         public IHTXTrackerFactory HTX { get; }
@@ -84,6 +87,7 @@ namespace CryptoClients.Net
             ICoinbaseTrackerFactory coinbase,
             ICoinExTrackerFactory coinEx,
             ICryptoComTrackerFactory cryptoCom,
+            IDeepCoinTrackerFactory deepCoin,
             IGateIoTrackerFactory gateIo,
             IHTXTrackerFactory htx,
             IHyperLiquidTrackerFactory hyperLiquid,
@@ -104,6 +108,7 @@ namespace CryptoClients.Net
             Coinbase = coinbase;
             CoinEx = coinEx;
             CryptoCom = cryptoCom;
+            DeepCoin = deepCoin;
             GateIo = gateIo;
             HTX = htx;
             HyperLiquid = hyperLiquid;
@@ -143,6 +148,8 @@ namespace CryptoClients.Net
                     return null;
                 case "CryptoCom":
                     return CryptoCom.CreateKlineTracker(symbol, interval, limit, period);
+                case "DeepCoin":
+                    return DeepCoin.CreateKlineTracker(symbol, interval, limit, period);
                 case "GateIo":
                     return GateIo.CreateKlineTracker(symbol, interval, limit, period);
                 case "HTX":
@@ -193,6 +200,8 @@ namespace CryptoClients.Net
                     return CoinEx.CreateTradeTracker(symbol, limit, period);
                 case "CryptoCom":
                     return CryptoCom.CreateTradeTracker(symbol, limit, period);
+                case "DeepCoin":
+                    return DeepCoin.CreateTradeTracker(symbol, limit, period);
                 case "GateIo":
                     return GateIo.CreateTradeTracker(symbol, limit, period);
                 case "HTX":

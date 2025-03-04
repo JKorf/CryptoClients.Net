@@ -10,6 +10,7 @@ using CoinEx.Net.Interfaces.Clients;
 using CryptoCom.Net.Interfaces.Clients;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.SharedApis;
+using DeepCoin.Net.Interfaces.Clients;
 using GateIo.Net.Interfaces.Clients;
 using HTX.Net.Interfaces.Clients;
 using HyperLiquid.Net.Interfaces.Clients;
@@ -70,6 +71,10 @@ namespace CryptoClients.Net.Interfaces
         /// Crypto.com REST API
         /// </summary>
         ICryptoComRestClient CryptoCom { get; }
+        /// <summary>
+        /// DeepCoin REST API
+        /// </summary>
+        IDeepCoinRestClient DeepCoin { get; }
         /// <summary>
         /// Gate.io REST API
         /// </summary>

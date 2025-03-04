@@ -5,7 +5,7 @@
 CryptoClients.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). CryptoClients.Net bundles the different client libraries in a single package and adds some additional tools to make use of them.
 
 ## Features
-* Direct full access to 17 different CEX's and 1 DEX, public and private data
+* Direct full access to 18 different CEX's and 1 DEX, public and private data
 * Client per exchange, or single client for accessing all exchanges
 * Response data is mapped to descriptive models
 * Input parameters and response values are mapped to discriptive enum values where possible
@@ -46,6 +46,7 @@ The following API's are included in CryptoClients.Net:
 |CoinEx|[JKorf/CoinEx.Net](https://github.com/JKorf/CoinEx.Net)|[![Nuget version](https://img.shields.io/nuget/v/CoinEx.net.svg?style=flat-square)](https://www.nuget.org/packages/CoinEx.Net)|
 |CoinGecko|[JKorf/CoinGecko.Net](https://github.com/JKorf/CoinGecko.Net)|[![Nuget version](https://img.shields.io/nuget/v/CoinGecko.net.svg?style=flat-square)](https://www.nuget.org/packages/CoinGecko.Net)|
 |Crypto.com|[JKorf/CryptoCom.Net](https://github.com/JKorf/CryptoCom.Net)|[![Nuget version](https://img.shields.io/nuget/v/CryptoCom.net.svg?style=flat-square)](https://www.nuget.org/packages/CryptoCom.Net)|
+|DeepCoin|[JKorf/DeepCoin.Net](https://github.com/JKorf/DeepCoin.Net)|[![Nuget version](https://img.shields.io/nuget/v/DeepCoin.net.svg?style=flat-square)](https://www.nuget.org/packages/DeepCoin.Net)|
 |Gate.io|[JKorf/GateIo.Net](https://github.com/JKorf/GateIo.Net)|[![Nuget version](https://img.shields.io/nuget/v/GateIo.net.svg?style=flat-square)](https://www.nuget.org/packages/GateIo.Net)|
 |HTX|[JKorf/HTX.Net](https://github.com/JKorf/HTX.Net)|[![Nuget version](https://img.shields.io/nuget/v/JKorf.HTX.net.svg?style=flat-square)](https://www.nuget.org/packages/JKorf.HTX.Net)|
 |HyperLiquid|[JKorf/HyperLiquid.Net](https://github.com/JKorf/HyperLiquid.Net)|[![Nuget version](https://img.shields.io/nuget/v/HyperLiquid.net.svg?style=flat-square)](https://www.nuget.org/packages/HyperLiquid.Net)|
@@ -219,6 +220,7 @@ When creating an account on new exchanges please consider using a referral link 
 |Coinbase|[https://advanced.coinbase.com/join/T6H54H8](https://advanced.coinbase.com/join/T6H54H8)|
 |CoinEx|[https://www.coinex.com/register?refer_code=hd6gn](https://www.coinex.com/register?refer_code=hd6gn)|
 |Crypto.com|[https://crypto.com/exch/26ge92xbkn](https://crypto.com/exch/26ge92xbkn)|
+|DeepCoin|[https://s.deepcoin.com/jddhfca)|
 |HTX|[https://www.htx.com/invite/en-us/1f?invite_code=fxp9](https://www.htx.com/invite/en-us/1f?invite_code=fxp9)|
 |HyperLiquid|[https://app.hyperliquid.xyz/join/JKORF](https://app.hyperliquid.xyz/join/JKORF)|
 |Kucoin|[https://www.kucoin.com/r/rf/QBS4FPED](https://www.kucoin.com/r/rf/QBS4FPED)|
