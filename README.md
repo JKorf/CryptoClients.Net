@@ -240,6 +240,20 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.13.2 - 07 Mar 2025
+  * Updated DeepCoin.Net from version 1.0.2 to version 1.0.5
+    * Fixed Volume and QuoteVolume properties being inversed on DeepCoinTicker model
+    * Fixed DeepCoinOrderBookFactory Create with SharedSymbol parameter not formatting correctly
+    * Fixed handling websocket order book updates with the same sequence number split over 2 messages
+    * Fixed restClient.ExchangeApi.Account.KeepAliveUserStreamAsync endpoint
+  * Updated GateIo.Net from version 1.20.1 to version 1.21.0
+    * Added Networks info to GateIoAsset model
+    * Updated shared rest GetAssetsAsync request with network info
+  * Updated Kucoin.Net from version 6.0.0 to version 6.0.1
+    * Fix restClient.SpotApi.Account.GetAccountsAsync accountType parameter serialization
+  * Updated OKX.Net from version 2.15.0 to version 2.15.1
+    * Fixed internal exception when receiving empty snapshot update in socketClient.UnifiedApi.Trading.SubscribeToPositionUpdatesAsync
+
 * Version 2.13.1 - 04 Mar 2025
     * Updated DeepCoin.Net to version 1.0.2 to fix spot subscription issue
 
