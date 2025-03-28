@@ -240,6 +240,59 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.14.0 - 28 Mar 2025
+  * Updated Binance.Net from version 10.18.0 to version 10.19.0
+    * Added quoteAsset parameter to restClient.SpotApi.Account.GetWalletBalancesAsync endpoint
+    * Added Denomination property to restClient.SpotApi.Account.GetUserAssetsAsync response model
+    * Updated SimpleEarn locked response models
+    * Updated request weight of restClient.SpotApi.ExchangeData.GetAggregatedTradeHistoryAsync to 4
+  * Updated Bitget.Net from version 1.21.0 to version 1.22.1
+    * Added demo trading environment
+    * Added restClient.FuturesApiV2.ExchangeData.GetOiLimitsAsync endpoint
+    * Added CrossRiskRate and UnrealizedPnl properties to futures balance websocket update model
+    * Added missing Trigger Order Plan Type Enum values
+    * Fixed ProductType parsing for shared socket subscriptions
+  * Updated BitMart.Net from version 1.14.0 to version 1.15.1
+    * Added stpMode parameter to restClient.UsdFuturesApi.Trading.PlaceOrderAsync endpoint
+    * Added restClient.UsdFuturesApi.Trading.EditOrderAsync endpoint
+    * Added ReceiveWindow Rest client option for signed requests
+  * Updated Bybit.Net from version 4.3.2 to version 4.4.1
+    * Added socketClient.V5PrivateApi.PlaceMultipleOrdersAsync, EditMultipleOrdersAsync and CancelMultipleOrdersAsync requests
+    * Added SlippageTolerance support for orders
+    * Removed incorrect id parameters checks from some endpoints
+  * Updated Coinbase.Net from version 1.8.1 to version 1.9.1
+    * Fixed deserialization issue for restClient.AdvancedTradeApi.Account.GetPerpetualPortfolioSummaryAsync
+  * Updated GateIo.Net from version 1.21.0 to version 1.22.0
+    * Added BaseAssetName and QuoteAssetName to GateIoSymbol model
+    * Added MarketId property to GateIoTradeUpdate and GateIoUserTradeUpdate models
+    * Added socketClient.PerpetualFuturesApi.SubscribeToContractStatsUpdatesAs…ync subscription
+    * Fixed shared PerpetualFuturesApi GetBalances returning error
+  * Updated HTX.Net from version 6.9.0 to version 6.9.1
+    * Added QuoteQuantity to socketClient.SpotApi.SubscribeToOrderUpdatesAsync canceled order update
+    * Fixed restClient.SpotApi.Trading.CancelAllOrdersAsync endpoint
+    * Fixed shared client balance subscription updates
+  * Updated HyperLiquid.Net from version 1.1.0 to version 1.1.2
+    * Fixed deserialization of spot exchange info
+    * Fixed testnet support
+  * Updated Kucoin.Net from version 6.0.1 to version 6.1.0
+    * Added restClient.SpotApi.HfTrading.GetOpenOrdersV2Async endpoint
+    * Added TransactionId property to KucoinUserTrade model
+    * Added missing value to BizType enum
+    * Fixed some values for restClient.SpotApi.Account.GetAccountLedgersAsync bizType parameter
+    * Fixed deserialization issue for restClient.SpotApi.Account.GetAccountLedgersAsync
+  * Updated OKX.Net from version 2.15.1 to version 2.16.0
+    * Added restClient.UnifiedApi.ExchangeData.GetEstimatedFuturesSettlementPriceAsync endpoint
+    * Added restClient.UnifiedApi.ExchangeData.GetSettlementHistoryAsync endpoint
+    * Added settlement biz type enums values
+    * Added NonSettlementEntryPrice and SettledPnl to OKXPosition model
+    * Added FutureSettlement property to OKXInstrument model
+    * Added ThirdQuarter to InstrumentAlias enum values
+    * Correctly set update type to snapshot for account and position socket updates
+  * Updated WhiteBit.Net from version 1.4.0 to version 1.5.0
+    * Added clientOrderId parameter to restClient.V4Api.Trading.CancelOrderAsync, renamed id to orderId and made it optional
+    * Added WhiteBitNonceProvider
+    * Updated restClient.V4Api.Trading.EditOrderAsync to support by clientOrderId
+
 * Version 2.13.2 - 07 Mar 2025
   * Updated DeepCoin.Net from version 1.0.2 to version 1.0.5
     * Fixed Volume and QuoteVolume properties being inversed on DeepCoinTicker model
