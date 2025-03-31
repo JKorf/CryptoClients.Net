@@ -35,7 +35,6 @@ using CryptoCom.Net;
 using CryptoCom.Net.Interfaces.Clients;
 using CryptoCom.Net.Objects.Options;
 using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
 using DeepCoin.Net;
@@ -176,21 +175,21 @@ namespace Microsoft.Extensions.DependencyInjection
                 binanceOptions = SetGlobalOptions<BinanceOptions, BinanceRestOptions, BinanceSocketOptions, ApiCredentials, BinanceEnvironment>(global, binanceOptions, credentials?.Binance);
                 bingxOptions = SetGlobalOptions<BingXOptions, BingXRestOptions, BingXSocketOptions, ApiCredentials, BingXEnvironment>(global, bingxOptions, credentials?.BingX);
                 bitfinexOptions = SetGlobalOptions<BitfinexOptions, BitfinexRestOptions, BitfinexSocketOptions, ApiCredentials, BitfinexEnvironment>(global, bitfinexOptions, credentials?.Bitfinex);
-                bitgetOptions = SetGlobalOptions<BitgetOptions, BitgetRestOptions, BitgetSocketOptions, BitgetApiCredentials, BitgetEnvironment>(global, bitgetOptions, credentials?.Bitget);
-                bitMartOptions = SetGlobalOptions<BitMartOptions, BitMartRestOptions, BitMartSocketOptions, BitMartApiCredentials, BitMartEnvironment>(global, bitMartOptions, credentials?.BitMart);
+                bitgetOptions = SetGlobalOptions<BitgetOptions, BitgetRestOptions, BitgetSocketOptions, ApiCredentials, BitgetEnvironment>(global, bitgetOptions, credentials?.Bitget);
+                bitMartOptions = SetGlobalOptions<BitMartOptions, BitMartRestOptions, BitMartSocketOptions, ApiCredentials, BitMartEnvironment>(global, bitMartOptions, credentials?.BitMart);
                 bitMEXOptions = SetGlobalOptions<BitMEXOptions, BitMEXRestOptions, BitMEXSocketOptions, ApiCredentials, BitMEXEnvironment>(global, bitMEXOptions, credentials?.BitMEX);
                 bybitOptions = SetGlobalOptions<BybitOptions, BybitRestOptions, BybitSocketOptions, ApiCredentials, BybitEnvironment>(global, bybitOptions, credentials?.Bybit);
                 coinbaseOptions = SetGlobalOptions<CoinbaseOptions, CoinbaseRestOptions, CoinbaseSocketOptions, ApiCredentials, CoinbaseEnvironment>(global, coinbaseOptions, credentials?.Coinbase);
                 coinExOptions = SetGlobalOptions<CoinExOptions, CoinExRestOptions, CoinExSocketOptions, ApiCredentials, CoinExEnvironment>(global, coinExOptions, credentials?.CoinEx);
                 cryptoComOptions = SetGlobalOptions<CryptoComOptions, CryptoComRestOptions, CryptoComSocketOptions, ApiCredentials, CryptoComEnvironment>(global, cryptoComOptions, credentials?.CryptoCom);
-                deepCoinOptions = SetGlobalOptions<DeepCoinOptions, DeepCoinRestOptions, DeepCoinSocketOptions, DeepCoinApiCredentials, DeepCoinEnvironment>(global, deepCoinOptions, credentials?.DeepCoin);
+                deepCoinOptions = SetGlobalOptions<DeepCoinOptions, DeepCoinRestOptions, DeepCoinSocketOptions, ApiCredentials, DeepCoinEnvironment>(global, deepCoinOptions, credentials?.DeepCoin);
                 gateIoOptions = SetGlobalOptions<GateIoOptions, GateIoRestOptions, GateIoSocketOptions, ApiCredentials, GateIoEnvironment>(global, gateIoOptions, credentials?.GateIo);
                 htxOptions = SetGlobalOptions<HTXOptions, HTXRestOptions, HTXSocketOptions, ApiCredentials, HTXEnvironment>(global, htxOptions, credentials?.HTX);
                 hyperLiquidOptions = SetGlobalOptions<HyperLiquidOptions, HyperLiquidRestOptions, HyperLiquidSocketOptions, ApiCredentials, HyperLiquidEnvironment>(global, hyperLiquidOptions, credentials?.HyperLiquid);
                 krakenOptions = SetGlobalOptions<KrakenOptions, KrakenRestOptions, KrakenSocketOptions, ApiCredentials, KrakenEnvironment>(global, krakenOptions, credentials?.Kraken);
-                kucoinOptions = SetGlobalOptions<KucoinOptions, KucoinRestOptions, KucoinSocketOptions, KucoinApiCredentials, KucoinEnvironment>(global, kucoinOptions, credentials?.Kucoin);
+                kucoinOptions = SetGlobalOptions<KucoinOptions, KucoinRestOptions, KucoinSocketOptions, ApiCredentials, KucoinEnvironment>(global, kucoinOptions, credentials?.Kucoin);
                 mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, ApiCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc);
-                okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, OKXApiCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX);
+                okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, ApiCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX);
                 whiteBitOptions = SetGlobalOptions<WhiteBitOptions, WhiteBitRestOptions, WhiteBitSocketOptions, ApiCredentials, WhiteBitEnvironment>(global, whiteBitOptions, credentials?.WhiteBit);
                 xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, ApiCredentials, XTEnvironment>(global, xtOptions, credentials?.XT);
             }
@@ -239,8 +238,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
                     x.GetRequiredService<IWhiteBitRestClient>(),
-                    x.GetRequiredService<IXTRestClient>(),
-                    x.GetRequiredService<IEnumerable<ISpotClient>>()
+                    x.GetRequiredService<IXTRestClient>()
                     );
             });
 
@@ -388,8 +386,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
                     x.GetRequiredService<IWhiteBitRestClient>(),
-                    x.GetRequiredService<IXTRestClient>(),
-                    x.GetRequiredService<IEnumerable<ISpotClient>>()
+                    x.GetRequiredService<IXTRestClient>()
                     );
             });
 

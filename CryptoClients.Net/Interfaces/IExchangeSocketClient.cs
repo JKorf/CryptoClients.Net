@@ -315,7 +315,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="handler">The data handler callback</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancellation token, can be used to stop the updates</param>
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotTicker>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<ExchangeEvent<SharedSpotTicker[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to ticker updates for a specific symbol on all exchanges that support this subscription
@@ -333,7 +333,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="handler">The data handler callback</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancellation token, can be used to stop the updates</param>
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<SharedTrade[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to book ticker (best ask/bid price) updates for a symbol on all exchanges that support this subscription
@@ -369,7 +369,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="handler">The data handler callback</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancellation token, can be used to stop the updates</param>
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<ExchangeEvent<SharedBalance[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to user spot orders updates on all exchanges that support this subscription
@@ -378,7 +378,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="handler">The data handler callback</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancellation token, can be used to stop the updates</param>
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<ExchangeEvent<SharedSpotOrder[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to user futures orders updates on all exchanges that support this subscription
@@ -387,7 +387,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="handler">The data handler callback</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancellation token, can be used to stop the updates</param>
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<SharedFuturesOrder[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to user trade execution updates on all exchanges that support this subscription
@@ -396,7 +396,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="handler">The data handler callback</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancellation token, can be used to stop the updates</param>
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesAsync(SubscribeUserTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesAsync(SubscribeUserTradeRequest request, Action<ExchangeEvent<SharedUserTrade[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         
         /// <summary>
         /// Unsubscribe and close every connection

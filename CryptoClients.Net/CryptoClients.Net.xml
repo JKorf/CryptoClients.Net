@@ -488,16 +488,10 @@
             Create a new ExchangeRestClient instance
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor(Binance.Net.Interfaces.Clients.IBinanceRestClient,BingX.Net.Interfaces.Clients.IBingXRestClient,Bitfinex.Net.Interfaces.Clients.IBitfinexRestClient,Bitget.Net.Interfaces.Clients.IBitgetRestClient,BitMart.Net.Interfaces.Clients.IBitMartRestClient,BitMEX.Net.Interfaces.Clients.IBitMEXRestClient,Bybit.Net.Interfaces.Clients.IBybitRestClient,Coinbase.Net.Interfaces.Clients.ICoinbaseRestClient,CoinEx.Net.Interfaces.Clients.ICoinExRestClient,CryptoCom.Net.Interfaces.Clients.ICryptoComRestClient,DeepCoin.Net.Interfaces.Clients.IDeepCoinRestClient,GateIo.Net.Interfaces.Clients.IGateIoRestClient,HTX.Net.Interfaces.Clients.IHTXRestClient,HyperLiquid.Net.Interfaces.Clients.IHyperLiquidRestClient,Kraken.Net.Interfaces.Clients.IKrakenRestClient,Kucoin.Net.Interfaces.Clients.IKucoinRestClient,Mexc.Net.Interfaces.Clients.IMexcRestClient,OKX.Net.Interfaces.Clients.IOKXRestClient,WhiteBit.Net.Interfaces.Clients.IWhiteBitRestClient,XT.Net.Interfaces.Clients.IXTRestClient,System.Collections.Generic.IEnumerable{CryptoExchange.Net.Interfaces.CommonClients.ISpotClient})">
+        <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor(Binance.Net.Interfaces.Clients.IBinanceRestClient,BingX.Net.Interfaces.Clients.IBingXRestClient,Bitfinex.Net.Interfaces.Clients.IBitfinexRestClient,Bitget.Net.Interfaces.Clients.IBitgetRestClient,BitMart.Net.Interfaces.Clients.IBitMartRestClient,BitMEX.Net.Interfaces.Clients.IBitMEXRestClient,Bybit.Net.Interfaces.Clients.IBybitRestClient,Coinbase.Net.Interfaces.Clients.ICoinbaseRestClient,CoinEx.Net.Interfaces.Clients.ICoinExRestClient,CryptoCom.Net.Interfaces.Clients.ICryptoComRestClient,DeepCoin.Net.Interfaces.Clients.IDeepCoinRestClient,GateIo.Net.Interfaces.Clients.IGateIoRestClient,HTX.Net.Interfaces.Clients.IHTXRestClient,HyperLiquid.Net.Interfaces.Clients.IHyperLiquidRestClient,Kraken.Net.Interfaces.Clients.IKrakenRestClient,Kucoin.Net.Interfaces.Clients.IKucoinRestClient,Mexc.Net.Interfaces.Clients.IMexcRestClient,OKX.Net.Interfaces.Clients.IOKXRestClient,WhiteBit.Net.Interfaces.Clients.IWhiteBitRestClient,XT.Net.Interfaces.Clients.IXTRestClient)">
             <summary>
             DI constructor
             </summary>
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetUnifiedSpotClient(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.GetUnifiedSpotClients">
-            <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
             <inheritdoc />
@@ -968,13 +962,13 @@
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetSymbolName(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedSpotTicker[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeTickerRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedSpotTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedTrade[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBookTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeBookTickerRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedBookTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
@@ -986,16 +980,16 @@
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToOrderBookUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeOrderBookRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedOrderBook}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBalanceUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeBalancesRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedBalance}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBalanceUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeBalancesRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedBalance[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeSpotOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToSpotOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeSpotOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedSpotOrder[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeFuturesOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedFuturesOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeFuturesOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedFuturesOrder[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToUserTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeUserTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedUserTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToUserTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeUserTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedUserTrade[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.UnsubscribeAllAsync">
@@ -1475,16 +1469,6 @@
         <member name="P:CryptoClients.Net.Interfaces.IExchangeRestClient.XT">
             <summary>
             XT REST API
-            </summary>
-        </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetUnifiedSpotClient(System.String)">
-            <summary>
-            DEPRECATED; use <see cref="T:CryptoExchange.Net.SharedApis.ISharedClient" /> instead for common/shared functionality. See <see href="https://jkorf.github.io/CryptoExchange.Net/docs/index.html#shared" /> for more info.
-            </summary>
-        </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetUnifiedSpotClients">
-            <summary>
-            DEPRECATED; use <see cref="T:CryptoExchange.Net.SharedApis.ISharedClient" /> instead for common/shared functionality. See <see href="https://jkorf.github.io/CryptoExchange.Net/docs/index.html#shared" /> for more info.
             </summary>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
@@ -2646,7 +2630,7 @@
             <param name="tradingMode">Trading mode</param>
             <param name="exchange">Exchange name</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotTicker}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToAllTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeAllTickersRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedSpotTicker[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Subscribe to ticker updates for all symbols on all exchanges that support this subscription
             </summary>
@@ -2664,7 +2648,7 @@
             <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
             <param name="ct">Cancellation token, can be used to stop the updates</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedTrade[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Subscribe to public trade updates for a symbol on all exchanges that support this subscription
             </summary>
@@ -2700,7 +2684,7 @@
             <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
             <param name="ct">Cancellation token, can be used to stop the updates</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToBalanceUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeBalancesRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedBalance}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToBalanceUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeBalancesRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedBalance[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Subscribe to user balance updates on all exchanges that support this subscription
             </summary>
@@ -2709,7 +2693,7 @@
             <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
             <param name="ct">Cancellation token, can be used to stop the updates</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToSpotOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeSpotOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedSpotOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToSpotOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeSpotOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedSpotOrder[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Subscribe to user spot orders updates on all exchanges that support this subscription
             </summary>
@@ -2718,7 +2702,7 @@
             <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
             <param name="ct">Cancellation token, can be used to stop the updates</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeFuturesOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedFuturesOrder}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToFuturesOrderUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeFuturesOrderRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedFuturesOrder[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Subscribe to user futures orders updates on all exchanges that support this subscription
             </summary>
@@ -2727,7 +2711,7 @@
             <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
             <param name="ct">Cancellation token, can be used to stop the updates</param>
         </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToUserTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeUserTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.SharedUserTrade}}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SubscribeToUserTradeUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeUserTradeRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedUserTrade[]}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <summary>
             Subscribe to user trade execution updates on all exchanges that support this subscription
             </summary>
