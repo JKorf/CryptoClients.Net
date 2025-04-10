@@ -470,9 +470,9 @@ namespace CryptoClients.Net
         {
             var clients = GetTickersClients().Where(x => request.TradingMode == null ? true: x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => Task.Run(async () =>
+            var tasks = clients.Where(x => x.SubscribeAllTickersOptions.Supported).Select(x => Task.Run(async () =>
             {
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToAllTickersUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
@@ -488,9 +488,9 @@ namespace CryptoClients.Net
         {
             var clients = GetTickerClients(request.Symbol.TradingMode);
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => Task.Run(async () =>
+            var tasks = clients.Where(x => x.SubscribeTickerOptions.Supported).Select(x => Task.Run(async () =>
             {
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToTickerUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
@@ -506,11 +506,10 @@ namespace CryptoClients.Net
         {
             var clients = GetTradeClients(request.Symbol.TradingMode);
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => Task.Run(async () =>
+            var tasks = clients.Where(x => x.SubscribeTradeOptions.Supported).Select(x => Task.Run(async () =>
             {
-                
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToTradeUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
             return await Task.WhenAll(tasks).ConfigureAwait(false);
@@ -525,9 +524,9 @@ namespace CryptoClients.Net
         {
             var clients = GetBookTickerClients(request.Symbol.TradingMode);
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => Task.Run(async () =>
+            var tasks = clients.Where(x => x.SubscribeBookTickerOptions.Supported).Select(x => Task.Run(async () =>
             {
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBookTickerUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
@@ -543,9 +542,9 @@ namespace CryptoClients.Net
         {
             var clients = GetKlineClients(request.Symbol.TradingMode);
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => Task.Run(async () =>
+            var tasks = clients.Where(x => x.SubscribeKlineOptions.Supported).Select(x => Task.Run(async () =>
             {
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToKlineUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
@@ -561,9 +560,9 @@ namespace CryptoClients.Net
         {
             var clients = GetOrderBookClients(request.Symbol.TradingMode);
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => Task.Run(async () =>
+            var tasks = clients.Where(x => x.SubscribeOrderBookOptions.Supported).Select(x => Task.Run(async () =>
             {
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToOrderBookUpdatesAsync(request, handler, ct).ConfigureAwait(false));
             }));
@@ -579,9 +578,9 @@ namespace CryptoClients.Net
         {
             var clients = GetBalanceClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => Task.Run(async () =>
+            var tasks = clients.Where(x => x.SubscribeBalanceOptions.Supported).Select(x => Task.Run(async () =>
             {
                 var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey)) ?? request.ListenKey };
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBalanceUpdatesAsync(exchangeRequest, handler, ct).ConfigureAwait(false));
@@ -598,9 +597,9 @@ namespace CryptoClients.Net
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => Task.Run(async () =>
+            var tasks = clients.Where(x => x.SubscribeSpotOrderOptions.Supported).Select(x => Task.Run(async () =>
             {
                 var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeSpotOrderRequest.ListenKey)) ?? request.ListenKey };
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToSpotOrderUpdatesAsync(exchangeRequest, handler, ct).ConfigureAwait(false));
@@ -617,9 +616,9 @@ namespace CryptoClients.Net
         {
             var clients = GetFuturesOrderClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => Task.Run(async () =>
+            var tasks = clients.Where(x => x.SubscribeFuturesOrderOptions.Supported).Select(x => Task.Run(async () =>
             {
                 var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeFuturesOrderRequest.ListenKey)) ?? request.ListenKey };
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToFuturesOrderUpdatesAsync(request, handler, ct).ConfigureAwait(false));
@@ -636,9 +635,9 @@ namespace CryptoClients.Net
         {
             var clients = GetUserTradeClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => Task.Run(async () =>
+            var tasks = clients.Where(x => x.SubscribeUserTradeOptions.Supported).Select(x => Task.Run(async () =>
             {
                 var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeUserTradeRequest.ListenKey)) ?? request.ListenKey };
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToUserTradeUpdatesAsync(request, handler, ct).ConfigureAwait(false));

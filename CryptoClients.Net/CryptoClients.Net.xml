@@ -478,6 +478,15 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFeeClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBookTickerClients">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBookTickerClients(CryptoExchange.Net.SharedApis.TradingMode)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBookTickerClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.#ctor">
             <summary>
             Create a new ExchangeRestClient instance. Client instances will be created with default options.
@@ -500,6 +509,9 @@
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSymbolName(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickerAsync(System.String,CryptoExchange.Net.SharedApis.GetTickersRequest,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotTickersAsync(CryptoExchange.Net.SharedApis.GetTickersRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
@@ -554,6 +566,9 @@
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetKlinesAsyncEnumerable(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlinesAsync(System.String,CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetMarkPriceKlinesAsync(CryptoExchange.Net.SharedApis.GetKlinesRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">

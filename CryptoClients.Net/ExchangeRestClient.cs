@@ -186,6 +186,16 @@ namespace CryptoClients.Net
         public ISpotOrderRestClient? GetSpotOrderClient(string exchange) => GetSpotOrderClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
+        public IEnumerable<ISpotOrderClientIdClient> GetSpotOrderClientIdClients() => _sharedClients.OfType<ISpotOrderClientIdClient>();
+        /// <inheritdoc />
+        public ISpotOrderClientIdClient? GetSpotOrderClientIdClient(string exchange) => GetSpotOrderClientIdClients().SingleOrDefault(s => s.Exchange == exchange);
+
+        /// <inheritdoc />
+        public IEnumerable<ISpotTriggerOrderRestClient> GetSpotTriggerOrderClients() => _sharedClients.OfType<ISpotTriggerOrderRestClient>();
+        /// <inheritdoc />
+        public ISpotTriggerOrderRestClient? GetSpotTriggerOrderClient(string exchange) => GetSpotTriggerOrderClients().SingleOrDefault(s => s.Exchange == exchange);
+
+        /// <inheritdoc />
         public IEnumerable<ISpotSymbolRestClient> GetSpotSymbolClients() => _sharedClients.OfType<ISpotSymbolRestClient>();
         /// <inheritdoc />
         public ISpotSymbolRestClient? GetSpotSymbolClient(string exchange) => GetSpotSymbolClients().SingleOrDefault(s => s.Exchange == exchange);
@@ -208,6 +218,20 @@ namespace CryptoClients.Net
         public IEnumerable<IFuturesOrderRestClient> GetFuturesOrderClients(TradingMode api) => _sharedClients.OfType<IFuturesOrderRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
         public IFuturesOrderRestClient? GetFuturesOrderClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesOrderRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+
+        /// <inheritdoc />
+        public IEnumerable<IFuturesOrderClientIdClient> GetFuturesOrderClientIdClients() => _sharedClients.OfType<IFuturesOrderClientIdClient>();
+        /// <inheritdoc />
+        public IEnumerable<IFuturesOrderClientIdClient> GetFuturesOrderClientIdClients(TradingMode api) => _sharedClients.OfType<IFuturesOrderClientIdClient>().Where(s => s.SupportedTradingModes.Contains(api));
+        /// <inheritdoc />
+        public IFuturesOrderClientIdClient? GetFuturesOrderClientIdClient(TradingMode tradingMode, string exchange) => GetFuturesOrderClientIdClients(tradingMode).SingleOrDefault(s => s.Exchange == exchange);
+
+        /// <inheritdoc />
+        public IEnumerable<IFuturesTriggerOrderRestClient> GetFuturesTriggerOrderClients() => _sharedClients.OfType<IFuturesTriggerOrderRestClient>();
+        /// <inheritdoc />
+        public IEnumerable<IFuturesTriggerOrderRestClient> GetFuturesTriggerOrderClients(TradingMode api) => _sharedClients.OfType<IFuturesTriggerOrderRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
+        /// <inheritdoc />
+        public IFuturesTriggerOrderRestClient? GetFuturesTriggerOrderClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesTriggerOrderRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IFuturesSymbolRestClient> GetFuturesSymbolClients() => _sharedClients.OfType<IFuturesSymbolRestClient>();
@@ -278,6 +302,20 @@ namespace CryptoClients.Net
         public IEnumerable<IFeeRestClient> GetFeeClients(TradingMode api) => _sharedClients.OfType<IFeeRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
         public IFeeRestClient? GetFeeClient(TradingMode api, string exchange) => _sharedClients.OfType<IFeeRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+
+        /// <inheritdoc />
+        public IEnumerable<IBookTickerRestClient> GetBookTickerClients() => _sharedClients.OfType<IBookTickerRestClient>();
+        /// <inheritdoc />
+        public IEnumerable<IBookTickerRestClient> GetBookTickerClients(TradingMode api) => _sharedClients.OfType<IBookTickerRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
+        /// <inheritdoc />
+        public IBookTickerRestClient? GetBookTickerClient(TradingMode api, string exchange) => _sharedClients.OfType<IBookTickerRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+
+        /// <inheritdoc />
+        public IEnumerable<IFuturesTpSlRestClient> GetFuturesTpSlClients() => _sharedClients.OfType<IFuturesTpSlRestClient>();
+        /// <inheritdoc />
+        public IEnumerable<IFuturesTpSlRestClient> GetFuturesTpSlClients(TradingMode api) => _sharedClients.OfType<IFuturesTpSlRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
+        /// <inheritdoc />
+        public IFuturesTpSlRestClient? GetFuturesTpSlClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesTpSlRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <summary>
         /// Create a new ExchangeRestClient instance. Client instances will be created with default options.
@@ -541,6 +579,12 @@ namespace CryptoClients.Net
         }
 
         #region Get Spot Tickers
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedSpotTicker[]>> GetSpotTickerAsync(string exchange, GetTickersRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetSpotTickersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedSpotTicker[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedSpotTicker[]>>> GetSpotTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -558,15 +602,21 @@ namespace CryptoClients.Net
         {
             var clients = GetSpotTickerClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetSpotTickersAsync(request, ct));
+            var tasks = clients.Where(x => x.GetSpotTickersOptions.Supported).Select(x => x.GetSpotTickersAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Spot Ticker
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedSpotTicker>> GetSpotTickerAsync(string exchange, GetTickerRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetSpotTickerInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedSpotTicker>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedSpotTicker>>> GetSpotTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -584,15 +634,21 @@ namespace CryptoClients.Net
         {
             var clients = GetSpotTickerClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetSpotTickerAsync(request, ct));
+            var tasks = clients.Where(x => x.GetSpotTickerOptions.Supported).Select(x => x.GetSpotTickerAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Spot Symbols
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedSpotSymbol[]>> GetSpotSymbolsAsync(string exchange, GetSymbolsRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetSpotSymbolsInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedSpotSymbol[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedSpotSymbol[]>>> GetSpotSymbolsAsync(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -610,15 +666,22 @@ namespace CryptoClients.Net
         {
             var clients = GetSpotSymbolClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetSpotSymbolsAsync(request, ct));
+            var tasks = clients.Where(x => x.GetSpotSymbolsOptions.Supported).Select(x => x.GetSpotSymbolsAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Spot Open Orders
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedSpotOrder[]>> GetSpotOpenOrdersAsync(string exchange, GetOpenOrdersRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetSpotOpenOrdersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedSpotOrder[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedSpotOrder[]>>> GetSpotOpenOrdersAsync(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -636,15 +699,22 @@ namespace CryptoClients.Net
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetOpenSpotOrdersAsync(request, ct));
+            var tasks = clients.Where(x => x.GetOpenSpotOrdersOptions.Supported).Select(x => x.GetOpenSpotOrdersAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Spot Closed Orders
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedSpotOrder[]>> GetSpotClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetSpotClosedOrdersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedSpotOrder[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedSpotOrder[]>>> GetSpotClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -662,15 +732,22 @@ namespace CryptoClients.Net
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetClosedSpotOrdersAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetClosedSpotOrdersOptions.Supported).Select(x => x.GetClosedSpotOrdersAsync(request, null, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Spot User Trades
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedUserTrade[]>> GetSpotUserTradesAsync(string exchange, GetUserTradesRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetSpotUserTradesInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedUserTrade[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedUserTrade[]>>> GetSpotUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -688,15 +765,22 @@ namespace CryptoClients.Net
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetSpotUserTradesAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetSpotUserTradesOptions.Supported).Select(x => x.GetSpotUserTradesAsync(request, null, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Futures Tickers
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedFuturesTicker[]>> GetFuturesTickersAsync(string exchange, GetTickersRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetFuturesTickersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesTicker[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedFuturesTicker[]>>> GetFuturesTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -714,15 +798,22 @@ namespace CryptoClients.Net
         {
             var clients = GetFuturesTickerClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetFuturesTickersAsync(request, ct));
+            var tasks = clients.Where(x => x.GetFuturesTickersOptions.Supported).Select(x => x.GetFuturesTickersAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Futures Ticker
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedFuturesTicker>> GetFuturesTickerAsync(string exchange, GetTickerRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetFuturesTickerInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesTicker>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedFuturesTicker>>> GetFuturesTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -740,15 +831,23 @@ namespace CryptoClients.Net
         {
             var clients = GetFuturesTickerClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetFuturesTickerAsync(request, ct));
+            var tasks = clients.Where(x => x.GetFuturesTickerOptions.Supported).Select(x => x.GetFuturesTickerAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Klines
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedKline[]>> GetKlinesAsync(string exchange, GetKlinesRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetKlinesIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedKline[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
+
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedKline[]>>> GetKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
@@ -765,9 +864,9 @@ namespace CryptoClients.Net
         {
             var clients = GetKlineClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetKlinesAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetKlinesOptions.Supported).Select(x => x.GetKlinesAsync(request, null, ct));
             return tasks;
         }
 
@@ -775,6 +874,14 @@ namespace CryptoClients.Net
         #endregion
 
         #region Get Mark Price Klines
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedFuturesKline[]>> GetMarkPriceKlinesAsync(string exchange, GetKlinesRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetMarkPriceKlinesIntAsync(request, new[] { exchange } , ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesKline[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
+
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedFuturesKline[]>>> GetMarkPriceKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
@@ -791,15 +898,23 @@ namespace CryptoClients.Net
         {
             var clients = GetMarkPriceKlineClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetMarkPriceKlinesAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetMarkPriceKlinesOptions.Supported).Select(x => x.GetMarkPriceKlinesAsync(request, null, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Index Price Klines
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsync(string exchange, GetKlinesRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetIndexPriceKlinesIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesKline[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
+
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedFuturesKline[]>>> GetIndexPriceKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
@@ -816,15 +931,22 @@ namespace CryptoClients.Net
         {
             var clients = GetIndexPriceKlineClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetIndexPriceKlinesAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetIndexPriceKlinesOptions.Supported).Select(x => x.GetIndexPriceKlinesAsync(request, null, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Recent Trades
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedTrade[]>> GetRecentTradesAsync(string exchange, GetRecentTradesRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetRecentTradesIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedTrade[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedTrade[]>>> GetRecentTradesAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -842,15 +964,22 @@ namespace CryptoClients.Net
         {
             var clients = GetRecentTradesClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetRecentTradesAsync(request, ct));
+            var tasks = clients.Where(x => x.GetRecentTradesOptions.Supported).Select(x => x.GetRecentTradesAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Trade History
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedTrade[]>> GetTradeHistoryAsync(string exchange, GetTradeHistoryRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetTradeHistoryInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedTrade[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedTrade[]>>> GetTradeHistoryAsync(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -868,15 +997,22 @@ namespace CryptoClients.Net
         {
             var clients = GetTradeHistoryClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetTradeHistoryAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetTradeHistoryOptions.Supported).Select(x => x.GetTradeHistoryAsync(request, null, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Order Book
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedOrderBook>> GetOrderBookAsync(string exchange, GetOrderBookRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetOrderBookInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedOrderBook>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedOrderBook>>> GetOrderBookAsync(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -894,15 +1030,22 @@ namespace CryptoClients.Net
         {
             var clients = GetOrderBookClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetOrderBookAsync(request, ct));
+            var tasks = clients.Where(x => x.GetOrderBookOptions.Supported).Select(x => x.GetOrderBookAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Assets
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedAsset[]>> GetAssetsAsync(string exchange, GetAssetsRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetAssetsIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedAsset[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedAsset[]>>> GetAssetsAsync(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -920,15 +1063,22 @@ namespace CryptoClients.Net
         {
             var clients = GetAssetsClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetAssetsAsync(request, ct));
+            var tasks = clients.Where(x => x.GetAssetsOptions.Supported).Select(x => x.GetAssetsAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Asset
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedAsset>> GetAssetAsync(string exchange, GetAssetRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetAssetIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedAsset>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedAsset>>> GetAssetAsync(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -946,15 +1096,22 @@ namespace CryptoClients.Net
         {
             var clients = GetAssetsClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetAssetAsync(request, ct));
+            var tasks = clients.Where(x => x.GetAssetOptions.Supported).Select(x => x.GetAssetAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Futures Open Orders
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesOpenOrdersAsync(string exchange, GetOpenOrdersRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetFuturesOpenOrdersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesOrder[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedFuturesOrder[]>>> GetFuturesOpenOrdersAsync(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -972,15 +1129,22 @@ namespace CryptoClients.Net
         {
             var clients = GetFuturesOrderClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetOpenFuturesOrdersAsync(request, ct));
+            var tasks = clients.Where(x => x.GetOpenFuturesOrdersOptions.Supported).Select(x => x.GetOpenFuturesOrdersAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Futures Closed Orders
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesOpenOrdersAsync(string exchange, GetClosedOrdersRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetFuturesClosedOrdersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesOrder[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedFuturesOrder[]>>> GetFuturesClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -998,15 +1162,22 @@ namespace CryptoClients.Net
         {
             var clients = GetFuturesOrderClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetClosedFuturesOrdersAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetClosedFuturesOrdersOptions.Supported).Select(x => x.GetClosedFuturesOrdersAsync(request, null, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Futures User Trades
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedUserTrade[]>> GetFuturesUserTradesAsync(string exchange, GetUserTradesRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetFuturesUserTradesInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedUserTrade[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedUserTrade[]>>> GetFuturesUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -1024,15 +1195,22 @@ namespace CryptoClients.Net
         {
             var clients = GetFuturesOrderClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetFuturesUserTradesAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetFuturesUserTradesOptions.Supported).Select(x => x.GetFuturesUserTradesAsync(request, null, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Balances
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedBalance[]>> GetBalancesAsync(string exchange, GetBalancesRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetBalancesIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedBalance[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedBalance[]>>> GetBalancesAsync(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -1050,15 +1228,22 @@ namespace CryptoClients.Net
         {
             var clients = GetBalancesClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetBalancesAsync(request, ct));
+            var tasks = clients.Where(x => x.GetBalancesOptions.Supported).Select(x => x.GetBalancesAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Deposits
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedDeposit[]>> GetDepositsAsync(string exchange, GetDepositsRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetDepositsInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedDeposit[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedDeposit[]>>> GetDepositsAsync(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -1076,15 +1261,22 @@ namespace CryptoClients.Net
         {
             var clients = GetDepositsClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetDepositsAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetDepositsOptions.Supported).Select(x => x.GetDepositsAsync(request, null, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Withdrawals
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedWithdrawal[]>> GetWithdrawalsAsync(string exchange, GetWithdrawalsRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetWithdrawalsInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedWithdrawal[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedWithdrawal[]>>> GetWithdrawalsAsync(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -1102,15 +1294,22 @@ namespace CryptoClients.Net
         {
             var clients = GetWithdrawalsClients();
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetWithdrawalsAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetWithdrawalsOptions.Supported).Select(x => x.GetWithdrawalsAsync(request, null, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Funding Rate History
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedFundingRate[]>> GetFundingRateHistoryAsync(string exchange, GetFundingRateHistoryRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetFundingRateHistoryInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFundingRate[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedFundingRate[]>>> GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -1128,15 +1327,22 @@ namespace CryptoClients.Net
         {
             var clients = GetFundingRateClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetFundingRateHistoryAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetFundingRateHistoryOptions.Supported).Select(x => x.GetFundingRateHistoryAsync(request, null, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Open Interest
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedOpenInterest>> GetOpenInterestAsync(string exchange, GetOpenInterestRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetOpenInterestInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedOpenInterest>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedOpenInterest>>> GetOpenInterestAsync(GetOpenInterestRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -1154,15 +1360,22 @@ namespace CryptoClients.Net
         {
             var clients = GetOpenInterestClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetOpenInterestAsync(request, ct));
+            var tasks = clients.Where(x => x.GetOpenInterestOptions.Supported).Select(x => x.GetOpenInterestAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Futures Symbols
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedFuturesSymbol[]>> GetFuturesSymbolsAsync(string exchange, GetSymbolsRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetFuturesSymbolsInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesSymbol[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedFuturesSymbol[]>>> GetFuturesSymbolsAsync(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -1180,15 +1393,22 @@ namespace CryptoClients.Net
         {
             var clients = GetFuturesSymbolClients().Where(x => request.TradingMode == null ? true: x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetFuturesSymbolsAsync(request, ct));
+            var tasks = clients.Where(x => x.GetFuturesSymbolsOptions.Supported).Select(x => x.GetFuturesSymbolsAsync(request, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Position History
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedPositionHistory[]>> GetPositionHistoryAsync(string exchange, GetPositionHistoryRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetPositionHistoryInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedPositionHistory[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedPositionHistory[]>>> GetPositionHistoryAsync(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -1206,15 +1426,22 @@ namespace CryptoClients.Net
         {
             var clients = GetPositionHistoryClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetPositionHistoryAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetPositionHistoryOptions.Supported).Select(x => x.GetPositionHistoryAsync(request, null, ct));
             return tasks;
         }
 
         #endregion
 
         #region Get Fees 
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedFee>> GetFeesAsync(string exchange, GetFeeRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetFeesInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFee>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<IEnumerable<ExchangeWebResult<SharedFee>>> GetFeesAsync(GetFeeRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
@@ -1232,12 +1459,316 @@ namespace CryptoClients.Net
         {
             var clients = GetFeeClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
             if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange));
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Select(x => x.GetFeesAsync(request, ct));
+            var tasks = clients.Where(x => x.GetFeeOptions.Supported).Select(x => x.GetFeesAsync(request, ct));
             return tasks;
         }
 
         #endregion
+
+        #region Get Book Tickers 
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedBookTicker>> GetBookTickerAsync(string exchange, GetBookTickerRequest request, CancellationToken ct = default)
+        {
+            var result = await Task.WhenAll(GetBookTickersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedBookTicker>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ExchangeWebResult<SharedBookTicker>>> GetBookTickersAsync(GetBookTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return await Task.WhenAll(GetBookTickersInt(request, exchanges, ct)).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public IAsyncEnumerable<ExchangeWebResult<SharedBookTicker>> GetBookTickersAsyncEnumerable(GetBookTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        {
+            return GetBookTickersInt(request, exchanges, ct).ParallelEnumerateAsync();
+        }
+
+        private IEnumerable<Task<ExchangeWebResult<SharedBookTicker>>> GetBookTickersInt(GetBookTickerRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        {
+            var clients = GetBookTickerClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
+            if (exchanges != null)
+                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+
+#warning add specific exchange parameters for placeorder etc
+            var tasks = clients.Where(x => x.GetBookTickerOptions.Supported).Select(x => x.GetBookTickerAsync(request, ct));
+            return tasks;
+        }
+
+        #endregion
+
+        #region Place Spot Order
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> PlaceSpotOrderAsync(string exchange, PlaceSpotOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetSpotOrderClient(exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.PlaceSpotOrderAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Get Spot Order
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedSpotOrder>> GetSpotOrderAsync(string exchange, GetOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetSpotOrderClient(exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedSpotOrder>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.GetSpotOrderAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Get Spot Order By Client Order Id
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedSpotOrder>> GetSpotOrderByClientOrderIdAsync(string exchange, GetOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetSpotOrderClientIdClient(exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedSpotOrder>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.GetSpotOrderByClientOrderIdAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Get Spot Order Trades
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedUserTrade[]>> GetSpotOrderTradesAsync(string exchange, GetOrderTradesRequest request, CancellationToken ct = default)
+        {
+            var client = GetSpotOrderClient(exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedUserTrade[]>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.GetSpotOrderTradesAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Cancel Spot Order
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> CancelSpotOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetSpotOrderClient(exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.CancelSpotOrderAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Cancel Spot Order By Client Order Id
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> CancelSpotOrderByClientOrderIdAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetSpotOrderClientIdClient(exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.CancelSpotOrderByClientOrderIdAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Place Futures Order
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> PlaceFuturesOrderAsync(string exchange, PlaceFuturesOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetFuturesOrderClient(request.Symbol.TradingMode, exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.PlaceFuturesOrderAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Get Futures Order
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedFuturesOrder>> GetFuturesOrderAsync(string exchange, GetOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetFuturesOrderClient(request.Symbol.TradingMode, exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedFuturesOrder>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.GetFuturesOrderAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Get Futures Order By Client Order Id
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedFuturesOrder>> GetFuturesOrderByClientOrderIdAsync(string exchange, GetOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetFuturesOrderClientIdClient(request.Symbol.TradingMode, exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedFuturesOrder>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.GetFuturesOrderByClientOrderIdAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Get Futures Order Trades
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedUserTrade[]>> GetFuturesOrderTradesAsync(string exchange, GetOrderTradesRequest request, CancellationToken ct = default)
+        {
+            var client = GetFuturesOrderClient(request.Symbol.TradingMode, exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedUserTrade[]>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.GetFuturesOrderTradesAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Cancel Futures Order
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> CancelFuturesOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetFuturesOrderClient(request.Symbol.TradingMode, exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.CancelFuturesOrderAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Cancel Futures Order By Client Order Id
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> CancelFuturesOrderByClientOrderIdAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetFuturesOrderClientIdClient(request.Symbol.TradingMode, exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.CancelFuturesOrderByClientOrderIdAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Close Position
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> ClosePositionAsync(string exchange, ClosePositionRequest request, CancellationToken ct = default)
+        {
+            var client = GetFuturesOrderClient(request.Symbol.TradingMode, exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.ClosePositionAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Place Spot Trigger Order
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> PlaceSpotTriggerOrderAsync(string exchange, PlaceSpotTriggerOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetSpotTriggerOrderClient(exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.PlaceSpotTriggerOrderAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Cancel Spot Trigger Order
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> CancelSpotTriggerOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetSpotTriggerOrderClient(exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.CancelSpotTriggerOrderAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Place Futures Trigger Order
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> PlaceFuturesTriggerOrderAsync(string exchange, PlaceFuturesTriggerOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetFuturesTriggerOrderClient(request.Symbol.TradingMode, exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.PlaceFuturesTriggerOrderAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Cancel Futures Trigger Order
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> CancelFuturesTriggerOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
+        {
+            var client = GetFuturesTriggerOrderClient(request.Symbol.TradingMode, exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.CancelFuturesTriggerOrderAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Set Futures TpSl
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<SharedId>> SetFuturesTpSlAsync(string exchange, SetTpSlRequest request, CancellationToken ct = default)
+        {
+            var client = GetFuturesTpSlClient(request.Symbol.TradingMode, exchange);
+            if (client == null)
+                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.SetFuturesTpSlAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        #region Cancel TpSl
+
+        /// <inheritdoc />
+        public async Task<ExchangeWebResult<bool>> CancelFuturesTpSlAsync(string exchange, CancelTpSlRequest request, CancellationToken ct = default)
+        {
+            var client = GetFuturesTpSlClient(request.Symbol.TradingMode, exchange);
+            if (client == null)
+                return new ExchangeWebResult<bool>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+
+            return await client.CancelFuturesTpSlAsync(request, ct).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        // TODO
+        // Leverage client
+        // PositionMode client
     }
 }
