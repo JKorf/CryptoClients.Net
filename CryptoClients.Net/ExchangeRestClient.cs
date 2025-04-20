@@ -1494,7 +1494,6 @@ namespace CryptoClients.Net
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-#warning add specific exchange parameters for placeorder etc
             var tasks = clients.Where(x => x.GetBookTickerOptions.Supported).Select(x => x.GetBookTickerAsync(request, ct));
             return tasks;
         }

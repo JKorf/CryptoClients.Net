@@ -368,5 +368,56 @@ namespace CryptoClients.Net
                 XTExchange.RateLimiter.RateLimitTriggered -= value;
             }
         }
+
+        /// <summary>
+        /// Event when the rate limit is updated. Note that it's only updated when a request is send, so there are no specific updates when the current usage is decaying.
+        /// </summary>
+        public static event Action<RateLimitUpdateEvent> RateLimitUpdated
+        {
+            add
+            {
+                BinanceExchange.RateLimiter.RateLimitUpdated += value;
+                BingXExchange.RateLimiter.RateLimitUpdated += value;
+                BitfinexExchange.RateLimiter.RateLimitUpdated += value;
+                BitgetExchange.RateLimiter.RateLimitUpdated += value;
+                BitMartExchange.RateLimiter.RateLimitUpdated += value;
+                BitMEXExchange.RateLimiter.RateLimitUpdated += value;
+                BybitExchange.RateLimiter.RateLimitUpdated += value;
+                CoinbaseExchange.RateLimiter.RateLimitUpdated += value;
+                CryptoComExchange.RateLimiter.RateLimitUpdated += value;
+                DeepCoinExchange.RateLimiter.RateLimitUpdated += value;
+                GateIoExchange.RateLimiter.RateLimitUpdated += value;
+                HTXExchange.RateLimiter.RateLimitUpdated += value;
+                HyperLiquidExchange.RateLimiter.RateLimitUpdated += value;
+                KrakenExchange.RateLimiter.RateLimitUpdated += value;
+                KucoinExchange.RateLimiter.RateLimitUpdated += value;
+                MexcExchange.RateLimiter.RateLimitUpdated += value;
+                OKXExchange.RateLimiter.RateLimitUpdated += value;
+                WhiteBitExchange.RateLimiter.RateLimitUpdated += value;
+                XTExchange.RateLimiter.RateLimitUpdated += value;
+            }
+            remove
+            {
+                BinanceExchange.RateLimiter.RateLimitUpdated -= value;
+                BingXExchange.RateLimiter.RateLimitUpdated -= value;
+                BitfinexExchange.RateLimiter.RateLimitUpdated -= value;
+                BitgetExchange.RateLimiter.RateLimitUpdated -= value;
+                BitMartExchange.RateLimiter.RateLimitUpdated -= value;
+                BitMEXExchange.RateLimiter.RateLimitUpdated -= value;
+                BybitExchange.RateLimiter.RateLimitUpdated -= value;
+                CoinbaseExchange.RateLimiter.RateLimitUpdated -= value;
+                CryptoComExchange.RateLimiter.RateLimitUpdated -= value;
+                DeepCoinExchange.RateLimiter.RateLimitUpdated -= value;
+                GateIoExchange.RateLimiter.RateLimitUpdated -= value;
+                HTXExchange.RateLimiter.RateLimitUpdated -= value;
+                HyperLiquidExchange.RateLimiter.RateLimitUpdated -= value;
+                KrakenExchange.RateLimiter.RateLimitUpdated -= value;
+                KucoinExchange.RateLimiter.RateLimitUpdated -= value;
+                MexcExchange.RateLimiter.RateLimitUpdated -= value;
+                OKXExchange.RateLimiter.RateLimitUpdated -= value;
+                WhiteBitExchange.RateLimiter.RateLimitUpdated -= value;
+                XTExchange.RateLimiter.RateLimitUpdated -= value;
+            }
+        }
     }
 }

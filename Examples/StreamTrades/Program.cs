@@ -13,7 +13,7 @@ foreach (var subResult in await socketClient.SubscribeToTradeUpdatesAsync(new Su
 
 Console.ReadLine();
 
-void LogTrades(ExchangeEvent<IEnumerable<SharedTrade>> update)
+void LogTrades(ExchangeEvent<SharedTrade[]> update)
 {
     foreach (var item in update.Data)
         Console.WriteLine($"{update.Exchange.PadRight(10)} | {item.Quantity} @ {item.Price}");    
