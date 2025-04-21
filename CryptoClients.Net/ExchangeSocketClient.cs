@@ -574,7 +574,12 @@ namespace CryptoClients.Net
         #region Subscribe Balance
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<ExchangeEvent<SharedBalance[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(
+            SubscribeBalancesRequest request,
+            Action<ExchangeEvent<SharedBalance[]>> handler,
+            IEnumerable<string>? exchanges = null,
+            ExchangeWebResult<string>[]? listenKeyResults = null,
+            CancellationToken ct = default)
         {
             var clients = GetBalanceClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
@@ -582,8 +587,14 @@ namespace CryptoClients.Net
 
             var tasks = clients.Where(x => x.SubscribeBalanceOptions.Supported).Select(x => Task.Run(async () =>
             {
-                var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey)) ?? request.ListenKey };
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBalanceUpdatesAsync(exchangeRequest, handler, ct).ConfigureAwait(false));
+                var listenKey = request.ListenKey;
+                if (listenKey == null && listenKeyResults != null)
+                    listenKey = listenKeyResults.Where(x => x.Success).SingleOrDefault(lk => lk.Exchange == x.Exchange && (request.TradingMode.HasValue ? lk.DataTradeMode.Contains(request.TradingMode.Value) : lk.DataTradeMode.Any(tm => x.SupportedTradingModes.Contains(tm))))?.Data;
+                if (listenKey == null)
+                    listenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey));
+
+#warning TODO check and apply to other user data streams
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBalanceUpdatesAsync(request with { ListenKey = listenKey }, handler, ct).ConfigureAwait(false));
             }));
             return await Task.WhenAll(tasks).ConfigureAwait(false);
         }

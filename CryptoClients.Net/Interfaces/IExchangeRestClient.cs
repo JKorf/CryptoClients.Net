@@ -1184,6 +1184,78 @@ namespace CryptoClients.Net.Interfaces
         Task<IEnumerable<ExchangeWebResult<SharedBookTicker>>> GetBookTickersAsync(GetBookTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
+        /// Get the listen key which can be used for user data updates on the socket client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<ExchangeWebResult<string>> StartListenKeyAsync(string exchange, StartListenKeyRequest request, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get the listen key which can be used for user data updates on the socket client, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        IAsyncEnumerable<ExchangeWebResult<string>> StartListenKeysAsyncEnumerable(StartListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get the listen key which can be used for user data updates on the socket client from all or selected exchanges
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<IEnumerable<ExchangeWebResult<string>>> StartListenKeysAsync(StartListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Keep-Alive the listen key which can be used for user data updates on the socket client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<ExchangeWebResult<string>> KeepAliveListenKeyAsync(string exchange, KeepAliveListenKeyRequest request, CancellationToken ct = default);
+
+        /// <summary>
+        /// Keep-Alive the listen key which can be used for user data updates on the socket client, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        IAsyncEnumerable<ExchangeWebResult<string>> KeepAliveListenKeysAsyncEnumerable(KeepAliveListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// Keep-Alive the listen key which can be used for user data updates on the socket client from all or selected exchanges
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<IEnumerable<ExchangeWebResult<string>>> KeepAliveListenKeysAsync(KeepAliveListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// End the listen key which can be used for user data updates on the socket client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<ExchangeWebResult<string>> StopListenKeyAsync(string exchange, StopListenKeyRequest request, CancellationToken ct = default);
+
+        /// <summary>
+        /// End the listen key which can be used for user data updates on the socket client, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        IAsyncEnumerable<ExchangeWebResult<string>> StopListenKeysAsyncEnumerable(StopListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+
+        /// <summary>
+        /// End the listen key which can be used for user data updates on the socket client from all or selected exchanges
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<IEnumerable<ExchangeWebResult<string>>> StopListenKeysAsync(StopListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+
+        /// <summary>
         /// Place a new spot order
         /// </summary>
         /// <param name="exchange">The exchange</param>

@@ -368,8 +368,14 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="handler">The data handler callback</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="listenKeyResults">Optional previously obtained listen keys used for subscribing to user data</param>
         /// <param name="ct">Cancellation token, can be used to stop the updates</param>
-        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<ExchangeEvent<SharedBalance[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(
+            SubscribeBalancesRequest request,
+            Action<ExchangeEvent<SharedBalance[]>> handler,
+            IEnumerable<string>? exchanges = null,
+            ExchangeWebResult<string>[]? listenKeyResults = null,
+            CancellationToken ct = default);
 
         /// <summary>
         /// Subscribe to user spot orders updates on all exchanges that support this subscription
