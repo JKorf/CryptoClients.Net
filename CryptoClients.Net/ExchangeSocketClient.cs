@@ -466,7 +466,7 @@ namespace CryptoClients.Net
         #region Subscribe All Ticker
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<ExchangeEvent<SharedSpotTicker[]>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<ExchangeEvent<SharedSpotTicker[]>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetTickersClients().Where(x => request.TradingMode == null ? true: x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
@@ -484,7 +484,7 @@ namespace CryptoClients.Net
         #region Subscribe Ticker
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToTickerUpdatesAsync(SubscribeTickerRequest request, Action<ExchangeEvent<SharedSpotTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             var clients = GetTickerClients(request.Symbol.TradingMode);
             if (exchanges != null)
@@ -502,7 +502,7 @@ namespace CryptoClients.Net
         #region Subscribe Trade
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<SharedTrade[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<SharedTrade[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             var clients = GetTradeClients(request.Symbol.TradingMode);
             if (exchanges != null)
@@ -520,7 +520,7 @@ namespace CryptoClients.Net
         #region Subscribe Book Ticker
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             var clients = GetBookTickerClients(request.Symbol.TradingMode);
             if (exchanges != null)
@@ -538,7 +538,7 @@ namespace CryptoClients.Net
         #region Subscribe Kline
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             var clients = GetKlineClients(request.Symbol.TradingMode);
             if (exchanges != null)
@@ -556,7 +556,7 @@ namespace CryptoClients.Net
         #region Subscribe Order Book
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToOrderBookUpdatesAsync(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToOrderBookUpdatesAsync(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             var clients = GetOrderBookClients(request.Symbol.TradingMode);
             if (exchanges != null)
@@ -574,7 +574,7 @@ namespace CryptoClients.Net
         #region Subscribe Balance
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToBalanceUpdatesAsync(
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToBalanceUpdatesAsync(
             SubscribeBalancesRequest request,
             Action<ExchangeEvent<SharedBalance[]>> handler,
             IEnumerable<string>? exchanges = null,
@@ -603,7 +603,7 @@ namespace CryptoClients.Net
         #region Subscribe Spot Order
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesAsync(
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToSpotOrderUpdatesAsync(
             SubscribeSpotOrderRequest request,
             Action<ExchangeEvent<SharedSpotOrder[]>> handler,
             IEnumerable<string>? exchanges = null,
@@ -632,7 +632,7 @@ namespace CryptoClients.Net
         #region Subscribe Futures Order
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesAsync(
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToFuturesOrderUpdatesAsync(
             SubscribeFuturesOrderRequest request,
             Action<ExchangeEvent<SharedFuturesOrder[]>> handler,
             IEnumerable<string>? exchanges = null,
@@ -661,7 +661,7 @@ namespace CryptoClients.Net
         #region Subscribe User Trade
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesAsync(
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToUserTradeUpdatesAsync(
             SubscribeUserTradeRequest request,
             Action<ExchangeEvent<SharedUserTrade[]>> handler,
             IEnumerable<string>? exchanges = null,

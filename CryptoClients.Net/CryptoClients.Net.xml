@@ -1478,6 +1478,36 @@
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderSocketClient"/> if available
             </summary>
         </member>
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.BookTickerRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IBookTickerRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.SpotTriggerOrderRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotTriggerOrderRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.SpotOrderClientIdRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotOrderClientIdClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesTriggerOrderRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesTriggerOrderRestClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesOrderClientIdRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesOrderClientIdClient"/> if available
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.CryptoClientsExtensions.FuturesTpSlRestClient(System.Collections.Generic.IEnumerable{CryptoExchange.Net.SharedApis.ISharedClient})">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IFuturesTpSlRestClient"/> if available
+            </summary>
+        </member>
         <member name="T:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory">
             <summary>
             Factory for creating SymbolOrderBook instances; locally synced order books.
