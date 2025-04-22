@@ -589,11 +589,10 @@ namespace CryptoClients.Net
             {
                 var listenKey = request.ListenKey;
                 if (listenKey == null && listenKeyResults != null)
-                    listenKey = listenKeyResults.Where(x => x.Success).SingleOrDefault(lk => lk.Exchange == x.Exchange && (request.TradingMode.HasValue ? lk.DataTradeMode.Contains(request.TradingMode.Value) : lk.DataTradeMode.Any(tm => x.SupportedTradingModes.Contains(tm))))?.Data;
+                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && (request.TradingMode.HasValue ? lk.DataTradeMode.Contains(request.TradingMode.Value) : lk.DataTradeMode.Any(tm => x.SupportedTradingModes.Contains(tm))))?.Data;
                 if (listenKey == null)
                     listenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey));
 
-#warning TODO check and apply to other user data streams
                 return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToBalanceUpdatesAsync(request with { ListenKey = listenKey }, handler, ct).ConfigureAwait(false));
             }));
             return await Task.WhenAll(tasks).ConfigureAwait(false);
@@ -604,7 +603,12 @@ namespace CryptoClients.Net
         #region Subscribe Spot Order
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<ExchangeEvent<SharedSpotOrder[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToSpotOrderUpdatesAsync(
+            SubscribeSpotOrderRequest request,
+            Action<ExchangeEvent<SharedSpotOrder[]>> handler,
+            IEnumerable<string>? exchanges = null,
+            ExchangeWebResult<string>[]? listenKeyResults = null,
+            CancellationToken ct = default)
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
@@ -612,8 +616,13 @@ namespace CryptoClients.Net
 
             var tasks = clients.Where(x => x.SubscribeSpotOrderOptions.Supported).Select(x => Task.Run(async () =>
             {
-                var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeSpotOrderRequest.ListenKey)) ?? request.ListenKey };
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToSpotOrderUpdatesAsync(exchangeRequest, handler, ct).ConfigureAwait(false));
+                var listenKey = request.ListenKey;
+                if (listenKey == null && listenKeyResults != null)
+                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && lk.DataTradeMode.Contains(TradingMode.Spot))?.Data;
+                if (listenKey == null)
+                    listenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey));
+
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToSpotOrderUpdatesAsync(request with { ListenKey = listenKey }, handler, ct).ConfigureAwait(false));
             }));
             return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
@@ -623,7 +632,12 @@ namespace CryptoClients.Net
         #region Subscribe Futures Order
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<SharedFuturesOrder[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToFuturesOrderUpdatesAsync(
+            SubscribeFuturesOrderRequest request,
+            Action<ExchangeEvent<SharedFuturesOrder[]>> handler,
+            IEnumerable<string>? exchanges = null,
+            ExchangeWebResult<string>[]? listenKeyResults = null,
+            CancellationToken ct = default)
         {
             var clients = GetFuturesOrderClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
@@ -631,8 +645,13 @@ namespace CryptoClients.Net
 
             var tasks = clients.Where(x => x.SubscribeFuturesOrderOptions.Supported).Select(x => Task.Run(async () =>
             {
-                var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeFuturesOrderRequest.ListenKey)) ?? request.ListenKey };
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToFuturesOrderUpdatesAsync(request, handler, ct).ConfigureAwait(false));
+                var listenKey = request.ListenKey;
+                if (listenKey == null && listenKeyResults != null)
+                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && (request.TradingMode.HasValue ? lk.DataTradeMode.Contains(request.TradingMode.Value) : lk.DataTradeMode.Any(tm => x.SupportedTradingModes.Contains(tm))))?.Data;
+                if (listenKey == null)
+                    listenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey));
+
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToFuturesOrderUpdatesAsync(request with { ListenKey = listenKey }, handler, ct).ConfigureAwait(false));
             }));
             return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
@@ -642,7 +661,12 @@ namespace CryptoClients.Net
         #region Subscribe User Trade
 
         /// <inheritdoc />
-        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesAsync(SubscribeUserTradeRequest request, Action<ExchangeEvent<SharedUserTrade[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<IEnumerable<ExchangeResult<UpdateSubscription>>> SubscribeToUserTradeUpdatesAsync(
+            SubscribeUserTradeRequest request,
+            Action<ExchangeEvent<SharedUserTrade[]>> handler,
+            IEnumerable<string>? exchanges = null,
+            ExchangeWebResult<string>[]? listenKeyResults = null,
+            CancellationToken ct = default)
         {
             var clients = GetUserTradeClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
@@ -650,8 +674,13 @@ namespace CryptoClients.Net
 
             var tasks = clients.Where(x => x.SubscribeUserTradeOptions.Supported).Select(x => Task.Run(async () =>
             {
-                var exchangeRequest = request with { ListenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeUserTradeRequest.ListenKey)) ?? request.ListenKey };
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToUserTradeUpdatesAsync(request, handler, ct).ConfigureAwait(false));
+                var listenKey = request.ListenKey;
+                if (listenKey == null && listenKeyResults != null)
+                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && (request.TradingMode.HasValue ? lk.DataTradeMode.Contains(request.TradingMode.Value) : lk.DataTradeMode.Any(tm => x.SupportedTradingModes.Contains(tm))))?.Data;
+                if (listenKey == null)
+                    listenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey));
+
+                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToUserTradeUpdatesAsync(request with { ListenKey = listenKey }, handler, ct).ConfigureAwait(false));
             }));
             return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
