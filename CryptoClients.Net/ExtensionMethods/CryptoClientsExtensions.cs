@@ -199,5 +199,35 @@ namespace CryptoClients.Net
         /// </summary>
         public static IFuturesOrderSocketClient? FuturesOrderSocketClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesOrderSocketClient>().SingleOrDefault();
 
+        /// <summary>
+        /// Get the <see cref="IBookTickerRestClient"/> if available
+        /// </summary>
+        public static IBookTickerRestClient? BookTickerRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IBookTickerRestClient>().SingleOrDefault();
+
+        /// <summary>
+        /// Get the <see cref="ISpotTriggerOrderRestClient"/> if available
+        /// </summary>
+        public static ISpotTriggerOrderRestClient? SpotTriggerOrderRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<ISpotTriggerOrderRestClient>().SingleOrDefault();
+
+        /// <summary>
+        /// Get the <see cref="ISpotOrderClientIdClient"/> if available
+        /// </summary>
+        public static ISpotOrderClientIdClient? SpotOrderClientIdRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<ISpotOrderClientIdClient>().SingleOrDefault();
+
+        /// <summary>
+        /// Get the <see cref="IFuturesTriggerOrderRestClient"/> if available
+        /// </summary>
+        public static IFuturesTriggerOrderRestClient? FuturesTriggerOrderRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesTriggerOrderRestClient>().SingleOrDefault();
+
+        /// <summary>
+        /// Get the <see cref="IFuturesOrderClientIdClient"/> if available
+        /// </summary>
+        public static IFuturesOrderClientIdClient? FuturesOrderClientIdRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesOrderClientIdClient>().SingleOrDefault();
+
+        /// <summary>
+        /// Get the <see cref="IFuturesTpSlRestClient"/> if available
+        /// </summary>
+        public static IFuturesTpSlRestClient? FuturesTpSlRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesTpSlRestClient>().SingleOrDefault();
+
     }
 }
