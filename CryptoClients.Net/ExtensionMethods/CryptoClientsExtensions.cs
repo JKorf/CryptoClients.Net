@@ -210,9 +210,9 @@ namespace CryptoClients.Net
         public static ISpotTriggerOrderRestClient? SpotTriggerOrderRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<ISpotTriggerOrderRestClient>().SingleOrDefault();
 
         /// <summary>
-        /// Get the <see cref="ISpotOrderClientIdClient"/> if available
+        /// Get the <see cref="ISpotOrderClientIdRestClient"/> if available
         /// </summary>
-        public static ISpotOrderClientIdClient? SpotOrderClientIdRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<ISpotOrderClientIdClient>().SingleOrDefault();
+        public static ISpotOrderClientIdRestClient? SpotOrderClientIdRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<ISpotOrderClientIdRestClient>().SingleOrDefault();
 
         /// <summary>
         /// Get the <see cref="IFuturesTriggerOrderRestClient"/> if available
@@ -220,9 +220,9 @@ namespace CryptoClients.Net
         public static IFuturesTriggerOrderRestClient? FuturesTriggerOrderRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesTriggerOrderRestClient>().SingleOrDefault();
 
         /// <summary>
-        /// Get the <see cref="IFuturesOrderClientIdClient"/> if available
+        /// Get the <see cref="IFuturesOrderClientIdRestClient"/> if available
         /// </summary>
-        public static IFuturesOrderClientIdClient? FuturesOrderClientIdRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesOrderClientIdClient>().SingleOrDefault();
+        public static IFuturesOrderClientIdRestClient? FuturesOrderClientIdRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesOrderClientIdRestClient>().SingleOrDefault();
 
         /// <summary>
         /// Get the <see cref="IFuturesTpSlRestClient"/> if available

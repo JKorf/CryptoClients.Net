@@ -186,9 +186,9 @@ namespace CryptoClients.Net
         public ISpotOrderRestClient? GetSpotOrderClient(string exchange) => GetSpotOrderClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<ISpotOrderClientIdClient> GetSpotOrderClientIdClients() => _sharedClients.OfType<ISpotOrderClientIdClient>();
+        public IEnumerable<ISpotOrderClientIdRestClient> GetSpotOrderClientIdClients() => _sharedClients.OfType<ISpotOrderClientIdRestClient>();
         /// <inheritdoc />
-        public ISpotOrderClientIdClient? GetSpotOrderClientIdClient(string exchange) => GetSpotOrderClientIdClients().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotOrderClientIdRestClient? GetSpotOrderClientIdClient(string exchange) => GetSpotOrderClientIdClients().SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<ISpotTriggerOrderRestClient> GetSpotTriggerOrderClients() => _sharedClients.OfType<ISpotTriggerOrderRestClient>();
@@ -220,11 +220,11 @@ namespace CryptoClients.Net
         public IFuturesOrderRestClient? GetFuturesOrderClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesOrderRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         /// <inheritdoc />
-        public IEnumerable<IFuturesOrderClientIdClient> GetFuturesOrderClientIdClients() => _sharedClients.OfType<IFuturesOrderClientIdClient>();
+        public IEnumerable<IFuturesOrderClientIdRestClient> GetFuturesOrderClientIdClients() => _sharedClients.OfType<IFuturesOrderClientIdRestClient>();
         /// <inheritdoc />
-        public IEnumerable<IFuturesOrderClientIdClient> GetFuturesOrderClientIdClients(TradingMode api) => _sharedClients.OfType<IFuturesOrderClientIdClient>().Where(s => s.SupportedTradingModes.Contains(api));
+        public IEnumerable<IFuturesOrderClientIdRestClient> GetFuturesOrderClientIdClients(TradingMode api) => _sharedClients.OfType<IFuturesOrderClientIdRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFuturesOrderClientIdClient? GetFuturesOrderClientIdClient(TradingMode tradingMode, string exchange) => GetFuturesOrderClientIdClients(tradingMode).SingleOrDefault(s => s.Exchange == exchange);
+        public IFuturesOrderClientIdRestClient? GetFuturesOrderClientIdClient(TradingMode tradingMode, string exchange) => GetFuturesOrderClientIdClients(tradingMode).SingleOrDefault(s => s.Exchange == exchange);
 
         /// <inheritdoc />
         public IEnumerable<IFuturesTriggerOrderRestClient> GetFuturesTriggerOrderClients() => _sharedClients.OfType<IFuturesTriggerOrderRestClient>();

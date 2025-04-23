@@ -268,12 +268,12 @@ namespace CryptoClients.Net.Interfaces
         /// <summary>
         /// Get the <see cref="ISpotOrderRestClient"/> clients for all exchanges
         /// </summary>
-        IEnumerable<ISpotOrderClientIdClient> GetSpotOrderClientIdClients();
+        IEnumerable<ISpotOrderClientIdRestClient> GetSpotOrderClientIdClients();
         /// <summary>
         /// Get the <see cref="ISpotOrderRestClient"/> client for a specific exchange
         /// </summary>
         /// <param name="exchange">Exchange name</param>
-        ISpotOrderClientIdClient? GetSpotOrderClientIdClient(string exchange);
+        ISpotOrderClientIdRestClient? GetSpotOrderClientIdClient(string exchange);
 
         /// <summary>
         /// Get the <see cref="ISpotTriggerOrderRestClient"/> clients for all exchanges
@@ -338,20 +338,20 @@ namespace CryptoClients.Net.Interfaces
         IFuturesOrderRestClient? GetFuturesOrderClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
-        /// Get the <see cref="IFuturesOrderClientIdClient"/> clients for all exchanges
+        /// Get the <see cref="IFuturesOrderClientIdRestClient"/> clients for all exchanges
         /// </summary>
-        IEnumerable<IFuturesOrderClientIdClient> GetFuturesOrderClientIdClients();
+        IEnumerable<IFuturesOrderClientIdRestClient> GetFuturesOrderClientIdClients();
         /// <summary>
-        /// Get all <see cref="IFuturesOrderClientIdClient"/> clients for all exchanges which supports the provided trading mode
+        /// Get all <see cref="IFuturesOrderClientIdRestClient"/> clients for all exchanges which supports the provided trading mode
         /// </summary>
         /// <param name="tradingMode">The trading mode the client should support</param>
-        IEnumerable<IFuturesOrderClientIdClient> GetFuturesOrderClientIdClients(TradingMode tradingMode);
+        IEnumerable<IFuturesOrderClientIdRestClient> GetFuturesOrderClientIdClients(TradingMode tradingMode);
         /// <summary>
-        /// Get the <see cref="IFuturesOrderClientIdClient"/> client for a specific exchange which supports the provided trading mode
+        /// Get the <see cref="IFuturesOrderClientIdRestClient"/> client for a specific exchange which supports the provided trading mode
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
-        IFuturesOrderClientIdClient? GetFuturesOrderClientIdClient(TradingMode tradingMode, string exchange);
+        IFuturesOrderClientIdRestClient? GetFuturesOrderClientIdClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
         /// Get the <see cref="IFuturesTriggerOrderRestClient"/> clients for all exchanges
