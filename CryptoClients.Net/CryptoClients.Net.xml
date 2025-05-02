@@ -144,6 +144,11 @@
             Urls for the API documentation
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.ExchangeInfo.ApiEnvironments">
+            <summary>
+            Available environment for the API
+            </summary>
+        </member>
         <member name="P:CryptoClients.Net.ExchangeInfo.Type">
             <summary>
             Exchange type
@@ -3784,6 +3789,11 @@
         <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.ApiCredentials">
             <summary>
             API credentials configuration for exchanges
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.ApiEnvironments">
+            <summary>
+            Per exchange the Environment name to use
             </summary>
         </member>
         <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.Proxy">

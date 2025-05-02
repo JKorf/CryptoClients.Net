@@ -39,7 +39,8 @@ namespace CryptoClients.Net
             ImageUrl = BinanceExchange.ImageUrl,
             Url = BinanceExchange.Url,
             ApiDocsUrl = BinanceExchange.ApiDocsUrl,
-            Type = BinanceExchange.Type
+            Type = BinanceExchange.Type,
+            ApiEnvironments = BinanceEnvironment.All
         };
 
         /// <summary>
@@ -52,7 +53,8 @@ namespace CryptoClients.Net
             ImageUrl = BingXExchange.ImageUrl,
             Url = BingXExchange.Url,
             ApiDocsUrl = BingXExchange.ApiDocsUrl,
-            Type = BingXExchange.Type
+            Type = BingXExchange.Type,
+            ApiEnvironments = BingXEnvironment.All
         };
 
         /// <summary>
@@ -65,7 +67,8 @@ namespace CryptoClients.Net
             ImageUrl = BitfinexExchange.ImageUrl,
             Url = BitfinexExchange.Url,
             ApiDocsUrl = BitfinexExchange.ApiDocsUrl,
-            Type = BitfinexExchange.Type
+            Type = BitfinexExchange.Type,
+            ApiEnvironments = BitfinexEnvironment.All
         };
 
         /// <summary>
@@ -78,7 +81,8 @@ namespace CryptoClients.Net
             ImageUrl = BitgetExchange.ImageUrl,
             Url = BitgetExchange.Url,
             ApiDocsUrl = BitgetExchange.ApiDocsUrl,
-            Type = BitgetExchange.Type
+            Type = BitgetExchange.Type,
+            ApiEnvironments = BitgetEnvironment.All
         };
 
         /// <summary>
@@ -91,7 +95,8 @@ namespace CryptoClients.Net
             ImageUrl = BitMartExchange.ImageUrl,
             Url = BitMartExchange.Url,
             ApiDocsUrl = BitMartExchange.ApiDocsUrl,
-            Type = BitMartExchange.Type
+            Type = BitMartExchange.Type,
+            ApiEnvironments = BitMartEnvironment.All
         };
 
         /// <summary>
@@ -104,7 +109,8 @@ namespace CryptoClients.Net
             ImageUrl = BitMEXExchange.ImageUrl,
             Url = BitMEXExchange.Url,
             ApiDocsUrl = BitMEXExchange.ApiDocsUrl,
-            Type = BitMEXExchange.Type
+            Type = BitMEXExchange.Type,
+            ApiEnvironments = BitMEXEnvironment.All
         };
 
         /// <summary>
@@ -117,7 +123,8 @@ namespace CryptoClients.Net
             ImageUrl = BybitExchange.ImageUrl,
             Url = BybitExchange.Url,
             ApiDocsUrl = BybitExchange.ApiDocsUrl,
-            Type = BybitExchange.Type
+            Type = BybitExchange.Type,
+            ApiEnvironments = BybitEnvironment.All
         };
 
         /// <summary>
@@ -130,7 +137,8 @@ namespace CryptoClients.Net
             ImageUrl = CoinbaseExchange.ImageUrl,
             Url = CoinbaseExchange.Url,
             ApiDocsUrl = CoinbaseExchange.ApiDocsUrl,
-            Type = CoinbaseExchange.Type
+            Type = CoinbaseExchange.Type,
+            ApiEnvironments = CoinbaseEnvironment.All
         };
 
         /// <summary>
@@ -143,7 +151,8 @@ namespace CryptoClients.Net
             ImageUrl = CoinExExchange.ImageUrl,
             Url = CoinExExchange.Url,
             ApiDocsUrl = CoinExExchange.ApiDocsUrl,
-            Type = CoinExExchange.Type
+            Type = CoinExExchange.Type,
+            ApiEnvironments = CoinExEnvironment.All
         };
 
         /// <summary>
@@ -156,7 +165,8 @@ namespace CryptoClients.Net
             ImageUrl = CryptoComExchange.ImageUrl,
             Url = CryptoComExchange.Url,
             ApiDocsUrl = CryptoComExchange.ApiDocsUrl,
-            Type = CryptoComExchange.Type
+            Type = CryptoComExchange.Type,
+            ApiEnvironments = CryptoComEnvironment.All
         };
 
         /// <summary>
@@ -169,7 +179,8 @@ namespace CryptoClients.Net
             ImageUrl = DeepCoinExchange.ImageUrl,
             Url = DeepCoinExchange.Url,
             ApiDocsUrl = DeepCoinExchange.ApiDocsUrl,
-            Type = DeepCoinExchange.Type
+            Type = DeepCoinExchange.Type,
+            ApiEnvironments = DeepCoinEnvironment.All
         };
 
         /// <summary>
@@ -182,7 +193,8 @@ namespace CryptoClients.Net
             ImageUrl = GateIoExchange.ImageUrl,
             Url = GateIoExchange.Url,
             ApiDocsUrl = GateIoExchange.ApiDocsUrl,
-            Type = GateIoExchange.Type
+            Type = GateIoExchange.Type,
+            ApiEnvironments = GateIoEnvironment.All
         };
 
         /// <summary>
@@ -195,7 +207,8 @@ namespace CryptoClients.Net
             ImageUrl = HTXExchange.ImageUrl,
             Url = HTXExchange.Url,
             ApiDocsUrl = HTXExchange.ApiDocsUrl,
-            Type = HTXExchange.Type
+            Type = HTXExchange.Type,
+            ApiEnvironments = HTXEnvironment.All
         };
 
         /// <summary>
@@ -208,7 +221,8 @@ namespace CryptoClients.Net
             ImageUrl = HyperLiquidExchange.ImageUrl,
             Url = HyperLiquidExchange.Url,
             ApiDocsUrl = HyperLiquidExchange.ApiDocsUrl,
-            Type = HyperLiquidExchange.Type
+            Type = HyperLiquidExchange.Type,
+            ApiEnvironments = HyperLiquidEnvironment.All
         };
 
         /// <summary>
@@ -221,7 +235,8 @@ namespace CryptoClients.Net
             ImageUrl = KrakenExchange.ImageUrl,
             Url = KrakenExchange.Url,
             ApiDocsUrl = KrakenExchange.ApiDocsUrl,
-            Type = KrakenExchange.Type
+            Type = KrakenExchange.Type,
+            ApiEnvironments = KrakenEnvironment.All
         };
 
         /// <summary>
@@ -234,7 +249,8 @@ namespace CryptoClients.Net
             ImageUrl = KucoinExchange.ImageUrl,
             Url = KucoinExchange.Url,
             ApiDocsUrl = KucoinExchange.ApiDocsUrl,
-            Type = KucoinExchange.Type
+            Type = KucoinExchange.Type,
+            ApiEnvironments = KucoinEnvironment.All
         };
 
         /// <summary>
@@ -247,7 +263,8 @@ namespace CryptoClients.Net
             ImageUrl = MexcExchange.ImageUrl,
             Url = MexcExchange.Url,
             ApiDocsUrl = MexcExchange.ApiDocsUrl,
-            Type = MexcExchange.Type
+            Type = MexcExchange.Type,
+            ApiEnvironments = MexcEnvironment.All
         };
 
         /// <summary>
@@ -260,7 +277,8 @@ namespace CryptoClients.Net
             ImageUrl = OKXExchange.ImageUrl,
             Url = OKXExchange.Url,
             ApiDocsUrl = OKXExchange.ApiDocsUrl,
-            Type = OKXExchange.Type
+            Type = OKXExchange.Type,
+            ApiEnvironments = OKXEnvironment.All
         };
 
         /// <summary>
@@ -273,7 +291,8 @@ namespace CryptoClients.Net
             ImageUrl = WhiteBitExchange.ImageUrl,
             Url = WhiteBitExchange.Url,
             ApiDocsUrl = WhiteBitExchange.ApiDocsUrl,
-            Type = WhiteBitExchange.Type
+            Type = WhiteBitExchange.Type,
+            ApiEnvironments = WhiteBitEnvironment.All
         };
 
         /// <summary>
@@ -286,7 +305,8 @@ namespace CryptoClients.Net
             ImageUrl = XTExchange.ImageUrl,
             Url = XTExchange.Url,
             ApiDocsUrl = XTExchange.ApiDocsUrl,
-            Type = XTExchange.Type
+            Type = XTExchange.Type,
+            ApiEnvironments = XTEnvironment.All
         };
 
         /// <summary>
