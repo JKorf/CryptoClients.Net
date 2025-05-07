@@ -279,6 +279,7 @@ namespace CryptoClients.Net
                 {
                     socketOptions.Proxy = globalOptions.Proxy;
                     socketOptions.ApiCredentials = credentials;
+                    socketOptions.Environment = environment;
                     socketOptions.OutputOriginalData = globalOptions.OutputOriginalData ?? socketOptions.OutputOriginalData;
                     socketOptions.RequestTimeout = globalOptions.RequestTimeout ?? socketOptions.RequestTimeout;
                     socketOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled ?? socketOptions.RateLimiterEnabled;
