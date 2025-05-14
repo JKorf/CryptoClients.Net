@@ -1413,5 +1413,37 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
         Task<ExchangeWebResult<bool>> CancelFuturesTpSlAsync(string exchange, CancelTpSlRequest request, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get the current position mode setting
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<ExchangeWebResult<SharedPositionModeResult>> GetPositionModeAsync(string exchange, GetPositionModeRequest request, CancellationToken ct = default);
+
+        /// <summary>
+        /// Set the position mode to a new value
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<ExchangeWebResult<SharedPositionModeResult>> SetPositionModeAsync(string exchange, SetPositionModeRequest request, CancellationToken ct = default);
+
+        /// <summary>
+        /// Get the current leverage setting for a symbol
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<ExchangeWebResult<SharedLeverage>> GetLeverageAsync(string exchange, GetLeverageRequest request, CancellationToken ct = default);
+
+        /// <summary>
+        /// Set the leverage for a symbol
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<ExchangeWebResult<SharedLeverage>> SetLeverageAsync(string exchange, SetLeverageRequest request, CancellationToken ct = default);
     }
 }
