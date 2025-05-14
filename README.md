@@ -2,11 +2,14 @@
 
 [![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/CryptoClients.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/CryptoClients.Net/actions/workflows/dotnet.yml) ![License](https://img.shields.io/github/license/JKorf/CryptoClients.Net?style=for-the-badge)
 
-CryptoClients.Net is a collection of different cryptocurrency exchange client libraries based on the same [base library](https://jkorf.github.io/CryptoExchange.Net/). CryptoClients.Net bundles the different client libraries in a single package and adds some additional tools to make use of them.
+CryptoClients.Net is a library which offers access to cryptocurrency trading platform API's. It allows full access to all exchange API's supported, see below for the list of supported exchanges. It also offers full access to all Shared interfaces implementations offered by the [base library](https://jkorf.github.io/CryptoExchange.Net/), as well as various additional methods for accessing exchange API's dynamically.
 
 ## Features
-* Direct full access to 18 different CEX's and 1 DEX, public and private data
-* Client per exchange, or single client for accessing all exchanges
+* Direct full access to 18 different CEX's and 1 DEX, public and private data, REST and WebSocket APIs
+* Easy dynamic access to all API's
+  * Make API REST requests to a specific exchange by passing the name of an exchange to a request
+  * Make API REST requests to all exchange API's with a single line
+  * Subscribe to live WebSocket updates on one or multiple different API's with a single call
 * Response data is mapped to descriptive models
 * Input parameters and response values are mapped to discriptive enum values where possible
 * Automatic websocket (re)connection management 
@@ -15,10 +18,30 @@ CryptoClients.Net is a collection of different cryptocurrency exchange client li
 * Extensive logging
 * Support for different environments
 
-For more information on what CryptoExchange.Net and its client libraries offers see the [Documentation](https://jkorf.github.io/CryptoExchange.Net/).
+### Example
+```csharp
+var client = new ExchangeRestClient();
+var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
+var tickerResults = await client.GetSpotTickerAsync(new GetTickerRequest(symbol), ["Binance", "Bybit", "HyperLiquid", "OKX"]);
+foreach(var tickerResult in tickerResults)
+{
+    if (!tickerResult.Success)
+        Console.WriteLine($"{tickerResult.Exchange} error: {tickerResult.Error}");
+    else
+        Console.WriteLine($"{tickerResult.Exchange} price: {tickerResult.Data.LastPrice}");
+}
+
+// Output
+// Binance price: 2596,34000000
+// Bybit price: 2596,42
+// HyperLiquid error: [ServerError] Symbol not found
+// OKX price: 2596,4
+```
+
+For more information and examples see the [Documentation](https://cryptoexchange.jkorf.dev/).
 
 ## Supported Frameworks
-The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility
+The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility as well as dotnet 8.0 and 9.0 to use the latest framework features.
 
 |.NET implementation|Version Support|
 |--|--|
@@ -31,31 +54,31 @@ The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for op
 |Unity|`2018.1` and higher|
 
 ## Supported Exchanges
-The following API's are included in CryptoClients.Net:
+The following API's are included in CryptoClients.Net. Consider using a referral link to support development, as well as potentially get some trading fee discount!
 
-|Exchange|Repository|Nuget|
-|--|--|--|
-|Binance|[JKorf/Binance.Net](https://github.com/JKorf/Binance.Net)|[![Nuget version](https://img.shields.io/nuget/v/Binance.net.svg?style=flat-square)](https://www.nuget.org/packages/Binance.Net)|
-|BingX|[JKorf/BingX.Net](https://github.com/JKorf/BingX.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.BingX.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.BingX.Net)|
-|Bitfinex|[JKorf/Bitfinex.Net](https://github.com/JKorf/Bitfinex.Net)|[![Nuget version](https://img.shields.io/nuget/v/Bitfinex.net.svg?style=flat-square)](https://www.nuget.org/packages/Bitfinex.Net)|
-|Bitget|[JKorf/Bitget.Net](https://github.com/JKorf/Bitget.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.Bitget.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.Bitget.Net)|
-|BitMart|[JKorf/BitMart.Net](https://github.com/JKorf/BitMart.Net)|[![Nuget version](https://img.shields.io/nuget/v/BitMart.net.svg?style=flat-square)](https://www.nuget.org/packages/BitMart.Net)|
-|BitMEX|[JKorf/BitMEX.Net](https://github.com/JKorf/BitMEX.Net)|[![Nuget version](https://img.shields.io/nuget/v/JKorf.BitMEX.net.svg?style=flat-square)](https://www.nuget.org/packages/JKorf.BitMEX.Net)|
-|Bybit|[JKorf/Bybit.Net](https://github.com/JKorf/Bybit.Net)|[![Nuget version](https://img.shields.io/nuget/v/Bybit.net.svg?style=flat-square)](https://www.nuget.org/packages/Bybit.Net)|
-|Coinbase|[JKorf/Coinbase.Net](https://github.com/JKorf/Coinbase.Net)|[![Nuget version](https://img.shields.io/nuget/v/JKorf.Coinbase.net.svg?style=flat-square)](https://www.nuget.org/packages/JKorf.Coinbase.Net)|
-|CoinEx|[JKorf/CoinEx.Net](https://github.com/JKorf/CoinEx.Net)|[![Nuget version](https://img.shields.io/nuget/v/CoinEx.net.svg?style=flat-square)](https://www.nuget.org/packages/CoinEx.Net)|
-|CoinGecko|[JKorf/CoinGecko.Net](https://github.com/JKorf/CoinGecko.Net)|[![Nuget version](https://img.shields.io/nuget/v/CoinGecko.net.svg?style=flat-square)](https://www.nuget.org/packages/CoinGecko.Net)|
-|Crypto.com|[JKorf/CryptoCom.Net](https://github.com/JKorf/CryptoCom.Net)|[![Nuget version](https://img.shields.io/nuget/v/CryptoCom.net.svg?style=flat-square)](https://www.nuget.org/packages/CryptoCom.Net)|
-|DeepCoin|[JKorf/DeepCoin.Net](https://github.com/JKorf/DeepCoin.Net)|[![Nuget version](https://img.shields.io/nuget/v/DeepCoin.net.svg?style=flat-square)](https://www.nuget.org/packages/DeepCoin.Net)|
-|Gate.io|[JKorf/GateIo.Net](https://github.com/JKorf/GateIo.Net)|[![Nuget version](https://img.shields.io/nuget/v/GateIo.net.svg?style=flat-square)](https://www.nuget.org/packages/GateIo.Net)|
-|HTX|[JKorf/HTX.Net](https://github.com/JKorf/HTX.Net)|[![Nuget version](https://img.shields.io/nuget/v/JKorf.HTX.net.svg?style=flat-square)](https://www.nuget.org/packages/JKorf.HTX.Net)|
-|HyperLiquid|[JKorf/HyperLiquid.Net](https://github.com/JKorf/HyperLiquid.Net)|[![Nuget version](https://img.shields.io/nuget/v/HyperLiquid.net.svg?style=flat-square)](https://www.nuget.org/packages/HyperLiquid.Net)|
-|Kraken|[JKorf/Kraken.Net](https://github.com/JKorf/Kraken.Net)|[![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg?style=flat-square)](https://www.nuget.org/packages/KrakenExchange.Net)|
-|Kucoin|[JKorf/Kucoin.Net](https://github.com/JKorf/Kucoin.Net)|[![Nuget version](https://img.shields.io/nuget/v/Kucoin.net.svg?style=flat-square)](https://www.nuget.org/packages/Kucoin.Net)|
-|Mexc|[JKorf/Mexc.Net](https://github.com/JKorf/Mexc.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.Mexc.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.Mexc.Net)|
-|OKX|[JKorf/OKX.Net](https://github.com/JKorf/OKX.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.OKX.net.svg?style=flat-square)](https://www.nuget.org/packages/JK.OKX.Net)|
-|WhiteBit|[JKorf/WhiteBit.Net](https://github.com/JKorf/WhiteBit.Net)|[![Nuget version](https://img.shields.io/nuget/v/WhiteBit.net.svg?style=flat-square)](https://www.nuget.org/packages/WhiteBit.Net)|
-|XT|[JKorf/XT.Net](https://github.com/JKorf/XT.Net)|[![Nuget version](https://img.shields.io/nuget/v/XT.net.svg?style=flat-square)](https://www.nuget.org/packages/XT.Net)|
+||Exchange|Type|Referral Link|Referral Fee Discount|
+|--|--|--|--|--|--|--|
+|![Binance](https://raw.githubusercontent.com/JKorf/Binance.Net/refs/heads/master/Binance.Net/Icon/icon.png)|Binance|CEX|[Link](https://accounts.binance.com/register?ref=X5K3F2ZG)|20%|
+|![BingX](https://raw.githubusercontent.com/JKorf/BingX.Net/refs/heads/main/BingX.Net/Icon/BingX.png)|BingX|CEX|[Link](https://bingx.com/invite/FFHRJKWG/)|20%|
+|![Bitfinex](https://raw.githubusercontent.com/JKorf/Bitfinex.Net/refs/heads/master/Bitfinex.Net/Icon/icon.png)|Bitfinex|CEX|-|-|
+|![Bitget](https://raw.githubusercontent.com/JKorf/Bitget.Net/refs/heads/main/Bitget.Net/Icon/icon.png)|Bitget|CEX|[Link](https://partner.bitget.com/bg/1qlf6pj1)|20%|
+|![BitMart](https://raw.githubusercontent.com/JKorf/BitMart.Net/refs/heads/main/BitMart.Net/Icon/icon.png)|BitMart|CEX|[Link](https://www.bitmart.com/invite/JKorfAPI/en-US)|30%|
+|![BitMEX](https://raw.githubusercontent.com/JKorf/BitMEX.Net/refs/heads/main/BitMEX.Net/Icon/icon.png)|BitMEX|CEX|[Link](https://www.bitmex.com/app/register/94f98e)|30%|
+|![Bybit](https://raw.githubusercontent.com/JKorf/Bybit.Net/refs/heads/main/ByBit.Net/Icon/icon.png)|Bybit|CEX|[Link](https://partner.bybit.com/b/jkorf)|-|
+|![Coinbase](https://raw.githubusercontent.com/JKorf/Coinbase.Net/refs/heads/main/Coinbase.Net/Icon/icon.png)|Coinbase|CEX|[Link](https://advanced.coinbase.com/join/T6H54H8)|-|
+|![CoinEx](https://raw.githubusercontent.com/JKorf/CoinEx.Net/refs/heads/master/CoinEx.Net/Icon/icon.png)|CoinEx|CEX|[Link](https://www.coinex.com/register?rc=rbtnp)|20%|
+|![CoinGecko](https://raw.githubusercontent.com/JKorf/CoinGecko.Net/refs/heads/main/CoinGecko.Net/Icon/icon.png)|CoinGecko|-|-|-|
+|![Crypto.com](https://raw.githubusercontent.com/JKorf/CryptoCom.Net/refs/heads/main/CryptoCom.Net/Icon/icon.png)|Crypto.com|CEX|[Link](https://crypto.com/exch/26ge92xbkn)|-|
+|![DeepCoin](https://raw.githubusercontent.com/JKorf/DeepCoin.Net/refs/heads/main/DeepCoin.Net/Icon/icon.png)|DeepCoin|CEX|[Link](https://s.deepcoin.com/jddhfca)|-|
+|![Gate.io](https://raw.githubusercontent.com/JKorf/GateIo.Net/refs/heads/main/GateIo.Net/Icon/icon.png)|Gate.io|CEX|[Link](https://www.gate.io/share/JKorf)|20%|
+|![HTX](https://raw.githubusercontent.com/JKorf/HTX.Net/refs/heads/master/HTX.Net/Icon/icon.png)|HTX|CEX|[Link](https://www.htx.com/invite/en-us/1f?invite_code=ekek5223)|30%|
+|![HyperLiquid](https://raw.githubusercontent.com/JKorf/HyperLiquid.Net/refs/heads/main/HyperLiquid.Net/Icon/icon.png)|HyperLiquid|DEX|[Link](https://app.hyperliquid.xyz/join/JKORF)|4%|
+|![Kraken](https://raw.githubusercontent.com/JKorf/Kraken.Net/refs/heads/master/Kraken.Net/Icon/icon.png)|Kraken|CEX|-|-|
+|![Kucoin](https://raw.githubusercontent.com/JKorf/Kucoin.Net/refs/heads/master/Kucoin.Net/Icon/icon.png)|Kucoin|CEX|[Link](https://www.kucoin.com/r/rf/QBS4FPED)|-|
+|![Mexc](https://raw.githubusercontent.com/JKorf/Mexc.Net/refs/heads/main/Mexc.Net/Icon/icon.png)|Mexc|CEX|-|-|
+|![OKX](https://raw.githubusercontent.com/JKorf/OKX.Net/refs/heads/main/OKX.Net/Icon/icon.png)|OKX|CEX|[Link](https://www.okx.com/join/14592495)|20%|
+|![WhiteBit](https://raw.githubusercontent.com/JKorf/WhiteBit.Net/refs/heads/main/WhiteBit.Net/Icon/icon.png)|WhiteBit|CEX|[Link](https://whitebit.com/referral/a8e59b59-186c-4662-824c-3095248e0edf)|-|
+|![XT](https://raw.githubusercontent.com/JKorf/XT.Net/refs/heads/main/XT.Net/Icon/icon.png)|XT|CEX|[Link](https://www.xt.com/ru/accounts/register?ref=CZG39C)|25%|
 
 ## Install the library
 
@@ -74,7 +97,7 @@ The NuGet package files are added along side the source with the latest GitHub r
 
 ## How to use  
 ### Get a client
-There are 2 main clients, the `ExchangeRestClient` and `ExchangeSocketClient`, for accessing the REST and Websocket API respectively. All exchange API's are available via these clients.  
+There are 2 main clients, the `ExchangeRestClient` and `ExchangeSocketClient`, for accessing the REST and WebSocket APIs respectively. All exchange API's are available via these clients.  
 Alternatively exchange specific clients can be used, for example `BinanceRestClient` or `KucoinSocketClient`.
 Either create new clients directly or use Dotnet dependency injection.
 
@@ -125,8 +148,8 @@ builder.Services.AddCryptoClients(globalOptions =>
     globalOptions.ApiCredentials = new CryptoClients.Net.Models.ExchangeCredentials
     {
         Binance = new ApiCredentials("BinanceKey", "BinanceSecret"),
-        Kucoin = new KucoinApiCredentials("KucoinKey", "KucoinSecret", "KucoinPassphrase"),
-        OKX = new OKXApiCredentials("OKXKey", "OKXSecret", "OKXPassphrase")
+        Kucoin = new ApiCredentials("KucoinKey", "KucoinSecret", "KucoinPassphrase"),
+        OKX = new ApiCredentials("OKXKey", "OKXSecret", "OKXPassphrase")
     };
 },
 bybitRestOptions: bybitOptions =>
@@ -137,7 +160,7 @@ bybitRestOptions: bybitOptions =>
 });
 ```
 
-More info on options available for each client can be found in the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net/#idocs_options_def).
+More info on options available for each client can be found in the [documentation](https://cryptoexchange.jkorf.dev/crypto-clients/options).
 
 ### Usage
 There are multiple ways to access exchange API's. Options 1 and 2 allow access to the full exchange API while option 3 uses a common interface which allows exchange agnostic requesting, but is therefor limited in functionality.  
@@ -160,7 +183,7 @@ var kucoinResult2 = await restClient2.Kucoin.SpotApi.ExchangeData.GetTickerAsync
 ```
 
 <b>Option 3</b>  
-Using the shared client interfaces to access exchanges. This is the most generic and exchange agnostic way, but might not support all functionality the full API offers.
+Using the shared client interfaces to access exchanges. This is the most dynamic and exchange agnostic way, but only supports more basic functionality.
 ```csharp
 // Define functionality based on shared interface
 async Task<ExchangeWebResult<SharedSpotTicker>> GetTickerAsync(ISpotTickerRestClient client, SharedSymbol symbol)
@@ -179,7 +202,7 @@ var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
 var tickers = await restClient.GetSpotTickerAsync(new GetTickerRequest(symbol), [Exchange.Binance, Exchange.Kucoin]);
 ```
 
-For information on the specific exchange clients, dependency injection, response processing and more see the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net) or have a look at the examples [here](https://github.com/JKorf/CryptoClients.Net/tree/main/Examples). See the [CryptoExchange.Net examples](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples) for client examples which also apply to CryptoClients.Net
+For information on the specific exchange clients, dependency injection, response processing and more see the [documentation](https://cryptoexchange.jkorf.dev/crypto-clients) or have a look at the examples [here](https://github.com/JKorf/CryptoClients.Net/tree/main/Examples). See the [CryptoExchange.Net examples](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples) for client examples which also apply to CryptoClients.Net
 
 ### Example
 An API allowing the requesting of any ticker on any (supported) exchange in 14 lines;  
@@ -211,23 +234,8 @@ A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free t
 ## Support the project
 Any support is greatly appreciated.
 
-## Referral
-When creating an account on new exchanges please consider using a referral link from below to support development
-
-|Exchange|Link|
-|--|--|
-|Bybit|[https://partner.bybit.com/b/jkorf](https://partner.bybit.com/b/jkorf)|
-|Coinbase|[https://advanced.coinbase.com/join/T6H54H8](https://advanced.coinbase.com/join/T6H54H8)|
-|CoinEx|[https://www.coinex.com/register?refer_code=hd6gn](https://www.coinex.com/register?refer_code=hd6gn)|
-|Crypto.com|[https://crypto.com/exch/26ge92xbkn](https://crypto.com/exch/26ge92xbkn)|
-|DeepCoin|[https://s.deepcoin.com/jddhfca)|
-|HTX|[https://www.htx.com/invite/en-us/1f?invite_code=fxp9](https://www.htx.com/invite/en-us/1f?invite_code=fxp9)|
-|HyperLiquid|[https://app.hyperliquid.xyz/join/JKORF](https://app.hyperliquid.xyz/join/JKORF)|
-|Kucoin|[https://www.kucoin.com/r/rf/QBS4FPED](https://www.kucoin.com/r/rf/QBS4FPED)|
-|OKX|[https://okx.com/join/48046699](https://okx.com/join/48046699)|
-|WhiteBit|[https://whitebit.com/referral/a8e59b59-186c-4662-824c-3095248e0edf](https://whitebit.com/referral/a8e59b59-186c-4662-824c-3095248e0edf)|
-|XT|[https://www.xt.com/en/accounts/register?ref=1HRM5J](https://www.xt.com/en/accounts/register?ref=1HRM5J)|
-
+### Referral
+When creating an account on new exchanges please consider using a referral link from above.
 
 ### Donate
 Make a one time donation in a crypto currency of your choice. If you prefer to donate a currency not listed here please contact me.
