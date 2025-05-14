@@ -57,7 +57,7 @@ The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for op
 The following API's are included in CryptoClients.Net. Consider using a referral link to support development, as well as potentially get some trading fee discount!
 
 ||Exchange|Type|Referral Link|Referral Fee Discount|
-|--|--|--|--|--|--|--|
+|--|--|--|--|--|
 |![Binance](https://raw.githubusercontent.com/JKorf/Binance.Net/refs/heads/master/Binance.Net/Icon/icon.png)|Binance|CEX|[Link](https://accounts.binance.com/register?ref=X5K3F2ZG)|20%|
 |![BingX](https://raw.githubusercontent.com/JKorf/BingX.Net/refs/heads/main/BingX.Net/Icon/BingX.png)|BingX|CEX|[Link](https://bingx.com/invite/FFHRJKWG/)|20%|
 |![Bitfinex](https://raw.githubusercontent.com/JKorf/Bitfinex.Net/refs/heads/master/Bitfinex.Net/Icon/icon.png)|Bitfinex|CEX|-|-|
