@@ -199,5 +199,35 @@ namespace CryptoClients.Net
         /// </summary>
         public static IFuturesOrderSocketClient? FuturesOrderSocketClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesOrderSocketClient>().SingleOrDefault();
 
+        /// <summary>
+        /// Get the <see cref="IBookTickerRestClient"/> if available
+        /// </summary>
+        public static IBookTickerRestClient? BookTickerRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IBookTickerRestClient>().SingleOrDefault();
+
+        /// <summary>
+        /// Get the <see cref="ISpotTriggerOrderRestClient"/> if available
+        /// </summary>
+        public static ISpotTriggerOrderRestClient? SpotTriggerOrderRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<ISpotTriggerOrderRestClient>().SingleOrDefault();
+
+        /// <summary>
+        /// Get the <see cref="ISpotOrderClientIdRestClient"/> if available
+        /// </summary>
+        public static ISpotOrderClientIdRestClient? SpotOrderClientIdRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<ISpotOrderClientIdRestClient>().SingleOrDefault();
+
+        /// <summary>
+        /// Get the <see cref="IFuturesTriggerOrderRestClient"/> if available
+        /// </summary>
+        public static IFuturesTriggerOrderRestClient? FuturesTriggerOrderRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesTriggerOrderRestClient>().SingleOrDefault();
+
+        /// <summary>
+        /// Get the <see cref="IFuturesOrderClientIdRestClient"/> if available
+        /// </summary>
+        public static IFuturesOrderClientIdRestClient? FuturesOrderClientIdRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesOrderClientIdRestClient>().SingleOrDefault();
+
+        /// <summary>
+        /// Get the <see cref="IFuturesTpSlRestClient"/> if available
+        /// </summary>
+        public static IFuturesTpSlRestClient? FuturesTpSlRestClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesTpSlRestClient>().SingleOrDefault();
+
     }
 }

@@ -1,20 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
     <Nullable>enable</Nullable>
-    <LangVersion>10.0</LangVersion>
+    <LangVersion>12.0</LangVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>CryptoClients.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>2.14.0</PackageVersion>
-    <AssemblyVersion>2.14.0</AssemblyVersion>
-    <FileVersion>2.14.0</FileVersion>
+    <PackageVersion>3.0.0-beta1</PackageVersion>
+    <AssemblyVersion>3.0.0</AssemblyVersion>
+    <FileVersion>3.0.0-beta1</FileVersion>
     <Description>CryptoClients.Net is a collection of multiple cryptocurrency exchange API clients for accessing both the REST API's and WebSocket API's. Supports order and account management and requesting and streaming both public and private data.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageTags>CryptoClients;CryptoClients.Net;OKX;OKX.Net;Mexc;Mexc.Net;Kucoin;Kucoin.Net;Kraken;Kraken.Net;Huobi;Huobi.Net;HTX;HTX.Net;CoinEx;CoinEx.Net;Bybit;Bybit.Net;Bitget;Bitget.Net;Bitfinex;Bitfinex.Net;BingX;BingX.Net;Binance;Binance.Net;GateIo.Net;Gate.io;BitMart;BitMart.Net;WhiteBit.Net;WhiteBit;XT;XT.Net;HyperLiquid;HyperLiquid.Net;CryptoCurrency;CryptoCurrency Exchange</PackageTags>
+    <PackageTags>CryptoClients;CryptoClients.Net;OKX;OKX.Net;Mexc;Mexc.Net;Kucoin;Kucoin.Net;Kraken;Kraken.Net;Huobi;Huobi.Net;HTX;HTX.Net;DeepCoin.Net;DeepCoin;CoinEx;CoinEx.Net;Bybit;Bybit.Net;Bitget;Bitget.Net;Bitfinex;Bitfinex.Net;BingX;BingX.Net;Binance;Binance.Net;GateIo.Net;Gate.io;BitMart;BitMart.Net;WhiteBit.Net;WhiteBit;XT;XT.Net;HyperLiquid;HyperLiquid.Net;CryptoCurrency;CryptoCurrency Exchange</PackageTags>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/JKorf/CryptoClients.Net.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/JKorf/CryptoClients.Net</PackageProjectUrl>
@@ -24,6 +24,9 @@
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>https://github.com/JKorf/CryptoClients.Net?tab=readme-ov-file#release-notes</PackageReleaseNotes>
+  </PropertyGroup>
+  <PropertyGroup Label="AOT" Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">
+    <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
   <ItemGroup>
     <None Include="Icon\icon.png" Pack="true" PackagePath="\" />
@@ -43,33 +46,31 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Binance.Net" Version="11.0.0" />
+    <PackageReference Include="Bitfinex.Net" Version="9.0.0" />
+    <PackageReference Include="BitMart.Net" Version="2.0.0" />
+    <PackageReference Include="Bybit.Net" Version="5.0.0" />
+    <PackageReference Include="CoinEx.Net" Version="9.0.0" />
+    <PackageReference Include="CoinGecko.Net" Version="4.0.0" />
     <PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Binance.Net" Version="10.19.0" />
-    <PackageReference Include="Bitfinex.Net" Version="8.1.1" />
-    <PackageReference Include="BitMart.Net" Version="1.15.1" />
-    <PackageReference Include="Bybit.Net" Version="4.4.1" />
-    <PackageReference Include="CoinEx.Net" Version="8.0.1" />
-    <PackageReference Include="CoinGecko.Net" Version="3.4.0" />
-    <PackageReference Include="CryptoCom.Net" Version="1.6.0" />
-    <PackageReference Include="DeepCoin.Net" Version="1.0.5" />
-    <PackageReference Include="GateIo.Net" Version="1.22.0" />
-    <PackageReference Include="HyperLiquid.Net" Version="1.1.2" />
-    <PackageReference Include="JK.BingX.Net" Version="1.21.0" />
-    <PackageReference Include="JK.Bitget.Net" Version="1.22.1" />
-    <PackageReference Include="JK.Mexc.Net" Version="2.1.0" />
-    <PackageReference Include="JK.OKX.Net" Version="2.16.0" />
-    <PackageReference Include="JKorf.BitMEX.Net" Version="1.1.0" />
-    <PackageReference Include="JKorf.Coinbase.Net" Version="1.9.1" />
-    <PackageReference Include="JKorf.HTX.Net" Version="6.9.1" />
-    <PackageReference Include="KrakenExchange.Net" Version="5.7.1" />
-    <PackageReference Include="Kucoin.Net" Version="6.1.0" />
-    <PackageReference Include="WhiteBit.Net" Version="1.5.0" />
-    <PackageReference Include="XT.Net" Version="1.2.1" />
+    <PackageReference Include="CryptoCom.Net" Version="2.0.0" />
+    <PackageReference Include="DeepCoin.Net" Version="2.0.0" />
+    <PackageReference Include="GateIo.Net" Version="2.0.0" />
+    <PackageReference Include="HyperLiquid.Net" Version="2.0.0" />
+    <PackageReference Include="JK.BingX.Net" Version="2.0.0" />
+    <PackageReference Include="JK.Bitget.Net" Version="2.0.0" />
+    <PackageReference Include="JK.Mexc.Net" Version="3.0.0" />
+    <PackageReference Include="JK.OKX.Net" Version="3.0.0" />
+    <PackageReference Include="JKorf.BitMEX.Net" Version="2.0.0" />
+    <PackageReference Include="JKorf.Coinbase.Net" Version="2.0.0" />
+    <PackageReference Include="JKorf.HTX.Net" Version="7.0.0" />
+    <PackageReference Include="KrakenExchange.Net" Version="6.0.0" />
+    <PackageReference Include="Kucoin.Net" Version="7.0.0" />
+    <PackageReference Include="WhiteBit.Net" Version="2.0.0" />
+    <PackageReference Include="XT.Net" Version="2.0.0" />
   </ItemGroup>
   <PropertyGroup>
     <DocumentationFile>CryptoClients.Net.xml</DocumentationFile>

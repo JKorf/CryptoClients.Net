@@ -30,12 +30,12 @@ namespace CryptoClients.Net.Models
         /// <summary>
         /// Bitget API credentials
         /// </summary>
-        public BitgetApiCredentials? Bitget { get; set; }
+        public ApiCredentials? Bitget { get; set; }
 
         /// <summary>
         /// BitMart API credentials
         /// </summary>
-        public BitMartApiCredentials? BitMart { get; set; }
+        public ApiCredentials? BitMart { get; set; }
 
         /// <summary>
         /// BitMEX API credentials
@@ -65,7 +65,7 @@ namespace CryptoClients.Net.Models
         /// <summary>
         /// DeepCoin API credentials
         /// </summary>
-        public DeepCoinApiCredentials? DeepCoin { get; set; }
+        public ApiCredentials? DeepCoin { get; set; }
 
         /// <summary>
         /// Gate.io API credentials
@@ -90,7 +90,7 @@ namespace CryptoClients.Net.Models
         /// <summary>
         /// Kucoin API credentials
         /// </summary>
-        public KucoinApiCredentials? Kucoin { get; set; }
+        public ApiCredentials? Kucoin { get; set; }
 
         /// <summary>
         /// Mexc API credentials
@@ -100,7 +100,7 @@ namespace CryptoClients.Net.Models
         /// <summary>
         /// OKX API credentials
         /// </summary>
-        public OKXApiCredentials? OKX { get; set; }
+        public ApiCredentials? OKX { get; set; }
 
         /// <summary>
         /// WhiteBit API credentials

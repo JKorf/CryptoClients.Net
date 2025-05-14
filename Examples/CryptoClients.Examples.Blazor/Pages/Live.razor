@@ -1,5 +1,5 @@
 ﻿@page "/live"
-@using CryptoExchange.Net.CommonObjects
+@using BlazorBootstrap
 @using CryptoExchange.Net.Objects
 @using CryptoExchange.Net.Objects.Sockets
 @using CryptoExchange.Net.SharedApis
@@ -12,42 +12,49 @@
 <div>
     <h2>@_baseAsset @_quoteAsset live trades</h2>
 
-    <div><b>Statistics</b></div>
-    <table>
-        <tr>
-            <th>Exchange</th>
-            <th style="padding-left: 20px">Total volume</th>
-            <th style="padding-left: 20px">Total value</th>
-        </tr>
-        @foreach(var exchangeVolume in _volume.OrderByDescending(v => v.Value))
-        {
-        <tr>
-            <td>@exchangeVolume.Key</td>
-                <td style="padding-left: 20px">@Math.Round(exchangeVolume.Value.BaseVolume, 8)</td>
-                <td style="padding-left: 20px">@exchangeVolume.Value.QuoteVolume.ToString("C")</td>
-        </tr>
-        }
-    </table>
-    <div>Total volume: @Math.Round(_volume.Select(x => x.Value.BaseVolume).Sum(), 8) / @_volume.Select(x => x.Value.QuoteVolume).Sum().ToString("C")</div>
+    <div style="display: flex">
+        <div style="flex: 1">
+            <div><b>Statistics</b></div>
+            <table>
+                <tr>
+                    <th>Exchange</th>
+                    <th style="padding-left: 20px">Total volume</th>
+                    <th style="padding-left: 20px">Total value</th>
+                </tr>
+                @foreach(var exchangeVolume in _volume.OrderByDescending(v => v.Value))
+                {
+                    <tr>
+                        <td>@exchangeVolume.Key</td>
+                        <td style="padding-left: 20px">@Math.Round(exchangeVolume.Value.BaseVolume, 8)</td>
+                        <td style="padding-left: 20px">@exchangeVolume.Value.QuoteVolume.ToString("C")</td>
+                    </tr>
+                }
+            </table>
+            <div>Total volume: @Math.Round(_volume.Select(x => x.Value.BaseVolume).Sum(), 8) / @_volume.Select(x => x.Value.QuoteVolume).Sum().ToString("C")</div>
+        </div>
+        <div style="flex: 1">
 
-    
-    <table style="margin-top: 20px;">
-        <tr>
-            <th>Exchange</th>
-            <th style="padding-left: 20px">Price</th>
-            <th style="padding-left: 20px">Quantity</th>
-        </tr>
-        @lock(_lock){
-    @foreach(var trade in _trades.OrderByDescending(t => t.Trade.Timestamp))
-    {
-        <tr>
-                <td>@trade.Exchange</td>
-                <td style="padding-left: 20px">@Math.Round(trade.Trade.Price, 2)</td>
-                <td style="padding-left: 20px">@Math.Round(trade.Trade.Quantity, 8)</td>
-        </tr>
-    }
-        }
-    </table>
+            <table style="margin-top: 20px;">
+                <tr>
+                    <th>Exchange</th>
+                    <th style="padding-left: 20px">Price</th>
+                    <th style="padding-left: 20px">Quantity</th>
+                </tr>
+                @lock(_lock)
+                {
+                    @foreach(var trade in _trades.OrderByDescending(t => t.Trade.Timestamp))
+                    {
+                        <tr>
+                            <td>@trade.Exchange</td>
+                            <td style="padding-left: 20px">@Math.Round(trade.Trade.Price, 2)</td>
+                            <td style="padding-left: 20px">@Math.Round(trade.Trade.Quantity, 8)</td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+
 </div>
 
 @code
@@ -55,9 +62,9 @@
     class ExchangeTrade
     {
         public string Exchange { get; set; }
-        public Trade Trade { get; set; }
+        public SharedTrade Trade { get; set; }
 
-        public ExchangeTrade(string exchange, Trade trade)
+        public ExchangeTrade(string exchange, SharedTrade trade)
         {
             Exchange = exchange;
             Trade = trade;
@@ -72,7 +79,6 @@
     private string _baseAsset = "BTC";
     private string _quoteAsset = "USDT";
 
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -83,31 +89,34 @@
         }
     }
 
-    private void HandleUpdate(ExchangeEvent<IEnumerable<SharedTrade>> trades)
+    private void HandleUpdate(ExchangeEvent<SharedTrade[]> trades)
     {
         foreach(var trade in trades.Data)
-            AddTrade(trades.Exchange, trade.Price, trade.Quantity, trade.Timestamp);
+            AddTrade(trades.Exchange, trade);
     }
 
-    private void AddTrade(string exchange, decimal price, decimal quantity, DateTime timestamp)
+    private void AddTrade(string exchange, SharedTrade trade)
     {
         lock (_lock)
         {
-            _trades.Add(new ExchangeTrade(exchange, new Trade
-                {
-                    Price = price,
-                    Quantity = quantity,
-                    Timestamp = timestamp
-                }));
+            _trades.Add(new ExchangeTrade(exchange, trade));
 
             if (_volume.TryGetValue(exchange, out var val))
-                _volume[exchange] = (val.BaseVolume + quantity, val.QuoteVolume + (price * quantity));
+                _volume[exchange] = (val.BaseVolume + trade.Quantity, val.QuoteVolume + (trade.Price * trade.Quantity));
             else
-                _volume[exchange] = (quantity, price * quantity);
+                _volume[exchange] = (trade.Quantity, trade.Price * trade.Quantity);
 
             if (_trades.Count > _max)
                 _trades.RemoveAt(0);
+
+            if (!_initDone)
+                return;
+
+            var set = (LineChartDataset)chartData.Datasets.Single(x => ((LineChartDataset)x).Label == exchange);
+            set.Data.Add((double)trade.Price);
+            chartData.Labels.Add(DateTime.UtcNow.Ticks.ToString());
         }
+
         InvokeAsync(StateHasChanged);
     }
 

@@ -29,6 +29,10 @@ namespace CryptoClients.Net
         /// </summary>
         public string[] ApiDocsUrl { get; set; } = Array.Empty<string>();
         /// <summary>
+        /// Available environment for the API
+        /// </summary>
+        public string[] ApiEnvironments { get; set; } = [];
+        /// <summary>
         /// Exchange type
         /// </summary>
         public ExchangeType Type { get; set; }

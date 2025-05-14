@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Objects;
 using System;
+using System.Collections.Generic;
 
 namespace CryptoClients.Net.Models
 {
@@ -12,6 +13,11 @@ namespace CryptoClients.Net.Models
         /// API credentials configuration for exchanges
         /// </summary>
         public ExchangeCredentials? ApiCredentials { get; set; }
+
+        /// <summary>
+        /// Per exchange the Environment name to use
+        /// </summary>
+        public Dictionary<string, string?>? ApiEnvironments { get; set; }
 
         // --- General options ---
         /// <summary>

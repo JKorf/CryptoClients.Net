@@ -71,15 +71,11 @@ async Task TickerExampleUnified()
         var quoteAsset = Console.ReadLine();
 
         var client = new ExchangeRestClient();
-        var binance = client.GetUnifiedSpotClient(Exchange.Binance);
-        var bingx = client.GetUnifiedSpotClient(Exchange.BingX);
-        var bybit = client.GetUnifiedSpotClient(Exchange.Bybit);
-
         var symbol = new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset);
         var request = new GetTickerRequest(symbol);
-        var resultBinance = client.GetSpotTickerClient(Exchange.Binance)!.GetSpotTickerAsync(request);
-        var resultBingX = client.GetSpotTickerClient(Exchange.BingX)!.GetSpotTickerAsync(request);
-        var resultBybit = client.GetSpotTickerClient(Exchange.Bybit)!.GetSpotTickerAsync(request);
+        var resultBinance = client.GetSpotTickerAsync(Exchange.Binance, request);
+        var resultBingX = client.GetSpotTickerAsync(Exchange.BingX, request);
+        var resultBybit = client.GetSpotTickerAsync(Exchange.Bybit, request);
         await Task.WhenAll(resultBinance, resultBingX, resultBybit);
 
         Console.WriteLine();
@@ -101,10 +97,6 @@ async Task TickerExampleUnified2()
         var quoteAsset = Console.ReadLine();
 
         var client = new ExchangeRestClient();
-        var binance = client.GetUnifiedSpotClient(Exchange.Binance);
-        var bingx = client.GetUnifiedSpotClient(Exchange.BingX);
-        var bybit = client.GetUnifiedSpotClient(Exchange.Bybit);
-
         var symbol = new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset);
         var request = new GetTickerRequest(symbol);
 
@@ -183,7 +175,7 @@ async Task PlaceOrderExampleUnified()
         new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset),
         side,
         SharedOrderType.Limit,
-        quantity,
+        SharedQuantity.Base(quantity),
         price: price
         );
 
