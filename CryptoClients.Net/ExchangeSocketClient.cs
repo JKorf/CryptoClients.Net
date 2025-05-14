@@ -610,7 +610,7 @@ namespace CryptoClients.Net
             {
                 var listenKey = request.ListenKey;
                 if (listenKey == null && listenKeyResults != null)
-                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && (request.TradingMode.HasValue ? lk.DataTradeMode.Contains(request.TradingMode.Value) : lk.DataTradeMode.Any(tm => x.SupportedTradingModes.Contains(tm))))?.Data;
+                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && (request.TradingMode.HasValue ? lk.DataTradeMode!.Contains(request.TradingMode.Value) : lk.DataTradeMode!.Any(tm => x.SupportedTradingModes.Contains(tm))))?.Data;
                 if (listenKey == null)
                     listenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey));
 
@@ -639,7 +639,7 @@ namespace CryptoClients.Net
             {
                 var listenKey = request.ListenKey;
                 if (listenKey == null && listenKeyResults != null)
-                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && lk.DataTradeMode.Contains(TradingMode.Spot))?.Data;
+                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && lk.DataTradeMode!.Contains(TradingMode.Spot))?.Data;
                 if (listenKey == null)
                     listenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey));
 
@@ -668,7 +668,7 @@ namespace CryptoClients.Net
             {
                 var listenKey = request.ListenKey;
                 if (listenKey == null && listenKeyResults != null)
-                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && (request.TradingMode.HasValue ? lk.DataTradeMode.Contains(request.TradingMode.Value) : lk.DataTradeMode.Any(tm => x.SupportedTradingModes.Contains(tm))))?.Data;
+                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && (request.TradingMode.HasValue ? lk.DataTradeMode!.Contains(request.TradingMode.Value) : lk.DataTradeMode!.Any(tm => x.SupportedTradingModes.Contains(tm))))?.Data;
                 if (listenKey == null)
                     listenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey));
 
@@ -697,7 +697,7 @@ namespace CryptoClients.Net
             {
                 var listenKey = request.ListenKey;
                 if (listenKey == null && listenKeyResults != null)
-                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && (request.TradingMode.HasValue ? lk.DataTradeMode.Contains(request.TradingMode.Value) : lk.DataTradeMode.Any(tm => x.SupportedTradingModes.Contains(tm))))?.Data;
+                    listenKey = listenKeyResults.Where(x => x.Success).FirstOrDefault(lk => lk.Exchange == x.Exchange && (request.TradingMode.HasValue ? lk.DataTradeMode!.Contains(request.TradingMode.Value) : lk.DataTradeMode!.Any(tm => x.SupportedTradingModes.Contains(tm))))?.Data;
                 if (listenKey == null)
                     listenKey = ExchangeParameters.GetValue<string>(request.ExchangeParameters, x.Exchange, nameof(SubscribeBalancesRequest.ListenKey));
 

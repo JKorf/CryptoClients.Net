@@ -598,6 +598,19 @@ namespace CryptoClients.Net
             return symbol.GetSymbol(client.FormatSymbol);
         }
 
+        /// <inheritdoc />
+        public string? GenerateClientOrderId(TradingMode tradingMode, string exchange)
+        {
+            if (tradingMode == TradingMode.Spot)
+            {
+                var spotClient = _sharedClients.Where(x => x.Exchange == exchange).SpotOrderRestClient();
+                return spotClient?.GenerateClientOrderId();
+            }
+
+            var futuresClient = _sharedClients.Where(x => x.Exchange == exchange).FuturesOrderRestClient(tradingMode);
+            return futuresClient?.GenerateClientOrderId();            
+        }
+
         #region Get Spot Tickers
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedSpotTicker[]>> GetSpotTickerAsync(string exchange, GetTickersRequest request, CancellationToken ct = default)

@@ -136,6 +136,13 @@ namespace CryptoClients.Net.Interfaces
         string? GetSymbolName(string exchange, SharedSymbol symbol);
 
         /// <summary>
+        /// Generate a new random client order id
+        /// </summary>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="exchange">Exchange</param>
+        string? GenerateClientOrderId(TradingMode tradingMode, string exchange);
+
+        /// <summary>
         /// Get the <see cref="IAssetsRestClient"/> clients for all exchanges
         /// </summary>
         IEnumerable<IAssetsRestClient> GetAssetsClients();
