@@ -248,6 +248,53 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.0.0 - 14 May 2025
+    * Added RateLimitUpdated event to Exchanges class
+    * Added ApiEnvironments property to ExchangeInfo model
+    * Added ApiEnvironments property to GlobalExchangeOptions
+    * Added GenerateClientOrderId method to ExchangeRestClient
+    * Added additional methods to ExchangeRestClient/ExchangeSocketClient for easier access
+    * Added support for Native AOT compilation
+    * Added IBookTickerRestClient Shared implementations
+    * Added ISpotTriggerOrderRestClient Shared implementations
+    * Added ISpotOrderClientIdClient Shared implementations
+    * Added IFuturesTriggerOrderRestClient Shared implementations
+    * Added IFuturesOrderClientIdClient Shared implementations
+    * Added IFuturesTpSlRestClient Shared implementations
+    * Added automatic conversion of asset names to commonly used names for some exchanges
+    * Added SharedSymbol property to response models which is filled when before that call a GetSpotSymbolsAsync/GetFuturesSymbolsAsync has been called
+    * Updated various Shared response models with additional properties
+    * Updated Exchange specific ApiCredentials types to base ApiCredentials type which now support a Pass parameter
+    * Updated IEnumerable response types to Array types
+    * Updated logging SourceContext to include the client type
+    * Updated some logging logic, errors no longer contain any data, exception are not logged as string but instead forwarded to structured logging
+    * Removed legacy ISpotClient support
+    * Removed Newtonsoft.Json dependency
+    * Fixed various issues
+    * Updated reference CryptoExchange.Net version from 8.8.0 to 9.0.0
+    * Updated Binance.Net from version 10.19.0 to version 11.0.0
+    * Updated BingX.Net from version 1.21.0 to version 2.0.0
+    * Updated Bitfinex.Net from version 8.1.1 to version 9.0.0
+    * Updated Bitget.Net from version 1.22.1 to version 2.0.0
+    * Updated BitMart.Net from version 1.15.1 to version 2.0.0
+    * Updated BitMEX.Net from version 1.1.0 to version 2.0.0
+    * Updated Bybit.Net from version 4.4.1 to version 5.0.0
+    * Updated Coinbase.Net from version 1.9.1 to version 2.0.0
+    * Updated CoinEx.Net from version 8.0.1 to version 9.0.0
+    * Updated CoinGecko.Net from version 3.4.0 to version 4.0.0
+    * Updated CryptoCom.Net from version 1.6.0 to version 2.0.0
+    * Updated DeepCoin.Net from version 1.0.5 to version 2.0.0
+    * Updated GateIo.Net from version 1.22.0 to version 2.0.0
+    * Updated HTX.Net from version 6.9.1 to version 7.0.0
+    * Updated HyperLiquid.Net from version 1.1.2 to version 2.0.0
+    * Updated Kraken.Net from version 5.7.1 to version 6.0.0
+    * Updated Kucoin.Net from version 6.1.0 to version 7.0.0
+    * Updated Mexc.Net from version 2.1.0 to version 3.0.0
+    * Updated OKX.Net from version 2.16.0 to version 3.0.0
+    * Updated WhiteBit.Net from version 1.5.0 to version 2.0.0
+    * Updated XT.Net from version 1.2.1 to version 2.0.0
+    * See exchange specific release notes for more details
+
 * Version 2.14.0 - 28 Mar 2025
   * Updated Binance.Net from version 10.18.0 to version 10.19.0
     * Added quoteAsset parameter to restClient.SpotApi.Account.GetWalletBalancesAsync endpoint
