@@ -108,13 +108,6 @@
 
             if (_trades.Count > _max)
                 _trades.RemoveAt(0);
-
-            if (!_initDone)
-                return;
-
-            var set = (LineChartDataset)chartData.Datasets.Single(x => ((LineChartDataset)x).Label == exchange);
-            set.Data.Add((double)trade.Price);
-            chartData.Labels.Add(DateTime.UtcNow.Ticks.ToString());
         }
 
         InvokeAsync(StateHasChanged);
