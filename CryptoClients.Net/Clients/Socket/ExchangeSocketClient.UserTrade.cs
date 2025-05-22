@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,18 @@ namespace CryptoClients.Net
         public IUserTradeSocketClient? GetUserTradeClient(TradingMode api, string exchange) => _sharedClients.OfType<IUserTradeSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         #region Subscribe User Trade
+
+        /// <inheritdoc />
+        public async Task<ExchangeResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(
+            string exchange,
+            SubscribeUserTradeRequest request,
+            Action<ExchangeEvent<SharedUserTrade[]>> handler,
+            ExchangeWebResult<string>[]? listenKeyResults = null,
+            CancellationToken ct = default)
+        {
+            var result = await SubscribeToUserTradeUpdatesAsync(request, handler, new[] { exchange }, listenKeyResults, ct).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeResult<UpdateSubscription>(exchange, new InvalidOperationError($"Subscription not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToUserTradeUpdatesAsync(

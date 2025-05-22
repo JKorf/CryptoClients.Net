@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,18 @@ namespace CryptoClients.Net
 
 
         #region Subscribe Balance
+
+        /// <inheritdoc />
+        public async Task<ExchangeResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(
+            string exchange,
+            SubscribeBalancesRequest request,
+            Action<ExchangeEvent<SharedBalance[]>> handler,
+            ExchangeWebResult<string>[]? listenKeyResults = null,
+            CancellationToken ct = default)
+        {
+            var result = await SubscribeToBalanceUpdatesAsync(request, handler, new[] { exchange }, listenKeyResults, ct).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeResult<UpdateSubscription>(exchange, new InvalidOperationError($"Subscription not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToBalanceUpdatesAsync(
