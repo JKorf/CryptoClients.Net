@@ -4,6 +4,7 @@ using CryptoExchange.Net.Authentication;
 using DeepCoin.Net.Objects;
 using Kucoin.Net.Objects;
 using OKX.Net.Objects;
+using System.Collections.Generic;
 
 namespace CryptoClients.Net.Models
 {
@@ -12,6 +13,47 @@ namespace CryptoClients.Net.Models
     /// </summary>
     public class ExchangeCredentials
     {
+        /// <summary>
+        /// ctor
+        /// </summary>
+        public ExchangeCredentials() { }
+
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="exchangeCredentials">Api credentials, key should be the exchange name</param>
+        public ExchangeCredentials(Dictionary<string, ApiCredentials> exchangeCredentials)
+        {
+            foreach(var item in exchangeCredentials)
+            {
+                switch (item.Key)
+                {
+                    case "Binance": Binance = item.Value; break;
+                    case "BingX": BingX = item.Value; break;
+                    case "Bitfinex": Bitfinex = item.Value; break;
+                    case "Bitget": Bitget = item.Value; break;
+                    case "BitMart": BitMart = item.Value; break;
+                    case "BitMEX": BitMEX = item.Value; break;
+                    case "Bybit": Bybit = item.Value; break;
+                    case "Coinbase": Coinbase = item.Value; break;
+                    case "CoinEx": CoinEx = item.Value; break;
+                    case "CryptoCom": CryptoCom = item.Value; break;
+                    case "DeepCoin": DeepCoin = item.Value; break;
+                    case "GateIo": GateIo = item.Value; break;
+                    case "HTX": HTX = item.Value; break;
+                    case "HyperLiquid": HyperLiquid = item.Value; break;
+                    case "Kraken": Kraken = item.Value; break;
+                    case "Kucoin": Kucoin = item.Value; break;
+                    case "Mexc": Mexc = item.Value; break;
+                    case "OKX": OKX = item.Value; break;
+                    case "WhiteBit": WhiteBit = item.Value; break;
+                    case "XT": XT = item.Value; break;
+                    default:
+                        throw new System.ArgumentException("Unknown exchange name: " + item.Key);
+                }
+            }
+        }
+
         /// <summary>
         /// Binance API credentials
         /// </summary>
