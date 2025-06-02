@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,17 @@ namespace CryptoClients.Net
         public ITickersSocketClient? GetTickersClient(TradingMode api, string exchange) => _sharedClients.OfType<ITickersSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
         #region Subscribe All Ticker
+
+        /// <inheritdoc />
+        public async Task<ExchangeResult<UpdateSubscription>> SubscribeToAllTickerUpdatesAsync(
+            string exchange,
+            SubscribeAllTickersRequest request,
+            Action<ExchangeEvent<SharedSpotTicker[]>> handler,
+            CancellationToken ct = default)
+        {
+            var result = await SubscribeToAllTickerUpdatesAsync(request, handler, new[] { exchange }, ct).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeResult<UpdateSubscription>(exchange, new InvalidOperationError($"Subscription not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<ExchangeEvent<SharedSpotTicker[]>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)

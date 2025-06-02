@@ -29,6 +29,7 @@ using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
 using CoinGecko.Net.Objects.Options;
 using CryptoClients.Net;
+using CryptoClients.Net.Clients;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoCom.Net;
@@ -270,6 +271,28 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddTransient<IExchangeOrderBookFactory, ExchangeOrderBookFactory>();
             services.AddTransient<IExchangeTrackerFactory, ExchangeTrackerFactory>();
+            services.AddTransient<IExchangeUserClientProvider, ExchangeUserClientProvider>(x => new ExchangeUserClientProvider(
+                x.GetRequiredService<IBinanceUserClientProvider>(),
+                x.GetRequiredService<IBingXUserClientProvider>(),
+                x.GetRequiredService<IBitfinexUserClientProvider>(),
+                x.GetRequiredService<IBitgetUserClientProvider>(),
+                x.GetRequiredService<IBitMartUserClientProvider>(),
+                x.GetRequiredService<IBitMEXUserClientProvider>(),
+                x.GetRequiredService<IBybitUserClientProvider>(),
+                x.GetRequiredService<ICoinbaseUserClientProvider>(),
+                x.GetRequiredService<ICoinExUserClientProvider>(),
+                x.GetRequiredService<ICryptoComUserClientProvider>(),
+                x.GetRequiredService<IDeepCoinUserClientProvider>(),
+                x.GetRequiredService<IGateIoUserClientProvider>(),
+                x.GetRequiredService<IHTXUserClientProvider>(),
+                x.GetRequiredService<IHyperLiquidUserClientProvider>(),
+                x.GetRequiredService<IKrakenUserClientProvider>(),
+                x.GetRequiredService<IKucoinUserClientProvider>(),
+                x.GetRequiredService<IMexcUserClientProvider>(),
+                x.GetRequiredService<IOKXUserClientProvider>(),
+                x.GetRequiredService<IWhiteBitUserClientProvider>(),
+                x.GetRequiredService<IXTUserClientProvider>()
+                ));
             return services;
         }
 
@@ -418,6 +441,28 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddTransient<IExchangeOrderBookFactory, ExchangeOrderBookFactory>();
             services.AddTransient<IExchangeTrackerFactory, ExchangeTrackerFactory>();
+            services.AddTransient<IExchangeUserClientProvider, ExchangeUserClientProvider>(x => new ExchangeUserClientProvider(
+                x.GetRequiredService<IBinanceUserClientProvider>(),
+                x.GetRequiredService<IBingXUserClientProvider>(),
+                x.GetRequiredService<IBitfinexUserClientProvider>(),
+                x.GetRequiredService<IBitgetUserClientProvider>(),
+                x.GetRequiredService<IBitMartUserClientProvider>(),
+                x.GetRequiredService<IBitMEXUserClientProvider>(),
+                x.GetRequiredService<IBybitUserClientProvider>(),
+                x.GetRequiredService<ICoinbaseUserClientProvider>(),
+                x.GetRequiredService<ICoinExUserClientProvider>(),
+                x.GetRequiredService<ICryptoComUserClientProvider>(),
+                x.GetRequiredService<IDeepCoinUserClientProvider>(),
+                x.GetRequiredService<IGateIoUserClientProvider>(),
+                x.GetRequiredService<IHTXUserClientProvider>(),
+                x.GetRequiredService<IHyperLiquidUserClientProvider>(),
+                x.GetRequiredService<IKrakenUserClientProvider>(),
+                x.GetRequiredService<IKucoinUserClientProvider>(),
+                x.GetRequiredService<IMexcUserClientProvider>(),
+                x.GetRequiredService<IOKXUserClientProvider>(),
+                x.GetRequiredService<IWhiteBitUserClientProvider>(),
+                x.GetRequiredService<IXTUserClientProvider>()
+                ));
             return services;
         }
     }

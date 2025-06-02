@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,17 @@ namespace CryptoClients.Net
 
 
         #region Subscribe Kline
+
+        /// <inheritdoc />
+        public async Task<ExchangeResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(
+            string exchange,
+            SubscribeKlineRequest request,
+            Action<ExchangeEvent<SharedKline>> handler,
+            CancellationToken ct = default)
+        {
+            var result = await SubscribeToKlineUpdatesAsync(request, handler, new[] { exchange }, ct).ConfigureAwait(false);
+            return result.SingleOrDefault() ?? new ExchangeResult<UpdateSubscription>(exchange, new InvalidOperationError($"Subscription not supported for {exchange}"));
+        }
 
         /// <inheritdoc />
         public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
