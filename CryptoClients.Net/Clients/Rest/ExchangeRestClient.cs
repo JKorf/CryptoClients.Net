@@ -366,11 +366,6 @@ namespace CryptoClients.Net
             return result.ToList();
         }
 
-        public void SetOptions(UpdateOptions options)
-        {
-
-        }
-
         /// <inheritdoc />
         public void SetApiCredentials(ExchangeCredentials credentials)
         {

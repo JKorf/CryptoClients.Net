@@ -77,7 +77,6 @@ using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using WhiteBit.Net;
 using WhiteBit.Net.Clients;
@@ -113,9 +112,6 @@ namespace CryptoClients.Net.Clients
         private IOKXUserClientProvider _okxProvider;
         private IWhiteBitUserClientProvider _whiteBitProvider;
         private IXTUserClientProvider _xtProvider;
-
-        private ConcurrentDictionary<string, IExchangeRestClient> _restClients = new ConcurrentDictionary<string, IExchangeRestClient>();
-        private ConcurrentDictionary<string, IExchangeSocketClient> _socketClients = new ConcurrentDictionary<string, IExchangeSocketClient>();
 
         /// <summary>
         /// Create a new ExchangeUserProvider using the specified options
@@ -272,16 +268,39 @@ namespace CryptoClients.Net.Clients
         /// <inheritdoc />
         public void InitializeUserClient(string userIdentifier, ExchangeCredentials credentials, Dictionary<string, string?> environments)
         {
-            CreateRestClient(userIdentifier, credentials, environments);
-            CreateSocketClient(userIdentifier, credentials, environments);
+            GetRestClient(userIdentifier, credentials, environments);
+            GetSocketClient(userIdentifier, credentials, environments);
         }
 
 
         /// <inheritdoc />
         public IExchangeRestClient GetRestClient(string userIdentifier, ExchangeCredentials? credentials = null, Dictionary<string, string?>? environments = null)
         {
-            if (!_restClients.TryGetValue(userIdentifier, out var client))
-                client = CreateRestClient(userIdentifier, credentials, environments);
+            environments ??= new();
+            credentials ??= new();
+
+            var client = new ExchangeRestClient(
+                _binanceProvider.GetRestClient(userIdentifier, credentials.Binance, environments.TryGetValue(Exchange.Binance, out var binanceEnv) ? BinanceEnvironment.GetEnvironmentByName(binanceEnv) : null),
+                _bingXProvider.GetRestClient(userIdentifier, credentials.BingX, environments.TryGetValue(Exchange.BingX, out var bingxEnv) ? BingXEnvironment.GetEnvironmentByName(bingxEnv) : null),
+                _bitfinexProvider.GetRestClient(userIdentifier, credentials.Bitfinex, environments.TryGetValue(Exchange.Bitfinex, out var bitfinexEnv) ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnv) : null),
+                _bitgetProvider.GetRestClient(userIdentifier, credentials.Bitget, environments.TryGetValue(Exchange.Bitget, out var bitgetEnv) ? BitgetEnvironment.GetEnvironmentByName(bitgetEnv) : null),
+                _bitMartProvider.GetRestClient(userIdentifier, credentials.BitMart, environments.TryGetValue(Exchange.BitMart, out var bitmartEnv) ? BitMartEnvironment.GetEnvironmentByName(bitmartEnv) : null),
+                _bitMEXProvider.GetRestClient(userIdentifier, credentials.BitMEX, environments.TryGetValue(Exchange.BitMEX, out var bitMEXEnv) ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnv) : null),
+                _bybitProvider.GetRestClient(userIdentifier, credentials.Bybit, environments.TryGetValue(Exchange.Bybit, out var bybitEnv) ? BybitEnvironment.GetEnvironmentByName(bybitEnv) : null),
+                _coinbaseProvider.GetRestClient(userIdentifier, credentials.Coinbase, environments.TryGetValue(Exchange.Coinbase, out var coinbaseEnv) ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnv) : null),
+                _coinExProvider.GetRestClient(userIdentifier, credentials.CoinEx, environments.TryGetValue(Exchange.CoinEx, out var coinexEnv) ? CoinExEnvironment.GetEnvironmentByName(coinexEnv) : null),
+                _cryptoComProvider.GetRestClient(userIdentifier, credentials.CryptoCom, environments.TryGetValue(Exchange.CryptoCom, out var cryptoComEnv) ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnv) : null),
+                _deepCoinProvider.GetRestClient(userIdentifier, credentials.DeepCoin, environments.TryGetValue(Exchange.DeepCoin, out var deepcoinEnv) ? DeepCoinEnvironment.GetEnvironmentByName(deepcoinEnv) : null),
+                _gateIoProvider.GetRestClient(userIdentifier, credentials.GateIo, environments.TryGetValue(Exchange.GateIo, out var gateIoEnv) ? GateIoEnvironment.GetEnvironmentByName(gateIoEnv) : null),
+                _htxProvider.GetRestClient(userIdentifier, credentials.HTX, environments.TryGetValue(Exchange.HTX, out var htxEnv) ? HTXEnvironment.GetEnvironmentByName(htxEnv) : null),
+                _hyperLiquidProvider.GetRestClient(userIdentifier, credentials.HyperLiquid, environments.TryGetValue(Exchange.HyperLiquid, out var hyperliquidEnv) ? HyperLiquidEnvironment.GetEnvironmentByName(hyperliquidEnv) : null),
+                _krakenProvider.GetRestClient(userIdentifier, credentials.Kraken, environments.TryGetValue(Exchange.Kraken, out var krakenEnv) ? KrakenEnvironment.GetEnvironmentByName(krakenEnv) : null),
+                _kucoinProvider.GetRestClient(userIdentifier, credentials.Kucoin, environments.TryGetValue(Exchange.Kucoin, out var kucoinEnv) ? KucoinEnvironment.GetEnvironmentByName(kucoinEnv) : null),
+                _mexcProvider.GetRestClient(userIdentifier, credentials.Mexc, environments.TryGetValue(Exchange.Mexc, out var mexcEnv) ? MexcEnvironment.GetEnvironmentByName(mexcEnv) : null),
+                _okxProvider.GetRestClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
+                _whiteBitProvider.GetRestClient(userIdentifier, credentials.WhiteBit, environments.TryGetValue(Exchange.WhiteBit, out var whiteBitEnv) ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnv) : null),
+                _xtProvider.GetRestClient(userIdentifier, credentials.XT, environments.TryGetValue(Exchange.XT, out var xtEnv) ? XTEnvironment.GetEnvironmentByName(xtEnv) : null)
+                );
 
             return client;
         }
@@ -289,75 +308,32 @@ namespace CryptoClients.Net.Clients
         /// <inheritdoc />
         public IExchangeSocketClient GetSocketClient(string userIdentifier, ExchangeCredentials? credentials = null, Dictionary<string, string?>? environments = null)
         {
-            if (!_socketClients.TryGetValue(userIdentifier, out var client))
-                client = CreateSocketClient(userIdentifier, credentials, environments);
-
-            return client;
-        }
-
-        private IExchangeRestClient CreateRestClient(string userIdentifier, ExchangeCredentials? credentials, Dictionary<string, string?>? environments)
-        {
-            if (credentials == null)
-                throw new InvalidOperationException($"Exchange Rest client for user {userIdentifier} not found and no API credentials have been provided");
-
             environments ??= new();
-            var client = new ExchangeRestClient(
-                _binanceProvider.GetRestClient(userIdentifier, credentials.Binance, environments.TryGetValue(Exchange.Binance, out var binanceEnv) ? BinanceEnvironment.GetEnvironmentByName(binanceEnv) : null),
-                _bingXProvider.GetRestClient(userIdentifier, credentials.BingX, environments.TryGetValue(Exchange.BingX, out var bingxEnv) ? BingXEnvironment.GetEnvironmentByName(bingxEnv) : null),
-                _bitfinexProvider.GetRestClient(userIdentifier, credentials.Bitfinex, environments.TryGetValue(Exchange.Bitfinex, out var bitfinexEnv) ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnv) : null),
-                _bitgetProvider.GetRestClient(userIdentifier, credentials.Bitget, environments.TryGetValue(Exchange.Bitget, out var bitgetEnv) ? BitgetEnvironment.GetEnvironmentByName(bitgetEnv) : null),
-                _bitMartProvider.GetRestClient(userIdentifier, credentials.BitMart, environments.TryGetValue(Exchange.BitMart, out var bitmartEnv) ? BitMartEnvironment.GetEnvironmentByName(bitmartEnv) : null),
-                _bitMEXProvider.GetRestClient(userIdentifier, credentials.BitMEX, environments.TryGetValue(Exchange.BitMEX, out var bitmexEnv) ? BitMEXEnvironment.GetEnvironmentByName(bitmexEnv) : null),
-                _bybitProvider.GetRestClient(userIdentifier, credentials.Bybit, environments.TryGetValue(Exchange.Bybit, out var bybitEnv) ? BybitEnvironment.GetEnvironmentByName(bybitEnv) : null),
-                _coinbaseProvider.GetRestClient(userIdentifier, credentials.Coinbase, environments.TryGetValue(Exchange.Coinbase, out var coinbaseEnv) ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnv) : null),
-                _coinExProvider.GetRestClient(userIdentifier, credentials.CoinEx, environments.TryGetValue(Exchange.CoinEx, out var coinexEnv) ? CoinExEnvironment.GetEnvironmentByName(coinexEnv) : null),
-                _cryptoComProvider.GetRestClient(userIdentifier, credentials.CryptoCom, environments.TryGetValue(Exchange.CryptoCom, out var cryptocomEnv) ? CryptoComEnvironment.GetEnvironmentByName(cryptocomEnv) : null),
-                _deepCoinProvider.GetRestClient(userIdentifier, credentials.DeepCoin, environments.TryGetValue(Exchange.DeepCoin, out var deepcoinEnv) ? DeepCoinEnvironment.GetEnvironmentByName(deepcoinEnv) : null),
-                _gateIoProvider.GetRestClient(userIdentifier, credentials.GateIo, environments.TryGetValue(Exchange.GateIo, out var gateioEnv) ? GateIoEnvironment.GetEnvironmentByName(gateioEnv) : null),
-                _htxProvider.GetRestClient(userIdentifier, credentials.HTX, environments.TryGetValue(Exchange.HTX, out var htxEnv) ? HTXEnvironment.GetEnvironmentByName(htxEnv) : null),
-                _hyperLiquidProvider.GetRestClient(userIdentifier, credentials.HyperLiquid, environments.TryGetValue(Exchange.HyperLiquid, out var hyperliquidEnv) ? HyperLiquidEnvironment.GetEnvironmentByName(hyperliquidEnv) : null),
-                _krakenProvider.GetRestClient(userIdentifier, credentials.Kraken, environments.TryGetValue(Exchange.Kraken, out var krakenEnv) ? KrakenEnvironment.GetEnvironmentByName(krakenEnv) : null),
-                _kucoinProvider.GetRestClient(userIdentifier, credentials.Kucoin, environments.TryGetValue(Exchange.Kucoin, out var kucoinEnv) ? KucoinEnvironment.GetEnvironmentByName(kucoinEnv) : null),
-                _mexcProvider.GetRestClient(userIdentifier, credentials.Mexc, environments.TryGetValue(Exchange.Mexc, out var mexcEnv) ? MexcEnvironment.GetEnvironmentByName(mexcEnv) : null),
-                _okxProvider.GetRestClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
-                _whiteBitProvider.GetRestClient(userIdentifier, credentials.WhiteBit, environments.TryGetValue(Exchange.WhiteBit, out var whitebitEnv) ? WhiteBitEnvironment.GetEnvironmentByName(whitebitEnv) : null),
-                _xtProvider.GetRestClient(userIdentifier, credentials.XT, environments.TryGetValue(Exchange.XT, out var xtEnv) ? XTEnvironment.GetEnvironmentByName(xtEnv) : null)
-                );
+            credentials ??= new();
 
-            _restClients.TryAdd(userIdentifier, client);
-            return client;
-        }
-
-        private IExchangeSocketClient CreateSocketClient(string userIdentifier, ExchangeCredentials? credentials, Dictionary<string, string?>? environments)
-        {
-            if (credentials == null)
-                throw new InvalidOperationException($"Exchange Socket client for user {userIdentifier} not found and no API credentials have been provided");
-
-            environments ??= new();
             var client = new ExchangeSocketClient(
                 _binanceProvider.GetSocketClient(userIdentifier, credentials.Binance, environments.TryGetValue(Exchange.Binance, out var binanceEnv) ? BinanceEnvironment.GetEnvironmentByName(binanceEnv) : null),
                 _bingXProvider.GetSocketClient(userIdentifier, credentials.BingX, environments.TryGetValue(Exchange.BingX, out var bingxEnv) ? BingXEnvironment.GetEnvironmentByName(bingxEnv) : null),
                 _bitfinexProvider.GetSocketClient(userIdentifier, credentials.Bitfinex, environments.TryGetValue(Exchange.Bitfinex, out var bitfinexEnv) ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnv) : null),
                 _bitgetProvider.GetSocketClient(userIdentifier, credentials.Bitget, environments.TryGetValue(Exchange.Bitget, out var bitgetEnv) ? BitgetEnvironment.GetEnvironmentByName(bitgetEnv) : null),
                 _bitMartProvider.GetSocketClient(userIdentifier, credentials.BitMart, environments.TryGetValue(Exchange.BitMart, out var bitmartEnv) ? BitMartEnvironment.GetEnvironmentByName(bitmartEnv) : null),
-                _bitMEXProvider.GetSocketClient(userIdentifier, credentials.BitMEX, environments.TryGetValue(Exchange.BitMEX, out var bitmexEnv) ? BitMEXEnvironment.GetEnvironmentByName(bitmexEnv) : null),
+                _bitMEXProvider.GetSocketClient(userIdentifier, credentials.BitMEX, environments.TryGetValue(Exchange.BitMEX, out var bitMEXEnv) ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnv) : null),
                 _bybitProvider.GetSocketClient(userIdentifier, credentials.Bybit, environments.TryGetValue(Exchange.Bybit, out var bybitEnv) ? BybitEnvironment.GetEnvironmentByName(bybitEnv) : null),
                 _coinbaseProvider.GetSocketClient(userIdentifier, credentials.Coinbase, environments.TryGetValue(Exchange.Coinbase, out var coinbaseEnv) ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnv) : null),
                 _coinExProvider.GetSocketClient(userIdentifier, credentials.CoinEx, environments.TryGetValue(Exchange.CoinEx, out var coinexEnv) ? CoinExEnvironment.GetEnvironmentByName(coinexEnv) : null),
-                _cryptoComProvider.GetSocketClient(userIdentifier, credentials.CryptoCom, environments.TryGetValue(Exchange.CryptoCom, out var cryptocomEnv) ? CryptoComEnvironment.GetEnvironmentByName(cryptocomEnv) : null),
+                _cryptoComProvider.GetSocketClient(userIdentifier, credentials.CryptoCom, environments.TryGetValue(Exchange.CryptoCom, out var cryptoComEnv) ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnv) : null),
                 _deepCoinProvider.GetSocketClient(userIdentifier, credentials.DeepCoin, environments.TryGetValue(Exchange.DeepCoin, out var deepcoinEnv) ? DeepCoinEnvironment.GetEnvironmentByName(deepcoinEnv) : null),
-                _gateIoProvider.GetSocketClient(userIdentifier, credentials.GateIo, environments.TryGetValue(Exchange.GateIo, out var gateioEnv) ? GateIoEnvironment.GetEnvironmentByName(gateioEnv) : null),
+                _gateIoProvider.GetSocketClient(userIdentifier, credentials.GateIo, environments.TryGetValue(Exchange.GateIo, out var gateIoEnv) ? GateIoEnvironment.GetEnvironmentByName(gateIoEnv) : null),
                 _htxProvider.GetSocketClient(userIdentifier, credentials.HTX, environments.TryGetValue(Exchange.HTX, out var htxEnv) ? HTXEnvironment.GetEnvironmentByName(htxEnv) : null),
                 _hyperLiquidProvider.GetSocketClient(userIdentifier, credentials.HyperLiquid, environments.TryGetValue(Exchange.HyperLiquid, out var hyperliquidEnv) ? HyperLiquidEnvironment.GetEnvironmentByName(hyperliquidEnv) : null),
                 _krakenProvider.GetSocketClient(userIdentifier, credentials.Kraken, environments.TryGetValue(Exchange.Kraken, out var krakenEnv) ? KrakenEnvironment.GetEnvironmentByName(krakenEnv) : null),
                 _kucoinProvider.GetSocketClient(userIdentifier, credentials.Kucoin, environments.TryGetValue(Exchange.Kucoin, out var kucoinEnv) ? KucoinEnvironment.GetEnvironmentByName(kucoinEnv) : null),
                 _mexcProvider.GetSocketClient(userIdentifier, credentials.Mexc, environments.TryGetValue(Exchange.Mexc, out var mexcEnv) ? MexcEnvironment.GetEnvironmentByName(mexcEnv) : null),
                 _okxProvider.GetSocketClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
-                _whiteBitProvider.GetSocketClient(userIdentifier, credentials.WhiteBit, environments.TryGetValue(Exchange.WhiteBit, out var whitebitEnv) ? WhiteBitEnvironment.GetEnvironmentByName(whitebitEnv) : null),
+                _whiteBitProvider.GetSocketClient(userIdentifier, credentials.WhiteBit, environments.TryGetValue(Exchange.WhiteBit, out var whiteBitEnv) ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnv) : null),
                 _xtProvider.GetSocketClient(userIdentifier, credentials.XT, environments.TryGetValue(Exchange.XT, out var xtEnv) ? XTEnvironment.GetEnvironmentByName(xtEnv) : null)
                 );
 
-            _socketClients.TryAdd(userIdentifier, client);
             return client;
         }
     }
