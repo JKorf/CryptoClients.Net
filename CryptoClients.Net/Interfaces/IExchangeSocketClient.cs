@@ -7,6 +7,7 @@ using BitMEX.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Coinbase.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
+using CryptoClients.Net.Models;
 using CryptoCom.Net.Interfaces.Clients;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
@@ -112,6 +113,12 @@ namespace CryptoClients.Net.Interfaces
         /// XT Websocket API
         /// </summary>
         IXTSocketClient XT { get; }
+
+        /// <summary>
+        /// Set API credentials for exchanges
+        /// </summary>
+        /// <param name="credentials">Credential info</param>
+        void SetApiCredentials(ExchangeCredentials credentials);
 
         /// <summary>
         /// Set API credentials for an exchange

@@ -367,6 +367,39 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
+        public void SetApiCredentials(ExchangeCredentials credentials)
+        {
+            void SetCredentialsIfNotNull(string exchange, ApiCredentials? credentials)
+            {
+                if (credentials == null)
+                    return;
+
+                SetApiCredentials(exchange, credentials.Key, credentials.Secret, credentials.Pass);
+            }
+
+            SetCredentialsIfNotNull(Exchange.Binance, credentials.Binance);
+            SetCredentialsIfNotNull(Exchange.BingX, credentials.BingX);
+            SetCredentialsIfNotNull(Exchange.Bitfinex, credentials.Bitfinex);
+            SetCredentialsIfNotNull(Exchange.Bitget, credentials.Bitget);
+            SetCredentialsIfNotNull(Exchange.BitMart, credentials.BitMart);
+            SetCredentialsIfNotNull(Exchange.BitMEX, credentials.BitMEX);
+            SetCredentialsIfNotNull(Exchange.Bybit, credentials.Bybit);
+            SetCredentialsIfNotNull(Exchange.Coinbase, credentials.Coinbase);
+            SetCredentialsIfNotNull(Exchange.CoinEx, credentials.CoinEx);
+            SetCredentialsIfNotNull(Exchange.CryptoCom, credentials.CryptoCom);
+            SetCredentialsIfNotNull(Exchange.DeepCoin, credentials.DeepCoin);
+            SetCredentialsIfNotNull(Exchange.GateIo, credentials.GateIo);
+            SetCredentialsIfNotNull(Exchange.HTX, credentials.HTX);
+            SetCredentialsIfNotNull(Exchange.HyperLiquid, credentials.HyperLiquid);
+            SetCredentialsIfNotNull(Exchange.Kraken, credentials.Kraken);
+            SetCredentialsIfNotNull(Exchange.Kucoin, credentials.Kucoin);
+            SetCredentialsIfNotNull(Exchange.Mexc, credentials.Mexc);
+            SetCredentialsIfNotNull(Exchange.OKX, credentials.OKX);
+            SetCredentialsIfNotNull(Exchange.WhiteBit, credentials.WhiteBit);
+            SetCredentialsIfNotNull(Exchange.XT, credentials.XT);
+        }
+
+        /// <inheritdoc />
         public void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null)
         {
             switch (exchange)

@@ -4,6 +4,28 @@
         <name>CryptoClients.Net</name>
     </assembly>
     <members>
+        <member name="T:CryptoClients.Net.Clients.ExchangeUserClientProvider">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.Clients.ExchangeUserClientProvider.#ctor(System.Action{CryptoClients.Net.Models.GlobalExchangeOptions},System.Action{Binance.Net.Objects.Options.BinanceOptions},System.Action{BingX.Net.Objects.Options.BingXOptions},System.Action{Bitfinex.Net.Objects.Options.BitfinexOptions},System.Action{Bitget.Net.Objects.Options.BitgetOptions},System.Action{BitMart.Net.Objects.Options.BitMartOptions},System.Action{BitMEX.Net.Objects.Options.BitMEXOptions},System.Action{Bybit.Net.Objects.Options.BybitOptions},System.Action{Coinbase.Net.Objects.Options.CoinbaseOptions},System.Action{CoinEx.Net.Objects.Options.CoinExOptions},System.Action{CryptoCom.Net.Objects.Options.CryptoComOptions},System.Action{DeepCoin.Net.Objects.Options.DeepCoinOptions},System.Action{GateIo.Net.Objects.Options.GateIoOptions},System.Action{HTX.Net.Objects.Options.HTXOptions},System.Action{HyperLiquid.Net.Objects.Options.HyperLiquidOptions},System.Action{Kraken.Net.Objects.Options.KrakenOptions},System.Action{Kucoin.Net.Objects.Options.KucoinOptions},System.Action{Mexc.Net.Objects.Options.MexcOptions},System.Action{OKX.Net.Objects.Options.OKXOptions},System.Action{WhiteBit.Net.Objects.Options.WhiteBitOptions},System.Action{XT.Net.Objects.Options.XTOptions})">
+            <summary>
+            Create a new ExchangeUserProvider using the specified options
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Clients.ExchangeUserClientProvider.#ctor(Binance.Net.Interfaces.Clients.IBinanceUserClientProvider,BingX.Net.Interfaces.Clients.IBingXUserClientProvider,Bitfinex.Net.Interfaces.Clients.IBitfinexUserClientProvider,Bitget.Net.Interfaces.Clients.IBitgetUserClientProvider,BitMart.Net.Interfaces.Clients.IBitMartUserClientProvider,BitMEX.Net.Interfaces.Clients.IBitMEXUserClientProvider,Bybit.Net.Interfaces.Clients.IBybitUserClientProvider,Coinbase.Net.Interfaces.Clients.ICoinbaseUserClientProvider,CoinEx.Net.Interfaces.Clients.ICoinExUserClientProvider,CryptoCom.Net.Interfaces.Clients.ICryptoComUserClientProvider,DeepCoin.Net.Interfaces.Clients.IDeepCoinUserClientProvider,GateIo.Net.Interfaces.Clients.IGateIoUserClientProvider,HTX.Net.Interfaces.Clients.IHTXUserClientProvider,HyperLiquid.Net.Interfaces.Clients.IHyperLiquidUserClientProvider,Kraken.Net.Interfaces.Clients.IKrakenUserClientProvider,Kucoin.Net.Interfaces.Clients.IKucoinUserClientProvider,Mexc.Net.Interfaces.Clients.IMexcUserClientProvider,OKX.Net.Interfaces.Clients.IOKXUserClientProvider,WhiteBit.Net.Interfaces.Clients.IWhiteBitUserClientProvider,XT.Net.Interfaces.Clients.IXTUserClientProvider)">
+            <summary>
+            DI ctor
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Clients.ExchangeUserClientProvider.InitializeUserClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.Clients.ExchangeUserClientProvider.GetRestClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.Clients.ExchangeUserClientProvider.GetSocketClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <inheritdoc />
+        </member>
         <member name="T:CryptoClients.Net.ExchangeRestClient">
             <inheritdoc />
             <inheritdoc />
@@ -173,6 +195,9 @@
             </summary>
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SetApiCredentials(CryptoClients.Net.Models.ExchangeCredentials)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
@@ -835,6 +860,9 @@
             </summary>
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetExchangeSharedClients(System.String,System.Nullable{CryptoExchange.Net.SharedApis.TradingMode})">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeSocketClient.SetApiCredentials(CryptoClients.Net.Models.ExchangeCredentials)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
@@ -1831,6 +1859,12 @@
             </summary>
             <param name="exchange">The exchange name</param>
             <param name="tradingMode">Filter clients by trading mode</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SetApiCredentials(CryptoClients.Net.Models.ExchangeCredentials)">
+            <summary>
+            Set API credentials for exchanges
+            </summary>
+            <param name="credentials">Credential info</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
             <summary>
@@ -3366,6 +3400,12 @@
             XT Websocket API
             </summary>
         </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SetApiCredentials(CryptoClients.Net.Models.ExchangeCredentials)">
+            <summary>
+            Set API credentials for exchanges
+            </summary>
+            <param name="credentials">Credential info</param>
+        </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
             <summary>
             Set API credentials for an exchange
@@ -3921,10 +3961,50 @@
             <param name="period">The max age of the trades to be tracked, any trade older than this period will be removed</param>
             <param name="exchangeParameters">Exchange specific paramters</param>
         </member>
+        <member name="T:CryptoClients.Net.Interfaces.IExchangeUserClientProvider">
+            <summary>
+            Provider for clients with credentials for specific users
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeUserClientProvider.InitializeUserClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Initialize a client for the specified user identifier. This can be used so to initialize a client for a user so ApiCredentials do not need to be passed later.
+            </summary>
+            <param name="userIdentifier">The identifier for user</param>
+            <param name="credentials">The credentials for user</param>
+            <param name="environments">The environments to use for the clients</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeUserClientProvider.GetRestClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Get the Rest client for a specific user. In case the client does not exist yet it will be created and the <paramref name="credentials"/> should be provided, unless <see cref="M:CryptoClients.Net.Interfaces.IExchangeUserClientProvider.InitializeUserClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})" /> has been called prior for this user.
+            </summary>
+            <param name="userIdentifier">The identifier for user</param>
+            <param name="credentials">The credentials for the user. Required the first time a client is requested for this user unless <see cref="M:CryptoClients.Net.Interfaces.IExchangeUserClientProvider.InitializeUserClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})" /> has been called prior for this user.</param>
+            <param name="environments">The environments to use for the clients</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeUserClientProvider.GetSocketClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Get the Socket client for a specific user. In case the client does not exist yet it will be created and the <paramref name="credentials"/> should be provided, unless <see cref="M:CryptoClients.Net.Interfaces.IExchangeUserClientProvider.InitializeUserClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})" /> has been called prior for this user.
+            </summary>
+            <param name="userIdentifier">The identifier for user</param>
+            <param name="credentials">The credentials for the user. Required the first time a client is requested for this user unless <see cref="M:CryptoClients.Net.Interfaces.IExchangeUserClientProvider.InitializeUserClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})" /> has been called prior for this user.</param>
+            <param name="environments">The environments to use for the clients</param>
+        </member>
         <member name="T:CryptoClients.Net.Models.ExchangeCredentials">
             <summary>
             Credentials for each exchange
             </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeCredentials.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeCredentials.#ctor(System.Collections.Generic.Dictionary{System.String,CryptoExchange.Net.Authentication.ApiCredentials})">
+            <summary>
+            ctor
+            </summary>
+            <param name="exchangeCredentials">Api credentials, key should be the exchange name</param>
         </member>
         <member name="P:CryptoClients.Net.Models.ExchangeCredentials.Binance">
             <summary>
@@ -4124,6 +4204,12 @@
             <param name="configuration">The configuration (section) to load configuration from</param>
             <param name="socketClientLifetime">The lifetime for the Socket clients. Defaults to Singleton</param>
             <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.Configuration.Binder.SourceGeneration.BindingExtensions.Bind_GlobalExchangeOptions(Microsoft.Extensions.Configuration.IConfiguration,System.Object)">
+            <summary>Attempts to bind the given object instance to configuration values by matching property names against configuration keys recursively.</summary>
+        </member>
+        <member name="M:Microsoft.Extensions.Configuration.Binder.SourceGeneration.BindingExtensions.ValidateConfigurationKeys(System.Type,System.Lazy{System.Collections.Generic.HashSet{System.String}},Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.BinderOptions)">
+            <summary>If required by the binder options, validates that there are no unknown keys in the input configuration object.</summary>
         </member>
     </members>
 </doc>
