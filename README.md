@@ -248,6 +248,34 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.1.0 - 02 Jun 2025
+    * Added SetApiCredentials(ExchagneCredentials credentials) to ExchangeRestClient and ExchangeSocketClient
+    * Added single exchange subscription methods to ExchangeSocketClient
+    * Added (I)ExchangeUserClientProvider allowing for easy client management when handling multiple users
+    * Added constructor to ExchangeCredentials for Dictionary with ApiCredentials
+    * Updated reference CryptoExchange.Net version from 9.0.0 to 9.1.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/9.1.0
+    * Updated Binance.Net from version 11.0.0 to version 11.1.0, see https://github.com/JKorf/Binance.Net/releases/tag/11.1.0
+    * Updated BingX.Net from version 2.0.0 to version 2.1.0, see https://github.com/JKorf/BingX.Net/releases/tag/2.1.0
+    * Updated Bitfinex.Net from version 9.0.0 to version 9.1.0, see https://github.com/JKorf/Bitfinex.Net/releases/tag/9.1.0
+    * Updated Bitget.Net from version 2.0.0 to version 2.1.0, see https://github.com/JKorf/Bitget.Net/releases/tag/2.1.0
+    * Updated BitMart.Net from version 2.0.0 to version 2.1.0, see https://github.com/JKorf/BitMart.Net/releases/tag/2.1.0
+    * Updated BitMEX.Net from version 2.0.0 to version 2.1.0, see https://github.com/JKorf/BitMEX.Net/releases/tag/2.1.0
+    * Updated Bybit.Net from version 5.0.0 to version 5.1.0, see https://github.com/JKorf/Bybit.Net/releases/tag/5.1.0
+    * Updated Coinbase.Net from version 2.0.0 to version 2.1.0, see https://github.com/JKorf/Coinbase.Net/releases/tag/2.1.0
+    * Updated CoinEx.Net from version 9.0.0 to version 9.1.0, see https://github.com/JKorf/CoinEx.Net/releases/tag/9.1.0
+    * Updated CoinGecko.Net from version 4.0.0 to version 4.1.0, see https://github.com/JKorf/CoinGecko.Net/releases/tag/4.1.0
+    * Updated CryptoCom.Net from version 2.0.0 to version 2.1.0, see https://github.com/JKorf/CryptoCom.Net/releases/tag/2.1.0
+    * Updated DeepCoin.Net from version 2.0.0 to version 2.1.0, see https://github.com/JKorf/DeepCoin.Net/releases/tag/2.1.0
+    * Updated GateIo.Net from version 2.0.0 to version 2.1.0, see https://github.com/JKorf/GateIo.Net/releases/tag/2.1.0
+    * Updated HTX.Net from version 7.0.0 to version 7.1.0, see https://github.com/JKorf/HTX.Net/HTX/tag/7.1.0
+    * Updated HyperLiquid.Net from version 2.0.0 to version 2.1.0, see https://github.com/JKorf/HyperLiquid.Net/releases/tag/2.1.0
+    * Updated Kraken.Net from version 6.0.0 to version 6.1.0, see https://github.com/JKorf/Kraken.Net/releases/tag/6.1.0
+    * Updated Kucoin.Net from version 7.0.0 to version 7.1.0, see https://github.com/JKorf/Kucoin.Net/releases/tag/7.1.0
+    * Updated Mexc.Net from version 3.0.0 to version 3.1.0, see https://github.com/JKorf/Mexc.Net/releases/tag/3.1.0
+    * Updated OKX.Net from version 3.0.0 to version 3.1.0, see https://github.com/JKorf/OKX.Net/releases/tag/3.1.0
+    * Updated WhiteBit.Net from version 2.0.0 to version 2.1.0, see https://github.com/JKorf/WhiteBit.Net/releases/tag/2.1.0
+    * Updated XT.Net from version 2.0.0 to version 2.1.0, see https://github.com/JKorf/XT.Net/releases/tag/2.1.0
+
 * Version 3.0.0 - 14 May 2025
     * Added RateLimitUpdated event to Exchanges class
     * Added ApiEnvironments property to ExchangeInfo model
