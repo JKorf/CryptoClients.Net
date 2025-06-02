@@ -47,12 +47,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
 	  <PackageReference Include="Binance.Net" Version="11.1.0" />
 	  <PackageReference Include="Bitfinex.Net" Version="9.1.0" />
 	  <PackageReference Include="BitMart.Net" Version="2.1.0" />
