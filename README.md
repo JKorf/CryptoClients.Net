@@ -250,6 +250,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.2.0 - 11 Jun 2025
+    * Added Toobit exchange support with Toobit.Net v1.0.1
+    * Updated reference HyperLiquid.Net version from 2.1.0 to 2.1.1, see https://github.com/JKorf/HyperLiquid.Net/releases/tag/2.1.1
+
 * Version 3.1.0 - 02 Jun 2025
     * Added SetApiCredentials(ExchagneCredentials credentials) to ExchangeRestClient and ExchangeSocketClient
     * Added single exchange subscription methods to ExchangeSocketClient
