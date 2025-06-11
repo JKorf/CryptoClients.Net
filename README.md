@@ -5,7 +5,7 @@
 CryptoClients.Net is a library which offers access to cryptocurrency trading platform API's. It allows full access to all exchange API's supported, see below for the list of supported exchanges. It also offers full access to all Shared interfaces implementations offered by the [base library](https://jkorf.github.io/CryptoExchange.Net/), as well as various additional methods for accessing exchange API's dynamically.
 
 ## Features
-* Direct full access to 18 different CEX's and 1 DEX, public and private data, REST and WebSocket APIs
+* Direct full access to 20 different CEX's and 1 DEX, public and private data, REST and WebSocket APIs
 * Easy dynamic access to all API's
   * Make API REST requests to a specific exchange by passing the name of an exchange to a request
   * Make API REST requests to all exchange API's with a single line
@@ -15,6 +15,7 @@ CryptoClients.Net is a library which offers access to cryptocurrency trading pla
 * Automatic websocket (re)connection management 
 * Client side rate limiting 
 * Client side order book implementation
+* Support for managing multiple accounts for each exchange
 * Extensive logging
 * Support for different environments
 
@@ -77,6 +78,7 @@ The following API's are included in CryptoClients.Net. Consider using a referral
 |![Kucoin](https://raw.githubusercontent.com/JKorf/Kucoin.Net/refs/heads/master/Kucoin.Net/Icon/icon.png)|Kucoin|CEX|[Link](https://www.kucoin.com/r/rf/QBS4FPED)|-|
 |![Mexc](https://raw.githubusercontent.com/JKorf/Mexc.Net/refs/heads/main/Mexc.Net/Icon/icon.png)|Mexc|CEX|-|-|
 |![OKX](https://raw.githubusercontent.com/JKorf/OKX.Net/refs/heads/main/OKX.Net/Icon/icon.png)|OKX|CEX|[Link](https://www.okx.com/join/14592495)|20%|
+|![Toobit](https://raw.githubusercontent.com/JKorf/Toobit.Net/refs/heads/main/Toobit.Net/Icon/icon.png)|Toobit|CEX|[Link](https://www.toobit.com/en-US/register?invite_code=zsV19h)|-|
 |![WhiteBit](https://raw.githubusercontent.com/JKorf/WhiteBit.Net/refs/heads/main/WhiteBit.Net/Icon/icon.png)|WhiteBit|CEX|[Link](https://whitebit.com/referral/a8e59b59-186c-4662-824c-3095248e0edf)|-|
 |![XT](https://raw.githubusercontent.com/JKorf/XT.Net/refs/heads/main/XT.Net/Icon/icon.png)|XT|CEX|[Link](https://www.xt.com/ru/accounts/register?ref=CZG39C)|25%|
 

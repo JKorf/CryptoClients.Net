@@ -18,6 +18,7 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using Toobit.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
 
@@ -100,6 +101,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX order book factory
         /// </summary>
         IOKXOrderBookFactory OKX { get; }
+        /// <summary>
+        /// Toobit order book factory
+        /// </summary>
+        IToobitOrderBookFactory Toobit { get; }
         /// <summary>
         /// WhiteBit order book factory
         /// </summary>

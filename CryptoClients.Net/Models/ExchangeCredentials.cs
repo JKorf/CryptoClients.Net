@@ -46,6 +46,7 @@ namespace CryptoClients.Net.Models
                     case "Kucoin": Kucoin = item.Value; break;
                     case "Mexc": Mexc = item.Value; break;
                     case "OKX": OKX = item.Value; break;
+                    case "Toobit": Toobit = item.Value; break;
                     case "WhiteBit": WhiteBit = item.Value; break;
                     case "XT": XT = item.Value; break;
                     default:
@@ -143,6 +144,12 @@ namespace CryptoClients.Net.Models
         /// OKX API credentials
         /// </summary>
         public ApiCredentials? OKX { get; set; }
+
+
+        /// <summary>
+        /// Toobit API credentials
+        /// </summary>
+        public ApiCredentials? Toobit { get; set; }
 
         /// <summary>
         /// WhiteBit API credentials

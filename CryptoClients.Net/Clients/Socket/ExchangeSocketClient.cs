@@ -78,6 +78,10 @@ using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
+using Toobit.Net;
+using Toobit.Net.Clients;
+using Toobit.Net.Interfaces.Clients;
+using Toobit.Net.Objects.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -136,6 +140,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOKXSocketClient OKX { get; }
         /// <inheritdoc />
+        public IToobitSocketClient Toobit { get; }
+        /// <inheritdoc />
         public IWhiteBitSocketClient WhiteBit { get; }
         /// <inheritdoc />
         public IXTSocketClient XT { get; }
@@ -163,6 +169,7 @@ namespace CryptoClients.Net
             Kucoin = new KucoinSocketClient();
             Mexc = new MexcSocketClient();
             OKX = new OKXSocketClient();
+            Toobit = new ToobitSocketClient();
             WhiteBit = new WhiteBitSocketClient();
             XT = new XTSocketClient();
 
@@ -192,6 +199,7 @@ namespace CryptoClients.Net
             Action<KucoinSocketOptions>? kucoinSocketOptions = null,
             Action<MexcSocketOptions>? mexcSocketOptions = null,
             Action<OKXSocketOptions>? okxSocketOptions = null,
+            Action<ToobitSocketOptions>? toobitSocketOptions = null,
             Action<WhiteBitSocketOptions>? whiteBitSocketOptions = null,
             Action<XTSocketOptions>? xtSocketOptions = null)
         {
@@ -242,6 +250,7 @@ namespace CryptoClients.Net
                 kucoinSocketOptions = SetGlobalSocketOptions(global, kucoinSocketOptions, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
                 mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
                 okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
+                toobitSocketOptions = SetGlobalSocketOptions(global, toobitSocketOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
                 whiteBitSocketOptions = SetGlobalSocketOptions(global, whiteBitSocketOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
                 xtSocketOptions = SetGlobalSocketOptions(global, xtSocketOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
@@ -264,6 +273,7 @@ namespace CryptoClients.Net
             Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? new Action<KucoinSocketOptions>((x) => { }));
             Mexc = new MexcSocketClient(mexcSocketOptions ?? new Action<MexcSocketOptions>((x) => { }));
             OKX = new OKXSocketClient(okxSocketOptions ?? new Action<OKXSocketOptions>((x) => { }));
+            Toobit = new ToobitSocketClient(toobitSocketOptions ?? new Action<ToobitSocketOptions>((x) => { }));
             WhiteBit = new WhiteBitSocketClient(whiteBitSocketOptions ?? new Action<WhiteBitSocketOptions>((x) => { }));
             XT = new XTSocketClient(xtSocketOptions ?? new Action<XTSocketOptions>((x) => { }));
 
@@ -292,6 +302,7 @@ namespace CryptoClients.Net
             IKucoinSocketClient kucoin,
             IMexcSocketClient mexc,
             IOKXSocketClient okx,
+            IToobitSocketClient toobit,
             IWhiteBitSocketClient whiteBit,
             IXTSocketClient xt)
         {
@@ -313,6 +324,7 @@ namespace CryptoClients.Net
             Kucoin = kucoin;
             Mexc = mexc;
             OKX = okx;
+            Toobit = toobit;
             WhiteBit = whiteBit;
             XT = xt;
 
@@ -355,6 +367,8 @@ namespace CryptoClients.Net
                 Kucoin.FuturesApi.SharedClient,
                 Mexc.SpotApi.SharedClient,
                 OKX.UnifiedApi.SharedClient,
+                Toobit.SpotApi.SharedClient,
+                Toobit.UsdtFuturesApi.SharedClient,
                 WhiteBit.V4Api.SharedClient,
                 XT.SpotApi.SharedClient,
                 XT.FuturesApi.SharedClient
@@ -399,6 +413,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Kucoin, credentials.Kucoin);
             SetCredentialsIfNotNull(Exchange.Mexc, credentials.Mexc);
             SetCredentialsIfNotNull(Exchange.OKX, credentials.OKX);
+            SetCredentialsIfNotNull(Exchange.Toobit, credentials.Toobit);
             SetCredentialsIfNotNull(Exchange.WhiteBit, credentials.WhiteBit);
             SetCredentialsIfNotNull(Exchange.XT, credentials.XT);
         }
@@ -426,6 +441,7 @@ namespace CryptoClients.Net
                 case "Kucoin": Kucoin.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
                 case "Mexc": Mexc.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "OKX": OKX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
+                case "Toobit": Toobit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "WhiteBit": WhiteBit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "XT": XT.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 default: throw new ArgumentException("Exchange not recognized", nameof(exchange));
@@ -465,6 +481,7 @@ namespace CryptoClients.Net
                 Kucoin.UnsubscribeAllAsync(),
                 Mexc.UnsubscribeAllAsync(),
                 OKX.UnsubscribeAllAsync(),
+                Toobit.UnsubscribeAllAsync(),
                 WhiteBit.UnsubscribeAllAsync(),
                 XT.UnsubscribeAllAsync()
             };

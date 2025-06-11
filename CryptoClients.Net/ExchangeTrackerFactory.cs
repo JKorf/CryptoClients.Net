@@ -10,7 +10,6 @@ using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using CryptoClients.Net.Interfaces;
 using CryptoCom.Net.Interfaces;
-using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Trackers.Klines;
 using CryptoExchange.Net.Trackers.Trades;
@@ -22,8 +21,8 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using Toobit.Net.Interfaces;
 using System;
-using System.Linq;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
 
@@ -69,6 +68,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOKXTrackerFactory OKX { get; }
         /// <inheritdoc />
+        public IToobitTrackerFactory Toobit { get; }
+        /// <inheritdoc />
         public IWhiteBitTrackerFactory WhiteBit { get; }
         /// <inheritdoc />
         public IXTTrackerFactory XT { get; }
@@ -95,6 +96,7 @@ namespace CryptoClients.Net
             IKucoinTrackerFactory kucoin,
             IMexcTrackerFactory mexc,
             IOKXTrackerFactory okx,
+            IToobitTrackerFactory toobit,
             IWhiteBitTrackerFactory whiteBit,
             IXTTrackerFactory xt)
         {
@@ -116,6 +118,7 @@ namespace CryptoClients.Net
             Kucoin = kucoin;
             Mexc = mexc;
             OKX = okx;
+            Toobit = toobit;
             WhiteBit = whiteBit;
             XT = xt;
         }
@@ -164,6 +167,8 @@ namespace CryptoClients.Net
                     return Mexc.CreateKlineTracker(symbol, interval, limit, period);
                 case "OKX":
                     return OKX.CreateKlineTracker(symbol, interval, limit, period);
+                case "Toobit":
+                    return Toobit.CreateKlineTracker(symbol, interval, limit, period);
                 case "WhiteBit":
                     // No tracker available because there is no kline REST request
                     return null;
@@ -216,6 +221,8 @@ namespace CryptoClients.Net
                     return Mexc.CreateTradeTracker(symbol, limit, period);
                 case "OKX":
                     return OKX.CreateTradeTracker(symbol, limit, period);
+                case "Toobit":
+                    return Toobit.CreateTradeTracker(symbol, limit, period);
                 case "WhiteBit":
                     return WhiteBit.CreateTradeTracker(symbol, limit, period);
                 case "XT":

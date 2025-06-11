@@ -19,6 +19,7 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using Toobit.Net.Interfaces;
 using System;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
@@ -103,6 +104,10 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         IOKXTrackerFactory OKX { get; }
         /// <summary>
+        /// Toobit tracker factory
+        /// </summary>
+        IToobitTrackerFactory Toobit { get; }
+        /// <summary>
         /// WhiteBit tracker factory
         /// </summary>
         IWhiteBitTrackerFactory WhiteBit { get; }
@@ -119,7 +124,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="interval">Interval of the klines</param>
         /// <param name="limit">The max number of klines to be tracked, when the max is reached the oldest klines are removed to make room for newer klines</param>
         /// <param name="period">The max age of the klines to be tracked, any kline older than this period will be removed</param>
-        /// <param name="exchangeParameters">Exchange specific paramters</param>
+        /// <param name="exchangeParameters">Exchange specific parameters</param>
         IKlineTracker? CreateKlineTracker(string exchange, SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null);
 
         /// <summary>
@@ -129,7 +134,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="symbol">Symbol the tracker is for</param>
         /// <param name="limit">The max number of trades to be tracked, when the max is reached the oldest trades are removed to make room for newer trades</param>
         /// <param name="period">The max age of the trades to be tracked, any trade older than this period will be removed</param>
-        /// <param name="exchangeParameters">Exchange specific paramters</param>
+        /// <param name="exchangeParameters">Exchange specific parameters</param>
         ITradeTracker? CreateTradeTracker(string exchange, SharedSymbol symbol, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null);
     }
 }

@@ -76,6 +76,10 @@ using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
+using Toobit.Net;
+using Toobit.Net.Clients;
+using Toobit.Net.Interfaces.Clients;
+using Toobit.Net.Objects.Options;
 using System;
 using System.Collections.Generic;
 using WhiteBit.Net;
@@ -110,6 +114,7 @@ namespace CryptoClients.Net.Clients
         private IKucoinUserClientProvider _kucoinProvider;
         private IMexcUserClientProvider _mexcProvider;
         private IOKXUserClientProvider _okxProvider;
+        private IToobitUserClientProvider _toobitProvider;
         private IWhiteBitUserClientProvider _whiteBitProvider;
         private IXTUserClientProvider _xtProvider;
 
@@ -135,6 +140,7 @@ namespace CryptoClients.Net.Clients
             Action<KucoinOptions>? kucoinOptions = null,
             Action<MexcOptions>? mexcOptions = null,
             Action<OKXOptions>? okxOptions = null,
+            Action<ToobitOptions>? toobitOptions = null,
             Action<WhiteBitOptions>? whiteBitOptions = null,
             Action<XTOptions>? xtOptions = null)
         {
@@ -191,6 +197,7 @@ namespace CryptoClients.Net.Clients
                 kucoinOptions = SetGlobalOptions<KucoinOptions, KucoinRestOptions, KucoinSocketOptions, ApiCredentials, KucoinEnvironment>(global, kucoinOptions, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
                 mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, ApiCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
                 okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, ApiCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
+                toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ApiCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
                 whiteBitOptions = SetGlobalOptions<WhiteBitOptions, WhiteBitRestOptions, WhiteBitSocketOptions, ApiCredentials, WhiteBitEnvironment>(global, whiteBitOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
                 xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, ApiCredentials, XTEnvironment>(global, xtOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
@@ -213,6 +220,7 @@ namespace CryptoClients.Net.Clients
             _kucoinProvider = new KucoinUserClientProvider(kucoinOptions);
             _mexcProvider = new MexcUserClientProvider(mexcOptions);
             _okxProvider = new OKXUserClientProvider(okxOptions);
+            _toobitProvider = new ToobitUserClientProvider(toobitOptions);
             _whiteBitProvider = new WhiteBitUserClientProvider(whiteBitOptions);
             _xtProvider = new XTUserClientProvider(xtOptions);
         }
@@ -239,6 +247,7 @@ namespace CryptoClients.Net.Clients
             IKucoinUserClientProvider kucoinProvider,
             IMexcUserClientProvider mexcProvider,
             IOKXUserClientProvider okxProvider,
+            IToobitUserClientProvider toobitProvider,
             IWhiteBitUserClientProvider whiteBitProvider,
             IXTUserClientProvider xtProvider
             )
@@ -261,6 +270,7 @@ namespace CryptoClients.Net.Clients
             _kucoinProvider = kucoinProvider;
             _mexcProvider = mexcProvider;
             _okxProvider = okxProvider;
+            _toobitProvider = toobitProvider;
             _whiteBitProvider = whiteBitProvider;
             _xtProvider = xtProvider;
         }
@@ -298,6 +308,7 @@ namespace CryptoClients.Net.Clients
                 _kucoinProvider.GetRestClient(userIdentifier, credentials.Kucoin, environments.TryGetValue(Exchange.Kucoin, out var kucoinEnv) ? KucoinEnvironment.GetEnvironmentByName(kucoinEnv) : null),
                 _mexcProvider.GetRestClient(userIdentifier, credentials.Mexc, environments.TryGetValue(Exchange.Mexc, out var mexcEnv) ? MexcEnvironment.GetEnvironmentByName(mexcEnv) : null),
                 _okxProvider.GetRestClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
+                _toobitProvider.GetRestClient(userIdentifier, credentials.Toobit, environments.TryGetValue(Exchange.Toobit, out var toobitEnv) ? ToobitEnvironment.GetEnvironmentByName(toobitEnv) : null),
                 _whiteBitProvider.GetRestClient(userIdentifier, credentials.WhiteBit, environments.TryGetValue(Exchange.WhiteBit, out var whiteBitEnv) ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnv) : null),
                 _xtProvider.GetRestClient(userIdentifier, credentials.XT, environments.TryGetValue(Exchange.XT, out var xtEnv) ? XTEnvironment.GetEnvironmentByName(xtEnv) : null)
                 );
@@ -330,6 +341,7 @@ namespace CryptoClients.Net.Clients
                 _kucoinProvider.GetSocketClient(userIdentifier, credentials.Kucoin, environments.TryGetValue(Exchange.Kucoin, out var kucoinEnv) ? KucoinEnvironment.GetEnvironmentByName(kucoinEnv) : null),
                 _mexcProvider.GetSocketClient(userIdentifier, credentials.Mexc, environments.TryGetValue(Exchange.Mexc, out var mexcEnv) ? MexcEnvironment.GetEnvironmentByName(mexcEnv) : null),
                 _okxProvider.GetSocketClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
+                _toobitProvider.GetSocketClient(userIdentifier, credentials.Toobit, environments.TryGetValue(Exchange.Toobit, out var toobitEnv) ? ToobitEnvironment.GetEnvironmentByName(toobitEnv) : null),
                 _whiteBitProvider.GetSocketClient(userIdentifier, credentials.WhiteBit, environments.TryGetValue(Exchange.WhiteBit, out var whiteBitEnv) ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnv) : null),
                 _xtProvider.GetSocketClient(userIdentifier, credentials.XT, environments.TryGetValue(Exchange.XT, out var xtEnv) ? XTEnvironment.GetEnvironmentByName(xtEnv) : null)
                 );

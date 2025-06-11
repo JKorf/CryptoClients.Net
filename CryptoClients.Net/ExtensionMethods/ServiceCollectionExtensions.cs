@@ -9,11 +9,9 @@ using Bitfinex.Net.Interfaces.Clients;
 using Bitfinex.Net.Objects.Options;
 using Bitget.Net;
 using Bitget.Net.Interfaces.Clients;
-using Bitget.Net.Objects;
 using Bitget.Net.Objects.Options;
 using BitMart.Net;
 using BitMart.Net.Interfaces.Clients;
-using BitMart.Net.Objects;
 using BitMart.Net.Objects.Options;
 using BitMEX.Net;
 using BitMEX.Net.Interfaces.Clients;
@@ -40,7 +38,6 @@ using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
 using DeepCoin.Net;
 using DeepCoin.Net.Interfaces.Clients;
-using DeepCoin.Net.Objects;
 using DeepCoin.Net.Objects.Options;
 using GateIo.Net;
 using GateIo.Net.Interfaces.Clients;
@@ -56,7 +53,6 @@ using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Options;
 using Kucoin.Net;
 using Kucoin.Net.Interfaces.Clients;
-using Kucoin.Net.Objects;
 using Kucoin.Net.Objects.Options;
 using Mexc.Net;
 using Mexc.Net.Interfaces.Clients;
@@ -64,10 +60,11 @@ using Mexc.Net.Objects.Options;
 using Microsoft.Extensions.Configuration;
 using OKX.Net;
 using OKX.Net.Interfaces.Clients;
-using OKX.Net.Objects;
 using OKX.Net.Objects.Options;
+using Toobit.Net;
+using Toobit.Net.Interfaces.Clients;
+using Toobit.Net.Objects.Options;
 using System;
-using System.Collections.Generic;
 using WhiteBit.Net;
 using WhiteBit.Net.Interfaces.Clients;
 using WhiteBit.Net.Objects.Options;
@@ -106,6 +103,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="kucoinOptions">The options options for the Kucoin services. Will override options provided in the global options</param>
         /// <param name="mexcOptions">The options options for the Mexc services. Will override options provided in the global options</param>
         /// <param name="okxOptions">The options options for the OKX services. Will override options provided in the global options</param>
+        /// <param name="toobitOptions">The options options for the Toobit services. Will override options provided in the global options</param>
         /// <param name="whiteBitOptions">The options options for the WhiteBit services. Will override options provided in the global options</param>
         /// <param name="xtOptions">The options options for the XT services. Will override options provided in the global options</param>
         /// <param name="socketClientLifetime">The lifetime for the Socket clients. Defaults to Singleton</param>
@@ -132,6 +130,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<KucoinOptions>? kucoinOptions = null,
             Action<MexcOptions>? mexcOptions = null,
             Action<OKXOptions>? okxOptions = null,
+            Action<ToobitOptions>? toobitOptions = null,
             Action<WhiteBitOptions>? whiteBitOptions = null,
             Action<XTOptions>? xtOptions = null,
             ServiceLifetime? socketClientLifetime = null)
@@ -191,6 +190,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 kucoinOptions = SetGlobalOptions<KucoinOptions, KucoinRestOptions, KucoinSocketOptions, ApiCredentials, KucoinEnvironment>(global, kucoinOptions, credentials?.Kucoin);
                 mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, ApiCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc);
                 okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, ApiCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX);
+                toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ApiCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit);
                 whiteBitOptions = SetGlobalOptions<WhiteBitOptions, WhiteBitRestOptions, WhiteBitSocketOptions, ApiCredentials, WhiteBitEnvironment>(global, whiteBitOptions, credentials?.WhiteBit);
                 xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, ApiCredentials, XTEnvironment>(global, xtOptions, credentials?.XT);
             }
@@ -214,6 +214,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddKucoin(kucoinOptions);
             services.AddMexc(mexcOptions);
             services.AddOKX(okxOptions);
+            services.AddToobit(toobitOptions);
             services.AddWhiteBit(whiteBitOptions);
             services.AddXT(xtOptions);
 
@@ -238,6 +239,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IKucoinRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
+                    x.GetRequiredService<IToobitRestClient>(),
                     x.GetRequiredService<IWhiteBitRestClient>(),
                     x.GetRequiredService<IXTRestClient>()
                     );
@@ -264,6 +266,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IKucoinSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),
                     x.GetRequiredService<IOKXSocketClient>(),
+                    x.GetRequiredService<IToobitSocketClient>(),
                     x.GetRequiredService<IWhiteBitSocketClient>(),
                     x.GetRequiredService<IXTSocketClient>()
                     );
@@ -290,6 +293,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IKucoinUserClientProvider>(),
                 x.GetRequiredService<IMexcUserClientProvider>(),
                 x.GetRequiredService<IOKXUserClientProvider>(),
+                x.GetRequiredService<IToobitUserClientProvider>(),
                 x.GetRequiredService<IWhiteBitUserClientProvider>(),
                 x.GetRequiredService<IXTUserClientProvider>()
                 ));
@@ -362,6 +366,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("Kucoin", globalOptions);
             UpdateExchangeOptions("Mexc", globalOptions);
             UpdateExchangeOptions("OKX", globalOptions);
+            UpdateExchangeOptions("Toobit", globalOptions);
             UpdateExchangeOptions("WhiteBit", globalOptions);
             UpdateExchangeOptions("XT", globalOptions);
 
@@ -384,6 +389,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddKucoin(configuration.GetSection("Kucoin"));
             services.AddMexc(configuration.GetSection("Mexc"));
             services.AddOKX(configuration.GetSection("OKX"));
+            services.AddToobit(configuration.GetSection("Toobit"));
             services.AddWhiteBit(configuration.GetSection("WhiteBit"));
             services.AddXT(configuration.GetSection("XT"));
 
@@ -408,6 +414,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IKucoinRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
+                    x.GetRequiredService<IToobitRestClient>(),
                     x.GetRequiredService<IWhiteBitRestClient>(),
                     x.GetRequiredService<IXTRestClient>()
                     );
@@ -434,6 +441,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IKucoinSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),
                     x.GetRequiredService<IOKXSocketClient>(),
+                    x.GetRequiredService<IToobitSocketClient>(),
                     x.GetRequiredService<IWhiteBitSocketClient>(),
                     x.GetRequiredService<IXTSocketClient>()
                     );
@@ -460,6 +468,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IKucoinUserClientProvider>(),
                 x.GetRequiredService<IMexcUserClientProvider>(),
                 x.GetRequiredService<IOKXUserClientProvider>(),
+                x.GetRequiredService<IToobitUserClientProvider>(),
                 x.GetRequiredService<IWhiteBitUserClientProvider>(),
                 x.GetRequiredService<IXTUserClientProvider>()
                 ));

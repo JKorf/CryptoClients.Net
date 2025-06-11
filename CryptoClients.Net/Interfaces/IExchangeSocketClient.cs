@@ -19,6 +19,7 @@ using Kraken.Net.Interfaces.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients;
+using Toobit.Net.Interfaces.Clients;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -105,6 +106,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX Websocket API
         /// </summary>
         IOKXSocketClient OKX { get; }
+        /// <summary>
+        /// Toobit Websocket API
+        /// </summary>
+        IToobitSocketClient Toobit { get; }
         /// <summary>
         /// WhiteBit Websocket API
         /// </summary>

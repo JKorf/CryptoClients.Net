@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net9.0</TargetFrameworks>
     <Nullable>enable</Nullable>
@@ -9,9 +9,9 @@
   <PropertyGroup>
     <PackageId>CryptoClients.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>3.1.0</PackageVersion>
-    <AssemblyVersion>3.1.0</AssemblyVersion>
-    <FileVersion>3.1.0</FileVersion>
+    <PackageVersion>3.1.1</PackageVersion>
+    <AssemblyVersion>3.1.1</AssemblyVersion>
+    <FileVersion>3.1.1</FileVersion>
     <Description>CryptoClients.Net is a collection of multiple cryptocurrency exchange API clients for accessing both the REST API's and WebSocket API's. Supports order and account management and requesting and streaming both public and private data.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>CryptoClients;CryptoClients.Net;OKX;OKX.Net;Mexc;Mexc.Net;Kucoin;Kucoin.Net;Kraken;Kraken.Net;Huobi;Huobi.Net;HTX;HTX.Net;DeepCoin.Net;DeepCoin;CoinEx;CoinEx.Net;Bybit;Bybit.Net;Bitget;Bitget.Net;Bitfinex;Bitfinex.Net;BingX;BingX.Net;Binance;Binance.Net;GateIo.Net;Gate.io;BitMart;BitMart.Net;WhiteBit.Net;WhiteBit;XT;XT.Net;HyperLiquid;HyperLiquid.Net;CryptoCurrency;CryptoCurrency Exchange</PackageTags>
@@ -60,7 +60,7 @@
     <PackageReference Include="CryptoCom.Net" Version="2.1.0" />
     <PackageReference Include="DeepCoin.Net" Version="2.1.0" />
     <PackageReference Include="GateIo.Net" Version="2.1.0" />
-    <PackageReference Include="HyperLiquid.Net" Version="2.1.0" />
+    <PackageReference Include="HyperLiquid.Net" Version="2.1.1" />
     <PackageReference Include="JK.BingX.Net" Version="2.1.0" />
     <PackageReference Include="JK.Bitget.Net" Version="2.1.0" />
     <PackageReference Include="JK.Mexc.Net" Version="3.1.0" />
@@ -70,6 +70,7 @@
     <PackageReference Include="JKorf.HTX.Net" Version="7.1.0" />
     <PackageReference Include="KrakenExchange.Net" Version="6.1.0" />
     <PackageReference Include="Kucoin.Net" Version="7.1.0" />
+    <PackageReference Include="Toobit.Net" Version="1.0.1" />
     <PackageReference Include="WhiteBit.Net" Version="2.1.0" />
     <PackageReference Include="XT.Net" Version="2.1.0" />
   </ItemGroup>

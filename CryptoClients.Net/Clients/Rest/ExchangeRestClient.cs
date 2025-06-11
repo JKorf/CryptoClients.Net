@@ -77,6 +77,10 @@ using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
+using Toobit.Net;
+using Toobit.Net.Clients;
+using Toobit.Net.Interfaces.Clients;
+using Toobit.Net.Objects.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -135,6 +139,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOKXRestClient OKX { get; }
         /// <inheritdoc />
+        public IToobitRestClient Toobit { get; }
+        /// <inheritdoc />
         public IWhiteBitRestClient WhiteBit { get; }
         /// <inheritdoc />
         public IXTRestClient XT { get; }
@@ -162,6 +168,7 @@ namespace CryptoClients.Net
             Kucoin = new KucoinRestClient();
             Mexc = new MexcRestClient();
             OKX = new OKXRestClient();
+            Toobit = new ToobitRestClient();
             WhiteBit = new WhiteBitRestClient();
             XT = new XTRestClient();
 
@@ -191,6 +198,7 @@ namespace CryptoClients.Net
             Action<KucoinRestOptions>? kucoinRestOptions = null,
             Action<MexcRestOptions>? mexcRestOptions = null,
             Action<OKXRestOptions>? okxRestOptions = null,
+            Action<ToobitRestOptions>? toobitRestOptions = null,
             Action<WhiteBitRestOptions>? whiteBitRestOptions = null,
             Action<XTRestOptions>? xtRestOptions = null)
         {
@@ -240,6 +248,7 @@ namespace CryptoClients.Net
                 kucoinRestOptions = SetGlobalRestOptions(global, kucoinRestOptions, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
                 mexcRestOptions = SetGlobalRestOptions(global, mexcRestOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
                 okxRestOptions = SetGlobalRestOptions(global, okxRestOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
+                toobitRestOptions = SetGlobalRestOptions(global, toobitRestOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
                 whiteBitRestOptions = SetGlobalRestOptions(global, whiteBitRestOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
                 xtRestOptions = SetGlobalRestOptions(global, xtRestOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
@@ -262,6 +271,7 @@ namespace CryptoClients.Net
             Kucoin = new KucoinRestClient(kucoinRestOptions);
             Mexc = new MexcRestClient(mexcRestOptions);
             OKX = new OKXRestClient(okxRestOptions);
+            Toobit = new ToobitRestClient(toobitRestOptions);
             WhiteBit = new WhiteBitRestClient(whiteBitRestOptions);
             XT = new XTRestClient(xtRestOptions);
 
@@ -301,6 +311,8 @@ namespace CryptoClients.Net
                 Kucoin.FuturesApi.SharedClient,
                 Mexc.SpotApi.SharedClient,
                 OKX.UnifiedApi.SharedClient,
+                Toobit.SpotApi.SharedClient,
+                Toobit.UsdtFuturesApi.SharedClient,
                 WhiteBit.V4Api.SharedClient,
                 XT.SpotApi.SharedClient,
                 XT.CoinFuturesApi.SharedClient,
@@ -330,6 +342,7 @@ namespace CryptoClients.Net
             IKucoinRestClient kucoin,
             IMexcRestClient mexc,
             IOKXRestClient okx,
+            IToobitRestClient toobit,
             IWhiteBitRestClient whiteBit,
             IXTRestClient xt)
         {
@@ -351,6 +364,7 @@ namespace CryptoClients.Net
             Kucoin = kucoin;
             Mexc = mexc;
             OKX = okx;
+            Toobit = toobit;
             WhiteBit = whiteBit;
             XT = xt;
 
@@ -395,6 +409,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Kucoin, credentials.Kucoin);
             SetCredentialsIfNotNull(Exchange.Mexc, credentials.Mexc);
             SetCredentialsIfNotNull(Exchange.OKX, credentials.OKX);
+            SetCredentialsIfNotNull(Exchange.Toobit, credentials.Toobit);
             SetCredentialsIfNotNull(Exchange.WhiteBit, credentials.WhiteBit);
             SetCredentialsIfNotNull(Exchange.XT, credentials.XT);
         }
@@ -422,6 +437,7 @@ namespace CryptoClients.Net
                 case "Kucoin": Kucoin.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
                 case "Mexc": Mexc.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "OKX": OKX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
+                case "Toobit": Toobit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "WhiteBit": WhiteBit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "XT": XT.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 default: throw new ArgumentException("Exchange not recognized", nameof(exchange));

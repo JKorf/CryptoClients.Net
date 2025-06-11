@@ -18,6 +18,7 @@ using Kraken.Net.Interfaces.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients;
+using Toobit.Net.Interfaces.Clients;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -103,6 +104,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX REST API
         /// </summary>
         IOKXRestClient OKX { get; }
+        /// <summary>
+        /// Toobit REST API
+        /// </summary>
+        IToobitRestClient Toobit { get; }
         /// <summary>
         /// WhiteBit REST API
         /// </summary>
