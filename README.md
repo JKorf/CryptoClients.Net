@@ -250,6 +250,17 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.3.0 - 20 Jun 2025
+    * Updated BitMart.Net from version 2.1.0 to version 2.2.0, see https://github.com/JKorf/BitMart.Net/releases/tag/2.2.0
+    * Updated Bybit.Net from version 5.1.0 to version 5.2.0, see https://github.com/JKorf/Bybit.Net/releases/tag/5.2.0
+    * Updated CryptoCom.Net from version 2.1.0 to version 2.2.0, see https://github.com/JKorf/CryptoCom.Net/releases/tag/2.2.0
+    * Updated GateIo.Net from version 2.1.0 to version 2.2.0, see https://github.com/JKorf/GateIo.Net/releases/tag/2.2.0
+    * Updated BingX.Net from version 2.1.0 to version 2.1.1, see https://github.com/JKorf/BingX.Net/releases/tag/2.1.1
+    * Updated Bitget.Net from version 2.1.0 to version 2.1.1, see https://github.com/JKorf/Bitget.Net/releases/tag/2.1.1
+    * Updated Mexc.Net from version 3.1.0 to version 3.1.1, see https://github.com/JKorf/Mexc.Net/releases/tag/3.1.1
+    * Updated OKX.Net from version 3.1.0 to version 3.1.1, see https://github.com/JKorf/OKX.Net/releases/tag/3.1.1
+    * Updated WhiteBit.Net from version 2.1.0 to version 2.2.0, see https://github.com/JKorf/WhiteBit.Net/releases/tag/2.2.0
+
 * Version 3.2.0 - 11 Jun 2025
     * Added Toobit exchange support with Toobit.Net v1.0.1
     * Updated reference HyperLiquid.Net version from 2.1.0 to 2.1.1, see https://github.com/JKorf/HyperLiquid.Net/releases/tag/2.1.1
