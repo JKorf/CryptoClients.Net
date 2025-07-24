@@ -33,6 +33,11 @@ namespace CryptoClients.Net.Interfaces
     public interface IExchangeRestClient
     {
         /// <summary>
+        /// Total number of requests made
+        /// </summary>
+        public int TotalRequestsMade { get; }
+
+        /// <summary>
         /// Binance REST API
         /// </summary>
         IBinanceRestClient Binance { get; }

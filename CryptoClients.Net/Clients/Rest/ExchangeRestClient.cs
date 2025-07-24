@@ -94,6 +94,7 @@ using XT.Net;
 using XT.Net.Clients;
 using XT.Net.Interfaces.Clients;
 using XT.Net.Objects.Options;
+using CryptoExchange.Net.Interfaces;
 
 namespace CryptoClients.Net
 {
@@ -101,6 +102,10 @@ namespace CryptoClients.Net
     public partial class ExchangeRestClient : IExchangeRestClient
     {
         private IEnumerable<ISharedClient> _sharedClients = Array.Empty<ISharedClient>();
+        private IRestClient[] _restClients = [];
+
+        /// <inheritdoc />
+        public int TotalRequestsMade => _restClients.Sum(x => x.TotalRequestsMade);
 
         /// <inheritdoc />
         public IBinanceRestClient Binance { get; }
@@ -280,6 +285,9 @@ namespace CryptoClients.Net
 
         private void InitSharedClients()
         {
+            _restClients = [Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bybit, Coinbase, CoinEx, CryptoCom,
+                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, WhiteBit, XT];
+
             _sharedClients = new ISharedClient[]
             {
                 Binance.SpotApi.SharedClient,

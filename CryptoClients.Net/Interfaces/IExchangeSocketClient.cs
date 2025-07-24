@@ -35,6 +35,19 @@ namespace CryptoClients.Net.Interfaces
     public interface IExchangeSocketClient
     {
         /// <summary>
+        /// Incoming kilobytes per second of data
+        /// </summary>
+        public double IncomingKbps { get; }
+        /// <summary>
+        /// The current number of connections to the API from this client. A connection can have multiple subscriptions
+        /// </summary>
+        public int CurrentConnections { get; }
+        /// <summary>
+        /// The current number of subscriptions running from the client
+        /// </summary>
+        public int CurrentSubscriptions { get; }
+
+        /// <summary>
         /// Binance Websocket API
         /// </summary>
         IBinanceSocketClient Binance { get; }

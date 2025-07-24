@@ -95,6 +95,7 @@ using XT.Net;
 using XT.Net.Clients;
 using XT.Net.Interfaces.Clients;
 using XT.Net.Objects.Options;
+using CryptoExchange.Net.Interfaces;
 
 namespace CryptoClients.Net
 {
@@ -102,6 +103,14 @@ namespace CryptoClients.Net
     public partial class ExchangeSocketClient : IExchangeSocketClient
     {
         private IEnumerable<ISharedClient> _sharedClients = Array.Empty<ISharedClient>();
+        private ISocketClient[] _socketClients = [];
+
+        /// <inheritdoc />
+        public double IncomingKbps => _socketClients.Sum(x => x.IncomingKbps);
+        /// <inheritdoc />
+        public int CurrentConnections => _socketClients.Sum(x => x.CurrentConnections);
+        /// <inheritdoc />
+        public int CurrentSubscriptions => _socketClients.Sum(x => x.CurrentSubscriptions);
 
         /// <inheritdoc />
         public IBinanceSocketClient Binance { get; }
@@ -333,6 +342,9 @@ namespace CryptoClients.Net
 
         private void InitSharedClients()
         {
+            _socketClients = [Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bybit, Coinbase, CoinEx, CryptoCom, 
+                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, WhiteBit, XT];
+
             _sharedClients = new ISharedClient[]
             {
                 Binance.SpotApi.SharedClient,

@@ -787,6 +787,15 @@
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SubscribeToBookTickerUpdatesAsync(CryptoExchange.Net.SharedApis.SubscribeBookTickerRequest,System.Action{CryptoExchange.Net.SharedApis.ExchangeEvent{CryptoExchange.Net.SharedApis.SharedBookTicker}},System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.IncomingKbps">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.CurrentConnections">
+            <inheritdoc />
+        </member>
+        <member name="P:CryptoClients.Net.ExchangeSocketClient.CurrentSubscriptions">
+            <inheritdoc />
+        </member>
         <member name="P:CryptoClients.Net.ExchangeSocketClient.Binance">
             <inheritdoc />
         </member>
@@ -3330,6 +3339,21 @@
         <member name="T:CryptoClients.Net.Interfaces.IExchangeSocketClient">
             <summary>
             Client for accessing the exchange Websocket API's.
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.IncomingKbps">
+            <summary>
+            Incoming kilobytes per second of data
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.CurrentConnections">
+            <summary>
+            The current number of connections to the API from this client. A connection can have multiple subscriptions
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.CurrentSubscriptions">
+            <summary>
+            The current number of subscriptions running from the client
             </summary>
         </member>
         <member name="P:CryptoClients.Net.Interfaces.IExchangeSocketClient.Binance">
