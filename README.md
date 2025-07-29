@@ -251,6 +251,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.4.1 - 29 Jul 2025
+    * Fixed CoinW missing in all exchanges reference
+
 * Version 3.4.0 - 29 Jul 2025
     * Added CoinW support with CoinW.Net 1.0.0
     * Added TotalRequestsMade to IExchangeRestClient
