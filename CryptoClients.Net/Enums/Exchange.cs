@@ -133,6 +133,7 @@ namespace CryptoClients.Net.Enums
             Bybit,
             Coinbase,
             CoinEx,
+            CoinW,
             CryptoCom,
             DeepCoin,
             GateIo,
