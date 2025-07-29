@@ -353,6 +353,7 @@ namespace CryptoClients.Net
             Bybit,
             Coinbase,
             CoinEx,
+            CoinW,
             CryptoCom,
             DeepCoin,
             GateIo,
@@ -383,6 +384,7 @@ namespace CryptoClients.Net
                 BybitExchange.RateLimiter.RateLimitTriggered += value;
                 CoinbaseExchange.RateLimiter.RateLimitTriggered += value;
                 CoinGeckoApi.RateLimiter.RateLimitTriggered += value;
+                CoinWExchange.RateLimiter.RateLimitTriggered += value;
                 CryptoComExchange.RateLimiter.RateLimitTriggered += value;
                 DeepCoinExchange.RateLimiter.RateLimitTriggered += value;
                 GateIoExchange.RateLimiter.RateLimitTriggered += value;
@@ -407,6 +409,7 @@ namespace CryptoClients.Net
                 BybitExchange.RateLimiter.RateLimitTriggered -= value;
                 CoinbaseExchange.RateLimiter.RateLimitTriggered -= value;
                 CoinGeckoApi.RateLimiter.RateLimitTriggered -= value;
+                CoinWExchange.RateLimiter.RateLimitTriggered -= value;
                 CryptoComExchange.RateLimiter.RateLimitTriggered -= value;
                 DeepCoinExchange.RateLimiter.RateLimitTriggered -= value;
                 GateIoExchange.RateLimiter.RateLimitTriggered -= value;
@@ -437,6 +440,7 @@ namespace CryptoClients.Net
                 BitMEXExchange.RateLimiter.RateLimitUpdated += value;
                 BybitExchange.RateLimiter.RateLimitUpdated += value;
                 CoinbaseExchange.RateLimiter.RateLimitUpdated += value;
+                CoinWExchange.RateLimiter.RateLimitUpdated += value;
                 CryptoComExchange.RateLimiter.RateLimitUpdated += value;
                 DeepCoinExchange.RateLimiter.RateLimitUpdated += value;
                 GateIoExchange.RateLimiter.RateLimitUpdated += value;
@@ -460,6 +464,7 @@ namespace CryptoClients.Net
                 BitMEXExchange.RateLimiter.RateLimitUpdated -= value;
                 BybitExchange.RateLimiter.RateLimitUpdated -= value;
                 CoinbaseExchange.RateLimiter.RateLimitUpdated -= value;
+                CoinWExchange.RateLimiter.RateLimitUpdated -= value;
                 CryptoComExchange.RateLimiter.RateLimitUpdated -= value;
                 DeepCoinExchange.RateLimiter.RateLimitUpdated -= value;
                 GateIoExchange.RateLimiter.RateLimitUpdated -= value;
