@@ -251,6 +251,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.4.2 - 29 Jul 2025
+    * Updated CoinW.Net from version 1.0.0 to version 1.0.1, see https://github.com/JKorf/CoinW.Net/releases/tag/CoinW.Net.1.0.1
+    * Fixed CoinW missing on rate limiting events
+    * Fixed CoinW missing from Exchanges.All collection
+
 * Version 3.4.1 - 29 Jul 2025
     * Fixed CoinW missing in all exchanges reference
 
