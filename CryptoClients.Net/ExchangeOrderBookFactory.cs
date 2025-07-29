@@ -8,6 +8,7 @@ using BitMEX.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
+using CoinW.Net.Interfaces;
 using CryptoClients.Net.Interfaces;
 using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.Interfaces;
@@ -49,6 +50,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public ICoinExOrderBookFactory CoinEx { get; }
         /// <inheritdoc />
+        public ICoinWOrderBookFactory CoinW { get; }
+        /// <inheritdoc />
         public ICryptoComOrderBookFactory CryptoCom { get; }
         /// <inheritdoc />
         public IDeepCoinOrderBookFactory DeepCoin { get; }
@@ -86,6 +89,7 @@ namespace CryptoClients.Net
             IBybitOrderBookFactory bybit,
             ICoinbaseOrderBookFactory coinbase,
             ICoinExOrderBookFactory coinEx,
+            ICoinWOrderBookFactory coinW,
             ICryptoComOrderBookFactory cryptoCom,
             IDeepCoinOrderBookFactory deepCoin,
             IGateIoOrderBookFactory gateIo,
@@ -108,6 +112,7 @@ namespace CryptoClients.Net
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
+            CoinW = coinW;
             CryptoCom = cryptoCom;
             DeepCoin = deepCoin;
             GateIo = gateIo;
@@ -158,6 +163,8 @@ namespace CryptoClients.Net
                 case "CoinEx":
                     var coinexLimit = GetBookDepth(minimalDepth, false, 5, 10, 20, 50);
                     return CoinEx.Create(symbol, opts => { opts.Limit = coinexLimit; });
+                case "CoinW":
+                    return CoinW.Create(symbol);
                 case "CryptoCom":
                     var cryptoComLimit = GetBookDepth(minimalDepth, false, 10, 50);
                     return CryptoCom.Create(symbol, opts => { opts.Limit = cryptoComLimit; });

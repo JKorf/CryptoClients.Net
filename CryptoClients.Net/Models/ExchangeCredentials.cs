@@ -37,6 +37,7 @@ namespace CryptoClients.Net.Models
                     case "Bybit": Bybit = item.Value; break;
                     case "Coinbase": Coinbase = item.Value; break;
                     case "CoinEx": CoinEx = item.Value; break;
+                    case "CoinW": CoinW = item.Value; break;
                     case "CryptoCom": CryptoCom = item.Value; break;
                     case "DeepCoin": DeepCoin = item.Value; break;
                     case "GateIo": GateIo = item.Value; break;
@@ -99,6 +100,11 @@ namespace CryptoClients.Net.Models
         /// CoinEx API credentials
         /// </summary>
         public ApiCredentials? CoinEx { get; set; }
+
+        /// <summary>
+        /// CoinW API credentials
+        /// </summary>
+        public ApiCredentials? CoinW { get; set; }
 
         /// <summary>
         /// Crypto.com API credentials

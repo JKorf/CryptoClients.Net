@@ -7,6 +7,7 @@ using BitMEX.Net;
 using Bybit.Net;
 using Coinbase.Net;
 using CoinEx.Net;
+using CoinW.Net;
 using CryptoCom.Net;
 using DeepCoin.Net;
 using GateIo.Net;
@@ -65,6 +66,10 @@ namespace CryptoClients.Net.Enums
         /// CoinEx
         /// </summary>
         public static string CoinEx => CoinExExchange.ExchangeName;
+        /// <summary>
+        /// CoinW
+        /// </summary>
+        public static string CoinW => CoinWExchange.ExchangeName;
         /// <summary>
         /// Crypto.com
         /// </summary>

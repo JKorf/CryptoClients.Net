@@ -33,6 +33,9 @@ using Coinbase.Net.Objects.Options;
 using CoinEx.Net;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
+using CoinW.Net;
+using CoinW.Net.Clients;
+using CoinW.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
@@ -95,6 +98,7 @@ using XT.Net.Clients;
 using XT.Net.Interfaces.Clients;
 using XT.Net.Objects.Options;
 using CryptoExchange.Net.Interfaces;
+using CoinW.Net.Objects.Options;
 
 namespace CryptoClients.Net
 {
@@ -125,6 +129,8 @@ namespace CryptoClients.Net
         public ICoinbaseRestClient Coinbase { get; }
         /// <inheritdoc />
         public ICoinExRestClient CoinEx { get; }
+        /// <inheritdoc />
+        public ICoinWRestClient CoinW { get; }
         /// <inheritdoc />
         public ICryptoComRestClient CryptoCom { get; }
         /// <inheritdoc />
@@ -164,6 +170,7 @@ namespace CryptoClients.Net
             Bybit = new BybitRestClient();
             Coinbase = new CoinbaseRestClient();
             CoinEx = new CoinExRestClient();
+            CoinW = new CoinWRestClient();
             CryptoCom = new CryptoComRestClient();
             DeepCoin = new DeepCoinRestClient();
             GateIo = new GateIoRestClient();
@@ -194,6 +201,7 @@ namespace CryptoClients.Net
             Action<BybitRestOptions>? bybitRestOptions = null,
             Action<CoinbaseRestOptions>? coinbaseRestOptions = null,
             Action<CoinExRestOptions>? coinExRestOptions = null,
+            Action<CoinWRestOptions>? coinWRestOptions = null,
             Action<CryptoComRestOptions>? cryptoComRestOptions = null,
             Action<DeepCoinRestOptions>? deepCoinRestOptions = null,
             Action<GateIoRestOptions>? gateIoRestOptions = null,
@@ -244,6 +252,7 @@ namespace CryptoClients.Net
                 bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
                 coinbaseRestOptions = SetGlobalRestOptions(global, coinbaseRestOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
                 coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
+                coinWRestOptions = SetGlobalRestOptions(global, coinWRestOptions, credentials?.CoinW, environments?.TryGetValue(Exchange.CoinW, out var coinWEnvName) == true ? CoinWEnvironment.GetEnvironmentByName(coinWEnvName)! : CoinWEnvironment.Live);
                 cryptoComRestOptions = SetGlobalRestOptions(global, cryptoComRestOptions, credentials?.CryptoCom, environments?.TryGetValue(Exchange.CryptoCom, out var cryptoComEnvName) == true ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnvName)! : CryptoComEnvironment.Live);
                 deepCoinRestOptions = SetGlobalRestOptions(global, deepCoinRestOptions, credentials?.DeepCoin, environments?.TryGetValue(Exchange.DeepCoin, out var deepCoinEnvName) == true ? DeepCoinEnvironment.GetEnvironmentByName(deepCoinEnvName)! : DeepCoinEnvironment.Live);
                 gateIoRestOptions = SetGlobalRestOptions(global, gateIoRestOptions, credentials?.GateIo, environments?.TryGetValue(Exchange.GateIo, out var gateIoEnvName) == true ? GateIoEnvironment.GetEnvironmentByName(gateIoEnvName)! : GateIoEnvironment.Live);
@@ -267,6 +276,7 @@ namespace CryptoClients.Net
             Bybit = new BybitRestClient(bybitRestOptions);
             Coinbase = new CoinbaseRestClient(coinbaseRestOptions);
             CoinEx = new CoinExRestClient(coinExRestOptions);
+            CoinW = new CoinWRestClient(coinWRestOptions);
             CryptoCom = new CryptoComRestClient(cryptoComRestOptions);
             DeepCoin = new DeepCoinRestClient(deepCoinRestOptions);
             GateIo = new GateIoRestClient(gateIoRestOptions);
@@ -285,7 +295,7 @@ namespace CryptoClients.Net
 
         private void InitSharedClients()
         {
-            _restClients = [Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bybit, Coinbase, CoinEx, CryptoCom,
+            _restClients = [Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
                 DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, WhiteBit, XT];
 
             _sharedClients = new ISharedClient[]
@@ -305,6 +315,8 @@ namespace CryptoClients.Net
                 Coinbase.AdvancedTradeApi.SharedClient,
                 CoinEx.SpotApiV2.SharedClient,
                 CoinEx.FuturesApi.SharedClient,
+                CoinW.SpotApi.SharedClient,
+                CoinW.FuturesApi.SharedClient,
                 CryptoCom.ExchangeApi.SharedClient,
                 DeepCoin.ExchangeApi.SharedClient,
                 GateIo.SpotApi.SharedClient,
@@ -341,6 +353,7 @@ namespace CryptoClients.Net
             IBybitRestClient bybit,
             ICoinbaseRestClient coinbase,
             ICoinExRestClient coinEx,
+            ICoinWRestClient coinW,
             ICryptoComRestClient cryptoCom,
             IDeepCoinRestClient deepCoin,
             IGateIoRestClient gateIo,
@@ -363,6 +376,7 @@ namespace CryptoClients.Net
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
+            CoinW = coinW;
             CryptoCom = cryptoCom;
             DeepCoin = deepCoin;
             GateIo = gateIo;
@@ -408,6 +422,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Bybit, credentials.Bybit);
             SetCredentialsIfNotNull(Exchange.Coinbase, credentials.Coinbase);
             SetCredentialsIfNotNull(Exchange.CoinEx, credentials.CoinEx);
+            SetCredentialsIfNotNull(Exchange.CoinW, credentials.CoinW);
             SetCredentialsIfNotNull(Exchange.CryptoCom, credentials.CryptoCom);
             SetCredentialsIfNotNull(Exchange.DeepCoin, credentials.DeepCoin);
             SetCredentialsIfNotNull(Exchange.GateIo, credentials.GateIo);
@@ -436,6 +451,7 @@ namespace CryptoClients.Net
                 case "Bybit": Bybit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Coinbase": Coinbase.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "CoinEx": CoinEx.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "CoinW": CoinW.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "CryptoCom": CryptoCom.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "DeepCoin": DeepCoin.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for DeepCoin credentials", nameof(apiPass)))); break;
                 case "GateIo": GateIo.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;

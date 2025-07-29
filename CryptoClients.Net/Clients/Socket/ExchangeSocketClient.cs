@@ -34,6 +34,10 @@ using CoinEx.Net;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
+using CoinW.Net;
+using CoinW.Net.Clients;
+using CoinW.Net.Interfaces.Clients;
+using CoinW.Net.Objects.Options;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
@@ -131,6 +135,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public ICoinExSocketClient CoinEx { get; }
         /// <inheritdoc />
+        public ICoinWSocketClient CoinW { get; }
+        /// <inheritdoc />
         public ICryptoComSocketClient CryptoCom { get; }
         /// <inheritdoc />
         public IDeepCoinSocketClient DeepCoin { get; }
@@ -169,6 +175,7 @@ namespace CryptoClients.Net
             Bybit = new BybitSocketClient();
             Coinbase = new CoinbaseSocketClient();
             CoinEx = new CoinExSocketClient();
+            CoinW = new CoinWSocketClient();
             CryptoCom = new CryptoComSocketClient();
             DeepCoin = new DeepCoinSocketClient();
             GateIo = new GateIoSocketClient();
@@ -198,6 +205,7 @@ namespace CryptoClients.Net
             Action<BitMEXSocketOptions>? bitMEXSocketOptions = null,
             Action<BybitSocketOptions>? bybitSocketOptions = null,
             Action<CoinExSocketOptions>? coinExSocketOptions = null,
+            Action<CoinWSocketOptions>? coinWSocketOptions = null,
             Action<CoinbaseSocketOptions>? coinbaseSocketOptions = null,
             Action<CryptoComSocketOptions>? cryptoComSocketOptions = null,
             Action<DeepCoinSocketOptions>? deepCoinSocketOptions = null,
@@ -250,6 +258,7 @@ namespace CryptoClients.Net
                 bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
                 coinbaseSocketOptions = SetGlobalSocketOptions(global, coinbaseSocketOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
                 coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
+                coinWSocketOptions = SetGlobalSocketOptions(global, coinWSocketOptions, credentials?.CoinW, environments?.TryGetValue(Exchange.CoinW, out var coinWEnvName) == true ? CoinWEnvironment.GetEnvironmentByName(coinWEnvName)! : CoinWEnvironment.Live);
                 cryptoComSocketOptions = SetGlobalSocketOptions(global, cryptoComSocketOptions, credentials?.CryptoCom, environments?.TryGetValue(Exchange.CryptoCom, out var cryptoComEnvName) == true ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnvName)! : CryptoComEnvironment.Live);
                 deepCoinSocketOptions = SetGlobalSocketOptions(global, deepCoinSocketOptions, credentials?.DeepCoin, environments?.TryGetValue(Exchange.DeepCoin, out var deepCoinEnvName) == true ? DeepCoinEnvironment.GetEnvironmentByName(deepCoinEnvName)! : DeepCoinEnvironment.Live);
                 gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions, credentials?.GateIo, environments?.TryGetValue(Exchange.GateIo, out var gateIoEnvName) == true ? GateIoEnvironment.GetEnvironmentByName(gateIoEnvName)! : GateIoEnvironment.Live);
@@ -273,6 +282,7 @@ namespace CryptoClients.Net
             Bybit = new BybitSocketClient(bybitSocketOptions ?? new Action<BybitSocketOptions>((x) => { }));
             Coinbase = new CoinbaseSocketClient(coinbaseSocketOptions ?? new Action<CoinbaseSocketOptions>((x) => { }));
             CoinEx = new CoinExSocketClient(coinExSocketOptions ?? new Action<CoinExSocketOptions>((x) => { }));
+            CoinW = new CoinWSocketClient(coinWSocketOptions ?? new Action<CoinWSocketOptions>((x) => { }));
             HTX = new HTXSocketClient(htxSocketOptions ?? new Action<HTXSocketOptions>((x) => { }));
             HyperLiquid = new HyperLiquidSocketClient(hyperLiquidSocketOptions ?? new Action<HyperLiquidSocketOptions>((x) => { }));
             CryptoCom = new CryptoComSocketClient(cryptoComSocketOptions ?? new Action<CryptoComSocketOptions>((x) => { }));
@@ -302,6 +312,7 @@ namespace CryptoClients.Net
             IBybitSocketClient bybit,
             ICoinbaseSocketClient coinbase,
             ICoinExSocketClient coinEx,
+            ICoinWSocketClient coinW,
             ICryptoComSocketClient cryptoCom,
             IDeepCoinSocketClient deepCoin,
             IGateIoSocketClient gateIo,
@@ -324,6 +335,7 @@ namespace CryptoClients.Net
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
+            CoinW = coinW;
             CryptoCom = cryptoCom;
             DeepCoin = deepCoin;
             GateIo = gateIo;
@@ -342,7 +354,7 @@ namespace CryptoClients.Net
 
         private void InitSharedClients()
         {
-            _socketClients = [Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bybit, Coinbase, CoinEx, CryptoCom, 
+            _socketClients = [Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
                 DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, WhiteBit, XT];
 
             _sharedClients = new ISharedClient[]
@@ -365,6 +377,8 @@ namespace CryptoClients.Net
                 Coinbase.AdvancedTradeApi.SharedClient,
                 CoinEx.SpotApiV2.SharedClient,
                 CoinEx.FuturesApi.SharedClient,
+                CoinW.SpotApi.SharedClient,
+                CoinW.FuturesApi.SharedClient,
                 CryptoCom.ExchangeApi.SharedClient,
                 DeepCoin.ExchangeApi.SharedClient,
                 GateIo.SpotApi.SharedClient,
@@ -416,6 +430,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Bybit, credentials.Bybit);
             SetCredentialsIfNotNull(Exchange.Coinbase, credentials.Coinbase);
             SetCredentialsIfNotNull(Exchange.CoinEx, credentials.CoinEx);
+            SetCredentialsIfNotNull(Exchange.CoinW, credentials.CoinW);
             SetCredentialsIfNotNull(Exchange.CryptoCom, credentials.CryptoCom);
             SetCredentialsIfNotNull(Exchange.DeepCoin, credentials.DeepCoin);
             SetCredentialsIfNotNull(Exchange.GateIo, credentials.GateIo);
@@ -444,6 +459,7 @@ namespace CryptoClients.Net
                 case "Bybit": Bybit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Coinbase": Coinbase.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "CoinEx": CoinEx.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "CoinW": CoinW.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "CryptoCom": CryptoCom.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "DeepCoin": DeepCoin.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for DeepCoin credentials", nameof(apiPass)))); break;
                 case "GateIo": GateIo.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
@@ -484,6 +500,7 @@ namespace CryptoClients.Net
                 Bybit.UnsubscribeAllAsync(),
                 Coinbase.UnsubscribeAllAsync(),
                 CoinEx.UnsubscribeAllAsync(),
+                CoinW.UnsubscribeAllAsync(),
                 CryptoCom.UnsubscribeAllAsync(),
                 DeepCoin.UnsubscribeAllAsync(),
                 GateIo.UnsubscribeAllAsync(),

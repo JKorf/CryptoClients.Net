@@ -34,6 +34,10 @@ using CoinEx.Net;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
+using CoinW.Net;
+using CoinW.Net.Clients;
+using CoinW.Net.Interfaces.Clients;
+using CoinW.Net.Objects.Options;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
@@ -105,6 +109,7 @@ namespace CryptoClients.Net.Clients
         private IBybitUserClientProvider _bybitProvider;
         private ICoinbaseUserClientProvider _coinbaseProvider;
         private ICoinExUserClientProvider _coinExProvider;
+        private ICoinWUserClientProvider _coinWProvider;
         private ICryptoComUserClientProvider _cryptoComProvider;
         private IDeepCoinUserClientProvider _deepCoinProvider;
         private IGateIoUserClientProvider _gateIoProvider;
@@ -131,6 +136,7 @@ namespace CryptoClients.Net.Clients
             Action<BybitOptions>? bybitOptions = null,
             Action<CoinbaseOptions>? coinbaseOptions = null,
             Action<CoinExOptions>? coinExOptions = null,
+            Action<CoinWOptions>? coinWOptions = null,
             Action<CryptoComOptions>? cryptoComOptions = null,
             Action<DeepCoinOptions>? deepCoinOptions = null,
             Action<GateIoOptions>? gateIoOptions = null,
@@ -188,6 +194,7 @@ namespace CryptoClients.Net.Clients
                 bybitOptions = SetGlobalOptions<BybitOptions, BybitRestOptions, BybitSocketOptions, ApiCredentials, BybitEnvironment>(global, bybitOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
                 coinbaseOptions = SetGlobalOptions<CoinbaseOptions, CoinbaseRestOptions, CoinbaseSocketOptions, ApiCredentials, CoinbaseEnvironment>(global, coinbaseOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
                 coinExOptions = SetGlobalOptions<CoinExOptions, CoinExRestOptions, CoinExSocketOptions, ApiCredentials, CoinExEnvironment>(global, coinExOptions, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
+                coinWOptions = SetGlobalOptions<CoinWOptions, CoinWRestOptions, CoinWSocketOptions, ApiCredentials, CoinWEnvironment>(global, coinWOptions, credentials?.CoinW, environments?.TryGetValue(Exchange.CoinW, out var coinWEnvName) == true ? CoinWEnvironment.GetEnvironmentByName(coinWEnvName)! : CoinWEnvironment.Live);
                 cryptoComOptions = SetGlobalOptions<CryptoComOptions, CryptoComRestOptions, CryptoComSocketOptions, ApiCredentials, CryptoComEnvironment>(global, cryptoComOptions, credentials?.CryptoCom, environments?.TryGetValue(Exchange.CryptoCom, out var cryptoComEnvName) == true ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnvName)! : CryptoComEnvironment.Live);
                 deepCoinOptions = SetGlobalOptions<DeepCoinOptions, DeepCoinRestOptions, DeepCoinSocketOptions, ApiCredentials, DeepCoinEnvironment>(global, deepCoinOptions, credentials?.DeepCoin, environments?.TryGetValue(Exchange.DeepCoin, out var deepCoinEnvName) == true ? DeepCoinEnvironment.GetEnvironmentByName(deepCoinEnvName)! : DeepCoinEnvironment.Live);
                 gateIoOptions = SetGlobalOptions<GateIoOptions, GateIoRestOptions, GateIoSocketOptions, ApiCredentials, GateIoEnvironment>(global, gateIoOptions, credentials?.GateIo, environments?.TryGetValue(Exchange.GateIo, out var gateIoEnvName) == true ? GateIoEnvironment.GetEnvironmentByName(gateIoEnvName)! : GateIoEnvironment.Live);
@@ -211,6 +218,7 @@ namespace CryptoClients.Net.Clients
             _bybitProvider = new BybitUserClientProvider(bybitOptions);
             _coinbaseProvider = new CoinbaseUserClientProvider(coinbaseOptions);
             _coinExProvider = new CoinExUserClientProvider(coinExOptions);
+            _coinWProvider = new CoinWUserClientProvider(coinWOptions);
             _cryptoComProvider = new CryptoComUserClientProvider(cryptoComOptions);
             _deepCoinProvider = new DeepCoinUserClientProvider(deepCoinOptions);
             _gateIoProvider = new GateIoUserClientProvider(gateIoOptions);
@@ -238,6 +246,7 @@ namespace CryptoClients.Net.Clients
             IBybitUserClientProvider bybitProvider,
             ICoinbaseUserClientProvider coinbaseProvider,
             ICoinExUserClientProvider coinExProvider,
+            ICoinWUserClientProvider coinWProvider,
             ICryptoComUserClientProvider cryptoComProvider,
             IDeepCoinUserClientProvider deepCoinProvider,
             IGateIoUserClientProvider gateIoProvider,
@@ -261,6 +270,7 @@ namespace CryptoClients.Net.Clients
             _bybitProvider = bybitProvider;
             _coinbaseProvider = coinbaseProvider;
             _coinExProvider = coinExProvider;
+            _coinWProvider = coinWProvider;
             _cryptoComProvider = cryptoComProvider;
             _deepCoinProvider = deepCoinProvider;
             _gateIoProvider = gateIoProvider;
@@ -299,6 +309,7 @@ namespace CryptoClients.Net.Clients
                 _bybitProvider.GetRestClient(userIdentifier, credentials.Bybit, environments.TryGetValue(Exchange.Bybit, out var bybitEnv) ? BybitEnvironment.GetEnvironmentByName(bybitEnv) : null),
                 _coinbaseProvider.GetRestClient(userIdentifier, credentials.Coinbase, environments.TryGetValue(Exchange.Coinbase, out var coinbaseEnv) ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnv) : null),
                 _coinExProvider.GetRestClient(userIdentifier, credentials.CoinEx, environments.TryGetValue(Exchange.CoinEx, out var coinexEnv) ? CoinExEnvironment.GetEnvironmentByName(coinexEnv) : null),
+                _coinWProvider.GetRestClient(userIdentifier, credentials.CoinW, environments.TryGetValue(Exchange.CoinW, out var coinWEnv) ? CoinWEnvironment.GetEnvironmentByName(coinWEnv) : null),
                 _cryptoComProvider.GetRestClient(userIdentifier, credentials.CryptoCom, environments.TryGetValue(Exchange.CryptoCom, out var cryptoComEnv) ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnv) : null),
                 _deepCoinProvider.GetRestClient(userIdentifier, credentials.DeepCoin, environments.TryGetValue(Exchange.DeepCoin, out var deepcoinEnv) ? DeepCoinEnvironment.GetEnvironmentByName(deepcoinEnv) : null),
                 _gateIoProvider.GetRestClient(userIdentifier, credentials.GateIo, environments.TryGetValue(Exchange.GateIo, out var gateIoEnv) ? GateIoEnvironment.GetEnvironmentByName(gateIoEnv) : null),
@@ -332,6 +343,7 @@ namespace CryptoClients.Net.Clients
                 _bybitProvider.GetSocketClient(userIdentifier, credentials.Bybit, environments.TryGetValue(Exchange.Bybit, out var bybitEnv) ? BybitEnvironment.GetEnvironmentByName(bybitEnv) : null),
                 _coinbaseProvider.GetSocketClient(userIdentifier, credentials.Coinbase, environments.TryGetValue(Exchange.Coinbase, out var coinbaseEnv) ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnv) : null),
                 _coinExProvider.GetSocketClient(userIdentifier, credentials.CoinEx, environments.TryGetValue(Exchange.CoinEx, out var coinexEnv) ? CoinExEnvironment.GetEnvironmentByName(coinexEnv) : null),
+                _coinWProvider.GetSocketClient(userIdentifier, credentials.CoinW, environments.TryGetValue(Exchange.CoinW, out var coinWEnv) ? CoinWEnvironment.GetEnvironmentByName(coinWEnv) : null),
                 _cryptoComProvider.GetSocketClient(userIdentifier, credentials.CryptoCom, environments.TryGetValue(Exchange.CryptoCom, out var cryptoComEnv) ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnv) : null),
                 _deepCoinProvider.GetSocketClient(userIdentifier, credentials.DeepCoin, environments.TryGetValue(Exchange.DeepCoin, out var deepcoinEnv) ? DeepCoinEnvironment.GetEnvironmentByName(deepcoinEnv) : null),
                 _gateIoProvider.GetSocketClient(userIdentifier, credentials.GateIo, environments.TryGetValue(Exchange.GateIo, out var gateIoEnv) ? GateIoEnvironment.GetEnvironmentByName(gateIoEnv) : null),

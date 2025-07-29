@@ -7,6 +7,7 @@ using BitMEX.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
+using CoinW.Net.Interfaces;
 using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
@@ -65,6 +66,10 @@ namespace CryptoClients.Net.Interfaces
         /// CoinEx order book factory
         /// </summary>
         ICoinExOrderBookFactory CoinEx { get; }
+        /// <summary>
+        /// CoinW order book factory
+        /// </summary>
+        ICoinWOrderBookFactory CoinW { get; }
         /// <summary>
         /// Crypto.com order book factory
         /// </summary>

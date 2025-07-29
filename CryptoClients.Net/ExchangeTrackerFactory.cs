@@ -8,6 +8,7 @@ using BitMEX.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
+using CoinW.Net.Interfaces;
 using CryptoClients.Net.Interfaces;
 using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
@@ -50,6 +51,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public ICoinExTrackerFactory CoinEx { get; }
         /// <inheritdoc />
+        public ICoinWTrackerFactory CoinW { get; }
+        /// <inheritdoc />
         public ICryptoComTrackerFactory CryptoCom { get; }
         /// <inheritdoc />
         public IDeepCoinTrackerFactory DeepCoin { get; }
@@ -87,6 +90,7 @@ namespace CryptoClients.Net
             IBybitTrackerFactory bybit,
             ICoinbaseTrackerFactory coinbase,
             ICoinExTrackerFactory coinEx,
+            ICoinWTrackerFactory coinW,
             ICryptoComTrackerFactory cryptoCom,
             IDeepCoinTrackerFactory deepCoin,
             IGateIoTrackerFactory gateIo,
@@ -109,6 +113,7 @@ namespace CryptoClients.Net
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
+            CoinW = coinW;
             CryptoCom = cryptoCom;
             DeepCoin = deepCoin;
             GateIo = gateIo;
@@ -149,6 +154,8 @@ namespace CryptoClients.Net
                 case "CoinEx":
                     // No tracker available because there is no websocket kline stream
                     return null;
+                case "CoinW":
+                    return CoinW.CreateKlineTracker(symbol, interval, limit, period);
                 case "CryptoCom":
                     return CryptoCom.CreateKlineTracker(symbol, interval, limit, period);
                 case "DeepCoin":
@@ -203,6 +210,8 @@ namespace CryptoClients.Net
                     return Coinbase.CreateTradeTracker(symbol, limit, period);
                 case "CoinEx":
                     return CoinEx.CreateTradeTracker(symbol, limit, period);
+                case "CoinW":
+                    return CoinW.CreateTradeTracker(symbol, limit, period);
                 case "CryptoCom":
                     return CryptoCom.CreateTradeTracker(symbol, limit, period);
                 case "DeepCoin":

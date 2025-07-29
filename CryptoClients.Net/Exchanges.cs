@@ -8,6 +8,7 @@ using Bybit.Net;
 using Coinbase.Net;
 using CoinEx.Net;
 using CoinGecko.Net;
+using CoinW.Net;
 using CryptoCom.Net;
 using CryptoExchange.Net.RateLimiting;
 using DeepCoin.Net;
@@ -154,6 +155,20 @@ namespace CryptoClients.Net
             ApiDocsUrl = CoinExExchange.ApiDocsUrl,
             Type = CoinExExchange.Type,
             ApiEnvironments = CoinExEnvironment.All
+        };
+
+        /// <summary>
+        /// CoinW exchange info
+        /// </summary>
+        public static ExchangeInfo CoinW { get; } = new ExchangeInfo
+        {
+            Name = CoinWExchange.ExchangeName,
+            DisplayName = CoinWExchange.DisplayName,
+            ImageUrl = CoinWExchange.ImageUrl,
+            Url = CoinWExchange.Url,
+            ApiDocsUrl = CoinWExchange.ApiDocsUrl,
+            Type = CoinWExchange.Type,
+            ApiEnvironments = CoinWEnvironment.All
         };
 
         /// <summary>

@@ -23,6 +23,7 @@ using Toobit.Net.Interfaces;
 using System;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
+using CoinW.Net.Interfaces;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -67,6 +68,10 @@ namespace CryptoClients.Net.Interfaces
         /// CoinEx tracker factory
         /// </summary>
         ICoinExTrackerFactory CoinEx { get; }
+        /// <summary>
+        /// CoinW tracker factory
+        /// </summary>
+        ICoinWTrackerFactory CoinW { get; }
         /// <summary>
         /// Crypto.com tracker factory
         /// </summary>

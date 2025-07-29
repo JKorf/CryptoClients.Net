@@ -24,6 +24,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WhiteBit.Net.Interfaces.Clients;
 using XT.Net.Interfaces.Clients;
+using CoinW.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -73,6 +74,10 @@ namespace CryptoClients.Net.Interfaces
         /// CoinEx REST API
         /// </summary>
         ICoinExRestClient CoinEx { get; }
+        /// <summary>
+        /// CoinW REST API
+        /// </summary>
+        ICoinWRestClient CoinW { get; }
         /// <summary>
         /// Crypto.com REST API
         /// </summary>

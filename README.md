@@ -5,13 +5,13 @@
 CryptoClients.Net is a library which offers access to cryptocurrency trading platform API's. It allows full access to all exchange API's supported, see below for the list of supported exchanges. It also offers full access to all Shared interfaces implementations offered by the [base library](https://jkorf.github.io/CryptoExchange.Net/), as well as various additional methods for accessing exchange API's dynamically.
 
 ## Features
-* Direct full access to 20 different CEX's and 1 DEX, public and private data, REST and WebSocket APIs
+* Direct full access to 21 different CEX's and 1 DEX, public and private data, REST and WebSocket APIs
 * Easy dynamic access to all API's
   * Make API REST requests to a specific exchange by passing the name of an exchange to a request
   * Make API REST requests to all exchange API's with a single line
   * Subscribe to live WebSocket updates on one or multiple different API's with a single call
 * Response data is mapped to descriptive models
-* Input parameters and response values are mapped to discriptive enum values where possible
+* Input parameters and response values are mapped to descriptive enum values where possible
 * Automatic websocket (re)connection management 
 * Client side rate limiting 
 * Client side order book implementation
@@ -68,6 +68,7 @@ The following API's are included in CryptoClients.Net. Consider using a referral
 |![Bybit](https://raw.githubusercontent.com/JKorf/Bybit.Net/refs/heads/main/ByBit.Net/Icon/icon.png)|Bybit|CEX|[Link](https://partner.bybit.com/b/jkorf)|-|
 |![Coinbase](https://raw.githubusercontent.com/JKorf/Coinbase.Net/refs/heads/main/Coinbase.Net/Icon/icon.png)|Coinbase|CEX|[Link](https://advanced.coinbase.com/join/T6H54H8)|-|
 |![CoinEx](https://raw.githubusercontent.com/JKorf/CoinEx.Net/refs/heads/master/CoinEx.Net/Icon/icon.png)|CoinEx|CEX|[Link](https://www.coinex.com/register?rc=rbtnp)|20%|
+|![CoinW](https://raw.githubusercontent.com/JKorf/CoinW.Net/refs/heads/main/CoinW.Net/Icon/icon.png)|CoinW|CEX|[Link](https://www.coinw.com/en_US/register?r=3912706)|-|
 |![CoinGecko](https://raw.githubusercontent.com/JKorf/CoinGecko.Net/refs/heads/main/CoinGecko.Net/Icon/icon.png)|CoinGecko|-|-|-|
 |![Crypto.com](https://raw.githubusercontent.com/JKorf/CryptoCom.Net/refs/heads/main/CryptoCom.Net/Icon/icon.png)|Crypto.com|CEX|[Link](https://crypto.com/exch/26ge92xbkn)|-|
 |![DeepCoin](https://raw.githubusercontent.com/JKorf/DeepCoin.Net/refs/heads/main/DeepCoin.Net/Icon/icon.png)|DeepCoin|CEX|[Link](https://s.deepcoin.com/jddhfca)|-|

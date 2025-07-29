@@ -26,6 +26,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WhiteBit.Net.Interfaces.Clients;
 using XT.Net.Interfaces.Clients;
+using CoinW.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -83,6 +84,10 @@ namespace CryptoClients.Net.Interfaces
         /// CoinEx Websocket API
         /// </summary>
         ICoinExSocketClient CoinEx { get; }
+        /// <summary>
+        /// CoinW Websocket API
+        /// </summary>
+        ICoinWSocketClient CoinW { get; }
         /// <summary>
         /// Crypto.com Websocket API
         /// </summary>
