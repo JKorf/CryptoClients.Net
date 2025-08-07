@@ -42,7 +42,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<ExchangeWebResult<SharedBookTicker>>> GetBookTickersInt(GetBookTickerRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetBookTickerClients().Where(x => x.SupportedTradingModes.Contains(request.Symbol.TradingMode));
+            var clients = GetBookTickerClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 

@@ -22,7 +22,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedId>> PlaceFuturesOrderAsync(string exchange, PlaceFuturesOrderRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesOrderClient(request.Symbol.TradingMode, exchange);
+            var client = GetFuturesOrderClient(request.TradingMode, exchange);
             if (client == null)
                 return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
@@ -135,7 +135,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedFuturesOrder>> GetFuturesOrderAsync(string exchange, GetOrderRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesOrderClient(request.Symbol.TradingMode, exchange);
+            var client = GetFuturesOrderClient(request.TradingMode, exchange);
             if (client == null)
                 return new ExchangeWebResult<SharedFuturesOrder>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
@@ -149,7 +149,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedUserTrade[]>> GetFuturesOrderTradesAsync(string exchange, GetOrderTradesRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesOrderClient(request.Symbol.TradingMode, exchange);
+            var client = GetFuturesOrderClient(request.TradingMode, exchange);
             if (client == null)
                 return new ExchangeWebResult<SharedUserTrade[]>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
@@ -163,7 +163,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedId>> CancelFuturesOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesOrderClient(request.Symbol.TradingMode, exchange);
+            var client = GetFuturesOrderClient(request.TradingMode, exchange);
             if (client == null)
                 return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
@@ -177,7 +177,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedId>> ClosePositionAsync(string exchange, ClosePositionRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesOrderClient(request.Symbol.TradingMode, exchange);
+            var client = GetFuturesOrderClient(request.TradingMode, exchange);
             if (client == null)
                 return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 

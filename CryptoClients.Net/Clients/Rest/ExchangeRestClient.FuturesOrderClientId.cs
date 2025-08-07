@@ -23,7 +23,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedFuturesOrder>> GetFuturesOrderByClientOrderIdAsync(string exchange, GetOrderRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesOrderClientIdClient(request.Symbol.TradingMode, exchange);
+            var client = GetFuturesOrderClientIdClient(request.TradingMode, exchange);
             if (client == null)
                 return new ExchangeWebResult<SharedFuturesOrder>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
@@ -37,7 +37,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedId>> CancelFuturesOrderByClientOrderIdAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesOrderClientIdClient(request.Symbol.TradingMode, exchange);
+            var client = GetFuturesOrderClientIdClient(request.TradingMode, exchange);
             if (client == null)
                 return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 

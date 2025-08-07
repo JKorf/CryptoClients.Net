@@ -18,12 +18,12 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public ILeverageRestClient? GetLeverageClient(TradingMode api, string exchange) => _sharedClients.OfType<ILeverageRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
-        #region Get Position Mode
+        #region Get Leverage
 
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedLeverage>> GetLeverageAsync(string exchange, GetLeverageRequest request, CancellationToken ct = default)
         {
-            var client = GetLeverageClient(request.Symbol.TradingMode, exchange);
+            var client = GetLeverageClient(request.TradingMode, exchange);
             if (client == null)
                 return new ExchangeWebResult<SharedLeverage>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
@@ -32,12 +32,12 @@ namespace CryptoClients.Net
 
         #endregion
 
-        #region Set Position Mode
+        #region Set Leverage
 
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedLeverage>> SetLeverageAsync(string exchange, SetLeverageRequest request, CancellationToken ct = default)
         {
-            var client = GetLeverageClient(request.Symbol.TradingMode, exchange);
+            var client = GetLeverageClient(request.TradingMode, exchange);
             if (client == null)
                 return new ExchangeWebResult<SharedLeverage>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 

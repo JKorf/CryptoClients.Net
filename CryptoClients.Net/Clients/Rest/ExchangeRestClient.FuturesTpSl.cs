@@ -23,7 +23,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedId>> SetFuturesTpSlAsync(string exchange, SetTpSlRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesTpSlClient(request.Symbol.TradingMode, exchange);
+            var client = GetFuturesTpSlClient(request.TradingMode, exchange);
             if (client == null)
                 return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
@@ -37,7 +37,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<bool>> CancelFuturesTpSlAsync(string exchange, CancelTpSlRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesTpSlClient(request.Symbol.TradingMode, exchange);
+            var client = GetFuturesTpSlClient(request.TradingMode, exchange);
             if (client == null)
                 return new ExchangeWebResult<bool>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 

@@ -39,7 +39,7 @@ foreach(var tickerResult in tickerResults)
 // OKX price: 2596,4
 ```
 
-For more information and examples see the [Documentation](https://cryptoexchange.jkorf.dev/).
+For more information and examples see the [Documentation](https://cryptoexchange.jkorf.dev/crypto-clients).
 
 ## Supported Frameworks
 The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility as well as dotnet 8.0 and 9.0 to use the latest framework features.
