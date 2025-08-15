@@ -75,9 +75,6 @@
     <PackageReference Include="WhiteBit.Net" Version="2.5.0" />
     <PackageReference Include="XT.Net" Version="2.4.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\CryptoExchange.Net\CryptoExchange.Net\CryptoExchange.Net.csproj" />
-  </ItemGroup>
   <PropertyGroup>
     <DocumentationFile>CryptoClients.Net.xml</DocumentationFile>
     <UserSecretsId>f570a33a-3f98-4c9d-8231-42d92f9746fd</UserSecretsId>
