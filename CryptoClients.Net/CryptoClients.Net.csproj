@@ -58,7 +58,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="JKorf.BitMEX.Net" Version="2.4.0" />
     <PackageReference Include="CryptoCom.Net" Version="2.6.1" />
     <PackageReference Include="DeepCoin.Net" Version="2.5.1" />
     <PackageReference Include="GateIo.Net" Version="2.6.1" />
