@@ -30,7 +30,19 @@ namespace CryptoClients.Net
             CancellationToken ct = default)
         {
             var result = await SubscribeToFuturesOrderUpdatesAsync(request, handler, new[] { exchange }, listenKeyResults, ct).ConfigureAwait(false);
-            return result.SingleOrDefault() ?? new ExchangeResult<UpdateSubscription>(exchange, new InvalidOperationError($"Subscription not supported for {exchange}"));
+            if (result.Length == 0)
+                return new ExchangeResult<UpdateSubscription>(exchange, new InvalidOperationError($"Subscription not supported for {exchange}"));
+
+            if (result.Length > 1)
+            {
+
+                foreach (var resultItem in result)
+                    _ = resultItem.Data?.CloseAsync();
+
+                return new ExchangeResult<UpdateSubscription>(exchange, new InvalidOperationError($"Multiple subscription available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+            }
+
+            return result.Single();
         }
 
         /// <inheritdoc />
