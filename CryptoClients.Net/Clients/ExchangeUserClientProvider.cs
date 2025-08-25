@@ -292,6 +292,32 @@ namespace CryptoClients.Net.Clients
             GetSocketClient(userIdentifier, credentials, environments);
         }
 
+        /// <inheritdoc />
+        public void ClearUserClients(string userIdentifier, string? exchange = null)
+        {
+            if (exchange == null || exchange == Exchange.Binance) _binanceProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.BingX) _bingXProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.Bitfinex) _bitfinexProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.Bitget) _bitgetProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.BitMart) _bitMartProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.BitMEX) _bitMEXProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.Bybit) _bybitProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.Coinbase) _coinbaseProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.CoinEx) _coinExProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.CoinW) _coinWProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.CryptoCom) _cryptoComProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.DeepCoin) _deepCoinProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.GateIo) _gateIoProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.HTX) _htxProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.HyperLiquid) _hyperLiquidProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.Kraken) _krakenProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.Kucoin) _kucoinProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.Mexc) _mexcProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.OKX) _okxProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.Toobit) _toobitProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.WhiteBit) _whiteBitProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.XT) _xtProvider.ClearUserClients(userIdentifier);
+        }
 
         /// <inheritdoc />
         public IExchangeRestClient GetRestClient(string userIdentifier, ExchangeCredentials? credentials = null, Dictionary<string, string?>? environments = null)

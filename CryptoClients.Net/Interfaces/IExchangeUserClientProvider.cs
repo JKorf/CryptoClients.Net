@@ -18,6 +18,11 @@ namespace CryptoClients.Net.Interfaces
         void InitializeUserClient(string userIdentifier, ExchangeCredentials credentials, Dictionary<string, string?> environments);
 
         /// <summary>
+        /// Reset the cached clients for a user. This can be useful when a user changes API credentials.
+        /// </summary>
+        public void ClearUserClients(string userIdentifier, string? exchange = null);
+
+        /// <summary>
         /// Get the Rest client for a specific user. In case the client does not exist yet it will be created and the <paramref name="credentials"/> should be provided, unless <see cref="InitializeUserClient" /> has been called prior for this user.
         /// </summary>
         /// <param name="userIdentifier">The identifier for user</param>
