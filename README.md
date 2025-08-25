@@ -251,6 +251,33 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.8.0 - 25 Aug 2025
+    * Added ClearUserClients method to (I)ExchangeUserClientProvider
+    * Updated reference CryptoExchange.Net version from 9.5.0 to 9.6.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/9.6.0
+    * Updated Binance.Net from version 11.5.1 to version 11.6.0, see https://github.com/JKorf/Binance.Net/releases/tag/Binance.Net.11.6.0
+    * Updated Bitfinex.Net from version 9.5.1 to version 9.6.0, see https://github.com/JKorf/Bitfinex.Net/releases/tag/Bitfinex.Net.9.6.0
+    * Updated BitMart.Net from version 2.6.1 to version 2.7.0, see https://github.com/JKorf/BitMart.Net/releases/tag/BitMart.Net.2.7.0
+    * Updated Bybit.Net from version 5.6.1 to version 5.7.0, see https://github.com/JKorf/Bybit.Net/releases/tag/Bybit.Net.5.7.0
+    * Updated CoinEx.Net from version 9.5.0 to version 9.6.0, see https://github.com/JKorf/CoinEx.Net/releases/tag/CoinEx.Net.9.6.0
+    * Updated CoinGecko.Net from version 4.6.0 to version 4.7.0, see https://github.com/JKorf/CoinGecko.Net/releases/tag/CoinGecko.Net.4.7.0
+    * Updated CoinW.Net from version 1.2.1 to version 1.3.0, see https://github.com/JKorf/CoinW.Net/releases/tag/CoinW.Net.1.3.0
+    * Updated CryptoCom.Net from version 2.6.1 to version 2.7.0, see https://github.com/JKorf/CryptoCom.Net/releases/tag/CryptoCom.Net.2.7.0
+    * Updated DeepCoin.Net from version 2.5.1 to version 2.6.0, see https://github.com/JKorf/DeepCoin.Net/releases/tag/DeepCoin.Net.2.6.0
+    * Updated GateIo.Net from version 2.6.1 to version 2.7.0, see https://github.com/JKorf/GateIo.Net/releases/tag/GateIo.Net.2.7.0
+    * Updated HyperLiquid.Net from version 2.9.1 to version 2.10.0, see https://github.com/JKorf/HyperLiquid.Net/releases/tag/HyperLiquid.Net.2.10.0
+    * Updated BingX.Net from version 2.5.1 to version 2.6.0, see https://github.com/JKorf/BingX.Net/releases/tag/BingX.Net.2.6.0
+    * Updated Bitget.Net from version 2.5.1 to version 2.6.0, see https://github.com/JKorf/Bitget.Net/releases/tag/Bitget.Net.2.6.0
+    * Updated Mexc.Net from version 3.6.0 to version 3.7.0, see https://github.com/JKorf/Mexc.Net/releases/tag/Mexc.Net.3.7.0
+    * Updated OKX.Net from version 3.5.1 to version 3.6.0, see https://github.com/JKorf/OKX.Net/releases/tag/OKX.Net.3.6.0
+    * Updated BitMEX.Net from version 2.5.1 to version 2.6.0, see https://github.com/JKorf/BitMEX.Net/releases/tag/BitMEX.Net.2.6.0
+    * Updated Coinbase.Net from version 2.5.1 to version 2.6.0, see https://github.com/JKorf/Coinbase.Net/releases/tag/Coinbase.Net.2.6.0
+    * Updated HTX.Net from version 7.5.1 to version 7.6.0, see https://github.com/JKorf/HTX.Net/releases/tag/HTX.Net.7.6.0
+    * Updated Kraken.Net from version 6.5.2 to version 6.6.0, see https://github.com/JKorf/Kraken.Net/releases/tag/Kraken.Net.6.6.0
+    * Updated Kucoin.Net from version 7.5.1 to version 7.6.0, see https://github.com/JKorf/Kucoin.Net/releases/tag/Kucoin.Net.7.6.0
+    * Updated Toobit.Net from version 1.4.0 to version 1.5.0, see https://github.com/JKorf/Toobit.Net/releases/tag/Toobit.Net.1.5.0
+    * Updated WhiteBit.Net from version 2.6.1 to version 2.7.0, see https://github.com/JKorf/WhiteBit.Net/releases/tag/WhiteBit.Net.2.7.0
+    * Updated XT.Net from version 2.5.0 to version 2.6.0, see https://github.com/JKorf/XT.Net/releases/tag/XT.Net.2.6.0
+
 * Version 3.7.0 - 21 Aug 2025
     * Fixed SubscribeTo[Topic]UpdatesAsync with a single exchange parameter throwing exception if more than 1 subscription matches
     * Added improved error parsing
