@@ -20,6 +20,9 @@
         <member name="M:CryptoClients.Net.Clients.ExchangeUserClientProvider.InitializeUserClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.Clients.ExchangeUserClientProvider.ClearUserClients(System.String,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.Clients.ExchangeUserClientProvider.GetRestClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})">
             <inheritdoc />
         </member>
@@ -4089,6 +4092,11 @@
             <param name="userIdentifier">The identifier for user</param>
             <param name="credentials">The credentials for user</param>
             <param name="environments">The environments to use for the clients</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeUserClientProvider.ClearUserClients(System.String,System.String)">
+            <summary>
+            Reset the cached clients for a user. This can be useful when a user changes API credentials.
+            </summary>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeUserClientProvider.GetRestClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})">
             <summary>
