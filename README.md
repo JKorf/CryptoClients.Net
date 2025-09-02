@@ -41,6 +41,9 @@ foreach(var tickerResult in tickerResults)
 
 For more information and examples see the [Documentation](https://cryptoexchange.jkorf.dev/crypto-clients).
 
+### Full demo application
+https://github.com/JKorf/CryptoManager.Net
+
 ## Supported Frameworks
 The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility as well as dotnet 8.0 and 9.0 to use the latest framework features.
 
