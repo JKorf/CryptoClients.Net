@@ -254,6 +254,14 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.9.1 - 10 Sep 2025
+    * Fixed TradeEnvironment not being correctly set when using DI in combination with global options for ApiEnvironments
+    * Updated Binance.Net from version 11.7.0 to version 11.7.1, see https://github.com/JKorf/Binance.Net/releases/tag/Binance.Net.11.7.1
+    * Updated GateIo.Net from version 2.8.0 to version 2.8.1, see https://github.com/JKorf/GateIo.Net/releases/tag/GateIo.Net.2.8.1
+    * Updated Bitget.Net from version 2.7.0 to version 2.7.1, see https://github.com/JKorf/Bitget.Net/releases/tag/Bitget.Net.2.7.1
+    * Updated OKX.Net from version 3.7.0 to version 3.7.1, see https://github.com/JKorf/OKX.Net/releases/tag/OKX.Net.3.7.1
+    * Updated Kucoin.Net from version 7.7.0 to version 7.7.1, see https://github.com/JKorf/Kucoin.Net/releases/tag/OKX.Net.7.7.1
+
 * Version 3.9.0 - 01 Sep 2025
     * HTTP REST requests will now use HTTP version 2.0 by default
     * Updated reference CryptoExchange.Net version from 9.6.0 to 9.7.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/9.7.0
