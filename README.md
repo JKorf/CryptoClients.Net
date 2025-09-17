@@ -255,6 +255,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.10.0 - 17 Sep 2025
+    * Added BloFin support with BloFin.Net 1.0.0
+    * Updated CoinGecko.Net from version 4.8.0 to version 4.8.1, see https://github.com/JKorf/CoinGecko.Net/releases/tag/CoinGecko.Net.4.8.1
+    * Updated HyperLiquid.Net from version 2.11.0 to version 2.12.0, see https://github.com/JKorf/HyperLiquid.Net/releases/tag/HyperLiquid.Net.2.12.0
+
 * Version 3.9.1 - 10 Sep 2025
     * Fixed TradeEnvironment not being correctly set when using DI in combination with global options for ApiEnvironments
     * Updated Binance.Net from version 11.7.0 to version 11.7.1, see https://github.com/JKorf/Binance.Net/releases/tag/Binance.Net.11.7.1
