@@ -24,6 +24,7 @@ using System;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
 using CoinW.Net.Interfaces;
+using BloFin.Net.Interfaces;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -56,6 +57,10 @@ namespace CryptoClients.Net.Interfaces
         /// BitMEX tracker factory
         /// </summary>
         IBitMEXTrackerFactory BitMEX { get; }
+        /// <summary>
+        /// BloFin tracker factory
+        /// </summary>
+        IBloFinTrackerFactory BloFin { get; }
         /// <summary>
         /// Bybit tracker factory
         /// </summary>

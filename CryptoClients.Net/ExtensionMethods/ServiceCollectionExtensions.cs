@@ -16,6 +16,9 @@ using BitMart.Net.Objects.Options;
 using BitMEX.Net;
 using BitMEX.Net.Interfaces.Clients;
 using BitMEX.Net.Objects.Options;
+using BloFin.Net;
+using BloFin.Net.Interfaces.Clients;
+using BloFin.Net.Objects.Options;
 using Bybit.Net;
 using Bybit.Net.Interfaces.Clients;
 using Bybit.Net.Objects.Options;
@@ -94,6 +97,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="bitgetOptions">The options options for the Bitget services. Will override options provided in the global options</param>
         /// <param name="bitMartOptions">The options options for the BitMart services. Will override options provided in the global options</param>
         /// <param name="bitMEXOptions">The options options for the BitMEX services. Will override options provided in the global options</param>
+        /// <param name="bloFinOptions">The options options for the BloFin services. Will override options provided in the global options</param>
         /// <param name="bybitOptions">The options options for the Bybit services. Will override options provided in the global options</param>
         /// <param name="coinbaseOptions">The options options for the Coinbase services. Will override options provided in the global options</param>
         /// <param name="coinExOptions">The options options for the CoinEx services. Will override options provided in the global options</param>
@@ -122,6 +126,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<BitgetOptions>? bitgetOptions = null,
             Action<BitMartOptions>? bitMartOptions = null,
             Action<BitMEXOptions>? bitMEXOptions = null,
+            Action<BloFinOptions>? bloFinOptions = null,
             Action<BybitOptions>? bybitOptions = null,
             Action<CoinbaseOptions>? coinbaseOptions = null,
             Action<CoinExOptions>? coinExOptions = null,
@@ -186,6 +191,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 bitgetOptions = SetGlobalOptions<BitgetOptions, BitgetRestOptions, BitgetSocketOptions, ApiCredentials, BitgetEnvironment>(global, bitgetOptions, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
                 bitMartOptions = SetGlobalOptions<BitMartOptions, BitMartRestOptions, BitMartSocketOptions, ApiCredentials, BitMartEnvironment>(global, bitMartOptions, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
                 bitMEXOptions = SetGlobalOptions<BitMEXOptions, BitMEXRestOptions, BitMEXSocketOptions, ApiCredentials, BitMEXEnvironment>(global, bitMEXOptions, credentials?.BitMEX, environments?.TryGetValue(Exchange.BitMEX, out var bitMEXEnvName) == true ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnvName)! : BitMEXEnvironment.Live);
+                bloFinOptions = SetGlobalOptions<BloFinOptions, BloFinRestOptions, BloFinSocketOptions, ApiCredentials, BloFinEnvironment>(global, bloFinOptions, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
                 bybitOptions = SetGlobalOptions<BybitOptions, BybitRestOptions, BybitSocketOptions, ApiCredentials, BybitEnvironment>(global, bybitOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
                 coinbaseOptions = SetGlobalOptions<CoinbaseOptions, CoinbaseRestOptions, CoinbaseSocketOptions, ApiCredentials, CoinbaseEnvironment>(global, coinbaseOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
                 coinExOptions = SetGlobalOptions<CoinExOptions, CoinExRestOptions, CoinExSocketOptions, ApiCredentials, CoinExEnvironment>(global, coinExOptions, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
@@ -210,6 +216,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddBitget(bitgetOptions);
             services.AddBitMart(bitMartOptions);
             services.AddBitMEX(bitMEXOptions);
+            services.AddBloFin(bloFinOptions);
             services.AddBybit(bybitOptions);
             services.AddCoinbase(coinbaseOptions);
             services.AddCoinEx(coinExOptions);
@@ -237,6 +244,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IBitgetRestClient>(),
                     x.GetRequiredService<IBitMartRestClient>(),
                     x.GetRequiredService<IBitMEXRestClient>(),
+                    x.GetRequiredService<IBloFinRestClient>(),
                     x.GetRequiredService<IBybitRestClient>(),
                     x.GetRequiredService<ICoinbaseRestClient>(),
                     x.GetRequiredService<ICoinExRestClient>(),
@@ -265,6 +273,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IBitgetSocketClient>(),
                     x.GetRequiredService<IBitMartSocketClient>(),
                     x.GetRequiredService<IBitMEXSocketClient>(),
+                    x.GetRequiredService<IBloFinSocketClient>(),
                     x.GetRequiredService<IBybitSocketClient>(),
                     x.GetRequiredService<ICoinbaseSocketClient>(),
                     x.GetRequiredService<ICoinExSocketClient>(),
@@ -293,6 +302,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IBitgetUserClientProvider>(),
                 x.GetRequiredService<IBitMartUserClientProvider>(),
                 x.GetRequiredService<IBitMEXUserClientProvider>(),
+                x.GetRequiredService<IBloFinUserClientProvider>(),
                 x.GetRequiredService<IBybitUserClientProvider>(),
                 x.GetRequiredService<ICoinbaseUserClientProvider>(),
                 x.GetRequiredService<ICoinExUserClientProvider>(),
@@ -366,6 +376,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("Bitget", globalOptions);
             UpdateExchangeOptions("BitMart", globalOptions);
             UpdateExchangeOptions("BitMEX", globalOptions);
+            UpdateExchangeOptions("BloFin", globalOptions);
             UpdateExchangeOptions("Bybit", globalOptions);
             UpdateExchangeOptions("Coinbase", globalOptions);
             UpdateExchangeOptions("CoinEx", globalOptions);
@@ -390,6 +401,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddBitget(configuration.GetSection("Bitget"));
             services.AddBitMart(configuration.GetSection("BitMart"));
             services.AddBitMEX(configuration.GetSection("BitMEX"));
+            services.AddBloFin(configuration.GetSection("BloFin"));
             services.AddBybit(configuration.GetSection("Bybit"));
             services.AddCoinbase(configuration.GetSection("Coinbase"));
             services.AddCoinEx(configuration.GetSection("CoinEx"));
@@ -417,6 +429,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IBitgetRestClient>(),
                     x.GetRequiredService<IBitMartRestClient>(),
                     x.GetRequiredService<IBitMEXRestClient>(),
+                    x.GetRequiredService<IBloFinRestClient>(),
                     x.GetRequiredService<IBybitRestClient>(),
                     x.GetRequiredService<ICoinbaseRestClient>(),
                     x.GetRequiredService<ICoinExRestClient>(),
@@ -445,6 +458,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IBitgetSocketClient>(),
                     x.GetRequiredService<IBitMartSocketClient>(),
                     x.GetRequiredService<IBitMEXSocketClient>(),
+                    x.GetRequiredService<IBloFinSocketClient>(),
                     x.GetRequiredService<IBybitSocketClient>(),
                     x.GetRequiredService<ICoinbaseSocketClient>(),
                     x.GetRequiredService<ICoinExSocketClient>(),
@@ -473,6 +487,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IBitgetUserClientProvider>(),
                 x.GetRequiredService<IBitMartUserClientProvider>(),
                 x.GetRequiredService<IBitMEXUserClientProvider>(),
+                x.GetRequiredService<IBloFinUserClientProvider>(),
                 x.GetRequiredService<IBybitUserClientProvider>(),
                 x.GetRequiredService<ICoinbaseUserClientProvider>(),
                 x.GetRequiredService<ICoinExUserClientProvider>(),

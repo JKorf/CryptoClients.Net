@@ -4,6 +4,7 @@ using Bitfinex.Net;
 using Bitget.Net;
 using BitMart.Net;
 using BitMEX.Net;
+using BloFin.Net;
 using Bybit.Net;
 using Coinbase.Net;
 using CoinEx.Net;
@@ -113,6 +114,21 @@ namespace CryptoClients.Net
             ApiDocsUrl = BitMEXExchange.ApiDocsUrl,
             Type = BitMEXExchange.Type,
             ApiEnvironments = BitMEXEnvironment.All
+        };
+
+
+        /// <summary>
+        /// BloFin exchange info
+        /// </summary>
+        public static ExchangeInfo BloFin { get; } = new ExchangeInfo
+        {
+            Name = BloFinExchange.ExchangeName,
+            DisplayName = BloFinExchange.DisplayName,
+            ImageUrl = BloFinExchange.ImageUrl,
+            Url = BloFinExchange.Url,
+            ApiDocsUrl = BloFinExchange.ApiDocsUrl,
+            Type = BloFinExchange.Type,
+            ApiEnvironments = BloFinEnvironment.All
         };
 
         /// <summary>
@@ -350,6 +366,7 @@ namespace CryptoClients.Net
             Bitget,
             BitMart,
             BitMEX,
+            BloFin,
             Bybit,
             Coinbase,
             CoinEx,
@@ -381,6 +398,7 @@ namespace CryptoClients.Net
                 BitgetExchange.RateLimiter.RateLimitTriggered += value;
                 BitMartExchange.RateLimiter.RateLimitTriggered += value;
                 BitMEXExchange.RateLimiter.RateLimitTriggered += value;
+                BloFinExchange.RateLimiter.RateLimitTriggered += value;
                 BybitExchange.RateLimiter.RateLimitTriggered += value;
                 CoinbaseExchange.RateLimiter.RateLimitTriggered += value;
                 CoinGeckoApi.RateLimiter.RateLimitTriggered += value;
@@ -406,6 +424,7 @@ namespace CryptoClients.Net
                 BitgetExchange.RateLimiter.RateLimitTriggered -= value;
                 BitMartExchange.RateLimiter.RateLimitTriggered -= value;
                 BitMEXExchange.RateLimiter.RateLimitTriggered -= value;
+                BloFinExchange.RateLimiter.RateLimitTriggered -= value;
                 BybitExchange.RateLimiter.RateLimitTriggered -= value;
                 CoinbaseExchange.RateLimiter.RateLimitTriggered -= value;
                 CoinGeckoApi.RateLimiter.RateLimitTriggered -= value;
@@ -438,6 +457,7 @@ namespace CryptoClients.Net
                 BitgetExchange.RateLimiter.RateLimitUpdated += value;
                 BitMartExchange.RateLimiter.RateLimitUpdated += value;
                 BitMEXExchange.RateLimiter.RateLimitUpdated += value;
+                BloFinExchange.RateLimiter.RateLimitUpdated += value;
                 BybitExchange.RateLimiter.RateLimitUpdated += value;
                 CoinbaseExchange.RateLimiter.RateLimitUpdated += value;
                 CoinWExchange.RateLimiter.RateLimitUpdated += value;
@@ -462,6 +482,7 @@ namespace CryptoClients.Net
                 BitgetExchange.RateLimiter.RateLimitUpdated -= value;
                 BitMartExchange.RateLimiter.RateLimitUpdated -= value;
                 BitMEXExchange.RateLimiter.RateLimitUpdated -= value;
+                BloFinExchange.RateLimiter.RateLimitUpdated -= value;
                 BybitExchange.RateLimiter.RateLimitUpdated -= value;
                 CoinbaseExchange.RateLimiter.RateLimitUpdated -= value;
                 CoinWExchange.RateLimiter.RateLimitUpdated -= value;

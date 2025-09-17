@@ -26,6 +26,7 @@ using Toobit.Net.Interfaces;
 using System;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
+using BloFin.Net.Interfaces;
 
 namespace CryptoClients.Net
 {
@@ -44,6 +45,8 @@ namespace CryptoClients.Net
         public IBitMartTrackerFactory BitMart { get; }
         /// <inheritdoc />
         public IBitMEXTrackerFactory BitMEX { get; }
+        /// <inheritdoc />
+        public IBloFinTrackerFactory BloFin { get; }
         /// <inheritdoc />
         public IBybitTrackerFactory Bybit { get; }
         /// <inheritdoc />
@@ -87,6 +90,7 @@ namespace CryptoClients.Net
             IBitgetTrackerFactory bitget,
             IBitMartTrackerFactory bitMart,
             IBitMEXTrackerFactory bitMEX,
+            IBloFinTrackerFactory bloFin,
             IBybitTrackerFactory bybit,
             ICoinbaseTrackerFactory coinbase,
             ICoinExTrackerFactory coinEx,
@@ -110,6 +114,7 @@ namespace CryptoClients.Net
             Bitget = bitget;
             BitMart = bitMart;
             BitMEX = bitMEX;
+            BloFin = bloFin;
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
@@ -147,6 +152,8 @@ namespace CryptoClients.Net
                 case "BitMEX":
                     // No tracker available
                     return null;
+                case "BloFin":
+                    return BloFin.CreateKlineTracker(symbol, interval, limit, period);
                 case "Bybit":
                     return Bybit.CreateKlineTracker(symbol, interval, limit, period);
                 case "Coinbase":
@@ -204,6 +211,8 @@ namespace CryptoClients.Net
                     return BitMart.CreateTradeTracker(symbol, limit, period);
                 case "BitMEX":
                     return BitMEX.CreateTradeTracker(symbol, limit, period);
+                case "BloFin":
+                    return BloFin.CreateTradeTracker(symbol, limit, period);
                 case "Bybit":
                     return Bybit.CreateTradeTracker(symbol, limit, period);
                 case "Coinbase":

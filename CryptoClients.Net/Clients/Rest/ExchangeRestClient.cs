@@ -22,6 +22,10 @@ using BitMEX.Net;
 using BitMEX.Net.Clients;
 using BitMEX.Net.Interfaces.Clients;
 using BitMEX.Net.Objects.Options;
+using BloFin.Net;
+using BloFin.Net.Clients;
+using BloFin.Net.Interfaces.Clients;
+using BloFin.Net.Objects.Options;
 using Bybit.Net;
 using Bybit.Net.Clients;
 using Bybit.Net.Interfaces.Clients;
@@ -124,6 +128,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IBitMEXRestClient BitMEX { get; }
         /// <inheritdoc />
+        public IBloFinRestClient BloFin { get; }
+        /// <inheritdoc />
         public IBybitRestClient Bybit { get; }
         /// <inheritdoc />
         public ICoinbaseRestClient Coinbase { get; }
@@ -167,6 +173,7 @@ namespace CryptoClients.Net
             Bitget = new BitgetRestClient();
             BitMart = new BitMartRestClient();
             BitMEX = new BitMEXRestClient();
+            BloFin = new BloFinRestClient();
             Bybit = new BybitRestClient();
             Coinbase = new CoinbaseRestClient();
             CoinEx = new CoinExRestClient();
@@ -198,6 +205,7 @@ namespace CryptoClients.Net
             Action<BitgetRestOptions>? bitgetRestOptions = null,
             Action<BitMartRestOptions>? bitMartRestOptions = null,
             Action<BitMEXRestOptions>? bitMEXRestOptions = null,
+            Action<BloFinRestOptions>? bloFinRestOptions = null,
             Action<BybitRestOptions>? bybitRestOptions = null,
             Action<CoinbaseRestOptions>? coinbaseRestOptions = null,
             Action<CoinExRestOptions>? coinExRestOptions = null,
@@ -249,6 +257,7 @@ namespace CryptoClients.Net
                 bitgetRestOptions = SetGlobalRestOptions(global, bitgetRestOptions, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
                 bitMartRestOptions = SetGlobalRestOptions(global, bitMartRestOptions, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
                 bitMEXRestOptions = SetGlobalRestOptions(global, bitMEXRestOptions, credentials?.BitMEX, environments?.TryGetValue(Exchange.BitMEX, out var bitMEXEnvName) == true ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnvName)! : BitMEXEnvironment.Live);
+                bloFinRestOptions = SetGlobalRestOptions(global, bloFinRestOptions, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
                 bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
                 coinbaseRestOptions = SetGlobalRestOptions(global, coinbaseRestOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
                 coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
@@ -273,6 +282,7 @@ namespace CryptoClients.Net
             Bitget = new BitgetRestClient(bitgetRestOptions);
             BitMart = new BitMartRestClient(bitMartRestOptions);
             BitMEX = new BitMEXRestClient(bitMEXRestOptions);
+            BloFin = new BloFinRestClient(bloFinRestOptions);
             Bybit = new BybitRestClient(bybitRestOptions);
             Coinbase = new CoinbaseRestClient(coinbaseRestOptions);
             CoinEx = new CoinExRestClient(coinExRestOptions);
@@ -295,7 +305,7 @@ namespace CryptoClients.Net
 
         private void InitSharedClients()
         {
-            _restClients = [Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
+            _restClients = [Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
                 DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, WhiteBit, XT];
 
             _sharedClients = new ISharedClient[]
@@ -311,6 +321,8 @@ namespace CryptoClients.Net
                 BitMart.SpotApi.SharedClient,
                 BitMart.UsdFuturesApi.SharedClient,
                 BitMEX.ExchangeApi.SharedClient,
+                BloFin.FuturesApi.SharedClient,
+                BloFin.AccountApi.SharedClient,
                 Bybit.V5Api.SharedClient,
                 Coinbase.AdvancedTradeApi.SharedClient,
                 CoinEx.SpotApiV2.SharedClient,
@@ -350,6 +362,7 @@ namespace CryptoClients.Net
             IBitgetRestClient bitget,
             IBitMartRestClient bitMart,
             IBitMEXRestClient bitMEX,
+            IBloFinRestClient bloFin,
             IBybitRestClient bybit,
             ICoinbaseRestClient coinbase,
             ICoinExRestClient coinEx,
@@ -373,6 +386,7 @@ namespace CryptoClients.Net
             Bitget = bitget;
             BitMart = bitMart;
             BitMEX = bitMEX;
+            BloFin = bloFin;
             Bybit = bybit;
             Coinbase = coinbase;
             CoinEx = coinEx;
@@ -419,6 +433,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Bitget, credentials.Bitget);
             SetCredentialsIfNotNull(Exchange.BitMart, credentials.BitMart);
             SetCredentialsIfNotNull(Exchange.BitMEX, credentials.BitMEX);
+            SetCredentialsIfNotNull(Exchange.BloFin, credentials.BloFin);
             SetCredentialsIfNotNull(Exchange.Bybit, credentials.Bybit);
             SetCredentialsIfNotNull(Exchange.Coinbase, credentials.Coinbase);
             SetCredentialsIfNotNull(Exchange.CoinEx, credentials.CoinEx);
@@ -448,6 +463,7 @@ namespace CryptoClients.Net
                 case "Bitget": Bitget.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Bitget credentials", nameof(apiPass)))); break;
                 case "BitMart": BitMart.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BitMart credentials", nameof(apiPass)))); break;
                 case "BitMEX": BitMEX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "BloFin": BloFin.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Bybit": Bybit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Coinbase": Coinbase.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "CoinEx": CoinEx.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;

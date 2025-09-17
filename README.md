@@ -5,7 +5,7 @@
 CryptoClients.Net is a library which offers access to cryptocurrency trading platform API's. It allows full access to all exchange API's supported, see below for the list of supported exchanges. It also offers full access to all Shared interfaces implementations offered by the [base library](https://jkorf.github.io/CryptoExchange.Net/), as well as various additional methods for accessing exchange API's dynamically.
 
 ## Features
-* Direct full access to 21 different CEX's and 1 DEX, public and private data, REST and WebSocket APIs
+* Direct full access to 22 different CEX's and 1 DEX, public and private data, REST and WebSocket APIs
 * Easy dynamic access to all API's
   * Make API REST requests to a specific exchange by passing the name of an exchange to a request
   * Make API REST requests to all exchange API's with a single line
@@ -68,6 +68,7 @@ The following API's are included in CryptoClients.Net. Consider using a referral
 |![Bitget](https://raw.githubusercontent.com/JKorf/Bitget.Net/refs/heads/main/Bitget.Net/Icon/icon.png)|Bitget|CEX|[Link](https://partner.bitget.com/bg/1qlf6pj1)|20%|
 |![BitMart](https://raw.githubusercontent.com/JKorf/BitMart.Net/refs/heads/main/BitMart.Net/Icon/icon.png)|BitMart|CEX|[Link](https://www.bitmart.com/invite/JKorfAPI/en-US)|30%|
 |![BitMEX](https://raw.githubusercontent.com/JKorf/BitMEX.Net/refs/heads/main/BitMEX.Net/Icon/icon.png)|BitMEX|CEX|[Link](https://www.bitmex.com/app/register/94f98e)|30%|
+|![BloFin](https://raw.githubusercontent.com/JKorf/BloFin.Net/refs/heads/main/BloFin.Net/Icon/icon.png)|BloFin|CEX|-|-|
 |![Bybit](https://raw.githubusercontent.com/JKorf/Bybit.Net/refs/heads/main/ByBit.Net/Icon/icon.png)|Bybit|CEX|[Link](https://partner.bybit.com/b/jkorf)|-|
 |![Coinbase](https://raw.githubusercontent.com/JKorf/Coinbase.Net/refs/heads/main/Coinbase.Net/Icon/icon.png)|Coinbase|CEX|[Link](https://advanced.coinbase.com/join/T6H54H8)|-|
 |![CoinEx](https://raw.githubusercontent.com/JKorf/CoinEx.Net/refs/heads/master/CoinEx.Net/Icon/icon.png)|CoinEx|CEX|[Link](https://www.coinex.com/register?rc=rbtnp)|20%|

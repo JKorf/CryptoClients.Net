@@ -27,6 +27,7 @@ using System.Threading.Tasks;
 using WhiteBit.Net.Interfaces.Clients;
 using XT.Net.Interfaces.Clients;
 using CoinW.Net.Interfaces.Clients;
+using BloFin.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -72,6 +73,10 @@ namespace CryptoClients.Net.Interfaces
         /// BitMEX Websocket API
         /// </summary>
         IBitMEXSocketClient BitMEX { get; }
+        /// <summary>
+        /// BloFin Websocket API
+        /// </summary>
+        IBloFinSocketClient BloFin { get; }
         /// <summary>
         /// Bybit Websocket API
         /// </summary>
