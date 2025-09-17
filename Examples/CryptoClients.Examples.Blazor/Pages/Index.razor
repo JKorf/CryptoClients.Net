@@ -68,7 +68,18 @@
     private async Task GetDataAsync()
     {
         _error = null;
+        _high = null;
+        _low = null;
+        _last = null;
+        _volume = null;
+
         var exchangeClient = RestClient.GetSpotTickerClient(_selectedExchange);
+        if (exchangeClient == null)
+        {
+            // No spot ticker implementation available for this exchange
+            return;
+        }
+
         var ticker = await exchangeClient.GetSpotTickerAsync(new GetTickerRequest(new SharedSymbol(TradingMode.Spot, _selectedAsset, "USDT")));
         if (!ticker.Success)
         {
