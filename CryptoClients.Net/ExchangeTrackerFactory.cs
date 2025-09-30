@@ -1,16 +1,17 @@
 ﻿using Binance.Net.Interfaces;
 using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
-using Bitget.Net.Enums;
 using Bitget.Net.Interfaces;
 using BitMart.Net.Interfaces;
 using BitMEX.Net.Interfaces;
+using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using CoinW.Net.Interfaces;
 using CryptoClients.Net.Interfaces;
 using CryptoCom.Net.Interfaces;
+using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Trackers.Klines;
 using CryptoExchange.Net.Trackers.Trades;
@@ -22,11 +23,10 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
-using Toobit.Net.Interfaces;
 using System;
+using Toobit.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
-using BloFin.Net.Interfaces;
 
 namespace CryptoClients.Net
 {
@@ -133,121 +133,61 @@ namespace CryptoClients.Net
             XT = xt;
         }
 
+        private ITrackerFactory? GetTrackerFactoryForExchange(string exchange)
+        {
+            return exchange switch
+            {
+                "Binance" => Binance,
+                "BingX" => BingX,
+                "Bitfinex" => Bitfinex,
+                "Bitget" => Bitget,
+                "BitMart" => BitMart,
+                "BitMEX" => BitMEX,
+                "BloFin" => BloFin,
+                "Bybit" => Bybit,
+                "Coinbase" => Coinbase,
+                "CoinEx" => CoinEx,
+                "CoinW" => CoinW,
+                "CryptoCom" => CryptoCom,
+                "DeepCoin" => DeepCoin,
+                "GateIo" => GateIo,
+                "HTX" => HTX,
+                "HyperLiquid" => HyperLiquid,
+                "Kraken" => Kraken,
+                "Kucoin" => Kucoin,
+                "Mexc" => Mexc,
+                "OKX" => OKX,
+                "Toobit" => Toobit,
+                "WhiteBit" => WhiteBit,
+                "XT" => XT,
+                _ => null
+            };
+        }
+
         /// <inheritdoc />
         public IKlineTracker? CreateKlineTracker(string exchange, SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null)
         {
-            switch (exchange)
-            {
-                case "Binance":
-                    return Binance.CreateKlineTracker(symbol, interval, limit, period);
-                case "BingX":
-                    return BingX.CreateKlineTracker(symbol, interval, limit, period);
-                case "Bitfinex":
-                    return Bitfinex.CreateKlineTracker(symbol, interval, limit, period);
-                case "Bitget":
-                    var type = ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "ProductType") == "UsdtFutures" ? BitgetProductTypeV2.UsdtFutures : BitgetProductTypeV2.UsdcFutures;
-                    return Bitget.CreateKlineTracker(symbol, interval, limit, period);
-                case "BitMart":
-                    return BitMart.CreateKlineTracker(symbol, interval, limit, period);
-                case "BitMEX":
-                    // No tracker available
-                    return null;
-                case "BloFin":
-                    return BloFin.CreateKlineTracker(symbol, interval, limit, period);
-                case "Bybit":
-                    return Bybit.CreateKlineTracker(symbol, interval, limit, period);
-                case "Coinbase":
-                    return Coinbase.CreateKlineTracker(symbol, interval, limit, period);
-                case "CoinEx":
-                    // No tracker available because there is no websocket kline stream
-                    return null;
-                case "CoinW":
-                    return CoinW.CreateKlineTracker(symbol, interval, limit, period);
-                case "CryptoCom":
-                    return CryptoCom.CreateKlineTracker(symbol, interval, limit, period);
-                case "DeepCoin":
-                    return DeepCoin.CreateKlineTracker(symbol, interval, limit, period);
-                case "GateIo":
-                    return GateIo.CreateKlineTracker(symbol, interval, limit, period);
-                case "HTX":
-                    return HTX.CreateKlineTracker(symbol, interval, limit, period);
-                case "HyperLiquid":
-                    return HyperLiquid.CreateKlineTracker(symbol, interval, limit, period);
-                case "Kraken":
-                    return Kraken.CreateKlineTracker(symbol, interval, limit, period);
-                case "Kucoin":
-                    return Kucoin.CreateKlineTracker(symbol, interval, limit, period);
-                case "Mexc":
-                    return Mexc.CreateKlineTracker(symbol, interval, limit, period);
-                case "OKX":
-                    return OKX.CreateKlineTracker(symbol, interval, limit, period);
-                case "Toobit":
-                    return Toobit.CreateKlineTracker(symbol, interval, limit, period);
-                case "WhiteBit":
-                    // No tracker available because there is no kline REST request
-                    return null;
-                case "XT":
-                    return XT.CreateKlineTracker(symbol, interval, limit, period);
-            }
+            var factory = GetTrackerFactoryForExchange(exchange);
+            if (factory == null)
+                return null;
 
-            return null;
+            if (!factory.CanCreateKlineTracker(symbol, interval))
+                return null;
+
+            return factory.CreateKlineTracker(symbol, interval);
         }
 
         /// <inheritdoc />
         public ITradeTracker? CreateTradeTracker(string exchange, SharedSymbol symbol, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null)
         {
-            switch (exchange)
-            {
-                case "Binance":
-                    return Binance.CreateTradeTracker(symbol, limit, period);
-                case "BingX":
-                    return BingX.CreateTradeTracker(symbol, limit, period);
-                case "Bitfinex":
-                    return Bitfinex.CreateTradeTracker(symbol, limit, period);
-                case "Bitget":
-                    var type = ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "ProductType") == "UsdtFutures" ? BitgetProductTypeV2.UsdtFutures : BitgetProductTypeV2.UsdcFutures;
-                    return Bitget.CreateTradeTracker(symbol, limit, period);
-                case "BitMart":
-                    return BitMart.CreateTradeTracker(symbol, limit, period);
-                case "BitMEX":
-                    return BitMEX.CreateTradeTracker(symbol, limit, period);
-                case "BloFin":
-                    return BloFin.CreateTradeTracker(symbol, limit, period);
-                case "Bybit":
-                    return Bybit.CreateTradeTracker(symbol, limit, period);
-                case "Coinbase":
-                    return Coinbase.CreateTradeTracker(symbol, limit, period);
-                case "CoinEx":
-                    return CoinEx.CreateTradeTracker(symbol, limit, period);
-                case "CoinW":
-                    return CoinW.CreateTradeTracker(symbol, limit, period);
-                case "CryptoCom":
-                    return CryptoCom.CreateTradeTracker(symbol, limit, period);
-                case "DeepCoin":
-                    return DeepCoin.CreateTradeTracker(symbol, limit, period);
-                case "GateIo":
-                    return GateIo.CreateTradeTracker(symbol, limit, period);
-                case "HTX":
-                    return HTX.CreateTradeTracker(symbol, limit, period);
-                case "HyperLiquid":
-                    return HyperLiquid.CreateTradeTracker(symbol, limit, period);
-                case "Kraken":
-                    return Kraken.CreateTradeTracker(symbol, limit, period);
-                case "Kucoin":
-                    return Kucoin.CreateTradeTracker(symbol, limit, period);
-                case "Mexc":
-                    return Mexc.CreateTradeTracker(symbol, limit, period);
-                case "OKX":
-                    return OKX.CreateTradeTracker(symbol, limit, period);
-                case "Toobit":
-                    return Toobit.CreateTradeTracker(symbol, limit, period);
-                case "WhiteBit":
-                    return WhiteBit.CreateTradeTracker(symbol, limit, period);
-                case "XT":
-                    return XT.CreateTradeTracker(symbol, limit, period);
-            }
+            var factory = GetTrackerFactoryForExchange(exchange);
+            if (factory == null)
+                return null;
 
-            return null;
+            if (!factory.CanCreateTradeTracker(symbol))
+                return null;
+
+            return factory.CreateTradeTracker(symbol);
         }
     }
 }
