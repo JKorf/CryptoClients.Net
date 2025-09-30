@@ -255,6 +255,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.11.0 - 30 Sep 2025
+    * Updated exchange API client library versions
+    * Fixed exception trying to create Kline/TradeFactory when API does not support it
+
 * Version 3.10.0 - 17 Sep 2025
     * Added BloFin support with BloFin.Net 1.0.0
     * Updated CoinGecko.Net from version 4.8.0 to version 4.8.1, see https://github.com/JKorf/CoinGecko.Net/releases/tag/CoinGecko.Net.4.8.1
