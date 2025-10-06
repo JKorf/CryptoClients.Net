@@ -256,6 +256,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.12.0 - 06 Oct 2025
+    * Added Aster DEX support with JKorf.Aster.Net 1.0.0
+
 * Version 3.11.0 - 30 Sep 2025
     * Updated exchange API client library versions
     * Fixed exception trying to create Kline/TradeFactory when API does not support it
