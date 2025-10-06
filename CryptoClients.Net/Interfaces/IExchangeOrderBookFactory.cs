@@ -1,4 +1,5 @@
-﻿using Binance.Net.Interfaces;
+﻿using Aster.Net.Interfaces;
+using Binance.Net.Interfaces;
 using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
@@ -31,6 +32,10 @@ namespace CryptoClients.Net.Interfaces
     /// </summary>
     public interface IExchangeOrderBookFactory
     {
+        /// <summary>
+        /// Aster order book factory
+        /// </summary>
+        IAsterOrderBookFactory Aster { get; }
         /// <summary>
         /// Binance order book factory
         /// </summary>

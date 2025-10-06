@@ -1,4 +1,5 @@
-﻿using Binance.Net.Interfaces;
+﻿using Aster.Net.Interfaces;
+using Binance.Net.Interfaces;
 using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
@@ -33,6 +34,10 @@ namespace CryptoClients.Net.Interfaces
     /// </summary>
     public interface IExchangeTrackerFactory
     {
+        /// <summary>
+        /// Aster tracker factory
+        /// </summary>
+        IAsterTrackerFactory Aster { get; }
         /// <summary>
         /// Binance tracker factory
         /// </summary>

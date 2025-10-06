@@ -1,4 +1,5 @@
-﻿using Binance.Net;
+﻿using Aster.Net;
+using Binance.Net;
 using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
@@ -31,6 +32,10 @@ namespace CryptoClients.Net.Enums
     /// </summary>
     public static class Exchange
     {
+        /// <summary>
+        /// Aster
+        /// </summary>
+        public static string Aster => AsterExchange.ExchangeName;
         /// <summary>
         /// Binance
         /// </summary>
@@ -129,6 +134,7 @@ namespace CryptoClients.Net.Enums
         /// </summary>
         public static string[] All { get; } = new[]
         {
+            Aster,
             Binance,
             BingX,
             Bitfinex,

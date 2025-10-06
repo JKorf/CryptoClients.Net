@@ -1,4 +1,5 @@
-﻿using Binance.Net.Interfaces;
+﻿using Aster.Net.Interfaces;
+using Binance.Net.Interfaces;
 using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
@@ -33,6 +34,8 @@ namespace CryptoClients.Net
     /// <inheritdoc />
     public class ExchangeTrackerFactory : IExchangeTrackerFactory
     {
+        /// <inheritdoc />
+        public IAsterTrackerFactory Aster { get; }
         /// <inheritdoc />
         public IBinanceTrackerFactory Binance { get; }
         /// <inheritdoc />
@@ -84,6 +87,7 @@ namespace CryptoClients.Net
         /// DI constructor
         /// </summary>
         public ExchangeTrackerFactory(
+            IAsterTrackerFactory aster,
             IBinanceTrackerFactory binance,
             IBingXTrackerFactory bingx,
             IBitfinexTrackerFactory bitfinex,
@@ -108,6 +112,7 @@ namespace CryptoClients.Net
             IWhiteBitTrackerFactory whiteBit,
             IXTTrackerFactory xt)
         {
+            Aster = aster;
             Binance = binance;
             BingX = bingx;
             Bitfinex = bitfinex;
@@ -137,6 +142,7 @@ namespace CryptoClients.Net
         {
             return exchange switch
             {
+                "Aster" => Aster,
                 "Binance" => Binance,
                 "BingX" => BingX,
                 "Bitfinex" => Bitfinex,

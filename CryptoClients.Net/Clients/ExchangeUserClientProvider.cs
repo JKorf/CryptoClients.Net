@@ -1,4 +1,8 @@
-﻿using Binance.Net;
+﻿using Aster.Net;
+using Aster.Net.Clients;
+using Aster.Net.Interfaces.Clients;
+using Aster.Net.Objects.Options;
+using Binance.Net;
 using Binance.Net.Clients;
 using Binance.Net.Interfaces.Clients;
 using Binance.Net.Objects.Options;
@@ -104,6 +108,7 @@ namespace CryptoClients.Net.Clients
     /// <inheritdoc />
     public class ExchangeUserClientProvider : IExchangeUserClientProvider
     {
+        private IAsterUserClientProvider _asterProvider;
         private IBinanceUserClientProvider _binanceProvider;
         private IBingXUserClientProvider _bingXProvider;
         private IBitfinexUserClientProvider _bitfinexProvider;
@@ -132,6 +137,7 @@ namespace CryptoClients.Net.Clients
         /// Create a new ExchangeUserProvider using the specified options
         /// </summary>
         public ExchangeUserClientProvider(Action<GlobalExchangeOptions>? globalOptions = null,
+            Action<AsterOptions>? asterOptions = null,
             Action<BinanceOptions>? binanceOptions = null,
             Action<BingXOptions>? bingxOptions = null,
             Action<BitfinexOptions>? bitfinexOptions = null,
@@ -191,6 +197,7 @@ namespace CryptoClients.Net.Clients
 
                 ExchangeCredentials? credentials = global.ApiCredentials;
                 Dictionary<string, string?>? environments = global.ApiEnvironments;
+                asterOptions = SetGlobalOptions<AsterOptions, AsterRestOptions, AsterSocketOptions, ApiCredentials, AsterEnvironment>(global, asterOptions, credentials?.Aster, environments?.TryGetValue(Exchange.Aster, out var asterEnvName) == true ? AsterEnvironment.GetEnvironmentByName(asterEnvName)! : AsterEnvironment.Live);
                 binanceOptions = SetGlobalOptions<BinanceOptions, BinanceRestOptions, BinanceSocketOptions, ApiCredentials, BinanceEnvironment>(global, binanceOptions, credentials?.Binance, environments?.TryGetValue(Exchange.Binance, out var binanceEnvName) == true ? BinanceEnvironment.GetEnvironmentByName(binanceEnvName)! : BinanceEnvironment.Live);
                 bingxOptions = SetGlobalOptions<BingXOptions, BingXRestOptions, BingXSocketOptions, ApiCredentials, BingXEnvironment>(global, bingxOptions, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingXEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingXEnvName)! : BingXEnvironment.Live);
                 bitfinexOptions = SetGlobalOptions<BitfinexOptions, BitfinexRestOptions, BitfinexSocketOptions, ApiCredentials, BitfinexEnvironment>(global, bitfinexOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
@@ -216,6 +223,7 @@ namespace CryptoClients.Net.Clients
                 xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, ApiCredentials, XTEnvironment>(global, xtOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
 
+            _asterProvider = new AsterUserClientProvider(asterOptions);
             _binanceProvider = new BinanceUserClientProvider(binanceOptions);
             _bingXProvider = new BingXUserClientProvider(bingxOptions);
             _bitfinexProvider = new BitfinexUserClientProvider(bitfinexOptions);
@@ -245,6 +253,7 @@ namespace CryptoClients.Net.Clients
         /// DI ctor
         /// </summary>
         public ExchangeUserClientProvider(
+            IAsterUserClientProvider asterProvider,
             IBinanceUserClientProvider binanceProvider,
             IBingXUserClientProvider bingXProvider,
             IBitfinexUserClientProvider bitfinexProvider,
@@ -270,6 +279,7 @@ namespace CryptoClients.Net.Clients
             IXTUserClientProvider xtProvider
             )
         {
+            _asterProvider = asterProvider;
             _binanceProvider = binanceProvider;
             _bingXProvider = bingXProvider;
             _bitfinexProvider = bitfinexProvider;
@@ -305,6 +315,7 @@ namespace CryptoClients.Net.Clients
         /// <inheritdoc />
         public void ClearUserClients(string userIdentifier, string? exchange = null)
         {
+            if (exchange == null || exchange == Exchange.Aster) _asterProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.Binance) _binanceProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.BingX) _bingXProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.Bitfinex) _bitfinexProvider.ClearUserClients(userIdentifier);
@@ -337,6 +348,7 @@ namespace CryptoClients.Net.Clients
             credentials ??= new();
 
             var client = new ExchangeRestClient(
+                _asterProvider.GetRestClient(userIdentifier, credentials.Aster, environments.TryGetValue(Exchange.Aster, out var asterEnv) ? AsterEnvironment.GetEnvironmentByName(asterEnv) : null),
                 _binanceProvider.GetRestClient(userIdentifier, credentials.Binance, environments.TryGetValue(Exchange.Binance, out var binanceEnv) ? BinanceEnvironment.GetEnvironmentByName(binanceEnv) : null),
                 _bingXProvider.GetRestClient(userIdentifier, credentials.BingX, environments.TryGetValue(Exchange.BingX, out var bingxEnv) ? BingXEnvironment.GetEnvironmentByName(bingxEnv) : null),
                 _bitfinexProvider.GetRestClient(userIdentifier, credentials.Bitfinex, environments.TryGetValue(Exchange.Bitfinex, out var bitfinexEnv) ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnv) : null),
@@ -372,6 +384,7 @@ namespace CryptoClients.Net.Clients
             credentials ??= new();
 
             var client = new ExchangeSocketClient(
+                _asterProvider.GetSocketClient(userIdentifier, credentials.Aster, environments.TryGetValue(Exchange.Aster, out var asterEnv) ? AsterEnvironment.GetEnvironmentByName(asterEnv) : null),
                 _binanceProvider.GetSocketClient(userIdentifier, credentials.Binance, environments.TryGetValue(Exchange.Binance, out var binanceEnv) ? BinanceEnvironment.GetEnvironmentByName(binanceEnv) : null),
                 _bingXProvider.GetSocketClient(userIdentifier, credentials.BingX, environments.TryGetValue(Exchange.BingX, out var bingxEnv) ? BingXEnvironment.GetEnvironmentByName(bingxEnv) : null),
                 _bitfinexProvider.GetSocketClient(userIdentifier, credentials.Bitfinex, environments.TryGetValue(Exchange.Bitfinex, out var bitfinexEnv) ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnv) : null),

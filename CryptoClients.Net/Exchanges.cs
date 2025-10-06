@@ -1,4 +1,5 @@
-﻿using Binance.Net;
+﻿using Aster.Net;
+using Binance.Net;
 using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
@@ -32,6 +33,20 @@ namespace CryptoClients.Net
     /// </summary>
     public static class Exchanges
     {
+        /// <summary>
+        /// Aster exchange info
+        /// </summary>
+        public static ExchangeInfo Aster { get; } = new ExchangeInfo
+        {
+            Name = AsterExchange.ExchangeName,
+            DisplayName = AsterExchange.DisplayName,
+            ImageUrl = AsterExchange.ImageUrl,
+            Url = AsterExchange.Url,
+            ApiDocsUrl = AsterExchange.ApiDocsUrl,
+            Type = AsterExchange.Type,
+            ApiEnvironments = AsterEnvironment.All
+        };
+
         /// <summary>
         /// Binance exchange info
         /// </summary>
@@ -360,6 +375,7 @@ namespace CryptoClients.Net
         /// </summary>
         public static ExchangeInfo[] All { get; } = new[]
         {
+            Aster,
             Binance,
             BingX,
             Bitfinex,
@@ -392,6 +408,7 @@ namespace CryptoClients.Net
         {
             add
             {
+                AsterExchange.RateLimiter.RateLimitTriggered += value;
                 BinanceExchange.RateLimiter.RateLimitTriggered += value;
                 BingXExchange.RateLimiter.RateLimitTriggered += value;
                 BitfinexExchange.RateLimiter.RateLimitTriggered += value;
@@ -418,6 +435,7 @@ namespace CryptoClients.Net
             }
             remove
             {
+                AsterExchange.RateLimiter.RateLimitTriggered -= value;
                 BinanceExchange.RateLimiter.RateLimitTriggered -= value;
                 BingXExchange.RateLimiter.RateLimitTriggered -= value;
                 BitfinexExchange.RateLimiter.RateLimitTriggered -= value;
@@ -451,6 +469,7 @@ namespace CryptoClients.Net
         {
             add
             {
+                AsterExchange.RateLimiter.RateLimitUpdated += value;
                 BinanceExchange.RateLimiter.RateLimitUpdated += value;
                 BingXExchange.RateLimiter.RateLimitUpdated += value;
                 BitfinexExchange.RateLimiter.RateLimitUpdated += value;
@@ -476,6 +495,7 @@ namespace CryptoClients.Net
             }
             remove
             {
+                AsterExchange.RateLimiter.RateLimitUpdated -= value;
                 BinanceExchange.RateLimiter.RateLimitUpdated -= value;
                 BingXExchange.RateLimiter.RateLimitUpdated -= value;
                 BitfinexExchange.RateLimiter.RateLimitUpdated -= value;

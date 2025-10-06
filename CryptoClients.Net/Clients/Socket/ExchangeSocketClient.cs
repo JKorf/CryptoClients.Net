@@ -1,4 +1,8 @@
-﻿using Binance.Net;
+﻿using Aster.Net;
+using Aster.Net.Clients;
+using Aster.Net.Interfaces.Clients;
+using Aster.Net.Objects.Options;
+using Binance.Net;
 using Binance.Net.Clients;
 using Binance.Net.Interfaces.Clients;
 using Binance.Net.Objects.Options;
@@ -121,6 +125,8 @@ namespace CryptoClients.Net
         public int CurrentSubscriptions => _socketClients.Sum(x => x.CurrentSubscriptions);
 
         /// <inheritdoc />
+        public IAsterSocketClient Aster { get; }
+        /// <inheritdoc />
         public IBinanceSocketClient Binance { get; }
         /// <inheritdoc />
         public IBingXSocketClient BingX { get; }
@@ -172,6 +178,7 @@ namespace CryptoClients.Net
         /// </summary>
         public ExchangeSocketClient()
         {
+            Aster = new AsterSocketClient();
             Binance = new BinanceSocketClient();
             BingX = new BingXSocketClient();
             Bitfinex = new BitfinexSocketClient();
@@ -204,6 +211,7 @@ namespace CryptoClients.Net
         /// </summary>
         public ExchangeSocketClient(
             Action<GlobalExchangeOptions>? globalOptions = null,
+            Action<AsterSocketOptions>? asterSocketOptions = null,
             Action<BinanceSocketOptions>? binanceSocketOptions = null,
             Action<BingXSocketOptions>? bingxSocketOptions = null,
             Action<BitfinexSocketOptions>? bitfinexSocketOptions = null,
@@ -257,6 +265,7 @@ namespace CryptoClients.Net
 
                 ExchangeCredentials? credentials = global.ApiCredentials;
                 Dictionary<string, string?>? environments = global.ApiEnvironments;
+                asterSocketOptions = SetGlobalSocketOptions(global, asterSocketOptions, credentials?.Aster, environments?.TryGetValue(Exchange.Aster, out var asterEnvName) == true ? AsterEnvironment.GetEnvironmentByName(asterEnvName)! : AsterEnvironment.Live);
                 binanceSocketOptions = SetGlobalSocketOptions(global, binanceSocketOptions, credentials?.Binance, environments?.TryGetValue(Exchange.Binance, out var binanceEnvName) == true ? BinanceEnvironment.GetEnvironmentByName(binanceEnvName)! : BinanceEnvironment.Live);
                 bingxSocketOptions = SetGlobalSocketOptions(global, bingxSocketOptions, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingXEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingXEnvName)! : BingXEnvironment.Live);
                 bitfinexSocketOptions = SetGlobalSocketOptions(global, bitfinexSocketOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
@@ -282,6 +291,7 @@ namespace CryptoClients.Net
                 xtSocketOptions = SetGlobalSocketOptions(global, xtSocketOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
 
+            Aster = new AsterSocketClient(asterSocketOptions ?? new Action<AsterSocketOptions>((x) => { }));
             Binance = new BinanceSocketClient(binanceSocketOptions ?? new Action<BinanceSocketOptions>((x) => { }));
             BingX = new BingXSocketClient(bingxSocketOptions ?? new Action<BingXSocketOptions>((x) => { }));
             Bitfinex = new BitfinexSocketClient(bitfinexSocketOptions ?? new Action<BitfinexSocketOptions>((x) => { }));
@@ -313,6 +323,7 @@ namespace CryptoClients.Net
         /// DI constructor
         /// </summary>
         public ExchangeSocketClient(
+            IAsterSocketClient aster,
             IBinanceSocketClient binance,
             IBingXSocketClient bingx,
             IBitfinexSocketClient bitfinex,
@@ -337,6 +348,7 @@ namespace CryptoClients.Net
             IWhiteBitSocketClient whiteBit,
             IXTSocketClient xt)
         {
+            Aster = aster;
             Binance = binance;
             BingX = bingx;
             Bitfinex = bitfinex;
@@ -366,11 +378,13 @@ namespace CryptoClients.Net
 
         private void InitSharedClients()
         {
-            _socketClients = [Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
+            _socketClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
                 DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, WhiteBit, XT];
 
             _sharedClients = new ISharedClient[]
             {
+                Aster.SpotApi.SharedClient,
+                Aster.FuturesApi.SharedClient,
                 Binance.SpotApi.SharedClient,
                 Binance.UsdFuturesApi.SharedClient,
                 Binance.CoinFuturesApi.SharedClient,
@@ -434,6 +448,7 @@ namespace CryptoClients.Net
                 SetApiCredentials(exchange, credentials.Key, credentials.Secret, credentials.Pass);
             }
 
+            SetCredentialsIfNotNull(Exchange.Aster, credentials.Aster);
             SetCredentialsIfNotNull(Exchange.Binance, credentials.Binance);
             SetCredentialsIfNotNull(Exchange.BingX, credentials.BingX);
             SetCredentialsIfNotNull(Exchange.Bitfinex, credentials.Bitfinex);
@@ -464,6 +479,7 @@ namespace CryptoClients.Net
         {
             switch (exchange)
             {
+                case "Aster": Aster.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Binance": Binance.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "BingX": BingX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Bitfinex": Bitfinex.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
@@ -507,6 +523,7 @@ namespace CryptoClients.Net
         {
             var tasks = new[]
             {
+                Aster.UnsubscribeAllAsync(),
                 Binance.UnsubscribeAllAsync(),
                 BingX.UnsubscribeAllAsync(),
                 Bitfinex.UnsubscribeAllAsync(),

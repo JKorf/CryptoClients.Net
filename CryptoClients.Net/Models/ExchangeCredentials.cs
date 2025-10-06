@@ -28,6 +28,7 @@ namespace CryptoClients.Net.Models
             {
                 switch (item.Key)
                 {
+                    case "Aster": Aster = item.Value; break;
                     case "Binance": Binance = item.Value; break;
                     case "BingX": BingX = item.Value; break;
                     case "Bitfinex": Bitfinex = item.Value; break;
@@ -56,6 +57,11 @@ namespace CryptoClients.Net.Models
                 }
             }
         }
+
+        /// <summary>
+        /// Aster API credentials
+        /// </summary>
+        public ApiCredentials? Aster { get; set; }
 
         /// <summary>
         /// Binance API credentials

@@ -5,7 +5,7 @@
 CryptoClients.Net is a library which offers access to cryptocurrency trading platform API's. It allows full access to all exchange API's supported, see below for the list of supported exchanges. It also offers full access to all Shared interfaces implementations offered by the [base library](https://jkorf.github.io/CryptoExchange.Net/), as well as various additional methods for accessing exchange API's dynamically.
 
 ## Features
-* Direct full access to 22 different CEX's and 1 DEX, public and private data, REST and WebSocket APIs
+* Direct full access to 22 different CEX's and 2 DEX's, public and private data, REST and WebSocket APIs
 * Easy dynamic access to all API's
   * Make API REST requests to a specific exchange by passing the name of an exchange to a request
   * Make API REST requests to all exchange API's with a single line
@@ -62,6 +62,7 @@ The following API's are included in CryptoClients.Net. Consider using a referral
 
 ||Exchange|Type|Referral Link|Referral Fee Discount|
 |--|--|--|--|--|
+|![Aster](https://raw.githubusercontent.com/JKorf/Aster.Net/refs/heads/master/Aster.Net/Icon/icon.png)|Aster|DEX|[Link](https://www.asterdex.com/en/referral/FD2E11)|4%|
 |![Binance](https://raw.githubusercontent.com/JKorf/Binance.Net/refs/heads/master/Binance.Net/Icon/icon.png)|Binance|CEX|[Link](https://accounts.binance.com/register?ref=X5K3F2ZG)|20%|
 |![BingX](https://raw.githubusercontent.com/JKorf/BingX.Net/refs/heads/main/BingX.Net/Icon/BingX.png)|BingX|CEX|[Link](https://bingx.com/invite/FFHRJKWG/)|20%|
 |![Bitfinex](https://raw.githubusercontent.com/JKorf/Bitfinex.Net/refs/heads/master/Bitfinex.Net/Icon/icon.png)|Bitfinex|CEX|-|-|

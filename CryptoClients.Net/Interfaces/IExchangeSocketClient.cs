@@ -1,4 +1,5 @@
-﻿using Binance.Net.Interfaces.Clients;
+﻿using Aster.Net.Interfaces.Clients;
+using Binance.Net.Interfaces.Clients;
 using BingX.Net.Interfaces.Clients;
 using Bitfinex.Net.Interfaces.Clients;
 using Bitget.Net.Interfaces.Clients;
@@ -49,6 +50,10 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         public int CurrentSubscriptions { get; }
 
+        /// <summary>
+        /// Aster Websocket API
+        /// </summary>
+        IAsterSocketClient Aster { get; }
         /// <summary>
         /// Binance Websocket API
         /// </summary>

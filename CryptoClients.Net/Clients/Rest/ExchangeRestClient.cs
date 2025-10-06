@@ -1,4 +1,8 @@
-﻿using Binance.Net;
+﻿using Aster.Net;
+using Aster.Net.Clients;
+using Aster.Net.Interfaces.Clients;
+using Aster.Net.Objects.Options;
+using Binance.Net;
 using Binance.Net.Clients;
 using Binance.Net.Interfaces.Clients;
 using Binance.Net.Objects.Options;
@@ -116,6 +120,8 @@ namespace CryptoClients.Net
         public int TotalRequestsMade => _restClients.Sum(x => x.TotalRequestsMade);
 
         /// <inheritdoc />
+        public IAsterRestClient Aster { get; }
+        /// <inheritdoc />
         public IBinanceRestClient Binance { get; }
         /// <inheritdoc />
         public IBingXRestClient BingX { get; }
@@ -167,6 +173,7 @@ namespace CryptoClients.Net
         /// </summary>
         public ExchangeRestClient()
         {
+            Aster = new AsterRestClient();
             Binance = new BinanceRestClient();
             BingX = new BingXRestClient();
             Bitfinex = new BitfinexRestClient();
@@ -199,6 +206,7 @@ namespace CryptoClients.Net
         /// </summary>
         public ExchangeRestClient(
             Action<GlobalExchangeOptions>? globalOptions = null,
+            Action<AsterRestOptions>? asterRestOptions = null,
             Action<BinanceRestOptions>? binanceRestOptions = null,
             Action<BingXRestOptions>? bingxRestOptions = null,
             Action<BitfinexRestOptions>? bitfinexRestOptions = null,
@@ -251,6 +259,7 @@ namespace CryptoClients.Net
 
                 ExchangeCredentials? credentials = global.ApiCredentials;
                 Dictionary<string, string?>? environments = global.ApiEnvironments;
+                asterRestOptions = SetGlobalRestOptions(global, asterRestOptions, credentials?.Aster, environments?.TryGetValue(Exchange.Aster, out var asterEnvName) == true ? AsterEnvironment.GetEnvironmentByName(asterEnvName)!: AsterEnvironment.Live);
                 binanceRestOptions = SetGlobalRestOptions(global, binanceRestOptions, credentials?.Binance, environments?.TryGetValue(Exchange.Binance, out var binanceEnvName) == true ? BinanceEnvironment.GetEnvironmentByName(binanceEnvName)!: BinanceEnvironment.Live);
                 bingxRestOptions = SetGlobalRestOptions(global, bingxRestOptions, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingXEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingXEnvName)! : BingXEnvironment.Live);
                 bitfinexRestOptions = SetGlobalRestOptions(global, bitfinexRestOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
@@ -276,6 +285,7 @@ namespace CryptoClients.Net
                 xtRestOptions = SetGlobalRestOptions(global, xtRestOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
 
+            Aster = new AsterRestClient(asterRestOptions);
             Binance = new BinanceRestClient(binanceRestOptions);
             BingX = new BingXRestClient(bingxRestOptions);
             Bitfinex = new BitfinexRestClient(bitfinexRestOptions);
@@ -305,11 +315,13 @@ namespace CryptoClients.Net
 
         private void InitSharedClients()
         {
-            _restClients = [Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
+            _restClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
                 DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, WhiteBit, XT];
 
             _sharedClients = new ISharedClient[]
             {
+                Aster.SpotApi.SharedClient,
+                Aster.FuturesApi.SharedClient,
                 Binance.SpotApi.SharedClient,
                 Binance.UsdFuturesApi.SharedClient,
                 Binance.CoinFuturesApi.SharedClient,
@@ -356,6 +368,7 @@ namespace CryptoClients.Net
         /// DI constructor
         /// </summary>
         public ExchangeRestClient(
+            IAsterRestClient aster,
             IBinanceRestClient binance,
             IBingXRestClient bingx,
             IBitfinexRestClient bitfinex,
@@ -380,6 +393,7 @@ namespace CryptoClients.Net
             IWhiteBitRestClient whiteBit,
             IXTRestClient xt)
         {
+            Aster = aster;
             Binance = binance;
             BingX = bingx;
             Bitfinex = bitfinex;
@@ -427,6 +441,7 @@ namespace CryptoClients.Net
                 SetApiCredentials(exchange, credentials.Key, credentials.Secret, credentials.Pass);
             }
 
+            SetCredentialsIfNotNull(Exchange.Aster, credentials.Aster);
             SetCredentialsIfNotNull(Exchange.Binance, credentials.Binance);
             SetCredentialsIfNotNull(Exchange.BingX, credentials.BingX);
             SetCredentialsIfNotNull(Exchange.Bitfinex, credentials.Bitfinex);
@@ -457,6 +472,7 @@ namespace CryptoClients.Net
         {
             switch (exchange)
             {
+                case "Aster": Aster.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Binance": Binance.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "BingX": BingX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Bitfinex": Bitfinex.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;

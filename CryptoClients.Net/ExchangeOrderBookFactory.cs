@@ -1,4 +1,5 @@
-﻿using Binance.Net.Interfaces;
+﻿using Aster.Net.Interfaces;
+using Binance.Net.Interfaces;
 using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Enums;
@@ -32,6 +33,8 @@ namespace CryptoClients.Net
     /// <inheritdoc />
     public class ExchangeOrderBookFactory : IExchangeOrderBookFactory
     {
+        /// <inheritdoc />
+        public IAsterOrderBookFactory Aster { get; }
         /// <inheritdoc />
         public IBinanceOrderBookFactory Binance { get; }
         /// <inheritdoc />
@@ -83,6 +86,7 @@ namespace CryptoClients.Net
         /// DI constructor
         /// </summary>
         public ExchangeOrderBookFactory(
+            IAsterOrderBookFactory aster,
             IBinanceOrderBookFactory binance,
             IBingXOrderBookFactory bingx,
             IBitfinexOrderBookFactory bitfinex,
@@ -107,6 +111,7 @@ namespace CryptoClients.Net
             IWhiteBitOrderBookFactory whiteBit,
             IXTOrderBookFactory xt)
         {
+            Aster = aster;
             Binance = binance;
             BingX = bingx;
             Bitfinex = bitfinex;
@@ -137,6 +142,13 @@ namespace CryptoClients.Net
         {
             switch (exchange)
             {
+                case "Aster":
+                    var asterLimit = GetBookDepth(minimalDepth, true, 5, 10, 20);
+                    return Aster.Create(symbol, opts =>
+                    {
+                        opts.Limit = asterLimit;
+                        opts.UpdateInterval = 100;
+                    });
                 case "Binance":
                     var binanceLimit = GetBookDepth(minimalDepth, true, 5, 10, 20);
                     return Binance.Create(symbol, opts => 

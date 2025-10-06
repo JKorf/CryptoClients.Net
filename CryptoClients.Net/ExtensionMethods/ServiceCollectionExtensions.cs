@@ -1,4 +1,7 @@
-﻿using Binance.Net;
+﻿using Aster.Net;
+using Aster.Net.Interfaces.Clients;
+using Aster.Net.Objects.Options;
+using Binance.Net;
 using Binance.Net.Interfaces.Clients;
 using Binance.Net.Objects.Options;
 using BingX.Net;
@@ -91,6 +94,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">The service collection</param>
         /// <param name="globalOptions">The options to be applied for each exchange services. Can be overridden by providing exchange specific options.</param>
+        /// <param name="asterOptions">The options options for the Aster services. Will override options provided in the global options</param>
         /// <param name="binanceOptions">The options options for the Binance services. Will override options provided in the global options</param>
         /// <param name="bingxOptions">The options options for the BingX services. Will override options provided in the global options</param>
         /// <param name="bitfinexOptions">The options options for the Bitfinex services. Will override options provided in the global options</param>
@@ -120,6 +124,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddCryptoClients(
             this IServiceCollection services,
             Action<GlobalExchangeOptions>? globalOptions = null,
+            Action<AsterOptions>? asterOptions = null,
             Action<BinanceOptions>? binanceOptions = null,
             Action<BingXOptions>? bingxOptions = null,
             Action<BitfinexOptions>? bitfinexOptions = null,
@@ -185,6 +190,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 ExchangeCredentials? credentials = global.ApiCredentials;
                 var environments = global.ApiEnvironments;
+                asterOptions = SetGlobalOptions<AsterOptions, AsterRestOptions, AsterSocketOptions, ApiCredentials, AsterEnvironment>(global, asterOptions, credentials?.Aster, environments?.TryGetValue(Exchange.Aster, out var asterEnvName) == true ? AsterEnvironment.GetEnvironmentByName(asterEnvName)! : AsterEnvironment.Live);
                 binanceOptions = SetGlobalOptions<BinanceOptions, BinanceRestOptions, BinanceSocketOptions, ApiCredentials, BinanceEnvironment>(global, binanceOptions, credentials?.Binance, environments?.TryGetValue(Exchange.Binance, out var binanceEnvName) == true ? BinanceEnvironment.GetEnvironmentByName(binanceEnvName)! : BinanceEnvironment.Live);
                 bingxOptions = SetGlobalOptions<BingXOptions, BingXRestOptions, BingXSocketOptions, ApiCredentials, BingXEnvironment>(global, bingxOptions, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingxEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingxEnvName)! : BingXEnvironment.Live);
                 bitfinexOptions = SetGlobalOptions<BitfinexOptions, BitfinexRestOptions, BitfinexSocketOptions, ApiCredentials, BitfinexEnvironment>(global, bitfinexOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
@@ -210,6 +216,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, ApiCredentials, XTEnvironment>(global, xtOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
 
+            services.AddAster(asterOptions);
             services.AddBinance(binanceOptions);
             services.AddBingX(bingxOptions);
             services.AddBitfinex(bitfinexOptions);
@@ -238,6 +245,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IExchangeRestClient, ExchangeRestClient>(x =>
             {
                 return new ExchangeRestClient(
+                    x.GetRequiredService<IAsterRestClient>(),
                     x.GetRequiredService<IBinanceRestClient>(),
                     x.GetRequiredService<IBingXRestClient>(),
                     x.GetRequiredService<IBitfinexRestClient>(),
@@ -267,6 +275,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient), x =>
             {
                 return new ExchangeSocketClient(
+                    x.GetRequiredService<IAsterSocketClient>(),
                     x.GetRequiredService<IBinanceSocketClient>(),
                     x.GetRequiredService<IBingXSocketClient>(),
                     x.GetRequiredService<IBitfinexSocketClient>(),
@@ -296,6 +305,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IExchangeOrderBookFactory, ExchangeOrderBookFactory>();
             services.AddTransient<IExchangeTrackerFactory, ExchangeTrackerFactory>();
             services.AddTransient<IExchangeUserClientProvider, ExchangeUserClientProvider>(x => new ExchangeUserClientProvider(
+                x.GetRequiredService<IAsterUserClientProvider>(),
                 x.GetRequiredService<IBinanceUserClientProvider>(),
                 x.GetRequiredService<IBingXUserClientProvider>(),
                 x.GetRequiredService<IBitfinexUserClientProvider>(),
@@ -370,6 +380,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 UpdateIfNotSpecified($"{exchange}:SocketClientLifeTime", socketClientLifetime?.ToString());
             }
 
+            UpdateExchangeOptions("Aster", globalOptions);
             UpdateExchangeOptions("Binance", globalOptions);
             UpdateExchangeOptions("BingX", globalOptions);
             UpdateExchangeOptions("Bitfinex", globalOptions);
@@ -395,6 +406,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("WhiteBit", globalOptions);
             UpdateExchangeOptions("XT", globalOptions);
 
+            services.AddAster(configuration.GetSection("Aster"));
             services.AddBinance(configuration.GetSection("Binance"));
             services.AddBingX(configuration.GetSection("BingX"));
             services.AddBitfinex(configuration.GetSection("Bitfinex"));
@@ -423,6 +435,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IExchangeRestClient, ExchangeRestClient>(x =>
             {
                 return new ExchangeRestClient(
+                    x.GetRequiredService<IAsterRestClient>(),
                     x.GetRequiredService<IBinanceRestClient>(),
                     x.GetRequiredService<IBingXRestClient>(),
                     x.GetRequiredService<IBitfinexRestClient>(),
@@ -452,6 +465,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient), x =>
             {
                 return new ExchangeSocketClient(
+                    x.GetRequiredService<IAsterSocketClient>(),
                     x.GetRequiredService<IBinanceSocketClient>(),
                     x.GetRequiredService<IBingXSocketClient>(),
                     x.GetRequiredService<IBitfinexSocketClient>(),
@@ -481,6 +495,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IExchangeOrderBookFactory, ExchangeOrderBookFactory>();
             services.AddTransient<IExchangeTrackerFactory, ExchangeTrackerFactory>();
             services.AddTransient<IExchangeUserClientProvider, ExchangeUserClientProvider>(x => new ExchangeUserClientProvider(
+                x.GetRequiredService<IAsterUserClientProvider>(),
                 x.GetRequiredService<IBinanceUserClientProvider>(),
                 x.GetRequiredService<IBingXUserClientProvider>(),
                 x.GetRequiredService<IBitfinexUserClientProvider>(),
