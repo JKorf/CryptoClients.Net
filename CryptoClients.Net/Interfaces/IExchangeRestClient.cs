@@ -601,6 +601,18 @@ namespace CryptoClients.Net.Interfaces
         IFuturesTpSlRestClient? GetFuturesTpSlClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
+        /// Get the <see cref="ITransferRestClient"/> client for all exchanges
+        /// </summary>
+        IEnumerable<ITransferRestClient> GetTransferClients();
+        /// <summary>
+        /// Get the <see cref="ITransferRestClient"/> client for all exchanges
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="from">From account type</param>
+        /// <param name="to">To account type</param>
+        ITransferRestClient? GetTransferClient(string exchange, SharedAccountType from, SharedAccountType to);
+
+        /// <summary>
         /// Get spot ticker information for all symbols on a specific exchange
         /// </summary>
         /// <param name="exchange">The exchange</param>
@@ -1477,5 +1489,13 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
         Task<ExchangeWebResult<SharedLeverage>> SetLeverageAsync(string exchange, SetLeverageRequest request, CancellationToken ct = default);
+
+        /// <summary>
+        /// Transfer funds between different account types on an exchange
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<ExchangeWebResult<SharedId>> TransferAsync(string exchange, TransferRequest request, CancellationToken ct = default);
     }
 }

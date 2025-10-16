@@ -61,6 +61,7 @@
             <inheritdoc />
             <inheritdoc />
             <inheritdoc />
+            <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetAssetsClients">
             <inheritdoc />
@@ -735,6 +736,15 @@
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetTradeHistoryAsyncEnumerable(CryptoExchange.Net.SharedApis.GetTradeHistoryRequest,System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTransferClients">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetTransferClient(System.String,CryptoExchange.Net.SharedApis.SharedAccountType,CryptoExchange.Net.SharedApis.SharedAccountType)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.TransferAsync(System.String,CryptoExchange.Net.SharedApis.TransferRequest,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetWithdrawClients">
@@ -2515,6 +2525,19 @@
             <param name="tradingMode">Trading mode</param>
             <param name="exchange">Exchange name</param>
         </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetTransferClients">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITransferRestClient"/> client for all exchanges
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetTransferClient(System.String,CryptoExchange.Net.SharedApis.SharedAccountType,CryptoExchange.Net.SharedApis.SharedAccountType)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.ITransferRestClient"/> client for all exchanges
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="from">From account type</param>
+            <param name="to">To account type</param>
+        </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotTickerAsync(System.String,CryptoExchange.Net.SharedApis.GetTickersRequest,System.Threading.CancellationToken)">
             <summary>
             Get spot ticker information for all symbols on a specific exchange
@@ -3438,6 +3461,14 @@
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SetLeverageAsync(System.String,CryptoExchange.Net.SharedApis.SetLeverageRequest,System.Threading.CancellationToken)">
             <summary>
             Set the leverage for a symbol
+            </summary>
+            <param name="exchange">The exchange</param>
+            <param name="request">The request</param>
+            <param name="ct">Cancelation token</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.TransferAsync(System.String,CryptoExchange.Net.SharedApis.TransferRequest,System.Threading.CancellationToken)">
+            <summary>
+            Transfer funds between different account types on an exchange
             </summary>
             <param name="exchange">The exchange</param>
             <param name="request">The request</param>
