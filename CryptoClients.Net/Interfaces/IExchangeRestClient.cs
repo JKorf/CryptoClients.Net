@@ -194,11 +194,22 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="tradingMode">The trading mode the client should support</param>
         IEnumerable<IBalanceRestClient> GetBalancesClients(TradingMode tradingMode);
         /// <summary>
+        /// Get all <see cref="IBalanceRestClient"/> clients for all exchanges which supports the provided account type
+        /// </summary>
+        /// <param name="accountType">The account type the client should support</param>
+        IEnumerable<IBalanceRestClient> GetBalancesClients(SharedAccountType accountType);
+        /// <summary>
         /// Get the <see cref="IAssetsRestClient"/> client for a specific exchange which supports the provided trading mode
         /// </summary>
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
         IBalanceRestClient? GetBalancesClient(TradingMode tradingMode, string exchange);
+        /// <summary>
+        /// Get the <see cref="IAssetsRestClient"/> client for a specific exchange which supports the provided account type
+        /// </summary>
+        /// <param name="accountType">Account type</param>
+        /// <param name="exchange">Exchange name</param>
+        IBalanceRestClient? GetBalancesClient(SharedAccountType accountType, string exchange);
 
         /// <summary>
         /// Get the <see cref="IDepositRestClient"/> clients for all exchanges

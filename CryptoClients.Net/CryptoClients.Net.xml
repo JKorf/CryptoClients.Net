@@ -93,7 +93,13 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesClients(CryptoExchange.Net.SharedApis.TradingMode)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesClients(CryptoExchange.Net.SharedApis.SharedAccountType)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesClient(CryptoExchange.Net.SharedApis.SharedAccountType,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetBalancesAsync(System.String,CryptoExchange.Net.SharedApis.GetBalancesRequest,System.Threading.CancellationToken)">
@@ -2070,11 +2076,24 @@
             </summary>
             <param name="tradingMode">The trading mode the client should support</param>
         </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetBalancesClients(CryptoExchange.Net.SharedApis.SharedAccountType)">
+            <summary>
+            Get all <see cref="T:CryptoExchange.Net.SharedApis.IBalanceRestClient"/> clients for all exchanges which supports the provided account type
+            </summary>
+            <param name="accountType">The account type the client should support</param>
+        </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetBalancesClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.IAssetsRestClient"/> client for a specific exchange which supports the provided trading mode
             </summary>
             <param name="tradingMode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetBalancesClient(CryptoExchange.Net.SharedApis.SharedAccountType,System.String)">
+            <summary>
+            Get the <see cref="T:CryptoExchange.Net.SharedApis.IAssetsRestClient"/> client for a specific exchange which supports the provided account type
+            </summary>
+            <param name="accountType">Account type</param>
             <param name="exchange">Exchange name</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetDepositsClients">

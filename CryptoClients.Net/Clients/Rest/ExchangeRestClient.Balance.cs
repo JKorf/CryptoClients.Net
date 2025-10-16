@@ -16,7 +16,11 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IBalanceRestClient> GetBalancesClients(TradingMode api) => _sharedClients.OfType<IBalanceRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
+        public IEnumerable<IBalanceRestClient> GetBalancesClients(SharedAccountType accountType) => _sharedClients.OfType<IBalanceRestClient>().Where(s => s.GetBalancesOptions.IsValid(accountType));
+        /// <inheritdoc />
         public IBalanceRestClient? GetBalancesClient(TradingMode api, string exchange) => _sharedClients.OfType<IBalanceRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        /// <inheritdoc />
+        public IBalanceRestClient? GetBalancesClient(SharedAccountType accountType, string exchange) => _sharedClients.OfType<IBalanceRestClient>().SingleOrDefault(s => s.GetBalancesOptions.IsValid(accountType) && s.Exchange == exchange);
 
 
         #region Get Balances
