@@ -5,7 +5,7 @@
 CryptoClients.Net is a library which offers access to cryptocurrency trading platform API's. It allows full access to all exchange API's supported, see below for the list of supported exchanges. It also offers full access to all Shared interfaces implementations offered by the [base library](https://jkorf.github.io/CryptoExchange.Net/), as well as various additional methods for accessing exchange API's dynamically.
 
 ## Features
-* Direct full access to 22 different CEX's and 2 DEX's, public and private data, REST and WebSocket APIs
+* Direct full access to 23 different CEX's and 2 DEX's, public and private data, REST and WebSocket APIs
 * Easy dynamic access to all API's
   * Make API REST requests to a specific exchange by passing the name of an exchange to a request
   * Make API REST requests to all exchange API's with a single line
@@ -85,6 +85,7 @@ The following API's are included in CryptoClients.Net. Consider using a referral
 |![Mexc](https://raw.githubusercontent.com/JKorf/Mexc.Net/refs/heads/main/Mexc.Net/Icon/icon.png)|Mexc|CEX|-|-|
 |![OKX](https://raw.githubusercontent.com/JKorf/OKX.Net/refs/heads/main/OKX.Net/Icon/icon.png)|OKX|CEX|[Link](https://www.okx.com/join/14592495)|20%|
 |![Toobit](https://raw.githubusercontent.com/JKorf/Toobit.Net/refs/heads/main/Toobit.Net/Icon/icon.png)|Toobit|CEX|[Link](https://www.toobit.com/en-US/register?invite_code=zsV19h)|-|
+|![Upbit](https://raw.githubusercontent.com/JKorf/Upbit.Net/refs/heads/main/Upbit.Net/Icon/icon.png)|Upbit|CEX|-|-|
 |![WhiteBit](https://raw.githubusercontent.com/JKorf/WhiteBit.Net/refs/heads/main/WhiteBit.Net/Icon/icon.png)|WhiteBit|CEX|[Link](https://whitebit.com/referral/a8e59b59-186c-4662-824c-3095248e0edf)|-|
 |![XT](https://raw.githubusercontent.com/JKorf/XT.Net/refs/heads/main/XT.Net/Icon/icon.png)|XT|CEX|[Link](https://www.xt.com/ru/accounts/register?ref=CZG39C)|25%|
 
