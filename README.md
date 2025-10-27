@@ -257,6 +257,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.14.0 - 27 Oct 2025
+    * Added Upbit support with JKorf.Upbit.Net 1.0.0
+    * Updated exchange API client library versions
+
 * Version 3.13.0 - 16 Oct 2025
     * Updated exchange API client library versions
     * Added GetTransferClient(s) to IExchangeRestClient
