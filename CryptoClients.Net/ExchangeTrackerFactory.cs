@@ -26,6 +26,7 @@ using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
 using System;
 using Toobit.Net.Interfaces;
+using Upbit.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
 
@@ -79,6 +80,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IToobitTrackerFactory Toobit { get; }
         /// <inheritdoc />
+        public IUpbitTrackerFactory Upbit { get; }
+        /// <inheritdoc />
         public IWhiteBitTrackerFactory WhiteBit { get; }
         /// <inheritdoc />
         public IXTTrackerFactory XT { get; }
@@ -109,6 +112,7 @@ namespace CryptoClients.Net
             IMexcTrackerFactory mexc,
             IOKXTrackerFactory okx,
             IToobitTrackerFactory toobit,
+            IUpbitTrackerFactory upbit,
             IWhiteBitTrackerFactory whiteBit,
             IXTTrackerFactory xt)
         {
@@ -134,6 +138,7 @@ namespace CryptoClients.Net
             Mexc = mexc;
             OKX = okx;
             Toobit = toobit;
+            Upbit = upbit;
             WhiteBit = whiteBit;
             XT = xt;
         }
@@ -164,6 +169,7 @@ namespace CryptoClients.Net
                 "Mexc" => Mexc,
                 "OKX" => OKX,
                 "Toobit" => Toobit,
+                "Upbit" => Upbit,
                 "WhiteBit" => WhiteBit,
                 "XT" => XT,
                 _ => null

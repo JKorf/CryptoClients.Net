@@ -27,6 +27,7 @@ using WhiteBit.Net.Interfaces.Clients;
 using XT.Net.Interfaces.Clients;
 using CoinW.Net.Interfaces.Clients;
 using BloFin.Net.Interfaces.Clients;
+using Upbit.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -128,6 +129,10 @@ namespace CryptoClients.Net.Interfaces
         /// Toobit REST API
         /// </summary>
         IToobitRestClient Toobit { get; }
+        /// <summary>
+        /// Upbit REST API
+        /// </summary>
+        IUpbitRestClient Upbit { get; }
         /// <summary>
         /// WhiteBit REST API
         /// </summary>

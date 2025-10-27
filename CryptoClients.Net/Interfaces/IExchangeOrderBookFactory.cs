@@ -22,6 +22,7 @@ using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
 using Toobit.Net.Interfaces;
+using Upbit.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
 
@@ -120,6 +121,10 @@ namespace CryptoClients.Net.Interfaces
         /// Toobit order book factory
         /// </summary>
         IToobitOrderBookFactory Toobit { get; }
+        /// <summary>
+        /// Upbit order book factory
+        /// </summary>
+        IUpbitOrderBookFactory Upbit { get; }
         /// <summary>
         /// WhiteBit order book factory
         /// </summary>

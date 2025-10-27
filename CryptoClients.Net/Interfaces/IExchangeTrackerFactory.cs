@@ -26,6 +26,7 @@ using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
 using CoinW.Net.Interfaces;
 using BloFin.Net.Interfaces;
+using Upbit.Net.Interfaces;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -122,6 +123,10 @@ namespace CryptoClients.Net.Interfaces
         /// Toobit tracker factory
         /// </summary>
         IToobitTrackerFactory Toobit { get; }
+        /// <summary>
+        /// Upbit tracker factory
+        /// </summary>
+        IUpbitTrackerFactory Upbit { get; }
         /// <summary>
         /// WhiteBit tracker factory
         /// </summary>

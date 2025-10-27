@@ -23,6 +23,7 @@ using Mexc.Net;
 using OKX.Net;
 using System;
 using Toobit.Net;
+using Upbit.Net;
 using WhiteBit.Net;
 using XT.Net;
 
@@ -343,6 +344,20 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
+        /// Upbit exchange info
+        /// </summary>
+        public static ExchangeInfo Upbit { get; } = new ExchangeInfo
+        {
+            Name = UpbitExchange.ExchangeName,
+            DisplayName = UpbitExchange.DisplayName,
+            ImageUrl = UpbitExchange.ImageUrl,
+            Url = UpbitExchange.Url,
+            ApiDocsUrl = UpbitExchange.ApiDocsUrl,
+            Type = UpbitExchange.Type,
+            ApiEnvironments = UpbitEnvironment.All
+        };
+
+        /// <summary>
         /// WhiteBit exchange info
         /// </summary>
         public static ExchangeInfo WhiteBit { get; } = new ExchangeInfo
@@ -397,6 +412,7 @@ namespace CryptoClients.Net
             Mexc,
             OKX,
             Toobit,
+            Upbit,
             WhiteBit,
             XT
         };
@@ -430,6 +446,7 @@ namespace CryptoClients.Net
                 MexcExchange.RateLimiter.RateLimitTriggered += value;
                 OKXExchange.RateLimiter.RateLimitTriggered += value;
                 ToobitExchange.RateLimiter.RateLimitTriggered += value;
+                UpbitExchange.RateLimiter.RateLimitTriggered += value;
                 WhiteBitExchange.RateLimiter.RateLimitTriggered += value;
                 XTExchange.RateLimiter.RateLimitTriggered += value;
             }
@@ -457,6 +474,7 @@ namespace CryptoClients.Net
                 MexcExchange.RateLimiter.RateLimitTriggered -= value;
                 OKXExchange.RateLimiter.RateLimitTriggered -= value;
                 ToobitExchange.RateLimiter.RateLimitTriggered -= value;
+                UpbitExchange.RateLimiter.RateLimitTriggered -= value;
                 WhiteBitExchange.RateLimiter.RateLimitTriggered -= value;
                 XTExchange.RateLimiter.RateLimitTriggered -= value;
             }
@@ -490,6 +508,7 @@ namespace CryptoClients.Net
                 MexcExchange.RateLimiter.RateLimitUpdated += value;
                 OKXExchange.RateLimiter.RateLimitUpdated += value;
                 ToobitExchange.RateLimiter.RateLimitUpdated += value;
+                UpbitExchange.RateLimiter.RateLimitUpdated += value;
                 WhiteBitExchange.RateLimiter.RateLimitUpdated += value;
                 XTExchange.RateLimiter.RateLimitUpdated += value;
             }
@@ -516,6 +535,7 @@ namespace CryptoClients.Net
                 MexcExchange.RateLimiter.RateLimitUpdated -= value;
                 OKXExchange.RateLimiter.RateLimitUpdated -= value;
                 ToobitExchange.RateLimiter.RateLimitUpdated -= value;
+                UpbitExchange.RateLimiter.RateLimitUpdated -= value;
                 WhiteBitExchange.RateLimiter.RateLimitUpdated -= value;
                 XTExchange.RateLimiter.RateLimitUpdated -= value;
             }

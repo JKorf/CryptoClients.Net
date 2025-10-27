@@ -73,6 +73,9 @@ using OKX.Net.Objects.Options;
 using Toobit.Net;
 using Toobit.Net.Interfaces.Clients;
 using Toobit.Net.Objects.Options;
+using Upbit.Net;
+using Upbit.Net.Interfaces.Clients;
+using Upbit.Net.Objects.Options;
 using System;
 using WhiteBit.Net;
 using WhiteBit.Net.Interfaces.Clients;
@@ -117,6 +120,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="mexcOptions">The options options for the Mexc services. Will override options provided in the global options</param>
         /// <param name="okxOptions">The options options for the OKX services. Will override options provided in the global options</param>
         /// <param name="toobitOptions">The options options for the Toobit services. Will override options provided in the global options</param>
+        /// <param name="upbitOptions">The options options for the Upbit services. Will override options provided in the global options</param>
         /// <param name="whiteBitOptions">The options options for the WhiteBit services. Will override options provided in the global options</param>
         /// <param name="xtOptions">The options options for the XT services. Will override options provided in the global options</param>
         /// <param name="socketClientLifetime">The lifetime for the Socket clients. Defaults to Singleton</param>
@@ -147,6 +151,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<MexcOptions>? mexcOptions = null,
             Action<OKXOptions>? okxOptions = null,
             Action<ToobitOptions>? toobitOptions = null,
+            Action<UpbitOptions>? upbitOptions = null,
             Action<WhiteBitOptions>? whiteBitOptions = null,
             Action<XTOptions>? xtOptions = null,
             ServiceLifetime? socketClientLifetime = null)
@@ -212,6 +217,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, ApiCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
                 okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, ApiCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
                 toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ApiCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var tooBitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(tooBitEnvName)! : ToobitEnvironment.Live);
+                upbitOptions = SetGlobalOptions<UpbitOptions, UpbitRestOptions, UpbitSocketOptions, ApiCredentials, UpbitEnvironment>(global, upbitOptions, credentials?.Upbit, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
                 whiteBitOptions = SetGlobalOptions<WhiteBitOptions, WhiteBitRestOptions, WhiteBitSocketOptions, ApiCredentials, WhiteBitEnvironment>(global, whiteBitOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
                 xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, ApiCredentials, XTEnvironment>(global, xtOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
@@ -239,6 +245,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddMexc(mexcOptions);
             services.AddOKX(okxOptions);
             services.AddToobit(toobitOptions);
+            services.AddUpbit(upbitOptions);
             services.AddWhiteBit(whiteBitOptions);
             services.AddXT(xtOptions);
 
@@ -267,6 +274,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
                     x.GetRequiredService<IToobitRestClient>(),
+                    x.GetRequiredService<IUpbitRestClient>(),
                     x.GetRequiredService<IWhiteBitRestClient>(),
                     x.GetRequiredService<IXTRestClient>()
                     );
@@ -297,6 +305,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IMexcSocketClient>(),
                     x.GetRequiredService<IOKXSocketClient>(),
                     x.GetRequiredService<IToobitSocketClient>(),
+                    x.GetRequiredService<IUpbitSocketClient>(),
                     x.GetRequiredService<IWhiteBitSocketClient>(),
                     x.GetRequiredService<IXTSocketClient>()
                     );
@@ -327,6 +336,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IMexcUserClientProvider>(),
                 x.GetRequiredService<IOKXUserClientProvider>(),
                 x.GetRequiredService<IToobitUserClientProvider>(),
+                x.GetRequiredService<IUpbitUserClientProvider>(),
                 x.GetRequiredService<IWhiteBitUserClientProvider>(),
                 x.GetRequiredService<IXTUserClientProvider>()
                 ));
@@ -403,6 +413,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("Mexc", globalOptions);
             UpdateExchangeOptions("OKX", globalOptions);
             UpdateExchangeOptions("Toobit", globalOptions);
+            UpdateExchangeOptions("Upbit", globalOptions);
             UpdateExchangeOptions("WhiteBit", globalOptions);
             UpdateExchangeOptions("XT", globalOptions);
 
@@ -429,6 +440,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddMexc(configuration.GetSection("Mexc"));
             services.AddOKX(configuration.GetSection("OKX"));
             services.AddToobit(configuration.GetSection("Toobit"));
+            services.AddUpbit(configuration.GetSection("Upbit"));
             services.AddWhiteBit(configuration.GetSection("WhiteBit"));
             services.AddXT(configuration.GetSection("XT"));
 
@@ -457,6 +469,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
                     x.GetRequiredService<IToobitRestClient>(),
+                    x.GetRequiredService<IUpbitRestClient>(),
                     x.GetRequiredService<IWhiteBitRestClient>(),
                     x.GetRequiredService<IXTRestClient>()
                     );
@@ -487,6 +500,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IMexcSocketClient>(),
                     x.GetRequiredService<IOKXSocketClient>(),
                     x.GetRequiredService<IToobitSocketClient>(),
+                    x.GetRequiredService<IUpbitSocketClient>(),
                     x.GetRequiredService<IWhiteBitSocketClient>(),
                     x.GetRequiredService<IXTSocketClient>()
                     );
@@ -517,6 +531,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IMexcUserClientProvider>(),
                 x.GetRequiredService<IOKXUserClientProvider>(),
                 x.GetRequiredService<IToobitUserClientProvider>(),
+                x.GetRequiredService<IUpbitUserClientProvider>(),
                 x.GetRequiredService<IWhiteBitUserClientProvider>(),
                 x.GetRequiredService<IXTUserClientProvider>()
                 ));

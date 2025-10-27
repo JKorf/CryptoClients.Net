@@ -25,6 +25,7 @@ using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
 using System.Linq;
 using Toobit.Net.Interfaces;
+using Upbit.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
 
@@ -78,6 +79,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IToobitOrderBookFactory Toobit { get; }
         /// <inheritdoc />
+        public IUpbitOrderBookFactory Upbit { get; }
+        /// <inheritdoc />
         public IWhiteBitOrderBookFactory WhiteBit { get; }
         /// <inheritdoc />
         public IXTOrderBookFactory XT { get; }
@@ -108,6 +111,7 @@ namespace CryptoClients.Net
             IMexcOrderBookFactory mexc,
             IOKXOrderBookFactory okx,
             IToobitOrderBookFactory toobit,
+            IUpbitOrderBookFactory upbit,
             IWhiteBitOrderBookFactory whiteBit,
             IXTOrderBookFactory xt)
         {
@@ -133,6 +137,7 @@ namespace CryptoClients.Net
             Mexc = mexc;
             OKX = okx;
             Toobit = toobit;
+            Upbit = upbit;
             WhiteBit = whiteBit;
             XT = xt;
         }
@@ -217,6 +222,9 @@ namespace CryptoClients.Net
                     return OKX.Create(symbol, opts => { opts.Limit = okxLimit; });
                 case "Toobit":
                     return Toobit.Create(symbol);
+                case "Upbit":
+                    var upbitLimit = GetBookDepth(minimalDepth, false, 1, 5, 15, 30);
+                    return Upbit.Create(symbol, opts => { opts.Limit = upbitLimit; });
                 case "WhiteBit":
                     var whiteBitLimit = GetBookDepth(minimalDepth, true, 1, 5, 10, 20, 30, 50, 100);
                     return WhiteBit.Create(symbol, opts => { opts.Limit = whiteBitLimit; });

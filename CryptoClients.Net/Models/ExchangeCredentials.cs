@@ -50,6 +50,7 @@ namespace CryptoClients.Net.Models
                     case "Mexc": Mexc = item.Value; break;
                     case "OKX": OKX = item.Value; break;
                     case "Toobit": Toobit = item.Value; break;
+                    case "Upbit": Upbit = item.Value; break;
                     case "WhiteBit": WhiteBit = item.Value; break;
                     case "XT": XT = item.Value; break;
                     default:
@@ -163,11 +164,15 @@ namespace CryptoClients.Net.Models
         /// </summary>
         public ApiCredentials? OKX { get; set; }
 
-
         /// <summary>
         /// Toobit API credentials
         /// </summary>
         public ApiCredentials? Toobit { get; set; }
+
+        /// <summary>
+        /// Upbit API credentials
+        /// </summary>
+        public ApiCredentials? Upbit { get; set; }
 
         /// <summary>
         /// WhiteBit API credentials

@@ -92,6 +92,10 @@ using Toobit.Net;
 using Toobit.Net.Clients;
 using Toobit.Net.Interfaces.Clients;
 using Toobit.Net.Objects.Options;
+using Upbit.Net;
+using Upbit.Net.Clients;
+using Upbit.Net.Interfaces.Clients;
+using Upbit.Net.Objects.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,6 +168,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IToobitRestClient Toobit { get; }
         /// <inheritdoc />
+        public IUpbitRestClient Upbit { get; }
+        /// <inheritdoc />
         public IWhiteBitRestClient WhiteBit { get; }
         /// <inheritdoc />
         public IXTRestClient XT { get; }
@@ -195,6 +201,7 @@ namespace CryptoClients.Net
             Mexc = new MexcRestClient();
             OKX = new OKXRestClient();
             Toobit = new ToobitRestClient();
+            Upbit = new UpbitRestClient();
             WhiteBit = new WhiteBitRestClient();
             XT = new XTRestClient();
 
@@ -228,6 +235,7 @@ namespace CryptoClients.Net
             Action<MexcRestOptions>? mexcRestOptions = null,
             Action<OKXRestOptions>? okxRestOptions = null,
             Action<ToobitRestOptions>? toobitRestOptions = null,
+            Action<UpbitRestOptions>? upbitRestOptions = null,
             Action<WhiteBitRestOptions>? whiteBitRestOptions = null,
             Action<XTRestOptions>? xtRestOptions = null)
         {
@@ -281,6 +289,7 @@ namespace CryptoClients.Net
                 mexcRestOptions = SetGlobalRestOptions(global, mexcRestOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
                 okxRestOptions = SetGlobalRestOptions(global, okxRestOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
                 toobitRestOptions = SetGlobalRestOptions(global, toobitRestOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
+                upbitRestOptions = SetGlobalRestOptions(global, upbitRestOptions, credentials?.Upbit, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
                 whiteBitRestOptions = SetGlobalRestOptions(global, whiteBitRestOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
                 xtRestOptions = SetGlobalRestOptions(global, xtRestOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
@@ -307,6 +316,7 @@ namespace CryptoClients.Net
             Mexc = new MexcRestClient(mexcRestOptions);
             OKX = new OKXRestClient(okxRestOptions);
             Toobit = new ToobitRestClient(toobitRestOptions);
+            Upbit = new UpbitRestClient(upbitRestOptions);
             WhiteBit = new WhiteBitRestClient(whiteBitRestOptions);
             XT = new XTRestClient(xtRestOptions);
 
@@ -316,7 +326,7 @@ namespace CryptoClients.Net
         private void InitSharedClients()
         {
             _restClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
-                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, WhiteBit, XT];
+                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, Upbit, WhiteBit, XT];
 
             _sharedClients = new ISharedClient[]
             {
@@ -357,6 +367,7 @@ namespace CryptoClients.Net
                 OKX.UnifiedApi.SharedClient,
                 Toobit.SpotApi.SharedClient,
                 Toobit.UsdtFuturesApi.SharedClient,
+                Upbit.SpotApi.SharedClient,
                 WhiteBit.V4Api.SharedClient,
                 XT.SpotApi.SharedClient,
                 XT.CoinFuturesApi.SharedClient,
@@ -390,6 +401,7 @@ namespace CryptoClients.Net
             IMexcRestClient mexc,
             IOKXRestClient okx,
             IToobitRestClient toobit,
+            IUpbitRestClient upbit,
             IWhiteBitRestClient whiteBit,
             IXTRestClient xt)
         {
@@ -415,6 +427,7 @@ namespace CryptoClients.Net
             Mexc = mexc;
             OKX = okx;
             Toobit = toobit;
+            Upbit = upbit;
             WhiteBit = whiteBit;
             XT = xt;
 
@@ -463,6 +476,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Mexc, credentials.Mexc);
             SetCredentialsIfNotNull(Exchange.OKX, credentials.OKX);
             SetCredentialsIfNotNull(Exchange.Toobit, credentials.Toobit);
+            SetCredentialsIfNotNull(Exchange.Upbit, credentials.Upbit);
             SetCredentialsIfNotNull(Exchange.WhiteBit, credentials.WhiteBit);
             SetCredentialsIfNotNull(Exchange.XT, credentials.XT);
         }
@@ -494,6 +508,7 @@ namespace CryptoClients.Net
                 case "Mexc": Mexc.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "OKX": OKX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
                 case "Toobit": Toobit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "Upbit": Upbit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "WhiteBit": WhiteBit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "XT": XT.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 default: throw new ArgumentException("Exchange not recognized", nameof(exchange));
