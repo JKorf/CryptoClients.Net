@@ -7,7 +7,7 @@
 <PageTitle>Live Local Order Books</PageTitle>
 
 <div>
-    <h2>BTC USDT live books</h2>
+    <h2>BTC USD live books</h2>
 
     @foreach(var book in _books)
     {
@@ -51,7 +51,7 @@
     {
         if (firstRender)
         {
-            var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
+            var symbol = new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable);
             foreach (var exchange in Exchange.All)
                 _books.Add(exchange, BookFactory.Create(exchange, symbol, 5)!);
 

@@ -10,7 +10,7 @@
 <PageTitle>Live trades</PageTitle>
 
 <div>
-    <h2>@_baseAsset @_quoteAsset live trades</h2>
+    <h2>@_baseAsset USD live trades</h2>
 
     <div style="display: flex">
         <div style="flex: 1">
@@ -21,7 +21,7 @@
                     <th style="padding-left: 20px">Total volume</th>
                     <th style="padding-left: 20px">Total value</th>
                 </tr>
-                @foreach(var exchangeVolume in _volume.OrderByDescending(v => v.Value))
+                @foreach(var exchangeVolume in _volume.ToArray().OrderByDescending(v => v.Value))
                 {
                     <tr>
                         <td>@exchangeVolume.Key</td>
@@ -77,13 +77,12 @@
     private ConcurrentDictionary<string, (decimal BaseVolume, decimal QuoteVolume)> _volume = new ConcurrentDictionary<string, (decimal, decimal)>();
 
     private string _baseAsset = "BTC";
-    private string _quoteAsset = "USDT";
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            var symbol = new SharedSymbol(TradingMode.Spot, _baseAsset, _quoteAsset);
+            var symbol = new SharedSymbol(TradingMode.Spot, _baseAsset, SharedSymbol.UsdOrStable);
             var request = new SubscribeTradeRequest(symbol);
             await SocketClient.SubscribeToTradeUpdatesAsync(request, HandleUpdate);
         }

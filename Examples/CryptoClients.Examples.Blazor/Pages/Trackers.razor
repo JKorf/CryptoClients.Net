@@ -59,13 +59,15 @@
     {
         if (firstRender)
         {
-            var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
+            var symbol = new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable);
             _trackers = new List<ITradeTracker>();
-            foreach (var exchange in Exchange.All.Where(x => 
+            foreach (var exchange in Exchange.All.Where(x =>
                 x != "BloFin" // BloFin does not support spot trading
             ))
             {
-                _trackers.Add(TrackerFactory.CreateTradeTracker(exchange, symbol, period: TimeSpan.FromMinutes(5))!);
+                var tracker = TrackerFactory.CreateTradeTracker(exchange, symbol, period: TimeSpan.FromMinutes(5));
+                if (tracker != null)
+                    _trackers.Add(tracker);
             };
 
             var tasks = new List<Task>();
