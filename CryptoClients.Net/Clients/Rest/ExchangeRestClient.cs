@@ -364,6 +364,7 @@ namespace CryptoClients.Net
                 Kucoin.SpotApi.SharedClient,
                 Kucoin.FuturesApi.SharedClient,
                 Mexc.SpotApi.SharedClient,
+                Mexc.FuturesApi.SharedClient,
                 OKX.UnifiedApi.SharedClient,
                 Toobit.SpotApi.SharedClient,
                 Toobit.UsdtFuturesApi.SharedClient,
