@@ -246,7 +246,7 @@ namespace CryptoClients.Net
             {
                 var restDelegate = (TOptions restOptions) =>
                 {
-                    restOptions.Proxy = globalOptions.Proxy;
+                    restOptions.Proxy = restOptions.Proxy ?? globalOptions.Proxy;
                     restOptions.ApiCredentials = credentials;
                     restOptions.OutputOriginalData = globalOptions.OutputOriginalData ?? restOptions.OutputOriginalData;
                     restOptions.RequestTimeout = globalOptions.RequestTimeout ?? restOptions.RequestTimeout;
