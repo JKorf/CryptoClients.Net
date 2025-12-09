@@ -1158,12 +1158,35 @@ namespace CryptoClients.Net.Interfaces
         Task<ExchangeWebResult<SharedFuturesOrder[]>[]> GetFuturesOpenOrdersAsync(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
+        /// Get futures positions for the user from a specific exchange
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<ExchangeWebResult<SharedPosition[]>> GetPositionsAsync(string exchange, GetPositionsRequest request, CancellationToken ct = default);
+        /// <summary>
+        /// Get futures positions for the user from all exchanges supporting this request, async returning in the order the response from the server is received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        IAsyncEnumerable<ExchangeWebResult<SharedPosition[]>> GetPositionsAsyncEnumerable(GetPositionsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        /// <summary>
+        /// Get futures positions for the user from all exchanges supporting this request, returning all results when all responses have been received
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<ExchangeWebResult<SharedPosition[]>[]> GetPositionsAsync(GetPositionsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+
+        /// <summary>
         /// Get closed Futures orders for a symbol from a specific exchange
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesOpenOrdersAsync(string exchange, GetClosedOrdersRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, CancellationToken ct = default);
+
         /// <summary>
         /// Get closed Futures orders for a symbol for the user from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
