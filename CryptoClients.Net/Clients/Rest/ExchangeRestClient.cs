@@ -111,6 +111,7 @@ using XT.Net.Interfaces.Clients;
 using XT.Net.Objects.Options;
 using CryptoExchange.Net.Interfaces;
 using CoinW.Net.Objects.Options;
+using CryptoExchange.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net
 {

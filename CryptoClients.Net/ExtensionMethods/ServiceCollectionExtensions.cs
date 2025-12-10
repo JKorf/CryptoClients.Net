@@ -181,6 +181,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     options.Rest.CachingEnabled = globalOptions.CachingEnabled ?? options.Rest.CachingEnabled;
                     options.Socket.ReconnectPolicy = globalOptions.ReconnectPolicy ?? options.Socket.ReconnectPolicy;
                     options.Socket.ReconnectInterval = globalOptions.ReconnectInterval ?? options.Socket.ReconnectInterval;
+                    options.Socket.UseUpdatedDeserialization = globalOptions.UseUpdatedDeserialization ?? options.Socket.UseUpdatedDeserialization;
 
                     exchangeDelegate?.Invoke(options);
                 };
@@ -388,6 +389,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 UpdateIfNotSpecified($"{exchange}:Socket:ReconnectPolicy", globalOptions.ReconnectPolicy?.ToString());
                 UpdateIfNotSpecified($"{exchange}:Socket:ReconnectInterval", globalOptions.ReconnectInterval?.ToString());
                 UpdateIfNotSpecified($"{exchange}:SocketClientLifeTime", socketClientLifetime?.ToString());
+                UpdateIfNotSpecified($"{exchange}:UseUpdatedDeserialization", globalOptions.UseUpdatedDeserialization?.ToString());
             }
 
             UpdateExchangeOptions("Aster", globalOptions);

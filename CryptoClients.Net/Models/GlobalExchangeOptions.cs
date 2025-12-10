@@ -61,5 +61,7 @@ namespace CryptoClients.Net.Models
         /// Time to wait between socket reconnect attempts
         /// </summary>
         public TimeSpan? ReconnectInterval { get; set; }
+
+        public bool? UseUpdatedDeserialization { get; set; }
     }
 }
