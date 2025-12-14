@@ -25,7 +25,7 @@ namespace CryptoClients.Net
         public async Task<ExchangeResult<UpdateSubscription>> SubscribeToBookTickerUpdatesAsync(
             string exchange,
             SubscribeBookTickerRequest request,
-            Action<ExchangeEvent<SharedBookTicker>> handler,
+            Action<DataEvent<SharedBookTicker>> handler,
             CancellationToken ct = default)
         {
             var result = await SubscribeToBookTickerUpdatesAsync(request, handler, new[] { exchange }, ct).ConfigureAwait(false);
@@ -45,7 +45,7 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<ExchangeEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<DataEvent<SharedBookTicker>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             var clients = GetBookTickerClients(request.TradingMode);
             if (exchanges != null)

@@ -25,7 +25,7 @@ namespace CryptoClients.Net
         public async Task<ExchangeResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(
             string exchange,
             SubscribeUserTradeRequest request,
-            Action<ExchangeEvent<SharedUserTrade[]>> handler,
+            Action<DataEvent<SharedUserTrade[]>> handler,
             ExchangeWebResult<string>[]? listenKeyResults = null,
             CancellationToken ct = default)
         {
@@ -48,7 +48,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToUserTradeUpdatesAsync(
             SubscribeUserTradeRequest request,
-            Action<ExchangeEvent<SharedUserTrade[]>> handler,
+            Action<DataEvent<SharedUserTrade[]>> handler,
             IEnumerable<string>? exchanges = null,
             ExchangeWebResult<string>[]? listenKeyResults = null,
             CancellationToken ct = default)

@@ -9,9 +9,9 @@
   <PropertyGroup>
     <PackageId>CryptoClients.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>3.16.1</PackageVersion>
-    <AssemblyVersion>3.16.1</AssemblyVersion>
-    <FileVersion>3.16.1</FileVersion>
+    <PackageVersion>3.17.0</PackageVersion>
+    <AssemblyVersion>3.17.0</AssemblyVersion>
+    <FileVersion>3.17.0</FileVersion>
     <Description>CryptoClients.Net offers full easy access to 25 different cryptocurrency exchange API's, such as Binance, Bybit, HyperLiquid and many more. It offers a unified way to access the API's and tools to dynamically call endpoints on different exchanges.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>CryptoClients;CryptoClients.Net;OKX;OKX.Net;Mexc;Mexc.Net;Kucoin;Kucoin.Net;Kraken;Kraken.Net;Huobi;Huobi.Net;HTX;HTX.Net;DeepCoin.Net;DeepCoin;CoinEx;CoinEx.Net;Bybit;Bybit.Net;Bitget;Bitget.Net;Bitfinex;Bitfinex.Net;BingX;BingX.Net;Binance;Binance.Net;GateIo.Net;Gate.io;BitMart;BitMart.Net;WhiteBit.Net;WhiteBit;XT;XT.Net;HyperLiquid;HyperLiquid.Net;DeepCoin;DeepCoin.Net;CoinW;CoinW.Net;BloFin;BloFin.Net;Upbit;Upbit.Net;Aster;Aster.Net;CryptoExchange.Net;CryptoCurrency;CryptoCurrency Exchange</PackageTags>
