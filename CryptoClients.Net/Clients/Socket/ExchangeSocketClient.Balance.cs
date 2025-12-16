@@ -26,7 +26,7 @@ namespace CryptoClients.Net
         public async Task<ExchangeResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(
             string exchange,
             SubscribeBalancesRequest request,
-            Action<ExchangeEvent<SharedBalance[]>> handler,
+            Action<DataEvent<SharedBalance[]>> handler,
             ExchangeWebResult<string>[]? listenKeyResults = null,
             CancellationToken ct = default)
         {
@@ -48,7 +48,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToBalanceUpdatesAsync(
             SubscribeBalancesRequest request,
-            Action<ExchangeEvent<SharedBalance[]>> handler,
+            Action<DataEvent<SharedBalance[]>> handler,
             IEnumerable<string>? exchanges = null,
             ExchangeWebResult<string>[]? listenKeyResults = null,
             CancellationToken ct = default)

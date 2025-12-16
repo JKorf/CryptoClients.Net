@@ -23,7 +23,7 @@ namespace CryptoClients.Net
         public async Task<ExchangeResult<UpdateSubscription>> SubscribeToSpotOrderUpdatesAsync(
             string exchange,
             SubscribeSpotOrderRequest request,
-            Action<ExchangeEvent<SharedSpotOrder[]>> handler,
+            Action<DataEvent<SharedSpotOrder[]>> handler,
             ExchangeWebResult<string>[]? listenKeyResults = null,
             CancellationToken ct = default)
         {
@@ -46,7 +46,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToSpotOrderUpdatesAsync(
             SubscribeSpotOrderRequest request,
-            Action<ExchangeEvent<SharedSpotOrder[]>> handler,
+            Action<DataEvent<SharedSpotOrder[]>> handler,
             IEnumerable<string>? exchanges = null,
             ExchangeWebResult<string>[]? listenKeyResults = null,
             CancellationToken ct = default)

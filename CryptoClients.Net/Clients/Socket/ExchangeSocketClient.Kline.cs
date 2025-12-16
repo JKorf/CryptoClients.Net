@@ -26,7 +26,7 @@ namespace CryptoClients.Net
         public async Task<ExchangeResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(
             string exchange,
             SubscribeKlineRequest request,
-            Action<ExchangeEvent<SharedKline>> handler,
+            Action<DataEvent<SharedKline>> handler,
             CancellationToken ct = default)
         {
             var result = await SubscribeToKlineUpdatesAsync(request, handler, new[] { exchange }, ct).ConfigureAwait(false);
@@ -46,7 +46,7 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<ExchangeEvent<SharedKline>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<DataEvent<SharedKline>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             var clients = GetKlineClients(request.TradingMode);
             if (exchanges != null)

@@ -25,7 +25,7 @@ namespace CryptoClients.Net
         public async Task<ExchangeResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(
             string exchange,
             SubscribeOrderBookRequest request,
-            Action<ExchangeEvent<SharedOrderBook>> handler,
+            Action<DataEvent<SharedOrderBook>> handler,
             CancellationToken ct = default)
         {
             var result = await SubscribeToOrderBookUpdatesAsync(request, handler, new[] { exchange }, ct).ConfigureAwait(false);
@@ -45,7 +45,7 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToOrderBookUpdatesAsync(SubscribeOrderBookRequest request, Action<ExchangeEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToOrderBookUpdatesAsync(SubscribeOrderBookRequest request, Action<DataEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             var clients = GetOrderBookClients(request.TradingMode);
             if (exchanges != null)

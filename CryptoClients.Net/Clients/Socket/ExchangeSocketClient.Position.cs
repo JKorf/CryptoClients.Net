@@ -25,7 +25,7 @@ namespace CryptoClients.Net
         public async Task<ExchangeResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(
             string exchange,
             SubscribePositionRequest request,
-            Action<ExchangeEvent<SharedPosition[]>> handler,
+            Action<DataEvent<SharedPosition[]>> handler,
             ExchangeWebResult<string>[]? listenKeyResults = null,
             CancellationToken ct = default)
         {
@@ -48,7 +48,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToPositionUpdatesAsync(
             SubscribePositionRequest request,
-            Action<ExchangeEvent<SharedPosition[]>> handler,
+            Action<DataEvent<SharedPosition[]>> handler,
             IEnumerable<string>? exchanges = null,
             ExchangeWebResult<string>[]? listenKeyResults = null,
             CancellationToken ct = default)

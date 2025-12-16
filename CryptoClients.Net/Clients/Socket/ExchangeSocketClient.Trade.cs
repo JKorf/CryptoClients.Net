@@ -25,7 +25,7 @@ namespace CryptoClients.Net
         public async Task<ExchangeResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(
             string exchange,
             SubscribeTradeRequest request,
-            Action<ExchangeEvent<SharedTrade[]>> handler,
+            Action<DataEvent<SharedTrade[]>> handler,
             CancellationToken ct = default)
         {
             var result = await SubscribeToTradeUpdatesAsync(request, handler, new[] { exchange }, ct).ConfigureAwait(false);
@@ -45,7 +45,7 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<SharedTrade[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<DataEvent<SharedTrade[]>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             var clients = GetTradeClients(request.TradingMode);
             if (exchanges != null)
