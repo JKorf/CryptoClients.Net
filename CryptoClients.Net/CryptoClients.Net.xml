@@ -4519,6 +4519,11 @@
             Time to wait between socket reconnect attempts
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.UseUpdatedDeserialization">
+            <summary>
+            Whether or not to use the updated deserialization logic, default is true
+            </summary>
+        </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions">
             <summary>
             Extensions for DI

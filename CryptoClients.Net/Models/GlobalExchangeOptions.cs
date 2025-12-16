@@ -62,6 +62,9 @@ namespace CryptoClients.Net.Models
         /// </summary>
         public TimeSpan? ReconnectInterval { get; set; }
 
+        /// <summary>
+        /// Whether or not to use the updated deserialization logic, default is true
+        /// </summary>
         public bool? UseUpdatedDeserialization { get; set; }
     }
 }
