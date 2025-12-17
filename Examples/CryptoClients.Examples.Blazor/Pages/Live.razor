@@ -88,7 +88,7 @@
         }
     }
 
-    private void HandleUpdate(ExchangeEvent<SharedTrade[]> trades)
+    private void HandleUpdate(DataEvent<SharedTrade[]> trades)
     {
         foreach(var trade in trades.Data)
             AddTrade(trades.Exchange, trade);
