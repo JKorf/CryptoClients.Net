@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net9.0;net10.0</TargetFrameworks>
     <Nullable>enable</Nullable>
@@ -54,13 +54,10 @@
     <PackageReference Include="Bybit.Net" Version="6.0.0" />
     <PackageReference Include="CoinEx.Net" Version="10.0.0" />
     <PackageReference Include="CoinGecko.Net" Version="5.0.0" />
-    <PackageReference Include="CoinW.Net" Version="2.0.0" />
     <PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="CryptoCom.Net" Version="3.0.0" />
-    <PackageReference Include="DeepCoin.Net" Version="3.0.1" />
     <PackageReference Include="GateIo.Net" Version="3.0.0" />
     <PackageReference Include="HyperLiquid.Net" Version="3.0.0" />
     <PackageReference Include="JK.BingX.Net" Version="3.0.0" />
@@ -68,15 +65,20 @@
     <PackageReference Include="JK.Mexc.Net" Version="4.0.0" />
     <PackageReference Include="JK.OKX.Net" Version="4.0.0" />
     <PackageReference Include="Jkorf.Aster.Net" Version="2.0.0" />
-    <PackageReference Include="JKorf.BitMEX.Net" Version="3.0.0" />
     <PackageReference Include="JKorf.Coinbase.Net" Version="3.0.0" />
     <PackageReference Include="JKorf.HTX.Net" Version="8.0.0" />
     <PackageReference Include="JKorf.Upbit.Net" Version="2.0.0" />
-    <PackageReference Include="KrakenExchange.Net" Version="7.0.0" />
     <PackageReference Include="Kucoin.Net" Version="8.0.0" />
     <PackageReference Include="Toobit.Net" Version="2.0.0" />
     <PackageReference Include="WhiteBit.Net" Version="3.0.0" />
     <PackageReference Include="XT.Net" Version="3.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BitMEX.Net\BitMEX.Net\BitMEX.Net.csproj" />
+    <ProjectReference Include="..\..\CoinW.Net\CoinW.Net\CoinW.Net.csproj" />
+    <ProjectReference Include="..\..\CryptoCom.Net\CryptoCom.Net\CryptoCom.Net.csproj" />
+    <ProjectReference Include="..\..\DeepCoin.Net\DeepCoin.Net\DeepCoin.Net.csproj" />
+    <ProjectReference Include="..\..\Kraken.Net\Kraken.Net\Kraken.Net.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <DocumentationFile>CryptoClients.Net.xml</DocumentationFile>

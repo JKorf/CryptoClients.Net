@@ -11,3 +11,8 @@ An example of how to use CryptoClients.Net in a Blazor server application
 ### CryptoClients.Examples.Console
 A basic console application showcasing how CryptoClients.Net can be used
 ![Console](Assets/Console.png)
+
+### CryptoVisualizer.Net
+Chart visualization of live trades on all exchanges using Avalonia  
+(Set CryptoVisualizer.Net.Desktop as startup project)
+![Console](Assets/Visualizer.png)

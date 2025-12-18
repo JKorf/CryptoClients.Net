@@ -1,0 +1,74 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             x:Class="CryptoVisualizer.Net.Chart"
+             x:DataType="vms:ChartViewModel"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+        xmlns:vms="using:CryptoVisualizer.Net.ViewModels"            
+        xmlns:sys="clr-namespace:System;assembly=netstandard"
+        xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"            
+             >
+    <UserControl.DataContext>
+        <vms:ChartViewModel/>
+    </UserControl.DataContext>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <Border BorderThickness="0 0 2 0" BorderBrush="Gray">
+            <Grid>
+                <Grid.RowDefinitions>
+				    <RowDefinition Height="50"></RowDefinition>
+				    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+			    <ComboBox ItemsSource="{Binding Assets}"
+                            HorizontalAlignment="Stretch" 
+                            SelectedItem="{Binding SelectedAsset}" 
+                            Margin="10" />
+
+                <ListBox ItemsSource="{Binding EnabledExchanges}"
+                            Grid.Row="1"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                        <Setter Property="Height" Value="30"/>
+                        </Style>
+                    </ListBox.Styles>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=Enabled, Mode=TwoWay}"><TextBlock Text="{Binding Path=Exchange, Mode=OneWay }" /> </CheckBox>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>                
+        </Border>
+         <lvc:CartesianChart
+            Grid.Column="1"
+            SyncContext="{Binding Sync}"
+            Series="{Binding Series}"        
+            LegendPosition="Right"
+            AnimationsSpeed="00:00:00.10"
+            FindingStrategy="CompareAllTakeClosest"    
+            ZoomMode="X">
+             <lvc:CartesianChart.XAxes>
+                <lvc:XamlDateTimeAxis
+                    MinLimit="{Binding MinLimit}"
+                    MaxLimit="{Binding MaxLimit}"
+                    Interval="00:00:10"
+                    DateFormatter="{Binding Formatter}"/>
+            </lvc:CartesianChart.XAxes>
+             <lvc:CartesianChart.YAxes>
+                 <lvc:XamlAxis 
+                    MinLimit="{Binding MinPrice}"
+                    MaxLimit="{Binding MaxPrice}"
+                    />
+            </lvc:CartesianChart.YAxes>
+
+        </lvc:CartesianChart>
+        
+    </Grid>
+
+</UserControl>
