@@ -257,6 +257,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.0.4 - 19 Dec 2025
+    * Updated client library versions fixing some bugs
+
 * Version 4.0.3 - 19 Dec 2025
     * Updated client library versions fixing some bugs
 
