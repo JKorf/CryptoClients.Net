@@ -1923,6 +1923,16 @@
             <param name="exchangeParameters">Exchange specific parameters</param>
             <returns>ISymbolOrderBook implementation</returns>
         </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeOrderBookFactory.Create(CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Collections.Generic.IEnumerable{System.String},CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <summary>
+            Create a ISymbolOrderBook instances for the provided symbol on the all or specific exchanges
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="minimalDepth">Minimal depth of the order book. Order book might be larger depending on what the API supports. Might be smaller if the requested depth is above what the API can support.</param>
+            <param name="exchangeParameters">Exchange specific parameters</param>
+            <param name="exchanges">Exchanges to create the books for, if not specified create for all</param>
+            <returns>ISymbolOrderBook implementations</returns>
+        </member>
         <member name="T:CryptoClients.Net.Interfaces.IExchangeRestClient">
             <summary>
             Client for accessing the exchange REST API's.

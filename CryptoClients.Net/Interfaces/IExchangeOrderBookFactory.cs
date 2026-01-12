@@ -21,6 +21,7 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using System.Collections.Generic;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
@@ -143,5 +144,15 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchangeParameters">Exchange specific parameters</param>
         /// <returns>ISymbolOrderBook implementation</returns>
         ISymbolOrderBook? Create(string exchange, SharedSymbol symbol, int? minimalDepth = null, ExchangeParameters? exchangeParameters = null);
+
+        /// <summary>
+        /// Create a ISymbolOrderBook instances for the provided symbol on the all or specific exchanges
+        /// </summary>
+        /// <param name="symbol">Symbol</param>
+        /// <param name="minimalDepth">Minimal depth of the order book. Order book might be larger depending on what the API supports. Might be smaller if the requested depth is above what the API can support.</param>
+        /// <param name="exchangeParameters">Exchange specific parameters</param>
+        /// <param name="exchanges">Exchanges to create the books for, if not specified create for all</param>
+        /// <returns>ISymbolOrderBook implementations</returns>
+        ISymbolOrderBook[] Create(SharedSymbol symbol, int? minimalDepth = null, IEnumerable<string>? exchanges = null, ExchangeParameters ? exchangeParameters = null);
     }
 }

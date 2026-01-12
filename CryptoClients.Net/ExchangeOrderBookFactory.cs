@@ -11,6 +11,7 @@ using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using CoinW.Net.Interfaces;
+using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
 using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.Interfaces;
@@ -23,6 +24,7 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
@@ -140,6 +142,19 @@ namespace CryptoClients.Net
             Upbit = upbit;
             WhiteBit = whiteBit;
             XT = xt;
+        }
+
+        public ISymbolOrderBook[] Create(SharedSymbol symbol, int? minimalDepth = null, IEnumerable<string>? exchanges = null, ExchangeParameters? exchangeParameters = null)
+        {
+            var result = new List<ISymbolOrderBook>();
+            foreach(var exchange in Exchange.All)
+            {
+                var book = Create(exchange, symbol, minimalDepth, exchangeParameters);
+                if (book != null)
+                    result.Add(book);
+            }
+
+            return result.ToArray();
         }
 
         /// <inheritdoc />
