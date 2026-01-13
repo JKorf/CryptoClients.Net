@@ -257,6 +257,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.1.1 - 13 Jan 2026
+    * Fixed issue with websocket message sequence checking causing reconnects
+
 * Version 4.1.0 - 13 Jan 2026
     * Updated client library versions
     * Added Create method without exchange parameters to create SymbolOrderBook instance on all supported exchanges
