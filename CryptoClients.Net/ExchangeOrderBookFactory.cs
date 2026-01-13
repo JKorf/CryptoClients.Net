@@ -11,6 +11,7 @@ using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using CoinW.Net.Interfaces;
+using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
 using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.Interfaces;
@@ -23,6 +24,7 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
@@ -143,6 +145,20 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
+        public ISymbolOrderBook[] Create(SharedSymbol symbol, int? minimalDepth = null, IEnumerable<string>? exchanges = null, ExchangeParameters? exchangeParameters = null)
+        {
+            var result = new List<ISymbolOrderBook>();
+            foreach(var exchange in Exchange.All)
+            {
+                var book = Create(exchange, symbol, minimalDepth, exchangeParameters);
+                if (book != null)
+                    result.Add(book);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <inheritdoc />
         public ISymbolOrderBook? Create(string exchange, SharedSymbol symbol, int? minimalDepth = null,  ExchangeParameters? exchangeParameters = null)
         {
             switch (exchange)
@@ -181,7 +197,7 @@ namespace CryptoClients.Net
                     var bloFinLimit = GetBookDepth(minimalDepth, false, 5, 400);
                     return BloFin.Create(symbol, opts => { opts.Limit = bloFinLimit; });
                 case "Bybit":
-                    var bybitLimit = GetBookDepth(minimalDepth, false, 1, 50, 200);
+                    var bybitLimit = GetBookDepth(minimalDepth, false, 1, 50, 200, 1000);
                     return Bybit.Create(symbol, opts => { opts.Limit = bybitLimit; });
                 case "Coinbase":
                     return Coinbase.Create(symbol);
@@ -197,7 +213,7 @@ namespace CryptoClients.Net
                     return DeepCoin.Create(symbol);
                 case "GateIo":
                     var gateIoLimit = GetBookDepth(minimalDepth, true, 20, 50, 100);
-                    return GateIo.Create(symbol, symbol.QuoteAsset, opts => 
+                    return GateIo.Create(symbol, symbol.QuoteAsset == SharedSymbol.UsdOrStable ? null : symbol.QuoteAsset, opts => 
                     { 
                         opts.Limit = gateIoLimit;
                         opts.UpdateInterval = 100;
