@@ -144,6 +144,7 @@ namespace CryptoClients.Net
             XT = xt;
         }
 
+        /// <inheritdoc />
         public ISymbolOrderBook[] Create(SharedSymbol symbol, int? minimalDepth = null, IEnumerable<string>? exchanges = null, ExchangeParameters? exchangeParameters = null)
         {
             var result = new List<ISymbolOrderBook>();
@@ -196,7 +197,7 @@ namespace CryptoClients.Net
                     var bloFinLimit = GetBookDepth(minimalDepth, false, 5, 400);
                     return BloFin.Create(symbol, opts => { opts.Limit = bloFinLimit; });
                 case "Bybit":
-                    var bybitLimit = GetBookDepth(minimalDepth, false, 1, 50, 200);
+                    var bybitLimit = GetBookDepth(minimalDepth, false, 1, 50, 200, 1000);
                     return Bybit.Create(symbol, opts => { opts.Limit = bybitLimit; });
                 case "Coinbase":
                     return Coinbase.Create(symbol);
@@ -212,7 +213,7 @@ namespace CryptoClients.Net
                     return DeepCoin.Create(symbol);
                 case "GateIo":
                     var gateIoLimit = GetBookDepth(minimalDepth, true, 20, 50, 100);
-                    return GateIo.Create(symbol, symbol.QuoteAsset, opts => 
+                    return GateIo.Create(symbol, symbol.QuoteAsset == SharedSymbol.UsdOrStable ? null : symbol.QuoteAsset, opts => 
                     { 
                         opts.Limit = gateIoLimit;
                         opts.UpdateInterval = 100;

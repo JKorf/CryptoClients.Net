@@ -1334,6 +1334,9 @@
             DI constructor
             </summary>
         </member>
+        <member name="M:CryptoClients.Net.ExchangeOrderBookFactory.Create(CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Collections.Generic.IEnumerable{System.String},CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeOrderBookFactory.Create(System.String,CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},CryptoExchange.Net.SharedApis.ExchangeParameters)">
             <inheritdoc />
         </member>
