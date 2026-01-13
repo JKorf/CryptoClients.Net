@@ -257,6 +257,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.1.0 - 13 Jan 2026
+    * Updated client library versions
+    * Added Create method without exchange parameters to create SymbolOrderBook instance on all supported exchanges
+    * Fixed GateIo ExchangeOrderBookFactory Perpetual Futures creation when using SharedSymbol.UsdOrStable
+
 * Version 4.0.4 - 19 Dec 2025
     * Updated client library versions fixing some bugs
 
