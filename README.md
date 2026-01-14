@@ -257,6 +257,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.1.2 - 14 Jan 2026
+    * Updated client library versions fixing some bugs
+
 * Version 4.1.1 - 13 Jan 2026
     * Fixed issue with websocket message sequence checking causing reconnects
 
