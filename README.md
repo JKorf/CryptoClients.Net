@@ -257,6 +257,12 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.2.0 - 22 Jan 2026
+    * Updated client library versions
+    * Added Polymarket support with the Polymarket.Net library
+    * Added static class Platform listing all supported exchange names plus any non-exchange platform names
+    * Added static class Platforms listing all supported exchange metadatas plus any non-exchange platform metadata
+
 * Version 4.1.3 - 19 Jan 2026
     * Updated client library versions, fixing some bugs
 
