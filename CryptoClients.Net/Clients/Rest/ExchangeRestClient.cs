@@ -112,6 +112,10 @@ using XT.Net.Objects.Options;
 using CryptoExchange.Net.Interfaces;
 using CoinW.Net.Objects.Options;
 using CryptoExchange.Net.Interfaces.Clients;
+using Polymarket.Net.Interfaces.Clients;
+using Polymarket.Net.Clients;
+using Polymarket.Net.Objects.Options;
+using Polymarket.Net;
 
 namespace CryptoClients.Net
 {
@@ -167,6 +171,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOKXRestClient OKX { get; }
         /// <inheritdoc />
+        public IPolymarketRestClient Polymarket { get; }
+        /// <inheritdoc />
         public IToobitRestClient Toobit { get; }
         /// <inheritdoc />
         public IUpbitRestClient Upbit { get; }
@@ -201,6 +207,7 @@ namespace CryptoClients.Net
             Kucoin = new KucoinRestClient();
             Mexc = new MexcRestClient();
             OKX = new OKXRestClient();
+            Polymarket = new PolymarketRestClient();
             Toobit = new ToobitRestClient();
             Upbit = new UpbitRestClient();
             WhiteBit = new WhiteBitRestClient();
@@ -235,6 +242,7 @@ namespace CryptoClients.Net
             Action<KucoinRestOptions>? kucoinRestOptions = null,
             Action<MexcRestOptions>? mexcRestOptions = null,
             Action<OKXRestOptions>? okxRestOptions = null,
+            Action<PolymarketRestOptions>? polymarketRestOptions = null,
             Action<ToobitRestOptions>? toobitRestOptions = null,
             Action<UpbitRestOptions>? upbitRestOptions = null,
             Action<WhiteBitRestOptions>? whiteBitRestOptions = null,
@@ -289,6 +297,7 @@ namespace CryptoClients.Net
                 kucoinRestOptions = SetGlobalRestOptions(global, kucoinRestOptions, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
                 mexcRestOptions = SetGlobalRestOptions(global, mexcRestOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
                 okxRestOptions = SetGlobalRestOptions(global, okxRestOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
+                polymarketRestOptions = SetGlobalRestOptions(global, polymarketRestOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
                 toobitRestOptions = SetGlobalRestOptions(global, toobitRestOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
                 upbitRestOptions = SetGlobalRestOptions(global, upbitRestOptions, credentials?.Upbit, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
                 whiteBitRestOptions = SetGlobalRestOptions(global, whiteBitRestOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
@@ -316,6 +325,7 @@ namespace CryptoClients.Net
             Kucoin = new KucoinRestClient(kucoinRestOptions);
             Mexc = new MexcRestClient(mexcRestOptions);
             OKX = new OKXRestClient(okxRestOptions);
+            Polymarket = new PolymarketRestClient(polymarketRestOptions);
             Toobit = new ToobitRestClient(toobitRestOptions);
             Upbit = new UpbitRestClient(upbitRestOptions);
             WhiteBit = new WhiteBitRestClient(whiteBitRestOptions);
@@ -402,6 +412,7 @@ namespace CryptoClients.Net
             IKucoinRestClient kucoin,
             IMexcRestClient mexc,
             IOKXRestClient okx,
+            IPolymarketRestClient polymarket,
             IToobitRestClient toobit,
             IUpbitRestClient upbit,
             IWhiteBitRestClient whiteBit,
@@ -428,6 +439,7 @@ namespace CryptoClients.Net
             Kucoin = kucoin;
             Mexc = mexc;
             OKX = okx;
+            Polymarket = polymarket;
             Toobit = toobit;
             Upbit = upbit;
             WhiteBit = whiteBit;
@@ -481,6 +493,9 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Upbit, credentials.Upbit);
             SetCredentialsIfNotNull(Exchange.WhiteBit, credentials.WhiteBit);
             SetCredentialsIfNotNull(Exchange.XT, credentials.XT);
+
+            if (credentials.Polymarket != null)
+                Polymarket.SetApiCredentials(credentials.Polymarket);
         }
 
         /// <inheritdoc />
@@ -509,6 +524,7 @@ namespace CryptoClients.Net
                 case "Kucoin": Kucoin.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
                 case "Mexc": Mexc.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "OKX": OKX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
+                case "Polymarket": throw new InvalidOperationException("Polymarket uses different credentials system, use SetApiCredentials(ExchangeCredentials credentials) instead");
                 case "Toobit": Toobit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Upbit": Upbit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "WhiteBit": WhiteBit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;

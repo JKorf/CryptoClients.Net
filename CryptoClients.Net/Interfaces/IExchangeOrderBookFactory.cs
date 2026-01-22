@@ -21,6 +21,7 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using Polymarket.Net.Interfaces;
 using System.Collections.Generic;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
@@ -118,6 +119,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX order book factory
         /// </summary>
         IOKXOrderBookFactory OKX { get; }
+        /// <summary>
+        /// Polymarket order book factory
+        /// </summary>
+        IPolymarketOrderBookFactory Polymarket { get; }
         /// <summary>
         /// Toobit order book factory
         /// </summary>

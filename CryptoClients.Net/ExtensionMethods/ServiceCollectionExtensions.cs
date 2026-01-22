@@ -84,6 +84,10 @@ using XT.Net;
 using XT.Net.Interfaces.Clients;
 using XT.Net.Objects.Options;
 using CryptoClients.Net.Enums;
+using Polymarket.Net;
+using Polymarket.Net.Objects;
+using Polymarket.Net.Interfaces.Clients;
+using Polymarket.Net.Objects.Options;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -119,6 +123,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="kucoinOptions">The options options for the Kucoin services. Will override options provided in the global options</param>
         /// <param name="mexcOptions">The options options for the Mexc services. Will override options provided in the global options</param>
         /// <param name="okxOptions">The options options for the OKX services. Will override options provided in the global options</param>
+        /// <param name="polymarketOptions">The options options for the Polymarket services. Will override options provided in the global options</param>
         /// <param name="toobitOptions">The options options for the Toobit services. Will override options provided in the global options</param>
         /// <param name="upbitOptions">The options options for the Upbit services. Will override options provided in the global options</param>
         /// <param name="whiteBitOptions">The options options for the WhiteBit services. Will override options provided in the global options</param>
@@ -150,6 +155,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<KucoinOptions>? kucoinOptions = null,
             Action<MexcOptions>? mexcOptions = null,
             Action<OKXOptions>? okxOptions = null,
+            Action<PolymarketOptions>? polymarketOptions = null,
             Action<ToobitOptions>? toobitOptions = null,
             Action<UpbitOptions>? upbitOptions = null,
             Action<WhiteBitOptions>? whiteBitOptions = null,
@@ -181,7 +187,6 @@ namespace Microsoft.Extensions.DependencyInjection
                     options.Rest.CachingEnabled = globalOptions.CachingEnabled ?? options.Rest.CachingEnabled;
                     options.Socket.ReconnectPolicy = globalOptions.ReconnectPolicy ?? options.Socket.ReconnectPolicy;
                     options.Socket.ReconnectInterval = globalOptions.ReconnectInterval ?? options.Socket.ReconnectInterval;
-                    options.Socket.UseUpdatedDeserialization = globalOptions.UseUpdatedDeserialization ?? options.Socket.UseUpdatedDeserialization;
 
                     exchangeDelegate?.Invoke(options);
                 };
@@ -217,6 +222,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 kucoinOptions = SetGlobalOptions<KucoinOptions, KucoinRestOptions, KucoinSocketOptions, ApiCredentials, KucoinEnvironment>(global, kucoinOptions, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
                 mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, ApiCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
                 okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, ApiCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
+                polymarketOptions = SetGlobalOptions<PolymarketOptions, PolymarketRestOptions, PolymarketSocketOptions, PolymarketCredentials, PolymarketEnvironment>(global, polymarketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
                 toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ApiCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var tooBitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(tooBitEnvName)! : ToobitEnvironment.Live);
                 upbitOptions = SetGlobalOptions<UpbitOptions, UpbitRestOptions, UpbitSocketOptions, ApiCredentials, UpbitEnvironment>(global, upbitOptions, credentials?.Upbit, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
                 whiteBitOptions = SetGlobalOptions<WhiteBitOptions, WhiteBitRestOptions, WhiteBitSocketOptions, ApiCredentials, WhiteBitEnvironment>(global, whiteBitOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
@@ -245,6 +251,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddKucoin(kucoinOptions);
             services.AddMexc(mexcOptions);
             services.AddOKX(okxOptions);
+            services.AddPolymarket(polymarketOptions);
             services.AddToobit(toobitOptions);
             services.AddUpbit(upbitOptions);
             services.AddWhiteBit(whiteBitOptions);
@@ -274,6 +281,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IKucoinRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
+                    x.GetRequiredService<IPolymarketRestClient>(),
                     x.GetRequiredService<IToobitRestClient>(),
                     x.GetRequiredService<IUpbitRestClient>(),
                     x.GetRequiredService<IWhiteBitRestClient>(),
@@ -305,6 +313,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IKucoinSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),
                     x.GetRequiredService<IOKXSocketClient>(),
+                    x.GetRequiredService<IPolymarketSocketClient>(),
                     x.GetRequiredService<IToobitSocketClient>(),
                     x.GetRequiredService<IUpbitSocketClient>(),
                     x.GetRequiredService<IWhiteBitSocketClient>(),
@@ -336,6 +345,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IKucoinUserClientProvider>(),
                 x.GetRequiredService<IMexcUserClientProvider>(),
                 x.GetRequiredService<IOKXUserClientProvider>(),
+                x.GetRequiredService<IPolymarketUserClientProvider>(),
                 x.GetRequiredService<IToobitUserClientProvider>(),
                 x.GetRequiredService<IUpbitUserClientProvider>(),
                 x.GetRequiredService<IWhiteBitUserClientProvider>(),
@@ -414,6 +424,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("Kucoin", globalOptions);
             UpdateExchangeOptions("Mexc", globalOptions);
             UpdateExchangeOptions("OKX", globalOptions);
+            UpdateExchangeOptions("Polymarket", globalOptions);
             UpdateExchangeOptions("Toobit", globalOptions);
             UpdateExchangeOptions("Upbit", globalOptions);
             UpdateExchangeOptions("WhiteBit", globalOptions);
@@ -441,6 +452,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddKucoin(configuration.GetSection("Kucoin"));
             services.AddMexc(configuration.GetSection("Mexc"));
             services.AddOKX(configuration.GetSection("OKX"));
+            services.AddPolymarket(configuration.GetSection("Polymarket"));
             services.AddToobit(configuration.GetSection("Toobit"));
             services.AddUpbit(configuration.GetSection("Upbit"));
             services.AddWhiteBit(configuration.GetSection("WhiteBit"));
@@ -470,6 +482,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IKucoinRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
+                    x.GetRequiredService<IPolymarketRestClient>(),
                     x.GetRequiredService<IToobitRestClient>(),
                     x.GetRequiredService<IUpbitRestClient>(),
                     x.GetRequiredService<IWhiteBitRestClient>(),
@@ -501,6 +514,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IKucoinSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),
                     x.GetRequiredService<IOKXSocketClient>(),
+                    x.GetRequiredService<IPolymarketSocketClient>(),
                     x.GetRequiredService<IToobitSocketClient>(),
                     x.GetRequiredService<IUpbitSocketClient>(),
                     x.GetRequiredService<IWhiteBitSocketClient>(),
@@ -532,6 +546,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IKucoinUserClientProvider>(),
                 x.GetRequiredService<IMexcUserClientProvider>(),
                 x.GetRequiredService<IOKXUserClientProvider>(),
+                x.GetRequiredService<IPolymarketUserClientProvider>(),
                 x.GetRequiredService<IToobitUserClientProvider>(),
                 x.GetRequiredService<IUpbitUserClientProvider>(),
                 x.GetRequiredService<IWhiteBitUserClientProvider>(),

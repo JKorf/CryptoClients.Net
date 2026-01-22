@@ -4,6 +4,7 @@ using CryptoExchange.Net.Authentication;
 using DeepCoin.Net.Objects;
 using Kucoin.Net.Objects;
 using OKX.Net.Objects;
+using Polymarket.Net.Objects;
 using System.Collections.Generic;
 
 namespace CryptoClients.Net.Models
@@ -49,6 +50,7 @@ namespace CryptoClients.Net.Models
                     case "Kucoin": Kucoin = item.Value; break;
                     case "Mexc": Mexc = item.Value; break;
                     case "OKX": OKX = item.Value; break;
+                    case "Polymarket": Polymarket = (PolymarketCredentials)item.Value; break;
                     case "Toobit": Toobit = item.Value; break;
                     case "Upbit": Upbit = item.Value; break;
                     case "WhiteBit": WhiteBit = item.Value; break;
@@ -163,6 +165,11 @@ namespace CryptoClients.Net.Models
         /// OKX API credentials
         /// </summary>
         public ApiCredentials? OKX { get; set; }
+
+        /// <summary>
+        /// Polymarket API credentials
+        /// </summary>
+        public PolymarketCredentials? Polymarket { get; set; }
 
         /// <summary>
         /// Toobit API credentials

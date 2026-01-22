@@ -28,6 +28,7 @@ using XT.Net.Interfaces.Clients;
 using CoinW.Net.Interfaces.Clients;
 using BloFin.Net.Interfaces.Clients;
 using Upbit.Net.Interfaces.Clients;
+using Polymarket.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -125,6 +126,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX REST API
         /// </summary>
         IOKXRestClient OKX { get; }
+        /// <summary>
+        /// Polymarket REST API
+        /// </summary>
+        IPolymarketRestClient Polymarket { get; }
         /// <summary>
         /// Toobit REST API
         /// </summary>

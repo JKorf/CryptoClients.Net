@@ -21,6 +21,7 @@ using Kraken.Net;
 using Kucoin.Net;
 using Mexc.Net;
 using OKX.Net;
+using Polymarket.Net;
 using System;
 using Toobit.Net;
 using Upbit.Net;
@@ -445,6 +446,7 @@ namespace CryptoClients.Net
                 KucoinExchange.RateLimiter.RateLimitTriggered += value;
                 MexcExchange.RateLimiter.RateLimitTriggered += value;
                 OKXExchange.RateLimiter.RateLimitTriggered += value;
+                PolymarketPlatform.RateLimiter.RateLimitTriggered += value;
                 ToobitExchange.RateLimiter.RateLimitTriggered += value;
                 UpbitExchange.RateLimiter.RateLimitTriggered += value;
                 WhiteBitExchange.RateLimiter.RateLimitTriggered += value;
@@ -473,6 +475,7 @@ namespace CryptoClients.Net
                 KucoinExchange.RateLimiter.RateLimitTriggered -= value;
                 MexcExchange.RateLimiter.RateLimitTriggered -= value;
                 OKXExchange.RateLimiter.RateLimitTriggered -= value;
+                PolymarketPlatform.RateLimiter.RateLimitTriggered -= value;
                 ToobitExchange.RateLimiter.RateLimitTriggered -= value;
                 UpbitExchange.RateLimiter.RateLimitTriggered -= value;
                 WhiteBitExchange.RateLimiter.RateLimitTriggered -= value;
@@ -507,6 +510,7 @@ namespace CryptoClients.Net
                 KucoinExchange.RateLimiter.RateLimitUpdated += value;
                 MexcExchange.RateLimiter.RateLimitUpdated += value;
                 OKXExchange.RateLimiter.RateLimitUpdated += value;
+                PolymarketPlatform.RateLimiter.RateLimitUpdated += value;
                 ToobitExchange.RateLimiter.RateLimitUpdated += value;
                 UpbitExchange.RateLimiter.RateLimitUpdated += value;
                 WhiteBitExchange.RateLimiter.RateLimitUpdated += value;
@@ -534,6 +538,7 @@ namespace CryptoClients.Net
                 KucoinExchange.RateLimiter.RateLimitUpdated -= value;
                 MexcExchange.RateLimiter.RateLimitUpdated -= value;
                 OKXExchange.RateLimiter.RateLimitUpdated -= value;
+                PolymarketPlatform.RateLimiter.RateLimitUpdated -= value;
                 ToobitExchange.RateLimiter.RateLimitUpdated -= value;
                 UpbitExchange.RateLimiter.RateLimitUpdated -= value;
                 WhiteBitExchange.RateLimiter.RateLimitUpdated -= value;

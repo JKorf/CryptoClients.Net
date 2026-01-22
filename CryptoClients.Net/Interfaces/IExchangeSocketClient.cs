@@ -30,6 +30,7 @@ using XT.Net.Interfaces.Clients;
 using CoinW.Net.Interfaces.Clients;
 using BloFin.Net.Interfaces.Clients;
 using Upbit.Net.Interfaces.Clients;
+using Polymarket.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -135,6 +136,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX Websocket API
         /// </summary>
         IOKXSocketClient OKX { get; }
+        /// <summary>
+        /// Polymarket Websocket API
+        /// </summary>
+        IPolymarketSocketClient Polymarket { get; }
         /// <summary>
         /// Toobit Websocket API
         /// </summary>

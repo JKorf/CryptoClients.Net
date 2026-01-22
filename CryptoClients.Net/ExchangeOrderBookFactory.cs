@@ -24,6 +24,7 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using Polymarket.Net.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using Toobit.Net.Interfaces;
@@ -79,6 +80,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOKXOrderBookFactory OKX { get; }
         /// <inheritdoc />
+        public IPolymarketOrderBookFactory Polymarket { get; }
+        /// <inheritdoc />
         public IToobitOrderBookFactory Toobit { get; }
         /// <inheritdoc />
         public IUpbitOrderBookFactory Upbit { get; }
@@ -112,6 +115,7 @@ namespace CryptoClients.Net
             IKucoinOrderBookFactory kucoin,
             IMexcOrderBookFactory mexc,
             IOKXOrderBookFactory okx,
+            IPolymarketOrderBookFactory polymarket,
             IToobitOrderBookFactory toobit,
             IUpbitOrderBookFactory upbit,
             IWhiteBitOrderBookFactory whiteBit,
@@ -138,6 +142,7 @@ namespace CryptoClients.Net
             Kucoin = kucoin;
             Mexc = mexc;
             OKX = okx;
+            Polymarket = polymarket;
             Toobit = toobit;
             Upbit = upbit;
             WhiteBit = whiteBit;
