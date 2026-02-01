@@ -356,6 +356,45 @@ namespace CryptoClients.Net.Interfaces
         ISpotSymbolRestClient? GetSpotSymbolClient(string exchange);
 
         /// <summary>
+        /// Get spot symbols for a specific base asset on all exchanges
+        /// </summary>
+        /// <param name="baseAsset">Base asset</param>
+        Task<Dictionary<string, SharedSymbol[]>> GetSpotSymbolsForBaseAssetAsync(string baseAsset);
+
+        /// <summary>
+        /// Get spot symbols for a specific base asset on a specific exchange
+        /// </summary>
+        /// <param name="exchange">Exchange</param>
+        /// <param name="baseAsset">Base asset</param>
+        Task<ExchangeResult<SharedSymbol[]>> GetSpotSymbolsForBaseAssetAsync(string exchange, string baseAsset);
+
+        /// <summary>
+        /// Get exchanges supporting a specific symbol
+        /// </summary>
+        /// <param name="symbolName">Name of the symbol</param>
+        Task<string[]> GetExchangesSupportingSpotSymbolAsync(string symbolName);
+
+        /// <summary>
+        /// Get exchanges supporting a specific symbol
+        /// </summary>
+        /// <param name="symbol">The symbol</param>
+        Task<string[]> GetExchangesSupportingSpotSymbolAsync(SharedSymbol symbol);
+
+        /// <summary>
+        /// Check whether an exchange supports a specific spot symbol
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="symbol">Symbol</param>
+        Task<ExchangeResult<bool>> SupportsSpotSymbolAsync(string exchange, SharedSymbol symbol);
+
+        /// <summary>
+        /// Check whether an exchange supports a specific futures symbol
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="symbolName">Symbol name</param>
+        Task<ExchangeResult<bool>> SupportsSpotSymbolAsync(string exchange, string symbolName);
+
+        /// <summary>
         /// Get the <see cref="ISpotTickerRestClient"/> clients for all exchanges
         /// </summary>
         IEnumerable<ISpotTickerRestClient> GetSpotTickerClients();
@@ -428,6 +467,45 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="tradingMode">Trading mode</param>
         /// <param name="exchange">Exchange name</param>
         IFuturesTriggerOrderRestClient? GetFuturesTriggerOrderClient(TradingMode tradingMode, string exchange);
+
+        /// <summary>
+        /// Get futures symbols for a specific base asset on all exchanges
+        /// </summary>
+        /// <param name="baseAsset">Base asset</param>
+        Task<Dictionary<string, SharedSymbol[]>> GetFuturesSymbolsForBaseAssetAsync(string baseAsset);
+
+        /// <summary>
+        /// Get futures symbols for a specific base asset on a specific exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="baseAsset">Base asset</param>
+        Task<ExchangeResult<SharedSymbol[]>> GetFuturesSymbolsForBaseAssetAsync(string exchange, string baseAsset);
+
+        /// <summary>
+        /// Get exchanges supporting a specific symbol
+        /// </summary>
+        /// <param name="symbolName">Name of the symbol</param>
+        Task<string[]> GetExchangesSupportingFuturesSymbolAsync(string symbolName);
+
+        /// <summary>
+        /// Get exchanges supporting a specific symbol
+        /// </summary>
+        /// <param name="symbol">Symbol</param>
+        Task<string[]> GetExchangesSupportingFuturesSymbolAsync(SharedSymbol symbol);
+
+        /// <summary>
+        /// Check whether an exchange supports a specific futures symbol
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="symbol">Symbol</param>
+        Task<ExchangeResult<bool>> SupportsFuturesSymbolAsync(string exchange, SharedSymbol symbol);
+
+        /// <summary>
+        /// Check whether an exchange supports a specific futures symbol
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="symbolName">Symbol name</param>
+        Task<ExchangeResult<bool>> SupportsFuturesSymbolAsync(string exchange, string symbolName);
 
         /// <summary>
         /// Get the <see cref="IFuturesSymbolRestClient"/> clients for all exchanges

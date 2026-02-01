@@ -375,6 +375,24 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsForBaseAssetAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsForBaseAssetAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangesSupportingFuturesSymbolAsync(CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangesSupportingFuturesSymbolAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SupportsFuturesSymbolAsync(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SupportsFuturesSymbolAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsync(System.String,CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -694,6 +712,24 @@
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolClient(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsForBaseAssetAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsForBaseAssetAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangesSupportingSpotSymbolAsync(CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangesSupportingSpotSymbolAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SupportsSpotSymbolAsync(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SupportsSpotSymbolAsync(System.String,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsAsync(System.String,CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Threading.CancellationToken)">
@@ -2463,6 +2499,45 @@
             </summary>
             <param name="exchange">Exchange name</param>
         </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotSymbolsForBaseAssetAsync(System.String)">
+            <summary>
+            Get spot symbols for a specific base asset on all exchanges
+            </summary>
+            <param name="baseAsset">Base asset</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotSymbolsForBaseAssetAsync(System.String,System.String)">
+            <summary>
+            Get spot symbols for a specific base asset on a specific exchange
+            </summary>
+            <param name="exchange">Exchange</param>
+            <param name="baseAsset">Base asset</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangesSupportingSpotSymbolAsync(System.String)">
+            <summary>
+            Get exchanges supporting a specific symbol
+            </summary>
+            <param name="symbolName">Name of the symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangesSupportingSpotSymbolAsync(CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <summary>
+            Get exchanges supporting a specific symbol
+            </summary>
+            <param name="symbol">The symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SupportsSpotSymbolAsync(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <summary>
+            Check whether an exchange supports a specific spot symbol
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="symbol">Symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SupportsSpotSymbolAsync(System.String,System.String)">
+            <summary>
+            Check whether an exchange supports a specific futures symbol
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="symbolName">Symbol name</param>
+        </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotTickerClients">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotTickerRestClient"/> clients for all exchanges
@@ -2545,6 +2620,45 @@
             </summary>
             <param name="tradingMode">Trading mode</param>
             <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolsForBaseAssetAsync(System.String)">
+            <summary>
+            Get futures symbols for a specific base asset on all exchanges
+            </summary>
+            <param name="baseAsset">Base asset</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolsForBaseAssetAsync(System.String,System.String)">
+            <summary>
+            Get futures symbols for a specific base asset on a specific exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="baseAsset">Base asset</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangesSupportingFuturesSymbolAsync(System.String)">
+            <summary>
+            Get exchanges supporting a specific symbol
+            </summary>
+            <param name="symbolName">Name of the symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangesSupportingFuturesSymbolAsync(CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <summary>
+            Get exchanges supporting a specific symbol
+            </summary>
+            <param name="symbol">Symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SupportsFuturesSymbolAsync(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <summary>
+            Check whether an exchange supports a specific futures symbol
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="symbol">Symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SupportsFuturesSymbolAsync(System.String,System.String)">
+            <summary>
+            Check whether an exchange supports a specific futures symbol
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="symbolName">Symbol name</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolClients">
             <summary>
