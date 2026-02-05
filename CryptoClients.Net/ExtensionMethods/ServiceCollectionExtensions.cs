@@ -399,7 +399,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 UpdateIfNotSpecified($"{exchange}:Socket:ReconnectPolicy", globalOptions.ReconnectPolicy?.ToString());
                 UpdateIfNotSpecified($"{exchange}:Socket:ReconnectInterval", globalOptions.ReconnectInterval?.ToString());
                 UpdateIfNotSpecified($"{exchange}:SocketClientLifeTime", socketClientLifetime?.ToString());
-                UpdateIfNotSpecified($"{exchange}:UseUpdatedDeserialization", globalOptions.UseUpdatedDeserialization?.ToString());
             }
 
             UpdateExchangeOptions("Aster", globalOptions);
