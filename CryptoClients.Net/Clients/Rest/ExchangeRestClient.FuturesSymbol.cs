@@ -18,6 +18,76 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IFuturesSymbolRestClient? GetFuturesSymbolClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesSymbolRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
 
+        /// <inheritdoc />
+        public async Task<ExchangeResult<SharedSymbol[]>> GetFuturesSymbolsForBaseAssetAsync(string exchange, string baseAsset)
+        {
+            var clients = GetFuturesSymbolClients().Where(x => x.Exchange == exchange).ToArray();
+            if (clients.Length == 0)
+                return new ExchangeResult<SharedSymbol[]>(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
+
+            var supportsTask = clients.Select(x => x.GetFuturesSymbolsForBaseAssetAsync(baseAsset)).ToArray();
+            await Task.WhenAll(supportsTask).ConfigureAwait(false);
+            var failedResult = supportsTask.FirstOrDefault(x => !x.Result.Success);
+            if (failedResult != null)
+                return new ExchangeResult<SharedSymbol[]>(exchange, failedResult.Result.Error!);
+
+            return new ExchangeResult<SharedSymbol[]>(exchange, supportsTask.SelectMany(x => x.Result.Data).ToArray());
+        }
+
+        /// <inheritdoc />
+        public async Task<Dictionary<string, SharedSymbol[]>> GetFuturesSymbolsForBaseAssetAsync(string baseAsset)
+        {
+            var clients = GetFuturesSymbolClients();
+            var supportsTask = clients.Select(x => x.GetFuturesSymbolsForBaseAssetAsync(baseAsset)).ToArray();
+            await Task.WhenAll(supportsTask).ConfigureAwait(false);
+
+            return supportsTask
+                .Where(x => x.Result.Success)
+                .GroupBy(x => x.Result.Exchange)
+                .ToDictionary(x => x.Key, x => x.SelectMany(x => x.Result.Data)
+                .ToArray());
+        }
+
+        /// <inheritdoc />
+        public async Task<string[]> GetExchangesSupportingFuturesSymbolAsync(SharedSymbol symbol)
+        {
+            var clients = GetFuturesSymbolClients();
+            var supportsTask = clients.Select(x => x.SupportsFuturesSymbolAsync(symbol)).ToArray();
+            await Task.WhenAll(supportsTask).ConfigureAwait(false);
+
+            return supportsTask.Where(x => x.Result.Data).Select(x => x.Result.Exchange).Distinct().ToArray();
+        }
+
+        /// <inheritdoc />
+        public async Task<string[]> GetExchangesSupportingFuturesSymbolAsync(string symbolName)
+        {
+            var clients = GetFuturesSymbolClients();
+            var supportsTask = clients.Select(x => x.SupportsFuturesSymbolAsync(symbolName)).ToArray();
+            await Task.WhenAll(supportsTask).ConfigureAwait(false);
+
+            return supportsTask.Where(x => x.Result.Data).Select(x => x.Result.Exchange).Distinct().ToArray();
+        }
+
+        /// <inheritdoc />
+        public async Task<ExchangeResult<bool>> SupportsFuturesSymbolAsync(string exchange, SharedSymbol symbol)
+        {
+            var client = GetFuturesSymbolClients().SingleOrDefault(x => x.Exchange == exchange);
+            if (client == null)
+                return new ExchangeResult<bool>(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
+
+            return await client.SupportsFuturesSymbolAsync(symbol).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<ExchangeResult<bool>> SupportsFuturesSymbolAsync(string exchange, string symbolName)
+        {
+            var client = GetFuturesSymbolClients().SingleOrDefault(x => x.Exchange == exchange);
+            if (client == null)
+                return new ExchangeResult<bool>(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
+
+            return await client.SupportsFuturesSymbolAsync(symbolName).ConfigureAwait(false);
+
+        }
         #region Get Futures Symbols
 
         /// <inheritdoc />
