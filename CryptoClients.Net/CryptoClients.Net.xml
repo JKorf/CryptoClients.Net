@@ -1773,6 +1773,9 @@
         <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserSpotDataTracker(System.String,System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,System.String)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoClients.Net.Models.ExchangeCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,System.Collections.Generic.Dictionary{System.String,System.String},System.String[])">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.SharedApis.TradingMode,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.SharedApis.ExchangeParameters)">
             <inheritdoc />
         </member>
@@ -1780,6 +1783,9 @@
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.SharedApis.TradingMode,System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,System.String,CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.SharedApis.TradingMode,CryptoClients.Net.Models.ExchangeCredentials,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,System.Collections.Generic.Dictionary{System.String,System.String},System.String[])">
             <inheritdoc />
         </member>
         <member name="T:CryptoClients.Net.CryptoClientsExtensions">
@@ -4612,9 +4618,19 @@
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserSpotDataTrackers(CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,System.String[])">
             <summary>
-            Create a new Spot user data tracker for all or specified exchanges
+            Create new Spot user data trackers for all or specified exchanges
             </summary>
             <param name="config">Tracker config</param>
+            <param name="exchanges">Filter exchanges to create tracker for</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoClients.Net.Models.ExchangeCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,System.Collections.Generic.Dictionary{System.String,System.String},System.String[])">
+            <summary>
+            Create new Spot user data trackers for all or specified exchanges
+            </summary>
+            <param name="userIdentifier">User identifier</param>
+            <param name="credentials">Credentials</param>
+            <param name="config">Configuration</param>
+            <param name="environments">Exchange environments</param>
             <param name="exchanges">Filter exchanges to create tracker for</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserSpotDataTracker(System.String,System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,System.String)">
@@ -4656,6 +4672,17 @@
             <param name="credentials">Credentials</param>
             <param name="environment">Environment</param>
             <param name="exchangeParameters">Exchange parameters</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.SharedApis.TradingMode,CryptoClients.Net.Models.ExchangeCredentials,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,System.Collections.Generic.Dictionary{System.String,System.String},System.String[])">
+            <summary>
+            Create new Futures user data trackers for all or specified exchanges
+            </summary>
+            <param name="userIdentifier">User identifier</param>
+            <param name="tradingMode">Trading mode</param>
+            <param name="credentials">Credentials</param>
+            <param name="config">Configuration</param>
+            <param name="environments">Exchange environments</param>
+            <param name="exchanges">Filter exchanges to create tracker for</param>
         </member>
         <member name="T:CryptoClients.Net.Interfaces.IExchangeUserClientProvider">
             <summary>
@@ -4836,6 +4863,12 @@
             <summary>
             XT API credentials
             </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeCredentials.GetCredentials(System.String)">
+            <summary>
+            Get credentials for an exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
         </member>
         <member name="T:CryptoClients.Net.Models.GlobalExchangeOptions">
             <summary>

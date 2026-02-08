@@ -5,13 +5,19 @@ using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
 using BitMart.Net.Interfaces;
 using BitMEX.Net.Interfaces;
+using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
+using CoinW.Net.Interfaces;
+using CryptoClients.Net.Models;
 using CryptoCom.Net.Interfaces;
+using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Trackers.Klines;
 using CryptoExchange.Net.Trackers.Trades;
+using CryptoExchange.Net.Trackers.UserData.Interfaces;
+using CryptoExchange.Net.Trackers.UserData.Objects;
 using DeepCoin.Net.Interfaces;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
@@ -20,16 +26,12 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
-using Toobit.Net.Interfaces;
 using System;
+using System.Collections.Generic;
+using Toobit.Net.Interfaces;
+using Upbit.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
-using CoinW.Net.Interfaces;
-using BloFin.Net.Interfaces;
-using Upbit.Net.Interfaces;
-using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Trackers.UserData.Objects;
-using CryptoExchange.Net.Trackers.UserData.Interfaces;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -168,11 +170,26 @@ namespace CryptoClients.Net.Interfaces
         IUserSpotDataTracker? CreateUserSpotDataTracker(string exchange, SpotUserDataTrackerConfig? config = null);
 
         /// <summary>
-        /// Create a new Spot user data tracker for all or specified exchanges
+        /// Create new Spot user data trackers for all or specified exchanges
         /// </summary>
         /// <param name="config">Tracker config</param>
         /// <param name="exchanges">Filter exchanges to create tracker for</param>
         IUserSpotDataTracker[] CreateUserSpotDataTrackers(SpotUserDataTrackerConfig? config = null, string[]? exchanges = null);
+
+        /// <summary>
+        /// Create new Spot user data trackers for all or specified exchanges
+        /// </summary>
+        /// <param name="userIdentifier">User identifier</param>
+        /// <param name="credentials">Credentials</param>
+        /// <param name="config">Configuration</param>
+        /// <param name="environments">Exchange environments</param>
+        /// <param name="exchanges">Filter exchanges to create tracker for</param>
+        IUserSpotDataTracker[] CreateUserSpotDataTracker(
+            string userIdentifier,
+            ExchangeCredentials credentials, 
+            SpotUserDataTrackerConfig? config = null,
+            Dictionary<string, string>? environments = null,
+            string[]? exchanges = null);
 
         /// <summary>
         /// Create a new Spot user data tracker for an exchange
@@ -233,5 +250,22 @@ namespace CryptoClients.Net.Interfaces
             FuturesUserDataTrackerConfig? config = null,
             string? environment = null,
             ExchangeParameters? exchangeParameters = null);
+
+        /// <summary>
+        /// Create new Futures user data trackers for all or specified exchanges
+        /// </summary>
+        /// <param name="userIdentifier">User identifier</param>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="credentials">Credentials</param>
+        /// <param name="config">Configuration</param>
+        /// <param name="environments">Exchange environments</param>
+        /// <param name="exchanges">Filter exchanges to create tracker for</param>
+        IUserFuturesDataTracker[] CreateUserFuturesDataTracker(
+            string userIdentifier,
+            TradingMode tradingMode,
+            ExchangeCredentials credentials,
+            FuturesUserDataTrackerConfig? config = null,
+            Dictionary<string, string>? environments = null,
+            string[]? exchanges = null);
     }
 }

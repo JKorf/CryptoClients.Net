@@ -25,6 +25,7 @@ using CoinW.Net;
 using CoinW.Net.Interfaces;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
+using CryptoClients.Net.Models;
 using CryptoCom.Net;
 using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net;
@@ -314,6 +315,32 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
+        public IUserSpotDataTracker[] CreateUserSpotDataTracker(
+            string userIdentifier,
+            ExchangeCredentials credentials, 
+            SpotUserDataTrackerConfig? config = null, 
+            Dictionary<string, string>? environments = null,
+            string[]? exchanges = null)
+        {
+            var result = new List<IUserSpotDataTracker>();
+            foreach (var exchange in exchanges ?? Exchange.All)
+            {
+                var tracker = CreateUserSpotDataTracker(
+                    exchange,
+                    userIdentifier,
+                    credentials.GetCredentials(exchange) ?? throw new ArgumentNullException("No credentials provided for " + exchange),
+                    config,
+                    environments?.TryGetValue(exchange, out var env) == true ? env : null);
+                if (tracker == null)
+                    continue;
+
+                result.Add(tracker);
+            }
+
+            return result.ToArray();
+        }
+
+        /// <inheritdoc />
         public IUserFuturesDataTracker? CreateUserFuturesDataTracker(string exchange, TradingMode tradeMode, FuturesUserDataTrackerConfig? config = null, ExchangeParameters? exchangeParameters = null)
         {
             return exchange switch
@@ -415,5 +442,34 @@ namespace CryptoClients.Net
                 _ => null
             };
         }
+
+        /// <inheritdoc />
+        public IUserFuturesDataTracker[] CreateUserFuturesDataTracker(
+            string userIdentifier,
+            TradingMode tradingMode,
+            ExchangeCredentials credentials,
+            FuturesUserDataTrackerConfig? config = null,
+            Dictionary<string, string>? environments = null,
+            string[]? exchanges = null)
+        {
+            var result = new List<IUserFuturesDataTracker>();
+            foreach (var exchange in exchanges ?? Exchange.All)
+            {
+                var tracker = CreateUserFuturesDataTracker(
+                    exchange,
+                    tradingMode,
+                    userIdentifier,
+                    credentials.GetCredentials(exchange) ?? throw new ArgumentNullException("No credentials provided for " + exchange),
+                    config,
+                    environments?.TryGetValue(exchange, out var env) == true ? env : null);
+                if (tracker == null)
+                    continue;
+
+                result.Add(tracker);
+            }
+
+            return result.ToArray();
+        }
+
     }
 }
