@@ -6,17 +6,17 @@
   <ItemGroup>
     <!-- Avalonia packages -->
     <!-- Important: keep version in sync! -->
-    <PackageVersion Include="Avalonia" Version="11.3.9" />
-    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.3.9" />
-    <PackageVersion Include="Avalonia.Fonts.Inter" Version="11.3.9" />
-    <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.9" />
-    <PackageVersion Include="Avalonia.Desktop" Version="11.3.9" />
-    <PackageVersion Include="Avalonia.iOS" Version="11.3.9" />
-    <PackageVersion Include="Avalonia.Browser" Version="11.3.9" />
-    <PackageVersion Include="Avalonia.Android" Version="11.3.9" />
+    <PackageVersion Include="Avalonia" Version="11.3.11" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.3.11" />
+    <PackageVersion Include="Avalonia.Fonts.Inter" Version="11.3.11" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.11" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.3.11" />
+    <PackageVersion Include="Avalonia.iOS" Version="11.3.11" />
+    <PackageVersion Include="Avalonia.Browser" Version="11.3.11" />
+    <PackageVersion Include="Avalonia.Android" Version="11.3.11" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageVersion Include="CryptoClients.Net" Version="4.0.2" />
+    <PackageVersion Include="CryptoClients.Net" Version="4.3.0" />
     <PackageVersion Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc6.1" />
-    <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.2.0" />
+    <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.2.0.1" />
   </ItemGroup>
 </Project>

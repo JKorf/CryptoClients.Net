@@ -42,7 +42,6 @@ public partial class App : Application
 
         services.AddCryptoClients(x =>
         {
-            x.UseUpdatedDeserialization = true;
         });
 
         return services.BuildServiceProvider();
