@@ -5,13 +5,19 @@ using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
 using BitMart.Net.Interfaces;
 using BitMEX.Net.Interfaces;
+using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
+using CoinW.Net.Interfaces;
+using CryptoClients.Net.Models;
 using CryptoCom.Net.Interfaces;
+using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Trackers.Klines;
 using CryptoExchange.Net.Trackers.Trades;
+using CryptoExchange.Net.Trackers.UserData.Interfaces;
+using CryptoExchange.Net.Trackers.UserData.Objects;
 using DeepCoin.Net.Interfaces;
 using GateIo.Net.Interfaces;
 using HTX.Net.Interfaces;
@@ -20,13 +26,12 @@ using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
-using Toobit.Net.Interfaces;
 using System;
+using System.Collections.Generic;
+using Toobit.Net.Interfaces;
+using Upbit.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
-using CoinW.Net.Interfaces;
-using BloFin.Net.Interfaces;
-using Upbit.Net.Interfaces;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -156,5 +161,111 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="period">The max age of the trades to be tracked, any trade older than this period will be removed</param>
         /// <param name="exchangeParameters">Exchange specific parameters</param>
         ITradeTracker? CreateTradeTracker(string exchange, SharedSymbol symbol, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null);
+
+        /// <summary>
+        /// Create a new Spot user data tracker for an exchange
+        /// </summary>
+        /// <param name="exchange">The name of the exchange</param>
+        /// <param name="config">Tracker config</param>
+        IUserSpotDataTracker? CreateUserSpotDataTracker(string exchange, SpotUserDataTrackerConfig? config = null);
+
+        /// <summary>
+        /// Create new Spot user data trackers for all or specified exchanges
+        /// </summary>
+        /// <param name="config">Tracker config</param>
+        /// <param name="exchanges">Filter exchanges to create tracker for</param>
+        IUserSpotDataTracker[] CreateUserSpotDataTrackers(SpotUserDataTrackerConfig? config = null, string[]? exchanges = null);
+
+        /// <summary>
+        /// Create new Spot user data trackers for all or specified exchanges
+        /// </summary>
+        /// <param name="userIdentifier">User identifier</param>
+        /// <param name="credentials">Credentials</param>
+        /// <param name="config">Configuration</param>
+        /// <param name="environments">Exchange environments</param>
+        /// <param name="exchanges">Filter exchanges to create tracker for</param>
+        IUserSpotDataTracker[] CreateUserSpotDataTracker(
+            string userIdentifier,
+            ExchangeCredentials credentials, 
+            SpotUserDataTrackerConfig? config = null,
+            Dictionary<string, string>? environments = null,
+            string[]? exchanges = null);
+
+        /// <summary>
+        /// Create a new Spot user data tracker for an exchange
+        /// </summary>
+        /// <param name="exchange">The name of the exchange</param>
+        /// <param name="userIdentifier">User identifier</param>
+        /// <param name="config">Configuration</param>
+        /// <param name="credentials">Credentials</param>
+        /// <param name="environment">Environment</param>
+        IUserSpotDataTracker? CreateUserSpotDataTracker(
+            string exchange,
+            string userIdentifier,
+            ApiCredentials credentials,
+            SpotUserDataTrackerConfig? config = null,
+            string? environment = null);
+
+        /// <summary>
+        /// Create a new Futures user data tracker for an exchange
+        /// </summary>
+        /// <param name="exchange">The name of the exchange</param>
+        /// <param name="config">Configuration</param>
+        /// <param name="tradeMode">Futures trade mode</param>
+        /// <param name="exchangeParameters">Exchange parameters</param>
+        IUserFuturesDataTracker? CreateUserFuturesDataTracker(
+            string exchange, 
+            TradingMode tradeMode,
+            FuturesUserDataTrackerConfig? config = null,
+            ExchangeParameters? exchangeParameters = null);
+
+        /// <summary>
+        /// Create a new Futures user data tracker for all or specified exchanges
+        /// </summary>
+        /// <param name="config">Configuration</param>
+        /// <param name="tradeMode">Futures trade mode</param>
+        /// <param name="exchangeParameters">Exchange parameters</param>
+        /// <param name="exchanges">Filter exchanges to create tracker for</param>
+        IUserFuturesDataTracker[] CreateUserFuturesDataTrackers(
+            TradingMode tradeMode,
+            FuturesUserDataTrackerConfig? config = null,
+            ExchangeParameters? exchangeParameters = null,
+            string[]? exchanges = null);
+
+        /// <summary>
+        /// Create a new Futures user data tracker for an exchange
+        /// </summary>
+        /// <param name="exchange">The name of the exchange</param>
+        /// <param name="tradeMode">Futures trade mode</param>
+        /// <param name="userIdentifier">User identifier</param>
+        /// <param name="config">Configuration</param>
+        /// <param name="credentials">Credentials</param>
+        /// <param name="environment">Environment</param>
+        /// <param name="exchangeParameters">Exchange parameters</param>
+        IUserFuturesDataTracker? CreateUserFuturesDataTracker(
+            string exchange,
+            TradingMode tradeMode,
+            string userIdentifier,
+            ApiCredentials credentials,
+            FuturesUserDataTrackerConfig? config = null,
+            string? environment = null,
+            ExchangeParameters? exchangeParameters = null);
+
+        /// <summary>
+        /// Create new Futures user data trackers for all or specified exchanges
+        /// </summary>
+        /// <param name="userIdentifier">User identifier</param>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="credentials">Credentials</param>
+        /// <param name="config">Configuration</param>
+        /// <param name="environments">Exchange environments</param>
+        /// <param name="exchanges">Filter exchanges to create tracker for</param>
+        IUserFuturesDataTracker[] CreateUserFuturesDataTracker(
+            string userIdentifier,
+            TradingMode tradingMode,
+            ExchangeCredentials credentials,
+            FuturesUserDataTrackerConfig? config = null,
+            Dictionary<string, string>? environments = null,
+            string[]? exchanges = null);
     }
 }

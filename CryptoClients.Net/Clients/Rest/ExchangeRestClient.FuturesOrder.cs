@@ -37,6 +37,9 @@ namespace CryptoClients.Net
         public async Task<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesOpenOrdersAsync(string exchange, GetOpenOrdersRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetFuturesOpenOrdersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            if (result.Length > 1)
+                return new ExchangeWebResult<SharedFuturesOrder[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+
             return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesOrder[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
@@ -70,6 +73,9 @@ namespace CryptoClients.Net
         public async Task<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetFuturesClosedOrdersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            if (result.Length > 1)
+                return new ExchangeWebResult<SharedFuturesOrder[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+
             return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesOrder[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
@@ -103,6 +109,9 @@ namespace CryptoClients.Net
         public async Task<ExchangeWebResult<SharedUserTrade[]>> GetFuturesUserTradesAsync(string exchange, GetUserTradesRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetFuturesUserTradesInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            if (result.Length > 1)
+                return new ExchangeWebResult<SharedUserTrade[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+
             return result.SingleOrDefault() ?? new ExchangeWebResult<SharedUserTrade[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
@@ -192,6 +201,9 @@ namespace CryptoClients.Net
         public async Task<ExchangeWebResult<SharedPosition[]>> GetPositionsAsync(string exchange, GetPositionsRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetPositionsInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            if (result.Length > 1)
+                return new ExchangeWebResult<SharedPosition[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+
             return result.SingleOrDefault() ?? new ExchangeWebResult<SharedPosition[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 

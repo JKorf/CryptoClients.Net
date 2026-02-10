@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Objects;
+﻿using CryptoExchange.Net;
+using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,66 @@ namespace CryptoClients.Net
         public IEnumerable<ISpotSymbolRestClient> GetSpotSymbolClients() => _sharedClients.OfType<ISpotSymbolRestClient>();
         /// <inheritdoc />
         public ISpotSymbolRestClient? GetSpotSymbolClient(string exchange) => GetSpotSymbolClients().SingleOrDefault(s => s.Exchange == exchange);
+
+        /// <inheritdoc />
+        public async Task<ExchangeResult<SharedSymbol[]>> GetSpotSymbolsForBaseAssetAsync(string exchange, string baseAsset)
+        {
+            var client = GetSpotSymbolClients().SingleOrDefault(x => x.Exchange == exchange);
+            if (client == null)
+                return new ExchangeResult<SharedSymbol[]>(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
+
+            return await client.GetSpotSymbolsForBaseAssetAsync(baseAsset).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<Dictionary<string, SharedSymbol[]>> GetSpotSymbolsForBaseAssetAsync(string baseAsset)
+        {
+            var clients = GetSpotSymbolClients();
+            var supportsTask = clients.Select(x => x.GetSpotSymbolsForBaseAssetAsync(baseAsset)).ToArray();
+            await Task.WhenAll(supportsTask).ConfigureAwait(false);
+
+            return supportsTask.Where(x => x.Result.Success).ToDictionary(x => x.Result.Exchange, x => x.Result.Data);
+        }
+
+        /// <inheritdoc />
+        public async Task<string[]> GetExchangesSupportingSpotSymbolAsync(SharedSymbol symbol)
+        {
+            var clients = GetSpotSymbolClients();
+            var supportsTask = clients.Select(x => x.SupportsSpotSymbolAsync(symbol)).ToArray();
+            await Task.WhenAll(supportsTask).ConfigureAwait(false);
+
+            return supportsTask.Where(x => x.Result.Data).Select(x => x.Result.Exchange).ToArray();
+        }
+
+        /// <inheritdoc />
+        public async Task<string[]> GetExchangesSupportingSpotSymbolAsync(string symbolName)
+        {
+            var clients = GetSpotSymbolClients();
+            var supportsTask = clients.Select(x => x.SupportsSpotSymbolAsync(symbolName)).ToArray();
+            await Task.WhenAll(supportsTask).ConfigureAwait(false);
+
+            return supportsTask.Where(x => x.Result.Data).Select(x => x.Result.Exchange).ToArray();
+        }
+
+        /// <inheritdoc />
+        public async Task<ExchangeResult<bool>> SupportsSpotSymbolAsync(string exchange, SharedSymbol symbol)
+        {
+            var client = GetSpotSymbolClients().SingleOrDefault(x => x.Exchange == exchange);
+            if (client == null)
+                return new ExchangeResult<bool>(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
+
+            return await client.SupportsSpotSymbolAsync(symbol).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<ExchangeResult<bool>> SupportsSpotSymbolAsync(string exchange, string symbolName)
+        {
+            var client = GetSpotSymbolClients().SingleOrDefault(x => x.Exchange == exchange);
+            if (client == null)
+                return new ExchangeResult<bool>(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
+
+            return await client.SupportsSpotSymbolAsync(symbolName).ConfigureAwait(false);
+        }
 
         #region Get Spot Symbols
         /// <inheritdoc />

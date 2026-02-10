@@ -190,5 +190,44 @@ namespace CryptoClients.Net.Models
         /// XT API credentials
         /// </summary>
         public ApiCredentials? XT { get; set; }
+
+        /// <summary>
+        /// Get credentials for an exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        public ApiCredentials? GetCredentials(string exchange)
+        {
+            switch (exchange)
+            {
+                case "Aster": return Aster;
+                case "Binance": return Binance;
+                case "BingX": return BingX;
+                case "Bitfinex": return Bitfinex;
+                case "Bitget": return Bitget;
+                case "BitMart": return BitMart;
+                case "BitMEX": return BitMEX;
+                case "BloFin": return BloFin;
+                case "Bybit": return Bybit;
+                case "Coinbase": return Coinbase;
+                case "CoinEx": return CoinEx;
+                case "CoinW": return CoinW;
+                case "CryptoCom": return CryptoCom;
+                case "DeepCoin": return DeepCoin;
+                case "GateIo": return GateIo;
+                case "HTX": return HTX;
+                case "HyperLiquid": return HyperLiquid;
+                case "Kraken": return Kraken;
+                case "Kucoin": return Kucoin;
+                case "Mexc": return Mexc;
+                case "OKX": return OKX;
+                case "Polymarket": return Polymarket;
+                case "Toobit": return Toobit;
+                case "Upbit": return Upbit;
+                case "WhiteBit": return WhiteBit;
+                case "XT": return XT;
+                default:
+                    throw new System.ArgumentException("Unknown exchange name: " + exchange);
+            }
+        }
     }
 }

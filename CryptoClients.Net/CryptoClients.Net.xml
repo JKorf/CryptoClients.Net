@@ -375,6 +375,24 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolClient(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsForBaseAssetAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsForBaseAssetAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangesSupportingFuturesSymbolAsync(CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangesSupportingFuturesSymbolAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SupportsFuturesSymbolAsync(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SupportsFuturesSymbolAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetFuturesSymbolsAsync(System.String,CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -694,6 +712,24 @@
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolClient(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsForBaseAssetAsync(System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsForBaseAssetAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangesSupportingSpotSymbolAsync(CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.GetExchangesSupportingSpotSymbolAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SupportsSpotSymbolAsync(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SupportsSpotSymbolAsync(System.String,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSpotSymbolsAsync(System.String,CryptoExchange.Net.SharedApis.GetSymbolsRequest,System.Threading.CancellationToken)">
@@ -1728,6 +1764,30 @@
         <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateTradeTracker(System.String,CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Nullable{System.TimeSpan},CryptoExchange.Net.SharedApis.ExchangeParameters)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserSpotDataTrackers(CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserSpotDataTracker(System.String,System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoClients.Net.Models.ExchangeCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,System.Collections.Generic.Dictionary{System.String,System.String},System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.SharedApis.TradingMode,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserFuturesDataTrackers(CryptoExchange.Net.SharedApis.TradingMode,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.SharedApis.ExchangeParameters,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.SharedApis.TradingMode,System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,System.String,CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <inheritdoc />
+        </member>
+        <member name="M:CryptoClients.Net.ExchangeTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.SharedApis.TradingMode,CryptoClients.Net.Models.ExchangeCredentials,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,System.Collections.Generic.Dictionary{System.String,System.String},System.String[])">
+            <inheritdoc />
+        </member>
         <member name="T:CryptoClients.Net.CryptoClientsExtensions">
             <summary>
             Extension methods
@@ -2463,6 +2523,45 @@
             </summary>
             <param name="exchange">Exchange name</param>
         </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotSymbolsForBaseAssetAsync(System.String)">
+            <summary>
+            Get spot symbols for a specific base asset on all exchanges
+            </summary>
+            <param name="baseAsset">Base asset</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotSymbolsForBaseAssetAsync(System.String,System.String)">
+            <summary>
+            Get spot symbols for a specific base asset on a specific exchange
+            </summary>
+            <param name="exchange">Exchange</param>
+            <param name="baseAsset">Base asset</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangesSupportingSpotSymbolAsync(System.String)">
+            <summary>
+            Get exchanges supporting a specific symbol
+            </summary>
+            <param name="symbolName">Name of the symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangesSupportingSpotSymbolAsync(CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <summary>
+            Get exchanges supporting a specific symbol
+            </summary>
+            <param name="symbol">The symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SupportsSpotSymbolAsync(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <summary>
+            Check whether an exchange supports a specific spot symbol
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="symbol">Symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SupportsSpotSymbolAsync(System.String,System.String)">
+            <summary>
+            Check whether an exchange supports a specific futures symbol
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="symbolName">Symbol name</param>
+        </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSpotTickerClients">
             <summary>
             Get the <see cref="T:CryptoExchange.Net.SharedApis.ISpotTickerRestClient"/> clients for all exchanges
@@ -2545,6 +2644,45 @@
             </summary>
             <param name="tradingMode">Trading mode</param>
             <param name="exchange">Exchange name</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolsForBaseAssetAsync(System.String)">
+            <summary>
+            Get futures symbols for a specific base asset on all exchanges
+            </summary>
+            <param name="baseAsset">Base asset</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolsForBaseAssetAsync(System.String,System.String)">
+            <summary>
+            Get futures symbols for a specific base asset on a specific exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="baseAsset">Base asset</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangesSupportingFuturesSymbolAsync(System.String)">
+            <summary>
+            Get exchanges supporting a specific symbol
+            </summary>
+            <param name="symbolName">Name of the symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetExchangesSupportingFuturesSymbolAsync(CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <summary>
+            Get exchanges supporting a specific symbol
+            </summary>
+            <param name="symbol">Symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SupportsFuturesSymbolAsync(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <summary>
+            Check whether an exchange supports a specific futures symbol
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="symbol">Symbol</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SupportsFuturesSymbolAsync(System.String,System.String)">
+            <summary>
+            Check whether an exchange supports a specific futures symbol
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="symbolName">Symbol name</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetFuturesSymbolClients">
             <summary>
@@ -4471,6 +4609,81 @@
             <param name="period">The max age of the trades to be tracked, any trade older than this period will be removed</param>
             <param name="exchangeParameters">Exchange specific parameters</param>
         </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig)">
+            <summary>
+            Create a new Spot user data tracker for an exchange
+            </summary>
+            <param name="exchange">The name of the exchange</param>
+            <param name="config">Tracker config</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserSpotDataTrackers(CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,System.String[])">
+            <summary>
+            Create new Spot user data trackers for all or specified exchanges
+            </summary>
+            <param name="config">Tracker config</param>
+            <param name="exchanges">Filter exchanges to create tracker for</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoClients.Net.Models.ExchangeCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,System.Collections.Generic.Dictionary{System.String,System.String},System.String[])">
+            <summary>
+            Create new Spot user data trackers for all or specified exchanges
+            </summary>
+            <param name="userIdentifier">User identifier</param>
+            <param name="credentials">Credentials</param>
+            <param name="config">Configuration</param>
+            <param name="environments">Exchange environments</param>
+            <param name="exchanges">Filter exchanges to create tracker for</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserSpotDataTracker(System.String,System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,System.String)">
+            <summary>
+            Create a new Spot user data tracker for an exchange
+            </summary>
+            <param name="exchange">The name of the exchange</param>
+            <param name="userIdentifier">User identifier</param>
+            <param name="config">Configuration</param>
+            <param name="credentials">Credentials</param>
+            <param name="environment">Environment</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.SharedApis.TradingMode,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <summary>
+            Create a new Futures user data tracker for an exchange
+            </summary>
+            <param name="exchange">The name of the exchange</param>
+            <param name="config">Configuration</param>
+            <param name="tradeMode">Futures trade mode</param>
+            <param name="exchangeParameters">Exchange parameters</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserFuturesDataTrackers(CryptoExchange.Net.SharedApis.TradingMode,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.SharedApis.ExchangeParameters,System.String[])">
+            <summary>
+            Create a new Futures user data tracker for all or specified exchanges
+            </summary>
+            <param name="config">Configuration</param>
+            <param name="tradeMode">Futures trade mode</param>
+            <param name="exchangeParameters">Exchange parameters</param>
+            <param name="exchanges">Filter exchanges to create tracker for</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.SharedApis.TradingMode,System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,System.String,CryptoExchange.Net.SharedApis.ExchangeParameters)">
+            <summary>
+            Create a new Futures user data tracker for an exchange
+            </summary>
+            <param name="exchange">The name of the exchange</param>
+            <param name="tradeMode">Futures trade mode</param>
+            <param name="userIdentifier">User identifier</param>
+            <param name="config">Configuration</param>
+            <param name="credentials">Credentials</param>
+            <param name="environment">Environment</param>
+            <param name="exchangeParameters">Exchange parameters</param>
+        </member>
+        <member name="M:CryptoClients.Net.Interfaces.IExchangeTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.SharedApis.TradingMode,CryptoClients.Net.Models.ExchangeCredentials,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,System.Collections.Generic.Dictionary{System.String,System.String},System.String[])">
+            <summary>
+            Create new Futures user data trackers for all or specified exchanges
+            </summary>
+            <param name="userIdentifier">User identifier</param>
+            <param name="tradingMode">Trading mode</param>
+            <param name="credentials">Credentials</param>
+            <param name="config">Configuration</param>
+            <param name="environments">Exchange environments</param>
+            <param name="exchanges">Filter exchanges to create tracker for</param>
+        </member>
         <member name="T:CryptoClients.Net.Interfaces.IExchangeUserClientProvider">
             <summary>
             Provider for clients with credentials for specific users
@@ -4651,6 +4864,12 @@
             XT API credentials
             </summary>
         </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeCredentials.GetCredentials(System.String)">
+            <summary>
+            Get credentials for an exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+        </member>
         <member name="T:CryptoClients.Net.Models.GlobalExchangeOptions">
             <summary>
             Options to apply to any exchange client (if not overridden)
@@ -4704,11 +4923,6 @@
         <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.ReconnectInterval">
             <summary>
             Time to wait between socket reconnect attempts
-            </summary>
-        </member>
-        <member name="P:CryptoClients.Net.Models.GlobalExchangeOptions.UseUpdatedDeserialization">
-            <summary>
-            Whether or not to use the updated deserialization logic, default is true
             </summary>
         </member>
         <member name="T:CryptoClients.Net.Platforms">

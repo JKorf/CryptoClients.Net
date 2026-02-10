@@ -24,6 +24,9 @@ namespace CryptoClients.Net
         public async Task<ExchangeWebResult<SharedFuturesTicker[]>> GetFuturesTickersAsync(string exchange, GetTickersRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetFuturesTickersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            if (result.Length > 1)
+                return new ExchangeWebResult<SharedFuturesTicker[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+
             return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesTicker[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
@@ -57,6 +60,9 @@ namespace CryptoClients.Net
         public async Task<ExchangeWebResult<SharedFuturesTicker>> GetFuturesTickerAsync(string exchange, GetTickerRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetFuturesTickerInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            if (result.Length > 1)
+                return new ExchangeWebResult<SharedFuturesTicker>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+
             return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesTicker>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
