@@ -257,6 +257,13 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.3.0 - 10 Feb 2026
+    * Updated client library versions
+    * Added user data tracker creation method to (I)ExchangeTrackerFactory
+    * Added checks to rest client exchange requests to prevent exception when more than one trading mode specific requests are available for an exchange
+    * Added additional methods for requesting supported symbols to Shared ISpotSymbolRestClient/IFuturesSymbolRestClient interfaces
+    * Removed UseUpdatedDeserialization option
+
 * Version 4.2.0 - 22 Jan 2026
     * Updated client library versions
     * Added Polymarket support with the Polymarket.Net library
