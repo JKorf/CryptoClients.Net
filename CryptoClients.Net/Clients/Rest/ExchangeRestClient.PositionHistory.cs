@@ -24,6 +24,9 @@ namespace CryptoClients.Net
         public async Task<ExchangeWebResult<SharedPositionHistory[]>> GetPositionHistoryAsync(string exchange, GetPositionHistoryRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetPositionHistoryInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            if (result.Length > 1)
+                return new ExchangeWebResult<SharedPositionHistory[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+
             return result.SingleOrDefault() ?? new ExchangeWebResult<SharedPositionHistory[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 

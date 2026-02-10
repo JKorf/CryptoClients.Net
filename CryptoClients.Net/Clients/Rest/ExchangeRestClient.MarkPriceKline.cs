@@ -25,6 +25,9 @@ namespace CryptoClients.Net
         public async Task<ExchangeWebResult<SharedFuturesKline[]>> GetMarkPriceKlinesAsync(string exchange, GetKlinesRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetMarkPriceKlinesIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            if (result.Length > 1)
+                return new ExchangeWebResult<SharedFuturesKline[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+
             return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesKline[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
