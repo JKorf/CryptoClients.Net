@@ -257,6 +257,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.4.0 - 16 Feb 2026
+    * Updated client library versions
+
 * Version 4.3.0 - 10 Feb 2026
     * Updated client library versions
     * Added user data tracker creation method to (I)ExchangeTrackerFactory
