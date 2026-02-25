@@ -108,31 +108,31 @@ namespace CryptoClients.Net
         #region Get Spot Closed Orders
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedSpotOrder[]>> GetSpotClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, CancellationToken ct = default)
+        public async Task<ExchangeWebResult<SharedSpotOrder[]>> GetSpotClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
         {
-            var result = await Task.WhenAll(GetSpotClosedOrdersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            var result = await Task.WhenAll(GetSpotClosedOrdersInt(request, new[] { exchange }, pageRequest, ct)).ConfigureAwait(false);
             return result.SingleOrDefault() ?? new ExchangeWebResult<SharedSpotOrder[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedSpotOrder[]>[]> GetSpotClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetSpotClosedOrdersInt(request, exchanges, ct)).ConfigureAwait(false);
+            return await Task.WhenAll(GetSpotClosedOrdersInt(request, exchanges, null, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public IAsyncEnumerable<ExchangeWebResult<SharedSpotOrder[]>> GetSpotClosedOrdersAsyncEnumerable(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetSpotClosedOrdersInt(request, exchanges, ct).ParallelEnumerateAsync();
+            return GetSpotClosedOrdersInt(request, exchanges, null, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedSpotOrder[]>>> GetSpotClosedOrdersInt(GetClosedOrdersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<SharedSpotOrder[]>>> GetSpotClosedOrdersInt(GetClosedOrdersRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Where(x => x.GetClosedSpotOrdersOptions.Supported).Select(x => x.GetClosedSpotOrdersAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetClosedSpotOrdersOptions.Supported).Select(x => x.GetClosedSpotOrdersAsync(request, pageRequest, ct));
             return tasks;
         }
 
@@ -141,31 +141,31 @@ namespace CryptoClients.Net
         #region Get Spot User Trades
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedUserTrade[]>> GetSpotUserTradesAsync(string exchange, GetUserTradesRequest request, CancellationToken ct = default)
+        public async Task<ExchangeWebResult<SharedUserTrade[]>> GetSpotUserTradesAsync(string exchange, GetUserTradesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
         {
-            var result = await Task.WhenAll(GetSpotUserTradesInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            var result = await Task.WhenAll(GetSpotUserTradesInt(request, new[] { exchange }, pageRequest, ct)).ConfigureAwait(false);
             return result.SingleOrDefault() ?? new ExchangeWebResult<SharedUserTrade[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedUserTrade[]>[]> GetSpotUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetSpotUserTradesInt(request, exchanges, ct)).ConfigureAwait(false);
+            return await Task.WhenAll(GetSpotUserTradesInt(request, exchanges, null, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public IAsyncEnumerable<ExchangeWebResult<SharedUserTrade[]>> GetSpotUserTradesAsyncEnumerable(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetSpotUserTradesInt(request, exchanges, ct).ParallelEnumerateAsync();
+            return GetSpotUserTradesInt(request, exchanges, null, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedUserTrade[]>>> GetSpotUserTradesInt(GetUserTradesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<SharedUserTrade[]>>> GetSpotUserTradesInt(GetUserTradesRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
             var clients = GetSpotOrderClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Where(x => x.GetSpotUserTradesOptions.Supported).Select(x => x.GetSpotUserTradesAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetSpotUserTradesOptions.Supported).Select(x => x.GetSpotUserTradesAsync(request, pageRequest, ct));
             return tasks;
         }
 

@@ -19,31 +19,31 @@ namespace CryptoClients.Net
         #region Get Deposits
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedDeposit[]>> GetDepositsAsync(string exchange, GetDepositsRequest request, CancellationToken ct = default)
+        public async Task<ExchangeWebResult<SharedDeposit[]>> GetDepositsAsync(string exchange, GetDepositsRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
         {
-            var result = await Task.WhenAll(GetDepositsInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            var result = await Task.WhenAll(GetDepositsInt(request, new[] { exchange }, pageRequest, ct)).ConfigureAwait(false);
             return result.SingleOrDefault() ?? new ExchangeWebResult<SharedDeposit[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedDeposit[]>[]> GetDepositsAsync(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetDepositsInt(request, exchanges, ct)).ConfigureAwait(false);
+            return await Task.WhenAll(GetDepositsInt(request, exchanges, null, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public IAsyncEnumerable<ExchangeWebResult<SharedDeposit[]>> GetDepositsAsyncEnumerable(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetDepositsInt(request, exchanges, ct).ParallelEnumerateAsync();
+            return GetDepositsInt(request, exchanges, null, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedDeposit[]>>> GetDepositsInt(GetDepositsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<SharedDeposit[]>>> GetDepositsInt(GetDepositsRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
             var clients = GetDepositsClients();
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Where(x => x.GetDepositsOptions.Supported).Select(x => x.GetDepositsAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetDepositsOptions.Supported).Select(x => x.GetDepositsAsync(request, pageRequest, ct));
             return tasks;
         }
 

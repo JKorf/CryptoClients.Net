@@ -21,9 +21,9 @@ namespace CryptoClients.Net
         #region Get Klines
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedKline[]>> GetKlinesAsync(string exchange, GetKlinesRequest request, CancellationToken ct = default)
+        public async Task<ExchangeWebResult<SharedKline[]>> GetKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
         {
-            var result = await Task.WhenAll(GetKlinesIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            var result = await Task.WhenAll(GetKlinesIntAsync(request, new[] { exchange }, pageRequest, ct)).ConfigureAwait(false);
             if (result.Length > 1)
                 return new ExchangeWebResult<SharedKline[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
 
@@ -33,22 +33,22 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedKline[]>[]> GetKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetKlinesIntAsync(request, exchanges, ct)).ConfigureAwait(false);
+            return await Task.WhenAll(GetKlinesIntAsync(request, exchanges, null, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public IAsyncEnumerable<ExchangeWebResult<SharedKline[]>> GetKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetKlinesIntAsync(request, exchanges, ct).ParallelEnumerateAsync();
+            return GetKlinesIntAsync(request, exchanges, null, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedKline[]>>> GetKlinesIntAsync(GetKlinesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<SharedKline[]>>> GetKlinesIntAsync(GetKlinesRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
             var clients = GetKlineClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Where(x => x.GetKlinesOptions.Supported).Select(x => x.GetKlinesAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetKlinesOptions.Supported).Select(x => x.GetKlinesAsync(request, pageRequest, ct));
             return tasks;
         }
 

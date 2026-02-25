@@ -22,9 +22,9 @@ namespace CryptoClients.Net
         #region Get Index Price Klines
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsync(string exchange, GetKlinesRequest request, CancellationToken ct = default)
+        public async Task<ExchangeWebResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
         {
-            var result = await Task.WhenAll(GetIndexPriceKlinesIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            var result = await Task.WhenAll(GetIndexPriceKlinesIntAsync(request, new[] { exchange }, pageRequest, ct)).ConfigureAwait(false);
             if (result.Length > 1)
                 return new ExchangeWebResult<SharedFuturesKline[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
 
@@ -34,22 +34,22 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedFuturesKline[]>[]> GetIndexPriceKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetIndexPriceKlinesIntAsync(request, exchanges, ct)).ConfigureAwait(false);
+            return await Task.WhenAll(GetIndexPriceKlinesIntAsync(request, exchanges, null, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public IAsyncEnumerable<ExchangeWebResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetIndexPriceKlinesIntAsync(request, exchanges, ct).ParallelEnumerateAsync();
+            return GetIndexPriceKlinesIntAsync(request, exchanges, null, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedFuturesKline[]>>> GetIndexPriceKlinesIntAsync(GetKlinesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<SharedFuturesKline[]>>> GetIndexPriceKlinesIntAsync(GetKlinesRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
             var clients = GetIndexPriceKlineClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Where(x => x.GetIndexPriceKlinesOptions.Supported).Select(x => x.GetIndexPriceKlinesAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetIndexPriceKlinesOptions.Supported).Select(x => x.GetIndexPriceKlinesAsync(request, pageRequest, ct));
             return tasks;
         }
 

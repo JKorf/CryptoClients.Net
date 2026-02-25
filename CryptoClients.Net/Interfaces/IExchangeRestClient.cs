@@ -804,8 +804,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedKline[]>> GetKlinesAsync(string exchange, GetKlinesRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedKline[]>> GetKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get kline data for a specific symbol from all exchanges, async returning in the order the response from the server is received
         /// </summary>
@@ -826,8 +827,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesKline[]>> GetMarkPriceKlinesAsync(string exchange, GetKlinesRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedFuturesKline[]>> GetMarkPriceKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get mark price kline data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
@@ -849,8 +851,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsync(string exchange, GetKlinesRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get index price kline data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
@@ -893,8 +896,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedTrade[]>> GetTradeHistoryAsync(string exchange, GetTradeHistoryRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedTrade[]>> GetTradeHistoryAsync(string exchange, GetTradeHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get public trade history data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
@@ -1003,8 +1007,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedDeposit[]>> GetDepositsAsync(string exchange, GetDepositsRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedDeposit[]>> GetDepositsAsync(string exchange, GetDepositsRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get user deposit history from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
@@ -1025,8 +1030,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedWithdrawal[]>> GetWithdrawalsAsync(string exchange, GetWithdrawalsRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedWithdrawal[]>> GetWithdrawalsAsync(string exchange, GetWithdrawalsRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get user withdrawal history from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
@@ -1091,8 +1097,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotOrder[]>> GetSpotClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedSpotOrder[]>> GetSpotClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get closed spot orders for a symbol for the user from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
@@ -1113,8 +1120,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedUserTrade[]>> GetSpotUserTradesAsync(string exchange, GetUserTradesRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedUserTrade[]>> GetSpotUserTradesAsync(string exchange, GetUserTradesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get user executed trades from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
@@ -1135,8 +1143,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFundingRate[]>> GetFundingRateHistoryAsync(string exchange, GetFundingRateHistoryRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedFundingRate[]>> GetFundingRateHistoryAsync(string exchange, GetFundingRateHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get funding rate history for a symbol from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
@@ -1201,8 +1210,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedPositionHistory[]>> GetPositionHistoryAsync(string exchange, GetPositionHistoryRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedPositionHistory[]>> GetPositionHistoryAsync(string exchange, GetPositionHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get user position history from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
@@ -1267,8 +1277,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get closed Futures orders for a symbol for the user from all exchanges supporting this request, async returning in the order the response from the server is received
@@ -1290,8 +1301,9 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
+        /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedUserTrade[]>> GetFuturesUserTradesAsync(string exchange, GetUserTradesRequest request, CancellationToken ct = default);
+        Task<ExchangeWebResult<SharedUserTrade[]>> GetFuturesUserTradesAsync(string exchange, GetUserTradesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get user executed trades from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>

@@ -21,9 +21,9 @@ namespace CryptoClients.Net
         #region Get Funding Rate History
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedFundingRate[]>> GetFundingRateHistoryAsync(string exchange, GetFundingRateHistoryRequest request, CancellationToken ct = default)
+        public async Task<ExchangeWebResult<SharedFundingRate[]>> GetFundingRateHistoryAsync(string exchange, GetFundingRateHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
         {
-            var result = await Task.WhenAll(GetFundingRateHistoryInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
+            var result = await Task.WhenAll(GetFundingRateHistoryInt(request, new[] { exchange }, pageRequest, ct)).ConfigureAwait(false);
             if (result.Length > 1)
                 return new ExchangeWebResult<SharedFundingRate[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
 
@@ -33,22 +33,22 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeWebResult<SharedFundingRate[]>[]> GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return await Task.WhenAll(GetFundingRateHistoryInt(request, exchanges, ct)).ConfigureAwait(false);
+            return await Task.WhenAll(GetFundingRateHistoryInt(request, exchanges, null, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public IAsyncEnumerable<ExchangeWebResult<SharedFundingRate[]>> GetFundingRateHistoryAsyncEnumerable(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            return GetFundingRateHistoryInt(request, exchanges, ct).ParallelEnumerateAsync();
+            return GetFundingRateHistoryInt(request, exchanges, null, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedFundingRate[]>>> GetFundingRateHistoryInt(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<ExchangeWebResult<SharedFundingRate[]>>> GetFundingRateHistoryInt(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
             var clients = GetFundingRateClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Where(x => x.GetFundingRateHistoryOptions.Supported).Select(x => x.GetFundingRateHistoryAsync(request, null, ct));
+            var tasks = clients.Where(x => x.GetFundingRateHistoryOptions.Supported).Select(x => x.GetFundingRateHistoryAsync(request, pageRequest, ct));
             return tasks;
         }
 
