@@ -257,6 +257,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.5.0 - 25 Feb 2026
+    * Updated client library versions
+    * Added PageRequest parameter to endpoints supporting pagination using single exchange parameter
+
 * Version 4.4.0 - 16 Feb 2026
     * Updated client library versions
 
