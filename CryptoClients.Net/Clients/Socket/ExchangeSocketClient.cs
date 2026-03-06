@@ -117,6 +117,10 @@ using Polymarket.Net.Interfaces.Clients;
 using Polymarket.Net.Clients;
 using Polymarket.Net.Objects.Options;
 using Polymarket.Net;
+using Bitstamp.Net.Objects.Options;
+using Bitstamp.Net.Clients;
+using Bitstamp.Net.Interfaces.Clients;
+using Bitstamp.Net;
 
 namespace CryptoClients.Net
 {
@@ -147,6 +151,8 @@ namespace CryptoClients.Net
         public IBitMartSocketClient BitMart { get; }
         /// <inheritdoc />
         public IBitMEXSocketClient BitMEX { get; }
+        /// <inheritdoc />
+        public IBitstampSocketClient Bitstamp { get; }
         /// <inheritdoc />
         public IBloFinSocketClient BloFin { get; }
         /// <inheritdoc />
@@ -198,6 +204,7 @@ namespace CryptoClients.Net
             Bitget = new BitgetSocketClient();
             BitMart = new BitMartSocketClient();
             BitMEX = new BitMEXSocketClient();
+            Bitstamp = new BitstampSocketClient();
             BloFin = new BloFinSocketClient();
             Bybit = new BybitSocketClient();
             Coinbase = new CoinbaseSocketClient();
@@ -234,6 +241,7 @@ namespace CryptoClients.Net
             Action<BitMartSocketOptions>? bitMartSocketOptions = null,
             Action<BitMEXSocketOptions>? bitMEXSocketOptions = null,
             Action<BloFinSocketOptions>? bloFinSocketOptions = null,
+            Action<BitstampSocketOptions>? bitstampSocketOptions = null,
             Action<BybitSocketOptions>? bybitSocketOptions = null,
             Action<CoinExSocketOptions>? coinExSocketOptions = null,
             Action<CoinWSocketOptions>? coinWSocketOptions = null,
@@ -289,6 +297,7 @@ namespace CryptoClients.Net
                 bitgetSocketOptions = SetGlobalSocketOptions(global, bitgetSocketOptions, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
                 bitMartSocketOptions = SetGlobalSocketOptions(global, bitMartSocketOptions, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
                 bitMEXSocketOptions = SetGlobalSocketOptions(global, bitMEXSocketOptions, credentials?.BitMEX, environments?.TryGetValue(Exchange.BitMEX, out var bitMEXEnvName) == true ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnvName)! : BitMEXEnvironment.Live);
+                bitstampSocketOptions = SetGlobalSocketOptions(global, bitstampSocketOptions, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : BitstampEnvironment.Live);
                 bloFinSocketOptions = SetGlobalSocketOptions(global, bloFinSocketOptions, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
                 bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
                 coinbaseSocketOptions = SetGlobalSocketOptions(global, coinbaseSocketOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
@@ -317,6 +326,7 @@ namespace CryptoClients.Net
             Bitget = new BitgetSocketClient(bitgetSocketOptions ?? new Action<BitgetSocketOptions>((x) => { }));
             BitMart = new BitMartSocketClient(bitMartSocketOptions ?? new Action<BitMartSocketOptions>((x) => { }));
             BitMEX = new BitMEXSocketClient(bitMEXSocketOptions ?? new Action<BitMEXSocketOptions>((x) => { }));
+            Bitstamp = new BitstampSocketClient(bitstampSocketOptions ?? new Action<BitstampSocketOptions>((x) => { }));
             BloFin = new BloFinSocketClient(bloFinSocketOptions ?? new Action<BloFinSocketOptions>((x) => { }));
             Bybit = new BybitSocketClient(bybitSocketOptions ?? new Action<BybitSocketOptions>((x) => { }));
             Coinbase = new CoinbaseSocketClient(coinbaseSocketOptions ?? new Action<CoinbaseSocketOptions>((x) => { }));
@@ -351,6 +361,7 @@ namespace CryptoClients.Net
             IBitgetSocketClient bitget,
             IBitMartSocketClient bitMart,
             IBitMEXSocketClient bitMEX,
+            IBitstampSocketClient bitstamp,
             IBloFinSocketClient bloFin,
             IBybitSocketClient bybit,
             ICoinbaseSocketClient coinbase,
@@ -378,6 +389,7 @@ namespace CryptoClients.Net
             Bitget = bitget;
             BitMart = bitMart;
             BitMEX = bitMEX;
+            Bitstamp = bitstamp;
             BloFin = bloFin;
             Bybit = bybit;
             Coinbase = coinbase;
@@ -403,7 +415,7 @@ namespace CryptoClients.Net
 
         private void InitSharedClients()
         {
-            _socketClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
+            _socketClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
                 DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, Upbit, WhiteBit, XT];
 
             _sharedClients = new ISharedClient[]
@@ -421,6 +433,7 @@ namespace CryptoClients.Net
                 BitMart.SpotApi.SharedClient,
                 BitMart.UsdFuturesApi.SharedClient,
                 BitMEX.ExchangeApi.SharedClient,
+                Bitstamp.ExchangeApi.SharedClient,
                 BloFin.FuturesApi.SharedClient,
                 Bybit.V5InverseApi.SharedClient,
                 Bybit.V5LinearApi.SharedClient,
@@ -482,6 +495,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Bitget, credentials.Bitget);
             SetCredentialsIfNotNull(Exchange.BitMart, credentials.BitMart);
             SetCredentialsIfNotNull(Exchange.BitMEX, credentials.BitMEX);
+            SetCredentialsIfNotNull(Exchange.Bitstamp, credentials.Bitstamp);
             SetCredentialsIfNotNull(Exchange.BloFin, credentials.BloFin);
             SetCredentialsIfNotNull(Exchange.Bybit, credentials.Bybit);
             SetCredentialsIfNotNull(Exchange.Coinbase, credentials.Coinbase);
@@ -517,6 +531,7 @@ namespace CryptoClients.Net
                 case "Bitget": Bitget.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Bitget credentials", nameof(apiPass)))); break;
                 case "BitMart": BitMart.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BitMart credentials", nameof(apiPass)))); break;
                 case "BitMEX": BitMEX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "Bitstamp": Bitstamp.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "BloFin": BloFin.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Bybit": Bybit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
                 case "Coinbase": Coinbase.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
@@ -563,6 +578,7 @@ namespace CryptoClients.Net
                 Bitget.UnsubscribeAllAsync(),
                 BitMart.UnsubscribeAllAsync(),
                 BitMEX.UnsubscribeAllAsync(),
+                Bitstamp.UnsubscribeAllAsync(),
                 BloFin.UnsubscribeAllAsync(),
                 Bybit.UnsubscribeAllAsync(),
                 Coinbase.UnsubscribeAllAsync(),

@@ -5,6 +5,7 @@ using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
 using BitMart.Net.Interfaces;
 using BitMEX.Net.Interfaces;
+using Bitstamp.Net.Interfaces;
 using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
@@ -63,6 +64,10 @@ namespace CryptoClients.Net.Interfaces
         /// BitMEX order book factory
         /// </summary>
         IBitMEXOrderBookFactory BitMEX { get; }
+        /// <summary>
+        /// Bitstamp order book factory
+        /// </summary>
+        IBitstampOrderBookFactory Bitstamp { get; }
         /// <summary>
         /// BloFin order book factory
         /// </summary>

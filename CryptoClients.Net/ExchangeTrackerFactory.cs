@@ -13,6 +13,8 @@ using BitMart.Net;
 using BitMart.Net.Interfaces;
 using BitMEX.Net;
 using BitMEX.Net.Interfaces;
+using Bitstamp.Net;
+using Bitstamp.Net.Interfaces;
 using BloFin.Net;
 using BloFin.Net.Interfaces;
 using Bybit.Net;
@@ -82,6 +84,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IBitMEXTrackerFactory BitMEX { get; }
         /// <inheritdoc />
+        public IBitstampTrackerFactory Bitstamp { get; }
+        /// <inheritdoc />
         public IBloFinTrackerFactory BloFin { get; }
         /// <inheritdoc />
         public IBybitTrackerFactory Bybit { get; }
@@ -129,6 +133,7 @@ namespace CryptoClients.Net
             IBitgetTrackerFactory bitget,
             IBitMartTrackerFactory bitMart,
             IBitMEXTrackerFactory bitMEX,
+            IBitstampTrackerFactory bitstamp,
             IBloFinTrackerFactory bloFin,
             IBybitTrackerFactory bybit,
             ICoinbaseTrackerFactory coinbase,
@@ -155,6 +160,7 @@ namespace CryptoClients.Net
             Bitget = bitget;
             BitMart = bitMart;
             BitMEX = bitMEX;
+            Bitstamp = bitstamp;
             BloFin = bloFin;
             Bybit = bybit;
             Coinbase = coinbase;
@@ -186,6 +192,7 @@ namespace CryptoClients.Net
                 "Bitget" => Bitget,
                 "BitMart" => BitMart,
                 "BitMEX" => BitMEX,
+                "Bitstamp" => Bitstamp,
                 "BloFin" => BloFin,
                 "Bybit" => Bybit,
                 "Coinbase" => Coinbase,
@@ -246,6 +253,7 @@ namespace CryptoClients.Net
                 "Bitget" => Bitget.CreateUserSpotDataTracker(config),
                 "BitMart" => BitMart.CreateUserSpotDataTracker(config),
                 "BitMEX" => BitMEX.CreateUserSpotDataTracker(config),
+                "Bitstamp" => Bitstamp.CreateUserSpotDataTracker(config),
                 "Bybit" => Bybit.CreateUserSpotDataTracker(config),
                 "Coinbase" => Coinbase.CreateUserSpotDataTracker(config),
                 "CoinEx" => CoinEx.CreateUserSpotDataTracker(config),
@@ -294,6 +302,7 @@ namespace CryptoClients.Net
                 "Bitget" => Bitget.CreateUserSpotDataTracker(userIdentifier, credentials, config, BitgetEnvironment.GetEnvironmentByName(environment)),
                 "BitMart" => BitMart.CreateUserSpotDataTracker(userIdentifier, credentials, config, BitMartEnvironment.GetEnvironmentByName(environment)),
                 "BitMEX" => BitMEX.CreateUserSpotDataTracker(userIdentifier, credentials, config, BitMEXEnvironment.GetEnvironmentByName(environment)),
+                "Bitstamp" => Bitstamp.CreateUserSpotDataTracker(userIdentifier, credentials, config, BitstampEnvironment.GetEnvironmentByName(environment)),
                 "Bybit" => Bybit.CreateUserSpotDataTracker(userIdentifier, credentials, config, BybitEnvironment.GetEnvironmentByName(environment)),
                 "Coinbase" => Coinbase.CreateUserSpotDataTracker(userIdentifier, credentials, config, CoinbaseEnvironment.GetEnvironmentByName(environment)),
                 "CoinEx" => CoinEx.CreateUserSpotDataTracker(userIdentifier, credentials, config, CoinExEnvironment.GetEnvironmentByName(environment)),
@@ -353,6 +362,7 @@ namespace CryptoClients.Net
                     config),
                 "BitMart" => BitMart.CreateUserUsdFuturesDataTracker(config),
                 "BitMEX" => BitMEX.CreateUserFuturesDataTracker(config),
+                "Bitstamp" => Bitstamp.CreateUserFuturesDataTracker(config),
                 "BloFin" => BloFin.CreateUserFuturesDataTracker(config),
                 "Bybit" => Bybit.CreateUserFuturesDataTracker(config),
                 "Coinbase" => Coinbase.CreateUserFuturesDataTracker(config),
@@ -412,6 +422,7 @@ namespace CryptoClients.Net
                     BitgetEnvironment.GetEnvironmentByName(environment)),
                 "BitMart" => BitMart.CreateUserUsdFuturesDataTracker(userIdentifier, credentials, config, BitMartEnvironment.GetEnvironmentByName(environment)),
                 "BitMEX" => BitMEX.CreateUserFuturesDataTracker(userIdentifier, credentials, config, BitMEXEnvironment.GetEnvironmentByName(environment)),
+                "Bitstamp" => Bitstamp.CreateUserFuturesDataTracker(userIdentifier, credentials, config, BitstampEnvironment.GetEnvironmentByName(environment)),
                 "BloFin" => BloFin.CreateUserFuturesDataTracker(userIdentifier, credentials, config, BloFinEnvironment.GetEnvironmentByName(environment)),
                 "Bybit" => Bybit.CreateUserFuturesDataTracker(userIdentifier, credentials, config, BybitEnvironment.GetEnvironmentByName(environment)),
                 "Coinbase" => Coinbase.CreateUserFuturesDataTracker(userIdentifier, credentials, config, CoinbaseEnvironment.GetEnvironmentByName(environment)),

@@ -5,6 +5,7 @@ using Bitfinex.Net.Interfaces.Clients;
 using Bitget.Net.Interfaces.Clients;
 using BitMart.Net.Interfaces.Clients;
 using BitMEX.Net.Interfaces.Clients;
+using Bitstamp.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Coinbase.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
@@ -70,6 +71,10 @@ namespace CryptoClients.Net.Interfaces
         /// BitMEX REST API
         /// </summary>
         IBitMEXRestClient BitMEX { get; }
+        /// <summary>
+        /// Bitstamp REST API
+        /// </summary>
+        IBitstampRestClient Bitstamp { get; }
         /// <summary>
         /// BloFin REST API
         /// </summary>

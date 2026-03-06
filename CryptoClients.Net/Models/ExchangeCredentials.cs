@@ -36,6 +36,7 @@ namespace CryptoClients.Net.Models
                     case "Bitget": Bitget = item.Value; break;
                     case "BitMart": BitMart = item.Value; break;
                     case "BitMEX": BitMEX = item.Value; break;
+                    case "Bitstamp": Bitstamp = item.Value; break;
                     case "BloFin": BloFin = item.Value; break;
                     case "Bybit": Bybit = item.Value; break;
                     case "Coinbase": Coinbase = item.Value; break;
@@ -95,6 +96,11 @@ namespace CryptoClients.Net.Models
         /// BitMEX API credentials
         /// </summary>
         public ApiCredentials? BitMEX { get; set; }
+
+        /// <summary>
+        /// Bitstamp API credentials
+        /// </summary>
+        public ApiCredentials? Bitstamp { get; set; }
 
         /// <summary>
         /// BloFin API credentials
@@ -206,6 +212,7 @@ namespace CryptoClients.Net.Models
                 case "Bitget": return Bitget;
                 case "BitMart": return BitMart;
                 case "BitMEX": return BitMEX;
+                case "Bitstamp": return Bitstamp;
                 case "BloFin": return BloFin;
                 case "Bybit": return Bybit;
                 case "Coinbase": return Coinbase;

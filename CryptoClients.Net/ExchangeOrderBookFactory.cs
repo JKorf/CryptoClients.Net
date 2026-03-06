@@ -6,6 +6,7 @@ using Bitget.Net.Enums;
 using Bitget.Net.Interfaces;
 using BitMart.Net.Interfaces;
 using BitMEX.Net.Interfaces;
+using Bitstamp.Net.Interfaces;
 using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
@@ -51,6 +52,8 @@ namespace CryptoClients.Net
         public IBitMartOrderBookFactory BitMart { get; }
         /// <inheritdoc />
         public IBitMEXOrderBookFactory BitMEX { get; }
+        /// <inheritdoc />
+        public IBitstampOrderBookFactory Bitstamp { get; }
         /// <inheritdoc />
         public IBloFinOrderBookFactory BloFin { get; }
         /// <inheritdoc />
@@ -101,6 +104,7 @@ namespace CryptoClients.Net
             IBitgetOrderBookFactory bitget,
             IBitMartOrderBookFactory bitMart,
             IBitMEXOrderBookFactory bitMEX,
+            IBitstampOrderBookFactory bitstamp,
             IBloFinOrderBookFactory bloFin,
             IBybitOrderBookFactory bybit,
             ICoinbaseOrderBookFactory coinbase,
@@ -128,6 +132,7 @@ namespace CryptoClients.Net
             Bitget = bitget;
             BitMart = bitMart;
             BitMEX = bitMEX;
+            Bitstamp = bitstamp;
             BloFin = bloFin;
             Bybit = bybit;
             Coinbase = coinbase;
@@ -198,6 +203,8 @@ namespace CryptoClients.Net
                 case "BitMEX":
                     var bitMEXLimit = GetBookDepth(minimalDepth, true, 25);
                     return BitMEX.Create(symbol, opts => { opts.Limit = bitMEXLimit; });
+                case "Bitstamp":
+                    return Bitstamp.Create(symbol);
                 case "BloFin":
                     var bloFinLimit = GetBookDepth(minimalDepth, false, 5, 400);
                     return BloFin.Create(symbol, opts => { opts.Limit = bloFinLimit; });
