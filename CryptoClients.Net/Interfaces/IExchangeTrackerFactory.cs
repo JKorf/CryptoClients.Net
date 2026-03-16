@@ -207,7 +207,7 @@ namespace CryptoClients.Net.Interfaces
         IUserSpotDataTracker? CreateUserSpotDataTracker(
             string exchange,
             string userIdentifier,
-            ApiCredentials credentials,
+            ExchangeCredentials credentials,
             SpotUserDataTrackerConfig? config = null,
             string? environment = null);
 
@@ -251,7 +251,7 @@ namespace CryptoClients.Net.Interfaces
             string exchange,
             TradingMode tradeMode,
             string userIdentifier,
-            ApiCredentials credentials,
+            ExchangeCredentials credentials,
             FuturesUserDataTrackerConfig? config = null,
             string? environment = null,
             ExchangeParameters? exchangeParameters = null);

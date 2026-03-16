@@ -1,11 +1,38 @@
-﻿using Bitget.Net.Objects;
+﻿using Aster.Net;
+using Binance.Net;
+using BingX.Net;
+using Bitfinex.Net;
+using Bitget.Net;
+using Bitget.Net.Objects;
+using BitMart.Net;
 using BitMart.Net.Objects;
+using BitMEX.Net;
+using Bitstamp.Net;
+using BloFin.Net;
+using Bybit.Net;
+using Coinbase.Net;
+using CoinEx.Net;
+using CoinGecko.Net;
+using CoinW.Net;
+using CryptoCom.Net;
 using CryptoExchange.Net.Authentication;
+using DeepCoin.Net;
 using DeepCoin.Net.Objects;
+using GateIo.Net;
+using HTX.Net;
+using HyperLiquid.Net;
+using Kraken.Net;
+using Kucoin.Net;
 using Kucoin.Net.Objects;
+using Mexc.Net;
+using OKX.Net;
 using OKX.Net.Objects;
+using Polymarket.Net;
 using Polymarket.Net.Objects;
 using System.Collections.Generic;
+using Toobit.Net;
+using WhiteBit.Net;
+using XT.Net;
 
 namespace CryptoClients.Net.Models
 {
@@ -19,158 +46,163 @@ namespace CryptoClients.Net.Models
         /// </summary>
         public ExchangeCredentials() { }
 
-        /// <summary>
-        /// ctor
-        /// </summary>
-        /// <param name="exchangeCredentials">Api credentials, key should be the exchange name</param>
-        public ExchangeCredentials(Dictionary<string, ApiCredentials> exchangeCredentials)
-        {
-            foreach(var item in exchangeCredentials)
-            {
-                switch (item.Key)
-                {
-                    case "Aster": Aster = item.Value; break;
-                    case "Binance": Binance = item.Value; break;
-                    case "BingX": BingX = item.Value; break;
-                    case "Bitfinex": Bitfinex = item.Value; break;
-                    case "Bitget": Bitget = item.Value; break;
-                    case "BitMart": BitMart = item.Value; break;
-                    case "BitMEX": BitMEX = item.Value; break;
-                    case "Bitstamp": Bitstamp = item.Value; break;
-                    case "BloFin": BloFin = item.Value; break;
-                    case "Bybit": Bybit = item.Value; break;
-                    case "Coinbase": Coinbase = item.Value; break;
-                    case "CoinEx": CoinEx = item.Value; break;
-                    case "CoinW": CoinW = item.Value; break;
-                    case "CryptoCom": CryptoCom = item.Value; break;
-                    case "DeepCoin": DeepCoin = item.Value; break;
-                    case "GateIo": GateIo = item.Value; break;
-                    case "HTX": HTX = item.Value; break;
-                    case "HyperLiquid": HyperLiquid = item.Value; break;
-                    case "Kraken": Kraken = item.Value; break;
-                    case "Kucoin": Kucoin = item.Value; break;
-                    case "Mexc": Mexc = item.Value; break;
-                    case "OKX": OKX = item.Value; break;
-                    case "Polymarket": Polymarket = (PolymarketCredentials)item.Value; break;
-                    case "Toobit": Toobit = item.Value; break;
-                    case "Upbit": Upbit = item.Value; break;
-                    case "WhiteBit": WhiteBit = item.Value; break;
-                    case "XT": XT = item.Value; break;
-                    default:
-                        throw new System.ArgumentException("Unknown exchange name: " + item.Key);
-                }
-            }
-        }
+        ///// <summary>
+        ///// ctor
+        ///// </summary>
+        ///// <param name="exchangeCredentials">Api credentials, key should be the exchange name</param>
+        //public ExchangeCredentials(Dictionary<string, ApiCredentials> exchangeCredentials)
+        //{
+        //    foreach(var item in exchangeCredentials)
+        //    {
+        //        switch (item.Key)
+        //        {
+        //            case "Aster": Aster = item.Value; break;
+        //            case "Binance": Binance = item.Value; break;
+        //            case "BingX": BingX = item.Value; break;
+        //            case "Bitfinex": Bitfinex = item.Value; break;
+        //            case "Bitget": Bitget = item.Value; break;
+        //            case "BitMart": BitMart = item.Value; break;
+        //            case "BitMEX": BitMEX = item.Value; break;
+        //            case "Bitstamp": Bitstamp = item.Value; break;
+        //            case "BloFin": BloFin = item.Value; break;
+        //            case "Bybit": Bybit = item.Value; break;
+        //            case "Coinbase": Coinbase = item.Value; break;
+        //            case "CoinEx": CoinEx = item.Value; break;
+        //            case "CoinW": CoinW = item.Value; break;
+        //            case "CryptoCom": CryptoCom = item.Value; break;
+        //            case "DeepCoin": DeepCoin = item.Value; break;
+        //            case "GateIo": GateIo = item.Value; break;
+        //            case "HTX": HTX = item.Value; break;
+        //            case "HyperLiquid": HyperLiquid = item.Value; break;
+        //            case "Kraken": Kraken = item.Value; break;
+        //            case "Kucoin": Kucoin = item.Value; break;
+        //            case "Mexc": Mexc = item.Value; break;
+        //            case "OKX": OKX = item.Value; break;
+        //            case "Polymarket": Polymarket = (PolymarketCredentials)item.Value; break;
+        //            case "Toobit": Toobit = item.Value; break;
+        //            case "Upbit": Upbit = item.Value; break;
+        //            case "WhiteBit": WhiteBit = item.Value; break;
+        //            case "XT": XT = item.Value; break;
+        //            default:
+        //                throw new System.ArgumentException("Unknown exchange name: " + item.Key);
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Aster API credentials
         /// </summary>
-        public ApiCredentials? Aster { get; set; }
+        public AsterCredentials? Aster { get; set; }
 
         /// <summary>
         /// Binance API credentials
         /// </summary>
-        public ApiCredentials? Binance { get; set; }
+        public BinanceCredentials? Binance { get; set; }
 
         /// <summary>
         /// BingX API credentials
         /// </summary>
-        public ApiCredentials? BingX { get; set; }
+        public BingXCredentials? BingX { get; set; }
 
         /// <summary>
         /// Bitfinex API credentials
         /// </summary>
-        public ApiCredentials? Bitfinex { get; set; }
+        public BitfinexCredentials? Bitfinex { get; set; }
 
         /// <summary>
         /// Bitget API credentials
         /// </summary>
-        public ApiCredentials? Bitget { get; set; }
+        public BitgetCredentials? Bitget { get; set; }
 
         /// <summary>
         /// BitMart API credentials
         /// </summary>
-        public ApiCredentials? BitMart { get; set; }
+        public BitMartCredentials? BitMart { get; set; }
 
         /// <summary>
         /// BitMEX API credentials
         /// </summary>
-        public ApiCredentials? BitMEX { get; set; }
+        public BitMEXCredentials? BitMEX { get; set; }
 
         /// <summary>
         /// Bitstamp API credentials
         /// </summary>
-        public ApiCredentials? Bitstamp { get; set; }
+        public BitstampCredentials? Bitstamp { get; set; }
 
         /// <summary>
         /// BloFin API credentials
         /// </summary>
-        public ApiCredentials? BloFin { get; set; }
+        public BloFinCredentials? BloFin { get; set; }
 
         /// <summary>
         /// Bybit API credentials
         /// </summary>
-        public ApiCredentials? Bybit { get; set; }
+        public BybitCredentials? Bybit { get; set; }
 
         /// <summary>
         /// Coinbase API credentials
         /// </summary>
-        public ApiCredentials? Coinbase { get; set; }
+        public CoinbaseCredentials? Coinbase { get; set; }
 
         /// <summary>
         /// CoinEx API credentials
         /// </summary>
-        public ApiCredentials? CoinEx { get; set; }
+        public CoinExCredentials? CoinEx { get; set; }
+
+        /// <summary>
+        /// CoinGecko API credentials
+        /// </summary>
+        public CoinGeckoCredentials? CoinGecko { get; set; }
 
         /// <summary>
         /// CoinW API credentials
         /// </summary>
-        public ApiCredentials? CoinW { get; set; }
+        public CoinWCredentials? CoinW { get; set; }
 
         /// <summary>
         /// Crypto.com API credentials
         /// </summary>
-        public ApiCredentials? CryptoCom { get; set; }
+        public CryptoComCredentials? CryptoCom { get; set; }
 
         /// <summary>
         /// DeepCoin API credentials
         /// </summary>
-        public ApiCredentials? DeepCoin { get; set; }
+        public DeepCoinCredentials? DeepCoin { get; set; }
 
         /// <summary>
         /// Gate.io API credentials
         /// </summary>
-        public ApiCredentials? GateIo { get; set; }
+        public GateIoCredentials? GateIo { get; set; }
 
         /// <summary>
         /// HTX API credentials
         /// </summary>
-        public ApiCredentials? HTX { get; set; }
+        public HTXCredentials? HTX { get; set; }
 
         /// <summary>
         /// HyperLiquid API credentials
         /// </summary>
-        public ApiCredentials? HyperLiquid { get; set; }
+        public HyperLiquidCredentials? HyperLiquid { get; set; }
 
         /// <summary>
         /// Kraken API credentials
         /// </summary>
-        public ApiCredentials? Kraken { get; set; }
+        public KrakenCredentials? Kraken { get; set; }
 
         /// <summary>
         /// Kucoin API credentials
         /// </summary>
-        public ApiCredentials? Kucoin { get; set; }
+        public KucoinCredentials? Kucoin { get; set; }
 
         /// <summary>
         /// Mexc API credentials
         /// </summary>
-        public ApiCredentials? Mexc { get; set; }
+        public MexcCredentials? Mexc { get; set; }
 
         /// <summary>
         /// OKX API credentials
         /// </summary>
-        public ApiCredentials? OKX { get; set; }
+        public OKXCredentials? OKX { get; set; }
 
         /// <summary>
         /// Polymarket API credentials
@@ -180,22 +212,17 @@ namespace CryptoClients.Net.Models
         /// <summary>
         /// Toobit API credentials
         /// </summary>
-        public ApiCredentials? Toobit { get; set; }
-
-        /// <summary>
-        /// Upbit API credentials
-        /// </summary>
-        public ApiCredentials? Upbit { get; set; }
+        public ToobitCredentials? Toobit { get; set; }
 
         /// <summary>
         /// WhiteBit API credentials
         /// </summary>
-        public ApiCredentials? WhiteBit { get; set; }
+        public WhiteBitCredentials? WhiteBit { get; set; }
 
         /// <summary>
         /// XT API credentials
         /// </summary>
-        public ApiCredentials? XT { get; set; }
+        public XTCredentials? XT { get; set; }
 
         /// <summary>
         /// Get credentials for an exchange
@@ -217,6 +244,7 @@ namespace CryptoClients.Net.Models
                 case "Bybit": return Bybit;
                 case "Coinbase": return Coinbase;
                 case "CoinEx": return CoinEx;
+                case "CoinGecko": return CoinGecko;
                 case "CoinW": return CoinW;
                 case "CryptoCom": return CryptoCom;
                 case "DeepCoin": return DeepCoin;
@@ -229,7 +257,7 @@ namespace CryptoClients.Net.Models
                 case "OKX": return OKX;
                 case "Polymarket": return Polymarket;
                 case "Toobit": return Toobit;
-                case "Upbit": return Upbit;
+                case "Upbit": return null;
                 case "WhiteBit": return WhiteBit;
                 case "XT": return XT;
                 default:

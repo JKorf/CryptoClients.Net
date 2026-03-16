@@ -291,34 +291,34 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public IUserSpotDataTracker? CreateUserSpotDataTracker(string exchange, string userIdentifier, ApiCredentials credentials, SpotUserDataTrackerConfig? config = null, string? environment = null)
+        public IUserSpotDataTracker? CreateUserSpotDataTracker(string exchange, string userIdentifier, ExchangeCredentials credentials, SpotUserDataTrackerConfig? config = null, string? environment = null)
         {
             return exchange switch
             {
-                "Aster" => Aster.CreateUserSpotDataTracker(userIdentifier, credentials, config, AsterEnvironment.GetEnvironmentByName(environment)),
-                "Binance" => Binance.CreateUserSpotDataTracker(userIdentifier, credentials, config, BinanceEnvironment.GetEnvironmentByName(environment)),
-                "BingX" => BingX.CreateUserSpotDataTracker(userIdentifier, credentials, config, BingXEnvironment.GetEnvironmentByName(environment)),
-                "Bitfinex" => Bitfinex.CreateUserSpotDataTracker(userIdentifier, credentials, config, BitfinexEnvironment.GetEnvironmentByName(environment)),
-                "Bitget" => Bitget.CreateUserSpotDataTracker(userIdentifier, credentials, config, BitgetEnvironment.GetEnvironmentByName(environment)),
-                "BitMart" => BitMart.CreateUserSpotDataTracker(userIdentifier, credentials, config, BitMartEnvironment.GetEnvironmentByName(environment)),
-                "BitMEX" => BitMEX.CreateUserSpotDataTracker(userIdentifier, credentials, config, BitMEXEnvironment.GetEnvironmentByName(environment)),
-                "Bitstamp" => Bitstamp.CreateUserSpotDataTracker(userIdentifier, credentials, config, BitstampEnvironment.GetEnvironmentByName(environment)),
-                "Bybit" => Bybit.CreateUserSpotDataTracker(userIdentifier, credentials, config, BybitEnvironment.GetEnvironmentByName(environment)),
-                "Coinbase" => Coinbase.CreateUserSpotDataTracker(userIdentifier, credentials, config, CoinbaseEnvironment.GetEnvironmentByName(environment)),
-                "CoinEx" => CoinEx.CreateUserSpotDataTracker(userIdentifier, credentials, config, CoinExEnvironment.GetEnvironmentByName(environment)),
-                "CoinW" => CoinW.CreateUserSpotDataTracker(userIdentifier, credentials, config, CoinWEnvironment.GetEnvironmentByName(environment)),
-                "CryptoCom" => CryptoCom.CreateUserSpotDataTracker(userIdentifier, credentials, config, CryptoComEnvironment.GetEnvironmentByName(environment)),
-                "DeepCoin" => DeepCoin.CreateUserSpotDataTracker(userIdentifier, credentials, config, DeepCoinEnvironment.GetEnvironmentByName(environment)),
-                "GateIo" => GateIo.CreateUserSpotDataTracker(userIdentifier, credentials, config, GateIoEnvironment.GetEnvironmentByName(environment)),
-                "HTX" => HTX.CreateUserSpotDataTracker(userIdentifier, credentials, config, HTXEnvironment.GetEnvironmentByName(environment)),
-                "HyperLiquid" => HyperLiquid.CreateUserSpotDataTracker(userIdentifier, credentials, config, HyperLiquidEnvironment.GetEnvironmentByName(environment)),
-                "Kraken" => Kraken.CreateUserSpotDataTracker(userIdentifier, credentials, config, KrakenEnvironment.GetEnvironmentByName(environment)),
-                "Kucoin" => Kucoin.CreateUserSpotDataTracker(userIdentifier, credentials, config, KucoinEnvironment.GetEnvironmentByName(environment)),
-                "Mexc" => Mexc.CreateUserSpotDataTracker(userIdentifier, credentials, config, MexcEnvironment.GetEnvironmentByName(environment)),
-                "OKX" => OKX.CreateUserSpotDataTracker(userIdentifier, credentials, config, OKXEnvironment.GetEnvironmentByName(environment)),
-                "Toobit" => Toobit.CreateUserSpotDataTracker(userIdentifier, credentials, config, ToobitEnvironment.GetEnvironmentByName(environment)),
-                "WhiteBit" => WhiteBit.CreateUserSpotDataTracker(userIdentifier, credentials, config, WhiteBitEnvironment.GetEnvironmentByName(environment)),
-                "XT" => XT.CreateUserSpotDataTracker(userIdentifier, credentials, config, XTEnvironment.GetEnvironmentByName(environment)),
+                "Aster" => Aster.CreateUserSpotDataTracker(userIdentifier, credentials.Aster ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, AsterEnvironment.GetEnvironmentByName(environment)),
+                "Binance" => Binance.CreateUserSpotDataTracker(userIdentifier, credentials.Binance ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BinanceEnvironment.GetEnvironmentByName(environment)),
+                "BingX" => BingX.CreateUserSpotDataTracker(userIdentifier, credentials.BingX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BingXEnvironment.GetEnvironmentByName(environment)),
+                "Bitfinex" => Bitfinex.CreateUserSpotDataTracker(userIdentifier, credentials.Bitfinex ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitfinexEnvironment.GetEnvironmentByName(environment)),
+                "Bitget" => Bitget.CreateUserSpotDataTracker(userIdentifier, credentials.Bitget ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitgetEnvironment.GetEnvironmentByName(environment)),
+                "BitMart" => BitMart.CreateUserSpotDataTracker(userIdentifier, credentials.BitMart ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitMartEnvironment.GetEnvironmentByName(environment)),
+                "BitMEX" => BitMEX.CreateUserSpotDataTracker(userIdentifier, credentials.BitMEX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitMEXEnvironment.GetEnvironmentByName(environment)),
+                "Bitstamp" => Bitstamp.CreateUserSpotDataTracker(userIdentifier, credentials.Bitstamp ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitstampEnvironment.GetEnvironmentByName(environment)),
+                "Bybit" => Bybit.CreateUserSpotDataTracker(userIdentifier, credentials.Bybit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BybitEnvironment.GetEnvironmentByName(environment)),
+                "Coinbase" => Coinbase.CreateUserSpotDataTracker(userIdentifier, credentials.Coinbase ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, CoinbaseEnvironment.GetEnvironmentByName(environment)),
+                "CoinEx" => CoinEx.CreateUserSpotDataTracker(userIdentifier, credentials.CoinEx ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, CoinExEnvironment.GetEnvironmentByName(environment)),
+                "CoinW" => CoinW.CreateUserSpotDataTracker(userIdentifier, credentials.CoinW ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, CoinWEnvironment.GetEnvironmentByName(environment)),
+                "CryptoCom" => CryptoCom.CreateUserSpotDataTracker(userIdentifier, credentials.CryptoCom ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, CryptoComEnvironment.GetEnvironmentByName(environment)),
+                "DeepCoin" => DeepCoin.CreateUserSpotDataTracker(userIdentifier, credentials.DeepCoin ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, DeepCoinEnvironment.GetEnvironmentByName(environment)),
+                "GateIo" => GateIo.CreateUserSpotDataTracker(userIdentifier, credentials.GateIo ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, GateIoEnvironment.GetEnvironmentByName(environment)),
+                "HTX" => HTX.CreateUserSpotDataTracker(userIdentifier, credentials.HTX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, HTXEnvironment.GetEnvironmentByName(environment)),
+                "HyperLiquid" => HyperLiquid.CreateUserSpotDataTracker(userIdentifier, credentials.HyperLiquid ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, HyperLiquidEnvironment.GetEnvironmentByName(environment)),
+                "Kraken" => Kraken.CreateUserSpotDataTracker(userIdentifier, credentials.Kraken ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, KrakenEnvironment.GetEnvironmentByName(environment)),
+                "Kucoin" => Kucoin.CreateUserSpotDataTracker(userIdentifier, credentials.Kucoin ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, KucoinEnvironment.GetEnvironmentByName(environment)),
+                "Mexc" => Mexc.CreateUserSpotDataTracker(userIdentifier, credentials.Mexc ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, MexcEnvironment.GetEnvironmentByName(environment)),
+                "OKX" => OKX.CreateUserSpotDataTracker(userIdentifier, credentials.OKX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, OKXEnvironment.GetEnvironmentByName(environment)),
+                "Toobit" => Toobit.CreateUserSpotDataTracker(userIdentifier, credentials.Toobit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, ToobitEnvironment.GetEnvironmentByName(environment)),
+                "WhiteBit" => WhiteBit.CreateUserSpotDataTracker(userIdentifier, credentials.WhiteBit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, WhiteBitEnvironment.GetEnvironmentByName(environment)),
+                "XT" => XT.CreateUserSpotDataTracker(userIdentifier, credentials.XT ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, XTEnvironment.GetEnvironmentByName(environment)),
                 _ => null
             };
         }
@@ -337,7 +337,7 @@ namespace CryptoClients.Net
                 var tracker = CreateUserSpotDataTracker(
                     exchange,
                     userIdentifier,
-                    credentials.GetCredentials(exchange) ?? throw new ArgumentNullException("No credentials provided for " + exchange),
+                    credentials,
                     config,
                     environments?.TryGetValue(exchange, out var env) == true ? env : null);
                 if (tracker == null)
@@ -405,51 +405,51 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public IUserFuturesDataTracker? CreateUserFuturesDataTracker(string exchange, TradingMode tradeMode, string userIdentifier, ApiCredentials credentials, FuturesUserDataTrackerConfig? config = null, string? environment = null, ExchangeParameters? exchangeParameters = null)
+        public IUserFuturesDataTracker? CreateUserFuturesDataTracker(string exchange, TradingMode tradeMode, string userIdentifier, ExchangeCredentials credentials, FuturesUserDataTrackerConfig? config = null, string? environment = null, ExchangeParameters? exchangeParameters = null)
         {
             return exchange switch
             {
-                "Aster" => Aster.CreateUserFuturesDataTracker(userIdentifier, credentials, config, AsterEnvironment.GetEnvironmentByName(environment)),
+                "Aster" => Aster.CreateUserFuturesDataTracker(userIdentifier, credentials.Aster ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, AsterEnvironment.GetEnvironmentByName(environment)),
                 "Binance" => tradeMode.IsLinear() 
-                                ? Binance.CreateUserUsdFuturesDataTracker(userIdentifier, credentials, config, BinanceEnvironment.GetEnvironmentByName(environment)) 
-                                : Binance.CreateUserCoinFuturesDataTracker(userIdentifier, credentials, config, BinanceEnvironment.GetEnvironmentByName(environment)),
-                "BingX" => BingX.BingXUserPerpetualFuturesDataTracker(userIdentifier, credentials, config, BingXEnvironment.GetEnvironmentByName(environment)),
+                                ? Binance.CreateUserUsdFuturesDataTracker(userIdentifier, credentials.Binance ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BinanceEnvironment.GetEnvironmentByName(environment)) 
+                                : Binance.CreateUserCoinFuturesDataTracker(userIdentifier, credentials.Binance ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BinanceEnvironment.GetEnvironmentByName(environment)),
+                "BingX" => BingX.BingXUserPerpetualFuturesDataTracker(userIdentifier, credentials.BingX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BingXEnvironment.GetEnvironmentByName(environment)),
                 "Bitget" => Bitget.CreateUserFuturesDataTracker(
                     userIdentifier,
-                    credentials,
+                    credentials.Bitget ?? throw new ArgumentNullException($"No credentials provided for {exchange}"),
                     ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "ProductType") == "UsdtFutures" ? BitgetProductTypeV2.UsdtFutures : BitgetProductTypeV2.UsdcFutures,
                     config,
                     BitgetEnvironment.GetEnvironmentByName(environment)),
-                "BitMart" => BitMart.CreateUserUsdFuturesDataTracker(userIdentifier, credentials, config, BitMartEnvironment.GetEnvironmentByName(environment)),
-                "BitMEX" => BitMEX.CreateUserFuturesDataTracker(userIdentifier, credentials, config, BitMEXEnvironment.GetEnvironmentByName(environment)),
-                "Bitstamp" => Bitstamp.CreateUserFuturesDataTracker(userIdentifier, credentials, config, BitstampEnvironment.GetEnvironmentByName(environment)),
-                "BloFin" => BloFin.CreateUserFuturesDataTracker(userIdentifier, credentials, config, BloFinEnvironment.GetEnvironmentByName(environment)),
-                "Bybit" => Bybit.CreateUserFuturesDataTracker(userIdentifier, credentials, config, BybitEnvironment.GetEnvironmentByName(environment)),
-                "Coinbase" => Coinbase.CreateUserFuturesDataTracker(userIdentifier, credentials, config, CoinbaseEnvironment.GetEnvironmentByName(environment)),
-                "CoinEx" => CoinEx.CreateUserFuturesDataTracker(userIdentifier, credentials, config, CoinExEnvironment.GetEnvironmentByName(environment)),
-                "CoinW" => CoinW.CreateUserFuturesDataTracker(userIdentifier, credentials, config, CoinWEnvironment.GetEnvironmentByName(environment)),
-                "CryptoCom" => CryptoCom.CreateUserFuturesDataTracker(userIdentifier, credentials, config, CryptoComEnvironment.GetEnvironmentByName(environment)),
-                "DeepCoin" => DeepCoin.CreateUserFuturesDataTracker(userIdentifier, credentials, config, DeepCoinEnvironment.GetEnvironmentByName(environment)),
+                "BitMart" => BitMart.CreateUserUsdFuturesDataTracker(userIdentifier, credentials.BitMart ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitMartEnvironment.GetEnvironmentByName(environment)),
+                "BitMEX" => BitMEX.CreateUserFuturesDataTracker(userIdentifier, credentials.BitMEX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitMEXEnvironment.GetEnvironmentByName(environment)),
+                "Bitstamp" => Bitstamp.CreateUserFuturesDataTracker(userIdentifier, credentials.Bitstamp ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitstampEnvironment.GetEnvironmentByName(environment)),
+                "BloFin" => BloFin.CreateUserFuturesDataTracker(userIdentifier, credentials.BloFin ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BloFinEnvironment.GetEnvironmentByName(environment)),
+                "Bybit" => Bybit.CreateUserFuturesDataTracker(userIdentifier, credentials.Bybit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BybitEnvironment.GetEnvironmentByName(environment)),
+                "Coinbase" => Coinbase.CreateUserFuturesDataTracker(userIdentifier, credentials.Coinbase ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, CoinbaseEnvironment.GetEnvironmentByName(environment)),
+                "CoinEx" => CoinEx.CreateUserFuturesDataTracker(userIdentifier, credentials.CoinEx ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, CoinExEnvironment.GetEnvironmentByName(environment)),
+                "CoinW" => CoinW.CreateUserFuturesDataTracker(userIdentifier, credentials.CoinW ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, CoinWEnvironment.GetEnvironmentByName(environment)),
+                "CryptoCom" => CryptoCom.CreateUserFuturesDataTracker(userIdentifier, credentials.CryptoCom ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, CryptoComEnvironment.GetEnvironmentByName(environment)),
+                "DeepCoin" => DeepCoin.CreateUserFuturesDataTracker(userIdentifier, credentials.DeepCoin ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, DeepCoinEnvironment.GetEnvironmentByName(environment)),
                 "GateIo" => GateIo.CreateUserPerpetualFuturesDataTracker(
                     userIdentifier, 
-                    credentials,
+                    credentials.GateIo ?? throw new ArgumentNullException($"No credentials provided for {exchange}"),
                     ExchangeParameters.GetValue<string>(exchangeParameters, "GateIo", "SettleAsset") ?? throw new ArgumentException("SettleAsset exchange parameter should be provided for GateIo", "SettleAsset"),
                     ExchangeParameters.GetValue<long?>(exchangeParameters, "GateIo", "UserId") ?? throw new ArgumentException("UserId exchange parameter should be provided for GateIo", "UserId"),
                     config,
                     GateIoEnvironment.GetEnvironmentByName(environment)),
                 "HTX" => HTX.CreateUserFuturesDataTracker(
                     userIdentifier,
-                    credentials,
+                    credentials.HTX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"),
                     ExchangeParameters.GetValue<SharedMarginMode?>(exchangeParameters, "HTX", "MarginMode") == SharedMarginMode.Isolated ? SharedMarginMode.Isolated : SharedMarginMode.Cross,
                     config,
                     HTXEnvironment.GetEnvironmentByName(environment)),
-                "HyperLiquid" => HyperLiquid.CreateUserFuturesDataTracker(userIdentifier, credentials, config, HyperLiquidEnvironment.GetEnvironmentByName(environment)),
-                "Kraken" => Kraken.CreateUserFuturesDataTracker(userIdentifier, credentials, config, KrakenEnvironment.GetEnvironmentByName(environment)),
-                "Kucoin" => Kucoin.CreateUserFuturesDataTracker(userIdentifier, credentials, config, KucoinEnvironment.GetEnvironmentByName(environment)),
-                "OKX" => OKX.CreateUserFuturesDataTracker(userIdentifier, credentials, config, OKXEnvironment.GetEnvironmentByName(environment)),
-                "Toobit" => Toobit.CreateUserUsdtFuturesDataTracker(userIdentifier, credentials, config, ToobitEnvironment.GetEnvironmentByName(environment)),
-                "WhiteBit" => WhiteBit.CreateUserFuturesDataTracker(userIdentifier, credentials, config, WhiteBitEnvironment.GetEnvironmentByName(environment)),
-                "XT" => tradeMode.IsLinear() ? XT.CreateUserUsdtFuturesDataTracker(userIdentifier, credentials, config, XTEnvironment.GetEnvironmentByName(environment)) : null,
+                "HyperLiquid" => HyperLiquid.CreateUserFuturesDataTracker(userIdentifier, credentials.HyperLiquid ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, HyperLiquidEnvironment.GetEnvironmentByName(environment)),
+                "Kraken" => Kraken.CreateUserFuturesDataTracker(userIdentifier, credentials.Kraken ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, KrakenEnvironment.GetEnvironmentByName(environment)),
+                "Kucoin" => Kucoin.CreateUserFuturesDataTracker(userIdentifier, credentials.Kucoin ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, KucoinEnvironment.GetEnvironmentByName(environment)),
+                "OKX" => OKX.CreateUserFuturesDataTracker(userIdentifier, credentials.OKX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, OKXEnvironment.GetEnvironmentByName(environment)),
+                "Toobit" => Toobit.CreateUserUsdtFuturesDataTracker(userIdentifier, credentials.Toobit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, ToobitEnvironment.GetEnvironmentByName(environment)),
+                "WhiteBit" => WhiteBit.CreateUserFuturesDataTracker(userIdentifier, credentials.WhiteBit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, WhiteBitEnvironment.GetEnvironmentByName(environment)),
+                "XT" => tradeMode.IsLinear() ? XT.CreateUserUsdtFuturesDataTracker(userIdentifier, credentials.XT ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, XTEnvironment.GetEnvironmentByName(environment)) : null,
                 _ => null
             };
         }
@@ -470,7 +470,7 @@ namespace CryptoClients.Net
                     exchange,
                     tradingMode,
                     userIdentifier,
-                    credentials.GetCredentials(exchange) ?? throw new ArgumentNullException("No credentials provided for " + exchange),
+                    credentials,
                     config,
                     environments?.TryGetValue(exchange, out var env) == true ? env : null);
                 if (tracker == null)
