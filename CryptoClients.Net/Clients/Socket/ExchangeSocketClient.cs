@@ -532,41 +532,41 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
-        public void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null)
-        {
-            switch (exchange)
-            {
-                case "Aster": Aster.SetApiCredentials(new AsterCredentials(apiKey, apiSecret)); break;
-                case "Binance": Binance.SetApiCredentials(new BinanceCredentials(apiKey, apiSecret)); break;
-                case "BingX": BingX.SetApiCredentials(new BingXCredentials(apiKey, apiSecret)); break;
-                case "Bitfinex": Bitfinex.SetApiCredentials(new BitfinexCredentials(apiKey, apiSecret)); break;
-                case "Bitget": Bitget.SetApiCredentials(new BitgetCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Bitget credentials", nameof(apiPass)))); break;
-                case "BitMart": BitMart.SetApiCredentials(new BitMartCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BitMart credentials", nameof(apiPass)))); break;
-                case "BitMEX": BitMEX.SetApiCredentials(new BitMEXCredentials(apiKey, apiSecret)); break;
-                case "Bitstamp": Bitstamp.SetApiCredentials(new BitstampCredentials(apiKey, apiSecret)); break;
-                case "BloFin": BloFin.SetApiCredentials(new BloFinCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BloFin credentials", nameof(apiPass)))); break;
-                case "Bybit": Bybit.SetApiCredentials(new BybitCredentials(apiKey, apiSecret)); break;
-                case "Coinbase": Coinbase.SetApiCredentials(new CoinbaseCredentials(apiKey, apiSecret)); break;
-                case "CoinEx": CoinEx.SetApiCredentials(new CoinExCredentials(apiKey, apiSecret)); break;
-                case "CoinGecko": break;
-                case "CoinW": CoinW.SetApiCredentials(new CoinWCredentials(apiKey, apiSecret)); break;
-                case "CryptoCom": CryptoCom.SetApiCredentials(new CryptoComCredentials(apiKey, apiSecret)); break;
-                case "DeepCoin": DeepCoin.SetApiCredentials(new DeepCoinCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for DeepCoin credentials", nameof(apiPass)))); break;
-                case "GateIo": GateIo.SetApiCredentials(new GateIoCredentials(apiKey, apiSecret)); break;
-                case "HTX": HTX.SetApiCredentials(new HTXCredentials(apiKey, apiSecret)); break;
-                case "HyperLiquid": HyperLiquid.SetApiCredentials(new HyperLiquidCredentials(apiKey, apiSecret)); break;
-                case "Kraken": Kraken.SetApiCredentials(new KrakenCredentials(apiKey, apiSecret)); break;
-                case "Kucoin": Kucoin.SetApiCredentials(new KucoinCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
-                case "Mexc": Mexc.SetApiCredentials(new MexcCredentials(apiKey, apiSecret)); break;
-                case "OKX": OKX.SetApiCredentials(new OKXCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
-                case "Polymarket": throw new InvalidOperationException("Polymarket uses different credentials system, use SetApiCredentials(ExchangeCredentials credentials) instead");
-                case "Toobit": Toobit.SetApiCredentials(new ToobitCredentials(apiKey, apiSecret)); break;
-                case "Upbit": break;
-                case "WhiteBit": WhiteBit.SetApiCredentials(new WhiteBitCredentials(apiKey, apiSecret)); break;
-                case "XT": XT.SetApiCredentials(new XTCredentials(apiKey, apiSecret)); break;
-                default: throw new ArgumentException("Exchange not recognized", nameof(exchange));
-            }
-        }
+        //public void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null)
+        //{
+            //switch (exchange)
+            //{
+            //    case "Aster": Aster.SetApiCredentials(new AsterCredentials(apiKey, apiSecret)); break;
+            //    case "Binance": Binance.SetApiCredentials(new BinanceCredentials(apiKey, apiSecret)); break;
+            //    case "BingX": BingX.SetApiCredentials(new HMACCredential(apiKey, apiSecret)); break;
+            //    case "Bitfinex": Bitfinex.SetApiCredentials(new HMACCredential(apiKey, apiSecret)); break;
+            //    case "Bitget": Bitget.SetApiCredentials(new BitgetCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Bitget credentials", nameof(apiPass)))); break;
+            //    case "BitMart": BitMart.SetApiCredentials(new HMACCredential(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BitMart credentials", nameof(apiPass)))); break;
+            //    case "BitMEX": BitMEX.SetApiCredentials(new HMACCredential(apiKey, apiSecret)); break;
+            //    case "Bitstamp": Bitstamp.SetApiCredentials(new HMACCredential(apiKey, apiSecret)); break;
+            //    case "BloFin": BloFin.SetApiCredentials(new HMACCredential(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BloFin credentials", nameof(apiPass)))); break;
+            //    case "Bybit": Bybit.SetApiCredentials(new BybitCredentials(apiKey, apiSecret)); break;
+            //    case "Coinbase": Coinbase.SetApiCredentials(new ECDsaCredential(apiKey, apiSecret)); break;
+            //    case "CoinEx": CoinEx.SetApiCredentials(new HMACCredential(apiKey, apiSecret)); break;
+            //    case "CoinGecko": break;
+            //    case "CoinW": CoinW.SetApiCredentials(new HMACCredential(apiKey, apiSecret)); break;
+            //    case "CryptoCom": CryptoCom.SetApiCredentials(new HMACCredential(apiKey, apiSecret)); break;
+            //    case "DeepCoin": DeepCoin.SetApiCredentials(new HMACCredential(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for DeepCoin credentials", nameof(apiPass)))); break;
+            //    case "GateIo": GateIo.SetApiCredentials(new HMACCredential(apiKey, apiSecret)); break;
+            //    case "HTX": HTX.SetApiCredentials(new HTXCredentials(apiKey, apiSecret)); break;
+            //    case "HyperLiquid": HyperLiquid.SetApiCredentials(new ECDsaCredential(apiKey, apiSecret)); break;
+            //    case "Kraken": Kraken.SetApiCredentials(new KrakenCredentials(apiKey, apiSecret)); break;
+            //    case "Kucoin": Kucoin.SetApiCredentials(new HMACCredential(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
+            //    case "Mexc": Mexc.SetApiCredentials(new MexcCredentials(apiKey, apiSecret)); break;
+            //    case "OKX": OKX.SetApiCredentials(new HMACCredential(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
+            //    case "Polymarket": throw new InvalidOperationException("Polymarket uses different credentials system, use SetApiCredentials(ExchangeCredentials credentials) instead");
+            //    case "Toobit": Toobit.SetApiCredentials(new HMACCredential(apiKey, apiSecret)); break;
+            //    case "Upbit": break;
+            //    case "WhiteBit": WhiteBit.SetApiCredentials(new HMACCredential(apiKey, apiSecret)); break;
+            //    case "XT": XT.SetApiCredentials(new HMACCredential(apiKey, apiSecret)); break;
+            //    default: throw new ArgumentException("Exchange not recognized", nameof(exchange));
+            //}
+        //}
 
         /// <inheritdoc />
         public string? GetSymbolName(string exchange, SharedSymbol symbol)

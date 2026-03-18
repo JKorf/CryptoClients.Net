@@ -237,9 +237,6 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.SetApiCredentials(CryptoClients.Net.Models.ExchangeCredentials)">
             <inheritdoc />
         </member>
-        <member name="M:CryptoClients.Net.ExchangeRestClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
-            <inheritdoc />
-        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSymbolName(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
             <inheritdoc />
         </member>
@@ -984,9 +981,6 @@
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.SetApiCredentials(CryptoClients.Net.Models.ExchangeCredentials)">
-            <inheritdoc />
-        </member>
-        <member name="M:CryptoClients.Net.ExchangeSocketClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
             <inheritdoc />
         </member>
         <member name="M:CryptoClients.Net.ExchangeSocketClient.GetSymbolName(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
@@ -2347,15 +2341,6 @@
             Set API credentials for exchanges
             </summary>
             <param name="credentials">Credential info</param>
-        </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
-            <summary>
-            Set API credentials for an exchange
-            </summary>
-            <param name="exchange">Exchange name</param>
-            <param name="apiKey">API key</param>
-            <param name="apiSecret">API secret</param>
-            <param name="apiPass">API passphrase</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeRestClient.GetSymbolName(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
             <summary>
@@ -4085,15 +4070,6 @@
             Set API credentials for exchanges
             </summary>
             <param name="credentials">Credential info</param>
-        </member>
-        <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
-            <summary>
-            Set API credentials for an exchange
-            </summary>
-            <param name="exchange">Exchange name</param>
-            <param name="apiKey">API key</param>
-            <param name="apiSecret">API secret</param>
-            <param name="apiPass">API passphrase</param>
         </member>
         <member name="M:CryptoClients.Net.Interfaces.IExchangeSocketClient.GetSymbolName(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
             <summary>
