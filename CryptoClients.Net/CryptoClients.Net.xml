@@ -237,6 +237,9 @@
         <member name="M:CryptoClients.Net.ExchangeRestClient.SetApiCredentials(CryptoClients.Net.Models.ExchangeCredentials)">
             <inheritdoc />
         </member>
+        <member name="M:CryptoClients.Net.ExchangeRestClient.SetApiCredentials(System.String,System.String,System.String,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:CryptoClients.Net.ExchangeRestClient.GetSymbolName(System.String,CryptoExchange.Net.SharedApis.SharedSymbol)">
             <inheritdoc />
         </member>
@@ -4765,6 +4768,23 @@
             <summary>
             ctor
             </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeCredentials.CreateCredentialsForExchange(CryptoExchange.Net.SharedApis.TradingMode,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Create credentials for an exchange
+            </summary>
+            <param name="mode">Trading mode</param>
+            <param name="exchange">Exchange name</param>
+            <param name="key">The key</param>
+            <param name="param1">First param, generally the API secret or private key</param>
+            <param name="param2">Second param, generally the passphrase</param>
+            <param name="param3">Third param</param>
+        </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeCredentials.From(System.Collections.Generic.Dictionary{System.String,CryptoExchange.Net.Authentication.ApiCredentials})">
+            <summary>
+            Create credentials from a dictionary of exchange name to credentials. Dictionary key should be the exchange name, value should be credentials of the correct type for that exchange. For example, for Binance, the value should be of type BinanceCredentials.
+            </summary>
+            <param name="exchangeCredentials">Credentials, dictionary key should be the exchange name, value should be credentials of the correct type for that exchange. For example, for Binance, the value should be of type BinanceCredentials.</param>
         </member>
         <member name="P:CryptoClients.Net.Models.ExchangeCredentials.Aster">
             <summary>
