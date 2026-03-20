@@ -1454,6 +1454,11 @@
             Exchange type
             </summary>
         </member>
+        <member name="P:CryptoClients.Net.ExchangeInfo.DynamicCredentialInfo">
+            <summary>
+            Info on how to dynamically create credentials for the exchange
+            </summary>
+        </member>
         <member name="T:CryptoClients.Net.ExchangeOrderBookFactory">
             <inheritdoc />
         </member>
@@ -1682,6 +1687,11 @@
         <member name="P:CryptoClients.Net.Exchanges.XT">
             <summary>
             XT exchange info
+            </summary>
+        </member>
+        <member name="M:CryptoClients.Net.Exchanges.GetByName(System.String)">
+            <summary>
+            Get exchange info by exchange name
             </summary>
         </member>
         <member name="P:CryptoClients.Net.Exchanges.All">
@@ -4759,6 +4769,31 @@
             <param name="credentials">The credentials for the user. Required the first time a client is requested for this user unless <see cref="M:CryptoClients.Net.Interfaces.IExchangeUserClientProvider.InitializeUserClient(System.String,CryptoClients.Net.Models.ExchangeCredentials,System.Collections.Generic.Dictionary{System.String,System.String})" /> has been called prior for this user.</param>
             <param name="environments">The environments to use for the clients</param>
         </member>
+        <member name="P:CryptoClients.Net.Models.DynamicCredentials.TradingMode">
+            <summary>
+            Trading mode
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.DynamicCredentials.Key">
+            <summary>
+            The key
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.DynamicCredentials.Param1">
+            <summary>
+            First param, generally the API secret or private key
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.DynamicCredentials.Param2">
+            <summary>
+            Second param, generally the passphrase
+            </summary>
+        </member>
+        <member name="P:CryptoClients.Net.Models.DynamicCredentials.Param3">
+            <summary>
+            Third param
+            </summary>
+        </member>
         <member name="T:CryptoClients.Net.Models.ExchangeCredentials">
             <summary>
             Credentials for each exchange
@@ -4769,20 +4804,27 @@
             ctor
             </summary>
         </member>
-        <member name="M:CryptoClients.Net.Models.ExchangeCredentials.CreateCredentialsForExchange(CryptoExchange.Net.SharedApis.TradingMode,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:CryptoClients.Net.Models.ExchangeCredentials.GetDynamicCredentialInfo(CryptoExchange.Net.SharedApis.TradingMode,System.String)">
             <summary>
-            Create credentials for an exchange
+            Get dynamic credential info for an exchange, which specifies what parameters are required to create credentials for that exchange. 
+            This is used to dynamically create credentials for an exchange without having to know the specific type of credentials required for that exchange. 
+            For example, Binance requires the API key and API secret as parameters to create credentials, so Param1Required would be true and Param1Description would be "API secret".
             </summary>
             <param name="mode">Trading mode</param>
             <param name="exchange">Exchange name</param>
-            <param name="key">The key</param>
-            <param name="param1">First param, generally the API secret or private key</param>
-            <param name="param2">Second param, generally the passphrase</param>
-            <param name="param3">Third param</param>
+            <returns></returns>
+        </member>
+        <member name="M:CryptoClients.Net.Models.ExchangeCredentials.CreateCredentialsForExchange(System.String,CryptoClients.Net.Models.DynamicCredentials)">
+            <summary>
+            Create credentials for an exchange
+            </summary>
+            <param name="exchange">Exchange name</param>
+            <param name="credential">Credential</param>
         </member>
         <member name="M:CryptoClients.Net.Models.ExchangeCredentials.From(System.Collections.Generic.Dictionary{System.String,CryptoExchange.Net.Authentication.ApiCredentials})">
             <summary>
-            Create credentials from a dictionary of exchange name to credentials. Dictionary key should be the exchange name, value should be credentials of the correct type for that exchange. For example, for Binance, the value should be of type BinanceCredentials.
+            Create credentials from a dictionary of exchange name to credentials. Dictionary key should be the exchange name, value should be credentials of the correct type for that exchange. For example, for Binance, the value should be of type BinanceCredentials.<br />
+            ExchangeCredentials.CreateCredentialsForExchange can be used to dynamically create credentials for an exchange.
             </summary>
             <param name="exchangeCredentials">Credentials, dictionary key should be the exchange name, value should be credentials of the correct type for that exchange. For example, for Binance, the value should be of type BinanceCredentials.</param>
         </member>
