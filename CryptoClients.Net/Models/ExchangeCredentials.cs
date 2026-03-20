@@ -116,7 +116,7 @@ namespace CryptoClients.Net.Models
                     return new AsterCredentials(
                         new AsterV3Credential(
                             credential.Key,
-                            credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1));
+                            credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
                 }
             }
             else if (exchange == "Binance")
