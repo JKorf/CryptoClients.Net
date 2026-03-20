@@ -12,6 +12,7 @@ using Coinbase.Net;
 using CoinEx.Net;
 using CoinGecko.Net;
 using CoinW.Net;
+using CryptoClients.Net.Models;
 using CryptoCom.Net;
 using CryptoExchange.Net.RateLimiting;
 using DeepCoin.Net;
@@ -24,6 +25,7 @@ using Mexc.Net;
 using OKX.Net;
 using Polymarket.Net;
 using System;
+using System.Linq;
 using Toobit.Net;
 using Upbit.Net;
 using WhiteBit.Net;
@@ -47,7 +49,14 @@ namespace CryptoClients.Net
             Url = AsterExchange.Url,
             ApiDocsUrl = AsterExchange.ApiDocsUrl,
             Type = AsterExchange.Type,
-            ApiEnvironments = AsterEnvironment.All
+            ApiEnvironments = AsterEnvironment.All,
+#warning V3 or V1?
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = AsterExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -61,7 +70,13 @@ namespace CryptoClients.Net
             Url = BinanceExchange.Url,
             ApiDocsUrl = BinanceExchange.ApiDocsUrl,
             Type = BinanceExchange.Type,
-            ApiEnvironments = BinanceEnvironment.All
+            ApiEnvironments = BinanceEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = BinanceExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -75,7 +90,13 @@ namespace CryptoClients.Net
             Url = BingXExchange.Url,
             ApiDocsUrl = BingXExchange.ApiDocsUrl,
             Type = BingXExchange.Type,
-            ApiEnvironments = BingXEnvironment.All
+            ApiEnvironments = BingXEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = BingXExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -89,7 +110,13 @@ namespace CryptoClients.Net
             Url = BitfinexExchange.Url,
             ApiDocsUrl = BitfinexExchange.ApiDocsUrl,
             Type = BitfinexExchange.Type,
-            ApiEnvironments = BitfinexEnvironment.All
+            ApiEnvironments = BitfinexEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = BitfinexExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -103,7 +130,15 @@ namespace CryptoClients.Net
             Url = BitgetExchange.Url,
             ApiDocsUrl = BitgetExchange.ApiDocsUrl,
             Type = BitgetExchange.Type,
-            ApiEnvironments = BitgetEnvironment.All
+            ApiEnvironments = BitgetEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = BitgetExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret",
+                Param2Required = true,
+                Param2Description = "Passphrase"
+            }
         };
 
         /// <summary>
@@ -117,7 +152,15 @@ namespace CryptoClients.Net
             Url = BitMartExchange.Url,
             ApiDocsUrl = BitMartExchange.ApiDocsUrl,
             Type = BitMartExchange.Type,
-            ApiEnvironments = BitMartEnvironment.All
+            ApiEnvironments = BitMartEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = BitMartExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret",
+                Param2Required = true,
+                Param2Description = "Passphrase"
+            }
         };
 
         /// <summary>
@@ -131,7 +174,13 @@ namespace CryptoClients.Net
             Url = BitMEXExchange.Url,
             ApiDocsUrl = BitMEXExchange.ApiDocsUrl,
             Type = BitMEXExchange.Type,
-            ApiEnvironments = BitMEXEnvironment.All
+            ApiEnvironments = BitMEXEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = BitMEXExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -145,7 +194,13 @@ namespace CryptoClients.Net
             Url = BitstampExchange.Url,
             ApiDocsUrl = BitstampExchange.ApiDocsUrl,
             Type = BitstampExchange.Type,
-            ApiEnvironments = BitstampEnvironment.All
+            ApiEnvironments = BitstampEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = BitstampExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -159,7 +214,15 @@ namespace CryptoClients.Net
             Url = BloFinExchange.Url,
             ApiDocsUrl = BloFinExchange.ApiDocsUrl,
             Type = BloFinExchange.Type,
-            ApiEnvironments = BloFinEnvironment.All
+            ApiEnvironments = BloFinEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = BloFinExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret",
+                Param2Required = true,
+                Param2Description = "Passphrase"
+            }
         };
 
         /// <summary>
@@ -173,7 +236,13 @@ namespace CryptoClients.Net
             Url = BybitExchange.Url,
             ApiDocsUrl = BybitExchange.ApiDocsUrl,
             Type = BybitExchange.Type,
-            ApiEnvironments = BybitEnvironment.All
+            ApiEnvironments = BybitEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = BybitExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -187,7 +256,13 @@ namespace CryptoClients.Net
             Url = CoinbaseExchange.Url,
             ApiDocsUrl = CoinbaseExchange.ApiDocsUrl,
             Type = CoinbaseExchange.Type,
-            ApiEnvironments = CoinbaseEnvironment.All
+            ApiEnvironments = CoinbaseEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = CoinbaseExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -201,7 +276,13 @@ namespace CryptoClients.Net
             Url = CoinExExchange.Url,
             ApiDocsUrl = CoinExExchange.ApiDocsUrl,
             Type = CoinExExchange.Type,
-            ApiEnvironments = CoinExEnvironment.All
+            ApiEnvironments = CoinExEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = CoinExExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -215,7 +296,13 @@ namespace CryptoClients.Net
             Url = CoinWExchange.Url,
             ApiDocsUrl = CoinWExchange.ApiDocsUrl,
             Type = CoinWExchange.Type,
-            ApiEnvironments = CoinWEnvironment.All
+            ApiEnvironments = CoinWEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = CoinWExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -229,7 +316,13 @@ namespace CryptoClients.Net
             Url = CryptoComExchange.Url,
             ApiDocsUrl = CryptoComExchange.ApiDocsUrl,
             Type = CryptoComExchange.Type,
-            ApiEnvironments = CryptoComEnvironment.All
+            ApiEnvironments = CryptoComEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = CryptoComExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -243,7 +336,15 @@ namespace CryptoClients.Net
             Url = DeepCoinExchange.Url,
             ApiDocsUrl = DeepCoinExchange.ApiDocsUrl,
             Type = DeepCoinExchange.Type,
-            ApiEnvironments = DeepCoinEnvironment.All
+            ApiEnvironments = DeepCoinEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = DeepCoinExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret",
+                Param2Required = true,
+                Param2Description = "Passphrase"
+            }
         };
 
         /// <summary>
@@ -257,7 +358,13 @@ namespace CryptoClients.Net
             Url = GateIoExchange.Url,
             ApiDocsUrl = GateIoExchange.ApiDocsUrl,
             Type = GateIoExchange.Type,
-            ApiEnvironments = GateIoEnvironment.All
+            ApiEnvironments = GateIoEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = GateIoExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -271,7 +378,13 @@ namespace CryptoClients.Net
             Url = HTXExchange.Url,
             ApiDocsUrl = HTXExchange.ApiDocsUrl,
             Type = HTXExchange.Type,
-            ApiEnvironments = HTXEnvironment.All
+            ApiEnvironments = HTXEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = HTXExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -285,7 +398,13 @@ namespace CryptoClients.Net
             Url = HyperLiquidExchange.Url,
             ApiDocsUrl = HyperLiquidExchange.ApiDocsUrl,
             Type = HyperLiquidExchange.Type,
-            ApiEnvironments = HyperLiquidEnvironment.All
+            ApiEnvironments = HyperLiquidEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = HyperLiquidExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "Private key"
+            }
         };
 
         /// <summary>
@@ -299,7 +418,13 @@ namespace CryptoClients.Net
             Url = KrakenExchange.Url,
             ApiDocsUrl = KrakenExchange.ApiDocsUrl,
             Type = KrakenExchange.Type,
-            ApiEnvironments = KrakenEnvironment.All
+            ApiEnvironments = KrakenEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = KrakenExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -313,7 +438,15 @@ namespace CryptoClients.Net
             Url = KucoinExchange.Url,
             ApiDocsUrl = KucoinExchange.ApiDocsUrl,
             Type = KucoinExchange.Type,
-            ApiEnvironments = KucoinEnvironment.All
+            ApiEnvironments = KucoinEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = KucoinExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret",
+                Param2Required = true,
+                Param2Description = "Passphrase"
+            }
         };
 
         /// <summary>
@@ -327,7 +460,13 @@ namespace CryptoClients.Net
             Url = MexcExchange.Url,
             ApiDocsUrl = MexcExchange.ApiDocsUrl,
             Type = MexcExchange.Type,
-            ApiEnvironments = MexcEnvironment.All
+            ApiEnvironments = MexcEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = MexcExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -341,7 +480,15 @@ namespace CryptoClients.Net
             Url = OKXExchange.Url,
             ApiDocsUrl = OKXExchange.ApiDocsUrl,
             Type = OKXExchange.Type,
-            ApiEnvironments = OKXEnvironment.All
+            ApiEnvironments = OKXEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = OKXExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret",
+                Param2Required = true,
+                Param2Description = "Passphrase"
+            }
         };
 
         /// <summary>
@@ -355,7 +502,13 @@ namespace CryptoClients.Net
             Url = ToobitExchange.Url,
             ApiDocsUrl = ToobitExchange.ApiDocsUrl,
             Type = ToobitExchange.Type,
-            ApiEnvironments = ToobitEnvironment.All
+            ApiEnvironments = ToobitEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = ToobitExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -369,7 +522,8 @@ namespace CryptoClients.Net
             Url = UpbitExchange.Url,
             ApiDocsUrl = UpbitExchange.ApiDocsUrl,
             Type = UpbitExchange.Type,
-            ApiEnvironments = UpbitEnvironment.All
+            ApiEnvironments = UpbitEnvironment.All,
+            DynamicCredentialInfo = (mode) => null
         };
 
         /// <summary>
@@ -383,7 +537,13 @@ namespace CryptoClients.Net
             Url = WhiteBitExchange.Url,
             ApiDocsUrl = WhiteBitExchange.ApiDocsUrl,
             Type = WhiteBitExchange.Type,
-            ApiEnvironments = WhiteBitEnvironment.All
+            ApiEnvironments = WhiteBitEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = WhiteBitExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
 
         /// <summary>
@@ -397,8 +557,20 @@ namespace CryptoClients.Net
             Url = XTExchange.Url,
             ApiDocsUrl = XTExchange.ApiDocsUrl,
             Type = XTExchange.Type,
-            ApiEnvironments = XTEnvironment.All
+            ApiEnvironments = XTEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = XTExchange.ExchangeName,
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
         };
+
+        /// <summary>
+        /// Get exchange info by exchange name
+        /// </summary>
+        public static ExchangeInfo? GetByName(string exchangeName)
+            => All.SingleOrDefault(x => x.Name == exchangeName);
 
         /// <summary>
         /// Information on all supported exchanges

@@ -90,29 +90,12 @@ namespace CryptoClients.Net.Models
         /// This is used to dynamically create credentials for an exchange without having to know the specific type of credentials required for that exchange. 
         /// For example, Binance requires the API key and API secret as parameters to create credentials, so Param1Required would be true and Param1Description would be "API secret".
         /// </summary>
-        /// <param name="exchange"></param>
+        /// <param name="mode">Trading mode</param>
+        /// <param name="exchange">Exchange name</param>
         /// <returns></returns>
-        public static DynamicCredentialInfo GetDynamicCredentialInfo(string exchange)
+        public static DynamicCredentialInfo? GetDynamicCredentialInfo(TradingMode mode, string exchange)
         {
-            if (exchange == "Binance")
-            {
-                return new DynamicCredentialInfo
-                {
-                    Exchange = exchange,
-                    Param1Required = true,
-                    Param1Description = "API secret"
-                };
-            }
-            else if (exchange == "BingX")
-            {
-                return new DynamicCredentialInfo
-                {
-                    Exchange = exchange,
-                    Param1Required = true,
-                    Param1Description = "API secret"
-                };
-            }
-            // Other exchanges
+            return Exchanges.GetByName(exchange)?.DynamicCredentialInfo(mode);
         }
 
         /// <summary>
@@ -131,11 +114,9 @@ namespace CryptoClients.Net.Models
                 else
                 {
                     return new AsterCredentials(
-                        new AsterFuturesCredential(
+                        new AsterV3Credential(
                             credential.Key,
-                            credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)),
-                            credential.Param2 ?? throw new ArgumentNullException(nameof(credential.Param2)),
-                            credential.Param3 ?? throw new ArgumentNullException(nameof(credential.Param3))));
+                            credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1));
                 }
             }
             else if (exchange == "Binance")

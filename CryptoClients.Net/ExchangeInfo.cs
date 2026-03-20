@@ -1,4 +1,6 @@
-﻿using CryptoExchange.Net.Objects;
+﻿using CryptoClients.Net.Models;
+using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.SharedApis;
 using System;
 
 namespace CryptoClients.Net
@@ -36,5 +38,9 @@ namespace CryptoClients.Net
         /// Exchange type
         /// </summary>
         public ExchangeType Type { get; set; }
+        /// <summary>
+        /// Info on how to dynamically create credentials for the exchange
+        /// </summary>
+        public Func<TradingMode, DynamicCredentialInfo?> DynamicCredentialInfo { get; set; } = default!;
     }
 }
