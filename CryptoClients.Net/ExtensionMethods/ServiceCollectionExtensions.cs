@@ -377,7 +377,15 @@ namespace Microsoft.Extensions.DependencyInjection
             ServiceLifetime? socketClientLifetime = null)
         {
             var globalOptions = new GlobalExchangeOptions();
-            configuration.Bind(globalOptions);
+
+            try
+            {
+                configuration.Bind(globalOptions);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException("Invalid configuration provided", ex);
+            }
 
             void UpdateIfNotSpecified(string key, string? value)
             {
