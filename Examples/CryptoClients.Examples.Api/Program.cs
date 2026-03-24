@@ -31,14 +31,12 @@ app.MapGet("priceFromRequest", async (IExchangeRestClient restClient, string exc
 
     return Results.Ok(result.Data.LastPrice);
 })
-.WithName("GetPriceRequest")
-.WithOpenApi();
+.WithName("GetPriceRequest");
 
 app.MapGet("priceFromSocket", ([FromServices]PriceService service, string exchange) =>
 {
     return Results.Ok(service.GetPrice(exchange));
 })
-.WithName("GetPriceSocket")
-.WithOpenApi();
+.WithName("GetPriceSocket");
 
 app.Run();
