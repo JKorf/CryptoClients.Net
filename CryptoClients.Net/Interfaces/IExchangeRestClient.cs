@@ -30,6 +30,7 @@ using CoinW.Net.Interfaces.Clients;
 using BloFin.Net.Interfaces.Clients;
 using Upbit.Net.Interfaces.Clients;
 using Polymarket.Net.Interfaces.Clients;
+using System;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -166,12 +167,20 @@ namespace CryptoClients.Net.Interfaces
         void SetApiCredentials(ExchangeCredentials credentials);
 
         /// <summary>
+        /// Set API credentials for exchanges using dynamic credentials.
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="credentials">Credentials</param>
+        void SetApiCredentials(string exchange, DynamicCredentials credentials);
+
+        /// <summary>
         /// Set API credentials for an exchange
         /// </summary>
         /// <param name="exchange">Exchange name</param>
         /// <param name="apiKey">API key</param>
         /// <param name="apiSecret">API secret</param>
         /// <param name="apiPass">API passphrase</param>
+        [Obsolete("Not all credentials can be correctly set with these parameters, use the SetApiCredentials(string, DynamicCredentials) version instead")]
         void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null);
 
         /// <summary>

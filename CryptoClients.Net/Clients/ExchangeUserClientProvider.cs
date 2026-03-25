@@ -26,6 +26,10 @@ using BitMEX.Net;
 using BitMEX.Net.Clients;
 using BitMEX.Net.Interfaces.Clients;
 using BitMEX.Net.Objects.Options;
+using Bitstamp.Net;
+using Bitstamp.Net.Clients;
+using Bitstamp.Net.Interfaces.Clients;
+using Bitstamp.Net.Objects.Options;
 using BloFin.Net;
 using BloFin.Net.Clients;
 using BloFin.Net.Interfaces.Clients;
@@ -42,6 +46,9 @@ using CoinEx.Net;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
+using CoinGecko.Net.Clients;
+using CoinGecko.Net.Interfaces;
+using CoinGecko.Net.Objects.Options;
 using CoinW.Net;
 using CoinW.Net.Clients;
 using CoinW.Net.Interfaces.Clients;
@@ -88,6 +95,14 @@ using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
+using Polymarket.Net;
+using Polymarket.Net.Clients;
+using Polymarket.Net.Interfaces.Clients;
+using Polymarket.Net.Objects;
+using Polymarket.Net.Objects.Options;
+using System;
+using System.Collections.Generic;
+using System.Net;
 using Toobit.Net;
 using Toobit.Net.Clients;
 using Toobit.Net.Interfaces.Clients;
@@ -96,8 +111,6 @@ using Upbit.Net;
 using Upbit.Net.Clients;
 using Upbit.Net.Interfaces.Clients;
 using Upbit.Net.Objects.Options;
-using System;
-using System.Collections.Generic;
 using WhiteBit.Net;
 using WhiteBit.Net.Clients;
 using WhiteBit.Net.Interfaces.Clients;
@@ -106,15 +119,6 @@ using XT.Net;
 using XT.Net.Clients;
 using XT.Net.Interfaces.Clients;
 using XT.Net.Objects.Options;
-using Polymarket.Net.Interfaces.Clients;
-using Polymarket.Net.Objects.Options;
-using Polymarket.Net.Objects;
-using Polymarket.Net;
-using Polymarket.Net.Clients;
-using Bitstamp.Net.Objects.Options;
-using Bitstamp.Net.Interfaces.Clients;
-using Bitstamp.Net;
-using Bitstamp.Net.Clients;
 
 namespace CryptoClients.Net.Clients
 {
@@ -133,6 +137,7 @@ namespace CryptoClients.Net.Clients
         private IBybitUserClientProvider _bybitProvider;
         private ICoinbaseUserClientProvider _coinbaseProvider;
         private ICoinExUserClientProvider _coinExProvider;
+        private ICoinGeckoRestClient _coinGeckoRestClient;
         private ICoinWUserClientProvider _coinWProvider;
         private ICryptoComUserClientProvider _cryptoComProvider;
         private IDeepCoinUserClientProvider _deepCoinProvider;
@@ -145,7 +150,8 @@ namespace CryptoClients.Net.Clients
         private IOKXUserClientProvider _okxProvider;
         private IPolymarketUserClientProvider _polymarketProvider;
         private IToobitUserClientProvider _toobitProvider;
-        private IUpbitUserClientProvider _upbitProvider;
+        private IUpbitRestClient _upbitRestClient;
+        private IUpbitSocketClient _upbitSocketClient;
         private IWhiteBitUserClientProvider _whiteBitProvider;
         private IXTUserClientProvider _xtProvider;
 
@@ -165,6 +171,7 @@ namespace CryptoClients.Net.Clients
             Action<BybitOptions>? bybitOptions = null,
             Action<CoinbaseOptions>? coinbaseOptions = null,
             Action<CoinExOptions>? coinExOptions = null,
+            Action<CoinGeckoRestOptions>? coinGeckoRestOptions = null,
             Action<CoinWOptions>? coinWOptions = null,
             Action<CryptoComOptions>? cryptoComOptions = null,
             Action<DeepCoinOptions>? deepCoinOptions = null,
@@ -177,20 +184,19 @@ namespace CryptoClients.Net.Clients
             Action<OKXOptions>? okxOptions = null,
             Action<PolymarketOptions>? polymarketOptions = null,
             Action<ToobitOptions>? toobitOptions = null,
-            Action<UpbitOptions>? upbitOptions = null,
+            Action<UpbitRestOptions>? upbitRestOptions = null,
+            Action<UpbitSocketOptions>? upbitSocketOptions = null,
             Action<WhiteBitOptions>? whiteBitOptions = null,
             Action<XTOptions>? xtOptions = null)
         {
-            Action<TOptions> SetGlobalOptions<TOptions, TRestOptions, TSocketOptions, TCredentials, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials, TEnvironment environment)
-                where TOptions : LibraryOptions<TRestOptions, TSocketOptions, TCredentials, TEnvironment>
-                where TRestOptions : RestExchangeOptions, new()
-                where TSocketOptions : SocketExchangeOptions, new()
-                where TCredentials : ApiCredentials
+            Action<TOptions> SetGlobalOptionsBase<TOptions, TRestOptions, TSocketOptions, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TEnvironment environment)
+                where TOptions : LibraryOptions<TRestOptions, TSocketOptions, TEnvironment>
+                where TRestOptions : RestExchangeOptions<TEnvironment>, new()
+                where TSocketOptions : SocketExchangeOptions<TEnvironment>, new()
                 where TEnvironment : TradeEnvironment
             {
                 var restDelegate = (TOptions options) =>
                 {
-                    options.ApiCredentials = credentials;
                     options.Environment = environment;
                     options.Rest.Proxy = globalOptions.Proxy;
                     options.Socket.Proxy = globalOptions.Proxy;
@@ -209,6 +215,24 @@ namespace CryptoClients.Net.Clients
                 return restDelegate;
             }
 
+            Action<TOptions> SetGlobalOptions<TOptions, TRestOptions, TSocketOptions, TCredentials, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials, TEnvironment environment)
+                where TOptions : LibraryOptions<TRestOptions, TSocketOptions, TCredentials, TEnvironment>
+                where TRestOptions : RestExchangeOptions<TEnvironment, TCredentials>, new()
+                where TSocketOptions : SocketExchangeOptions<TEnvironment, TCredentials>, new()
+                where TCredentials : ApiCredentials
+                where TEnvironment : TradeEnvironment
+            {
+                var restDelegate = (TOptions options) =>
+                {
+                    SetGlobalOptionsBase<TOptions, TRestOptions, TSocketOptions, TEnvironment>(globalOptions, exchangeDelegate, environment);
+                    options.ApiCredentials = credentials;
+                    
+                    exchangeDelegate?.Invoke(options);
+                };
+
+                return restDelegate;
+            }
+
             if (globalOptions != null)
             {
                 var global = new GlobalExchangeOptions();
@@ -216,33 +240,32 @@ namespace CryptoClients.Net.Clients
 
                 ExchangeCredentials? credentials = global.ApiCredentials;
                 Dictionary<string, string?>? environments = global.ApiEnvironments;
-                asterOptions = SetGlobalOptions<AsterOptions, AsterRestOptions, AsterSocketOptions, ApiCredentials, AsterEnvironment>(global, asterOptions, credentials?.Aster, environments?.TryGetValue(Exchange.Aster, out var asterEnvName) == true ? AsterEnvironment.GetEnvironmentByName(asterEnvName)! : AsterEnvironment.Live);
-                binanceOptions = SetGlobalOptions<BinanceOptions, BinanceRestOptions, BinanceSocketOptions, ApiCredentials, BinanceEnvironment>(global, binanceOptions, credentials?.Binance, environments?.TryGetValue(Exchange.Binance, out var binanceEnvName) == true ? BinanceEnvironment.GetEnvironmentByName(binanceEnvName)! : BinanceEnvironment.Live);
-                bingxOptions = SetGlobalOptions<BingXOptions, BingXRestOptions, BingXSocketOptions, ApiCredentials, BingXEnvironment>(global, bingxOptions, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingXEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingXEnvName)! : BingXEnvironment.Live);
-                bitfinexOptions = SetGlobalOptions<BitfinexOptions, BitfinexRestOptions, BitfinexSocketOptions, ApiCredentials, BitfinexEnvironment>(global, bitfinexOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
-                bitgetOptions = SetGlobalOptions<BitgetOptions, BitgetRestOptions, BitgetSocketOptions, ApiCredentials, BitgetEnvironment>(global, bitgetOptions, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
-                bitMartOptions = SetGlobalOptions<BitMartOptions, BitMartRestOptions, BitMartSocketOptions, ApiCredentials, BitMartEnvironment>(global, bitMartOptions, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
-                bitMEXOptions = SetGlobalOptions<BitMEXOptions, BitMEXRestOptions, BitMEXSocketOptions, ApiCredentials, BitMEXEnvironment>(global, bitMEXOptions, credentials?.BitMEX, environments?.TryGetValue(Exchange.BitMEX, out var bitMEXEnvName) == true ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnvName)! : BitMEXEnvironment.Live);
-                bitstampOptions = SetGlobalOptions<BitstampOptions, BitstampRestOptions, BitstampSocketOptions, ApiCredentials, BitstampEnvironment>(global, bitstampOptions, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : BitstampEnvironment.Live);
-                bloFinOptions = SetGlobalOptions<BloFinOptions, BloFinRestOptions, BloFinSocketOptions, ApiCredentials, BloFinEnvironment>(global, bloFinOptions, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
-                bybitOptions = SetGlobalOptions<BybitOptions, BybitRestOptions, BybitSocketOptions, ApiCredentials, BybitEnvironment>(global, bybitOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
-                coinbaseOptions = SetGlobalOptions<CoinbaseOptions, CoinbaseRestOptions, CoinbaseSocketOptions, ApiCredentials, CoinbaseEnvironment>(global, coinbaseOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
-                coinExOptions = SetGlobalOptions<CoinExOptions, CoinExRestOptions, CoinExSocketOptions, ApiCredentials, CoinExEnvironment>(global, coinExOptions, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
-                coinWOptions = SetGlobalOptions<CoinWOptions, CoinWRestOptions, CoinWSocketOptions, ApiCredentials, CoinWEnvironment>(global, coinWOptions, credentials?.CoinW, environments?.TryGetValue(Exchange.CoinW, out var coinWEnvName) == true ? CoinWEnvironment.GetEnvironmentByName(coinWEnvName)! : CoinWEnvironment.Live);
-                cryptoComOptions = SetGlobalOptions<CryptoComOptions, CryptoComRestOptions, CryptoComSocketOptions, ApiCredentials, CryptoComEnvironment>(global, cryptoComOptions, credentials?.CryptoCom, environments?.TryGetValue(Exchange.CryptoCom, out var cryptoComEnvName) == true ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnvName)! : CryptoComEnvironment.Live);
-                deepCoinOptions = SetGlobalOptions<DeepCoinOptions, DeepCoinRestOptions, DeepCoinSocketOptions, ApiCredentials, DeepCoinEnvironment>(global, deepCoinOptions, credentials?.DeepCoin, environments?.TryGetValue(Exchange.DeepCoin, out var deepCoinEnvName) == true ? DeepCoinEnvironment.GetEnvironmentByName(deepCoinEnvName)! : DeepCoinEnvironment.Live);
-                gateIoOptions = SetGlobalOptions<GateIoOptions, GateIoRestOptions, GateIoSocketOptions, ApiCredentials, GateIoEnvironment>(global, gateIoOptions, credentials?.GateIo, environments?.TryGetValue(Exchange.GateIo, out var gateIoEnvName) == true ? GateIoEnvironment.GetEnvironmentByName(gateIoEnvName)! : GateIoEnvironment.Live);
-                htxOptions = SetGlobalOptions<HTXOptions, HTXRestOptions, HTXSocketOptions, ApiCredentials, HTXEnvironment>(global, htxOptions, credentials?.HTX, environments?.TryGetValue(Exchange.HTX, out var htxEnvName) == true ? HTXEnvironment.GetEnvironmentByName(htxEnvName)! : HTXEnvironment.Live);
-                hyperLiquidOptions = SetGlobalOptions<HyperLiquidOptions, HyperLiquidRestOptions, HyperLiquidSocketOptions, ApiCredentials, HyperLiquidEnvironment>(global, hyperLiquidOptions, credentials?.HyperLiquid, environments?.TryGetValue(Exchange.HyperLiquid, out var hyperLiquidEnvName) == true ? HyperLiquidEnvironment.GetEnvironmentByName(hyperLiquidEnvName)! : HyperLiquidEnvironment.Live);
-                krakenOptions = SetGlobalOptions<KrakenOptions, KrakenRestOptions, KrakenSocketOptions, ApiCredentials, KrakenEnvironment>(global, krakenOptions, credentials?.Kraken, environments?.TryGetValue(Exchange.Kraken, out var krakenEnvName) == true ? KrakenEnvironment.GetEnvironmentByName(krakenEnvName)! : KrakenEnvironment.Live);
-                kucoinOptions = SetGlobalOptions<KucoinOptions, KucoinRestOptions, KucoinSocketOptions, ApiCredentials, KucoinEnvironment>(global, kucoinOptions, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
-                mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, ApiCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
-                okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, ApiCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
+                asterOptions = SetGlobalOptions<AsterOptions, AsterRestOptions, AsterSocketOptions, AsterCredentials, AsterEnvironment>(global, asterOptions, credentials?.Aster, environments?.TryGetValue(Exchange.Aster, out var asterEnvName) == true ? AsterEnvironment.GetEnvironmentByName(asterEnvName)! : AsterEnvironment.Live);
+                binanceOptions = SetGlobalOptions<BinanceOptions, BinanceRestOptions, BinanceSocketOptions, BinanceCredentials, BinanceEnvironment>(global, binanceOptions, credentials?.Binance, environments?.TryGetValue(Exchange.Binance, out var binanceEnvName) == true ? BinanceEnvironment.GetEnvironmentByName(binanceEnvName)! : BinanceEnvironment.Live);
+                bingxOptions = SetGlobalOptions<BingXOptions, BingXRestOptions, BingXSocketOptions, BingXCredentials, BingXEnvironment>(global, bingxOptions, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingXEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingXEnvName)! : BingXEnvironment.Live);
+                bitfinexOptions = SetGlobalOptions<BitfinexOptions, BitfinexRestOptions, BitfinexSocketOptions, BitfinexCredentials, BitfinexEnvironment>(global, bitfinexOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
+                bitgetOptions = SetGlobalOptions<BitgetOptions, BitgetRestOptions, BitgetSocketOptions, BitgetCredentials, BitgetEnvironment>(global, bitgetOptions, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
+                bitMartOptions = SetGlobalOptions<BitMartOptions, BitMartRestOptions, BitMartSocketOptions, BitMartCredentials, BitMartEnvironment>(global, bitMartOptions, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
+                bitMEXOptions = SetGlobalOptions<BitMEXOptions, BitMEXRestOptions, BitMEXSocketOptions, BitMEXCredentials, BitMEXEnvironment>(global, bitMEXOptions, credentials?.BitMEX, environments?.TryGetValue(Exchange.BitMEX, out var bitMEXEnvName) == true ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnvName)! : BitMEXEnvironment.Live);
+                bitstampOptions = SetGlobalOptions<BitstampOptions, BitstampRestOptions, BitstampSocketOptions, BitstampCredentials, BitstampEnvironment>(global, bitstampOptions, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : BitstampEnvironment.Live);
+                bloFinOptions = SetGlobalOptions<BloFinOptions, BloFinRestOptions, BloFinSocketOptions, BloFinCredentials, BloFinEnvironment>(global, bloFinOptions, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
+                bybitOptions = SetGlobalOptions<BybitOptions, BybitRestOptions, BybitSocketOptions, BybitCredentials, BybitEnvironment>(global, bybitOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
+                coinbaseOptions = SetGlobalOptions<CoinbaseOptions, CoinbaseRestOptions, CoinbaseSocketOptions, CoinbaseCredentials, CoinbaseEnvironment>(global, coinbaseOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
+                coinExOptions = SetGlobalOptions<CoinExOptions, CoinExRestOptions, CoinExSocketOptions, CoinExCredentials, CoinExEnvironment>(global, coinExOptions, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
+                coinWOptions = SetGlobalOptions<CoinWOptions, CoinWRestOptions, CoinWSocketOptions, CoinWCredentials, CoinWEnvironment>(global, coinWOptions, credentials?.CoinW, environments?.TryGetValue(Exchange.CoinW, out var coinWEnvName) == true ? CoinWEnvironment.GetEnvironmentByName(coinWEnvName)! : CoinWEnvironment.Live);
+                cryptoComOptions = SetGlobalOptions<CryptoComOptions, CryptoComRestOptions, CryptoComSocketOptions, CryptoComCredentials, CryptoComEnvironment>(global, cryptoComOptions, credentials?.CryptoCom, environments?.TryGetValue(Exchange.CryptoCom, out var cryptoComEnvName) == true ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnvName)! : CryptoComEnvironment.Live);
+                deepCoinOptions = SetGlobalOptions<DeepCoinOptions, DeepCoinRestOptions, DeepCoinSocketOptions, DeepCoinCredentials, DeepCoinEnvironment>(global, deepCoinOptions, credentials?.DeepCoin, environments?.TryGetValue(Exchange.DeepCoin, out var deepCoinEnvName) == true ? DeepCoinEnvironment.GetEnvironmentByName(deepCoinEnvName)! : DeepCoinEnvironment.Live);
+                gateIoOptions = SetGlobalOptions<GateIoOptions, GateIoRestOptions, GateIoSocketOptions, GateIoCredentials, GateIoEnvironment>(global, gateIoOptions, credentials?.GateIo, environments?.TryGetValue(Exchange.GateIo, out var gateIoEnvName) == true ? GateIoEnvironment.GetEnvironmentByName(gateIoEnvName)! : GateIoEnvironment.Live);
+                htxOptions = SetGlobalOptions<HTXOptions, HTXRestOptions, HTXSocketOptions, HTXCredentials, HTXEnvironment>(global, htxOptions, credentials?.HTX, environments?.TryGetValue(Exchange.HTX, out var htxEnvName) == true ? HTXEnvironment.GetEnvironmentByName(htxEnvName)! : HTXEnvironment.Live);
+                hyperLiquidOptions = SetGlobalOptions<HyperLiquidOptions, HyperLiquidRestOptions, HyperLiquidSocketOptions, HyperLiquidCredentials, HyperLiquidEnvironment>(global, hyperLiquidOptions, credentials?.HyperLiquid, environments?.TryGetValue(Exchange.HyperLiquid, out var hyperLiquidEnvName) == true ? HyperLiquidEnvironment.GetEnvironmentByName(hyperLiquidEnvName)! : HyperLiquidEnvironment.Live);
+                krakenOptions = SetGlobalOptions<KrakenOptions, KrakenRestOptions, KrakenSocketOptions, KrakenCredentials, KrakenEnvironment>(global, krakenOptions, credentials?.Kraken, environments?.TryGetValue(Exchange.Kraken, out var krakenEnvName) == true ? KrakenEnvironment.GetEnvironmentByName(krakenEnvName)! : KrakenEnvironment.Live);
+                kucoinOptions = SetGlobalOptions<KucoinOptions, KucoinRestOptions, KucoinSocketOptions, KucoinCredentials, KucoinEnvironment>(global, kucoinOptions, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
+                mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, MexcCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
+                okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, OKXCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
                 polymarketOptions = SetGlobalOptions<PolymarketOptions, PolymarketRestOptions, PolymarketSocketOptions, PolymarketCredentials, PolymarketEnvironment>(global, polymarketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
-                toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ApiCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
-                upbitOptions = SetGlobalOptions<UpbitOptions, UpbitRestOptions, UpbitSocketOptions, ApiCredentials, UpbitEnvironment>(global, upbitOptions, credentials?.Upbit, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
-                whiteBitOptions = SetGlobalOptions<WhiteBitOptions, WhiteBitRestOptions, WhiteBitSocketOptions, ApiCredentials, WhiteBitEnvironment>(global, whiteBitOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
-                xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, ApiCredentials, XTEnvironment>(global, xtOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
+                toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ToobitCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
+                whiteBitOptions = SetGlobalOptions<WhiteBitOptions, WhiteBitRestOptions, WhiteBitSocketOptions, WhiteBitCredentials, WhiteBitEnvironment>(global, whiteBitOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
+                xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, XTCredentials, XTEnvironment>(global, xtOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
 
             _asterProvider = new AsterUserClientProvider(asterOptions);
@@ -257,6 +280,7 @@ namespace CryptoClients.Net.Clients
             _bybitProvider = new BybitUserClientProvider(bybitOptions);
             _coinbaseProvider = new CoinbaseUserClientProvider(coinbaseOptions);
             _coinExProvider = new CoinExUserClientProvider(coinExOptions);
+            _coinGeckoRestClient = new CoinGeckoRestClient(coinGeckoRestOptions);
             _coinWProvider = new CoinWUserClientProvider(coinWOptions);
             _cryptoComProvider = new CryptoComUserClientProvider(cryptoComOptions);
             _deepCoinProvider = new DeepCoinUserClientProvider(deepCoinOptions);
@@ -268,8 +292,9 @@ namespace CryptoClients.Net.Clients
             _mexcProvider = new MexcUserClientProvider(mexcOptions);
             _okxProvider = new OKXUserClientProvider(okxOptions);
             _polymarketProvider = new PolymarketUserClientProvider(polymarketOptions);
+            _upbitRestClient = new UpbitRestClient(upbitRestOptions);
+            _upbitSocketClient = new UpbitSocketClient(upbitSocketOptions);
             _toobitProvider = new ToobitUserClientProvider(toobitOptions);
-            _upbitProvider = new UpbitUserClientProvider(upbitOptions);
             _whiteBitProvider = new WhiteBitUserClientProvider(whiteBitOptions);
             _xtProvider = new XTUserClientProvider(xtOptions);
         }
@@ -290,6 +315,7 @@ namespace CryptoClients.Net.Clients
             IBybitUserClientProvider bybitProvider,
             ICoinbaseUserClientProvider coinbaseProvider,
             ICoinExUserClientProvider coinExProvider,
+            ICoinGeckoRestClient coinGeckoRestClient,
             ICoinWUserClientProvider coinWProvider,
             ICryptoComUserClientProvider cryptoComProvider,
             IDeepCoinUserClientProvider deepCoinProvider,
@@ -302,7 +328,8 @@ namespace CryptoClients.Net.Clients
             IOKXUserClientProvider okxProvider,
             IPolymarketUserClientProvider polymarketProvider,
             IToobitUserClientProvider toobitProvider,
-            IUpbitUserClientProvider upbitProvider,
+            IUpbitRestClient upbitRestClient,
+            IUpbitSocketClient upbitSocketClient,
             IWhiteBitUserClientProvider whiteBitProvider,
             IXTUserClientProvider xtProvider
             )
@@ -319,6 +346,7 @@ namespace CryptoClients.Net.Clients
             _bybitProvider = bybitProvider;
             _coinbaseProvider = coinbaseProvider;
             _coinExProvider = coinExProvider;
+            _coinGeckoRestClient = coinGeckoRestClient;
             _coinWProvider = coinWProvider;
             _cryptoComProvider = cryptoComProvider;
             _deepCoinProvider = deepCoinProvider;
@@ -331,7 +359,8 @@ namespace CryptoClients.Net.Clients
             _okxProvider = okxProvider;
             _polymarketProvider = polymarketProvider;
             _toobitProvider = toobitProvider;
-            _upbitProvider = upbitProvider;
+            _upbitRestClient = upbitRestClient;
+            _upbitSocketClient = upbitSocketClient;
             _whiteBitProvider = whiteBitProvider;
             _xtProvider = xtProvider;
         }
@@ -370,7 +399,6 @@ namespace CryptoClients.Net.Clients
             if (exchange == null || exchange == Exchange.OKX) _okxProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Platform.Polymarket) _polymarketProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.Toobit) _toobitProvider.ClearUserClients(userIdentifier);
-            if (exchange == null || exchange == Exchange.Upbit) _upbitProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.WhiteBit) _whiteBitProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.XT) _xtProvider.ClearUserClients(userIdentifier);
         }
@@ -394,6 +422,7 @@ namespace CryptoClients.Net.Clients
                 _bybitProvider.GetRestClient(userIdentifier, credentials.Bybit, environments.TryGetValue(Exchange.Bybit, out var bybitEnv) ? BybitEnvironment.GetEnvironmentByName(bybitEnv) : null),
                 _coinbaseProvider.GetRestClient(userIdentifier, credentials.Coinbase, environments.TryGetValue(Exchange.Coinbase, out var coinbaseEnv) ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnv) : null),
                 _coinExProvider.GetRestClient(userIdentifier, credentials.CoinEx, environments.TryGetValue(Exchange.CoinEx, out var coinexEnv) ? CoinExEnvironment.GetEnvironmentByName(coinexEnv) : null),
+                _coinGeckoRestClient,
                 _coinWProvider.GetRestClient(userIdentifier, credentials.CoinW, environments.TryGetValue(Exchange.CoinW, out var coinWEnv) ? CoinWEnvironment.GetEnvironmentByName(coinWEnv) : null),
                 _cryptoComProvider.GetRestClient(userIdentifier, credentials.CryptoCom, environments.TryGetValue(Exchange.CryptoCom, out var cryptoComEnv) ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnv) : null),
                 _deepCoinProvider.GetRestClient(userIdentifier, credentials.DeepCoin, environments.TryGetValue(Exchange.DeepCoin, out var deepcoinEnv) ? DeepCoinEnvironment.GetEnvironmentByName(deepcoinEnv) : null),
@@ -406,7 +435,7 @@ namespace CryptoClients.Net.Clients
                 _okxProvider.GetRestClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
                 _polymarketProvider.GetRestClient(userIdentifier, credentials.Polymarket, environments.TryGetValue(Platform.Polymarket, out var polymarketEnv) ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnv) : null),
                 _toobitProvider.GetRestClient(userIdentifier, credentials.Toobit, environments.TryGetValue(Exchange.Toobit, out var toobitEnv) ? ToobitEnvironment.GetEnvironmentByName(toobitEnv) : null),
-                _upbitProvider.GetRestClient(userIdentifier, credentials.Upbit, environments.TryGetValue(Exchange.Upbit, out var upbitEnv) ? UpbitEnvironment.GetEnvironmentByName(upbitEnv) : null),
+                _upbitRestClient,
                 _whiteBitProvider.GetRestClient(userIdentifier, credentials.WhiteBit, environments.TryGetValue(Exchange.WhiteBit, out var whiteBitEnv) ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnv) : null),
                 _xtProvider.GetRestClient(userIdentifier, credentials.XT, environments.TryGetValue(Exchange.XT, out var xtEnv) ? XTEnvironment.GetEnvironmentByName(xtEnv) : null)
                 );
@@ -445,7 +474,7 @@ namespace CryptoClients.Net.Clients
                 _okxProvider.GetSocketClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
                 _polymarketProvider.GetSocketClient(userIdentifier, credentials.Polymarket, environments.TryGetValue(Platform.Polymarket, out var polymarketEnv) ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnv) : null),
                 _toobitProvider.GetSocketClient(userIdentifier, credentials.Toobit, environments.TryGetValue(Exchange.Toobit, out var toobitEnv) ? ToobitEnvironment.GetEnvironmentByName(toobitEnv) : null),
-                _upbitProvider.GetSocketClient(userIdentifier, credentials.Upbit, environments.TryGetValue(Exchange.Upbit, out var upbitEnv) ? UpbitEnvironment.GetEnvironmentByName(upbitEnv) : null),
+                _upbitSocketClient,
                 _whiteBitProvider.GetSocketClient(userIdentifier, credentials.WhiteBit, environments.TryGetValue(Exchange.WhiteBit, out var whiteBitEnv) ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnv) : null),
                 _xtProvider.GetSocketClient(userIdentifier, credentials.XT, environments.TryGetValue(Exchange.XT, out var xtEnv) ? XTEnvironment.GetEnvironmentByName(xtEnv) : null)
                 );

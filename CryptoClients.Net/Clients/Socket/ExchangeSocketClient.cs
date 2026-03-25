@@ -261,15 +261,13 @@ namespace CryptoClients.Net
             Action<WhiteBitSocketOptions>? whiteBitSocketOptions = null,
             Action<XTSocketOptions>? xtSocketOptions = null)
         {
-            Action<TOptions> SetGlobalSocketOptions<TOptions, TCredentials, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials, TEnvironment environment)
+            Action<TOptions> SetGlobalSocketOptionsBase<TOptions, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TEnvironment environment)
                 where TOptions : SocketExchangeOptions<TEnvironment>
-                where TCredentials : ApiCredentials
                 where TEnvironment : TradeEnvironment
             {
                 var socketDelegate = (TOptions socketOptions) =>
                 {
                     socketOptions.Proxy = globalOptions.Proxy;
-                    socketOptions.ApiCredentials = credentials;
                     socketOptions.Environment = environment;
                     socketOptions.OutputOriginalData = globalOptions.OutputOriginalData ?? socketOptions.OutputOriginalData;
                     socketOptions.RequestTimeout = globalOptions.RequestTimeout ?? socketOptions.RequestTimeout;
@@ -277,6 +275,23 @@ namespace CryptoClients.Net
                     socketOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour ?? socketOptions.RateLimitingBehaviour;
                     socketOptions.ReconnectPolicy = globalOptions.ReconnectPolicy ?? socketOptions.ReconnectPolicy;
                     socketOptions.ReconnectInterval = globalOptions.ReconnectInterval ?? socketOptions.ReconnectInterval;
+                    exchangeDelegate?.Invoke(socketOptions);
+                };
+
+                return socketDelegate;
+            }
+
+
+            Action<TOptions> SetGlobalSocketOptions<TOptions, TCredentials, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials, TEnvironment environment)
+                where TOptions : SocketExchangeOptions<TEnvironment, TCredentials>
+                where TCredentials : ApiCredentials
+                where TEnvironment : TradeEnvironment
+            {
+                var socketDelegate = (TOptions socketOptions) =>
+                {
+                    SetGlobalSocketOptionsBase(globalOptions, exchangeDelegate, environment)(socketOptions);
+
+                    socketOptions.ApiCredentials = credentials;
                     exchangeDelegate?.Invoke(socketOptions);
                 };
 
@@ -314,7 +329,7 @@ namespace CryptoClients.Net
                 okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
                 polymarketSocketOptions = SetGlobalSocketOptions(global, polymarketSocketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
                 toobitSocketOptions = SetGlobalSocketOptions(global, toobitSocketOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
-                upbitSocketOptions = SetGlobalSocketOptions(global, upbitSocketOptions, credentials?.Upbit, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
+                upbitSocketOptions = SetGlobalSocketOptionsBase(global, upbitSocketOptions, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
                 whiteBitSocketOptions = SetGlobalSocketOptions(global, whiteBitSocketOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
                 xtSocketOptions = SetGlobalSocketOptions(global, xtSocketOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
@@ -478,79 +493,85 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
+        public void SetApiCredentials(string exchange, DynamicCredentials credentials)
+        {
+            SetApiCredentials(
+                ExchangeCredentials.CreateFrom(exchange, 
+                    ExchangeCredentials.CreateCredentialsForExchange(exchange, credentials)));
+        }
+
+        /// <inheritdoc />
         public void SetApiCredentials(ExchangeCredentials credentials)
         {
-            void SetCredentialsIfNotNull(string exchange, ApiCredentials? credentials)
+            void SetCredentialsIfNotNull(string exchange, ApiCredentials? credentials, Action setter)
             {
                 if (credentials == null)
                     return;
 
-                SetApiCredentials(exchange, credentials.Key, credentials.Secret, credentials.Pass);
+                setter();
             }
 
-            SetCredentialsIfNotNull(Exchange.Aster, credentials.Aster);
-            SetCredentialsIfNotNull(Exchange.Binance, credentials.Binance);
-            SetCredentialsIfNotNull(Exchange.BingX, credentials.BingX);
-            SetCredentialsIfNotNull(Exchange.Bitfinex, credentials.Bitfinex);
-            SetCredentialsIfNotNull(Exchange.Bitget, credentials.Bitget);
-            SetCredentialsIfNotNull(Exchange.BitMart, credentials.BitMart);
-            SetCredentialsIfNotNull(Exchange.BitMEX, credentials.BitMEX);
-            SetCredentialsIfNotNull(Exchange.Bitstamp, credentials.Bitstamp);
-            SetCredentialsIfNotNull(Exchange.BloFin, credentials.BloFin);
-            SetCredentialsIfNotNull(Exchange.Bybit, credentials.Bybit);
-            SetCredentialsIfNotNull(Exchange.Coinbase, credentials.Coinbase);
-            SetCredentialsIfNotNull(Exchange.CoinEx, credentials.CoinEx);
-            SetCredentialsIfNotNull(Exchange.CoinW, credentials.CoinW);
-            SetCredentialsIfNotNull(Exchange.CryptoCom, credentials.CryptoCom);
-            SetCredentialsIfNotNull(Exchange.DeepCoin, credentials.DeepCoin);
-            SetCredentialsIfNotNull(Exchange.GateIo, credentials.GateIo);
-            SetCredentialsIfNotNull(Exchange.HTX, credentials.HTX);
-            SetCredentialsIfNotNull(Exchange.HyperLiquid, credentials.HyperLiquid);
-            SetCredentialsIfNotNull(Exchange.Kraken, credentials.Kraken);
-            SetCredentialsIfNotNull(Exchange.Kucoin, credentials.Kucoin);
-            SetCredentialsIfNotNull(Exchange.Mexc, credentials.Mexc);
-            SetCredentialsIfNotNull(Exchange.OKX, credentials.OKX);
-            SetCredentialsIfNotNull(Exchange.Toobit, credentials.Toobit);
-            SetCredentialsIfNotNull(Exchange.Upbit, credentials.Upbit);
-            SetCredentialsIfNotNull(Exchange.WhiteBit, credentials.WhiteBit);
-            SetCredentialsIfNotNull(Exchange.XT, credentials.XT);
-
-            if (credentials.Polymarket != null)
-                Polymarket.SetApiCredentials(credentials.Polymarket);
+            SetCredentialsIfNotNull(Exchange.Aster, credentials.Aster, () => Aster.SetApiCredentials(credentials.Aster!));
+            SetCredentialsIfNotNull(Exchange.Binance, credentials.Binance, () => Binance.SetApiCredentials(credentials.Binance!));
+            SetCredentialsIfNotNull(Exchange.BingX, credentials.BingX, () => BingX.SetApiCredentials(credentials.BingX!));
+            SetCredentialsIfNotNull(Exchange.Bitfinex, credentials.Bitfinex, () => Bitfinex.SetApiCredentials(credentials.Bitfinex!));
+            SetCredentialsIfNotNull(Exchange.Bitget, credentials.Bitget, () => Bitget.SetApiCredentials(credentials.Bitget!));
+            SetCredentialsIfNotNull(Exchange.BitMart, credentials.BitMart, () => BitMart.SetApiCredentials(credentials.BitMart!));
+            SetCredentialsIfNotNull(Exchange.BitMEX, credentials.BitMEX, () => BitMEX.SetApiCredentials(credentials.BitMEX!));
+            SetCredentialsIfNotNull(Exchange.BloFin, credentials.BloFin, () => BloFin.SetApiCredentials(credentials.BloFin!));
+            SetCredentialsIfNotNull(Exchange.Bitstamp, credentials.Bitstamp, () => Bitstamp.SetApiCredentials(credentials.Bitstamp!));
+            SetCredentialsIfNotNull(Exchange.Bybit, credentials.Bybit, () => Bybit.SetApiCredentials(credentials.Bybit!));
+            SetCredentialsIfNotNull(Exchange.Coinbase, credentials.Coinbase, () => Coinbase.SetApiCredentials(credentials.Coinbase!));
+            SetCredentialsIfNotNull(Exchange.CoinEx, credentials.CoinEx, () => CoinEx.SetApiCredentials(credentials.CoinEx!));
+            SetCredentialsIfNotNull(Exchange.CoinW, credentials.CoinW, () => CoinW.SetApiCredentials(credentials.CoinW!));
+            SetCredentialsIfNotNull(Exchange.CryptoCom, credentials.CryptoCom, () => CryptoCom.SetApiCredentials(credentials.CryptoCom!));
+            SetCredentialsIfNotNull(Exchange.DeepCoin, credentials.DeepCoin, () => DeepCoin.SetApiCredentials(credentials.DeepCoin!));
+            SetCredentialsIfNotNull(Exchange.GateIo, credentials.GateIo, () => GateIo.SetApiCredentials(credentials.GateIo!));
+            SetCredentialsIfNotNull(Exchange.HTX, credentials.HTX, () => HTX.SetApiCredentials(credentials.HTX!));
+            SetCredentialsIfNotNull(Exchange.HyperLiquid, credentials.HyperLiquid, () => HyperLiquid.SetApiCredentials(credentials.HyperLiquid!));
+            SetCredentialsIfNotNull(Exchange.Kraken, credentials.Kraken, () => Kraken.SetApiCredentials(credentials.Kraken!));
+            SetCredentialsIfNotNull(Exchange.Kucoin, credentials.Kucoin, () => Kucoin.SetApiCredentials(credentials.Kucoin!));
+            SetCredentialsIfNotNull(Exchange.Mexc, credentials.Mexc, () => Mexc.SetApiCredentials(credentials.Mexc!));
+            SetCredentialsIfNotNull(Exchange.OKX, credentials.OKX, () => OKX.SetApiCredentials(credentials.OKX!));
+            SetCredentialsIfNotNull(Platform.Polymarket, credentials.Polymarket, () => Polymarket.SetApiCredentials(credentials.Polymarket!));
+            SetCredentialsIfNotNull(Exchange.Toobit, credentials.Toobit, () => Toobit.SetApiCredentials(credentials.Toobit!));
+            SetCredentialsIfNotNull(Exchange.WhiteBit, credentials.WhiteBit, () => WhiteBit.SetApiCredentials(credentials.WhiteBit!));
+            SetCredentialsIfNotNull(Exchange.XT, credentials.XT, () => XT.SetApiCredentials(credentials.XT!));
         }
 
-        /// <inheritdoc />
+        // <inheritdoc />
+        [Obsolete("Not all credentials can be correctly set with these parameters, use the SetApiCredentials(ExchangeCredentials) version instead")]
         public void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null)
         {
             switch (exchange)
             {
-                case "Aster": Aster.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "Binance": Binance.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "BingX": BingX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "Bitfinex": Bitfinex.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "Bitget": Bitget.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Bitget credentials", nameof(apiPass)))); break;
-                case "BitMart": BitMart.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BitMart credentials", nameof(apiPass)))); break;
-                case "BitMEX": BitMEX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "Bitstamp": Bitstamp.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "BloFin": BloFin.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "Bybit": Bybit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "Coinbase": Coinbase.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "CoinEx": CoinEx.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "CoinW": CoinW.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "CryptoCom": CryptoCom.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "DeepCoin": DeepCoin.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for DeepCoin credentials", nameof(apiPass)))); break;
-                case "GateIo": GateIo.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "HTX": HTX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "HyperLiquid": HyperLiquid.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "Kraken": Kraken.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "Kucoin": Kucoin.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
-                case "Mexc": Mexc.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "OKX": OKX.SetApiCredentials(new ApiCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
+                case "Aster": Aster.SetApiCredentials(new AsterCredentials(apiKey, apiSecret)); break;
+                case "Binance": Binance.SetApiCredentials(new BinanceCredentials(apiKey, apiSecret)); break;
+                case "BingX": BingX.SetApiCredentials(new BingXCredentials(apiKey, apiSecret)); break;
+                case "Bitfinex": Bitfinex.SetApiCredentials(new BitfinexCredentials(apiKey, apiSecret)); break;
+                case "Bitget": Bitget.SetApiCredentials(new BitgetCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Bitget credentials", nameof(apiPass)))); break;
+                case "BitMart": BitMart.SetApiCredentials(new BitMartCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BitMart credentials", nameof(apiPass)))); break;
+                case "BitMEX": BitMEX.SetApiCredentials(new BitMEXCredentials(apiKey, apiSecret)); break;
+                case "Bitstamp": Bitstamp.SetApiCredentials(new BitstampCredentials(apiKey, apiSecret)); break;
+                case "BloFin": BloFin.SetApiCredentials(new BloFinCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BloFin credentials", nameof(apiPass)))); break;
+                case "Bybit": Bybit.SetApiCredentials(new BybitCredentials(apiKey, apiSecret)); break;
+                case "Coinbase": Coinbase.SetApiCredentials(new CoinbaseCredentials(apiKey, apiSecret)); break;
+                case "CoinEx": CoinEx.SetApiCredentials(new CoinExCredentials(apiKey, apiSecret)); break;
+                case "CoinW": CoinW.SetApiCredentials(new CoinWCredentials(apiKey, apiSecret)); break;
+                case "CryptoCom": CryptoCom.SetApiCredentials(new CryptoComCredentials(apiKey, apiSecret)); break;
+                case "DeepCoin": DeepCoin.SetApiCredentials(new DeepCoinCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for DeepCoin credentials", nameof(apiPass)))); break;
+                case "GateIo": GateIo.SetApiCredentials(new GateIoCredentials(apiKey, apiSecret)); break;
+                case "HTX": HTX.SetApiCredentials(new HTXCredentials(apiKey, apiSecret)); break;
+                case "HyperLiquid": HyperLiquid.SetApiCredentials(new HyperLiquidCredentials(apiKey, apiSecret)); break;
+                case "Kraken": Kraken.SetApiCredentials(new KrakenCredentials(apiKey, apiSecret)); break;
+                case "Kucoin": Kucoin.SetApiCredentials(new KucoinCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
+                case "Mexc": Mexc.SetApiCredentials(new MexcCredentials(apiKey, apiSecret)); break;
+                case "OKX": OKX.SetApiCredentials(new OKXCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
                 case "Polymarket": throw new InvalidOperationException("Polymarket uses different credentials system, use SetApiCredentials(ExchangeCredentials credentials) instead");
-                case "Toobit": Toobit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "Upbit": Upbit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "WhiteBit": WhiteBit.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
-                case "XT": XT.SetApiCredentials(new ApiCredentials(apiKey, apiSecret)); break;
+                case "Toobit": Toobit.SetApiCredentials(new ToobitCredentials(apiKey, apiSecret)); break;
+                case "Upbit": break;
+                case "WhiteBit": WhiteBit.SetApiCredentials(new WhiteBitCredentials(apiKey, apiSecret)); break;
+                case "XT": XT.SetApiCredentials(new XTCredentials(apiKey, apiSecret)); break;
                 default: throw new ArgumentException("Exchange not recognized", nameof(exchange));
             }
         }
