@@ -168,14 +168,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="credentials">Credential info</param>
         void SetApiCredentials(ExchangeCredentials credentials);
 
-        ///// <summary>
-        ///// Set API credentials for an exchange
-        ///// </summary>
-        ///// <param name="exchange">Exchange name</param>
-        ///// <param name="apiKey">API key</param>
-        ///// <param name="apiSecret">API secret</param>
-        ///// <param name="apiPass">API passphrase</param>
-        //void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null);
+        /// <summary>
+        /// Set API credentials for exchanges using dynamic credentials.
+        /// </summary>
+        /// <param name="credentials">Credentials</param>
+        void SetApiCredentials(DynamicCredentials credentials);
+
+        /// <summary>
+        /// Set API credentials for an exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="apiKey">API key</param>
+        /// <param name="apiSecret">API secret</param>
+        /// <param name="apiPass">API passphrase</param>
+        [Obsolete("Not all credentials can be correctly set with these parameters, use the SetApiCredentials(DynamicCredentials) version instead")]
+        void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null);
 
         /// <summary>
         /// Return the exchange symbol name

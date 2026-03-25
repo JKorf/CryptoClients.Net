@@ -493,6 +493,14 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
+        public void SetApiCredentials(string exchange, DynamicCredentials credentials)
+        {
+            SetApiCredentials(
+                ExchangeCredentials.From(exchange, 
+                    ExchangeCredentials.CreateCredentialsForExchange(exchange, credentials)));
+        }
+
+        /// <inheritdoc />
         public void SetApiCredentials(ExchangeCredentials credentials)
         {
             void SetCredentialsIfNotNull(string exchange, ApiCredentials? credentials, Action setter)
