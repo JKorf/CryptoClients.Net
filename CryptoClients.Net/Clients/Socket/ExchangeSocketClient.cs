@@ -539,7 +539,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.XT, credentials.XT, () => XT.SetApiCredentials(credentials.XT!));
         }
 
-        // <inheritdoc />
+        /// <inheritdoc />
         [Obsolete("Not all credentials can be correctly set with these parameters, use the SetApiCredentials(ExchangeCredentials) version instead")]
         public void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null)
         {
