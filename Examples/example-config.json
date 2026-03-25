@@ -15,8 +15,10 @@
     // Binance specific options
     "Binance": {
       "ApiCredentials": {
-        "Key": "123",
-        "Secret": "456"
+		"HMAC": {
+          "Key": "123",
+          "Secret": "456"
+		}
       },
 	  "Environment": { "Name": "live" },
 	  "AllowAppendingClientOrderId": true,
