@@ -62,7 +62,7 @@ The following API's are included in CryptoClients.Net. Consider using a referral
 
 ||Exchange|Type|Referral Link|Referral Fee Discount|
 |--|--|--|--|--|
-|![Aster](https://raw.githubusercontent.com/JKorf/Aster.Net/refs/heads/master/Aster.Net/Icon/icon.png)|Aster|DEX|[Link](https://www.asterdex.com/en/referral/FD2E11)|4%|
+|![Aster](https://raw.githubusercontent.com/JKorf/Aster.Net/refs/heads/main/Aster.Net/Icon/icon.png)|Aster|DEX|[Link](https://www.asterdex.com/en/referral/FD2E11)|4%|
 |![Binance](https://raw.githubusercontent.com/JKorf/Binance.Net/refs/heads/master/Binance.Net/Icon/icon.png)|Binance|CEX|[Link](https://accounts.binance.com/register?ref=X5K3F2ZG)|20%|
 |![BingX](https://raw.githubusercontent.com/JKorf/BingX.Net/refs/heads/main/BingX.Net/Icon/BingX.png)|BingX|CEX|[Link](https://bingx.com/invite/FFHRJKWG/)|20%|
 |![Bitfinex](https://raw.githubusercontent.com/JKorf/Bitfinex.Net/refs/heads/master/Bitfinex.Net/Icon/icon.png)|Bitfinex|CEX|-|-|
@@ -155,18 +155,18 @@ builder.Services.AddCryptoClients(globalOptions =>
     // Global options apply to each exchange/client
     globalOptions.OutputOriginalData = true;
     // Set credentials for the different exchanges, will be applied to both REST and socket clients
-    globalOptions.ApiCredentials = new CryptoClients.Net.Models.ExchangeCredentials
+    globalOptions.ApiCredentials = new ExchangeCredentials
     {
-        Binance = new ApiCredentials("BinanceKey", "BinanceSecret"),
-        Kucoin = new ApiCredentials("KucoinKey", "KucoinSecret", "KucoinPassphrase"),
-        OKX = new ApiCredentials("OKXKey", "OKXSecret", "OKXPassphrase")
+        Binance = new BinanceCredentials("BinanceKey", "BinanceSecret"),
+        Kucoin = new KucoinCredentials("KucoinKey", "KucoinSecret", "KucoinPassphrase"),
+        OKX = new OKXCredentials("OKXKey", "OKXSecret", "OKXPassphrase")
     };
 },
 bybitRestOptions: bybitOptions =>
 {
     // Specify options specifically for a specific exchange and client, in this case the Bybit REST client
-    bybitOptions.Environment = Bybit.Net.BybitEnvironment.Netherlands;
-    bybitOptions.ApiCredentials = new ApiCredentials("BybitKey", "BybitSecret");
+    bybitOptions.Environment = Bybit.Net.BybitEnvironment.Eu;
+    bybitOptions.ApiCredentials = new BybitCredentials("BybitKey", "BybitSecret");
 });
 ```
 

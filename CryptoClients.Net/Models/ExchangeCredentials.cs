@@ -4,9 +4,7 @@ using Binance.Net;
 using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
-using Bitget.Net.Objects;
 using BitMart.Net;
-using BitMart.Net.Objects;
 using BitMEX.Net;
 using Bitstamp.Net;
 using BloFin.Net;
@@ -19,18 +17,14 @@ using CryptoCom.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.SharedApis;
 using DeepCoin.Net;
-using DeepCoin.Net.Objects;
 using GateIo.Net;
 using HTX.Net;
 using HyperLiquid.Net;
 using Kraken.Net;
 using Kucoin.Net;
-using Kucoin.Net.Objects;
 using Mexc.Net;
 using OKX.Net;
-using OKX.Net.Objects;
 using Polymarket.Net;
-using Polymarket.Net.Objects;
 using System;
 using System.Collections.Generic;
 using Toobit.Net;
@@ -39,42 +33,6 @@ using XT.Net;
 
 namespace CryptoClients.Net.Models
 {
-    public class DynamicCredentialInfo
-    {
-        public string Exchange { get; set; }
-
-        public bool Param1Required { get; set; }
-        public string? Param1Description { get; set; }
-        public bool Param2Required { get; set; }
-        public string? Param2Description { get; set; }
-        public bool Param3Required { get; set; }
-        public string? Param3Description { get; set; }
-    }
-
-    public class DynamicCredentials
-    {
-        /// <summary>
-        /// Trading mode
-        /// </summary>
-        public TradingMode TradingMode { get; set; }
-        /// <summary>
-        /// The key
-        /// </summary>
-        public string Key { get; set; }
-        /// <summary>
-        /// First param, generally the API secret or private key
-        /// </summary>
-        public string? Param1 { get; set; }
-        /// <summary>
-        /// Second param, generally the passphrase
-        /// </summary>
-        public string? Param2 { get; set; }
-        /// <summary>
-        /// Third param
-        /// </summary>
-        public string? Param3 { get; set; }
-    }
-
     /// <summary>
     /// Credentials for each exchange
     /// </summary>
@@ -107,17 +65,10 @@ namespace CryptoClients.Net.Models
         {
             if (exchange == "Aster")
             {
-                if (credential.TradingMode == TradingMode.Spot)
-                {
-                    return new AsterCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
-                }
-                else
-                {
-                    return new AsterCredentials(
-                        new AsterV3Credential(
-                            credential.Key,
-                            credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1))));
-                }
+                return new AsterCredentials(
+                    new AsterV3Credential(
+                        credential.Key,
+                        credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1))));
             }
             else if (exchange == "Binance")
             {
@@ -246,6 +197,17 @@ namespace CryptoClients.Net.Models
             }
             
             throw new ArgumentException("Unknown exchange name: " + exchange);
+        }
+
+        /// <summary>
+        /// Create credentials for a specific exchange with provided credentials. The credentials should be credentials of the correct type for that exchange. For example, for Binance, the value should be of type BinanceCredentials.<br />
+        /// ExchangeCredentials.CreateCredentialsForExchange can be used to dynamically create credentials for an exchange.
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="credentials">Credentials, should be credentials of the correct type for the exchange. For example, for Binance, the value should be of type BinanceCredentials.</param>
+        public static ExchangeCredentials From(string exchange, ApiCredentials credentials)
+        {
+            return From(new Dictionary<string, ApiCredentials> { { exchange, credentials } });
         }
 
         /// <summary>
