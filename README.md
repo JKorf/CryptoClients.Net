@@ -258,6 +258,28 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.7.0 - 25 Mar 2026
+    * Added CoinGecko to ExchangeRestClient
+    * Added coinGeckoRestOptions parameter to ExchangeUserClientProvider constructor
+    * Added SetApiCredentials(string, DynamicCredentials) on ExchangeRestClient
+    * Added SetApiCredentials(string, DynamicCredentials) on ExchangeSocketClient
+    * Split upbitOptions parameter in ExchangeUserClientProvider constructor into upbitRestOptions and upbitSocketOptions
+    * Added SetApiCredentials(string, DynamicCredentials) to ExchangeRestClient
+    * Added SetApiCredentials(string, DynamicCredentials) to ExchangeSocketClient
+    * Marked SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null) as obsolete on ExchangeRestClient
+    * Marked SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null) as obsolete on ExchangeSocketClient
+    * Updated ExchangeCredentials to reflect exchange specific ApiCredential types needed in client libraries
+    * Removed Dictionary<string, ApiCredentials> constructor overload from ExchangeCredentials
+    * Removed Upbit from ExchangeCredentials since authentication is not supported
+    * Added ExchangeCredentials.GetDynamicCredentialInfo(TradingMode, string)
+    * Added ExchangeCredentials.CreateCredentialsForExchange(string, DynamicCredentials)
+    * Added ExchangeCredentials.CreateFrom(Dictionary<string, ApiCredentials>)
+    * Added ExchangeCredentials.CreateFrom(string, ApiCredentials)
+    * Added DynamicCredentialInfo to ExchangeInfo to retrieve info for an exchange to dynamically create credentials
+
+    * Notes for updating:
+        * `ExchangeCredentials` no longer has a constructor which accepts `Dictionary<string, ApiCredentials>`. To dynamically create `ExchangeCredentials` use the `ExchangeCredentials.CreateFrom` static method in combination with `ExchangeCredentials.CreateCredentialsForExchange`.
+
 * Version 4.6.0 - 06 Mar 2026
     * Updated client library versions
     * Added Bitstamp support with the Bitstamp.Net library
