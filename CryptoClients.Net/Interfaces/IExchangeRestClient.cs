@@ -179,7 +179,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="apiKey">API key</param>
         /// <param name="apiSecret">API secret</param>
         /// <param name="apiPass">API passphrase</param>
-        [Obsolete("Not all credentials can be correctly set with these parameters, use the SetApiCredentials(DynamicCredentials) version instead")]
+        [Obsolete("Not all credentials can be correctly set with these parameters, use the SetApiCredentials(string, DynamicCredentials) version instead")]
         void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null);
 
         /// <summary>
