@@ -171,8 +171,9 @@ namespace CryptoClients.Net.Interfaces
         /// <summary>
         /// Set API credentials for exchanges using dynamic credentials.
         /// </summary>
+        /// <param name="exchange">Exchange name</param>
         /// <param name="credentials">Credentials</param>
-        void SetApiCredentials(DynamicCredentials credentials);
+        void SetApiCredentials(string exchange, DynamicCredentials credentials);
 
         /// <summary>
         /// Set API credentials for an exchange

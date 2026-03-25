@@ -205,9 +205,9 @@ namespace CryptoClients.Net.Models
         /// </summary>
         /// <param name="exchange">Exchange name</param>
         /// <param name="credentials">Credentials, should be credentials of the correct type for the exchange. For example, for Binance, the value should be of type BinanceCredentials.</param>
-        public static ExchangeCredentials From(string exchange, ApiCredentials credentials)
+        public static ExchangeCredentials CreateFrom(string exchange, ApiCredentials credentials)
         {
-            return From(new Dictionary<string, ApiCredentials> { { exchange, credentials } });
+            return CreateFrom(new Dictionary<string, ApiCredentials> { { exchange, credentials } });
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace CryptoClients.Net.Models
         /// ExchangeCredentials.CreateCredentialsForExchange can be used to dynamically create credentials for an exchange.
         /// </summary>
         /// <param name="exchangeCredentials">Credentials, dictionary key should be the exchange name, value should be credentials of the correct type for that exchange. For example, for Binance, the value should be of type BinanceCredentials.</param>
-        public static ExchangeCredentials From(Dictionary<string, ApiCredentials> exchangeCredentials)
+        public static ExchangeCredentials CreateFrom(Dictionary<string, ApiCredentials> exchangeCredentials)
         {
             var creds = new ExchangeCredentials();
             foreach (var item in exchangeCredentials)

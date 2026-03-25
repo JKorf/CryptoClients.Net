@@ -11,6 +11,11 @@
         public string Exchange { get; set; } = string.Empty;
 
         /// <summary>
+        /// The description of what the API key should be
+        /// </summary>
+        public string KeyDescription { get; set; } = string.Empty;
+
+        /// <summary>
         /// Whether Param1 is required
         /// </summary>
         public bool Param1Required { get; set; }

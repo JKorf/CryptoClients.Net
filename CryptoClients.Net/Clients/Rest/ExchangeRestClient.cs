@@ -500,7 +500,7 @@ namespace CryptoClients.Net
         public void SetApiCredentials(string exchange, DynamicCredentials credentials)
         {
             SetApiCredentials(
-                ExchangeCredentials.From(exchange,
+                ExchangeCredentials.CreateFrom(exchange,
                     ExchangeCredentials.CreateCredentialsForExchange(exchange, credentials)));
         }
 

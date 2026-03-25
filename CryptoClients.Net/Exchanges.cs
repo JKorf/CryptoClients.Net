@@ -50,12 +50,12 @@ namespace CryptoClients.Net
             ApiDocsUrl = AsterExchange.ApiDocsUrl,
             Type = AsterExchange.Type,
             ApiEnvironments = AsterEnvironment.All,
-#warning V3 or V1?
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = AsterExchange.ExchangeName,
+                KeyDescription = "The user private key",
                 Param1Required = true,
-                Param1Description = "API secret"
+                Param1Description = "The private signing key"
             }
         };
 
@@ -74,6 +74,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = BinanceExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -94,6 +95,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = BingXExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -114,6 +116,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = BitfinexExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -134,6 +137,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = BitgetExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret",
                 Param2Required = true,
@@ -156,6 +160,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = BitMartExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret",
                 Param2Required = true,
@@ -178,6 +183,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = BitMEXExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -198,6 +204,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = BitstampExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -218,6 +225,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = BloFinExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret",
                 Param2Required = true,
@@ -240,6 +248,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = BybitExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -260,6 +269,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = CoinbaseExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -280,6 +290,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = CoinExExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -300,6 +311,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = CoinWExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -320,6 +332,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = CryptoComExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -340,6 +353,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = DeepCoinExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret",
                 Param2Required = true,
@@ -362,6 +376,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = GateIoExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -382,6 +397,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = HTXExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -402,6 +418,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = HyperLiquidExchange.ExchangeName,
+                KeyDescription = "The public key",
                 Param1Required = true,
                 Param1Description = "Private key"
             }
@@ -422,6 +439,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = KrakenExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -442,6 +460,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = KucoinExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret",
                 Param2Required = true,
@@ -464,6 +483,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = MexcExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -484,6 +504,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = OKXExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret",
                 Param2Required = true,
@@ -506,6 +527,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = ToobitExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -541,6 +563,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = WhiteBitExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
@@ -561,6 +584,7 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = XTExchange.ExchangeName,
+                KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
             }
