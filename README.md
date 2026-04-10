@@ -13,7 +13,7 @@ It combines:
 - dynamic multi-exchange requests and subscriptions
 - client-side helpers such as rate limiting, order books, trackers, and user client management
 
-The library currently supports **26 exchanges** and additional platform integrations such as **CoinGecko** and **Polymarket**.
+The library currently supports **27 exchanges** and additional platform integrations such as **CoinGecko** and **Polymarket**.
 
 ## Features
 
@@ -230,7 +230,7 @@ Compatibility includes:
 
 ### Centralized exchanges
 
-`Binance`, `BingX`, `Bitfinex`, `Bitget`, `BitMart`, `BitMEX`, `Bitstamp`, `BloFin`, `Bybit`, `Coinbase`, `CoinEx`, `CoinW`, `Crypto.com`, `DeepCoin`, `GateIo`, `HTX`, `Kraken`, `Kucoin`, `Mexc`, `OKX`, `Toobit`, `Upbit`, `WhiteBit`, `XT`
+`Binance`, `BingX`, `Bitfinex`, `Bitget`, `BitMart`, `BitMEX`, `Bitstamp`, `BloFin`, `Bybit`, `Coinbase`, `CoinEx`, `CoinW`, `Crypto.com`, `DeepCoin`, `GateIo`, `HTX`, `Kraken`, `Kucoin`, `Mexc`, `OKX`, `Toobit`, `Upbit`, `Weex`, `WhiteBit`, `XT`
 
 ### Decentralized exchanges
 
@@ -269,6 +269,7 @@ Compatibility includes:
 |![OKX](https://raw.githubusercontent.com/JKorf/OKX.Net/refs/heads/main/OKX.Net/Icon/icon.png)|OKX|CEX|[Link](https://www.okx.com/join/14592495)|20%|
 |![Toobit](https://raw.githubusercontent.com/JKorf/Toobit.Net/refs/heads/main/Toobit.Net/Icon/icon.png)|Toobit|CEX|[Link](https://www.toobit.com/en-US/register?invite_code=zsV19h)|-|
 |![Upbit](https://raw.githubusercontent.com/JKorf/Upbit.Net/refs/heads/main/Upbit.Net/Icon/icon.png)|Upbit|CEX|-|-|
+|![Weex](https://raw.githubusercontent.com/JKorf/Weex.Net/refs/heads/main/Weex.Net/Icon/icon.png)|Weex|CEX|-|-|
 |![WhiteBit](https://raw.githubusercontent.com/JKorf/WhiteBit.Net/refs/heads/main/WhiteBit.Net/Icon/icon.png)|WhiteBit|CEX|[Link](https://whitebit.com/referral/a8e59b59-186c-4662-824c-3095248e0edf)|-|
 |![XT](https://raw.githubusercontent.com/JKorf/XT.Net/refs/heads/main/XT.Net/Icon/icon.png)|XT|CEX|[Link](https://www.xt.com/ru/accounts/register?ref=CZG39C)|25%|
 
