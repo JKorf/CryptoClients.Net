@@ -338,6 +338,10 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 4.8.0 - 10 Apr 2026
+    * Updated client library versions
+    * Added Weex support with the Weex.Net library
+
 * Version 4.7.0 - 25 Mar 2026
     * Added CoinGecko to ExchangeRestClient
     * Added coinGeckoRestOptions parameter to ExchangeUserClientProvider constructor
