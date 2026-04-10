@@ -24,6 +24,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Toobit.Net;
 using Upbit.Net;
+using Weex.Net;
 using WhiteBit.Net;
 using XT.Net;
 
@@ -131,6 +132,10 @@ namespace CryptoClients.Net.Enums
         /// </summary>
         public static string Upbit => UpbitExchange.ExchangeName;
         /// <summary>
+        /// Weex
+        /// </summary>
+        public static string Weex => WeexExchange.Metadata.Id;
+        /// <summary>
         /// WhiteBit
         /// </summary>
         public static string WhiteBit => WhiteBitExchange.ExchangeName;
@@ -168,6 +173,7 @@ namespace CryptoClients.Net.Enums
             OKX,
             Toobit,
             Upbit,
+            Weex,
             WhiteBit,
             XT
         };

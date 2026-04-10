@@ -119,6 +119,10 @@ using XT.Net;
 using XT.Net.Clients;
 using XT.Net.Interfaces.Clients;
 using XT.Net.Objects.Options;
+using Weex.Net;
+using Weex.Net.Clients;
+using Weex.Net.Interfaces.Clients;
+using Weex.Net.Objects.Options;
 
 namespace CryptoClients.Net.Clients
 {
@@ -152,6 +156,7 @@ namespace CryptoClients.Net.Clients
         private IToobitUserClientProvider _toobitProvider;
         private IUpbitRestClient _upbitRestClient;
         private IUpbitSocketClient _upbitSocketClient;
+        private IWeexUserClientProvider _weexProvider;
         private IWhiteBitUserClientProvider _whiteBitProvider;
         private IXTUserClientProvider _xtProvider;
 
@@ -186,6 +191,7 @@ namespace CryptoClients.Net.Clients
             Action<ToobitOptions>? toobitOptions = null,
             Action<UpbitRestOptions>? upbitRestOptions = null,
             Action<UpbitSocketOptions>? upbitSocketOptions = null,
+            Action<WeexOptions>? weexOptions = null,
             Action<WhiteBitOptions>? whiteBitOptions = null,
             Action<XTOptions>? xtOptions = null)
         {
@@ -264,6 +270,7 @@ namespace CryptoClients.Net.Clients
                 okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, OKXCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
                 polymarketOptions = SetGlobalOptions<PolymarketOptions, PolymarketRestOptions, PolymarketSocketOptions, PolymarketCredentials, PolymarketEnvironment>(global, polymarketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
                 toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ToobitCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
+                weexOptions = SetGlobalOptions<WeexOptions, WeexRestOptions, WeexSocketOptions, WeexCredentials, WeexEnvironment>(global, weexOptions, credentials?.Weex, environments?.TryGetValue(Exchange.Weex, out var weexEnvName) == true ? WeexEnvironment.GetEnvironmentByName(weexEnvName)! : WeexEnvironment.Live);
                 whiteBitOptions = SetGlobalOptions<WhiteBitOptions, WhiteBitRestOptions, WhiteBitSocketOptions, WhiteBitCredentials, WhiteBitEnvironment>(global, whiteBitOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
                 xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, XTCredentials, XTEnvironment>(global, xtOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
@@ -295,6 +302,7 @@ namespace CryptoClients.Net.Clients
             _upbitRestClient = new UpbitRestClient(upbitRestOptions);
             _upbitSocketClient = new UpbitSocketClient(upbitSocketOptions);
             _toobitProvider = new ToobitUserClientProvider(toobitOptions);
+            _weexProvider = new WeexUserClientProvider(weexOptions);
             _whiteBitProvider = new WhiteBitUserClientProvider(whiteBitOptions);
             _xtProvider = new XTUserClientProvider(xtOptions);
         }
@@ -330,6 +338,7 @@ namespace CryptoClients.Net.Clients
             IToobitUserClientProvider toobitProvider,
             IUpbitRestClient upbitRestClient,
             IUpbitSocketClient upbitSocketClient,
+            IWeexUserClientProvider weexProvider,
             IWhiteBitUserClientProvider whiteBitProvider,
             IXTUserClientProvider xtProvider
             )
@@ -361,6 +370,7 @@ namespace CryptoClients.Net.Clients
             _toobitProvider = toobitProvider;
             _upbitRestClient = upbitRestClient;
             _upbitSocketClient = upbitSocketClient;
+            _weexProvider = weexProvider;
             _whiteBitProvider = whiteBitProvider;
             _xtProvider = xtProvider;
         }
@@ -399,6 +409,7 @@ namespace CryptoClients.Net.Clients
             if (exchange == null || exchange == Exchange.OKX) _okxProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Platform.Polymarket) _polymarketProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.Toobit) _toobitProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.Weex) _weexProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.WhiteBit) _whiteBitProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.XT) _xtProvider.ClearUserClients(userIdentifier);
         }
@@ -436,6 +447,7 @@ namespace CryptoClients.Net.Clients
                 _polymarketProvider.GetRestClient(userIdentifier, credentials.Polymarket, environments.TryGetValue(Platform.Polymarket, out var polymarketEnv) ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnv) : null),
                 _toobitProvider.GetRestClient(userIdentifier, credentials.Toobit, environments.TryGetValue(Exchange.Toobit, out var toobitEnv) ? ToobitEnvironment.GetEnvironmentByName(toobitEnv) : null),
                 _upbitRestClient,
+                _weexProvider.GetRestClient(userIdentifier, credentials.Weex, environments.TryGetValue(Exchange.Weex, out var weexEnv) ? WeexEnvironment.GetEnvironmentByName(weexEnv) : null),
                 _whiteBitProvider.GetRestClient(userIdentifier, credentials.WhiteBit, environments.TryGetValue(Exchange.WhiteBit, out var whiteBitEnv) ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnv) : null),
                 _xtProvider.GetRestClient(userIdentifier, credentials.XT, environments.TryGetValue(Exchange.XT, out var xtEnv) ? XTEnvironment.GetEnvironmentByName(xtEnv) : null)
                 );
@@ -475,6 +487,7 @@ namespace CryptoClients.Net.Clients
                 _polymarketProvider.GetSocketClient(userIdentifier, credentials.Polymarket, environments.TryGetValue(Platform.Polymarket, out var polymarketEnv) ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnv) : null),
                 _toobitProvider.GetSocketClient(userIdentifier, credentials.Toobit, environments.TryGetValue(Exchange.Toobit, out var toobitEnv) ? ToobitEnvironment.GetEnvironmentByName(toobitEnv) : null),
                 _upbitSocketClient,
+                _weexProvider.GetSocketClient(userIdentifier, credentials.Weex, environments.TryGetValue(Exchange.Weex, out var weexEnv) ? WeexEnvironment.GetEnvironmentByName(weexEnv) : null),
                 _whiteBitProvider.GetSocketClient(userIdentifier, credentials.WhiteBit, environments.TryGetValue(Exchange.WhiteBit, out var whiteBitEnv) ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnv) : null),
                 _xtProvider.GetSocketClient(userIdentifier, credentials.XT, environments.TryGetValue(Exchange.XT, out var xtEnv) ? XTEnvironment.GetEnvironmentByName(xtEnv) : null)
                 );

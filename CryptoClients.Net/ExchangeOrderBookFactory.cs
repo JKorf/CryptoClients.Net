@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
+using Weex.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
 
@@ -89,6 +90,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IUpbitOrderBookFactory Upbit { get; }
         /// <inheritdoc />
+        public IWeexOrderBookFactory Weex { get; }
+        /// <inheritdoc />
         public IWhiteBitOrderBookFactory WhiteBit { get; }
         /// <inheritdoc />
         public IXTOrderBookFactory XT { get; }
@@ -122,6 +125,7 @@ namespace CryptoClients.Net
             IPolymarketOrderBookFactory polymarket,
             IToobitOrderBookFactory toobit,
             IUpbitOrderBookFactory upbit,
+            IWeexOrderBookFactory weex,
             IWhiteBitOrderBookFactory whiteBit,
             IXTOrderBookFactory xt)
         {
@@ -150,6 +154,7 @@ namespace CryptoClients.Net
             Polymarket = polymarket;
             Toobit = toobit;
             Upbit = upbit;
+            Weex = weex;
             WhiteBit = whiteBit;
             XT = xt;
         }
@@ -253,6 +258,9 @@ namespace CryptoClients.Net
                 case "Upbit":
                     var upbitLimit = GetBookDepth(minimalDepth, false, 1, 5, 15, 30);
                     return Upbit.Create(symbol, opts => { opts.Limit = upbitLimit; });
+                case "Weex":
+                    var weexLimit = GetBookDepth(minimalDepth, false, 15, 200);
+                    return Weex.Create(symbol, opts => { opts.Limit = weexLimit; });
                 case "WhiteBit":
                     var whiteBitLimit = GetBookDepth(minimalDepth, true, 1, 5, 10, 20, 30, 50, 100);
                     return WhiteBit.Create(symbol, opts => { opts.Limit = whiteBitLimit; });

@@ -124,6 +124,10 @@ using CoinGecko.Net.Interfaces;
 using CoinGecko.Net;
 using CoinGecko.Net.Clients;
 using CoinGecko.Net.Objects.Options;
+using Weex.Net.Interfaces.Clients;
+using Weex.Net;
+using Weex.Net.Clients;
+using Weex.Net.Objects.Options;
 
 namespace CryptoClients.Net
 {
@@ -189,6 +193,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IUpbitRestClient Upbit { get; }
         /// <inheritdoc />
+        public IWeexRestClient Weex { get; }
+        /// <inheritdoc />
         public IWhiteBitRestClient WhiteBit { get; }
         /// <inheritdoc />
         public IXTRestClient XT { get; }
@@ -224,6 +230,7 @@ namespace CryptoClients.Net
             Polymarket = new PolymarketRestClient();
             Toobit = new ToobitRestClient();
             Upbit = new UpbitRestClient();
+            Weex = new WeexRestClient();
             WhiteBit = new WhiteBitRestClient();
             XT = new XTRestClient();
 
@@ -261,6 +268,7 @@ namespace CryptoClients.Net
             Action<PolymarketRestOptions>? polymarketRestOptions = null,
             Action<ToobitRestOptions>? toobitRestOptions = null,
             Action<UpbitRestOptions>? upbitRestOptions = null,
+            Action<WeexRestOptions>? weexRestOptions = null,
             Action<WhiteBitRestOptions>? whiteBitRestOptions = null,
             Action<XTRestOptions>? xtRestOptions = null)
         {
@@ -332,6 +340,7 @@ namespace CryptoClients.Net
                 polymarketRestOptions = SetGlobalRestOptions(global, polymarketRestOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
                 toobitRestOptions = SetGlobalRestOptions(global, toobitRestOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
                 upbitRestOptions = SetGlobalRestOptionsBase(global, upbitRestOptions, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
+                weexRestOptions = SetGlobalRestOptions(global, weexRestOptions, credentials?.Weex, environments?.TryGetValue(Exchange.Weex, out var weexEnvName) == true ? WeexEnvironment.GetEnvironmentByName(weexEnvName)! : WeexEnvironment.Live);
                 whiteBitRestOptions = SetGlobalRestOptions(global, whiteBitRestOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
                 xtRestOptions = SetGlobalRestOptions(global, xtRestOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
@@ -362,6 +371,7 @@ namespace CryptoClients.Net
             Polymarket = new PolymarketRestClient(polymarketRestOptions);
             Toobit = new ToobitRestClient(toobitRestOptions);
             Upbit = new UpbitRestClient(upbitRestOptions);
+            Weex = new WeexRestClient(weexRestOptions);
             WhiteBit = new WhiteBitRestClient(whiteBitRestOptions);
             XT = new XTRestClient(xtRestOptions);
 
@@ -371,7 +381,7 @@ namespace CryptoClients.Net
         private void InitSharedClients()
         {
             _restClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
-                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, Upbit, WhiteBit, XT];
+                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, Upbit, Weex, WhiteBit, XT];
 
             _sharedClients = new ISharedClient[]
             {
@@ -415,6 +425,8 @@ namespace CryptoClients.Net
                 Toobit.SpotApi.SharedClient,
                 Toobit.UsdtFuturesApi.SharedClient,
                 Upbit.SpotApi.SharedClient,
+                Weex.SpotApi.SharedClient,
+                Weex.FuturesApi.SharedClient,
                 WhiteBit.V4Api.SharedClient,
                 XT.SpotApi.SharedClient,
                 XT.CoinFuturesApi.SharedClient,
@@ -452,6 +464,7 @@ namespace CryptoClients.Net
             IPolymarketRestClient polymarket,
             IToobitRestClient toobit,
             IUpbitRestClient upbit,
+            IWeexRestClient weex,
             IWhiteBitRestClient whiteBit,
             IXTRestClient xt)
         {
@@ -481,6 +494,7 @@ namespace CryptoClients.Net
             Polymarket = polymarket;
             Toobit = toobit;
             Upbit = upbit;
+            Weex = weex;
             WhiteBit = whiteBit;
             XT = xt;
 
@@ -540,6 +554,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.OKX, credentials.OKX, () => OKX.SetApiCredentials(credentials.OKX!));
             SetCredentialsIfNotNull(Platform.Polymarket, credentials.Polymarket, () => Polymarket.SetApiCredentials(credentials.Polymarket!));
             SetCredentialsIfNotNull(Exchange.Toobit, credentials.Toobit, () => Toobit.SetApiCredentials(credentials.Toobit!));
+            SetCredentialsIfNotNull(Exchange.Weex, credentials.Weex, () => Weex.SetApiCredentials(credentials.Weex!));
             SetCredentialsIfNotNull(Exchange.WhiteBit, credentials.WhiteBit, () => WhiteBit.SetApiCredentials(credentials.WhiteBit!));
             SetCredentialsIfNotNull(Exchange.XT, credentials.XT, () => XT.SetApiCredentials(credentials.XT!));
         }
@@ -576,6 +591,7 @@ namespace CryptoClients.Net
                 case "Polymarket": throw new InvalidOperationException("Polymarket uses different credentials system, use SetApiCredentials(ExchangeCredentials credentials) instead");
                 case "Toobit": Toobit.SetApiCredentials(new ToobitCredentials(apiKey, apiSecret)); break;
                 case "Upbit": break;
+                case "Weex": Weex.SetApiCredentials(new WeexCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Weex credentials", nameof(apiPass)))); break;
                 case "WhiteBit": WhiteBit.SetApiCredentials(new WhiteBitCredentials(apiKey, apiSecret)); break;
                 case "XT": XT.SetApiCredentials(new XTCredentials(apiKey, apiSecret)); break;
                 default: throw new ArgumentException("Exchange not recognized", nameof(exchange));

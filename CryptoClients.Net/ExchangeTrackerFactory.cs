@@ -59,6 +59,8 @@ using System.Collections.Generic;
 using Toobit.Net;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
+using Weex.Net;
+using Weex.Net.Interfaces;
 using WhiteBit.Net;
 using WhiteBit.Net.Interfaces;
 using XT.Net;
@@ -118,6 +120,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IUpbitTrackerFactory Upbit { get; }
         /// <inheritdoc />
+        public IWeexTrackerFactory Weex { get; }
+        /// <inheritdoc />
         public IWhiteBitTrackerFactory WhiteBit { get; }
         /// <inheritdoc />
         public IXTTrackerFactory XT { get; }
@@ -150,6 +154,7 @@ namespace CryptoClients.Net
             IOKXTrackerFactory okx,
             IToobitTrackerFactory toobit,
             IUpbitTrackerFactory upbit,
+            IWeexTrackerFactory weex,
             IWhiteBitTrackerFactory whiteBit,
             IXTTrackerFactory xt)
         {
@@ -177,6 +182,7 @@ namespace CryptoClients.Net
             OKX = okx;
             Toobit = toobit;
             Upbit = upbit;
+            Weex = weex;
             WhiteBit = whiteBit;
             XT = xt;
         }
@@ -209,6 +215,7 @@ namespace CryptoClients.Net
                 "OKX" => OKX,
                 "Toobit" => Toobit,
                 "Upbit" => Upbit,
+                "Weex" => Weex,
                 "WhiteBit" => WhiteBit,
                 "XT" => XT,
                 _ => null
@@ -268,6 +275,7 @@ namespace CryptoClients.Net
                 "Mexc" => Mexc.CreateUserSpotDataTracker(config),
                 "OKX" => OKX.CreateUserSpotDataTracker(config),
                 "Toobit" => Toobit.CreateUserSpotDataTracker(config),
+                "Weex" => Weex.CreateUserSpotDataTracker(config),
                 "WhiteBit" => WhiteBit.CreateUserSpotDataTracker(config),
                 "XT" => XT.CreateUserSpotDataTracker(config),
                 _ => null
@@ -317,6 +325,7 @@ namespace CryptoClients.Net
                 "Mexc" => Mexc.CreateUserSpotDataTracker(userIdentifier, credentials.Mexc ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, MexcEnvironment.GetEnvironmentByName(environment)),
                 "OKX" => OKX.CreateUserSpotDataTracker(userIdentifier, credentials.OKX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, OKXEnvironment.GetEnvironmentByName(environment)),
                 "Toobit" => Toobit.CreateUserSpotDataTracker(userIdentifier, credentials.Toobit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, ToobitEnvironment.GetEnvironmentByName(environment)),
+                "Weex" => Weex.CreateUserSpotDataTracker(userIdentifier, credentials.Weex ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, WeexEnvironment.GetEnvironmentByName(environment)),
                 "WhiteBit" => WhiteBit.CreateUserSpotDataTracker(userIdentifier, credentials.WhiteBit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, WhiteBitEnvironment.GetEnvironmentByName(environment)),
                 "XT" => XT.CreateUserSpotDataTracker(userIdentifier, credentials.XT ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, XTEnvironment.GetEnvironmentByName(environment)),
                 _ => null
@@ -382,6 +391,7 @@ namespace CryptoClients.Net
                 "Kucoin" => Kucoin.CreateUserFuturesDataTracker(config),
                 "OKX" => OKX.CreateUserFuturesDataTracker(config),
                 "Toobit" => Toobit.CreateUserUsdtFuturesDataTracker(config),
+                "Weex" => Weex.CreateUserFuturesDataTracker(config),
                 "WhiteBit" => WhiteBit.CreateUserFuturesDataTracker(config),
                 "XT" => tradeMode.IsLinear() ? XT.CreateUserUsdtFuturesDataTracker(config) : null,
                 _ => null
@@ -448,6 +458,7 @@ namespace CryptoClients.Net
                 "Kucoin" => Kucoin.CreateUserFuturesDataTracker(userIdentifier, credentials.Kucoin ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, KucoinEnvironment.GetEnvironmentByName(environment)),
                 "OKX" => OKX.CreateUserFuturesDataTracker(userIdentifier, credentials.OKX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, OKXEnvironment.GetEnvironmentByName(environment)),
                 "Toobit" => Toobit.CreateUserUsdtFuturesDataTracker(userIdentifier, credentials.Toobit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, ToobitEnvironment.GetEnvironmentByName(environment)),
+                "Weex" => Weex.CreateUserFuturesDataTracker(userIdentifier, credentials.Weex ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, WeexEnvironment.GetEnvironmentByName(environment)),
                 "WhiteBit" => WhiteBit.CreateUserFuturesDataTracker(userIdentifier, credentials.WhiteBit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, WhiteBitEnvironment.GetEnvironmentByName(environment)),
                 "XT" => tradeMode.IsLinear() ? XT.CreateUserUsdtFuturesDataTracker(userIdentifier, credentials.XT ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, XTEnvironment.GetEnvironmentByName(environment)) : null,
                 _ => null

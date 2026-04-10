@@ -28,6 +28,7 @@ using Polymarket.Net;
 using System;
 using System.Collections.Generic;
 using Toobit.Net;
+using Weex.Net;
 using WhiteBit.Net;
 using XT.Net;
 
@@ -191,6 +192,13 @@ namespace CryptoClients.Net.Models
             {
                 return new WhiteBitCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
             }
+            else if (exchange == "Weex")
+            {
+                return new WeexCredentials(
+                    credential.Key,
+                    credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)),
+                    credential.Param2 ?? throw new ArgumentNullException(nameof(credential.Param2)));
+            }
             else if (exchange == "XT")
             {
                 return new XTCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
@@ -245,6 +253,7 @@ namespace CryptoClients.Net.Models
                 else if (item.Key == "OKX") creds.OKX = item.Value as OKXCredentials;
                 else if (item.Key == "Polymarket") creds.Polymarket = item.Value as PolymarketCredentials;
                 else if (item.Key == "Toobit") creds.Toobit = item.Value as ToobitCredentials;
+                else if (item.Key == "Weex") creds.Weex = item.Value as WeexCredentials;
                 else if (item.Key == "WhiteBit") creds.WhiteBit = item.Value as WhiteBitCredentials;
                 else if (item.Key == "XT") creds.XT = item.Value as XTCredentials;
                 else
@@ -380,6 +389,11 @@ namespace CryptoClients.Net.Models
         public ToobitCredentials? Toobit { get; set; }
 
         /// <summary>
+        /// Weex API credentials
+        /// </summary>
+        public WeexCredentials? Weex { get; set; }
+
+        /// <summary>
         /// WhiteBit API credentials
         /// </summary>
         public WhiteBitCredentials? WhiteBit { get; set; }
@@ -423,6 +437,7 @@ namespace CryptoClients.Net.Models
                 case "Polymarket": return Polymarket;
                 case "Toobit": return Toobit;
                 case "Upbit": return null;
+                case "Weex": return Weex;
                 case "WhiteBit": return WhiteBit;
                 case "XT": return XT;
                 default:

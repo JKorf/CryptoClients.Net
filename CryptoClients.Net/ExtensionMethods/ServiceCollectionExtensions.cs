@@ -91,6 +91,9 @@ using Polymarket.Net.Objects.Options;
 using Bitstamp.Net.Objects.Options;
 using Bitstamp.Net;
 using Bitstamp.Net.Interfaces.Clients;
+using Weex.Net.Objects.Options;
+using Weex.Net;
+using Weex.Net.Interfaces.Clients;
 using CoinGecko.Net.Interfaces;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -131,6 +134,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="polymarketOptions">The options options for the Polymarket services. Will override options provided in the global options</param>
         /// <param name="toobitOptions">The options options for the Toobit services. Will override options provided in the global options</param>
         /// <param name="upbitOptions">The options options for the Upbit services. Will override options provided in the global options</param>
+        /// <param name="weexOptions">The options options for the Weex services. Will override options provided in the global options</param>
         /// <param name="whiteBitOptions">The options options for the WhiteBit services. Will override options provided in the global options</param>
         /// <param name="xtOptions">The options options for the XT services. Will override options provided in the global options</param>
         /// <param name="socketClientLifetime">The lifetime for the Socket clients. Defaults to Singleton</param>
@@ -164,6 +168,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<PolymarketOptions>? polymarketOptions = null,
             Action<ToobitOptions>? toobitOptions = null,
             Action<UpbitOptions>? upbitOptions = null,
+            Action<WeexOptions>? weexOptions = null,
             Action<WhiteBitOptions>? whiteBitOptions = null,
             Action<XTOptions>? xtOptions = null,
             ServiceLifetime? socketClientLifetime = null)
@@ -248,6 +253,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 polymarketOptions = SetGlobalOptions<PolymarketOptions, PolymarketRestOptions, PolymarketSocketOptions, PolymarketCredentials, PolymarketEnvironment>(global, polymarketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
                 toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ToobitCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var tooBitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(tooBitEnvName)! : ToobitEnvironment.Live);
                 upbitOptions = SetGlobalOptionsBase<UpbitOptions, UpbitRestOptions, UpbitSocketOptions, UpbitEnvironment>(global, upbitOptions, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
+                weexOptions = SetGlobalOptions<WeexOptions, WeexRestOptions, WeexSocketOptions, WeexCredentials, WeexEnvironment>(global, weexOptions, credentials?.Weex, environments?.TryGetValue(Exchange.Weex, out var weexEnvName) == true ? WeexEnvironment.GetEnvironmentByName(weexEnvName)! : WeexEnvironment.Live);
                 whiteBitOptions = SetGlobalOptions<WhiteBitOptions, WhiteBitRestOptions, WhiteBitSocketOptions, WhiteBitCredentials, WhiteBitEnvironment>(global, whiteBitOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
                 xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, XTCredentials, XTEnvironment>(global, xtOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
@@ -278,6 +284,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddPolymarket(polymarketOptions);
             services.AddToobit(toobitOptions);
             services.AddUpbit(upbitOptions);
+            services.AddWeex(weexOptions);
             services.AddWhiteBit(whiteBitOptions);
             services.AddXT(xtOptions);
 
@@ -310,6 +317,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IPolymarketRestClient>(),
                     x.GetRequiredService<IToobitRestClient>(),
                     x.GetRequiredService<IUpbitRestClient>(),
+                    x.GetRequiredService<IWeexRestClient>(),
                     x.GetRequiredService<IWhiteBitRestClient>(),
                     x.GetRequiredService<IXTRestClient>()
                     );
@@ -343,6 +351,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IPolymarketSocketClient>(),
                     x.GetRequiredService<IToobitSocketClient>(),
                     x.GetRequiredService<IUpbitSocketClient>(),
+                    x.GetRequiredService<IWeexSocketClient>(),
                     x.GetRequiredService<IWhiteBitSocketClient>(),
                     x.GetRequiredService<IXTSocketClient>()
                     );
@@ -378,6 +387,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IToobitUserClientProvider>(),
                 x.GetRequiredService<IUpbitRestClient>(),
                 x.GetRequiredService<IUpbitSocketClient>(),
+                x.GetRequiredService<IWeexUserClientProvider>(),
                 x.GetRequiredService<IWhiteBitUserClientProvider>(),
                 x.GetRequiredService<IXTUserClientProvider>()
                 ));
@@ -465,6 +475,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("Polymarket", globalOptions);
             UpdateExchangeOptions("Toobit", globalOptions);
             UpdateExchangeOptions("Upbit", globalOptions);
+            UpdateExchangeOptions("Weex", globalOptions);
             UpdateExchangeOptions("WhiteBit", globalOptions);
             UpdateExchangeOptions("XT", globalOptions);
 
@@ -494,6 +505,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddPolymarket(configuration.GetSection("Polymarket"));
             services.AddToobit(configuration.GetSection("Toobit"));
             services.AddUpbit(configuration.GetSection("Upbit"));
+            services.AddWeex(configuration.GetSection("Weex"));
             services.AddWhiteBit(configuration.GetSection("WhiteBit"));
             services.AddXT(configuration.GetSection("XT"));
 
@@ -526,6 +538,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IPolymarketRestClient>(),
                     x.GetRequiredService<IToobitRestClient>(),
                     x.GetRequiredService<IUpbitRestClient>(),
+                    x.GetRequiredService<IWeexRestClient>(),
                     x.GetRequiredService<IWhiteBitRestClient>(),
                     x.GetRequiredService<IXTRestClient>()
                     );
@@ -559,6 +572,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IPolymarketSocketClient>(),
                     x.GetRequiredService<IToobitSocketClient>(),
                     x.GetRequiredService<IUpbitSocketClient>(),
+                    x.GetRequiredService<IWeexSocketClient>(),
                     x.GetRequiredService<IWhiteBitSocketClient>(),
                     x.GetRequiredService<IXTSocketClient>()
                     );
@@ -594,6 +608,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IToobitUserClientProvider>(),
                 x.GetRequiredService<IUpbitRestClient>(),
                 x.GetRequiredService<IUpbitSocketClient>(),
+                x.GetRequiredService<IWeexUserClientProvider>(),
                 x.GetRequiredService<IWhiteBitUserClientProvider>(),
                 x.GetRequiredService<IXTUserClientProvider>()
                 ));

@@ -14,6 +14,7 @@ using CoinGecko.Net;
 using CoinW.Net;
 using CryptoClients.Net.Models;
 using CryptoCom.Net;
+using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.RateLimiting;
 using DeepCoin.Net;
 using GateIo.Net;
@@ -28,6 +29,7 @@ using System;
 using System.Linq;
 using Toobit.Net;
 using Upbit.Net;
+using Weex.Net;
 using WhiteBit.Net;
 using XT.Net;
 
@@ -549,6 +551,29 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
+        /// Weex exchange info
+        /// </summary>
+        public static ExchangeInfo Weex { get; } = new ExchangeInfo
+        {
+            Name = WeexExchange.Metadata.Id,
+            DisplayName = WeexExchange.Metadata.DisplayName,
+            ImageUrl = WeexExchange.Metadata.Logo,
+            Url = WeexExchange.Metadata.Url,
+            ApiDocsUrl = WeexExchange.Metadata.ApiDocsUrl,
+            Type = ExchangeType.CEX,
+            ApiEnvironments = WeexEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = WhiteBitExchange.ExchangeName,
+                KeyDescription = "The API key",
+                Param1Required = true,
+                Param1Description = "API secret",
+                Param2Required = true,
+                Param2Description = "Passphrase"
+            }
+        };
+
+        /// <summary>
         /// WhiteBit exchange info
         /// </summary>
         public static ExchangeInfo WhiteBit { get; } = new ExchangeInfo
@@ -625,6 +650,7 @@ namespace CryptoClients.Net
             OKX,
             Toobit,
             Upbit,
+            Weex,
             WhiteBit,
             XT
         };
@@ -661,6 +687,7 @@ namespace CryptoClients.Net
                 PolymarketPlatform.RateLimiter.RateLimitTriggered += value;
                 ToobitExchange.RateLimiter.RateLimitTriggered += value;
                 UpbitExchange.RateLimiter.RateLimitTriggered += value;
+                WeexExchange.RateLimiter.RateLimitTriggered += value;
                 WhiteBitExchange.RateLimiter.RateLimitTriggered += value;
                 XTExchange.RateLimiter.RateLimitTriggered += value;
             }
@@ -691,6 +718,7 @@ namespace CryptoClients.Net
                 PolymarketPlatform.RateLimiter.RateLimitTriggered -= value;
                 ToobitExchange.RateLimiter.RateLimitTriggered -= value;
                 UpbitExchange.RateLimiter.RateLimitTriggered -= value;
+                WeexExchange.RateLimiter.RateLimitTriggered -= value;
                 WhiteBitExchange.RateLimiter.RateLimitTriggered -= value;
                 XTExchange.RateLimiter.RateLimitTriggered -= value;
             }
@@ -727,6 +755,7 @@ namespace CryptoClients.Net
                 PolymarketPlatform.RateLimiter.RateLimitUpdated += value;
                 ToobitExchange.RateLimiter.RateLimitUpdated += value;
                 UpbitExchange.RateLimiter.RateLimitUpdated += value;
+                WeexExchange.RateLimiter.RateLimitUpdated += value;
                 WhiteBitExchange.RateLimiter.RateLimitUpdated += value;
                 XTExchange.RateLimiter.RateLimitUpdated += value;
             }
@@ -756,6 +785,7 @@ namespace CryptoClients.Net
                 PolymarketPlatform.RateLimiter.RateLimitUpdated -= value;
                 ToobitExchange.RateLimiter.RateLimitUpdated -= value;
                 UpbitExchange.RateLimiter.RateLimitUpdated -= value;
+                WeexExchange.RateLimiter.RateLimitUpdated -= value;
                 WhiteBitExchange.RateLimiter.RateLimitUpdated -= value;
                 XTExchange.RateLimiter.RateLimitUpdated -= value;
             }

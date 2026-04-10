@@ -25,6 +25,7 @@ using OKX.Net;
 using Polymarket.Net;
 using Toobit.Net;
 using Upbit.Net;
+using Weex.Net;
 using WhiteBit.Net;
 using XT.Net;
 
@@ -166,6 +167,11 @@ namespace CryptoClients.Net
         public static PlatformInfo Upbit { get; } = UpbitExchange.Metadata;
 
         /// <summary>
+        /// Weex platform info
+        /// </summary>
+        public static PlatformInfo Weex { get; } = WeexExchange.Metadata;
+
+        /// <summary>
         /// WhiteBit platform info
         /// </summary>
         public static PlatformInfo WhiteBit { get; } = WhiteBitExchange.Metadata;
@@ -206,6 +212,7 @@ namespace CryptoClients.Net
             Polymarket,
             Toobit,
             Upbit,
+            Weex,
             WhiteBit,
             XT
         };

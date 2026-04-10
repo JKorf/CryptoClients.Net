@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
+using Weex.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
 
@@ -137,6 +138,10 @@ namespace CryptoClients.Net.Interfaces
         /// Upbit tracker factory
         /// </summary>
         IUpbitTrackerFactory Upbit { get; }
+        /// <summary>
+        /// Weex tracker factory
+        /// </summary>
+        IWeexTrackerFactory Weex { get; }
         /// <summary>
         /// WhiteBit tracker factory
         /// </summary>

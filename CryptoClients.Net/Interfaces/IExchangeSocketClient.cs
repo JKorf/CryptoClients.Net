@@ -32,6 +32,7 @@ using CoinW.Net.Interfaces.Clients;
 using BloFin.Net.Interfaces.Clients;
 using Upbit.Net.Interfaces.Clients;
 using Polymarket.Net.Interfaces.Clients;
+using Weex.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -153,6 +154,10 @@ namespace CryptoClients.Net.Interfaces
         /// Upbit Websocket API
         /// </summary>
         IUpbitSocketClient Upbit { get; }
+        /// <summary>
+        /// Weex Websocket API
+        /// </summary>
+        IWeexSocketClient Weex { get; }
         /// <summary>
         /// WhiteBit Websocket API
         /// </summary>

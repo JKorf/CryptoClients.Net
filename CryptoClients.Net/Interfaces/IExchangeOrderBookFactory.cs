@@ -26,6 +26,7 @@ using Polymarket.Net.Interfaces;
 using System.Collections.Generic;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
+using Weex.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
 
@@ -140,6 +141,10 @@ namespace CryptoClients.Net.Interfaces
         /// WhiteBit order book factory
         /// </summary>
         IWhiteBitOrderBookFactory WhiteBit { get; }
+        /// <summary>
+        /// Weex order book factory
+        /// </summary>
+        IWeexOrderBookFactory Weex { get; }
         /// <summary>
         /// XT order book factory
         /// </summary>

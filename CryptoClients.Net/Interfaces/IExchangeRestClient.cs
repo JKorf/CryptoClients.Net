@@ -31,6 +31,7 @@ using BloFin.Net.Interfaces.Clients;
 using Upbit.Net.Interfaces.Clients;
 using Polymarket.Net.Interfaces.Clients;
 using System;
+using Weex.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -144,6 +145,10 @@ namespace CryptoClients.Net.Interfaces
         /// Upbit REST API
         /// </summary>
         IUpbitRestClient Upbit { get; }
+        /// <summary>
+        /// Weex REST API
+        /// </summary>
+        IWeexRestClient Weex { get; }
         /// <summary>
         /// WhiteBit REST API
         /// </summary>
