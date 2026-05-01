@@ -338,6 +338,9 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 4.9.0 - 01 May 2026
+    * Updated client library versions
+
 * Version 4.8.1 - 10 Apr 2026
     * Fixed Weex.Net reference version
 
