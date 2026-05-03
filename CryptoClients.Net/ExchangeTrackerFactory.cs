@@ -232,7 +232,7 @@ namespace CryptoClients.Net
             if (!factory.CanCreateKlineTracker(symbol, interval))
                 return null;
 
-            return factory.CreateKlineTracker(symbol, interval);
+            return factory.CreateKlineTracker(symbol, interval, limit, period);
         }
 
         /// <inheritdoc />
@@ -245,7 +245,7 @@ namespace CryptoClients.Net
             if (!factory.CanCreateTradeTracker(symbol))
                 return null;
 
-            return factory.CreateTradeTracker(symbol);
+            return factory.CreateTradeTracker(symbol, limit, period);
         }
 
         /// <inheritdoc />
