@@ -338,6 +338,10 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 4.9.1 - 03 May 2026
+    * Updated BloFin and Mexc patch versions
+    * Fixed limit and period parameters not getting passed to the actual factory in ExchangeTrackerFactory.CreateTradeTracker and CreateKlineTracker
+
 * Version 4.9.0 - 01 May 2026
     * Updated client library versions
 
