@@ -269,7 +269,39 @@ namespace CryptoClients.Net
             Action<UpbitSocketOptions>? upbitSocketOptions = null,
             Action<WeexSocketOptions>? weexSocketOptions = null,
             Action<WhiteBitSocketOptions>? whiteBitSocketOptions = null,
-            Action<XTSocketOptions>? xtSocketOptions = null)
+            Action<XTSocketOptions>? xtSocketOptions = null) :
+            this(
+                null,
+                Options.Create(ApplyOptionsDelegate(globalOptions)),
+                Options.Create(ApplyOptionsDelegate(asterSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(binanceSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(bingxSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(bitfinexSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(bitgetSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(bitMartSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(bitMEXSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(bloFinSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(bitstampSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(bybitSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(coinExSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(coinWSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(coinbaseSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(cryptoComSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(deepCoinSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(gateIoSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(htxSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(hyperLiquidSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(krakenSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(kucoinSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(mexcSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(okxSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(polymarketSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(toobitSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(upbitSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(weexSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(whiteBitSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(xtSocketOptions))
+                )
         {
         }
 
@@ -667,6 +699,16 @@ namespace CryptoClients.Net
                 XT.UnsubscribeAllAsync()
             };
             await Task.WhenAll(tasks).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Apply the options delegate to a new options instance
+        /// </summary>
+        protected static T ApplyOptionsDelegate<T>(Action<T>? del) where T : new()
+        {
+            var opts = new T();
+            del?.Invoke(opts);
+            return opts;
         }
     }
 }

@@ -691,7 +691,6 @@ namespace CryptoClients.Net
             return futuresClient?.GenerateClientOrderId();            
         }
 
-
         /// <summary>
         /// Apply the options delegate to a new options instance
         /// </summary>
