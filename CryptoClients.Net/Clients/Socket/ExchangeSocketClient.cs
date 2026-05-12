@@ -125,6 +125,8 @@ using Weex.Net.Objects.Options;
 using Weex.Net.Clients;
 using Weex.Net.Interfaces.Clients;
 using Weex.Net;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
 namespace CryptoClients.Net
 {
@@ -269,108 +271,135 @@ namespace CryptoClients.Net
             Action<WhiteBitSocketOptions>? whiteBitSocketOptions = null,
             Action<XTSocketOptions>? xtSocketOptions = null)
         {
-            Action<TOptions> SetGlobalSocketOptionsBase<TOptions, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TEnvironment environment)
-                where TOptions : SocketExchangeOptions<TEnvironment>
+        }
+
+        /// <summary>
+        /// Create a new ExchangeSocketClient instance
+        /// </summary>
+        public ExchangeSocketClient(
+            ILoggerFactory? loggerFactory = null,
+            IOptions<GlobalExchangeOptions>? globalOptions = null,
+            IOptions<AsterSocketOptions>? asterSocketOptions = null,
+            IOptions<BinanceSocketOptions>? binanceSocketOptions = null,
+            IOptions<BingXSocketOptions>? bingxSocketOptions = null,
+            IOptions<BitfinexSocketOptions>? bitfinexSocketOptions = null,
+            IOptions<BitgetSocketOptions>? bitgetSocketOptions = null,
+            IOptions<BitMartSocketOptions>? bitMartSocketOptions = null,
+            IOptions<BitMEXSocketOptions>? bitMEXSocketOptions = null,
+            IOptions<BloFinSocketOptions>? bloFinSocketOptions = null,
+            IOptions<BitstampSocketOptions>? bitstampSocketOptions = null,
+            IOptions<BybitSocketOptions>? bybitSocketOptions = null,
+            IOptions<CoinExSocketOptions>? coinExSocketOptions = null,
+            IOptions<CoinWSocketOptions>? coinWSocketOptions = null,
+            IOptions<CoinbaseSocketOptions>? coinbaseSocketOptions = null,
+            IOptions<CryptoComSocketOptions>? cryptoComSocketOptions = null,
+            IOptions<DeepCoinSocketOptions>? deepCoinSocketOptions = null,
+            IOptions<GateIoSocketOptions>? gateIoSocketOptions = null,
+            IOptions<HTXSocketOptions>? htxSocketOptions = null,
+            IOptions<HyperLiquidSocketOptions>? hyperLiquidSocketOptions = null,
+            IOptions<KrakenSocketOptions>? krakenSocketOptions = null,
+            IOptions<KucoinSocketOptions>? kucoinSocketOptions = null,
+            IOptions<MexcSocketOptions>? mexcSocketOptions = null,
+            IOptions<OKXSocketOptions>? okxSocketOptions = null,
+            IOptions<PolymarketSocketOptions>? polymarketSocketOptions = null,
+            IOptions<ToobitSocketOptions>? toobitSocketOptions = null,
+            IOptions<UpbitSocketOptions>? upbitSocketOptions = null,
+            IOptions<WeexSocketOptions>? weexSocketOptions = null,
+            IOptions<WhiteBitSocketOptions>? whiteBitSocketOptions = null,
+            IOptions<XTSocketOptions>? xtSocketOptions = null)
+        {
+            TOptions SetGlobalSocketOptionsBase<TOptions, TEnvironment>(GlobalExchangeOptions globalOptions, TOptions? socketOptions, TEnvironment environment)
+                where TOptions : SocketExchangeOptions<TEnvironment>, new()
                 where TEnvironment : TradeEnvironment
             {
-                var socketDelegate = (TOptions socketOptions) =>
-                {
-                    socketOptions.Proxy = globalOptions.Proxy;
-                    socketOptions.Environment = environment;
-                    socketOptions.OutputOriginalData = globalOptions.OutputOriginalData ?? socketOptions.OutputOriginalData;
-                    socketOptions.RequestTimeout = globalOptions.RequestTimeout ?? socketOptions.RequestTimeout;
-                    socketOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled ?? socketOptions.RateLimiterEnabled;
-                    socketOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour ?? socketOptions.RateLimitingBehaviour;
-                    socketOptions.ReconnectPolicy = globalOptions.ReconnectPolicy ?? socketOptions.ReconnectPolicy;
-                    socketOptions.ReconnectInterval = globalOptions.ReconnectInterval ?? socketOptions.ReconnectInterval;
-                    exchangeDelegate?.Invoke(socketOptions);
-                };
-
-                return socketDelegate;
+                socketOptions ??= new();
+                socketOptions.Proxy = globalOptions.Proxy;
+                socketOptions.Environment = environment;
+                socketOptions.OutputOriginalData = globalOptions.OutputOriginalData ?? socketOptions.OutputOriginalData;
+                socketOptions.RequestTimeout = globalOptions.RequestTimeout ?? socketOptions.RequestTimeout;
+                socketOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled ?? socketOptions.RateLimiterEnabled;
+                socketOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour ?? socketOptions.RateLimitingBehaviour;
+                socketOptions.ReconnectPolicy = globalOptions.ReconnectPolicy ?? socketOptions.ReconnectPolicy;
+                socketOptions.ReconnectInterval = globalOptions.ReconnectInterval ?? socketOptions.ReconnectInterval;
+                   
+                return socketOptions;
             }
 
 
-            Action<TOptions> SetGlobalSocketOptions<TOptions, TCredentials, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials, TEnvironment environment)
-                where TOptions : SocketExchangeOptions<TEnvironment, TCredentials>
+            IOptions<TOptions> SetGlobalSocketOptions<TOptions, TCredentials, TEnvironment>(GlobalExchangeOptions globalOptions, TOptions? socketOptions, TCredentials? credentials, TEnvironment environment)
+                where TOptions : SocketExchangeOptions<TEnvironment, TCredentials>, new()
                 where TCredentials : ApiCredentials
                 where TEnvironment : TradeEnvironment
             {
-                var socketDelegate = (TOptions socketOptions) =>
-                {
-                    SetGlobalSocketOptionsBase(globalOptions, exchangeDelegate, environment)(socketOptions);
-
-                    socketOptions.ApiCredentials = credentials;
-                    exchangeDelegate?.Invoke(socketOptions);
-                };
-
-                return socketDelegate;
+                SetGlobalSocketOptionsBase(globalOptions, socketOptions, environment);
+                socketOptions!.ApiCredentials = credentials;
+                return Options.Create(socketOptions);
             }
 
             if (globalOptions != null)
             {
-                var global = new GlobalExchangeOptions();
-                globalOptions.Invoke(global);
+                var global = globalOptions.Value;
 
                 ExchangeCredentials? credentials = global.ApiCredentials;
                 Dictionary<string, string?>? environments = global.ApiEnvironments;
-                asterSocketOptions = SetGlobalSocketOptions(global, asterSocketOptions, credentials?.Aster, environments?.TryGetValue(Exchange.Aster, out var asterEnvName) == true ? AsterEnvironment.GetEnvironmentByName(asterEnvName)! : AsterEnvironment.Live);
-                binanceSocketOptions = SetGlobalSocketOptions(global, binanceSocketOptions, credentials?.Binance, environments?.TryGetValue(Exchange.Binance, out var binanceEnvName) == true ? BinanceEnvironment.GetEnvironmentByName(binanceEnvName)! : BinanceEnvironment.Live);
-                bingxSocketOptions = SetGlobalSocketOptions(global, bingxSocketOptions, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingXEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingXEnvName)! : BingXEnvironment.Live);
-                bitfinexSocketOptions = SetGlobalSocketOptions(global, bitfinexSocketOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
-                bitgetSocketOptions = SetGlobalSocketOptions(global, bitgetSocketOptions, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
-                bitMartSocketOptions = SetGlobalSocketOptions(global, bitMartSocketOptions, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
-                bitMEXSocketOptions = SetGlobalSocketOptions(global, bitMEXSocketOptions, credentials?.BitMEX, environments?.TryGetValue(Exchange.BitMEX, out var bitMEXEnvName) == true ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnvName)! : BitMEXEnvironment.Live);
-                bitstampSocketOptions = SetGlobalSocketOptions(global, bitstampSocketOptions, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : BitstampEnvironment.Live);
-                bloFinSocketOptions = SetGlobalSocketOptions(global, bloFinSocketOptions, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
-                bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
-                coinbaseSocketOptions = SetGlobalSocketOptions(global, coinbaseSocketOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
-                coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
-                coinWSocketOptions = SetGlobalSocketOptions(global, coinWSocketOptions, credentials?.CoinW, environments?.TryGetValue(Exchange.CoinW, out var coinWEnvName) == true ? CoinWEnvironment.GetEnvironmentByName(coinWEnvName)! : CoinWEnvironment.Live);
-                cryptoComSocketOptions = SetGlobalSocketOptions(global, cryptoComSocketOptions, credentials?.CryptoCom, environments?.TryGetValue(Exchange.CryptoCom, out var cryptoComEnvName) == true ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnvName)! : CryptoComEnvironment.Live);
-                deepCoinSocketOptions = SetGlobalSocketOptions(global, deepCoinSocketOptions, credentials?.DeepCoin, environments?.TryGetValue(Exchange.DeepCoin, out var deepCoinEnvName) == true ? DeepCoinEnvironment.GetEnvironmentByName(deepCoinEnvName)! : DeepCoinEnvironment.Live);
-                gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions, credentials?.GateIo, environments?.TryGetValue(Exchange.GateIo, out var gateIoEnvName) == true ? GateIoEnvironment.GetEnvironmentByName(gateIoEnvName)! : GateIoEnvironment.Live);
-                htxSocketOptions = SetGlobalSocketOptions(global, htxSocketOptions, credentials?.HTX, environments?.TryGetValue(Exchange.HTX, out var htxEnvName) == true ? HTXEnvironment.GetEnvironmentByName(htxEnvName)! : HTXEnvironment.Live);
-                hyperLiquidSocketOptions = SetGlobalSocketOptions(global, hyperLiquidSocketOptions, credentials?.HyperLiquid, environments?.TryGetValue(Exchange.HyperLiquid, out var hyperLiquidEnvName) == true ? HyperLiquidEnvironment.GetEnvironmentByName(hyperLiquidEnvName)! : HyperLiquidEnvironment.Live);
-                krakenSocketOptions = SetGlobalSocketOptions(global, krakenSocketOptions, credentials?.Kraken, environments?.TryGetValue(Exchange.Kraken, out var krakenEnvName) == true ? KrakenEnvironment.GetEnvironmentByName(krakenEnvName)! : KrakenEnvironment.Live);
-                kucoinSocketOptions = SetGlobalSocketOptions(global, kucoinSocketOptions, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
-                mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
-                okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
-                polymarketSocketOptions = SetGlobalSocketOptions(global, polymarketSocketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
-                toobitSocketOptions = SetGlobalSocketOptions(global, toobitSocketOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
-                upbitSocketOptions = SetGlobalSocketOptionsBase(global, upbitSocketOptions, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
-                weexSocketOptions = SetGlobalSocketOptions(global, weexSocketOptions, credentials?.Weex, environments?.TryGetValue(Exchange.Weex, out var weexEnvName) == true ? WeexEnvironment.GetEnvironmentByName(weexEnvName)! : WeexEnvironment.Live);
-                whiteBitSocketOptions = SetGlobalSocketOptions(global, whiteBitSocketOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
-                xtSocketOptions = SetGlobalSocketOptions(global, xtSocketOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
+                asterSocketOptions = SetGlobalSocketOptions(global, asterSocketOptions?.Value, credentials?.Aster, environments?.TryGetValue(Exchange.Aster, out var asterEnvName) == true ? AsterEnvironment.GetEnvironmentByName(asterEnvName)! : AsterEnvironment.Live);
+                binanceSocketOptions = SetGlobalSocketOptions(global, binanceSocketOptions?.Value, credentials?.Binance, environments?.TryGetValue(Exchange.Binance, out var binanceEnvName) == true ? BinanceEnvironment.GetEnvironmentByName(binanceEnvName)! : BinanceEnvironment.Live);
+                bingxSocketOptions = SetGlobalSocketOptions(global, bingxSocketOptions?.Value, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingXEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingXEnvName)! : BingXEnvironment.Live);
+                bitfinexSocketOptions = SetGlobalSocketOptions(global, bitfinexSocketOptions?.Value, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
+                bitgetSocketOptions = SetGlobalSocketOptions(global, bitgetSocketOptions?.Value, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
+                bitMartSocketOptions = SetGlobalSocketOptions(global, bitMartSocketOptions?.Value, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
+                bitMEXSocketOptions = SetGlobalSocketOptions(global, bitMEXSocketOptions?.Value, credentials?.BitMEX, environments?.TryGetValue(Exchange.BitMEX, out var bitMEXEnvName) == true ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnvName)! : BitMEXEnvironment.Live);
+                bitstampSocketOptions = SetGlobalSocketOptions(global, bitstampSocketOptions?.Value, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : BitstampEnvironment.Live);
+                bloFinSocketOptions = SetGlobalSocketOptions(global, bloFinSocketOptions?.Value, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
+                bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions?.Value, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
+                coinbaseSocketOptions = SetGlobalSocketOptions(global, coinbaseSocketOptions?.Value, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
+                coinExSocketOptions = SetGlobalSocketOptions(global, coinExSocketOptions?.Value, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
+                coinWSocketOptions = SetGlobalSocketOptions(global, coinWSocketOptions?.Value, credentials?.CoinW, environments?.TryGetValue(Exchange.CoinW, out var coinWEnvName) == true ? CoinWEnvironment.GetEnvironmentByName(coinWEnvName)! : CoinWEnvironment.Live);
+                cryptoComSocketOptions = SetGlobalSocketOptions(global, cryptoComSocketOptions?.Value, credentials?.CryptoCom, environments?.TryGetValue(Exchange.CryptoCom, out var cryptoComEnvName) == true ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnvName)! : CryptoComEnvironment.Live);
+                deepCoinSocketOptions = SetGlobalSocketOptions(global, deepCoinSocketOptions?.Value, credentials?.DeepCoin, environments?.TryGetValue(Exchange.DeepCoin, out var deepCoinEnvName) == true ? DeepCoinEnvironment.GetEnvironmentByName(deepCoinEnvName)! : DeepCoinEnvironment.Live);
+                gateIoSocketOptions = SetGlobalSocketOptions(global, gateIoSocketOptions?.Value, credentials?.GateIo, environments?.TryGetValue(Exchange.GateIo, out var gateIoEnvName) == true ? GateIoEnvironment.GetEnvironmentByName(gateIoEnvName)! : GateIoEnvironment.Live);
+                htxSocketOptions = SetGlobalSocketOptions(global, htxSocketOptions?.Value, credentials?.HTX, environments?.TryGetValue(Exchange.HTX, out var htxEnvName) == true ? HTXEnvironment.GetEnvironmentByName(htxEnvName)! : HTXEnvironment.Live);
+                hyperLiquidSocketOptions = SetGlobalSocketOptions(global, hyperLiquidSocketOptions?.Value, credentials?.HyperLiquid, environments?.TryGetValue(Exchange.HyperLiquid, out var hyperLiquidEnvName) == true ? HyperLiquidEnvironment.GetEnvironmentByName(hyperLiquidEnvName)! : HyperLiquidEnvironment.Live);
+                krakenSocketOptions = SetGlobalSocketOptions(global, krakenSocketOptions?.Value, credentials?.Kraken, environments?.TryGetValue(Exchange.Kraken, out var krakenEnvName) == true ? KrakenEnvironment.GetEnvironmentByName(krakenEnvName)! : KrakenEnvironment.Live);
+                kucoinSocketOptions = SetGlobalSocketOptions(global, kucoinSocketOptions?.Value, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
+                mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions?.Value, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
+                okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions?.Value, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
+                polymarketSocketOptions = SetGlobalSocketOptions(global, polymarketSocketOptions?.Value, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
+                toobitSocketOptions = SetGlobalSocketOptions(global, toobitSocketOptions?.Value, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
+                upbitSocketOptions = Options.Create(SetGlobalSocketOptionsBase(global, upbitSocketOptions?.Value, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live) ?? new UpbitSocketOptions());
+                weexSocketOptions = SetGlobalSocketOptions(global, weexSocketOptions?.Value, credentials?.Weex, environments?.TryGetValue(Exchange.Weex, out var weexEnvName) == true ? WeexEnvironment.GetEnvironmentByName(weexEnvName)! : WeexEnvironment.Live);
+                whiteBitSocketOptions = SetGlobalSocketOptions(global, whiteBitSocketOptions?.Value, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
+                xtSocketOptions = SetGlobalSocketOptions(global, xtSocketOptions?.Value, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
 
-            Aster = new AsterSocketClient(asterSocketOptions ?? new Action<AsterSocketOptions>((x) => { }));
-            Binance = new BinanceSocketClient(binanceSocketOptions ?? new Action<BinanceSocketOptions>((x) => { }));
-            BingX = new BingXSocketClient(bingxSocketOptions ?? new Action<BingXSocketOptions>((x) => { }));
-            Bitfinex = new BitfinexSocketClient(bitfinexSocketOptions ?? new Action<BitfinexSocketOptions>((x) => { }));
-            Bitget = new BitgetSocketClient(bitgetSocketOptions ?? new Action<BitgetSocketOptions>((x) => { }));
-            BitMart = new BitMartSocketClient(bitMartSocketOptions ?? new Action<BitMartSocketOptions>((x) => { }));
-            BitMEX = new BitMEXSocketClient(bitMEXSocketOptions ?? new Action<BitMEXSocketOptions>((x) => { }));
-            Bitstamp = new BitstampSocketClient(bitstampSocketOptions ?? new Action<BitstampSocketOptions>((x) => { }));
-            BloFin = new BloFinSocketClient(bloFinSocketOptions ?? new Action<BloFinSocketOptions>((x) => { }));
-            Bybit = new BybitSocketClient(bybitSocketOptions ?? new Action<BybitSocketOptions>((x) => { }));
-            Coinbase = new CoinbaseSocketClient(coinbaseSocketOptions ?? new Action<CoinbaseSocketOptions>((x) => { }));
-            CoinEx = new CoinExSocketClient(coinExSocketOptions ?? new Action<CoinExSocketOptions>((x) => { }));
-            CoinW = new CoinWSocketClient(coinWSocketOptions ?? new Action<CoinWSocketOptions>((x) => { }));
-            HTX = new HTXSocketClient(htxSocketOptions ?? new Action<HTXSocketOptions>((x) => { }));
-            HyperLiquid = new HyperLiquidSocketClient(hyperLiquidSocketOptions ?? new Action<HyperLiquidSocketOptions>((x) => { }));
-            CryptoCom = new CryptoComSocketClient(cryptoComSocketOptions ?? new Action<CryptoComSocketOptions>((x) => { }));
-            DeepCoin = new DeepCoinSocketClient(deepCoinSocketOptions ?? new Action<DeepCoinSocketOptions>((x) => { }));
-            GateIo = new GateIoSocketClient(gateIoSocketOptions ?? new Action<GateIoSocketOptions>((x) => { }));
-            Kraken = new KrakenSocketClient(krakenSocketOptions ?? new Action<KrakenSocketOptions>((x) => { }));
-            Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? new Action<KucoinSocketOptions>((x) => { }));
-            Mexc = new MexcSocketClient(mexcSocketOptions ?? new Action<MexcSocketOptions>((x) => { }));
-            OKX = new OKXSocketClient(okxSocketOptions ?? new Action<OKXSocketOptions>((x) => { }));
-            Polymarket = new PolymarketSocketClient(polymarketSocketOptions ?? new Action<PolymarketSocketOptions>((x) => { }));
-            Toobit = new ToobitSocketClient(toobitSocketOptions ?? new Action<ToobitSocketOptions>((x) => { }));
-            Upbit = new UpbitSocketClient(upbitSocketOptions ?? new Action<UpbitSocketOptions>((x) => { }));
-            Weex = new WeexSocketClient(weexSocketOptions ?? new Action<WeexSocketOptions>((x) => { }));
-            WhiteBit = new WhiteBitSocketClient(whiteBitSocketOptions ?? new Action<WhiteBitSocketOptions>((x) => { }));
-            XT = new XTSocketClient(xtSocketOptions ?? new Action<XTSocketOptions>((x) => { }));
+            Aster = new AsterSocketClient(asterSocketOptions ?? Options.Create(new AsterSocketOptions()), loggerFactory);
+            Binance = new BinanceSocketClient(binanceSocketOptions ?? Options.Create(new BinanceSocketOptions()), loggerFactory);
+            BingX = new BingXSocketClient(bingxSocketOptions ?? Options.Create(new BingXSocketOptions()), loggerFactory);
+            Bitfinex = new BitfinexSocketClient(bitfinexSocketOptions ?? Options.Create(new BitfinexSocketOptions()), loggerFactory);
+            Bitget = new BitgetSocketClient(bitgetSocketOptions ?? Options.Create(new BitgetSocketOptions()), loggerFactory);
+            BitMart = new BitMartSocketClient(bitMartSocketOptions ?? Options.Create(new BitMartSocketOptions()), loggerFactory);
+            BitMEX = new BitMEXSocketClient(bitMEXSocketOptions ?? Options.Create(new BitMEXSocketOptions()), loggerFactory);
+            Bitstamp = new BitstampSocketClient(bitstampSocketOptions ?? Options.Create(new BitstampSocketOptions()), loggerFactory);
+            BloFin = new BloFinSocketClient(bloFinSocketOptions ?? Options.Create(new BloFinSocketOptions()), loggerFactory);
+            Bybit = new BybitSocketClient(bybitSocketOptions ?? Options.Create(new BybitSocketOptions()), loggerFactory);
+            Coinbase = new CoinbaseSocketClient(coinbaseSocketOptions ?? Options.Create(new CoinbaseSocketOptions()), loggerFactory);
+            CoinEx = new CoinExSocketClient(coinExSocketOptions ?? Options.Create(new CoinExSocketOptions()), loggerFactory);
+            CoinW = new CoinWSocketClient(coinWSocketOptions ?? Options.Create(new CoinWSocketOptions()), loggerFactory);
+            HTX = new HTXSocketClient(htxSocketOptions  ?? Options.Create(new HTXSocketOptions()), loggerFactory);
+            HyperLiquid = new HyperLiquidSocketClient(hyperLiquidSocketOptions ?? Options.Create(new HyperLiquidSocketOptions()), loggerFactory);
+            CryptoCom = new CryptoComSocketClient(cryptoComSocketOptions ?? Options.Create(new CryptoComSocketOptions()), loggerFactory);
+            DeepCoin = new DeepCoinSocketClient(deepCoinSocketOptions ?? Options.Create(new DeepCoinSocketOptions()), loggerFactory);
+            GateIo = new GateIoSocketClient(gateIoSocketOptions ?? Options.Create(new GateIoSocketOptions()), loggerFactory);
+            Kraken = new KrakenSocketClient(krakenSocketOptions ?? Options.Create(new KrakenSocketOptions()), loggerFactory);
+            Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? Options.Create(new KucoinSocketOptions()), loggerFactory);
+            Mexc = new MexcSocketClient(mexcSocketOptions ?? Options.Create(new MexcSocketOptions()), loggerFactory);
+            OKX = new OKXSocketClient(okxSocketOptions ?? Options.Create(new OKXSocketOptions()), loggerFactory);
+            Polymarket = new PolymarketSocketClient(polymarketSocketOptions ?? Options.Create(new PolymarketSocketOptions()), loggerFactory);
+            Toobit = new ToobitSocketClient(toobitSocketOptions ?? Options.Create(new ToobitSocketOptions()), loggerFactory);
+            Upbit = new UpbitSocketClient(upbitSocketOptions ?? Options.Create(new UpbitSocketOptions()), loggerFactory);
+            Weex = new WeexSocketClient(weexSocketOptions ?? Options.Create(new WeexSocketOptions()), loggerFactory);
+            WhiteBit = new WhiteBitSocketClient(whiteBitSocketOptions ?? Options.Create(new WhiteBitSocketOptions()), loggerFactory);
+            XT = new XTSocketClient(xtSocketOptions ?? Options.Create(new XTSocketOptions()), loggerFactory);
 
             InitSharedClients();
         }

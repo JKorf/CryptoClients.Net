@@ -26,6 +26,10 @@ using BitMEX.Net;
 using BitMEX.Net.Clients;
 using BitMEX.Net.Interfaces.Clients;
 using BitMEX.Net.Objects.Options;
+using Bitstamp.Net;
+using Bitstamp.Net.Clients;
+using Bitstamp.Net.Interfaces.Clients;
+using Bitstamp.Net.Objects.Options;
 using BloFin.Net;
 using BloFin.Net.Clients;
 using BloFin.Net.Interfaces.Clients;
@@ -41,10 +45,15 @@ using Coinbase.Net.Objects.Options;
 using CoinEx.Net;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Interfaces.Clients;
+using CoinEx.Net.Objects.Options;
+using CoinGecko.Net;
+using CoinGecko.Net.Clients;
+using CoinGecko.Net.Interfaces;
+using CoinGecko.Net.Objects.Options;
 using CoinW.Net;
 using CoinW.Net.Clients;
 using CoinW.Net.Interfaces.Clients;
-using CoinEx.Net.Objects.Options;
+using CoinW.Net.Objects.Options;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
@@ -53,6 +62,8 @@ using CryptoCom.Net.Clients;
 using CryptoCom.Net.Interfaces.Clients;
 using CryptoCom.Net.Objects.Options;
 using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Interfaces;
+using CryptoExchange.Net.Interfaces.Clients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
 using CryptoExchange.Net.SharedApis;
@@ -84,10 +95,23 @@ using Mexc.Net;
 using Mexc.Net.Clients;
 using Mexc.Net.Interfaces.Clients;
 using Mexc.Net.Objects.Options;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
+using Polymarket.Net;
+using Polymarket.Net.Clients;
+using Polymarket.Net.Interfaces.Clients;
+using Polymarket.Net.Objects.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Toobit.Net;
 using Toobit.Net.Clients;
 using Toobit.Net.Interfaces.Clients;
@@ -96,11 +120,10 @@ using Upbit.Net;
 using Upbit.Net.Clients;
 using Upbit.Net.Interfaces.Clients;
 using Upbit.Net.Objects.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using Weex.Net;
+using Weex.Net.Clients;
+using Weex.Net.Interfaces.Clients;
+using Weex.Net.Objects.Options;
 using WhiteBit.Net;
 using WhiteBit.Net.Clients;
 using WhiteBit.Net.Interfaces.Clients;
@@ -109,25 +132,6 @@ using XT.Net;
 using XT.Net.Clients;
 using XT.Net.Interfaces.Clients;
 using XT.Net.Objects.Options;
-using CryptoExchange.Net.Interfaces;
-using CoinW.Net.Objects.Options;
-using CryptoExchange.Net.Interfaces.Clients;
-using Polymarket.Net.Interfaces.Clients;
-using Polymarket.Net.Clients;
-using Polymarket.Net.Objects.Options;
-using Polymarket.Net;
-using Bitstamp.Net.Interfaces.Clients;
-using Bitstamp.Net.Objects.Options;
-using Bitstamp.Net.Clients;
-using Bitstamp.Net;
-using CoinGecko.Net.Interfaces;
-using CoinGecko.Net;
-using CoinGecko.Net.Clients;
-using CoinGecko.Net.Objects.Options;
-using Weex.Net.Interfaces.Clients;
-using Weex.Net;
-using Weex.Net.Clients;
-using Weex.Net.Objects.Options;
 
 namespace CryptoClients.Net
 {
@@ -270,110 +274,176 @@ namespace CryptoClients.Net
             Action<UpbitRestOptions>? upbitRestOptions = null,
             Action<WeexRestOptions>? weexRestOptions = null,
             Action<WhiteBitRestOptions>? whiteBitRestOptions = null,
-            Action<XTRestOptions>? xtRestOptions = null)
+            Action<XTRestOptions>? xtRestOptions = null) :
+            this(null,
+                null,
+                Options.Create(ApplyOptionsDelegate(globalOptions)),
+                Options.Create(ApplyOptionsDelegate(asterRestOptions)),
+                Options.Create(ApplyOptionsDelegate(binanceRestOptions)),
+                Options.Create(ApplyOptionsDelegate(bingxRestOptions)),
+                Options.Create(ApplyOptionsDelegate(bitfinexRestOptions)),
+                Options.Create(ApplyOptionsDelegate(bitgetRestOptions)),
+                Options.Create(ApplyOptionsDelegate(bitMartRestOptions)),
+                Options.Create(ApplyOptionsDelegate(bitMEXRestOptions)),
+                Options.Create(ApplyOptionsDelegate(bitstampRestOptions)),
+                Options.Create(ApplyOptionsDelegate(bloFinRestOptions)),
+                Options.Create(ApplyOptionsDelegate(bybitRestOptions)),
+                Options.Create(ApplyOptionsDelegate(coinbaseRestOptions)),
+                Options.Create(ApplyOptionsDelegate(coinExRestOptions)),
+                Options.Create(ApplyOptionsDelegate(coinGeckoRestOptions)),
+                Options.Create(ApplyOptionsDelegate(coinWRestOptions)),
+                Options.Create(ApplyOptionsDelegate(cryptoComRestOptions)),
+                Options.Create(ApplyOptionsDelegate(deepCoinRestOptions)),
+                Options.Create(ApplyOptionsDelegate(gateIoRestOptions)),
+                Options.Create(ApplyOptionsDelegate(htxRestOptions)),
+                Options.Create(ApplyOptionsDelegate(hyperLiquidRestOptions)),
+                Options.Create(ApplyOptionsDelegate(krakenRestOptions)),
+                Options.Create(ApplyOptionsDelegate(kucoinRestOptions)),
+                Options.Create(ApplyOptionsDelegate(mexcRestOptions)),
+                Options.Create(ApplyOptionsDelegate(okxRestOptions)),
+                Options.Create(ApplyOptionsDelegate(polymarketRestOptions)),
+                Options.Create(ApplyOptionsDelegate(toobitRestOptions)),
+                Options.Create(ApplyOptionsDelegate(upbitRestOptions)),
+                Options.Create(ApplyOptionsDelegate(weexRestOptions)),
+                Options.Create(ApplyOptionsDelegate(whiteBitRestOptions)),
+                Options.Create(ApplyOptionsDelegate(xtRestOptions))
+                )
         {
-            Action<TOptions> SetGlobalRestOptionsBase<TOptions, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TEnvironment environment)
-                where TOptions : RestExchangeOptions<TEnvironment>
+        }
+
+        /// <summary>
+        /// Create a new ExchangeRestClient instance
+        /// </summary>
+        public ExchangeRestClient(
+            HttpClient? httpClient = null,
+            ILoggerFactory? loggerFactory = null,
+            IOptions<GlobalExchangeOptions>? globalOptions = null,
+            IOptions<AsterRestOptions>? asterRestOptions = null,
+            IOptions<BinanceRestOptions>? binanceRestOptions = null,
+            IOptions<BingXRestOptions>? bingxRestOptions = null,
+            IOptions<BitfinexRestOptions>? bitfinexRestOptions = null,
+            IOptions<BitgetRestOptions>? bitgetRestOptions = null,
+            IOptions<BitMartRestOptions>? bitMartRestOptions = null,
+            IOptions<BitMEXRestOptions>? bitMEXRestOptions = null,
+            IOptions<BitstampRestOptions>? bitstampRestOptions = null,
+            IOptions<BloFinRestOptions>? bloFinRestOptions = null,
+            IOptions<BybitRestOptions>? bybitRestOptions = null,
+            IOptions<CoinbaseRestOptions>? coinbaseRestOptions = null,
+            IOptions<CoinExRestOptions>? coinExRestOptions = null,
+            IOptions<CoinGeckoRestOptions>? coinGeckoRestOptions = null,
+            IOptions<CoinWRestOptions>? coinWRestOptions = null,
+            IOptions<CryptoComRestOptions>? cryptoComRestOptions = null,
+            IOptions<DeepCoinRestOptions>? deepCoinRestOptions = null,
+            IOptions<GateIoRestOptions>? gateIoRestOptions = null,
+            IOptions<HTXRestOptions>? htxRestOptions = null,
+            IOptions<HyperLiquidRestOptions>? hyperLiquidRestOptions = null,
+            IOptions<KrakenRestOptions>? krakenRestOptions = null,
+            IOptions<KucoinRestOptions>? kucoinRestOptions = null,
+            IOptions<MexcRestOptions>? mexcRestOptions = null,
+            IOptions<OKXRestOptions>? okxRestOptions = null,
+            IOptions<PolymarketRestOptions>? polymarketRestOptions = null,
+            IOptions<ToobitRestOptions>? toobitRestOptions = null,
+            IOptions<UpbitRestOptions>? upbitRestOptions = null,
+            IOptions<WeexRestOptions>? weexRestOptions = null,
+            IOptions<WhiteBitRestOptions>? whiteBitRestOptions = null,
+            IOptions<XTRestOptions>? xtRestOptions = null)
+        {
+            TOptions SetGlobalRestOptionsBase<TOptions, TEnvironment>(GlobalExchangeOptions globalOptions, TOptions? restOptions, TEnvironment environment)
+                where TOptions : RestExchangeOptions<TEnvironment>, new()
                 where TEnvironment : TradeEnvironment
             {
-                var restDelegate = (TOptions restOptions) =>
-                {
-                    restOptions.Proxy = restOptions.Proxy ?? globalOptions.Proxy;
-                    restOptions.OutputOriginalData = globalOptions.OutputOriginalData ?? restOptions.OutputOriginalData;
-                    restOptions.RequestTimeout = globalOptions.RequestTimeout ?? restOptions.RequestTimeout;
-                    restOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled ?? restOptions.RateLimiterEnabled;
-                    restOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour ?? restOptions.RateLimitingBehaviour;
-                    restOptions.CachingEnabled = globalOptions.CachingEnabled ?? restOptions.CachingEnabled;
-                    restOptions.Environment = environment;
-                    exchangeDelegate?.Invoke(restOptions);
-                };
+                // Create API options if not already provided
+                // Set global options on API options
+                // Set exchange options on API options
+                restOptions ??= new();
+                restOptions.Proxy = restOptions.Proxy ?? globalOptions.Proxy;
+                restOptions.OutputOriginalData = globalOptions.OutputOriginalData ?? restOptions.OutputOriginalData;
+                restOptions.RequestTimeout = globalOptions.RequestTimeout ?? restOptions.RequestTimeout;
+                restOptions.RateLimiterEnabled = globalOptions.RateLimiterEnabled ?? restOptions.RateLimiterEnabled;
+                restOptions.RateLimitingBehaviour = globalOptions.RateLimitingBehaviour ?? restOptions.RateLimitingBehaviour;
+                restOptions.CachingEnabled = globalOptions.CachingEnabled ?? restOptions.CachingEnabled;
+                restOptions.Environment = environment;                
 
-                return restDelegate;
+                return restOptions;
             }
 
-            Action<TOptions> SetGlobalRestOptions<TOptions, TCredentials, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TCredentials? credentials, TEnvironment environment) 
-                where TOptions : RestExchangeOptions<TEnvironment, TCredentials> 
+            IOptions<TOptions> SetGlobalRestOptions<TOptions, TCredentials, TEnvironment>(GlobalExchangeOptions globalOptions, TOptions? restOptions, TCredentials? credentials, TEnvironment environment) 
+                where TOptions : RestExchangeOptions<TEnvironment, TCredentials>, new()
                 where TCredentials : ApiCredentials 
                 where TEnvironment : TradeEnvironment
             {
-                var restDelegate = (TOptions restOptions) =>
-                {
-                    SetGlobalRestOptionsBase(globalOptions, exchangeDelegate, environment)(restOptions);
 
-                    restOptions.ApiCredentials = credentials;
-                    exchangeDelegate?.Invoke(restOptions);
-                };
-
-                return restDelegate;
+                SetGlobalRestOptionsBase<TOptions, TEnvironment>(globalOptions, restOptions, environment);
+                restOptions!.ApiCredentials = credentials;
+                return Options.Create<TOptions>(restOptions);
             }
 
             if (globalOptions != null)
             {
-                var global = new GlobalExchangeOptions();
-                globalOptions.Invoke(global);
+                var global = globalOptions.Value;
 
                 ExchangeCredentials? credentials = global.ApiCredentials;
                 Dictionary<string, string?>? environments = global.ApiEnvironments;
-                asterRestOptions = SetGlobalRestOptions(global, asterRestOptions, credentials?.Aster, environments?.TryGetValue(Exchange.Aster, out var asterEnvName) == true ? AsterEnvironment.GetEnvironmentByName(asterEnvName)!: AsterEnvironment.Live);
-                binanceRestOptions = SetGlobalRestOptions(global, binanceRestOptions, credentials?.Binance, environments?.TryGetValue(Exchange.Binance, out var binanceEnvName) == true ? BinanceEnvironment.GetEnvironmentByName(binanceEnvName)!: BinanceEnvironment.Live);
-                bingxRestOptions = SetGlobalRestOptions(global, bingxRestOptions, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingXEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingXEnvName)! : BingXEnvironment.Live);
-                bitfinexRestOptions = SetGlobalRestOptions(global, bitfinexRestOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
-                bitgetRestOptions = SetGlobalRestOptions(global, bitgetRestOptions, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
-                bitMartRestOptions = SetGlobalRestOptions(global, bitMartRestOptions, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
-                bitMEXRestOptions = SetGlobalRestOptions(global, bitMEXRestOptions, credentials?.BitMEX, environments?.TryGetValue(Exchange.BitMEX, out var bitMEXEnvName) == true ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnvName)! : BitMEXEnvironment.Live);
-                bitstampRestOptions = SetGlobalRestOptions(global, bitstampRestOptions, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : BitstampEnvironment.Live);
-                bloFinRestOptions = SetGlobalRestOptions(global, bloFinRestOptions, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
-                bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
-                coinbaseRestOptions = SetGlobalRestOptions(global, coinbaseRestOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
-                coinGeckoRestOptions = SetGlobalRestOptions(global, coinGeckoRestOptions, credentials?.CoinGecko, environments?.TryGetValue(Platform.CoinGecko, out var coinGeckoEnvName) == true ? CoinGeckoEnvironment.GetEnvironmentByName(coinGeckoEnvName)! : CoinGeckoEnvironment.Live);
-                coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
-                coinWRestOptions = SetGlobalRestOptions(global, coinWRestOptions, credentials?.CoinW, environments?.TryGetValue(Exchange.CoinW, out var coinWEnvName) == true ? CoinWEnvironment.GetEnvironmentByName(coinWEnvName)! : CoinWEnvironment.Live);
-                cryptoComRestOptions = SetGlobalRestOptions(global, cryptoComRestOptions, credentials?.CryptoCom, environments?.TryGetValue(Exchange.CryptoCom, out var cryptoComEnvName) == true ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnvName)! : CryptoComEnvironment.Live);
-                deepCoinRestOptions = SetGlobalRestOptions(global, deepCoinRestOptions, credentials?.DeepCoin, environments?.TryGetValue(Exchange.DeepCoin, out var deepCoinEnvName) == true ? DeepCoinEnvironment.GetEnvironmentByName(deepCoinEnvName)! : DeepCoinEnvironment.Live);
-                gateIoRestOptions = SetGlobalRestOptions(global, gateIoRestOptions, credentials?.GateIo, environments?.TryGetValue(Exchange.GateIo, out var gateIoEnvName) == true ? GateIoEnvironment.GetEnvironmentByName(gateIoEnvName)! : GateIoEnvironment.Live);
-                htxRestOptions = SetGlobalRestOptions(global, htxRestOptions, credentials?.HTX, environments?.TryGetValue(Exchange.HTX, out var htxEnvName) == true ? HTXEnvironment.GetEnvironmentByName(htxEnvName)! : HTXEnvironment.Live);
-                hyperLiquidRestOptions = SetGlobalRestOptions(global, hyperLiquidRestOptions, credentials?.HyperLiquid, environments?.TryGetValue(Exchange.HyperLiquid, out var hyperLiquidEnvName) == true ? HyperLiquidEnvironment.GetEnvironmentByName(hyperLiquidEnvName)! : HyperLiquidEnvironment.Live);
-                krakenRestOptions = SetGlobalRestOptions(global, krakenRestOptions, credentials?.Kraken, environments?.TryGetValue(Exchange.Kraken, out var krakenEnvName) == true ? KrakenEnvironment.GetEnvironmentByName(krakenEnvName)! : KrakenEnvironment.Live);
-                kucoinRestOptions = SetGlobalRestOptions(global, kucoinRestOptions, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
-                mexcRestOptions = SetGlobalRestOptions(global, mexcRestOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
-                okxRestOptions = SetGlobalRestOptions(global, okxRestOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
-                polymarketRestOptions = SetGlobalRestOptions(global, polymarketRestOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
-                toobitRestOptions = SetGlobalRestOptions(global, toobitRestOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
-                upbitRestOptions = SetGlobalRestOptionsBase(global, upbitRestOptions, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
-                weexRestOptions = SetGlobalRestOptions(global, weexRestOptions, credentials?.Weex, environments?.TryGetValue(Exchange.Weex, out var weexEnvName) == true ? WeexEnvironment.GetEnvironmentByName(weexEnvName)! : WeexEnvironment.Live);
-                whiteBitRestOptions = SetGlobalRestOptions(global, whiteBitRestOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
-                xtRestOptions = SetGlobalRestOptions(global, xtRestOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
+                asterRestOptions = SetGlobalRestOptions(global, asterRestOptions?.Value, credentials?.Aster, environments?.TryGetValue(Exchange.Aster, out var asterEnvName) == true ? AsterEnvironment.GetEnvironmentByName(asterEnvName)!: AsterEnvironment.Live);
+                binanceRestOptions = SetGlobalRestOptions(global, binanceRestOptions?.Value, credentials?.Binance, environments?.TryGetValue(Exchange.Binance, out var binanceEnvName) == true ? BinanceEnvironment.GetEnvironmentByName(binanceEnvName)!: BinanceEnvironment.Live);
+                bingxRestOptions = SetGlobalRestOptions(global, bingxRestOptions?.Value, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingXEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingXEnvName)! : BingXEnvironment.Live);
+                bitfinexRestOptions = SetGlobalRestOptions(global, bitfinexRestOptions?.Value, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
+                bitgetRestOptions = SetGlobalRestOptions(global, bitgetRestOptions?.Value, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
+                bitMartRestOptions = SetGlobalRestOptions(global, bitMartRestOptions?.Value, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
+                bitMEXRestOptions = SetGlobalRestOptions(global, bitMEXRestOptions?.Value, credentials?.BitMEX, environments?.TryGetValue(Exchange.BitMEX, out var bitMEXEnvName) == true ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnvName)! : BitMEXEnvironment.Live);
+                bitstampRestOptions = SetGlobalRestOptions(global, bitstampRestOptions?.Value, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : BitstampEnvironment.Live);
+                bloFinRestOptions = SetGlobalRestOptions(global, bloFinRestOptions?.Value, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
+                bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions?.Value, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
+                coinbaseRestOptions = SetGlobalRestOptions(global, coinbaseRestOptions?.Value, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
+                coinGeckoRestOptions = SetGlobalRestOptions(global, coinGeckoRestOptions?.Value, credentials?.CoinGecko, environments?.TryGetValue(Platform.CoinGecko, out var coinGeckoEnvName) == true ? CoinGeckoEnvironment.GetEnvironmentByName(coinGeckoEnvName)! : CoinGeckoEnvironment.Live);
+                coinExRestOptions = SetGlobalRestOptions(global, coinExRestOptions?.Value, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
+                coinWRestOptions = SetGlobalRestOptions(global, coinWRestOptions?.Value, credentials?.CoinW, environments?.TryGetValue(Exchange.CoinW, out var coinWEnvName) == true ? CoinWEnvironment.GetEnvironmentByName(coinWEnvName)! : CoinWEnvironment.Live);
+                cryptoComRestOptions = SetGlobalRestOptions(global, cryptoComRestOptions?.Value, credentials?.CryptoCom, environments?.TryGetValue(Exchange.CryptoCom, out var cryptoComEnvName) == true ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnvName)! : CryptoComEnvironment.Live);
+                deepCoinRestOptions = SetGlobalRestOptions(global, deepCoinRestOptions?.Value, credentials?.DeepCoin, environments?.TryGetValue(Exchange.DeepCoin, out var deepCoinEnvName) == true ? DeepCoinEnvironment.GetEnvironmentByName(deepCoinEnvName)! : DeepCoinEnvironment.Live);
+                gateIoRestOptions = SetGlobalRestOptions(global, gateIoRestOptions?.Value, credentials?.GateIo, environments?.TryGetValue(Exchange.GateIo, out var gateIoEnvName) == true ? GateIoEnvironment.GetEnvironmentByName(gateIoEnvName)! : GateIoEnvironment.Live);
+                htxRestOptions = SetGlobalRestOptions(global, htxRestOptions?.Value, credentials?.HTX, environments?.TryGetValue(Exchange.HTX, out var htxEnvName) == true ? HTXEnvironment.GetEnvironmentByName(htxEnvName)! : HTXEnvironment.Live);
+                hyperLiquidRestOptions = SetGlobalRestOptions(global, hyperLiquidRestOptions?.Value, credentials?.HyperLiquid, environments?.TryGetValue(Exchange.HyperLiquid, out var hyperLiquidEnvName) == true ? HyperLiquidEnvironment.GetEnvironmentByName(hyperLiquidEnvName)! : HyperLiquidEnvironment.Live);
+                krakenRestOptions = SetGlobalRestOptions(global, krakenRestOptions?.Value, credentials?.Kraken, environments?.TryGetValue(Exchange.Kraken, out var krakenEnvName) == true ? KrakenEnvironment.GetEnvironmentByName(krakenEnvName)! : KrakenEnvironment.Live);
+                kucoinRestOptions = SetGlobalRestOptions(global, kucoinRestOptions?.Value, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
+                mexcRestOptions = SetGlobalRestOptions(global, mexcRestOptions?.Value, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
+                okxRestOptions = SetGlobalRestOptions(global, okxRestOptions?.Value, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
+                polymarketRestOptions = SetGlobalRestOptions(global, polymarketRestOptions?.Value, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
+                toobitRestOptions = SetGlobalRestOptions(global, toobitRestOptions?.Value, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
+                upbitRestOptions = Options.Create(SetGlobalRestOptionsBase(global, upbitRestOptions?.Value, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live) ?? new UpbitRestOptions());
+                weexRestOptions = SetGlobalRestOptions(global, weexRestOptions?.Value, credentials?.Weex, environments?.TryGetValue(Exchange.Weex, out var weexEnvName) == true ? WeexEnvironment.GetEnvironmentByName(weexEnvName)! : WeexEnvironment.Live);
+                whiteBitRestOptions = SetGlobalRestOptions(global, whiteBitRestOptions?.Value, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
+                xtRestOptions = SetGlobalRestOptions(global, xtRestOptions?.Value, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
 
-            Aster = new AsterRestClient(asterRestOptions);
-            Binance = new BinanceRestClient(binanceRestOptions);
-            BingX = new BingXRestClient(bingxRestOptions);
-            Bitfinex = new BitfinexRestClient(bitfinexRestOptions);
-            Bitget = new BitgetRestClient(bitgetRestOptions);
-            BitMart = new BitMartRestClient(bitMartRestOptions);
-            BitMEX = new BitMEXRestClient(bitMEXRestOptions);
-            Bitstamp = new BitstampRestClient(bitstampRestOptions);
-            BloFin = new BloFinRestClient(bloFinRestOptions);
-            Bybit = new BybitRestClient(bybitRestOptions);
-            Coinbase = new CoinbaseRestClient(coinbaseRestOptions);
-            CoinEx = new CoinExRestClient(coinExRestOptions);
-            CoinGecko = new CoinGeckoRestClient(coinGeckoRestOptions);
-            CoinW = new CoinWRestClient(coinWRestOptions);
-            CryptoCom = new CryptoComRestClient(cryptoComRestOptions);
-            DeepCoin = new DeepCoinRestClient(deepCoinRestOptions);
-            GateIo = new GateIoRestClient(gateIoRestOptions);
-            HTX = new HTXRestClient(htxRestOptions);
-            HyperLiquid = new HyperLiquidRestClient(hyperLiquidRestOptions);
-            Kraken = new KrakenRestClient(krakenRestOptions);
-            Kucoin = new KucoinRestClient(kucoinRestOptions);
-            Mexc = new MexcRestClient(mexcRestOptions);
-            OKX = new OKXRestClient(okxRestOptions);
-            Polymarket = new PolymarketRestClient(polymarketRestOptions);
-            Toobit = new ToobitRestClient(toobitRestOptions);
-            Upbit = new UpbitRestClient(upbitRestOptions);
-            Weex = new WeexRestClient(weexRestOptions);
-            WhiteBit = new WhiteBitRestClient(whiteBitRestOptions);
-            XT = new XTRestClient(xtRestOptions);
+            Aster = new AsterRestClient(httpClient, loggerFactory, asterRestOptions ?? Options.Create(new AsterRestOptions()));
+            Binance = new BinanceRestClient(httpClient, loggerFactory, binanceRestOptions ?? Options.Create(new BinanceRestOptions()));
+            BingX = new BingXRestClient(httpClient, loggerFactory, bingxRestOptions ?? Options.Create(new BingXRestOptions()));
+            Bitfinex = new BitfinexRestClient(httpClient, loggerFactory, bitfinexRestOptions ?? Options.Create(new BitfinexRestOptions()));
+            Bitget = new BitgetRestClient(httpClient, loggerFactory, bitgetRestOptions ?? Options.Create(new BitgetRestOptions()));
+            BitMart = new BitMartRestClient(httpClient, loggerFactory, bitMartRestOptions ?? Options.Create(new BitMartRestOptions()));
+            BitMEX = new BitMEXRestClient(httpClient, loggerFactory, bitMEXRestOptions ?? Options.Create(new BitMEXRestOptions()));
+            Bitstamp = new BitstampRestClient(httpClient, loggerFactory, bitstampRestOptions ?? Options.Create(new BitstampRestOptions()));
+            BloFin = new BloFinRestClient(httpClient, loggerFactory, bloFinRestOptions ?? Options.Create(new BloFinRestOptions()));
+            Bybit = new BybitRestClient(httpClient, loggerFactory, bybitRestOptions ?? Options.Create(new BybitRestOptions()));
+            Coinbase = new CoinbaseRestClient(httpClient, loggerFactory, coinbaseRestOptions ?? Options.Create(new CoinbaseRestOptions()));
+            CoinEx = new CoinExRestClient(httpClient, loggerFactory, coinExRestOptions ?? Options.Create(new CoinExRestOptions()));
+            CoinGecko = new CoinGeckoRestClient(httpClient, loggerFactory, coinGeckoRestOptions ?? Options.Create(new CoinGeckoRestOptions()));
+            CoinW = new CoinWRestClient(httpClient, loggerFactory, coinWRestOptions ?? Options.Create(new CoinWRestOptions()));
+            CryptoCom = new CryptoComRestClient(httpClient, loggerFactory, cryptoComRestOptions ?? Options.Create(new CryptoComRestOptions()));
+            DeepCoin = new DeepCoinRestClient(httpClient, loggerFactory, deepCoinRestOptions ?? Options.Create(new DeepCoinRestOptions()));
+            GateIo = new GateIoRestClient(httpClient, loggerFactory, gateIoRestOptions ?? Options.Create(new GateIoRestOptions()));
+            HTX = new HTXRestClient(httpClient, loggerFactory, htxRestOptions ?? Options.Create(new HTXRestOptions()));
+            HyperLiquid = new HyperLiquidRestClient(httpClient, loggerFactory, hyperLiquidRestOptions ?? Options.Create(new HyperLiquidRestOptions()));
+            Kraken = new KrakenRestClient(httpClient, loggerFactory, krakenRestOptions ?? Options.Create(new KrakenRestOptions()));
+            Kucoin = new KucoinRestClient(httpClient, loggerFactory, kucoinRestOptions ?? Options.Create(new KucoinRestOptions()));
+            Mexc = new MexcRestClient(httpClient, loggerFactory, mexcRestOptions ?? Options.Create(new MexcRestOptions()));
+            OKX = new OKXRestClient(httpClient, loggerFactory, okxRestOptions ?? Options.Create(new OKXRestOptions()));
+            Polymarket = new PolymarketRestClient(httpClient, loggerFactory, polymarketRestOptions ?? Options.Create(new PolymarketRestOptions()));
+            Toobit = new ToobitRestClient(httpClient, loggerFactory, toobitRestOptions ?? Options.Create(new ToobitRestOptions()));
+            Upbit = new UpbitRestClient(httpClient, loggerFactory, upbitRestOptions ?? Options.Create(new UpbitRestOptions()));
+            Weex = new WeexRestClient(httpClient, loggerFactory, weexRestOptions ?? Options.Create(new WeexRestOptions()));
+            WhiteBit = new WhiteBitRestClient(httpClient, loggerFactory, whiteBitRestOptions ?? Options.Create(new WhiteBitRestOptions()));
+            XT = new XTRestClient(httpClient, loggerFactory, xtRestOptions ?? Options.Create(new XTRestOptions()));
 
             InitSharedClients();
         }
@@ -619,6 +689,17 @@ namespace CryptoClients.Net
 
             var futuresClient = _sharedClients.Where(x => x.Exchange == exchange).FuturesOrderRestClient(tradingMode);
             return futuresClient?.GenerateClientOrderId();            
+        }
+
+
+        /// <summary>
+        /// Apply the options delegate to a new options instance
+        /// </summary>
+        protected static T ApplyOptionsDelegate<T>(Action<T>? del) where T : new()
+        {
+            var opts = new T();
+            del?.Invoke(opts);
+            return opts;
         }
     }
 }
