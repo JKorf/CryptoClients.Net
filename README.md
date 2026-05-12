@@ -338,6 +338,10 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 4.10.0 - 12 May 2026
+    * Updated library versions
+    * Added client constructor overloads for passing ILoggerFactory and HttpClient
+
 * Version 4.9.1 - 03 May 2026
     * Updated BloFin and Mexc patch versions
     * Fixed limit and period parameters not getting passed to the actual factory in ExchangeTrackerFactory.CreateTradeTracker and CreateKlineTracker
