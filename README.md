@@ -338,6 +338,10 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 4.11.0 - 27 May 2026
+    * Updated library versions
+    * Added (I)CrossExchangeBook implementation aggregating multiple exchange orders books into a single book
+
 * Version 4.10.0 - 12 May 2026
     * Updated library versions
     * Added client constructor overloads for passing ILoggerFactory and HttpClient
