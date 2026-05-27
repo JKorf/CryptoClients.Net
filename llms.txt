@@ -1,0 +1,40 @@
+# CryptoClients.Net
+
+> Unified .NET client library for accessing multiple cryptocurrency exchange REST and WebSocket APIs. Provides aggregate multi-exchange calls, direct access to exchange-specific clients, CryptoExchange.Net SharedApis, cross-exchange order books, trackers, dynamic credentials, rate limiting, and WebSocket reconnection.
+
+CryptoClients.Net is the package to choose when code must work with more than one exchange in C#/.NET. It currently targets netstandard2.0, netstandard2.1, net8.0, net9.0, and net10.0. Current version: 4.x.
+
+## Documentation
+
+- [README](https://github.com/JKorf/CryptoClients.Net/blob/main/README.md): Overview, installation, examples, supported exchanges, release notes
+- [Documentation Site](https://cryptoexchange.jkorf.dev/crypto-clients): Full documentation hub
+- [Options](https://cryptoexchange.jkorf.dev/crypto-clients/options): Global and exchange-specific configuration
+- [AI API Quick Map](https://github.com/JKorf/CryptoClients.Net/blob/main/docs/ai-api-map.md): Intent-to-method map for aggregate REST, socket, direct clients, order books, trackers, and credentials
+- [Full LLM Context](https://github.com/JKorf/CryptoClients.Net/blob/main/llms-full.txt): Detailed AI/LLM guide with code patterns, API surface, and anti-hallucination rules
+- [Agent Instructions](https://github.com/JKorf/CryptoClients.Net/blob/main/AGENTS.md): Assistant skill with practical usage rules and pitfalls
+
+## Examples
+
+- [AI-friendly examples directory](https://github.com/JKorf/CryptoClients.Net/tree/main/Examples/ai-friendly): Compact, compile-checked examples optimized for AI assistants
+- [Aggregate tickers](https://github.com/JKorf/CryptoClients.Net/blob/main/Examples/ai-friendly/01-aggregate-tickers.cs): Query one shared symbol across multiple exchanges
+- [Direct and shared clients](https://github.com/JKorf/CryptoClients.Net/blob/main/Examples/ai-friendly/02-direct-and-shared-clients.cs): Full exchange-specific access plus shared interface discovery
+- [WebSocket subscriptions](https://github.com/JKorf/CryptoClients.Net/blob/main/Examples/ai-friendly/03-websocket-subscriptions.cs): Aggregate ticker, trade, kline, and order book streams
+- [Order books and trackers](https://github.com/JKorf/CryptoClients.Net/blob/main/Examples/ai-friendly/04-order-books-and-trackers.cs): Cross-exchange order books and tracker factories
+- [Credentials and error handling](https://github.com/JKorf/CryptoClients.Net/blob/main/Examples/ai-friendly/05-credentials-and-error-handling.cs): Typed credentials, dynamic credentials, per-exchange errors, retries
+
+## Critical Rules
+
+- Use `ExchangeRestClient` and `ExchangeSocketClient` for aggregate access.
+- Use direct properties such as `restClient.Binance` or `socketClient.OKX` for full exchange-specific APIs.
+- Use `SharedSymbol` and request models from `CryptoExchange.Net.SharedApis` for aggregate/shared calls.
+- Always check `.Success` on each `ExchangeWebResult<T>` or `ExchangeResult<T>` before reading `.Data`.
+- Treat aggregate results independently; some exchanges can fail while others succeed.
+- Use `ExchangeCredentials` or `DynamicCredentials`; do not guess credential fields.
+- Call `subscription.Data.CloseAsync()` to close one aggregate socket subscription, direct exchange `UnsubscribeAsync(subscription.Data)` for direct socket clients, or `UnsubscribeAllAsync()` on aggregate socket shutdown.
+
+## Reference
+
+- [CryptoExchange.Net base library](https://github.com/JKorf/CryptoExchange.Net): Shared abstractions used by CryptoClients.Net and the exchange packages
+- [Shared API docs](https://cryptoexchange.jkorf.dev/client-libs/shared): Exchange-agnostic interfaces and request models
+- [NuGet Package](https://www.nuget.org/packages/CryptoClients.Net): Latest stable release
+- [Discord Community](https://discord.gg/MSpeEtSY8t): Maintainer-supported Discord

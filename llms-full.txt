@@ -1,0 +1,924 @@
+# CryptoClients.Net Full LLM Context
+
+CryptoClients.Net is a multi-exchange .NET client package built on CryptoExchange.Net. It aggregates the individual JKorf exchange libraries and exposes:
+
+- Direct exchange-specific REST and WebSocket clients.
+- Shared API interfaces from `CryptoExchange.Net.SharedApis`.
+- Aggregate methods that call one or more exchanges through the shared APIs.
+- Aggregate WebSocket subscription helpers.
+- Dynamic shared-client discovery methods.
+- Global and per-exchange configuration through `GlobalExchangeOptions`.
+- Typed and dynamic credential management through `ExchangeCredentials` and `DynamicCredentials`.
+- Cross-exchange and individual symbol order book factories.
+- Kline, trade, spot user data, and futures user data tracker factories.
+- Multi-user client management through `IExchangeUserClientProvider`.
+
+Use CryptoClients.Net when the task is multi-exchange, exchange-agnostic, portfolio-wide, arbitrage-related, routing-related, or needs a single package containing the supported exchange clients. Use a direct exchange package only when the task is one exchange and requires exchange-specific endpoint details.
+
+## Installation
+
+```bash
+dotnet add package CryptoClients.Net
+```
+
+Targets: netstandard2.0, netstandard2.1, net8.0, net9.0, net10.0.
+
+## Namespaces
+
+```csharp
+using CryptoClients.Net;
+using CryptoClients.Net.Interfaces;
+using CryptoClients.Net.Models;
+using CryptoClients.Net.OrderBook;
+using CryptoExchange.Net.Interfaces;
+using CryptoExchange.Net.Objects;
+using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.SharedApis;
+using CryptoExchange.Net.Trackers.UserData.Interfaces;
+using CryptoExchange.Net.Trackers.UserData.Objects;
+```
+
+Add individual exchange namespaces only for typed credentials or direct exchange-specific code:
+
+```csharp
+using Binance.Net;
+using Kucoin.Net;
+using OKX.Net;
+```
+
+## Client Entry Points
+
+```csharp
+IExchangeRestClient restClient = new ExchangeRestClient();
+IExchangeSocketClient socketClient = new ExchangeSocketClient();
+```
+
+REST exposes aggregate methods and direct clients. Socket exposes aggregate subscription helpers and direct socket clients.
+
+Direct exchange properties include Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom, DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Polymarket, Toobit, Upbit, Weex, WhiteBit, and XT. The REST client also includes CoinGecko.
+
+## Dependency Injection
+
+```csharp
+services.AddCryptoClients(options =>
+{
+    options.OutputOriginalData = true;
+    options.RequestTimeout = TimeSpan.FromSeconds(10);
+    options.RateLimiterEnabled = true;
+});
+```
+
+The extension registers:
+
+- `IExchangeRestClient`
+- `IExchangeSocketClient`
+- `IExchangeOrderBookFactory`
+- `IExchangeTrackerFactory`
+- `IExchangeUserClientProvider`
+- all underlying exchange client interfaces
+
+Configuration can also be loaded from an `IConfiguration` section:
+
+```csharp
+services.AddCryptoClients(configuration.GetSection("CryptoClients"));
+```
+
+## Global Options
+
+`GlobalExchangeOptions` supports:
+
+- `ApiCredentials`
+- `ApiEnvironments`
+- `Proxy`
+- `OutputOriginalData`
+- `RequestTimeout`
+- `RateLimiterEnabled`
+- `RateLimitingBehaviour`
+- `CachingEnabled`
+- `ReconnectPolicy`
+- `ReconnectInterval`
+
+Global options are applied to every exchange unless overridden by exchange-specific options passed to `AddCryptoClients`.
+
+## Credentials
+
+Typed credentials:
+
+```csharp
+var restClient = new ExchangeRestClient(options =>
+{
+    options.ApiCredentials = new ExchangeCredentials
+    {
+        Binance = new BinanceCredentials("key", "secret"),
+        Kucoin = new KucoinCredentials("key", "secret", "passphrase"),
+        OKX = new OKXCredentials("key", "secret", "passphrase")
+    };
+});
+```
+
+Dynamic credentials:
+
+```csharp
+var info = ExchangeCredentials.GetDynamicCredentialInfo(TradingMode.Spot, "OKX");
+
+restClient.SetApiCredentials("OKX", new DynamicCredentials(
+    TradingMode.Spot,
+    "key",
+    param1: "secret",
+    param2: "passphrase"));
+```
+
+Do not assume every exchange takes key and secret only. Bitget, BitMart, BloFin, DeepCoin, Kucoin, OKX, and Weex require passphrase-like `Param2` values. Aster and HyperLiquid have private-key oriented credential shapes. Upbit has no dynamic credential info in this library.
+
+## Shared Symbols
+
+Use `SharedSymbol` for aggregate/shared APIs:
+
+```csharp
+var spot = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
+var linear = new SharedSymbol(TradingMode.PerpetualLinear, "BTC", "USDT");
+```
+
+Never hardcode Binance-style `BTCUSDT` symbols when calling aggregate/shared methods. Direct exchange-specific clients still use exchange-specific symbol formats.
+
+## Result Handling
+
+Single exchange aggregate calls return `ExchangeWebResult<T>`:
+
+```csharp
+var result = await restClient.GetSpotTickerAsync("Binance", new GetTickerRequest(symbol));
+if (!result.Success)
+{
+    Console.WriteLine($"{result.Exchange}: {result.Error}");
+    return;
+}
+
+Console.WriteLine(result.Data.LastPrice);
+```
+
+Multi-exchange calls return arrays:
+
+```csharp
+var results = await restClient.GetSpotTickerAsync(new GetTickerRequest(symbol), exchanges);
+foreach (var result in results)
+{
+    if (!result.Success)
+        Console.WriteLine($"{result.Exchange}: {result.Error}");
+    else
+        Console.WriteLine($"{result.Exchange}: {result.Data.LastPrice}");
+}
+```
+
+Some exchanges can fail while others succeed. Handle each `ExchangeWebResult<T>` independently.
+
+For first-response-first processing, use `IAsyncEnumerable` overloads:
+
+```csharp
+await foreach (var result in restClient.GetSpotTickerAsyncEnumerable(new GetTickerRequest(symbol), exchanges))
+{
+    // Handle each result as it arrives.
+}
+```
+
+## Aggregate REST Market Data Map
+
+- Spot tickers: `GetSpotTickerAsync`, `GetSpotTickersAsync`, `GetSpotTickerAsyncEnumerable`, `GetSpotTickersAsyncEnumerable`
+- Futures tickers: `GetFuturesTickerAsync`, `GetFuturesTickersAsync`
+- Klines: `GetKlinesAsync`
+- Mark price klines: `GetMarkPriceKlinesAsync`
+- Index price klines: `GetIndexPriceKlinesAsync`
+- Recent trades: `GetRecentTradesAsync`
+- Trade history: `GetTradeHistoryAsync`
+- Order book snapshots: `GetOrderBookAsync`
+- Book ticker: `GetBookTickerAsync`, `GetBookTickersAsync`
+- Funding rate history: `GetFundingRateHistoryAsync`
+- Open interest: `GetOpenInterestAsync`
+
+Every aggregate method has single-exchange, multi-exchange array, and async-enumerable variants where the interface supports it.
+
+## Aggregate REST Account And Trading Map
+
+- Assets: `GetAssetsAsync`, `GetAssetAsync`
+- Balances: `GetBalancesAsync`
+- Deposits: `GetDepositsAsync`
+- Withdrawals: `GetWithdrawalsAsync`
+- Fees: `GetFeesAsync`
+- Transfers: `TransferAsync`
+- Spot symbols: `GetSpotSymbolsAsync`
+- Futures symbols: `GetFuturesSymbolsAsync`
+- Spot open/closed orders: `GetSpotOpenOrdersAsync`, `GetSpotClosedOrdersAsync`
+- Futures open/closed orders: `GetFuturesOpenOrdersAsync`, `GetFuturesClosedOrdersAsync`
+- Spot user trades: `GetSpotUserTradesAsync`
+- Futures user trades: `GetFuturesUserTradesAsync`
+- Spot order actions: `PlaceSpotOrderAsync`, `GetSpotOrderAsync`, `CancelSpotOrderAsync`, client-order-id variants, order trades
+- Futures order actions: `PlaceFuturesOrderAsync`, `GetFuturesOrderAsync`, `CancelFuturesOrderAsync`, client-order-id variants, order trades
+- Trigger orders: `PlaceSpotTriggerOrderAsync`, `CancelSpotTriggerOrderAsync`, `PlaceFuturesTriggerOrderAsync`, `CancelFuturesTriggerOrderAsync`
+- Position management: `GetPositionsAsync`, `GetPositionHistoryAsync`, `ClosePositionAsync`
+- Futures settings: `GetPositionModeAsync`, `SetPositionModeAsync`, `GetLeverageAsync`, `SetLeverageAsync`, `SetFuturesTpSlAsync`, `CancelFuturesTpSlAsync`
+- Listen keys: `StartListenKeyAsync`, `KeepAliveListenKeyAsync`, `StopListenKeyAsync`, plus multi-exchange variants
+
+For constructor details of request types such as `PlaceSpotOrderRequest` or `SetLeverageRequest`, inspect CryptoExchange.Net SharedApis source or use existing examples/tests.
+
+## Shared Client Discovery
+
+Use `Get*Client` helpers when you want to route manually by capability:
+
+```csharp
+var tickerClient = restClient.GetSpotTickerClient("Binance");
+if (tickerClient != null)
+    await tickerClient.GetSpotTickerAsync(new GetTickerRequest(symbol));
+```
+
+REST discovery includes clients for assets, balances, deposits, klines, order books, recent trades, trade history, withdrawals, withdraw actions, spot orders, spot order client ids, spot trigger orders, spot symbols, spot tickers, funding rates, futures orders, futures order client ids, futures trigger orders, futures symbols, futures tickers, index price klines, leverage, mark price klines, open interest, position mode, position history, listen keys, fees, book tickers, futures TP/SL, and transfers.
+
+Socket discovery includes ticker, all tickers, trade, book ticker, kline, order book, balance, spot order, futures order, user trade, and position clients.
+
+Handle `null`; not all exchanges support every shared interface.
+
+## Direct Exchange Access
+
+Use direct properties for complete exchange-specific APIs:
+
+```csharp
+var binance = await restClient.Binance.SpotApi.ExchangeData.GetTickerAsync("BTCUSDT");
+var kucoin = await restClient.Kucoin.SpotApi.ExchangeData.GetTickerAsync("BTC-USDT");
+var okxSocket = socketClient.OKX;
+```
+
+Direct properties use the exact API surface of the individual exchange packages. Do not guess endpoint names. Inspect the exchange package source or docs.
+
+## Aggregate WebSocket Map
+
+Aggregate socket subscriptions:
+
+- `SubscribeToAllTickerUpdatesAsync`
+- `SubscribeToTickerUpdatesAsync`
+- `SubscribeToTradeUpdatesAsync`
+- `SubscribeToBookTickerUpdatesAsync`
+- `SubscribeToKlineUpdatesAsync`
+- `SubscribeToOrderBookUpdatesAsync`
+- `SubscribeToBalanceUpdatesAsync`
+- `SubscribeToSpotOrderUpdatesAsync`
+- `SubscribeToFuturesOrderUpdatesAsync`
+- `SubscribeToUserTradeUpdatesAsync`
+- `SubscribeToPositionUpdatesAsync`
+
+Subscription methods have a single-exchange overload and a multi-exchange overload. Multi-exchange overloads return `ExchangeResult<UpdateSubscription>[]`.
+
+Always check every subscription result:
+
+```csharp
+var subscriptions = await socketClient.SubscribeToTickerUpdatesAsync(
+    new SubscribeTickerRequest(symbol),
+    update => Console.WriteLine(update.Data.LastPrice),
+    new[] { "Binance", "OKX" });
+
+foreach (var sub in subscriptions)
+{
+    if (!sub.Success)
+        Console.WriteLine($"{sub.Exchange}: {sub.Error}");
+}
+
+var firstSubscription = subscriptions.FirstOrDefault(x => x.Success);
+if (firstSubscription != null)
+    await firstSubscription.Data.CloseAsync();
+
+await socketClient.UnsubscribeAllAsync();
+```
+
+Use `subscription.Data.CloseAsync()` when closing a single successful aggregate `ExchangeSocketClient` subscription. Use `UnsubscribeAllAsync()` when shutting down the aggregate socket client and closing every active subscription/connection. For multi-exchange subscription arrays, close individual successful entries in a loop if you only want to close a subset.
+
+Direct exchange socket clients, such as `socketClient.Binance` or `socketClient.OKX`, inherit the normal CryptoExchange.Net socket-client pattern and expose `UnsubscribeAsync(...)`:
+
+```csharp
+var directSub = await socketClient.Binance.SpotApi.ExchangeData.SubscribeToTickerUpdatesAsync(
+    "BTCUSDT",
+    update => Console.WriteLine(update.Data.LastPrice));
+
+if (directSub.Success)
+    await socketClient.Binance.UnsubscribeAsync(directSub.Data);
+```
+
+For authenticated user streams, use credentials and listen key helpers where the target exchanges require listen keys.
+
+## Order Book Concepts
+
+CryptoClients.Net has two different order book concepts:
+
+- `ISymbolOrderBook`: a locally synced order book for one symbol on one exchange.
+- `ICrossExchangeBook`: a CryptoClients.Net aggregate book that combines multiple `ISymbolOrderBook` instances for the same `SharedSymbol` into one cross-exchange view.
+
+Use aggregate REST `GetOrderBookAsync(...)` when the user only needs a one-time snapshot from exchange APIs. Use `ISymbolOrderBook` or `ICrossExchangeBook` when the user needs a continuously synced local book, best bid/ask updates, spread monitoring, routing, or liquidity calculations.
+
+### Creating Order Book Factories
+
+`IExchangeOrderBookFactory` is registered by `AddCryptoClients()` because it needs all underlying exchange-specific order book factories.
+
+```csharp
+using CryptoClients.Net;
+using CryptoClients.Net.Interfaces;
+using CryptoExchange.Net.SharedApis;
+using Microsoft.Extensions.DependencyInjection;
+
+var services = new ServiceCollection();
+services.AddCryptoClients();
+using var provider = services.BuildServiceProvider();
+
+var orderBookFactory = provider.GetRequiredService<IExchangeOrderBookFactory>();
+```
+
+In ASP.NET Core or hosted services, inject `IExchangeOrderBookFactory` directly.
+
+### ISymbolOrderBook
+
+Create an individual local order book with `Create(exchange, symbol, minimalDepth, exchangeParameters)`:
+
+```csharp
+var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
+
+var book = orderBookFactory.Create(
+    "Binance",
+    symbol,
+    minimalDepth: 20);
+
+if (book == null)
+{
+    Console.WriteLine("No order book implementation available for this exchange/symbol.");
+    return;
+}
+```
+
+`minimalDepth` is the desired minimum number of levels. The actual depth can be larger or smaller depending on what the exchange API supports. Pass `ExchangeParameters` when an exchange needs extra values.
+
+Important `ISymbolOrderBook` properties:
+
+- `Exchange`: exchange name, for example `Binance`.
+- `Api`: API name within the exchange package.
+- `Symbol`: exchange-formatted symbol used by the underlying book.
+- `Status`: `OrderBookStatus`; the book is up to date when `Status == OrderBookStatus.Synced`.
+- `LastSequenceNumber`: last applied sequence/update id.
+- `UpdateTime`: local time when the last update was applied.
+- `UpdateServerTime`: server/event timestamp of the last applied update when available.
+- `UpdateLocalTime`: local-time estimate based on server timestamp when available.
+- `DataAge`: age of the data based on `UpdateLocalTime`.
+- `AskCount` / `BidCount`: number of ask/bid entries.
+- `Book`: tuple snapshot `(bids, asks)`.
+- `Asks`, `Bids`: current arrays of entries.
+- `BestBid`, `BestAsk`, `BestOffers`: current best prices.
+
+Events:
+
+```csharp
+book.OnStatusChange += (oldStatus, newStatus) =>
+    Console.WriteLine($"{book.Exchange} book status: {oldStatus} -> {newStatus}");
+
+book.OnBestOffersChanged += offers =>
+    Console.WriteLine($"Best bid {offers.BestBid.Price}, best ask {offers.BestAsk.Price}");
+
+book.OnOrderBookUpdate += update =>
+    Console.WriteLine($"Changed levels: {update.Bids.Length} bids, {update.Asks.Length} asks");
+```
+
+Lifecycle:
+
+```csharp
+var start = await book.StartAsync();
+if (!start.Success)
+{
+    Console.WriteLine($"Failed to start order book: {start.Error}");
+    return;
+}
+
+try
+{
+    while (book.Status != OrderBookStatus.Synced)
+        await Task.Delay(100);
+
+    var best = book.BestOffers;
+    Console.WriteLine($"Bid {best.Bid.Price} / Ask {best.Ask.Price}");
+
+    var snapshot = book.Book;
+    var topFiveBids = snapshot.bids.Take(5);
+    var topFiveAsks = snapshot.asks.Take(5);
+}
+finally
+{
+    await book.StopAsync();
+}
+```
+
+Market-order estimates:
+
+```csharp
+var averageBuy = book.CalculateAverageFillPrice(
+    quantity: 0.25m,
+    type: OrderBookEntryType.Ask);
+
+if (averageBuy.Success)
+    Console.WriteLine($"Estimated average buy fill price: {averageBuy.Data}");
+
+var baseAmount = book.CalculateTradableAmount(
+    quoteQuantity: 1000m,
+    type: OrderBookEntryType.Ask);
+
+if (baseAmount.Success)
+    Console.WriteLine($"Approx base asset purchasable: {baseAmount.Data}");
+```
+
+Use `OrderBookEntryType.Ask` when estimating a buy market order that consumes asks. Use `OrderBookEntryType.Bid` when estimating a sell market order that consumes bids. These calculations are local estimates, not execution guarantees.
+
+For console diagnostics:
+
+```csharp
+Console.WriteLine(book.ToString(rows: 10));
+// Or:
+// await book.OutputToConsoleAsync(10, TimeSpan.FromSeconds(1), cancellationToken);
+```
+
+### Creating Multiple ISymbolOrderBook Instances
+
+Use the multi-create overload when the user needs separate books per exchange:
+
+```csharp
+var books = orderBookFactory.Create(
+    symbol,
+    minimalDepth: 20,
+    exchanges: new[] { "Binance", "Bybit", "OKX" });
+
+foreach (var exchangeBook in books)
+{
+    exchangeBook.OnBestOffersChanged += offers =>
+        Console.WriteLine($"{exchangeBook.Exchange}: {offers.BestBid.Price}/{offers.BestAsk.Price}");
+
+    var result = await exchangeBook.StartAsync();
+    if (!result.Success)
+        Console.WriteLine($"{exchangeBook.Exchange} failed: {result.Error}");
+}
+
+// Later:
+await Task.WhenAll(books.Select(x => x.StopAsync()));
+```
+
+This is different from `ICrossExchangeBook`: separate `ISymbolOrderBook` instances do not merge price levels or calculate a cross-exchange best bid/ask.
+
+### ICrossExchangeBook
+
+`ICrossExchangeBook` combines locally synced order books for the same shared symbol across multiple exchanges into a single book. Create it with `CreateCrossExchange`:
+
+```csharp
+var crossBook = orderBookFactory.CreateCrossExchange(
+    new SharedSymbol(TradingMode.Spot, "BTC", "USDT"),
+    minimalDepth: 20,
+    exchanges: new[] { "Binance", "Bybit", "OKX" });
+```
+
+Important `ICrossExchangeBook` properties:
+
+- `Symbol`: the shared symbol the book is tracking.
+- `Exchanges`: requested exchanges.
+- `MinimalDepth`: configured minimal depth for each underlying book.
+- `ExchangeBooks`: the underlying `ISymbolOrderBook[]` instances.
+- `ExchangeStatus`: dictionary of exchange name to `OrderBookStatus`.
+- `Status`: `CrossExchangeBookStatus.Initial`, `PartiallySynced`, or `Synced`.
+- `UpdateTime`, `UpdateServerTime`, `UpdateLocalTime`, `DataAge`: aggregate update freshness based on underlying books.
+- `BestBid`: best bid across all synced exchange books, with exchange name.
+- `BestAsk`: best ask across all synced exchange books, with exchange name.
+- `BestOffers`: `(Bid, Ask)` pair.
+- `Spread`: `BestAsk.Entry.Price - BestBid.Entry.Price`.
+- `SpreadPercentage`: spread as `(ask - bid) / bid * 100`.
+
+Status semantics:
+
+- `Initial`: no underlying books are synced, syncing, or reconnecting.
+- `PartiallySynced`: at least one underlying book is synced, syncing, or reconnecting, but not all are fully synced.
+- `Synced`: all underlying books are `OrderBookStatus.Synced`.
+
+Events:
+
+```csharp
+crossBook.OnStatusChange += status =>
+    Console.WriteLine($"Cross book status: {status}");
+
+crossBook.OnExchangeStatusChange += (exchange, oldStatus, newStatus) =>
+    Console.WriteLine($"{exchange}: {oldStatus} -> {newStatus}");
+
+crossBook.OnBestOffersChanged += offers =>
+{
+    var bid = offers.BestBid;
+    var ask = offers.BestAsk;
+    Console.WriteLine($"Best bid {bid?.Exchange} {bid?.Entry.Price}, best ask {ask?.Exchange} {ask?.Entry.Price}");
+};
+```
+
+Lifecycle:
+
+```csharp
+var start = await crossBook.StartAsync();
+if (!start.Success)
+{
+    Console.WriteLine($"Cross book failed to start: {start.Error}");
+    return;
+}
+
+try
+{
+    while (crossBook.Status == CrossExchangeBookStatus.Initial)
+        await Task.Delay(100);
+
+    Console.WriteLine($"Status: {crossBook.Status}");
+    Console.WriteLine($"Spread: {crossBook.Spread} ({crossBook.SpreadPercentage}%)");
+
+    var best = crossBook.BestOffers;
+    Console.WriteLine($"Bid: {best.Bid?.Exchange} {best.Bid?.Entry.Price}");
+    Console.WriteLine($"Ask: {best.Ask?.Exchange} {best.Ask?.Entry.Price}");
+}
+finally
+{
+    await crossBook.StopAsync();
+}
+```
+
+Important start behavior: `StartAsync()` creates the underlying exchange books and starts all of them. If no books can be created, it returns an invalid argument error. If any underlying book fails to start, `CrossExchangeBook` stops all started books and returns the first failed result. If the use case can tolerate partial startup, create individual `ISymbolOrderBook` instances yourself and manage failures per exchange.
+
+### CrossExchangeBook Snapshots
+
+`Snapshot(snapshotDepth, exchangeDepth)` returns a `CrossOrderBookSnapshot` with merged price levels:
+
+```csharp
+var snapshot = crossBook.Snapshot(
+    snapshotDepth: 10,
+    exchangeDepth: 25);
+
+foreach (var bidLevel in snapshot.Bids.Values)
+{
+    Console.WriteLine($"Bid {bidLevel.Price}: total {bidLevel.TotalQuantity}");
+    foreach (var entry in bidLevel.Entries)
+        Console.WriteLine($"  {entry.Exchange}: {entry.Entry.Quantity}");
+}
+
+foreach (var askLevel in snapshot.Asks.Values)
+{
+    Console.WriteLine($"Ask {askLevel.Price}: total {askLevel.TotalQuantity}");
+}
+```
+
+Snapshot types:
+
+- `CrossOrderBookSnapshot.Bids`: sorted descending by price.
+- `CrossOrderBookSnapshot.Asks`: sorted ascending by price.
+- `CrossOrderBookSnapshot.BestBid`: first bid level.
+- `CrossOrderBookSnapshot.BestAsk`: first ask level.
+- `CrossOrderbookSnapshotLevel.Price`: price level.
+- `CrossOrderbookSnapshotLevel.TotalQuantity`: sum of all exchange entries at that price.
+- `CrossOrderbookSnapshotLevel.Entries`: individual exchange entries at that price.
+- `CrossOrderBookSnapshotEntry.Exchange`: exchange source.
+- `CrossOrderBookSnapshotEntry.Entry`: underlying `ISymbolOrderBookEntry` with `Price` and `Quantity`.
+
+`snapshotDepth` limits how many merged price levels are returned per side. `exchangeDepth` limits how many levels from each exchange book are considered before merging.
+
+### Order Book Anti-Hallucination Rules
+
+- `ICrossExchangeBook` does not place orders; it only aggregates local order book data.
+- `ICrossExchangeBook.StartAsync()` fails the whole start if any underlying book fails. Use separate `ISymbolOrderBook`s for partial-start tolerance.
+- Use `CrossOrderBookSnapshot` for merged depth; use `BestBid`/`BestAsk` for current top-of-book only.
+- Do not assume every exchange can create an order book for every `SharedSymbol`; `Create(...)` can return `null`.
+- Do not treat fill calculations as guarantees. They are estimates based on local book state at that instant.
+- Always stop books with `StopAsync()` when shutting down.
+
+## Trade And Kline Trackers
+
+`IExchangeTrackerFactory` creates lightweight public market data trackers:
+
+```csharp
+var tradeTracker = trackerFactory.CreateTradeTracker(
+    "Binance",
+    new SharedSymbol(TradingMode.Spot, "ETH", "USDT"),
+    limit: 100,
+    period: TimeSpan.FromMinutes(10));
+
+var klineTracker = trackerFactory.CreateKlineTracker(
+    "OKX",
+    new SharedSymbol(TradingMode.Spot, "ETH", "USDT"),
+    SharedKlineInterval.OneMinute,
+    limit: 120,
+    period: TimeSpan.FromHours(2));
+```
+
+These helpers return nullable tracker interfaces because not every exchange/trading-mode combination supports every tracker. Null-check before using. Use `ExchangeParameters` when an exchange requires extra values for a particular tracker.
+
+## User Data Tracker Concepts
+
+User data trackers maintain local, continuously updated user/account state by combining WebSocket user data streams with polling. They are part of CryptoExchange.Net trackers and are exposed through `IExchangeTrackerFactory`.
+
+There are two main interfaces:
+
+- `IUserSpotDataTracker`: tracks spot balances, spot orders, and optionally user trades.
+- `IUserFuturesDataTracker`: tracks futures balances, futures orders, positions, and optionally user trades.
+
+Common properties:
+
+- `UserIdentifier`: user id/name when created with a user-specific overload.
+- `Connected`: true when all underlying item trackers are connected.
+- `Exchange`: exchange name.
+- `TrackedSymbols`: symbols currently tracked for polling.
+- `OnConnectedChange`: fires with `UserDataType` and connected status.
+
+Spot-specific item trackers:
+
+- `Balances`: `IUserDataTracker<SharedBalance>`
+- `Orders`: `IUserDataTracker<SharedSpotOrder>`
+- `Trades`: nullable `IUserDataTracker<SharedUserTrade>`
+
+Futures-specific item trackers:
+
+- `Balances`: `IUserDataTracker<SharedBalance>`
+- `Orders`: `IUserDataTracker<SharedFuturesOrder>`
+- `Positions`: `IUserDataTracker<SharedPosition>`
+- `Trades`: nullable `IUserDataTracker<SharedUserTrade>`
+
+Each item tracker exposes:
+
+- `Connected`
+- `Values`: current stored values.
+- `OnConnectedChange`
+- `OnUpdate`: async event receiving `UserDataUpdate<T[]>`.
+
+`UserDataUpdate<T>` includes `Source`, `Exchange`, and `Data`. `Source` identifies whether the update came from polling, WebSocket, or another underlying tracker source.
+
+### User Data Tracker Configuration
+
+Base config properties:
+
+- `TrackedSymbols`: symbols initially tracked for polling.
+- `OnlyTrackProvidedSymbols`: if true, ignore/add no new symbols outside `TrackedSymbols`.
+- `TrackTrades`: whether order trades should be tracked. This can increase request count when polling because trades are requested per symbol.
+
+Spot config:
+
+```csharp
+var spotConfig = new SpotUserDataTrackerConfig
+{
+    TrackedSymbols = new[]
+    {
+        new SharedSymbol(TradingMode.Spot, "BTC", "USDT"),
+        new SharedSymbol(TradingMode.Spot, "ETH", "USDT")
+    },
+    OnlyTrackProvidedSymbols = true,
+    TrackTrades = true,
+    BalancesConfig = new TrackerItemConfig(
+        pollAtStart: true,
+        pollIntervalConnected: TimeSpan.FromMinutes(5),
+        pollIntervalDisconnected: TimeSpan.FromSeconds(30)),
+    OrdersConfig = new TrackerTimedItemConfig(
+        pollAtStart: true,
+        pollIntervalConnected: TimeSpan.Zero,
+        pollIntervalDisconnected: TimeSpan.FromSeconds(30),
+        retentionTime: TimeSpan.FromDays(1)),
+    UserTradesConfig = new TrackerTimedItemConfig(
+        pollAtStart: false,
+        pollIntervalConnected: TimeSpan.Zero,
+        pollIntervalDisconnected: TimeSpan.FromMinutes(1),
+        retentionTime: TimeSpan.FromDays(7))
+};
+```
+
+Futures config:
+
+```csharp
+var futuresConfig = new FuturesUserDataTrackerConfig
+{
+    TrackedSymbols = new[]
+    {
+        new SharedSymbol(TradingMode.PerpetualLinear, "BTC", "USDT")
+    },
+    OnlyTrackProvidedSymbols = true,
+    TrackTrades = true,
+    BalancesConfig = new TrackerItemConfig(true, TimeSpan.FromMinutes(5), TimeSpan.FromSeconds(30)),
+    OrdersConfig = new TrackerTimedItemConfig(true, TimeSpan.Zero, TimeSpan.FromSeconds(30), TimeSpan.FromDays(1)),
+    PositionConfig = new TrackerItemConfig(true, TimeSpan.Zero, TimeSpan.FromSeconds(30)),
+    UserTradesConfig = new TrackerTimedItemConfig(false, TimeSpan.Zero, TimeSpan.FromMinutes(1), TimeSpan.FromDays(7))
+};
+```
+
+`TrackerItemConfig` parameters are `(pollAtStart, pollIntervalConnected, pollIntervalDisconnected)`. `TrackerTimedItemConfig` adds `retentionTime`; completed timed data older than retention can be removed when reading `Values`.
+
+### Creating User Data Trackers With Configured Clients
+
+Use this pattern when credentials are already configured through `AddCryptoClients(...)` or client/factory options:
+
+```csharp
+var spotTracker = trackerFactory.CreateUserSpotDataTracker(
+    "Binance",
+    spotConfig);
+
+var futuresTracker = trackerFactory.CreateUserFuturesDataTracker(
+    "Binance",
+    TradingMode.PerpetualLinear,
+    futuresConfig);
+
+if (spotTracker == null || futuresTracker == null)
+{
+    Console.WriteLine("Tracker not supported for requested exchange/mode.");
+    return;
+}
+```
+
+Create many trackers at once:
+
+```csharp
+var spotTrackers = trackerFactory.CreateUserSpotDataTrackers(
+    spotConfig,
+    exchanges: new[] { "Binance", "Bybit", "OKX" });
+
+var futuresTrackers = trackerFactory.CreateUserFuturesDataTrackers(
+    TradingMode.PerpetualLinear,
+    futuresConfig,
+    exchanges: new[] { "Binance", "Bybit", "OKX" });
+```
+
+The multi-create methods skip unsupported exchanges by returning only trackers that could be created.
+
+### Creating User-Specific Trackers With ExchangeCredentials
+
+Use user-specific overloads for multi-tenant services or explicit credential isolation:
+
+```csharp
+var credentials = new ExchangeCredentials
+{
+    Binance = new BinanceCredentials("key", "secret"),
+    OKX = new OKXCredentials("key", "secret", "passphrase")
+};
+
+var userSpotTracker = trackerFactory.CreateUserSpotDataTracker(
+    exchange: "Binance",
+    userIdentifier: "user-123",
+    credentials: credentials,
+    config: spotConfig,
+    environment: null);
+
+var userFuturesTracker = trackerFactory.CreateUserFuturesDataTracker(
+    exchange: "Binance",
+    tradeMode: TradingMode.PerpetualLinear,
+    userIdentifier: "user-123",
+    credentials: credentials,
+    config: futuresConfig,
+    environment: null);
+```
+
+Create user trackers for multiple exchanges:
+
+```csharp
+var userSpotTrackers = trackerFactory.CreateUserSpotDataTracker(
+    userIdentifier: "user-123",
+    credentials: credentials,
+    config: spotConfig,
+    environments: null,
+    exchanges: new[] { "Binance", "OKX" });
+
+var userFuturesTrackers = trackerFactory.CreateUserFuturesDataTracker(
+    userIdentifier: "user-123",
+    tradingMode: TradingMode.PerpetualLinear,
+    credentials: credentials,
+    config: futuresConfig,
+    environments: null,
+    exchanges: new[] { "Binance", "OKX" });
+```
+
+These overloads throw if credentials for a requested exchange are missing. Only request exchanges for which the `ExchangeCredentials` object contains the correct typed credentials.
+
+### Starting, Reading, And Stopping User Data Trackers
+
+```csharp
+spotTracker.OnConnectedChange += (dataType, connected) =>
+    Console.WriteLine($"{spotTracker.Exchange} {dataType}: connected={connected}");
+
+spotTracker.Balances.OnUpdate += update =>
+{
+    foreach (var balance in update.Data)
+        Console.WriteLine($"{update.Exchange} balance {balance.Asset}: {balance.Total}");
+
+    return Task.CompletedTask;
+};
+
+spotTracker.Orders.OnUpdate += update =>
+{
+    foreach (var order in update.Data)
+        Console.WriteLine($"{update.Exchange} order {order.Symbol}: {order.Status}");
+
+    return Task.CompletedTask;
+};
+
+if (spotTracker.Trades != null)
+{
+    spotTracker.Trades.OnUpdate += update =>
+    {
+        Console.WriteLine($"{update.Exchange} trade update count: {update.Data.Length}");
+        return Task.CompletedTask;
+    };
+}
+
+var start = await spotTracker.StartAsync();
+if (!start.Success)
+{
+    Console.WriteLine($"Spot tracker failed to start: {start.Error}");
+    return;
+}
+
+try
+{
+    var balances = spotTracker.Balances.Values;
+    var openOrders = spotTracker.Orders.Values;
+}
+finally
+{
+    await spotTracker.StopAsync();
+}
+```
+
+Futures tracker example:
+
+```csharp
+futuresTracker.Positions.OnUpdate += update =>
+{
+    foreach (var position in update.Data)
+        Console.WriteLine($"{update.Exchange} {position.Symbol}: {position.Quantity}");
+
+    return Task.CompletedTask;
+};
+
+var futuresStart = await futuresTracker.StartAsync();
+if (!futuresStart.Success)
+{
+    Console.WriteLine($"Futures tracker failed: {futuresStart.Error}");
+    return;
+}
+
+try
+{
+    var positions = futuresTracker.Positions.Values;
+    var futuresOrders = futuresTracker.Orders.Values;
+}
+finally
+{
+    await futuresTracker.StopAsync();
+}
+```
+
+`StartAsync()` starts the tracker-level implementation and then starts all item trackers. If any item tracker fails, started item trackers are stopped and the first error is returned.
+
+### Tracking Symbols Dynamically
+
+```csharp
+var sol = new SharedSymbol(TradingMode.Spot, "SOL", "USDT");
+
+spotTracker.AddTrackedSymbolsAsync(new[] { sol });
+spotTracker.RemoveTrackedSymbolAsync(sol);
+```
+
+Despite the method names ending in `Async`, these methods return `void` in the current interfaces. If `OnlyTrackProvidedSymbols` is false, a removed symbol can be added again later when a WebSocket update or account data for that symbol is received.
+
+### User Data Tracker Anti-Hallucination Rules
+
+- `IUserSpotDataTracker` and `IUserFuturesDataTracker` are not order placement clients. They track local account state.
+- Spot trackers expose balances, spot orders, and optional trades. Futures trackers expose balances, futures orders, positions, and optional trades.
+- `Trades` can be null. Null-check before subscribing or reading.
+- `Connected` means all item trackers are connected, not merely that one WebSocket exists.
+- `StartAsync()` can fail because authentication, listen-key creation, polling, or a user stream subscription failed.
+- `TrackTrades = true` can increase REST polling because trades may be requested per symbol.
+- User-specific overloads require matching typed credentials in `ExchangeCredentials`.
+- Some exchanges require `ExchangeParameters` for futures user data tracker creation, for example exchange-specific product type, settle asset, user id, or margin mode. Inspect `ExchangeTrackerFactory` before generating code for those exchanges.
+- Always stop trackers with `StopAsync()`.
+
+## Multi-User Clients
+
+Use `IExchangeUserClientProvider` when working with multiple users and isolated client instances. The provider can create/get REST and socket clients for separate user identifiers and credentials. Prefer this over mutating credentials on a singleton aggregate client in multi-tenant applications.
+
+## Supported Metadata
+
+Use:
+
+```csharp
+var exchanges = Exchanges.All;
+var binance = Exchanges.GetByName("Binance");
+var names = Exchange.All;
+var platforms = Platforms.All;
+```
+
+`ExchangeInfo` includes display name, image URL, website, API docs URLs, environments, exchange type, and dynamic credential info callback.
+
+## Anti-Hallucination Rules
+
+- If a user asks for a direct exchange endpoint, inspect that exchange client source. CryptoClients.Net only aggregates the clients; it does not rename every direct endpoint.
+- If a request constructor is unclear, inspect `CryptoExchange.Net.SharedApis` instead of inventing positional parameters.
+- If an exchange might not support a shared capability, call `Get*Client(...)` and handle `null`.
+- If querying many exchanges, handle partial failure.
+- If writing credentials code, use typed credentials or `DynamicCredentialInfo`; do not assume key/secret/passphrase shape.
+- If writing socket code, always include unsubscribe/cleanup.
+- If writing examples, ensure they compile as standalone console programs.
+
+## More Context
+
+- `AGENTS.md`: practical assistant skill.
+- `docs/ai-api-map.md`: quick intent-to-method table.
+- `Examples/ai-friendly`: compile-checked example programs.
+- `.github/copilot-instructions.md` and `.cursor/rules/crypto-clients-net.mdc`: short editor-specific instructions that point back to the root AI docs.

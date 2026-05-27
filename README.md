@@ -329,6 +329,20 @@ Example requests:
 - Base library examples: https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples
 - Demo application: https://github.com/JKorf/CryptoManager.Net
 
+## AI / LLM documentation
+
+CryptoClients.Net includes AI-oriented documentation and examples for code generation tools:
+
+|File|Purpose|
+|--|--|
+|[`AGENTS.md`](AGENTS.md)|Assistant skill with core CryptoClients.Net patterns, pitfalls, and examples|
+|[`llms.txt`](llms.txt)|Short LLM index with links to docs, examples, and critical usage rules|
+|[`llms-full.txt`](llms-full.txt)|Detailed LLM context with aggregate REST, WebSocket, direct-client, credential, order book, and tracker guidance|
+|[`docs/ai-api-map.md`](docs/ai-api-map.md)|Table-style intent-to-method map for aggregate/shared APIs, direct exchange access, sockets, credentials, order books, and trackers|
+|[`Examples/ai-friendly`](Examples/ai-friendly)|Compilable single-file examples for common aggregate REST, WebSocket, direct-client, order book, tracker, and error handling workflows|
+
+GitHub Copilot and Cursor instructions are also provided in `.github/copilot-instructions.md` and `.cursor/rules/crypto-clients-net.mdc`; both point back to the root AI context files.
+
 ## Support
 
 ### Discord

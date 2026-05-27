@@ -1,0 +1,66 @@
+---
+description: Conventions for using CryptoClients.Net when working with multiple cryptocurrency exchanges in C#/.NET. Apply when generating aggregate exchange, shared API, WebSocket, order book, tracker, or dynamic credential code.
+globs:
+  - "**/*.cs"
+  - "**/*.csproj"
+alwaysApply: false
+---
+
+# CryptoClients.Net Conventions
+
+This codebase uses **CryptoClients.Net** for multi-exchange cryptocurrency API access. Do not write raw `HttpClient` calls to exchange endpoints.
+
+## Client setup pattern
+
+```csharp
+using CryptoClients.Net;
+using CryptoExchange.Net.SharedApis;
+
+var restClient = new ExchangeRestClient();
+var socketClient = new ExchangeSocketClient();
+```
+
+For application code, prefer DI:
+
+```csharp
+services.AddCryptoClients(options => options.OutputOriginalData = true);
+```
+
+## Result pattern
+
+Aggregate methods return `ExchangeWebResult<T>`, `ExchangeWebResult<T>[]`, `ExchangeResult<UpdateSubscription>`, or `ExchangeResult<UpdateSubscription>[]`. Always check `.Success` before reading `.Data`.
+
+```csharp
+var ticker = await restClient.GetSpotTickerAsync(
+    "Binance",
+    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT")));
+
+if (!ticker.Success) { /* ticker.Error */ return; }
+var price = ticker.Data.LastPrice;
+```
+
+## API surface
+
+- Aggregate REST: `restClient.GetSpotTickerAsync(...)`, `GetFuturesTickerAsync(...)`, `GetOrderBookAsync(...)`, `PlaceSpotOrderAsync(...)`, etc.
+- Shared REST clients: `restClient.GetSpotTickerClient(exchange)`, `GetBalancesClient(...)`, `GetFuturesOrderClient(...)`, etc.
+- Direct exchange REST: `restClient.Binance`, `restClient.Bybit`, `restClient.OKX`, etc.
+- Aggregate sockets: `socketClient.SubscribeToTickerUpdatesAsync(...)`, `SubscribeToOrderBookUpdatesAsync(...)`, `SubscribeToBalanceUpdatesAsync(...)`, etc.
+- Shared socket clients: `socketClient.GetTickerClient(...)`, `GetOrderBookClient(...)`, `GetSpotOrderClient(...)`, etc.
+- Direct exchange sockets: `socketClient.Binance`, `socketClient.Kucoin`, `socketClient.OKX`, etc.
+
+## Hard rules
+
+- Never skip checking `Success`.
+- Use `SharedSymbol` for aggregate/shared APIs.
+- Handle per-exchange failures independently in multi-exchange results.
+- Use `Get*Client(...)` null checks when routing manually.
+- Use `ExchangeCredentials` or `DynamicCredentials`; do not guess credential shapes.
+- Call `subscription.Data.CloseAsync()` for one aggregate WebSocket subscription, direct exchange `UnsubscribeAsync(subscription.Data)` for direct socket clients, or `UnsubscribeAllAsync()` for all aggregate subscriptions.
+- Use direct exchange properties for full exchange-specific APIs.
+
+## Reference
+
+- `AGENTS.md` in repo root for detailed assistant patterns.
+- `llms.txt` and `llms-full.txt` in repo root for AI context.
+- `docs/ai-api-map.md` for intent-to-method routing.
+- `Examples/ai-friendly/` for compile-checked examples.
