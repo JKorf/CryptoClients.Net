@@ -24,7 +24,7 @@ The library currently supports **27 exchanges** and additional platform integrat
 - Strongly typed models and enum mappings
 - Automatic WebSocket (re)connection management
 - Client-side rate limiting
-- Client-side order book support
+- Client-side order book support, including `(I)CrossExchangeBook` for aggregated books across exchanges
 - Multi-user client management
 - Support for multiple API environments
 - Dynamic credential management
@@ -185,6 +185,17 @@ The socket client also supports single-exchange and multi-exchange subscriptions
         new SubscribeTickerRequest(symbol),
         data => Console.WriteLine($"{data.Data.Symbol} {data.Data.LastPrice}"),
         [Exchange.Binance, Exchange.OKX]);
+
+## Cross-exchange order books
+
+Use `IExchangeOrderBookFactory.CreateCrossExchange` to create an `(I)CrossExchangeBook` which aggregates locally synced order books for the same symbol across multiple exchanges into a single book.
+
+    var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
+    var book = orderBookFactory.CreateCrossExchange(
+        symbol,
+        exchanges: [Exchange.Binance, Exchange.Bybit, Exchange.OKX]);
+
+    await book.StartAsync();
 
 ## Multiple users
 
