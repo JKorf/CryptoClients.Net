@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "CryptoClients.Net.Benchmark.Server": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:52602;http://localhost:52603"
+    }
+  }
+}

@@ -29,6 +29,9 @@ The library currently supports **27 exchanges** and additional platform integrat
 - Support for multiple API environments
 - Dynamic credential management
 
+## Benchmark
+Performance is a core focus. For a benchmark comparing CryptoClients.Net performance to CCXT, see [docs/crypto-clients-net-benchmark.md](docs/crypto-clients-net-benchmark.md).
+
 ## Quick example
 
     var client = new ExchangeRestClient();
@@ -323,6 +326,7 @@ Example requests:
 ## Documentation and examples
 
 - Documentation: https://cryptoexchange.jkorf.dev/crypto-clients
+- Benchmark results: [docs/crypto-clients-net-benchmark.md](docs/crypto-clients-net-benchmark.md)
 - Configuration options: https://cryptoexchange.jkorf.dev/crypto-clients/options
 - Example configuration: https://github.com/JKorf/CryptoClients.Net/tree/main/Examples/example-config.json
 - Examples: https://github.com/JKorf/CryptoClients.Net/tree/main/Examples
