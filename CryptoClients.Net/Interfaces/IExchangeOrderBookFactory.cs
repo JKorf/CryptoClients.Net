@@ -11,7 +11,6 @@ using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using CoinW.Net.Interfaces;
-using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
 using DeepCoin.Net.Interfaces;
@@ -29,6 +28,8 @@ using Upbit.Net.Interfaces;
 using Weex.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
+using CryptoClients.Net.OrderBook;
+using CryptoCom.Net.Interfaces;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -149,6 +150,16 @@ namespace CryptoClients.Net.Interfaces
         /// XT order book factory
         /// </summary>
         IXTOrderBookFactory XT { get; }
+
+        /// <summary>
+        /// Create a new ICrossExchangeBook instance for the provided symbol on the all or specific exchanges. The cross exchange book will combine the order books from the different exchanges into a single book.
+        /// </summary>
+        /// <param name="symbol">The symbol</param>
+        /// <param name="minimalDepth">Minimal depth of the order book. Order book might be larger depending on what the API supports. Might be smaller if the requested depth is above what the API can support.</param>
+        /// <param name="exchanges">Exchanges to include in the order book</param>
+        /// <param name="exchangeParameters">Exchange specific parameters</param>
+        /// <returns></returns>
+        ICrossExchangeBook CreateCrossExchange(SharedSymbol symbol, int? minimalDepth = null, IEnumerable<string>? exchanges = null, ExchangeParameters? exchangeParameters = null);
 
         /// <summary>
         /// Create a new ISymbolOrderBook instance for the provided symbol on the provided exchange

@@ -14,6 +14,7 @@ using CoinEx.Net.Interfaces;
 using CoinW.Net.Interfaces;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
+using CryptoClients.Net.OrderBook;
 using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
@@ -157,6 +158,13 @@ namespace CryptoClients.Net
             Weex = weex;
             WhiteBit = whiteBit;
             XT = xt;
+        }
+
+        /// <inheritdoc />
+        public ICrossExchangeBook CreateCrossExchange(SharedSymbol symbol, int? minimalDepth = null, IEnumerable<string>? exchanges = null, ExchangeParameters? exchangeParameters = null)
+        {
+            var book = new CrossExchangeBook(this, symbol, minimalDepth, exchanges, exchangeParameters);
+            return book;
         }
 
         /// <inheritdoc />
