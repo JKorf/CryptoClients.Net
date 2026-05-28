@@ -367,6 +367,10 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 4.11.1 - 28 May 2026
+    * Updated library versions for minor fixes
+    * Fixed environment override in exchange specific options not applying
+
 * Version 4.11.0 - 27 May 2026
     * Updated library versions
     * Added (I)CrossExchangeBook implementation aggregating multiple exchange orders books into a single book
