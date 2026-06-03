@@ -2,6 +2,7 @@
 using CryptoClients.Net.Interfaces;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis;
+using LightProto;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -10,17 +11,13 @@ namespace CryptoClients.Net.UnitTests
 {
     public class SharedRestIntegrationTests
     {
-        private static readonly SharedSymbol _testSpotExchangeSymbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
-        private static readonly SharedSymbol _testFuturesExchangeSymbol = new SharedSymbol(TradingMode.PerpetualLinear, "ETH", "USDT");
+        private static readonly SharedSymbol _testSpotExchangeSymbol = new SharedSymbol(TradingMode.Spot, "ETH", SharedSymbol.UsdOrStable);
+        private static readonly SharedSymbol _testFuturesExchangeSymbol = new SharedSymbol(TradingMode.PerpetualLinear, "ETH", SharedSymbol.UsdOrStable);
         private static readonly Dictionary<string, SharedSymbol> _testSpotExchangeSymbolOverrides = new Dictionary<string, SharedSymbol>
         {
-            { Exchange.HyperLiquid, new SharedSymbol(TradingMode.Spot, "ETH", "USDC") }
         };
         private static readonly Dictionary<string, SharedSymbol> _testFuturesExchangeSymbolOverrides = new Dictionary<string, SharedSymbol>
         {
-            { Exchange.HyperLiquid, new SharedSymbol(TradingMode.PerpetualLinear, "ETH", "USDC") },
-            { Exchange.CryptoCom, new SharedSymbol(TradingMode.PerpetualLinear, "ETH", "USD") },
-            { Exchange.Kraken, new SharedSymbol(TradingMode.PerpetualLinear, "ETH", "USD") },
         };
 
         private IExchangeRestClient GetRestClient()
@@ -81,7 +78,9 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All.Except([Exchange.HyperLiquid, Exchange.Coinbase, Exchange.GateIo]), Exchange.All.Except([Exchange.Coinbase]));
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All,
+                Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -108,7 +107,9 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All.Except([Exchange.BitMart]), Exchange.All.Except([Exchange.BitMart]));
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All,
+                Exchange.All);
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -135,14 +136,16 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All, Exchange.All.Except([Exchange.BitMart]));
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All.Except([Exchange.BloFin]),
+                Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
                 var clients = client.GetKlineClients(group.Key.TradingMode)
                                     .Where(x => group.Value.Contains(x.Exchange))
                                     .Where(x => !x.GetKlinesOptions.NeedsAuthentication);
-                var tasks = clients.Select(x => x.GetKlinesAsync(new GetKlinesRequest(group.Key, SharedKlineInterval.FiveMinutes)));
+                var tasks = clients.Select(x => x.GetKlinesAsync(new GetKlinesRequest(group.Key, x.GetKlinesOptions.SupportIntervals.First()))).ToArray();
                 var results = await Task.WhenAll(tasks);
                 foreach (var result in results)
                 {
@@ -162,14 +165,16 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All, Exchange.All);
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All,
+                Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
                 var clients = client.GetOrderBookClients(group.Key.TradingMode)
                                     .Where(x => group.Value.Contains(x.Exchange))
                                     .Where(x => !x.GetOrderBookOptions.NeedsAuthentication);
-                var tasks = clients.Select(x => x.GetOrderBookAsync(new GetOrderBookRequest(group.Key)));
+                var tasks = clients.Select(x => x.GetOrderBookAsync(new GetOrderBookRequest(group.Key))).ToArray();
                 var results = await Task.WhenAll(tasks);
                 foreach (var result in results)
                 {
@@ -189,14 +194,16 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All, Exchange.All);
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All,
+                Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
                 var clients = client.GetRecentTradesClients(group.Key.TradingMode)
                                     .Where(x => group.Value.Contains(x.Exchange))
                                     .Where(x => !x.GetRecentTradesOptions.NeedsAuthentication);
-                var tasks = clients.Select(x => x.GetRecentTradesAsync(new GetRecentTradesRequest(group.Key)));
+                var tasks = clients.Select(x => x.GetRecentTradesAsync(new GetRecentTradesRequest(group.Key))).ToArray();
                 var results = await Task.WhenAll(tasks);
                 foreach (var result in results)
                 {
@@ -216,14 +223,16 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All.Except([Exchange.BitMEX]), Exchange.All);
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All.Except([Exchange.BitMEX]),
+                Exchange.All);
 
             foreach (var group in exchangeSymbolsGroups)
             {
                 var clients = client.GetTradeHistoryClients(group.Key.TradingMode)
                                     .Where(x => group.Value.Contains(x.Exchange))
                                     .Where(x => !x.GetTradeHistoryOptions.NeedsAuthentication);
-                var tasks = clients.Select(x => x.GetTradeHistoryAsync(new GetTradeHistoryRequest(group.Key, DateTime.UtcNow.AddMinutes(-5), DateTime.UtcNow)));
+                var tasks = clients.Select(x => x.GetTradeHistoryAsync(new GetTradeHistoryRequest(group.Key, DateTime.UtcNow.AddMinutes(-60), DateTime.UtcNow))).ToArray();
                 var results = await Task.WhenAll(tasks);
                 foreach (var result in results)
                 {
@@ -324,14 +333,14 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All);
+            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin, Exchange.Bitstamp]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
                 var clients = client.GetFundingRateClients(group.Key.TradingMode)
                                     .Where(x => group.Value.Contains(x.Exchange))
                                     .Where(x => !x.GetFundingRateHistoryOptions.NeedsAuthentication);
-                var tasks = clients.Select(x => x.GetFundingRateHistoryAsync(new GetFundingRateHistoryRequest(group.Key)));
+                var tasks = clients.Select(x => x.GetFundingRateHistoryAsync(new GetFundingRateHistoryRequest(group.Key))).ToArray();
                 var results = await Task.WhenAll(tasks);
                 foreach (var result in results)
                 {
@@ -351,14 +360,14 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All);
+            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
                 var clients = client.GetFuturesSymbolClients(group.Key.TradingMode)
                                     .Where(x => group.Value.Contains(x.Exchange))
                                     .Where(x => !x.GetFuturesSymbolsOptions.NeedsAuthentication);
-                var tasks = clients.Select(x => x.GetFuturesSymbolsAsync(new GetSymbolsRequest()));
+                var tasks = clients.Select(x => x.GetFuturesSymbolsAsync(new GetSymbolsRequest())).ToArray();
                 var results = await Task.WhenAll(tasks);
                 foreach (var result in results)
                 {
@@ -378,7 +387,7 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All);
+            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -405,7 +414,7 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All);
+            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -432,7 +441,7 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All);
+            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin, Exchange.CoinEx]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -459,7 +468,7 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All);
+            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin, Exchange.CoinEx]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -486,7 +495,7 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All);
+            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {

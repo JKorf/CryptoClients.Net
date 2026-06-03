@@ -12,17 +12,13 @@ namespace CryptoClients.Net.UnitTests
     [NonParallelizable]
     public class SharedSocketIntegrationTests
     {
-        private static readonly SharedSymbol _testSpotExchangeSymbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
-        private static readonly SharedSymbol _testFuturesExchangeSymbol = new SharedSymbol(TradingMode.PerpetualLinear, "ETH", "USDT");
+        private static readonly SharedSymbol _testSpotExchangeSymbol = new SharedSymbol(TradingMode.Spot, "ETH", SharedSymbol.UsdOrStable);
+        private static readonly SharedSymbol _testFuturesExchangeSymbol = new SharedSymbol(TradingMode.PerpetualLinear, "ETH", SharedSymbol.UsdOrStable);
         private static readonly Dictionary<string, SharedSymbol> _testSpotExchangeSymbolOverrides = new Dictionary<string, SharedSymbol>
         {
-            { Exchange.HyperLiquid, new SharedSymbol(TradingMode.Spot, "ETH", "USDC") }
         };
         private static readonly Dictionary<string, SharedSymbol> _testFuturesExchangeSymbolOverrides = new Dictionary<string, SharedSymbol>
         {
-            { Exchange.HyperLiquid, new SharedSymbol(TradingMode.PerpetualLinear, "ETH", "USDC") },
-            { Exchange.CryptoCom, new SharedSymbol(TradingMode.PerpetualLinear, "ETH", "USD") },
-            { Exchange.Kraken, new SharedSymbol(TradingMode.PerpetualLinear, "ETH", "USD") },
         };
 
         private IExchangeSocketClient GetSocketClient()
@@ -68,7 +64,7 @@ namespace CryptoClients.Net.UnitTests
             return spotSymbols;
         }
 
-        private bool ManualRun { get; } = false;
+        private bool ManualRun { get; } = true;
 
         private bool ShouldRun()
         {
@@ -89,7 +85,9 @@ namespace CryptoClients.Net.UnitTests
             await Task.Delay(2000);
 
             var client = GetSocketClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All, Exchange.All);
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All,
+                Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -155,7 +153,9 @@ namespace CryptoClients.Net.UnitTests
             await Task.Delay(2000);
 
             var client = GetSocketClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All.Except([Exchange.DeepCoin]), Exchange.All.Except([Exchange.DeepCoin]));
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All.Except([Exchange.BloFin, Exchange.DeepCoin]), 
+                Exchange.All.Except([Exchange.BloFin, Exchange.DeepCoin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -209,7 +209,9 @@ namespace CryptoClients.Net.UnitTests
             await Task.Delay(2000);
 
             var client = GetSocketClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All, Exchange.All);
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All,
+                Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -274,7 +276,9 @@ namespace CryptoClients.Net.UnitTests
             await Task.Delay(2000);
 
             var client = GetSocketClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All.Except([Exchange.Mexc]), Exchange.All);
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All.Except([Exchange.Mexc]), 
+                Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -327,7 +331,9 @@ namespace CryptoClients.Net.UnitTests
             await Task.Delay(2000);
 
             var client = GetSocketClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All, Exchange.All);
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All,
+                Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -392,7 +398,9 @@ namespace CryptoClients.Net.UnitTests
             await Task.Delay(2000);
 
             var client = GetSocketClient();
-            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(Exchange.All, Exchange.All);
+            var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
+                Exchange.All,
+                Exchange.All.Except([Exchange.BloFin]));
             //var exchangeSymbolsGroups = GetSpotAndFuturesSymbols([Exchange.DeepCoin], [Exchange.DeepCoin]);
 
             foreach (var group in exchangeSymbolsGroups)

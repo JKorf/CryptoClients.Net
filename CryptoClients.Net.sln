@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{762667
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoClients.Net.Benchmark.Server", "Benchmark\Server\CryptoClients.Net.Benchmark.Server.csproj", "{F555A82F-833E-48E7-AFBF-F90F44DF6AB9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoClients.Net.UnitTests", "CryptoClients.Net.UnitTests\CryptoClients.Net.UnitTests.csproj", "{90B06A8F-9E05-6143-C9BE-D85EA76F398C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,18 @@ Global
 		{F555A82F-833E-48E7-AFBF-F90F44DF6AB9}.Release|x64.Build.0 = Release|Any CPU
 		{F555A82F-833E-48E7-AFBF-F90F44DF6AB9}.Release|x86.ActiveCfg = Release|Any CPU
 		{F555A82F-833E-48E7-AFBF-F90F44DF6AB9}.Release|x86.Build.0 = Release|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Debug|x64.Build.0 = Debug|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Debug|x86.Build.0 = Debug|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Release|x64.ActiveCfg = Release|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Release|x64.Build.0 = Release|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Release|x86.ActiveCfg = Release|Any CPU
+		{90B06A8F-9E05-6143-C9BE-D85EA76F398C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
