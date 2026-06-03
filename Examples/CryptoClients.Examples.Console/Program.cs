@@ -6,106 +6,133 @@ using CryptoClients.Net;
 using CryptoClients.Net.Enums;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis;
-using Kucoin.Net.Clients;
 
 // #####################################################################################################################################
 // #                                                  CryptoClients.Net examples                                                       #
 // #                                                                                                                                   #
-// #  Uncomment an example to get started.                                                                                             #
-// #  The place order examples will need the API credentials to be set and will try to actually place an order.                        #
+// #  Select an example from the menu to get started.                                                                                  #
+// #  The place order examples need API credentials to be set and will try to actually place an order.                                 #
 // #                                                                                                                                   #
 // #  These examples are limited to the Binance, BingX and Bybit exchanges, but the same principles apply to each exchange available   #
 // #                                                                                                                                   #
 // #####################################################################################################################################
 
-// 1. Request tickers
-//await TickerExampleExchangeSpecific();
-//await TickerExampleUnified();
-//await TickerExampleUnified2();
+while (true)
+{
+    Console.WriteLine("Select an example:");
+    Console.WriteLine("  1. Request tickers - exchange specific");
+    Console.WriteLine("  2. Request tickers - unified");
+    Console.WriteLine("  3. Request tickers - unified async enumerable");
+    Console.WriteLine("  4. Place order - exchange specific");
+    Console.WriteLine("  5. Place order - unified");
+    Console.WriteLine("  6. Subscribe to price updates - exchange specific");
+    Console.WriteLine("  7. Subscribe to price updates - unified");
+    Console.WriteLine("  8. Subscribe to price updates - unified aggregate");
+    Console.WriteLine("  9. Start locally synced order books");
+    Console.WriteLine("  0. Exit");
+    Console.Write("Choice: ");
 
-// 2. Place a new order
-//await PlaceOrderExampleExchangeSpecific();
-//await PlaceOrderExampleUnified();
+    var choice = Console.ReadLine();
+    Console.Clear();
 
-// 3. Subscribe to price updates
-//await SubscribePriceUpdatesExchangeSpecific();
-//await SubscribePriceUpdatesUnified();
-//await SubscribePriceUpdatesUnified2();
-
-// 4. Locally synced order books
-//await StartOrderBooks();
-
-Console.ReadLine();
+    switch (choice)
+    {
+        case "1":
+            await TickerExampleExchangeSpecific();
+            break;
+        case "2":
+            await TickerExampleUnified();
+            break;
+        case "3":
+            await TickerExampleUnified2();
+            break;
+        case "4":
+            await PlaceOrderExampleExchangeSpecific();
+            break;
+        case "5":
+            await PlaceOrderExampleUnified();
+            break;
+        case "6":
+            await SubscribePriceUpdatesExchangeSpecific();
+            break;
+        case "7":
+            await SubscribePriceUpdatesUnified();
+            break;
+        case "8":
+            await SubscribePriceUpdatesUnified2();
+            break;
+        case "9":
+            await StartOrderBooks();
+            break;
+        case "0":
+            return;
+        default:
+            Console.WriteLine("Unknown choice");
+            Console.WriteLine();
+            break;
+    }
+}
 
 async Task TickerExampleExchangeSpecific()
 {
-    while (true)
-    {
-        Console.WriteLine("Enter base asset: ");
-        var baseAsset = Console.ReadLine();
-        Console.WriteLine("Enter quote asset: ");
-        var quoteAsset = Console.ReadLine();
+    Console.WriteLine("Enter base asset: ");
+    var baseAsset = Console.ReadLine();
+    Console.WriteLine("Enter quote asset: ");
+    var quoteAsset = Console.ReadLine();
 
-        var client = new ExchangeRestClient();
-        var resultBinance = client.Binance.SpotApi.ExchangeData.GetTickerAsync(baseAsset + quoteAsset);
-        var resultBingX = client.BingX.SpotApi.ExchangeData.GetTickersAsync(baseAsset + "-" + quoteAsset);
-        var resultBybit = client.Bybit.V5Api.ExchangeData.GetSpotTickersAsync(baseAsset + quoteAsset);
-        await Task.WhenAll(resultBinance, resultBingX, resultBybit);
+    var client = new ExchangeRestClient();
+    var resultBinance = client.Binance.SpotApi.ExchangeData.GetTickerAsync(baseAsset + quoteAsset);
+    var resultBingX = client.BingX.SpotApi.ExchangeData.GetTickersAsync(baseAsset + "-" + quoteAsset);
+    var resultBybit = client.Bybit.V5Api.ExchangeData.GetSpotTickersAsync(baseAsset + quoteAsset);
+    await Task.WhenAll(resultBinance, resultBingX, resultBybit);
 
-        Console.WriteLine();
-        Console.WriteLine("Exchange prices:");
-        Console.WriteLine("Binance:" + (resultBinance.Result.Success ? resultBinance.Result.Data.LastPrice : resultBinance.Result.Error));
-        Console.WriteLine("BingX:" + (resultBingX.Result.Success ? resultBingX.Result.Data.Single().LastPrice : resultBingX.Result.Error));
-        Console.WriteLine("Bybit:" + (resultBybit.Result.Success ? resultBybit.Result.Data.List.Single().LastPrice : resultBybit.Result.Error));
-        Console.WriteLine();
-    }
+    Console.WriteLine();
+    Console.WriteLine("Exchange prices:");
+    Console.WriteLine("Binance:" + (resultBinance.Result.Success ? resultBinance.Result.Data.LastPrice : resultBinance.Result.Error));
+    Console.WriteLine("BingX:" + (resultBingX.Result.Success ? resultBingX.Result.Data.Single().LastPrice : resultBingX.Result.Error));
+    Console.WriteLine("Bybit:" + (resultBybit.Result.Success ? resultBybit.Result.Data.List.Single().LastPrice : resultBybit.Result.Error));
+    Console.WriteLine();
 }
 
 async Task TickerExampleUnified()
 {
-    while (true)
-    {
-        Console.WriteLine("Enter base asset: ");
-        var baseAsset = Console.ReadLine();
-        Console.WriteLine("Enter quote asset: ");
-        var quoteAsset = Console.ReadLine();
+    Console.WriteLine("Enter base asset: ");
+    var baseAsset = Console.ReadLine();
+    Console.WriteLine("Enter quote asset: ");
+    var quoteAsset = Console.ReadLine();
 
-        var client = new ExchangeRestClient();
-        var symbol = new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset);
-        var request = new GetTickerRequest(symbol);
-        var resultBinance = client.GetSpotTickerAsync(Exchange.Binance, request);
-        var resultBingX = client.GetSpotTickerAsync(Exchange.BingX, request);
-        var resultBybit = client.GetSpotTickerAsync(Exchange.Bybit, request);
-        await Task.WhenAll(resultBinance, resultBingX, resultBybit);
+    var client = new ExchangeRestClient();
+    var symbol = new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset);
+    var request = new GetTickerRequest(symbol);
+    var resultBinance = client.GetSpotTickerAsync(Exchange.Binance, request);
+    var resultBingX = client.GetSpotTickerAsync(Exchange.BingX, request);
+    var resultBybit = client.GetSpotTickerAsync(Exchange.Bybit, request);
+    await Task.WhenAll(resultBinance, resultBingX, resultBybit);
 
-        Console.WriteLine();
-        Console.WriteLine("Exchange prices:");
-        Console.WriteLine("Binance:" + (resultBinance.Result.Success ? resultBinance.Result.Data.LastPrice : resultBinance.Result.Error));
-        Console.WriteLine("BingX:" + (resultBingX.Result.Success ? resultBingX.Result.Data.LastPrice : resultBingX.Result.Error));
-        Console.WriteLine("Bybit:" + (resultBybit.Result.Success ? resultBybit.Result.Data.LastPrice : resultBybit.Result.Error));
-        Console.WriteLine();
-    }
+    Console.WriteLine();
+    Console.WriteLine("Exchange prices:");
+    Console.WriteLine("Binance:" + (resultBinance.Result.Success ? resultBinance.Result.Data.LastPrice : resultBinance.Result.Error));
+    Console.WriteLine("BingX:" + (resultBingX.Result.Success ? resultBingX.Result.Data.LastPrice : resultBingX.Result.Error));
+    Console.WriteLine("Bybit:" + (resultBybit.Result.Success ? resultBybit.Result.Data.LastPrice : resultBybit.Result.Error));
+    Console.WriteLine();    
 }
 
 async Task TickerExampleUnified2()
 {
-    while (true)
-    {
-        Console.WriteLine("Enter base asset: ");
-        var baseAsset = Console.ReadLine();
-        Console.WriteLine("Enter quote asset: ");
-        var quoteAsset = Console.ReadLine();
+    Console.WriteLine("Enter base asset: ");
+    var baseAsset = Console.ReadLine();
+    Console.WriteLine("Enter quote asset: ");
+    var quoteAsset = Console.ReadLine();
 
-        var client = new ExchangeRestClient();
-        var symbol = new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset);
-        var request = new GetTickerRequest(symbol);
+    var client = new ExchangeRestClient();
+    var symbol = new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset);
+    var request = new GetTickerRequest(symbol);
 
-        Console.WriteLine("Exchange prices:");
-        await foreach(var result in client.GetSpotTickerAsyncEnumerable(request, [Exchange.Binance, Exchange.BingX, Exchange.Bybit]))
-            Console.WriteLine($"{result.Exchange}:" + (result.Success ? result.Data.LastPrice : result.Error));
+    Console.WriteLine("Exchange prices:");
+    await foreach(var result in client.GetSpotTickerAsyncEnumerable(request, [Exchange.Binance, Exchange.BingX, Exchange.Bybit]))
+        Console.WriteLine($"{result.Exchange}:" + (result.Success ? result.Data.LastPrice : result.Error));
 
-        Console.WriteLine();
-    }
+    Console.WriteLine();    
 }
 
 async Task PlaceOrderExampleExchangeSpecific()
@@ -123,15 +150,15 @@ async Task PlaceOrderExampleExchangeSpecific()
 
     var client = new ExchangeRestClient(binanceRestOptions: (options) =>
     {
-        options.ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials("BinanceKey", "BinanceSecret");
+        options.ApiCredentials = new Binance.Net.BinanceCredentials("BinanceKey", "BinanceSecret");
     },
     bingxRestOptions: (options) =>
     {
-        options.ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials("BingXKey", "BingXSecret");
+        options.ApiCredentials = new BingX.Net.BingXCredentials("BingXKey", "BingXSecret");
     },
     bybitRestOptions: (options) =>
     {
-        options.ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials("BybitKey", "BybitSecret");
+        options.ApiCredentials = new Bybit.Net.BybitCredentials("BybitKey", "BybitSecret");
     });
 
     var resultBinance = client.Binance.SpotApi.Trading.PlaceOrderAsync(baseAsset + quoteAsset, side == "buy"? Binance.Net.Enums.OrderSide.Buy: Binance.Net.Enums.OrderSide.Sell, Binance.Net.Enums.SpotOrderType.Limit, quantity, price: price, timeInForce: Binance.Net.Enums.TimeInForce.GoodTillCanceled);
@@ -160,15 +187,15 @@ async Task PlaceOrderExampleUnified()
 
     var client = new ExchangeRestClient(binanceRestOptions: (options) =>
     {
-        options.ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials("BinanceKey", "BinanceSecret");
+        options.ApiCredentials = new Binance.Net.BinanceCredentials("BinanceKey", "BinanceSecret");
     },
     bingxRestOptions: (options) =>
     {
-        options.ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials("BingXKey", "BingXSecret");
+        options.ApiCredentials = new BingX.Net.BingXCredentials("BingXKey", "BingXSecret");
     },
     bybitRestOptions: (options) =>
     {
-        options.ApiCredentials = new CryptoExchange.Net.Authentication.ApiCredentials("BybitKey", "BybitSecret");
+        options.ApiCredentials = new Bybit.Net.BybitCredentials("BybitKey", "BybitSecret");
     });
 
     var request = new PlaceSpotOrderRequest(

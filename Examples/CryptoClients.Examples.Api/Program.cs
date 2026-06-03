@@ -35,7 +35,10 @@ app.MapGet("priceFromRequest", async (IExchangeRestClient restClient, string exc
 
 app.MapGet("priceFromSocket", ([FromServices]PriceService service, string exchange) =>
 {
-    return Results.Ok(service.GetPrice(exchange));
+    if (!service.TryGetPrice(exchange, out var price))
+        return Results.NotFound("No socket price received yet for exchange " + exchange);
+
+    return Results.Ok(price);
 })
 .WithName("GetPriceSocket");
 

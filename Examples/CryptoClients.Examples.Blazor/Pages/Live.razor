@@ -5,7 +5,7 @@
 @using CryptoExchange.Net.SharedApis
 @using System.Collections.Concurrent
 @inject IExchangeSocketClient SocketClient
-@implements IDisposable
+@implements IAsyncDisposable
 
 <PageTitle>Live trades</PageTitle>
 
@@ -112,8 +112,8 @@
         InvokeAsync(StateHasChanged);
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
-        SocketClient.UnsubscribeAllAsync();
+        await SocketClient.UnsubscribeAllAsync();
     }
 }

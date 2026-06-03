@@ -3,7 +3,7 @@
 @using CryptoExchange.Net.SharedApis
 @using CryptoExchange.Net.Trackers.Trades
 @inject IExchangeTrackerFactory TrackerFactory
-@implements IDisposable
+@implements IAsyncDisposable
 
 <PageTitle>Live Trade Tracking</PageTitle>
 
@@ -79,11 +79,11 @@
         }
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
-        foreach (var tracker in _trackers)
-            tracker.StopAsync();
-
         _timer?.Dispose();
+
+        foreach (var tracker in _trackers)
+            await tracker.StopAsync();
     }
 }
