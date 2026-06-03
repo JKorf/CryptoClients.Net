@@ -29,7 +29,7 @@ using CryptoExchange.Net.SharedApis;
 IExchangeRestClient restClient = new ExchangeRestClient();
 IExchangeSocketClient socketClient = new ExchangeSocketClient();
 
-var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
+var symbol = new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable);
 ```
 
 For ASP.NET Core or worker services, prefer dependency injection:
@@ -54,7 +54,7 @@ Aggregate REST methods return `ExchangeWebResult<T>` for a single exchange or ar
 ```csharp
 var result = await restClient.GetSpotTickerAsync(
     "Binance",
-    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT")));
+    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable)));
 
 if (!result.Success)
 {
@@ -69,7 +69,7 @@ For multi-exchange calls, each exchange can succeed or fail independently:
 
 ```csharp
 var results = await restClient.GetSpotTickerAsync(
-    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "ETH", "USDT")),
+    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "ETH", SharedSymbol.UsdOrStable)),
     new[] { "Binance", "Bybit", "OKX" });
 
 foreach (var item in results)
@@ -111,7 +111,7 @@ Use the `AsyncEnumerable` overload when you want to process results as soon as e
 
 ```csharp
 await foreach (var ticker in restClient.GetSpotTickerAsyncEnumerable(
-    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT")),
+    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable)),
     new[] { "Binance", "Kraken", "Kucoin" }))
 {
     Console.WriteLine(ticker.Success
@@ -124,7 +124,7 @@ await foreach (var ticker in restClient.GetSpotTickerAsyncEnumerable(
 
 ```csharp
 var subscriptions = await socketClient.SubscribeToTickerUpdatesAsync(
-    new SubscribeTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT")),
+    new SubscribeTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable)),
     update => Console.WriteLine($"{update.Exchange} {update.Data.Symbol}: {update.Data.LastPrice}"),
     new[] { "Binance", "OKX" });
 
@@ -198,7 +198,7 @@ Use `IExchangeOrderBookFactory.CreateCrossExchange` for a locally synced aggrega
 
 ```csharp
 var book = orderBookFactory.CreateCrossExchange(
-    new SharedSymbol(TradingMode.Spot, "BTC", "USDT"),
+    new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable),
     minimalDepth: 20,
     exchanges: new[] { "Binance", "Bybit", "OKX" });
 
@@ -214,12 +214,12 @@ Use `IExchangeTrackerFactory` for trade, kline, and user data trackers:
 ```csharp
 var tradeTracker = trackerFactory.CreateTradeTracker(
     "Binance",
-    new SharedSymbol(TradingMode.Spot, "ETH", "USDT"),
+    new SharedSymbol(TradingMode.Spot, "ETH", SharedSymbol.UsdOrStable),
     limit: 100);
 
 var klineTracker = trackerFactory.CreateKlineTracker(
     "OKX",
-    new SharedSymbol(TradingMode.Spot, "ETH", "USDT"),
+    new SharedSymbol(TradingMode.Spot, "ETH", SharedSymbol.UsdOrStable),
     SharedKlineInterval.OneMinute);
 ```
 
@@ -230,7 +230,7 @@ User data trackers require credentials. Use the overloads that accept `ExchangeC
 - Do not call exchange REST endpoints with raw `HttpClient`; use aggregate methods, shared clients, or direct exchange clients.
 - Do not assume one exchange failure means the entire aggregate request failed; inspect each `ExchangeWebResult`.
 - Do not read `.Data` before checking `.Success`.
-- Do not hardcode symbol formats like `BTCUSDT` for shared APIs; use `SharedSymbol`.
+- Do not hardcode symbol formats like `BTCUSDT` for shared APIs; use `SharedSymbol`. For cross-exchange USD/stable quote routing, prefer `SharedSymbol.UsdOrStable` instead of hardcoding `USDT` when USDC/USD variants are acceptable.
 - Do not assume all exchanges support the same shared interface; use `Get*Client(...)` and handle `null`, or call aggregate methods with explicit exchange filters.
 - Do not assume all exchanges use key/secret credentials; use typed credentials or `DynamicCredentialInfo`.
 - Do not instantiate aggregate clients per request. Reuse clients or use DI.

@@ -216,7 +216,7 @@ Direct properties expose the full API from the corresponding exchange package. I
 | Do not use | Use instead |
 |---|---|
 | Raw `HttpClient` calls to exchange APIs | `ExchangeRestClient`, direct exchange clients, or shared clients |
-| Hardcoded exchange symbols in shared calls | `new SharedSymbol(tradingMode, baseAsset, quoteAsset)` |
+| Hardcoded exchange symbols in shared calls | `new SharedSymbol(tradingMode, baseAsset, quoteAsset)`; use `SharedSymbol.UsdOrStable` for cross-exchange USD/stable quote routing when USDC/USD variants are acceptable |
 | One global success flag for multi-exchange calls | Check each `ExchangeWebResult<T>.Success` |
 | `.Data` without `.Success` check | Branch on `.Success` first |
 | Assumed key/secret credentials | `ExchangeCredentials` or `DynamicCredentials` with `GetDynamicCredentialInfo` |

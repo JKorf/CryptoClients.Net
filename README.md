@@ -367,6 +367,9 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 4.12.0 - 03 Jun 2026
+    * Updated library versions, fixing some Shared requests
+
 * Version 4.11.1 - 28 May 2026
     * Updated library versions for minor fixes
     * Fixed environment override in exchange specific options not applying

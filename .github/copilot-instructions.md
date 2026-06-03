@@ -38,9 +38,11 @@ Aggregate REST calls return `ExchangeWebResult<T>` or arrays of them. Socket sub
 Use `SharedSymbol`, not hardcoded exchange symbol formats, when using aggregate or shared API methods:
 
 ```csharp
-var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
+var symbol = new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable);
 var ticker = await restClient.GetSpotTickerAsync("Binance", new GetTickerRequest(symbol));
 ```
+
+For cross-exchange USD/stable quote routing, prefer `SharedSymbol.UsdOrStable` instead of hardcoding `USDT` when USDC/USD variants are acceptable.
 
 ## Credentials
 

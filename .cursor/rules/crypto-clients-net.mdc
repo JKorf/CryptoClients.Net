@@ -33,7 +33,7 @@ Aggregate methods return `ExchangeWebResult<T>`, `ExchangeWebResult<T>[]`, `Exch
 ```csharp
 var ticker = await restClient.GetSpotTickerAsync(
     "Binance",
-    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT")));
+    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable)));
 
 if (!ticker.Success) { /* ticker.Error */ return; }
 var price = ticker.Data.LastPrice;
@@ -51,7 +51,7 @@ var price = ticker.Data.LastPrice;
 ## Hard rules
 
 - Never skip checking `Success`.
-- Use `SharedSymbol` for aggregate/shared APIs.
+- Use `SharedSymbol` for aggregate/shared APIs. For cross-exchange USD/stable quote routing, prefer `SharedSymbol.UsdOrStable` instead of hardcoding `USDT` when USDC/USD variants are acceptable.
 - Handle per-exchange failures independently in multi-exchange results.
 - Use `Get*Client(...)` null checks when routing manually.
 - Use `ExchangeCredentials` or `DynamicCredentials`; do not guess credential shapes.
