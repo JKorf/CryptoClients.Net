@@ -50,11 +50,6 @@ namespace CryptoClients.Net
         public static IKlineRestClient? KlineRestClient(this IEnumerable<ISharedClient> clients, TradingMode tradingMode) => clients.OfType<IKlineRestClient>().SingleOrDefault(x => x.SupportedTradingModes.Contains(tradingMode));
 
         /// <summary>
-        /// Get the <see cref="IListenKeyRestClient"/> if available
-        /// </summary>
-        public static IListenKeyRestClient? ListenKeyRestClient(this IEnumerable<ISharedClient> clients, TradingMode tradingMode) => clients.OfType<IListenKeyRestClient>().SingleOrDefault(x => x.SupportedTradingModes.Contains(tradingMode));
-
-        /// <summary>
         /// Get the <see cref="IOrderBookRestClient"/> if available
         /// </summary>
         public static IOrderBookRestClient? OrderBookRestClient(this IEnumerable<ISharedClient> clients, TradingMode tradingMode) => clients.OfType<IOrderBookRestClient>().SingleOrDefault(x => x.SupportedTradingModes.Contains(tradingMode));

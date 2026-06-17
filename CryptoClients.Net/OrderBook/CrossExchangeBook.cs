@@ -123,7 +123,7 @@ namespace CryptoClients.Net.OrderBook
         {
             _books = Exchanges.Select(x => _factory.Create(x, Symbol, MinimalDepth, _exchangeParameters)).Where(x => x != null).ToArray()!;
             if (_books.Length == 0)
-                return new CallResult(ArgumentError.Invalid("Symbol", "No orderbooks could be created for the provided parameters"));
+                return CallResult.Fail(ArgumentError.Invalid("Symbol", "No orderbooks could be created for the provided parameters"));
 
             foreach (var book in _books)
             {
@@ -139,7 +139,7 @@ namespace CryptoClients.Net.OrderBook
                 return results.First(x => !x.Success);
             }
 
-            return CallResult.SuccessResult;
+            return CallResult.Ok();
         }
 
         /// <inheritdoc />

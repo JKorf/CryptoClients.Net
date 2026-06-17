@@ -21,11 +21,11 @@ namespace CryptoClients.Net
         #region Get Futures Order By Client Order Id
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedFuturesOrder>> GetFuturesOrderByClientOrderIdAsync(string exchange, GetOrderRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedFuturesOrder>> GetFuturesOrderByClientOrderIdAsync(string exchange, GetOrderRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesOrderClientIdClient(request.TradingMode, exchange);
+            var client = GetFuturesOrderClientIdClient(request.TradingMode!.Value, exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedFuturesOrder>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedFuturesOrder>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.GetFuturesOrderByClientOrderIdAsync(request, ct).ConfigureAwait(false);
         }
@@ -35,11 +35,11 @@ namespace CryptoClients.Net
         #region Cancel Futures Order By Client Order Id
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedId>> CancelFuturesOrderByClientOrderIdAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedId>> CancelFuturesOrderByClientOrderIdAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesOrderClientIdClient(request.TradingMode, exchange);
+            var client = GetFuturesOrderClientIdClient(request.TradingMode!.Value, exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.CancelFuturesOrderByClientOrderIdAsync(request, ct).ConfigureAwait(false);
         }

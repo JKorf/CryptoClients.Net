@@ -64,7 +64,7 @@ namespace CryptoClients.Net.UnitTests
             return spotSymbols;
         }
 
-        private bool ManualRun { get; } = false;
+        private bool ManualRun { get; } = true;
 
         private bool ShouldRun()
         {
@@ -103,7 +103,7 @@ namespace CryptoClients.Net.UnitTests
                     var waitEvent = new AsyncResetEvent(false, false);
                     var tasks = batchClients.Select(x =>
                     {
-                        Task<ExchangeResult<UpdateSubscription>>? sub = null;
+                        Task<WebSocketResult<UpdateSubscription>>? sub = null;
                         sub = x.SubscribeToBookTickerUpdatesAsync(new SubscribeBookTickerRequest(group.Key), update =>
                         {
                             // Start a new task so there isn't a deadlock when an update is received during subscription
@@ -133,7 +133,7 @@ namespace CryptoClients.Net.UnitTests
                     {
                         await waitEvent.WaitAsync(TimeSpan.FromSeconds(1));
 
-                        if (updateReceived.Where(x => results.Single(t => t.Exchange == x.Key)).All(x => x.Value))
+                        if (updateReceived.Where(x => results.Single(t => t.Exchange == x.Key).Success).All(x => x.Value))
                             break;
                     }
 
@@ -171,7 +171,7 @@ namespace CryptoClients.Net.UnitTests
                     var waitEvent = new AsyncResetEvent(false, false);
                     var tasks = batchClients.Select(x =>
                     {
-                        Task<ExchangeResult<UpdateSubscription>>? sub = null;
+                        Task<WebSocketResult<UpdateSubscription>>? sub = null;
                         sub = x.SubscribeToKlineUpdatesAsync(new SubscribeKlineRequest(group.Key, SharedKlineInterval.FiveMinutes), update =>
                         {
                             // Start a new task so there isn't a deadlock when an update is received during subscription
@@ -226,7 +226,7 @@ namespace CryptoClients.Net.UnitTests
                     var waitEvent = new AsyncResetEvent(false, false);
                     var tasks = batchClients.Select(x =>
                     {
-                        Task<ExchangeResult<UpdateSubscription>>? sub = null;
+                        Task<WebSocketResult<UpdateSubscription>>? sub = null;
                         sub = x.SubscribeToOrderBookUpdatesAsync(new SubscribeOrderBookRequest(group.Key), update =>
                         {
                             // Start a new task so there isn't a deadlock when an update is received during subscription
@@ -256,7 +256,7 @@ namespace CryptoClients.Net.UnitTests
                     {
                         await waitEvent.WaitAsync(TimeSpan.FromSeconds(1));
 
-                        if (updateReceived.Where(x => results.Single(t => t.Exchange == x.Key)).All(x => x.Value))
+                        if (updateReceived.Where(x => results.Single(t => t.Exchange == x.Key).Success).All(x => x.Value))
                             break;
                     }
 
@@ -293,7 +293,7 @@ namespace CryptoClients.Net.UnitTests
                     var waitEvent = new AsyncResetEvent(false, false);
                     var tasks = batchClients.Select(x =>
                     {
-                        Task<ExchangeResult<UpdateSubscription>>? sub = null;
+                        Task<WebSocketResult<UpdateSubscription>>? sub = null;
                         sub = x.SubscribeToTickerUpdatesAsync(new SubscribeTickerRequest(group.Key), update =>
                         {
                             // Start a new task so there isn't a deadlock when an update is received during subscription
@@ -348,7 +348,7 @@ namespace CryptoClients.Net.UnitTests
                     var waitEvent = new AsyncResetEvent(false, false);
                     var tasks = batchClients.Select(x =>
                     {
-                        Task<ExchangeResult<UpdateSubscription>>? sub = null;
+                        Task<WebSocketResult<UpdateSubscription>>? sub = null;
                         sub = x.SubscribeToAllTickersUpdatesAsync(new SubscribeAllTickersRequest(), update =>
                         {
                             // Start a new task so there isn't a deadlock when an update is received during subscription
@@ -378,7 +378,7 @@ namespace CryptoClients.Net.UnitTests
                     {
                         await waitEvent.WaitAsync(TimeSpan.FromSeconds(1));
 
-                        if (updateReceived.Where(x => results.Single(t => t.Exchange == x.Key)).All(x => x.Value))
+                        if (updateReceived.Where(x => results.Single(t => t.Exchange == x.Key).Success).All(x => x.Value))
                             break;
                     }
 
@@ -416,7 +416,7 @@ namespace CryptoClients.Net.UnitTests
                     var waitEvent = new AsyncResetEvent(false, false);
                     var tasks = batchClients.Select(x =>
                     {
-                        Task<ExchangeResult<UpdateSubscription>>? sub = null;
+                        Task<WebSocketResult<UpdateSubscription>>? sub = null;
                         sub = x.SubscribeToTradeUpdatesAsync(new SubscribeTradeRequest(group.Key), update =>
                         {
                             // Start a new task so there isn't a deadlock when an update is received during subscription

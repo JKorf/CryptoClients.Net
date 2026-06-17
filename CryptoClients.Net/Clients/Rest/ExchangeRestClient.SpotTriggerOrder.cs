@@ -19,11 +19,11 @@ namespace CryptoClients.Net
         #region Place Spot Trigger Order
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedId>> PlaceSpotTriggerOrderAsync(string exchange, PlaceSpotTriggerOrderRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedId>> PlaceSpotTriggerOrderAsync(string exchange, PlaceSpotTriggerOrderRequest request, CancellationToken ct = default)
         {
             var client = GetSpotTriggerOrderClient(exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.PlaceSpotTriggerOrderAsync(request, ct).ConfigureAwait(false);
         }
@@ -33,11 +33,11 @@ namespace CryptoClients.Net
         #region Cancel Spot Trigger Order
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedId>> CancelSpotTriggerOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedId>> CancelSpotTriggerOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
         {
             var client = GetSpotTriggerOrderClient(exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.CancelSpotTriggerOrderAsync(request, ct).ConfigureAwait(false);
         }

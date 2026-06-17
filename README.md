@@ -157,7 +157,7 @@ Use `ExchangeRestClient` or `ExchangeSocketClient` as a single entry point.
 
 Use shared interfaces for exchange-agnostic logic.
 
-    async Task<ExchangeWebResult<SharedSpotTicker>> GetTickerAsync(ISpotTickerRestClient client, SharedSymbol symbol)
+    async Task<HttpResult<SharedSpotTicker>> GetTickerAsync(ISpotTickerRestClient client, SharedSymbol symbol)
         => await client.GetSpotTickerAsync(new GetTickerRequest(symbol));
 
     var client = new ExchangeRestClient();

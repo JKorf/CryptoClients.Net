@@ -32,6 +32,7 @@ using Upbit.Net.Interfaces.Clients;
 using Polymarket.Net.Interfaces.Clients;
 using System;
 using Weex.Net.Interfaces.Clients;
+using CryptoExchange.Net.Objects;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -385,7 +386,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">Exchange</param>
         /// <param name="baseAsset">Base asset</param>
-        Task<ExchangeResult<SharedSymbol[]>> GetSpotSymbolsForBaseAssetAsync(string exchange, string baseAsset);
+        Task<ExchangeCallResult<SharedSymbol[]>> GetSpotSymbolsForBaseAssetAsync(string exchange, string baseAsset);
 
         /// <summary>
         /// Get exchanges supporting a specific symbol
@@ -404,14 +405,14 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">Exchange name</param>
         /// <param name="symbol">Symbol</param>
-        Task<ExchangeResult<bool>> SupportsSpotSymbolAsync(string exchange, SharedSymbol symbol);
+        Task<ExchangeCallResult<bool>> SupportsSpotSymbolAsync(string exchange, SharedSymbol symbol);
 
         /// <summary>
         /// Check whether an exchange supports a specific futures symbol
         /// </summary>
         /// <param name="exchange">Exchange name</param>
         /// <param name="symbolName">Symbol name</param>
-        Task<ExchangeResult<bool>> SupportsSpotSymbolAsync(string exchange, string symbolName);
+        Task<ExchangeCallResult<bool>> SupportsSpotSymbolAsync(string exchange, string symbolName);
 
         /// <summary>
         /// Get the <see cref="ISpotTickerRestClient"/> clients for all exchanges
@@ -498,7 +499,7 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">Exchange name</param>
         /// <param name="baseAsset">Base asset</param>
-        Task<ExchangeResult<SharedSymbol[]>> GetFuturesSymbolsForBaseAssetAsync(string exchange, string baseAsset);
+        Task<ExchangeCallResult<SharedSymbol[]>> GetFuturesSymbolsForBaseAssetAsync(string exchange, string baseAsset);
 
         /// <summary>
         /// Get exchanges supporting a specific symbol
@@ -517,14 +518,14 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         /// <param name="exchange">Exchange name</param>
         /// <param name="symbol">Symbol</param>
-        Task<ExchangeResult<bool>> SupportsFuturesSymbolAsync(string exchange, SharedSymbol symbol);
+        Task<ExchangeCallResult<bool>> SupportsFuturesSymbolAsync(string exchange, SharedSymbol symbol);
 
         /// <summary>
         /// Check whether an exchange supports a specific futures symbol
         /// </summary>
         /// <param name="exchange">Exchange name</param>
         /// <param name="symbolName">Symbol name</param>
-        Task<ExchangeResult<bool>> SupportsFuturesSymbolAsync(string exchange, string symbolName);
+        Task<ExchangeCallResult<bool>> SupportsFuturesSymbolAsync(string exchange, string symbolName);
 
         /// <summary>
         /// Get the <see cref="IFuturesSymbolRestClient"/> clients for all exchanges
@@ -655,22 +656,6 @@ namespace CryptoClients.Net.Interfaces
         IPositionHistoryRestClient? GetPositionHistoryClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
-        /// Get the <see cref="IListenKeyRestClient"/> clients for all exchanges
-        /// </summary>
-        IEnumerable<IListenKeyRestClient> GetListenKeyClients();
-        /// <summary>
-        /// Get all <see cref="IListenKeyRestClient"/> clients for all exchanges which supports the provided trading mode
-        /// </summary>
-        /// <param name="tradingMode">The trading mode the client should support</param>
-        IEnumerable<IListenKeyRestClient> GetListenKeyClients(TradingMode tradingMode);
-        /// <summary>
-        /// Get the <see cref="IListenKeyRestClient"/> client for a specific exchange which supports the provided trading mode
-        /// </summary>
-        /// <param name="tradingMode">Trading mode</param>
-        /// <param name="exchange">Exchange name</param>
-        IListenKeyRestClient? GetListenKeyClient(TradingMode tradingMode, string exchange);
-
-        /// <summary>
         /// Get the <see cref="IFeeRestClient"/> clients for all exchanges
         /// </summary>
         IEnumerable<IFeeRestClient> GetFeeClients();
@@ -736,21 +721,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotTicker[]>> GetSpotTickerAsync(string exchange, GetTickersRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotTicker[]>> GetSpotTickerAsync(string exchange, GetTickersRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get spot ticker information for all symbols on all exchanges, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedSpotTicker[]>> GetSpotTickersAsyncEnumerable(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedSpotTicker[]>> GetSpotTickersAsyncEnumerable(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get spot ticker information for all symbols on all exchanges, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotTicker[]>[]> GetSpotTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotTicker[]>[]> GetSpotTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get spot ticker information for a symbol on a specific exchange
@@ -758,21 +743,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotTicker>> GetSpotTickerAsync(string exchange, GetTickerRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotTicker>> GetSpotTickerAsync(string exchange, GetTickerRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get spot ticker information for a specific symbol from all exchanges, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedSpotTicker>> GetSpotTickerAsyncEnumerable(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedSpotTicker>> GetSpotTickerAsyncEnumerable(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get spot ticker information for a specific symbol from all exchanges, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotTicker>[]> GetSpotTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotTicker>[]> GetSpotTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get futures ticker information for all symbols on a specific exchange
@@ -780,21 +765,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesTicker[]>> GetFuturesTickersAsync(string exchange, GetTickersRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesTicker[]>> GetFuturesTickersAsync(string exchange, GetTickersRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get futures ticker information for all symbols on all exchanges, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedFuturesTicker[]>> GetFuturesTickersAsyncEnumerable(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedFuturesTicker[]>> GetFuturesTickersAsyncEnumerable(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get futures ticker information for all symbols on all exchanges, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesTicker[]>[]> GetFuturesTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesTicker[]>[]> GetFuturesTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get futures ticker information for a specific symbol from a specific exchange
@@ -802,21 +787,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesTicker>> GetFuturesTickerAsync(string exchange, GetTickerRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesTicker>> GetFuturesTickerAsync(string exchange, GetTickerRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get futures ticker information for a specific symbol from all exchanges, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedFuturesTicker>> GetFuturesTickerAsyncEnumerable(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedFuturesTicker>> GetFuturesTickerAsyncEnumerable(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get futures ticker information for a specific symbol from all exchanges, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesTicker>[]> GetFuturesTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesTicker>[]> GetFuturesTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get kline data for a specific symbol from a specific exchange
@@ -825,21 +810,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedKline[]>> GetKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedKline[]>> GetKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get kline data for a specific symbol from all exchanges, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedKline[]>> GetKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedKline[]>> GetKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get kline data for a specific symbol from all exchanges, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedKline[]>[]> GetKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedKline[]>[]> GetKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get mark price kline data for a specific symbol from a specific symbol
@@ -848,7 +833,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesKline[]>> GetMarkPriceKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesKline[]>> GetMarkPriceKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get mark price kline data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
@@ -856,14 +841,14 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedFuturesKline[]>> GetMarkPriceKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedFuturesKline[]>> GetMarkPriceKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get mark price kline data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesKline[]>[]> GetMarkPriceKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesKline[]>[]> GetMarkPriceKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get index price kline data for a specific symbol from a specific symbol
@@ -872,21 +857,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get index price kline data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get index price kline data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesKline[]>[]> GetIndexPriceKlinesAsync( GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesKline[]>[]> GetIndexPriceKlinesAsync( GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get recent trades public data for a specific symbol from a specific exchange
@@ -894,21 +879,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedTrade[]>> GetRecentTradesAsync(string exchange, GetRecentTradesRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedTrade[]>> GetRecentTradesAsync(string exchange, GetRecentTradesRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get recent trades public data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedTrade[]>> GetRecentTradesAsyncEnumerable(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedTrade[]>> GetRecentTradesAsyncEnumerable(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get recent trades public data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedTrade[]>[]> GetRecentTradesAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedTrade[]>[]> GetRecentTradesAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get public trade history data for a specific symbol from a specific exchange
@@ -917,21 +902,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedTrade[]>> GetTradeHistoryAsync(string exchange, GetTradeHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedTrade[]>> GetTradeHistoryAsync(string exchange, GetTradeHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get public trade history data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedTrade[]>> GetTradeHistoryAsyncEnumerable(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedTrade[]>> GetTradeHistoryAsyncEnumerable(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get public trade history data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedTrade[]>[]> GetTradeHistoryAsync(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedTrade[]>[]> GetTradeHistoryAsync(GetTradeHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get order book data for a specific symbol from a specific exchange
@@ -939,21 +924,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedOrderBook>> GetOrderBookAsync(string exchange, GetOrderBookRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedOrderBook>> GetOrderBookAsync(string exchange, GetOrderBookRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get order book data for a specific symbol from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedOrderBook>> GetOrderBookAsyncEnumerable(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedOrderBook>> GetOrderBookAsyncEnumerable(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get order book data for a specific symbol from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedOrderBook>[]> GetOrderBookAsync(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedOrderBook>[]> GetOrderBookAsync(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get asset info of all assets on a specific exchange
@@ -961,21 +946,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedAsset[]>> GetAssetsAsync(string exchange, GetAssetsRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedAsset[]>> GetAssetsAsync(string exchange, GetAssetsRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get asset info of all assets on all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedAsset[]>> GetAssetsAsyncEnumerable(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedAsset[]>> GetAssetsAsyncEnumerable(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get asset info of all assets on all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedAsset[]>[]> GetAssetsAsync(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedAsset[]>[]> GetAssetsAsync(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get asset info of a specific asset on a specific exchange
@@ -983,21 +968,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedAsset>> GetAssetAsync(string exchange, GetAssetRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedAsset>> GetAssetAsync(string exchange, GetAssetRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get asset info of a specific asset on all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedAsset>> GetAssetAsyncEnumerable(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedAsset>> GetAssetAsyncEnumerable(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get asset info of a specific asset on all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedAsset>[]> GetAssetAsync(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedAsset>[]> GetAssetAsync(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get user balances from a specific exchange
@@ -1005,21 +990,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedBalance[]>> GetBalancesAsync(string exchange, GetBalancesRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedBalance[]>> GetBalancesAsync(string exchange, GetBalancesRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get user balances from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedBalance[]>> GetBalancesAsyncEnumerable(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedBalance[]>> GetBalancesAsyncEnumerable(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get user balances from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedBalance[]>[]> GetBalancesAsync(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedBalance[]>[]> GetBalancesAsync(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get user deposit history from a specific exchange
@@ -1028,21 +1013,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedDeposit[]>> GetDepositsAsync(string exchange, GetDepositsRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedDeposit[]>> GetDepositsAsync(string exchange, GetDepositsRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get user deposit history from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedDeposit[]>> GetDepositsAsyncEnumerable(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedDeposit[]>> GetDepositsAsyncEnumerable(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get user deposit history from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedDeposit[]>[]> GetDepositsAsync(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedDeposit[]>[]> GetDepositsAsync(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get user withdrawal history from a specific exchange
@@ -1051,21 +1036,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedWithdrawal[]>> GetWithdrawalsAsync(string exchange, GetWithdrawalsRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedWithdrawal[]>> GetWithdrawalsAsync(string exchange, GetWithdrawalsRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get user withdrawal history from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedWithdrawal[]>> GetWithdrawalsAsyncEnumerable(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedWithdrawal[]>> GetWithdrawalsAsyncEnumerable(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get user withdrawal history from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedWithdrawal[]>[]> GetWithdrawalsAsync(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedWithdrawal[]>[]> GetWithdrawalsAsync(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get spot symbol info of all symbols from a specific exchange
@@ -1073,21 +1058,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotSymbol[]>> GetSpotSymbolsAsync(string exchange, GetSymbolsRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotSymbol[]>> GetSpotSymbolsAsync(string exchange, GetSymbolsRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get spot symbol info of all symbols from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedSpotSymbol[]>> GetSpotSymbolsAsyncEnumerable(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedSpotSymbol[]>> GetSpotSymbolsAsyncEnumerable(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get spot symbol info of all symbols from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotSymbol[]>[]> GetSpotSymbolsAsync(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotSymbol[]>[]> GetSpotSymbolsAsync(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get open spot orders for the user from a specific exchange
@@ -1095,21 +1080,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotOrder[]>> GetSpotOpenOrdersAsync(string exchange, GetOpenOrdersRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotOrder[]>> GetSpotOpenOrdersAsync(string exchange, GetOpenOrdersRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get open spot orders for the user from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedSpotOrder[]>> GetSpotOpenOrdersAsyncEnumerable(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedSpotOrder[]>> GetSpotOpenOrdersAsyncEnumerable(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get open spot orders for the user from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotOrder[]>[]> GetSpotOpenOrdersAsync( GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotOrder[]>[]> GetSpotOpenOrdersAsync( GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get closed spot orders for a symbol for the user from a specific exchange
@@ -1118,21 +1103,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotOrder[]>> GetSpotClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotOrder[]>> GetSpotClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get closed spot orders for a symbol for the user from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedSpotOrder[]>> GetSpotClosedOrdersAsyncEnumerable(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedSpotOrder[]>> GetSpotClosedOrdersAsyncEnumerable(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get closed spot orders for a symbol for the user from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotOrder[]>[]> GetSpotClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotOrder[]>[]> GetSpotClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get user executed trades from a specific exchange
@@ -1141,21 +1126,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedUserTrade[]>> GetSpotUserTradesAsync(string exchange, GetUserTradesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedUserTrade[]>> GetSpotUserTradesAsync(string exchange, GetUserTradesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get user executed trades from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedUserTrade[]>> GetSpotUserTradesAsyncEnumerable(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedUserTrade[]>> GetSpotUserTradesAsyncEnumerable(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get user executed trades from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedUserTrade[]>[]> GetSpotUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedUserTrade[]>[]> GetSpotUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get funding rate history for a symbol from a specific exchange
@@ -1164,21 +1149,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFundingRate[]>> GetFundingRateHistoryAsync(string exchange, GetFundingRateHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFundingRate[]>> GetFundingRateHistoryAsync(string exchange, GetFundingRateHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get funding rate history for a symbol from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedFundingRate[]>> GetFundingRateHistoryAsyncEnumerable(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedFundingRate[]>> GetFundingRateHistoryAsyncEnumerable(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get funding rate history for a symbol from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFundingRate[]>[]> GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFundingRate[]>[]> GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get current open interest for a symbol from a specific exchange
@@ -1186,21 +1171,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedOpenInterest>> GetOpenInterestAsync(string exchange, GetOpenInterestRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedOpenInterest>> GetOpenInterestAsync(string exchange, GetOpenInterestRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get current open interest for a symbol from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedOpenInterest>> GetOpenInterestAsyncEnumerable(GetOpenInterestRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedOpenInterest>> GetOpenInterestAsyncEnumerable(GetOpenInterestRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get current open interest for a symbol from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedOpenInterest>[]> GetOpenInterestAsync(GetOpenInterestRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedOpenInterest>[]> GetOpenInterestAsync(GetOpenInterestRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get futures symbol info of all symbols from a specific exchange
@@ -1208,21 +1193,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesSymbol[]>> GetFuturesSymbolsAsync(string exchange, GetSymbolsRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesSymbol[]>> GetFuturesSymbolsAsync(string exchange, GetSymbolsRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get futures symbol info of all symbols from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedFuturesSymbol[]>> GetFuturesSymbolsAsyncEnumerable(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedFuturesSymbol[]>> GetFuturesSymbolsAsyncEnumerable(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get futures symbol info of all symbols from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesSymbol[]>[]> GetFuturesSymbolsAsync(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesSymbol[]>[]> GetFuturesSymbolsAsync(GetSymbolsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get user position history from a specific exchange
@@ -1231,21 +1216,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedPositionHistory[]>> GetPositionHistoryAsync(string exchange, GetPositionHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedPositionHistory[]>> GetPositionHistoryAsync(string exchange, GetPositionHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get user position history from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedPositionHistory[]>> GetPositionHistoryAsyncEnumerable(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedPositionHistory[]>> GetPositionHistoryAsyncEnumerable(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get user position history from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedPositionHistory[]>[]> GetPositionHistoryAsync(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedPositionHistory[]>[]> GetPositionHistoryAsync(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get open Futures orders for the user from a specific exchange
@@ -1253,21 +1238,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesOpenOrdersAsync(string exchange, GetOpenOrdersRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesOrder[]>> GetFuturesOpenOrdersAsync(string exchange, GetOpenOrdersRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get open Futures orders for the user from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesOpenOrdersAsyncEnumerable(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedFuturesOrder[]>> GetFuturesOpenOrdersAsyncEnumerable(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get open Futures orders for the user from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesOrder[]>[]> GetFuturesOpenOrdersAsync(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesOrder[]>[]> GetFuturesOpenOrdersAsync(GetOpenOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get futures positions for the user from a specific exchange
@@ -1275,21 +1260,21 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedPosition[]>> GetPositionsAsync(string exchange, GetPositionsRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedPosition[]>> GetPositionsAsync(string exchange, GetPositionsRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get futures positions for the user from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedPosition[]>> GetPositionsAsyncEnumerable(GetPositionsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedPosition[]>> GetPositionsAsyncEnumerable(GetPositionsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get futures positions for the user from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedPosition[]>[]> GetPositionsAsync(GetPositionsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedPosition[]>[]> GetPositionsAsync(GetPositionsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get closed Futures orders for a symbol from a specific exchange
@@ -1298,7 +1283,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesOrder[]>> GetFuturesClosedOrdersAsync(string exchange, GetClosedOrdersRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get closed Futures orders for a symbol for the user from all exchanges supporting this request, async returning in the order the response from the server is received
@@ -1306,14 +1291,14 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedFuturesOrder[]>> GetFuturesClosedOrdersAsyncEnumerable(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedFuturesOrder[]>> GetFuturesClosedOrdersAsyncEnumerable(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         /// <summary>
         /// Get closed Futures orders for a symbol for the user from all exchanges supporting this request, returning all results when all responses have been received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesOrder[]>[]> GetFuturesClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesOrder[]>[]> GetFuturesClosedOrdersAsync(GetClosedOrdersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get user executed trades from a specific exchange
@@ -1322,14 +1307,14 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="pageRequest">The pagination request from the previous request result `NextPageRequest` property to continue pagination</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedUserTrade[]>> GetFuturesUserTradesAsync(string exchange, GetUserTradesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
+        Task<HttpResult<SharedUserTrade[]>> GetFuturesUserTradesAsync(string exchange, GetUserTradesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default);
         /// <summary>
         /// Get user executed trades from all exchanges supporting this request, async returning in the order the response from the server is received
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedUserTrade[]>> GetFuturesUserTradesAsyncEnumerable(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedUserTrade[]>> GetFuturesUserTradesAsyncEnumerable(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get user executed trades from all exchanges supporting this request, returning all results when all responses have been received
@@ -1337,7 +1322,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedUserTrade[]>[]> GetFuturesUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedUserTrade[]>[]> GetFuturesUserTradesAsync(GetUserTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get Maker and Taker trading fees for a symbol for a specific exchange
@@ -1345,7 +1330,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFee>> GetFeesAsync(string exchange, GetFeeRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedFee>> GetFeesAsync(string exchange, GetFeeRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Get Maker and Taker trading fees for a symbol from all exchanges supporting this request, async returning in the order the response from the server is received
@@ -1353,7 +1338,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedFee>> GetFeesAsyncEnumerable(GetFeeRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedFee>> GetFeesAsyncEnumerable(GetFeeRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
         
         /// <summary>
         /// Get Maker and Taker trading fees for a symbol from all exchanges supporting this request, returning all results when all responses have been received
@@ -1361,7 +1346,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFee>[]> GetFeesAsync(GetFeeRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedFee>[]> GetFeesAsync(GetFeeRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get the book ticker (best ask/bid price and quantity) for a symbol from a specific exchange
@@ -1369,7 +1354,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedBookTicker>> GetBookTickerAsync(string exchange, GetBookTickerRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedBookTicker>> GetBookTickerAsync(string exchange, GetBookTickerRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Get the book ticker (best ask/bid price and quantity) for a symbol from all exchanges supporting this request, async returning in the order the response from the server is received
@@ -1377,7 +1362,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<SharedBookTicker>> GetBookTickersAsyncEnumerable(GetBookTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        IAsyncEnumerable<HttpResult<SharedBookTicker>> GetBookTickersAsyncEnumerable(GetBookTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get the book ticker (best ask/bid price and quantity) for a symbol from all exchanges supporting this request, returning all results when all responses have been received
@@ -1385,79 +1370,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="request">The request</param>
         /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedBookTicker>[]> GetBookTickersAsync(GetBookTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
-        /// <summary>
-        /// Get the listen key which can be used for user data updates on the socket client for a specific exchange
-        /// </summary>
-        /// <param name="exchange">The exchange</param>
-        /// <param name="request">The request</param>
-        /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<string>> StartListenKeyAsync(string exchange, StartListenKeyRequest request, CancellationToken ct = default);
-
-        /// <summary>
-        /// Get the listen key which can be used for user data updates on the socket client, async returning in the order the response from the server is received
-        /// </summary>
-        /// <param name="request">The request</param>
-        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
-        /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<string>> StartListenKeysAsyncEnumerable(StartListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
-        /// <summary>
-        /// Get the listen key which can be used for user data updates on the socket client from all or selected exchanges
-        /// </summary>
-        /// <param name="request">The request</param>
-        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
-        /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<string>[]> StartListenKeysAsync(StartListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
-        /// <summary>
-        /// Keep-Alive the listen key which can be used for user data updates on the socket client for a specific exchange
-        /// </summary>
-        /// <param name="exchange">The exchange</param>
-        /// <param name="request">The request</param>
-        /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<string>> KeepAliveListenKeyAsync(string exchange, KeepAliveListenKeyRequest request, CancellationToken ct = default);
-
-        /// <summary>
-        /// Keep-Alive the listen key which can be used for user data updates on the socket client, async returning in the order the response from the server is received
-        /// </summary>
-        /// <param name="request">The request</param>
-        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
-        /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<string>> KeepAliveListenKeysAsyncEnumerable(KeepAliveListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
-        /// <summary>
-        /// Keep-Alive the listen key which can be used for user data updates on the socket client from all or selected exchanges
-        /// </summary>
-        /// <param name="request">The request</param>
-        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
-        /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<string>[]> KeepAliveListenKeysAsync(KeepAliveListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
-        /// <summary>
-        /// End the listen key which can be used for user data updates on the socket client for a specific exchange
-        /// </summary>
-        /// <param name="exchange">The exchange</param>
-        /// <param name="request">The request</param>
-        /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<string>> StopListenKeyAsync(string exchange, StopListenKeyRequest request, CancellationToken ct = default);
-
-        /// <summary>
-        /// End the listen key which can be used for user data updates on the socket client, async returning in the order the response from the server is received
-        /// </summary>
-        /// <param name="request">The request</param>
-        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
-        /// <param name="ct">Cancelation token</param>
-        IAsyncEnumerable<ExchangeWebResult<string>> StopListenKeysAsyncEnumerable(StopListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
-
-        /// <summary>
-        /// End the listen key which can be used for user data updates on the socket client from all or selected exchanges
-        /// </summary>
-        /// <param name="request">The request</param>
-        /// <param name="exchanges">Optional exchange filter, when not specified all exchanges will be queried</param>
-        /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<string>[]> StopListenKeysAsync(StopListenKeyRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
+        Task<HttpResult<SharedBookTicker>[]> GetBookTickersAsync(GetBookTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default);
 
         /// <summary>
         /// Place a new spot order
@@ -1465,7 +1378,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> PlaceSpotOrderAsync(string exchange, PlaceSpotOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> PlaceSpotOrderAsync(string exchange, PlaceSpotOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on a specific spot order
@@ -1473,7 +1386,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotOrder>> GetSpotOrderAsync(string exchange, GetOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotOrder>> GetSpotOrderAsync(string exchange, GetOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on a specific spot order by client order id
@@ -1481,7 +1394,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedSpotOrder>> GetSpotOrderByClientOrderIdAsync(string exchange, GetOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedSpotOrder>> GetSpotOrderByClientOrderIdAsync(string exchange, GetOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Get trades for a specific spot order
@@ -1489,7 +1402,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedUserTrade[]>> GetSpotOrderTradesAsync(string exchange, GetOrderTradesRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedUserTrade[]>> GetSpotOrderTradesAsync(string exchange, GetOrderTradesRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel an open spot order
@@ -1497,7 +1410,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> CancelSpotOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> CancelSpotOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel an open spot order by client order id
@@ -1505,7 +1418,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> CancelSpotOrderByClientOrderIdAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> CancelSpotOrderByClientOrderIdAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Place a futures order
@@ -1513,7 +1426,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> PlaceFuturesOrderAsync(string exchange, PlaceFuturesOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> PlaceFuturesOrderAsync(string exchange, PlaceFuturesOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on a specific futures order
@@ -1521,7 +1434,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesOrder>> GetFuturesOrderAsync(string exchange, GetOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesOrder>> GetFuturesOrderAsync(string exchange, GetOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Get info on a specific futures order by client order id
@@ -1529,7 +1442,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedFuturesOrder>> GetFuturesOrderByClientOrderIdAsync(string exchange, GetOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedFuturesOrder>> GetFuturesOrderByClientOrderIdAsync(string exchange, GetOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Get trades for a specific futures order
@@ -1537,7 +1450,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedUserTrade[]>> GetFuturesOrderTradesAsync(string exchange, GetOrderTradesRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedUserTrade[]>> GetFuturesOrderTradesAsync(string exchange, GetOrderTradesRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel an open futures order
@@ -1545,7 +1458,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> CancelFuturesOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> CancelFuturesOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel an open futures order by client order id
@@ -1553,7 +1466,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> CancelFuturesOrderByClientOrderIdAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> CancelFuturesOrderByClientOrderIdAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Close an open position
@@ -1561,7 +1474,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> ClosePositionAsync(string exchange, ClosePositionRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> ClosePositionAsync(string exchange, ClosePositionRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Place a spot order triggering at a specific price
@@ -1569,7 +1482,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> PlaceSpotTriggerOrderAsync(string exchange, PlaceSpotTriggerOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> PlaceSpotTriggerOrderAsync(string exchange, PlaceSpotTriggerOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel a spot trigger order
@@ -1577,7 +1490,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> CancelSpotTriggerOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> CancelSpotTriggerOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Place a futures order triggering at a specific price
@@ -1585,7 +1498,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> PlaceFuturesTriggerOrderAsync(string exchange, PlaceFuturesTriggerOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> PlaceFuturesTriggerOrderAsync(string exchange, PlaceFuturesTriggerOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel a futures trigger order
@@ -1593,7 +1506,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> CancelFuturesTriggerOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> CancelFuturesTriggerOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Set a futures TP/SL price
@@ -1601,7 +1514,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> SetFuturesTpSlAsync(string exchange, SetTpSlRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> SetFuturesTpSlAsync(string exchange, SetTpSlRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Cancel a previously set TP/SL price
@@ -1609,7 +1522,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<bool>> CancelFuturesTpSlAsync(string exchange, CancelTpSlRequest request, CancellationToken ct = default);
+        Task<HttpResult<bool>> CancelFuturesTpSlAsync(string exchange, CancelTpSlRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Get the current position mode setting
@@ -1617,7 +1530,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedPositionModeResult>> GetPositionModeAsync(string exchange, GetPositionModeRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedPositionModeResult>> GetPositionModeAsync(string exchange, GetPositionModeRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Set the position mode to a new value
@@ -1625,7 +1538,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedPositionModeResult>> SetPositionModeAsync(string exchange, SetPositionModeRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedPositionModeResult>> SetPositionModeAsync(string exchange, SetPositionModeRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Get the current leverage setting for a symbol
@@ -1633,7 +1546,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedLeverage>> GetLeverageAsync(string exchange, GetLeverageRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedLeverage>> GetLeverageAsync(string exchange, GetLeverageRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Set the leverage for a symbol
@@ -1641,7 +1554,7 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedLeverage>> SetLeverageAsync(string exchange, SetLeverageRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedLeverage>> SetLeverageAsync(string exchange, SetLeverageRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Transfer funds between different account types on an exchange
@@ -1649,6 +1562,6 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
-        Task<ExchangeWebResult<SharedId>> TransferAsync(string exchange, TransferRequest request, CancellationToken ct = default);
+        Task<HttpResult<SharedId>> TransferAsync(string exchange, TransferRequest request, CancellationToken ct = default);
     }
 }

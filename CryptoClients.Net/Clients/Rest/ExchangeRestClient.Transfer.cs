@@ -22,11 +22,11 @@ namespace CryptoClients.Net
         #region Transfer
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedId>> TransferAsync(string exchange, TransferRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedId>> TransferAsync(string exchange, TransferRequest request, CancellationToken ct = default)
         {
             var client = GetTransferClient(exchange, request.FromAccountType, request.ToAccountType);
             if (client == null)
-                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.TransferAsync(request, ct).ConfigureAwait(false);
         }

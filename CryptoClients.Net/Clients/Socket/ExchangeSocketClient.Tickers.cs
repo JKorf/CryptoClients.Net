@@ -22,7 +22,7 @@ namespace CryptoClients.Net
         #region Subscribe All Ticker
 
         /// <inheritdoc />
-        public async Task<ExchangeResult<UpdateSubscription>> SubscribeToAllTickerUpdatesAsync(
+        public async Task<WebSocketResult<UpdateSubscription>> SubscribeToAllTickerUpdatesAsync(
             string exchange,
             SubscribeAllTickersRequest request,
             Action<DataEvent<SharedSpotTicker[]>> handler,
@@ -30,7 +30,7 @@ namespace CryptoClients.Net
         {
             var result = await SubscribeToAllTickerUpdatesAsync(request, handler, new[] { exchange }, ct).ConfigureAwait(false);
             if (result.Length == 0)
-                return new ExchangeResult<UpdateSubscription>(exchange, new InvalidOperationError($"Subscription not supported for {exchange}"));
+                return WebSocketResult.Fail<UpdateSubscription>(exchange, new InvalidOperationError($"Subscription not supported for {exchange}"));
 
             if (result.Length > 1)
             {
@@ -38,23 +38,22 @@ namespace CryptoClients.Net
                 foreach (var resultItem in result)
                     _ = resultItem.Data?.CloseAsync();
 
-                return new ExchangeResult<UpdateSubscription>(exchange, new InvalidOperationError($"Multiple subscription available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+                return WebSocketResult.Fail<UpdateSubscription>(exchange, new InvalidOperationError($"Multiple subscription available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
             }
 
             return result.Single();
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeResult<UpdateSubscription>[]> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<DataEvent<SharedSpotTicker[]>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
+        public async Task<WebSocketResult<UpdateSubscription>[]> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<DataEvent<SharedSpotTicker[]>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
             var clients = GetTickersClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 
-            var tasks = clients.Where(x => x.SubscribeAllTickersOptions.Supported).Select(x => Task.Run(async () =>
-            {
-                return new ExchangeResult<UpdateSubscription>(x.Exchange, await x.SubscribeToAllTickersUpdatesAsync(request, handler, ct).ConfigureAwait(false));
-            }));
+            var tasks = clients.Where(x => x.SubscribeAllTickersOptions.Supported).Select(x =>
+                x.SubscribeToAllTickersUpdatesAsync(request, handler, ct)
+            );
             return await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 

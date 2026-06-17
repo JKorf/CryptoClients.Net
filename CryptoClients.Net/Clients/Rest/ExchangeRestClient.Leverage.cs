@@ -21,11 +21,11 @@ namespace CryptoClients.Net
         #region Get Leverage
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedLeverage>> GetLeverageAsync(string exchange, GetLeverageRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedLeverage>> GetLeverageAsync(string exchange, GetLeverageRequest request, CancellationToken ct = default)
         {
-            var client = GetLeverageClient(request.TradingMode, exchange);
+            var client = GetLeverageClient(request.TradingMode!.Value, exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedLeverage>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedLeverage>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.GetLeverageAsync(request, ct).ConfigureAwait(false);
         }
@@ -35,11 +35,11 @@ namespace CryptoClients.Net
         #region Set Leverage
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedLeverage>> SetLeverageAsync(string exchange, SetLeverageRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedLeverage>> SetLeverageAsync(string exchange, SetLeverageRequest request, CancellationToken ct = default)
         {
-            var client = GetLeverageClient(request.TradingMode, exchange);
+            var client = GetLeverageClient(request.TradingMode!.Value, exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedLeverage>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedLeverage>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.SetLeverageAsync(request, ct).ConfigureAwait(false);
         }

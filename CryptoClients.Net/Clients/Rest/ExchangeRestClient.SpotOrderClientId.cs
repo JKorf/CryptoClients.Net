@@ -20,11 +20,11 @@ namespace CryptoClients.Net
         #region Cancel Spot Order By Client Order Id
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedId>> CancelSpotOrderByClientOrderIdAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedId>> CancelSpotOrderByClientOrderIdAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
         {
             var client = GetSpotOrderClientIdClient(exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.CancelSpotOrderByClientOrderIdAsync(request, ct).ConfigureAwait(false);
         }
@@ -34,11 +34,11 @@ namespace CryptoClients.Net
         #region Get Spot Order By Client Order Id
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedSpotOrder>> GetSpotOrderByClientOrderIdAsync(string exchange, GetOrderRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedSpotOrder>> GetSpotOrderByClientOrderIdAsync(string exchange, GetOrderRequest request, CancellationToken ct = default)
         {
             var client = GetSpotOrderClientIdClient(exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedSpotOrder>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedSpotOrder>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.GetSpotOrderByClientOrderIdAsync(request, ct).ConfigureAwait(false);
         }
