@@ -462,7 +462,7 @@ namespace CryptoClients.Net
                 Binance.CoinFuturesApi.SharedClient,
                 BingX.SpotApi.SharedClient,
                 BingX.PerpetualFuturesApi.SharedClient,
-                Bitfinex.SpotApi.SharedClient,
+                Bitfinex.ExchangeApi.SharedClient,
                 Bitget.SpotApiV2.SharedClient,
                 Bitget.FuturesApiV2.SharedClient,
                 BitMart.SpotApi.SharedClient,
