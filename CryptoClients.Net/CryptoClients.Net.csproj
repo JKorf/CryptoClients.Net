@@ -75,6 +75,7 @@
     <ProjectReference Include="..\..\HyperLiquid.Net\HyperLiquid.Net\HyperLiquid.Net.csproj" />
     <ProjectReference Include="..\..\Kraken.Net\Kraken.Net\Kraken.Net.csproj" />
     <ProjectReference Include="..\..\Kucoin.Net\Kucoin.Net\Kucoin.Net.csproj" />
+    <ProjectReference Include="..\..\Lighter.Net\Lighter.Net\Lighter.Net.csproj" />
     <ProjectReference Include="..\..\Mexc.Net\Mexc.Net\Mexc.Net.csproj" />
     <ProjectReference Include="..\..\OKX.Net\OkX.Net\OKX.Net.csproj" />
     <ProjectReference Include="..\..\Polymarket.Net\Polymarket.Net\Polymarket.Net.csproj" />

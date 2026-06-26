@@ -95,6 +95,9 @@ using Weex.Net.Objects.Options;
 using Weex.Net;
 using Weex.Net.Interfaces.Clients;
 using CoinGecko.Net.Interfaces;
+using Lighter.Net.Objects.Options;
+using Lighter.Net;
+using Lighter.Net.Interfaces.Clients;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -129,6 +132,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="hyperLiquidOptions">The options options for the HyperLiquid services. Will override options provided in the global options</param>
         /// <param name="krakenOptions">The options options for the Kraken services. Will override options provided in the global options</param>
         /// <param name="kucoinOptions">The options options for the Kucoin services. Will override options provided in the global options</param>
+        /// <param name="lighterOptions">The options options for the Lighter services. Will override options provided in the global options</param>
         /// <param name="mexcOptions">The options options for the Mexc services. Will override options provided in the global options</param>
         /// <param name="okxOptions">The options options for the OKX services. Will override options provided in the global options</param>
         /// <param name="polymarketOptions">The options options for the Polymarket services. Will override options provided in the global options</param>
@@ -163,6 +167,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<HyperLiquidOptions>? hyperLiquidOptions = null,
             Action<KrakenOptions>? krakenOptions = null,
             Action<KucoinOptions>? kucoinOptions = null,
+            Action<LighterOptions>? lighterOptions = null,
             Action<MexcOptions>? mexcOptions = null,
             Action<OKXOptions>? okxOptions = null,
             Action<PolymarketOptions>? polymarketOptions = null,
@@ -248,6 +253,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 hyperLiquidOptions = SetGlobalOptions<HyperLiquidOptions, HyperLiquidRestOptions, HyperLiquidSocketOptions, HyperLiquidCredentials, HyperLiquidEnvironment>(global, hyperLiquidOptions, credentials?.HyperLiquid, environments?.TryGetValue(Exchange.HyperLiquid, out var hyperLiquidEnvName) == true ? HyperLiquidEnvironment.GetEnvironmentByName(hyperLiquidEnvName)! : HyperLiquidEnvironment.Live);
                 krakenOptions = SetGlobalOptions<KrakenOptions, KrakenRestOptions, KrakenSocketOptions, KrakenCredentials, KrakenEnvironment>(global, krakenOptions, credentials?.Kraken, environments?.TryGetValue(Exchange.Kraken, out var krakenEnvName) == true ? KrakenEnvironment.GetEnvironmentByName(krakenEnvName)! : KrakenEnvironment.Live);
                 kucoinOptions = SetGlobalOptions<KucoinOptions, KucoinRestOptions, KucoinSocketOptions, KucoinCredentials, KucoinEnvironment>(global, kucoinOptions, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
+                lighterOptions = SetGlobalOptions<LighterOptions, LighterRestOptions, LighterSocketOptions, LighterCredentials, LighterEnvironment>(global, lighterOptions, credentials?.Lighter, environments?.TryGetValue(Exchange.Lighter, out var lighterEnvName) == true ? LighterEnvironment.GetEnvironmentByName(lighterEnvName)! : LighterEnvironment.Live);
                 mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, MexcCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
                 okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, OKXCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
                 polymarketOptions = SetGlobalOptions<PolymarketOptions, PolymarketRestOptions, PolymarketSocketOptions, PolymarketCredentials, PolymarketEnvironment>(global, polymarketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
@@ -279,6 +285,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddHyperLiquid(hyperLiquidOptions);
             services.AddKraken(krakenOptions);
             services.AddKucoin(kucoinOptions);
+            services.AddLighter(lighterOptions);
             services.AddMexc(mexcOptions);
             services.AddOKX(okxOptions);
             services.AddPolymarket(polymarketOptions);
@@ -312,6 +319,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IHyperLiquidRestClient>(),
                     x.GetRequiredService<IKrakenRestClient>(),
                     x.GetRequiredService<IKucoinRestClient>(),
+                    x.GetRequiredService<ILighterRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
                     x.GetRequiredService<IPolymarketRestClient>(),
@@ -346,6 +354,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IHyperLiquidSocketClient>(),
                     x.GetRequiredService<IKrakenSocketClient>(),
                     x.GetRequiredService<IKucoinSocketClient>(),
+                    x.GetRequiredService<ILighterSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),
                     x.GetRequiredService<IOKXSocketClient>(),
                     x.GetRequiredService<IPolymarketSocketClient>(),
@@ -381,6 +390,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IHyperLiquidUserClientProvider>(),
                 x.GetRequiredService<IKrakenUserClientProvider>(),
                 x.GetRequiredService<IKucoinUserClientProvider>(),
+                x.GetRequiredService<ILighterUserClientProvider>(),
                 x.GetRequiredService<IMexcUserClientProvider>(),
                 x.GetRequiredService<IOKXUserClientProvider>(),
                 x.GetRequiredService<IPolymarketUserClientProvider>(),
@@ -470,6 +480,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("HyperLiquid", globalOptions);
             UpdateExchangeOptions("Kraken", globalOptions);
             UpdateExchangeOptions("Kucoin", globalOptions);
+            UpdateExchangeOptions("Lighter", globalOptions);
             UpdateExchangeOptions("Mexc", globalOptions);
             UpdateExchangeOptions("OKX", globalOptions);
             UpdateExchangeOptions("Polymarket", globalOptions);
@@ -500,6 +511,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddHyperLiquid(configuration.GetSection("HyperLiquid"));
             services.AddKraken(configuration.GetSection("Kraken"));
             services.AddKucoin(configuration.GetSection("Kucoin"));
+            services.AddLighter(configuration.GetSection("Lighter"));
             services.AddMexc(configuration.GetSection("Mexc"));
             services.AddOKX(configuration.GetSection("OKX"));
             services.AddPolymarket(configuration.GetSection("Polymarket"));
@@ -533,6 +545,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IHyperLiquidRestClient>(),
                     x.GetRequiredService<IKrakenRestClient>(),
                     x.GetRequiredService<IKucoinRestClient>(),
+                    x.GetRequiredService<ILighterRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
                     x.GetRequiredService<IPolymarketRestClient>(),
@@ -567,6 +580,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<IHyperLiquidSocketClient>(),
                     x.GetRequiredService<IKrakenSocketClient>(),
                     x.GetRequiredService<IKucoinSocketClient>(),
+                    x.GetRequiredService<ILighterSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),
                     x.GetRequiredService<IOKXSocketClient>(),
                     x.GetRequiredService<IPolymarketSocketClient>(),
@@ -602,6 +616,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IHyperLiquidUserClientProvider>(),
                 x.GetRequiredService<IKrakenUserClientProvider>(),
                 x.GetRequiredService<IKucoinUserClientProvider>(),
+                x.GetRequiredService<ILighterUserClientProvider>(),
                 x.GetRequiredService<IMexcUserClientProvider>(),
                 x.GetRequiredService<IOKXUserClientProvider>(),
                 x.GetRequiredService<IPolymarketUserClientProvider>(),

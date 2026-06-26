@@ -22,6 +22,7 @@ using HTX.Net;
 using HyperLiquid.Net;
 using Kraken.Net;
 using Kucoin.Net;
+using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
 using Polymarket.Net;
@@ -169,6 +170,14 @@ namespace CryptoClients.Net.Models
                     credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)),
                     credential.Param2 ?? throw new ArgumentNullException(nameof(credential.Param2)));
             }
+            else if (exchange == "Lighter")
+            {
+                return new LighterCredentials(
+                    credential.Key,
+                    long.Parse(credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1))),
+                    int.Parse(credential.Param2 ?? throw new ArgumentNullException(nameof(credential.Param2))),
+                    credential.Param3 ?? throw new ArgumentNullException(nameof(credential.Param2)));
+            }
             else if (exchange == "Mexc")
             {
                 return new MexcCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
@@ -249,6 +258,7 @@ namespace CryptoClients.Net.Models
                 else if (item.Key == "HyperLiquid") creds.HyperLiquid = item.Value as HyperLiquidCredentials;
                 else if (item.Key == "Kraken") creds.Kraken = item.Value as KrakenCredentials;
                 else if (item.Key == "Kucoin") creds.Kucoin = item.Value as KucoinCredentials;
+                else if (item.Key == "Lighter") creds.Lighter = item.Value as LighterCredentials;
                 else if (item.Key == "Mexc") creds.Mexc = item.Value as MexcCredentials;
                 else if (item.Key == "OKX") creds.OKX = item.Value as OKXCredentials;
                 else if (item.Key == "Polymarket") creds.Polymarket = item.Value as PolymarketCredentials;
@@ -369,6 +379,11 @@ namespace CryptoClients.Net.Models
         public KucoinCredentials? Kucoin { get; set; }
 
         /// <summary>
+        /// Lighter API credentials
+        /// </summary>
+        public LighterCredentials? Lighter { get; set; }
+
+        /// <summary>
         /// Mexc API credentials
         /// </summary>
         public MexcCredentials? Mexc { get; set; }
@@ -432,6 +447,7 @@ namespace CryptoClients.Net.Models
                 case "HyperLiquid": return HyperLiquid;
                 case "Kraken": return Kraken;
                 case "Kucoin": return Kucoin;
+                case "Lighter": return Lighter;
                 case "Mexc": return Mexc;
                 case "OKX": return OKX;
                 case "Polymarket": return Polymarket;

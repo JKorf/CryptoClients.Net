@@ -34,6 +34,7 @@ using Upbit.Net.Interfaces.Clients;
 using Polymarket.Net.Interfaces.Clients;
 using Weex.Net.Interfaces.Clients;
 using CryptoExchange.Net.Objects;
+using Lighter.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -136,6 +137,10 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         IKucoinSocketClient Kucoin { get; }
         /// <summary>
+        /// Lighter Websocket API
+        /// </summary>
+        ILighterSocketClient Lighter { get; }
+        /// <summary>
         /// Mexc Websocket API
         /// </summary>
         IMexcSocketClient Mexc { get; }
@@ -180,16 +185,6 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">Exchange name</param>
         /// <param name="credentials">Credentials</param>
         void SetApiCredentials(string exchange, DynamicCredentials credentials);
-
-        /// <summary>
-        /// Set API credentials for an exchange
-        /// </summary>
-        /// <param name="exchange">Exchange name</param>
-        /// <param name="apiKey">API key</param>
-        /// <param name="apiSecret">API secret</param>
-        /// <param name="apiPass">API passphrase</param>
-        [Obsolete("Not all credentials can be correctly set with these parameters, use the SetApiCredentials(string, DynamicCredentials) version instead")]
-        void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null);
 
         /// <summary>
         /// Return the exchange symbol name

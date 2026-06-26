@@ -30,6 +30,7 @@ using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
 using CryptoClients.Net.OrderBook;
 using CryptoCom.Net.Interfaces;
+using Lighter.Net.Interfaces;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -118,6 +119,10 @@ namespace CryptoClients.Net.Interfaces
         /// Kucoin order book factory
         /// </summary>
         IKucoinOrderBookFactory Kucoin { get; }
+        /// <summary>
+        /// Lighter order book factory
+        /// </summary>
+        ILighterOrderBookFactory Lighter { get; }
         /// <summary>
         /// Mexc order book factory
         /// </summary>

@@ -22,6 +22,7 @@ using HTX.Net;
 using HyperLiquid.Net;
 using Kraken.Net;
 using Kucoin.Net;
+using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
 using Polymarket.Net;
@@ -462,6 +463,29 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = KucoinExchange.ExchangeName,
+                KeyDescription = "The API key",
+                Param1Required = true,
+                Param1Description = "API secret",
+                Param2Required = true,
+                Param2Description = "Passphrase"
+            }
+        };
+
+        /// <summary>
+        /// Lighter exchange info
+        /// </summary>
+        public static ExchangeInfo Lighter { get; } = new ExchangeInfo
+        {
+            Name = LighterExchange.ExchangeName,
+            DisplayName = LighterExchange.DisplayName,
+            ImageUrl = LighterExchange.ImageUrl,
+            Url = LighterExchange.Url,
+            ApiDocsUrl = LighterExchange.ApiDocsUrl,
+            Type = LighterExchange.Type,
+            ApiEnvironments = LighterEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = LighterExchange.ExchangeName,
                 KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret",

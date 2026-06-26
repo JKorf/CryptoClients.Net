@@ -25,6 +25,7 @@ using HTX.Net.Interfaces;
 using HyperLiquid.Net.Interfaces;
 using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
+using Lighter.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
 using System;
@@ -122,6 +123,10 @@ namespace CryptoClients.Net.Interfaces
         /// Kucoin tracker factory
         /// </summary>
         IKucoinTrackerFactory Kucoin { get; }
+        /// <summary>
+        /// Lighter tracker factory
+        /// </summary>
+        ILighterTrackerFactory Lighter { get; }
         /// <summary>
         /// Mexc tracker factory
         /// </summary>
