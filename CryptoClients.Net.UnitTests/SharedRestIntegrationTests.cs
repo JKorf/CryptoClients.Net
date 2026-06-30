@@ -60,7 +60,7 @@ namespace CryptoClients.Net.UnitTests
             return spotSymbols;
         }
 
-        private bool ManualRun { get; } = true;
+        private bool ManualRun { get; } = false;
 
         private bool ShouldRun()
         {
