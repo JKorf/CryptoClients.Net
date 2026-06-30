@@ -19,28 +19,28 @@ namespace CryptoClients.Net
         #region Get Withdrawals
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedWithdrawal[]>> GetWithdrawalsAsync(string exchange, GetWithdrawalsRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedWithdrawal[]>> GetWithdrawalsAsync(string exchange, GetWithdrawalsRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetWithdrawalsInt(request, new[] { exchange }, pageRequest, ct)).ConfigureAwait(false);
             if (result.Length > 1)
-                return new ExchangeWebResult<SharedWithdrawal[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+                return HttpResult.Fail<SharedWithdrawal[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
 
-            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedWithdrawal[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+            return result.SingleOrDefault() ?? HttpResult.Fail<SharedWithdrawal[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedWithdrawal[]>[]> GetWithdrawalsAsync(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedWithdrawal[]>[]> GetWithdrawalsAsync(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetWithdrawalsInt(request, exchanges, null, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedWithdrawal[]>> GetWithdrawalsAsyncEnumerable(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<HttpResult<SharedWithdrawal[]>> GetWithdrawalsAsyncEnumerable(GetWithdrawalsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetWithdrawalsInt(request, exchanges, null, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedWithdrawal[]>>> GetWithdrawalsInt(GetWithdrawalsRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
+        private IEnumerable<Task<HttpResult<SharedWithdrawal[]>>> GetWithdrawalsInt(GetWithdrawalsRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
             var clients = GetWithdrawalsClients();
             if (exchanges != null)

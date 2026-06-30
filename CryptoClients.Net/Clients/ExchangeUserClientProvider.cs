@@ -87,6 +87,10 @@ using Kucoin.Net;
 using Kucoin.Net.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using Kucoin.Net.Objects.Options;
+using Lighter.Net;
+using Lighter.Net.Clients;
+using Lighter.Net.Interfaces.Clients;
+using Lighter.Net.Objects.Options;
 using Mexc.Net;
 using Mexc.Net.Clients;
 using Mexc.Net.Interfaces.Clients;
@@ -150,6 +154,7 @@ namespace CryptoClients.Net.Clients
         private IHyperLiquidUserClientProvider _hyperLiquidProvider;
         private IKrakenUserClientProvider _krakenProvider;
         private IKucoinUserClientProvider _kucoinProvider;
+        private ILighterUserClientProvider _lighterProvider;
         private IMexcUserClientProvider _mexcProvider;
         private IOKXUserClientProvider _okxProvider;
         private IPolymarketUserClientProvider _polymarketProvider;
@@ -185,6 +190,7 @@ namespace CryptoClients.Net.Clients
             Action<HyperLiquidOptions>? hyperLiquidOptions = null,
             Action<KrakenOptions>? krakenOptions = null,
             Action<KucoinOptions>? kucoinOptions = null,
+            Action<LighterOptions>? lighterOptions = null,
             Action<MexcOptions>? mexcOptions = null,
             Action<OKXOptions>? okxOptions = null,
             Action<PolymarketOptions>? polymarketOptions = null,
@@ -266,6 +272,7 @@ namespace CryptoClients.Net.Clients
                 hyperLiquidOptions = SetGlobalOptions<HyperLiquidOptions, HyperLiquidRestOptions, HyperLiquidSocketOptions, HyperLiquidCredentials, HyperLiquidEnvironment>(global, hyperLiquidOptions, credentials?.HyperLiquid, environments?.TryGetValue(Exchange.HyperLiquid, out var hyperLiquidEnvName) == true ? HyperLiquidEnvironment.GetEnvironmentByName(hyperLiquidEnvName)! : HyperLiquidEnvironment.Live);
                 krakenOptions = SetGlobalOptions<KrakenOptions, KrakenRestOptions, KrakenSocketOptions, KrakenCredentials, KrakenEnvironment>(global, krakenOptions, credentials?.Kraken, environments?.TryGetValue(Exchange.Kraken, out var krakenEnvName) == true ? KrakenEnvironment.GetEnvironmentByName(krakenEnvName)! : KrakenEnvironment.Live);
                 kucoinOptions = SetGlobalOptions<KucoinOptions, KucoinRestOptions, KucoinSocketOptions, KucoinCredentials, KucoinEnvironment>(global, kucoinOptions, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : KucoinEnvironment.Live);
+                lighterOptions = SetGlobalOptions<LighterOptions, LighterRestOptions, LighterSocketOptions, LighterCredentials, LighterEnvironment>(global, lighterOptions, credentials?.Lighter, environments?.TryGetValue(Exchange.Lighter, out var lighterEnvName) == true ? LighterEnvironment.GetEnvironmentByName(lighterEnvName)! : LighterEnvironment.Live);
                 mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, MexcCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
                 okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, OKXCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
                 polymarketOptions = SetGlobalOptions<PolymarketOptions, PolymarketRestOptions, PolymarketSocketOptions, PolymarketCredentials, PolymarketEnvironment>(global, polymarketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
@@ -296,6 +303,7 @@ namespace CryptoClients.Net.Clients
             _hyperLiquidProvider = new HyperLiquidUserClientProvider(hyperLiquidOptions);
             _krakenProvider = new KrakenUserClientProvider(krakenOptions);
             _kucoinProvider = new KucoinUserClientProvider(kucoinOptions);
+            _lighterProvider = new LighterUserClientProvider(lighterOptions);
             _mexcProvider = new MexcUserClientProvider(mexcOptions);
             _okxProvider = new OKXUserClientProvider(okxOptions);
             _polymarketProvider = new PolymarketUserClientProvider(polymarketOptions);
@@ -332,6 +340,7 @@ namespace CryptoClients.Net.Clients
             IHyperLiquidUserClientProvider hyperLiquidProvider,
             IKrakenUserClientProvider krakenProvider,
             IKucoinUserClientProvider kucoinProvider,
+            ILighterUserClientProvider lighterProvider,
             IMexcUserClientProvider mexcProvider,
             IOKXUserClientProvider okxProvider,
             IPolymarketUserClientProvider polymarketProvider,
@@ -364,6 +373,7 @@ namespace CryptoClients.Net.Clients
             _hyperLiquidProvider = hyperLiquidProvider;
             _krakenProvider = krakenProvider;
             _kucoinProvider = kucoinProvider;
+            _lighterProvider = lighterProvider;
             _mexcProvider = mexcProvider;
             _okxProvider = okxProvider;
             _polymarketProvider = polymarketProvider;
@@ -405,6 +415,7 @@ namespace CryptoClients.Net.Clients
             if (exchange == null || exchange == Exchange.HyperLiquid) _hyperLiquidProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.Kraken) _krakenProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.Kucoin) _kucoinProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Exchange.Lighter) _lighterProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.Mexc) _mexcProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.OKX) _okxProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Platform.Polymarket) _polymarketProvider.ClearUserClients(userIdentifier);
@@ -442,6 +453,7 @@ namespace CryptoClients.Net.Clients
                 _hyperLiquidProvider.GetRestClient(userIdentifier, credentials.HyperLiquid, environments.TryGetValue(Exchange.HyperLiquid, out var hyperliquidEnv) ? HyperLiquidEnvironment.GetEnvironmentByName(hyperliquidEnv) : null),
                 _krakenProvider.GetRestClient(userIdentifier, credentials.Kraken, environments.TryGetValue(Exchange.Kraken, out var krakenEnv) ? KrakenEnvironment.GetEnvironmentByName(krakenEnv) : null),
                 _kucoinProvider.GetRestClient(userIdentifier, credentials.Kucoin, environments.TryGetValue(Exchange.Kucoin, out var kucoinEnv) ? KucoinEnvironment.GetEnvironmentByName(kucoinEnv) : null),
+                _lighterProvider.GetRestClient(userIdentifier, credentials.Lighter, environments.TryGetValue(Exchange.Lighter, out var lighterEnv) ? LighterEnvironment.GetEnvironmentByName(lighterEnv) : null),
                 _mexcProvider.GetRestClient(userIdentifier, credentials.Mexc, environments.TryGetValue(Exchange.Mexc, out var mexcEnv) ? MexcEnvironment.GetEnvironmentByName(mexcEnv) : null),
                 _okxProvider.GetRestClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
                 _polymarketProvider.GetRestClient(userIdentifier, credentials.Polymarket, environments.TryGetValue(Platform.Polymarket, out var polymarketEnv) ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnv) : null),
@@ -482,6 +494,7 @@ namespace CryptoClients.Net.Clients
                 _hyperLiquidProvider.GetSocketClient(userIdentifier, credentials.HyperLiquid, environments.TryGetValue(Exchange.HyperLiquid, out var hyperliquidEnv) ? HyperLiquidEnvironment.GetEnvironmentByName(hyperliquidEnv) : null),
                 _krakenProvider.GetSocketClient(userIdentifier, credentials.Kraken, environments.TryGetValue(Exchange.Kraken, out var krakenEnv) ? KrakenEnvironment.GetEnvironmentByName(krakenEnv) : null),
                 _kucoinProvider.GetSocketClient(userIdentifier, credentials.Kucoin, environments.TryGetValue(Exchange.Kucoin, out var kucoinEnv) ? KucoinEnvironment.GetEnvironmentByName(kucoinEnv) : null),
+                _lighterProvider.GetSocketClient(userIdentifier, credentials.Lighter, environments.TryGetValue(Exchange.Lighter, out var lighterEnv) ? LighterEnvironment.GetEnvironmentByName(lighterEnv) : null),
                 _mexcProvider.GetSocketClient(userIdentifier, credentials.Mexc, environments.TryGetValue(Exchange.Mexc, out var mexcEnv) ? MexcEnvironment.GetEnvironmentByName(mexcEnv) : null),
                 _okxProvider.GetSocketClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
                 _polymarketProvider.GetSocketClient(userIdentifier, credentials.Polymarket, environments.TryGetValue(Platform.Polymarket, out var polymarketEnv) ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnv) : null),

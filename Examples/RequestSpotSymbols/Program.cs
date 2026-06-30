@@ -6,6 +6,12 @@ var client = new ExchangeRestClient();
 var symbols = await client.GetSpotSymbolsAsync(new GetSymbolsRequest());
 foreach (var result in symbols)
 {
+    if (!result.Success)
+    {
+        Console.WriteLine($"{result.Exchange}: {result.Error}");
+        continue;
+    }
+
     Console.WriteLine($"{result.Exchange} - first 3 symbols");
     foreach(var symbol in result.Data.Take(3))
         Console.WriteLine($"  {symbol.BaseAsset} {symbol.QuoteAsset} -> {symbol.Name}");
@@ -15,6 +21,12 @@ foreach (var result in symbols)
 // Method 2, GetSpotSymbolsAsyncEnumerable will return results whenever a request is finished instead of waiting for all requests
 await foreach (var result in client.GetSpotSymbolsAsyncEnumerable(new GetSymbolsRequest()))
 {
+    if (!result.Success)
+    {
+        Console.WriteLine($"{result.Exchange}: {result.Error}");
+        continue;
+    }
+
     Console.WriteLine($"{result.Exchange} - first 3 symbols");
     foreach (var symbol in result.Data.Take(3))
         Console.WriteLine($"  {symbol.BaseAsset} {symbol.QuoteAsset} -> {symbol.Name}");

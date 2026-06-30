@@ -21,28 +21,28 @@ namespace CryptoClients.Net
         #region Get Futures Tickers
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedFuturesTicker[]>> GetFuturesTickersAsync(string exchange, GetTickersRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedFuturesTicker[]>> GetFuturesTickersAsync(string exchange, GetTickersRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetFuturesTickersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
             if (result.Length > 1)
-                return new ExchangeWebResult<SharedFuturesTicker[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+                return HttpResult.Fail<SharedFuturesTicker[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
 
-            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesTicker[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+            return result.SingleOrDefault() ?? HttpResult.Fail<SharedFuturesTicker[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedFuturesTicker[]>[]> GetFuturesTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedFuturesTicker[]>[]> GetFuturesTickersAsync(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetFuturesTickersInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedFuturesTicker[]>> GetFuturesTickersAsyncEnumerable(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<HttpResult<SharedFuturesTicker[]>> GetFuturesTickersAsyncEnumerable(GetTickersRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetFuturesTickersInt(request, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedFuturesTicker[]>>> GetFuturesTickersInt(GetTickersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<HttpResult<SharedFuturesTicker[]>>> GetFuturesTickersInt(GetTickersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var clients = GetFuturesTickerClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)
@@ -57,30 +57,30 @@ namespace CryptoClients.Net
         #region Get Futures Ticker
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedFuturesTicker>> GetFuturesTickerAsync(string exchange, GetTickerRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedFuturesTicker>> GetFuturesTickerAsync(string exchange, GetTickerRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetFuturesTickerInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
             if (result.Length > 1)
-                return new ExchangeWebResult<SharedFuturesTicker>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+                return HttpResult.Fail<SharedFuturesTicker>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
 
-            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesTicker>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+            return result.SingleOrDefault() ?? HttpResult.Fail<SharedFuturesTicker>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedFuturesTicker>[]> GetFuturesTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedFuturesTicker>[]> GetFuturesTickerAsync(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetFuturesTickerInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedFuturesTicker>> GetFuturesTickerAsyncEnumerable(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<HttpResult<SharedFuturesTicker>> GetFuturesTickerAsyncEnumerable(GetTickerRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetFuturesTickerInt(request, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedFuturesTicker>>> GetFuturesTickerInt(GetTickerRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<HttpResult<SharedFuturesTicker>>> GetFuturesTickerInt(GetTickerRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFuturesTickerClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode));
+            var clients = GetFuturesTickerClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 

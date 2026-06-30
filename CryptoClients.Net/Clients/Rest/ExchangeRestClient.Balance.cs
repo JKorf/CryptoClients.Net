@@ -26,28 +26,28 @@ namespace CryptoClients.Net
         #region Get Balances
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedBalance[]>> GetBalancesAsync(string exchange, GetBalancesRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedBalance[]>> GetBalancesAsync(string exchange, GetBalancesRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetBalancesIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
             if (result.Length > 1)
-                return new ExchangeWebResult<SharedBalance[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+                return HttpResult.Fail<SharedBalance[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
 
-            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedBalance[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+            return result.SingleOrDefault() ?? HttpResult.Fail<SharedBalance[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedBalance[]>[]> GetBalancesAsync(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedBalance[]>[]> GetBalancesAsync(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetBalancesIntAsync(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedBalance[]>> GetBalancesAsyncEnumerable(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<HttpResult<SharedBalance[]>> GetBalancesAsyncEnumerable(GetBalancesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetBalancesIntAsync(request, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedBalance[]>>> GetBalancesIntAsync(GetBalancesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<HttpResult<SharedBalance[]>>> GetBalancesIntAsync(GetBalancesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var clients = GetBalancesClients().Where(x => request.AccountType == null ? true : x.GetBalancesOptions.IsValid(request.AccountType.Value));
             if (exchanges != null)

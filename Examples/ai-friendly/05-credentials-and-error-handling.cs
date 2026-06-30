@@ -58,11 +58,11 @@ foreach (var result in results)
 }
 
 // ---- 4. RETRY TRANSIENT FAILURES ----
-async Task<ExchangeWebResult<T>> WithRetry<T>(
-    Func<Task<ExchangeWebResult<T>>> call,
+async Task<HttpResult<T>> WithRetry<T>(
+    Func<Task<HttpResult<T>>> call,
     int maxAttempts = 3)
 {
-    ExchangeWebResult<T> last = default!;
+    HttpResult<T> last = default!;
 
     for (var attempt = 1; attempt <= maxAttempts; attempt++)
     {

@@ -21,30 +21,30 @@ namespace CryptoClients.Net
         #region Get Order Book
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedOrderBook>> GetOrderBookAsync(string exchange, GetOrderBookRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedOrderBook>> GetOrderBookAsync(string exchange, GetOrderBookRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetOrderBookInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
             if (result.Length > 1)
-                return new ExchangeWebResult<SharedOrderBook>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+                return HttpResult.Fail<SharedOrderBook>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
 
-            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedOrderBook>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+            return result.SingleOrDefault() ?? HttpResult.Fail<SharedOrderBook>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedOrderBook>[]> GetOrderBookAsync(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedOrderBook>[]> GetOrderBookAsync(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetOrderBookInt(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedOrderBook>> GetOrderBookAsyncEnumerable(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<HttpResult<SharedOrderBook>> GetOrderBookAsyncEnumerable(GetOrderBookRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetOrderBookInt(request, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedOrderBook>>> GetOrderBookInt(GetOrderBookRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<HttpResult<SharedOrderBook>>> GetOrderBookInt(GetOrderBookRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetOrderBookClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode));
+            var clients = GetOrderBookClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 

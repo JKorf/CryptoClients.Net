@@ -21,30 +21,30 @@ namespace CryptoClients.Net
         #region Get Recent Trades
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedTrade[]>> GetRecentTradesAsync(string exchange, GetRecentTradesRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedTrade[]>> GetRecentTradesAsync(string exchange, GetRecentTradesRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetRecentTradesIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
             if (result.Length > 1)
-                return new ExchangeWebResult<SharedTrade[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+                return HttpResult.Fail<SharedTrade[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
 
-            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedTrade[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+            return result.SingleOrDefault() ?? HttpResult.Fail<SharedTrade[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedTrade[]>[]> GetRecentTradesAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedTrade[]>[]> GetRecentTradesAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetRecentTradesIntAsync(request, exchanges, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedTrade[]>> GetRecentTradesAsyncEnumerable(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<HttpResult<SharedTrade[]>> GetRecentTradesAsyncEnumerable(GetRecentTradesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetRecentTradesIntAsync(request, exchanges, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedTrade[]>>> GetRecentTradesIntAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+        private IEnumerable<Task<HttpResult<SharedTrade[]>>> GetRecentTradesIntAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetRecentTradesClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode));
+            var clients = GetRecentTradesClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 

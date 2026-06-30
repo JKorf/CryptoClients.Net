@@ -22,30 +22,30 @@ namespace CryptoClients.Net
         #region Get Index Price Klines
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsync(string exchange, GetKlinesRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetIndexPriceKlinesIntAsync(request, new[] { exchange }, pageRequest, ct)).ConfigureAwait(false);
             if (result.Length > 1)
-                return new ExchangeWebResult<SharedFuturesKline[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+                return HttpResult.Fail<SharedFuturesKline[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
 
-            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedFuturesKline[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+            return result.SingleOrDefault() ?? HttpResult.Fail<SharedFuturesKline[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedFuturesKline[]>[]> GetIndexPriceKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedFuturesKline[]>[]> GetIndexPriceKlinesAsync(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetIndexPriceKlinesIntAsync(request, exchanges, null, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<HttpResult<SharedFuturesKline[]>> GetIndexPriceKlinesAsyncEnumerable(GetKlinesRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetIndexPriceKlinesIntAsync(request, exchanges, null, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedFuturesKline[]>>> GetIndexPriceKlinesIntAsync(GetKlinesRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
+        private IEnumerable<Task<HttpResult<SharedFuturesKline[]>>> GetIndexPriceKlinesIntAsync(GetKlinesRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
-            var clients = GetIndexPriceKlineClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode));
+            var clients = GetIndexPriceKlineClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
             if (exchanges != null)
                 clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
 

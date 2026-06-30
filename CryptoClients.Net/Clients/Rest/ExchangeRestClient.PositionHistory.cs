@@ -21,28 +21,28 @@ namespace CryptoClients.Net
         #region Get Position History
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedPositionHistory[]>> GetPositionHistoryAsync(string exchange, GetPositionHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedPositionHistory[]>> GetPositionHistoryAsync(string exchange, GetPositionHistoryRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetPositionHistoryInt(request, new[] { exchange }, pageRequest, ct)).ConfigureAwait(false);
             if (result.Length > 1)
-                return new ExchangeWebResult<SharedPositionHistory[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
+                return HttpResult.Fail<SharedPositionHistory[]>(exchange, new InvalidOperationError($"Multiple API's available for {exchange}, specify the `TradingMode` parameter on the request to choose one"));
 
-            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedPositionHistory[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+            return result.SingleOrDefault() ?? HttpResult.Fail<SharedPositionHistory[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedPositionHistory[]>[]> GetPositionHistoryAsync(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedPositionHistory[]>[]> GetPositionHistoryAsync(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetPositionHistoryInt(request, exchanges, null, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedPositionHistory[]>> GetPositionHistoryAsyncEnumerable(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<HttpResult<SharedPositionHistory[]>> GetPositionHistoryAsyncEnumerable(GetPositionHistoryRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetPositionHistoryInt(request, exchanges, null, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedPositionHistory[]>>> GetPositionHistoryInt(GetPositionHistoryRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
+        private IEnumerable<Task<HttpResult<SharedPositionHistory[]>>> GetPositionHistoryInt(GetPositionHistoryRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
             var clients = GetPositionHistoryClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
             if (exchanges != null)

@@ -19,25 +19,25 @@ namespace CryptoClients.Net
         #region Get Deposits
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedDeposit[]>> GetDepositsAsync(string exchange, GetDepositsRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedDeposit[]>> GetDepositsAsync(string exchange, GetDepositsRequest request, PageRequest? pageRequest = null, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetDepositsInt(request, new[] { exchange }, pageRequest, ct)).ConfigureAwait(false);
-            return result.SingleOrDefault() ?? new ExchangeWebResult<SharedDeposit[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+            return result.SingleOrDefault() ?? HttpResult.Fail<SharedDeposit[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
         }
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedDeposit[]>[]> GetDepositsAsync(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public async Task<HttpResult<SharedDeposit[]>[]> GetDepositsAsync(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return await Task.WhenAll(GetDepositsInt(request, exchanges, null, ct)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public IAsyncEnumerable<ExchangeWebResult<SharedDeposit[]>> GetDepositsAsyncEnumerable(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+        public IAsyncEnumerable<HttpResult<SharedDeposit[]>> GetDepositsAsyncEnumerable(GetDepositsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
             return GetDepositsInt(request, exchanges, null, ct).ParallelEnumerateAsync();
         }
 
-        private IEnumerable<Task<ExchangeWebResult<SharedDeposit[]>>> GetDepositsInt(GetDepositsRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
+        private IEnumerable<Task<HttpResult<SharedDeposit[]>>> GetDepositsInt(GetDepositsRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
             var clients = GetDepositsClients();
             if (exchanges != null)

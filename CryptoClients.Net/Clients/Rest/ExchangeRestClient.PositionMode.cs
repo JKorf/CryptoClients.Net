@@ -21,11 +21,11 @@ namespace CryptoClients.Net
         #region Get Position Mode
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedPositionModeResult>> GetPositionModeAsync(string exchange, GetPositionModeRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedPositionModeResult>> GetPositionModeAsync(string exchange, GetPositionModeRequest request, CancellationToken ct = default)
         {
             var client = GetPositionModeClient(request.Symbol?.TradingMode ?? request.TradingMode ?? TradingMode.PerpetualLinear, exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedPositionModeResult>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedPositionModeResult>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.GetPositionModeAsync(request, ct).ConfigureAwait(false);
         }
@@ -35,11 +35,11 @@ namespace CryptoClients.Net
         #region Set Position Mode
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedPositionModeResult>> SetPositionModeAsync(string exchange, SetPositionModeRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedPositionModeResult>> SetPositionModeAsync(string exchange, SetPositionModeRequest request, CancellationToken ct = default)
         {
             var client = GetPositionModeClient(request.Symbol?.TradingMode ?? request.TradingMode ?? TradingMode.PerpetualLinear, exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedPositionModeResult>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedPositionModeResult>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.SetPositionModeAsync(request, ct).ConfigureAwait(false);
         }

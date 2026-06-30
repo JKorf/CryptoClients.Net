@@ -21,11 +21,11 @@ namespace CryptoClients.Net
         #region Place Futures Trigger Order
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedId>> PlaceFuturesTriggerOrderAsync(string exchange, PlaceFuturesTriggerOrderRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedId>> PlaceFuturesTriggerOrderAsync(string exchange, PlaceFuturesTriggerOrderRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesTriggerOrderClient(request.TradingMode, exchange);
+            var client = GetFuturesTriggerOrderClient(request.TradingMode!.Value, exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.PlaceFuturesTriggerOrderAsync(request, ct).ConfigureAwait(false);
         }
@@ -35,11 +35,11 @@ namespace CryptoClients.Net
         #region Cancel Futures Trigger Order
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedId>> CancelFuturesTriggerOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedId>> CancelFuturesTriggerOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesTriggerOrderClient(request.TradingMode, exchange);
+            var client = GetFuturesTriggerOrderClient(request.TradingMode!.Value, exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.CancelFuturesTriggerOrderAsync(request, ct).ConfigureAwait(false);
         }

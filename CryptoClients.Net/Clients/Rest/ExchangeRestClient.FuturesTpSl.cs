@@ -21,11 +21,11 @@ namespace CryptoClients.Net
         #region Set Futures TpSl
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<SharedId>> SetFuturesTpSlAsync(string exchange, SetTpSlRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedId>> SetFuturesTpSlAsync(string exchange, SetTpSlRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesTpSlClient(request.TradingMode, exchange);
+            var client = GetFuturesTpSlClient(request.TradingMode!.Value, exchange);
             if (client == null)
-                return new ExchangeWebResult<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<SharedId>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.SetFuturesTpSlAsync(request, ct).ConfigureAwait(false);
         }
@@ -35,11 +35,11 @@ namespace CryptoClients.Net
         #region Cancel TpSl
 
         /// <inheritdoc />
-        public async Task<ExchangeWebResult<bool>> CancelFuturesTpSlAsync(string exchange, CancelTpSlRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<bool>> CancelFuturesTpSlAsync(string exchange, CancelTpSlRequest request, CancellationToken ct = default)
         {
-            var client = GetFuturesTpSlClient(request.TradingMode, exchange);
+            var client = GetFuturesTpSlClient(request.TradingMode!.Value, exchange);
             if (client == null)
-                return new ExchangeWebResult<bool>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
+                return HttpResult.Fail<bool>(exchange, new InvalidOperationError($"Client not found for exchange " + exchange));
 
             return await client.CancelFuturesTpSlAsync(request, ct).ConfigureAwait(false);
         }

@@ -21,25 +21,25 @@ namespace CryptoClients.Net
 		#region Get Assets
 
 		/// <inheritdoc />
-		public async Task<ExchangeWebResult<SharedAsset[]>> GetAssetsAsync(string exchange, GetAssetsRequest request, CancellationToken ct = default)
+		public async Task<HttpResult<SharedAsset[]>> GetAssetsAsync(string exchange, GetAssetsRequest request, CancellationToken ct = default)
 		{
 			var result = await Task.WhenAll(GetAssetsIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
-			return result.SingleOrDefault() ?? new ExchangeWebResult<SharedAsset[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+			return result.SingleOrDefault() ?? HttpResult.Fail<SharedAsset[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
 		}
 
 		/// <inheritdoc />
-		public async Task<ExchangeWebResult<SharedAsset[]>[]> GetAssetsAsync(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+		public async Task<HttpResult<SharedAsset[]>[]> GetAssetsAsync(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
 		{
 			return await Task.WhenAll(GetAssetsIntAsync(request, exchanges, ct)).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public IAsyncEnumerable<ExchangeWebResult<SharedAsset[]>> GetAssetsAsyncEnumerable(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+		public IAsyncEnumerable<HttpResult<SharedAsset[]>> GetAssetsAsyncEnumerable(GetAssetsRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
 		{
 			return GetAssetsIntAsync(request, exchanges, ct).ParallelEnumerateAsync();
 		}
 
-		private IEnumerable<Task<ExchangeWebResult<SharedAsset[]>>> GetAssetsIntAsync(GetAssetsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+		private IEnumerable<Task<HttpResult<SharedAsset[]>>> GetAssetsIntAsync(GetAssetsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
 		{
 			var clients = GetAssetsClients();
 			if (exchanges != null)
@@ -54,25 +54,25 @@ namespace CryptoClients.Net
 		#region Get Asset
 
 		/// <inheritdoc />
-		public async Task<ExchangeWebResult<SharedAsset>> GetAssetAsync(string exchange, GetAssetRequest request, CancellationToken ct = default)
+		public async Task<HttpResult<SharedAsset>> GetAssetAsync(string exchange, GetAssetRequest request, CancellationToken ct = default)
 		{
 			var result = await Task.WhenAll(GetAssetIntAsync(request, new[] { exchange }, ct)).ConfigureAwait(false);
-			return result.SingleOrDefault() ?? new ExchangeWebResult<SharedAsset>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
+			return result.SingleOrDefault() ?? HttpResult.Fail<SharedAsset>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));
 		}
 
 		/// <inheritdoc />
-		public async Task<ExchangeWebResult<SharedAsset>[]> GetAssetAsync(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+		public async Task<HttpResult<SharedAsset>[]> GetAssetAsync(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
 		{
 			return await Task.WhenAll(GetAssetIntAsync(request, exchanges, ct)).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public IAsyncEnumerable<ExchangeWebResult<SharedAsset>> GetAssetAsyncEnumerable(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
+		public IAsyncEnumerable<HttpResult<SharedAsset>> GetAssetAsyncEnumerable(GetAssetRequest request, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
 		{
 			return GetAssetIntAsync(request, exchanges, ct).ParallelEnumerateAsync();
 		}
 
-		private IEnumerable<Task<ExchangeWebResult<SharedAsset>>> GetAssetIntAsync(GetAssetRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
+		private IEnumerable<Task<HttpResult<SharedAsset>>> GetAssetIntAsync(GetAssetRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
 		{
 			var clients = GetAssetsClients();
 			if (exchanges != null)

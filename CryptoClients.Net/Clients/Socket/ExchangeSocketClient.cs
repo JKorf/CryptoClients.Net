@@ -82,6 +82,10 @@ using Kucoin.Net;
 using Kucoin.Net.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using Kucoin.Net.Objects.Options;
+using Lighter.Net;
+using Lighter.Net.Clients;
+using Lighter.Net.Interfaces.Clients;
+using Lighter.Net.Objects.Options;
 using Mexc.Net;
 using Mexc.Net.Clients;
 using Mexc.Net.Interfaces.Clients;
@@ -184,6 +188,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IKucoinSocketClient Kucoin { get; }
         /// <inheritdoc />
+        public ILighterSocketClient Lighter { get; }
+        /// <inheritdoc />
         public IMexcSocketClient Mexc { get; }
         /// <inheritdoc />
         public IOKXSocketClient OKX { get; }
@@ -225,6 +231,7 @@ namespace CryptoClients.Net
             HyperLiquid = new HyperLiquidSocketClient();
             Kraken = new KrakenSocketClient();
             Kucoin = new KucoinSocketClient();
+            Lighter = new LighterSocketClient();
             Mexc = new MexcSocketClient();
             OKX = new OKXSocketClient();
             Polymarket = new PolymarketSocketClient();
@@ -262,6 +269,7 @@ namespace CryptoClients.Net
             Action<HyperLiquidSocketOptions>? hyperLiquidSocketOptions = null,
             Action<KrakenSocketOptions>? krakenSocketOptions = null,
             Action<KucoinSocketOptions>? kucoinSocketOptions = null,
+            Action<LighterSocketOptions>? lighterSocketOptions = null,
             Action<MexcSocketOptions>? mexcSocketOptions = null,
             Action<OKXSocketOptions>? okxSocketOptions = null,
             Action<PolymarketSocketOptions>? polymarketSocketOptions = null,
@@ -293,6 +301,7 @@ namespace CryptoClients.Net
                 Options.Create(ApplyOptionsDelegate(hyperLiquidSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(krakenSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(kucoinSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(lighterSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(mexcSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(okxSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(polymarketSocketOptions)),
@@ -331,6 +340,7 @@ namespace CryptoClients.Net
             IOptions<HyperLiquidSocketOptions>? hyperLiquidSocketOptions = null,
             IOptions<KrakenSocketOptions>? krakenSocketOptions = null,
             IOptions<KucoinSocketOptions>? kucoinSocketOptions = null,
+            IOptions<LighterSocketOptions>? lighterSocketOptions = null,
             IOptions<MexcSocketOptions>? mexcSocketOptions = null,
             IOptions<OKXSocketOptions>? okxSocketOptions = null,
             IOptions<PolymarketSocketOptions>? polymarketSocketOptions = null,
@@ -394,6 +404,7 @@ namespace CryptoClients.Net
                 hyperLiquidSocketOptions = SetGlobalSocketOptions(global, hyperLiquidSocketOptions?.Value, credentials?.HyperLiquid, environments?.TryGetValue(Exchange.HyperLiquid, out var hyperLiquidEnvName) == true ? HyperLiquidEnvironment.GetEnvironmentByName(hyperLiquidEnvName)! : hyperLiquidSocketOptions?.Value.Environment ?? HyperLiquidEnvironment.Live);
                 krakenSocketOptions = SetGlobalSocketOptions(global, krakenSocketOptions?.Value, credentials?.Kraken, environments?.TryGetValue(Exchange.Kraken, out var krakenEnvName) == true ? KrakenEnvironment.GetEnvironmentByName(krakenEnvName)! : krakenSocketOptions?.Value.Environment ?? KrakenEnvironment.Live);
                 kucoinSocketOptions = SetGlobalSocketOptions(global, kucoinSocketOptions?.Value, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : kucoinSocketOptions?.Value.Environment ?? KucoinEnvironment.Live);
+                lighterSocketOptions = SetGlobalSocketOptions(global, lighterSocketOptions?.Value, credentials?.Lighter, environments?.TryGetValue(Exchange.Lighter, out var lighterEnvName) == true ? LighterEnvironment.GetEnvironmentByName(lighterEnvName)! : lighterSocketOptions?.Value.Environment ?? LighterEnvironment.Live);
                 mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions?.Value, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : mexcSocketOptions?.Value.Environment ?? MexcEnvironment.Live);
                 okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions?.Value, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : okxSocketOptions?.Value.Environment ?? OKXEnvironment.Live);
                 polymarketSocketOptions = SetGlobalSocketOptions(global, polymarketSocketOptions?.Value, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : polymarketSocketOptions?.Value.Environment ?? PolymarketEnvironment.Live);
@@ -424,6 +435,7 @@ namespace CryptoClients.Net
             GateIo = new GateIoSocketClient(gateIoSocketOptions ?? Options.Create(new GateIoSocketOptions()), loggerFactory);
             Kraken = new KrakenSocketClient(krakenSocketOptions ?? Options.Create(new KrakenSocketOptions()), loggerFactory);
             Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? Options.Create(new KucoinSocketOptions()), loggerFactory);
+            Lighter = new LighterSocketClient(lighterSocketOptions ?? Options.Create(new LighterSocketOptions()), loggerFactory);
             Mexc = new MexcSocketClient(mexcSocketOptions ?? Options.Create(new MexcSocketOptions()), loggerFactory);
             OKX = new OKXSocketClient(okxSocketOptions ?? Options.Create(new OKXSocketOptions()), loggerFactory);
             Polymarket = new PolymarketSocketClient(polymarketSocketOptions ?? Options.Create(new PolymarketSocketOptions()), loggerFactory);
@@ -460,6 +472,7 @@ namespace CryptoClients.Net
             IHyperLiquidSocketClient hyperLiquid,
             IKrakenSocketClient kraken,
             IKucoinSocketClient kucoin,
+            ILighterSocketClient lighter,
             IMexcSocketClient mexc,
             IOKXSocketClient okx,
             IPolymarketSocketClient polymarket,
@@ -489,6 +502,7 @@ namespace CryptoClients.Net
             HyperLiquid = hyperLiquid;
             Kraken = kraken;
             Kucoin = kucoin;
+            Lighter = lighter;
             Mexc = mexc;
             OKX = okx;
             Polymarket = polymarket;
@@ -504,7 +518,7 @@ namespace CryptoClients.Net
         private void InitSharedClients()
         {
             _socketClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
-                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Toobit, Upbit, Weex, WhiteBit, XT];
+                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Lighter, Mexc, OKX, Toobit, Upbit, Weex, WhiteBit, XT];
 
             _sharedClients = new ISharedClient[]
             {
@@ -515,7 +529,7 @@ namespace CryptoClients.Net
                 Binance.CoinFuturesApi.SharedClient,
                 BingX.SpotApi.SharedClient,
                 BingX.PerpetualFuturesApi.SharedClient,
-                Bitfinex.SpotApi.SharedClient,
+                Bitfinex.ExchangeApi.SharedClient,
                 Bitget.SpotApiV2.SharedClient,
                 Bitget.FuturesApiV2.SharedClient,
                 BitMart.SpotApi.SharedClient,
@@ -544,6 +558,7 @@ namespace CryptoClients.Net
                 Kraken.FuturesApi.SharedClient,
                 Kucoin.SpotApi.SharedClient,
                 Kucoin.FuturesApi.SharedClient,
+                Lighter.ExchangeApi.SharedClient,
                 Mexc.SpotApi.SharedClient,
                 Mexc.FuturesApi.SharedClient,
                 OKX.UnifiedApi.SharedClient,
@@ -606,6 +621,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.HyperLiquid, credentials.HyperLiquid, () => HyperLiquid.SetApiCredentials(credentials.HyperLiquid!));
             SetCredentialsIfNotNull(Exchange.Kraken, credentials.Kraken, () => Kraken.SetApiCredentials(credentials.Kraken!));
             SetCredentialsIfNotNull(Exchange.Kucoin, credentials.Kucoin, () => Kucoin.SetApiCredentials(credentials.Kucoin!));
+            SetCredentialsIfNotNull(Exchange.Lighter, credentials.Lighter, () => Lighter.SetApiCredentials(credentials.Lighter!));
             SetCredentialsIfNotNull(Exchange.Mexc, credentials.Mexc, () => Mexc.SetApiCredentials(credentials.Mexc!));
             SetCredentialsIfNotNull(Exchange.OKX, credentials.OKX, () => OKX.SetApiCredentials(credentials.OKX!));
             SetCredentialsIfNotNull(Platform.Polymarket, credentials.Polymarket, () => Polymarket.SetApiCredentials(credentials.Polymarket!));
@@ -613,44 +629,6 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Weex, credentials.Weex, () => Weex.SetApiCredentials(credentials.Weex!));
             SetCredentialsIfNotNull(Exchange.WhiteBit, credentials.WhiteBit, () => WhiteBit.SetApiCredentials(credentials.WhiteBit!));
             SetCredentialsIfNotNull(Exchange.XT, credentials.XT, () => XT.SetApiCredentials(credentials.XT!));
-        }
-
-        /// <inheritdoc />
-        [Obsolete("Not all credentials can be correctly set with these parameters, use the SetApiCredentials(ExchangeCredentials) version instead")]
-        public void SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null)
-        {
-            switch (exchange)
-            {
-                case "Aster": Aster.SetApiCredentials(new AsterCredentials(apiKey, apiSecret)); break;
-                case "Binance": Binance.SetApiCredentials(new BinanceCredentials(apiKey, apiSecret)); break;
-                case "BingX": BingX.SetApiCredentials(new BingXCredentials(apiKey, apiSecret)); break;
-                case "Bitfinex": Bitfinex.SetApiCredentials(new BitfinexCredentials(apiKey, apiSecret)); break;
-                case "Bitget": Bitget.SetApiCredentials(new BitgetCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Bitget credentials", nameof(apiPass)))); break;
-                case "BitMart": BitMart.SetApiCredentials(new BitMartCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BitMart credentials", nameof(apiPass)))); break;
-                case "BitMEX": BitMEX.SetApiCredentials(new BitMEXCredentials(apiKey, apiSecret)); break;
-                case "Bitstamp": Bitstamp.SetApiCredentials(new BitstampCredentials(apiKey, apiSecret)); break;
-                case "BloFin": BloFin.SetApiCredentials(new BloFinCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for BloFin credentials", nameof(apiPass)))); break;
-                case "Bybit": Bybit.SetApiCredentials(new BybitCredentials(apiKey, apiSecret)); break;
-                case "Coinbase": Coinbase.SetApiCredentials(new CoinbaseCredentials(apiKey, apiSecret)); break;
-                case "CoinEx": CoinEx.SetApiCredentials(new CoinExCredentials(apiKey, apiSecret)); break;
-                case "CoinW": CoinW.SetApiCredentials(new CoinWCredentials(apiKey, apiSecret)); break;
-                case "CryptoCom": CryptoCom.SetApiCredentials(new CryptoComCredentials(apiKey, apiSecret)); break;
-                case "DeepCoin": DeepCoin.SetApiCredentials(new DeepCoinCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for DeepCoin credentials", nameof(apiPass)))); break;
-                case "GateIo": GateIo.SetApiCredentials(new GateIoCredentials(apiKey, apiSecret)); break;
-                case "HTX": HTX.SetApiCredentials(new HTXCredentials(apiKey, apiSecret)); break;
-                case "HyperLiquid": HyperLiquid.SetApiCredentials(new HyperLiquidCredentials(apiKey, apiSecret)); break;
-                case "Kraken": Kraken.SetApiCredentials(new KrakenCredentials(apiKey, apiSecret)); break;
-                case "Kucoin": Kucoin.SetApiCredentials(new KucoinCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Kucoin credentials", nameof(apiPass)))); break;
-                case "Mexc": Mexc.SetApiCredentials(new MexcCredentials(apiKey, apiSecret)); break;
-                case "OKX": OKX.SetApiCredentials(new OKXCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for OKX credentials", nameof(apiPass)))); break;
-                case "Polymarket": throw new InvalidOperationException("Polymarket uses different credentials system, use SetApiCredentials(ExchangeCredentials credentials) instead");
-                case "Toobit": Toobit.SetApiCredentials(new ToobitCredentials(apiKey, apiSecret)); break;
-                case "Upbit": break;
-                case "Weex": Weex.SetApiCredentials(new WeexCredentials(apiKey, apiSecret, apiPass ?? throw new ArgumentException("ApiPass required for Weex credentials", nameof(apiPass)))); break;
-                case "WhiteBit": WhiteBit.SetApiCredentials(new WhiteBitCredentials(apiKey, apiSecret)); break;
-                case "XT": XT.SetApiCredentials(new XTCredentials(apiKey, apiSecret)); break;
-                default: throw new ArgumentException("Exchange not recognized", nameof(exchange));
-            }
         }
 
         /// <inheritdoc />
@@ -662,7 +640,6 @@ namespace CryptoClients.Net
 
             return symbol.GetSymbol(client.FormatSymbol);
         }
-
 
         /// <inheritdoc />
         public async Task UnsubscribeAllAsync()
@@ -689,6 +666,7 @@ namespace CryptoClients.Net
                 HyperLiquid.UnsubscribeAllAsync(),
                 Kraken.UnsubscribeAllAsync(),
                 Kucoin.UnsubscribeAllAsync(),
+                Lighter.UnsubscribeAllAsync(),
                 Mexc.UnsubscribeAllAsync(),
                 OKX.UnsubscribeAllAsync(),
                 Polymarket.UnsubscribeAllAsync(),

@@ -24,6 +24,7 @@ using HTX.Net.Interfaces;
 using HyperLiquid.Net.Interfaces;
 using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
+using Lighter.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
 using Polymarket.Net.Interfaces;
@@ -81,6 +82,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IKucoinOrderBookFactory Kucoin { get; }
         /// <inheritdoc />
+        public ILighterOrderBookFactory Lighter { get; }
+        /// <inheritdoc />
         public IMexcOrderBookFactory Mexc { get; }
         /// <inheritdoc />
         public IOKXOrderBookFactory OKX { get; }
@@ -121,6 +124,7 @@ namespace CryptoClients.Net
             IHyperLiquidOrderBookFactory hyperLiquid,
             IKrakenOrderBookFactory kraken,
             IKucoinOrderBookFactory kucoin,
+            ILighterOrderBookFactory lighter,
             IMexcOrderBookFactory mexc,
             IOKXOrderBookFactory okx,
             IPolymarketOrderBookFactory polymarket,
@@ -150,6 +154,7 @@ namespace CryptoClients.Net
             HyperLiquid = hyperLiquid;
             Kraken = kraken;
             Kucoin = kucoin;
+            Lighter = lighter;
             Mexc = mexc;
             OKX = okx;
             Polymarket = polymarket;
@@ -255,6 +260,8 @@ namespace CryptoClients.Net
                 case "Kucoin":
                     var kucoinLimit = GetBookDepth(minimalDepth, true, 5, 50);
                     return Kucoin.Create(symbol, opts => { opts.Limit = kucoinLimit; });
+                case "Lighter":
+                    return Lighter.Create(symbol);
                 case "Mexc":
                     var mexcLimit = GetBookDepth(minimalDepth, true, 5, 10, 20);
                     return Mexc.Create(symbol, opts => { opts.Limit = mexcLimit; });
