@@ -708,6 +708,7 @@ namespace CryptoClients.Net
                 HyperLiquidExchange.RateLimiter.RateLimitTriggered += value;
                 KrakenExchange.RateLimiter.RateLimitTriggered += value;
                 KucoinExchange.RateLimiter.RateLimitTriggered += value;
+                LighterExchange.RateLimiter.RateLimitTriggered += value;
                 MexcExchange.RateLimiter.RateLimitTriggered += value;
                 OKXExchange.RateLimiter.RateLimitTriggered += value;
                 PolymarketPlatform.RateLimiter.RateLimitTriggered += value;
@@ -739,6 +740,7 @@ namespace CryptoClients.Net
                 HyperLiquidExchange.RateLimiter.RateLimitTriggered -= value;
                 KrakenExchange.RateLimiter.RateLimitTriggered -= value;
                 KucoinExchange.RateLimiter.RateLimitTriggered -= value;
+                LighterExchange.RateLimiter.RateLimitTriggered -= value;
                 MexcExchange.RateLimiter.RateLimitTriggered -= value;
                 OKXExchange.RateLimiter.RateLimitTriggered -= value;
                 PolymarketPlatform.RateLimiter.RateLimitTriggered -= value;
@@ -776,6 +778,7 @@ namespace CryptoClients.Net
                 HyperLiquidExchange.RateLimiter.RateLimitUpdated += value;
                 KrakenExchange.RateLimiter.RateLimitUpdated += value;
                 KucoinExchange.RateLimiter.RateLimitUpdated += value;
+                LighterExchange.RateLimiter.RateLimitUpdated += value;
                 MexcExchange.RateLimiter.RateLimitUpdated += value;
                 OKXExchange.RateLimiter.RateLimitUpdated += value;
                 PolymarketPlatform.RateLimiter.RateLimitUpdated += value;
@@ -806,6 +809,7 @@ namespace CryptoClients.Net
                 HyperLiquidExchange.RateLimiter.RateLimitUpdated -= value;
                 KrakenExchange.RateLimiter.RateLimitUpdated -= value;
                 KucoinExchange.RateLimiter.RateLimitUpdated -= value;
+                LighterExchange.RateLimiter.RateLimitUpdated -= value;
                 MexcExchange.RateLimiter.RateLimitUpdated -= value;
                 OKXExchange.RateLimiter.RateLimitUpdated -= value;
                 PolymarketPlatform.RateLimiter.RateLimitUpdated -= value;

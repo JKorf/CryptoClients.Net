@@ -367,6 +367,40 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.0.0 - 30 Jun 2026
+    * Updated client library versions
+    * Added support for Lighter DEX with JKorf.Lighter.Net v1.0.0
+    * Result types:
+      * ExchangeWebResult/ExchangeResult types are replaced by HttpResult and WebSocketResult with the same logic
+      * WebSocketResult now returns additional info for websocket operations
+      * Updated result types to record type
+      * Removed implicit result type conversion to bool, `if (result)` no longer works, instead use `if (result.Success)`
+      * Fixed result object nullability hinting, for example Data might be null if Success isn't checked for true
+    * Clients:
+      * Added ToString overrides on base API types
+      * Added Exchange property on BaseApiClient
+      * Added ApiCredentials property on Api clients
+      * Updated ILogger source from client name to topic specific client name
+      * Removed logging from client creation
+      * Fixed issue in SocketApiClient.GetSocketConnection causing requests to always wait the full max 10 seconds when there was a reconnecting socket
+    * Shared APIs:
+      * Added missing dedicated option types
+      * Added Discover method on ISharedClient interface, returning info on supported capabilities and operations
+      * Added ResetStaticExchangeParameters method on ExchangeParameters
+      * Added Status property to SharedWithdrawal model
+      * Added TradingModes property to SharedBalance model
+      * Updated Shared ExchangeParameters parameter names to be case insensitive
+      * Updated code comments
+      * Removed TradingMode from the response model, only maintained on models where it makes sense
+      * Removed IListenKey support, listen keys now rely on internal management
+    * Added async streaming on UserDataTracker items with StreamUpdatesAsync
+    * Added cancellation token support to UserDataTracker starting
+    * Added SupportedEnvironments property to PlatformInfo
+    * Added Clear() method on UserClientProvider to clear all cached clients
+    * Various small performance improvements
+    * Fixed websocket connection attempts counting towards rate limit even when server could not be reached
+    * Removed previously deprecated SetApiCredentials method from ExchangeRestClient and ExchangeSocketClient
+
 * Version 4.12.0 - 03 Jun 2026
     * Updated library versions, fixing some Shared requests
 

@@ -112,7 +112,7 @@ namespace CryptoClients.Net.UnitTests
                                 if (!updateReceived[update.Exchange])
                                 {
                                     updateReceived[update.Exchange] = true;
-                                    _ = sub!.Result.Data.CloseAsync();
+                                    _ = sub!.Result.Data!.CloseAsync();
                                     if (updateReceived.All(x => x.Value))
                                         waitEvent.Set();
                                 }
@@ -180,7 +180,7 @@ namespace CryptoClients.Net.UnitTests
                                 if (!updateReceived[update.Exchange])
                                 {
                                     updateReceived[update.Exchange] = true;
-                                    _ = sub!.Result.Data.CloseAsync();
+                                    _ = sub!.Result.Data!.CloseAsync();
                                     if (updateReceived.All(x => x.Value))
                                         waitEvent.Set();
                                 }
@@ -235,7 +235,7 @@ namespace CryptoClients.Net.UnitTests
                                 if (!updateReceived[update.Exchange])
                                 {
                                     updateReceived[update.Exchange] = true;
-                                    _ = sub!.Result.Data.CloseAsync();
+                                    _ = sub!.Result.Data!.CloseAsync();
                                     if (updateReceived.All(x => x.Value))
                                         waitEvent.Set();
                                 }
@@ -302,7 +302,7 @@ namespace CryptoClients.Net.UnitTests
                                 if (!updateReceived[update.Exchange])
                                 {
                                     updateReceived[update.Exchange] = true;
-                                    _ = sub!.Result.Data.CloseAsync();
+                                    _ = sub!.Result.Data!.CloseAsync();
                                     if (updateReceived.All(x => x.Value))
                                         waitEvent.Set();
                                 }
@@ -357,7 +357,7 @@ namespace CryptoClients.Net.UnitTests
                                 if (!updateReceived[update.Exchange])
                                 {
                                     updateReceived[update.Exchange] = true;
-                                    _ = sub!.Result.Data.CloseAsync();
+                                    _ = sub!.Result.Data!.CloseAsync();
                                     if (updateReceived.All(x => x.Value))
                                         waitEvent.Set();
                                 }
@@ -425,7 +425,7 @@ namespace CryptoClients.Net.UnitTests
                                 if (!updateReceived[update.Exchange])
                                 {
                                     updateReceived[update.Exchange] = true;
-                                    _ = sub!.Result.Data.CloseAsync();
+                                    _ = sub!.Result.Data!.CloseAsync();
                                     if (updateReceived.All(x => x.Value))
                                         waitEvent.Set();
                                 }
