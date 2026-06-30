@@ -80,7 +80,7 @@
             return;
         }
 
-        var ticker = await exchangeClient.GetSpotTickerAsync(new GetTickerRequest(new SharedSymbol(TradingMode.Spot, _selectedAsset, "USDT")));
+        var ticker = await exchangeClient.GetSpotTickerAsync(new GetTickerRequest(new SharedSymbol(TradingMode.Spot, _selectedAsset, SharedSymbol.UsdOrStable)));
         if (!ticker.Success)
         {
             _error = "Error: " + ticker.Error;

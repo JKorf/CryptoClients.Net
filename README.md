@@ -13,7 +13,7 @@ It combines:
 - dynamic multi-exchange requests and subscriptions
 - client-side helpers such as rate limiting, order books, trackers, and user client management
 
-The library currently supports **27 exchanges** and additional platform integrations such as **CoinGecko** and **Polymarket**.
+The library currently supports **28 exchanges** and additional platform integrations such as **CoinGecko** and **Polymarket**.
 
 ## Features
 
@@ -345,7 +345,7 @@ CryptoClients.Net includes AI-oriented documentation and examples for code gener
 |[`docs/ai-api-map.md`](docs/ai-api-map.md)|Table-style intent-to-method map for aggregate/shared APIs, direct exchange access, sockets, credentials, order books, and trackers|
 |[`Examples/ai-friendly`](Examples/ai-friendly)|Compilable single-file examples for common aggregate REST, WebSocket, direct-client, order book, tracker, and error handling workflows|
 
-GitHub Copilot and Cursor instructions are also provided in `.github/copilot-instructions.md` and `.cursor/rules/crypto-clients-net.mdc`; both point back to the root AI context files.
+See [cryptoexchange-skills-hub](https://github.com/JKorf/cryptoexchange-skills-hub) for installable skills.
 
 ## Support
 
@@ -400,113 +400,3 @@ https://github.com/sponsors/JKorf
     * Various small performance improvements
     * Fixed websocket connection attempts counting towards rate limit even when server could not be reached
     * Removed previously deprecated SetApiCredentials method from ExchangeRestClient and ExchangeSocketClient
-
-* Version 4.12.0 - 03 Jun 2026
-    * Updated library versions, fixing some Shared requests
-
-* Version 4.11.1 - 28 May 2026
-    * Updated library versions for minor fixes
-    * Fixed environment override in exchange specific options not applying
-
-* Version 4.11.0 - 27 May 2026
-    * Updated library versions
-    * Added (I)CrossExchangeBook implementation aggregating multiple exchange orders books into a single book
-
-* Version 4.10.0 - 12 May 2026
-    * Updated library versions
-    * Added client constructor overloads for passing ILoggerFactory and HttpClient
-
-* Version 4.9.1 - 03 May 2026
-    * Updated BloFin and Mexc patch versions
-    * Fixed limit and period parameters not getting passed to the actual factory in ExchangeTrackerFactory.CreateTradeTracker and CreateKlineTracker
-
-* Version 4.9.0 - 01 May 2026
-    * Updated client library versions
-
-* Version 4.8.1 - 10 Apr 2026
-    * Fixed Weex.Net reference version
-
-* Version 4.8.0 - 10 Apr 2026
-    * Updated client library versions
-    * Added Weex support with the Weex.Net library
-
-* Version 4.7.0 - 25 Mar 2026
-    * Added CoinGecko to ExchangeRestClient
-    * Added coinGeckoRestOptions parameter to ExchangeUserClientProvider constructor
-    * Added SetApiCredentials(string, DynamicCredentials) on ExchangeRestClient
-    * Added SetApiCredentials(string, DynamicCredentials) on ExchangeSocketClient
-    * Split upbitOptions parameter in ExchangeUserClientProvider constructor into upbitRestOptions and upbitSocketOptions
-    * Added SetApiCredentials(string, DynamicCredentials) to ExchangeRestClient
-    * Added SetApiCredentials(string, DynamicCredentials) to ExchangeSocketClient
-    * Marked SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null) as obsolete on ExchangeRestClient
-    * Marked SetApiCredentials(string exchange, string apiKey, string apiSecret, string? apiPass = null) as obsolete on ExchangeSocketClient
-    * Updated ExchangeCredentials to reflect exchange specific ApiCredential types needed in client libraries
-    * Removed Dictionary<string, ApiCredentials> constructor overload from ExchangeCredentials
-    * Removed Upbit from ExchangeCredentials since authentication is not supported
-    * Added ExchangeCredentials.GetDynamicCredentialInfo(TradingMode, string)
-    * Added ExchangeCredentials.CreateCredentialsForExchange(string, DynamicCredentials)
-    * Added ExchangeCredentials.CreateFrom(Dictionary<string, ApiCredentials>)
-    * Added ExchangeCredentials.CreateFrom(string, ApiCredentials)
-    * Added DynamicCredentialInfo to ExchangeInfo to retrieve info for an exchange to dynamically create credentials
-
-    * Notes for updating:
-        * `ExchangeCredentials` no longer has a constructor which accepts `Dictionary<string, ApiCredentials>`. To dynamically create `ExchangeCredentials` use the `ExchangeCredentials.CreateFrom` static method in combination with `ExchangeCredentials.CreateCredentialsForExchange`.
-
-* Version 4.6.0 - 06 Mar 2026
-    * Updated client library versions
-    * Added Bitstamp support with the Bitstamp.Net library
-
-* Version 4.5.0 - 25 Feb 2026
-    * Updated client library versions
-    * Added PageRequest parameter to endpoints supporting pagination using single exchange parameter
-
-* Version 4.4.0 - 16 Feb 2026
-    * Updated client library versions
-
-* Version 4.3.0 - 10 Feb 2026
-    * Updated client library versions
-    * Added user data tracker creation method to (I)ExchangeTrackerFactory
-    * Added checks to rest client exchange requests to prevent exception when more than one trading mode specific requests are available for an exchange
-    * Added additional methods for requesting supported symbols to Shared ISpotSymbolRestClient/IFuturesSymbolRestClient interfaces
-    * Removed UseUpdatedDeserialization option
-
-* Version 4.2.0 - 22 Jan 2026
-    * Updated client library versions
-    * Added Polymarket support with the Polymarket.Net library
-    * Added static class Platform listing all supported exchange names plus any non-exchange platform names
-    * Added static class Platforms listing all supported exchange metadatas plus any non-exchange platform metadata
-
-* Version 4.1.3 - 19 Jan 2026
-    * Updated client library versions, fixing some bugs
-
-* Version 4.1.2 - 14 Jan 2026
-    * Updated client library versions fixing some bugs
-
-* Version 4.1.1 - 13 Jan 2026
-    * Fixed issue with websocket message sequence checking causing reconnects
-
-* Version 4.1.0 - 13 Jan 2026
-    * Updated client library versions
-    * Added Create method without exchange parameters to create SymbolOrderBook instance on all supported exchanges
-    * Fixed GateIo ExchangeOrderBookFactory Perpetual Futures creation when using SharedSymbol.UsdOrStable
-
-* Version 4.0.4 - 19 Dec 2025
-    * Updated client library versions fixing some bugs
-
-* Version 4.0.3 - 19 Dec 2025
-    * Updated client library versions fixing some bugs
-
-* Version 4.0.2 - 18 Dec 2025
-    * Updated client library versions fixing some bugs
-
-* Version 4.0.1 - 17 Dec 2025
-    * Updated library versions fixing some bugs
-
-* Version 4.0.0 - 16 Dec 2025
-    * Updated client library versions
-    * Added Net10.0 target framework
-    * Updated CryptoExchange.Net version to 10.0.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
-    * Improved performance across the board, biggest gains in websocket message processing
-    * Added UseUpdatedDeserialization socket client options to toggle by new and old message handling
-    * Updated Shared API's subscription update types from ExchangeEvent to DataEvent
-	
