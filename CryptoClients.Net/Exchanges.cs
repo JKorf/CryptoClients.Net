@@ -486,11 +486,13 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = LighterExchange.ExchangeName,
-                KeyDescription = "The API key",
+                KeyDescription = "The public wallet address",
                 Param1Required = true,
-                Param1Description = "API secret",
+                Param1Description = "The Lighter account index",
                 Param2Required = true,
-                Param2Description = "Passphrase"
+                Param2Description = "The Lighter API key index",
+                Param3Required = true,
+                Param3Description = "The Lighter API secret key"
             }
         };
 

@@ -26,7 +26,7 @@ app.MapGet("priceFromRequest", async (IExchangeRestClient restClient, string exc
         return Results.Problem("Exchange not found");
 
     var result = await exchangeClient.GetSpotTickerAsync(new GetTickerRequest(new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset)));
-    if (!result)
+    if (!result.Success)
         return Results.Problem(result.Error!.ToString());
 
     return Results.Ok(result.Data.LastPrice);
