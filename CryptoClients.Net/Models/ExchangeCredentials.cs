@@ -173,7 +173,7 @@ namespace CryptoClients.Net.Models
             else if (exchange == "Lighter")
             {
                 return new LighterCredentials(
-                    credential.Key,
+                    EthKey.FromPublicKey(credential.Key),
                     long.TryParse(credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)), out var accountIndex)
                         ? accountIndex : throw new ArgumentException("Invalid Param1 value for Lighter credentials. Should be AccountIndex in long type"),
                     int.TryParse(credential.Param2 ?? throw new ArgumentNullException(nameof(credential.Param2)), out var apiKeyIndex)
