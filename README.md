@@ -367,6 +367,10 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.0.1 - 03 Jul 2026
+    * Updated client library versions, fixing signing issues in Binance and Mexc implementation
+    * Fixed Lighter implementation missing library references, added Lighter IFundingRateRestClient implementation
+
 * Version 5.0.0 - 30 Jun 2026
     * Updated client library versions
     * Added support for Lighter DEX with JKorf.Lighter.Net v1.0.0
