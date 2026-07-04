@@ -367,6 +367,10 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.0.2 - 04 Jul 2026
+    * Updated Kucoin library version to fix issue in websocket user subscriptions
+    * Updated Lighter library version to fix issue with signing libraries not getting copied correctly
+
 * Version 5.0.1 - 03 Jul 2026
     * Updated client library versions, fixing signing issues in Binance and Mexc implementation
     * Fixed Lighter implementation missing library references, added Lighter IFundingRateRestClient implementation
