@@ -367,6 +367,9 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.1.0 - 10 Jul 2026
+    * Updated library versions
+
 * Version 5.0.2 - 04 Jul 2026
     * Updated Kucoin library version to fix issue in websocket user subscriptions
     * Updated Lighter library version to fix issue with signing libraries not getting copied correctly
