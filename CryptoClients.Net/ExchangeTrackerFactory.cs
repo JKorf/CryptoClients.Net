@@ -239,7 +239,7 @@ namespace CryptoClients.Net
             if (!factory.CanCreateKlineTracker(symbol, interval))
                 return null;
 
-            return factory.CreateKlineTracker(symbol, interval, limit, period);
+            return factory.CreateKlineTracker(symbol, interval, limit, period, exchangeParameters);
         }
 
         /// <inheritdoc />
@@ -252,7 +252,7 @@ namespace CryptoClients.Net
             if (!factory.CanCreateTradeTracker(symbol))
                 return null;
 
-            return factory.CreateTradeTracker(symbol, limit, period);
+            return factory.CreateTradeTracker(symbol, limit, period, exchangeParameters);
         }
 
         /// <inheritdoc />
@@ -377,6 +377,7 @@ namespace CryptoClients.Net
                 "BingX" => BingX.BingXUserPerpetualFuturesDataTracker(config),
                 "Bitget" => Bitget.CreateUserFuturesDataTracker(
                     ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "ProductType") == "UsdtFutures" ? BitgetProductTypeV2.UsdtFutures : BitgetProductTypeV2.UsdcFutures,
+                    ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "MarginAsset") ?? "usdt",
                     config),
                 "BitMart" => BitMart.CreateUserUsdFuturesDataTracker(config),
                 "BitMEX" => BitMEX.CreateUserFuturesDataTracker(config),
@@ -438,6 +439,7 @@ namespace CryptoClients.Net
                     userIdentifier,
                     credentials.Bitget ?? throw new ArgumentNullException($"No credentials provided for {exchange}"),
                     ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "ProductType") == "UsdtFutures" ? BitgetProductTypeV2.UsdtFutures : BitgetProductTypeV2.UsdcFutures,
+                    ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "MarginAsset") ?? "usdt",
                     config,
                     BitgetEnvironment.GetEnvironmentByName(environment)),
                 "BitMart" => BitMart.CreateUserUsdFuturesDataTracker(userIdentifier, credentials.BitMart ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitMartEnvironment.GetEnvironmentByName(environment)),
