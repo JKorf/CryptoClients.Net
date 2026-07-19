@@ -465,10 +465,15 @@ namespace CryptoClients.Net
             _restClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
                 DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Lighter, Mexc, OKX, Toobit, Upbit, Weex, WhiteBit, XT];
 
+            var v3Spot = Aster.SpotV3Api.ApiCredentials?.V3 != null;
+            var v3Futures = Aster.FuturesV3Api.ApiCredentials?.V3 != null;
+            ISharedClient asterSpot = v3Spot ? Aster.SpotV3Api.SharedClient : Aster.SpotApi.SharedClient;
+            ISharedClient asterFutures = v3Futures ? Aster.FuturesV3Api.SharedClient : Aster.FuturesApi.SharedClient;
+
             _sharedClients = new ISharedClient[]
             {
-                Aster.SpotApi.SharedClient,
-                Aster.FuturesApi.SharedClient,
+                asterSpot,
+                asterFutures,
                 Binance.SpotApi.SharedClient,
                 Binance.UsdFuturesApi.SharedClient,
                 Binance.CoinFuturesApi.SharedClient,

@@ -217,7 +217,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 var optsDelegate = (TOptions options) =>
                 {
-                    SetGlobalOptionsBase<TOptions, TRestOptions, TSocketOptions, TEnvironment>(globalOptions, exchangeDelegate, environment);
+                    SetGlobalOptionsBase<TOptions, TRestOptions, TSocketOptions, TEnvironment>(globalOptions, exchangeDelegate, environment)(options);
                     options.ApiCredentials = credentials;
 
                     exchangeDelegate?.Invoke(options);
