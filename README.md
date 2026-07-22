@@ -368,6 +368,7 @@ https://github.com/sponsors/JKorf
 
 ## Release notes
 * Version 5.2.0 - 22 Jul 2026
+    * Updated library versions
     * Added SpotSymbolCatalog to Shared ISpotSymbolRestClient interface
     * Added FuturesSymbolCatalog to Shared IFuturesSymbolRestClient interface
     * Added BaseAssetType, BaseAssetSubType, QuoteAssetType and QuoteAssetSubType to GetSymbolsRequest model
