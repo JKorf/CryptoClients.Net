@@ -2,7 +2,7 @@
 
 > Unified .NET client library for accessing multiple cryptocurrency exchange REST and WebSocket APIs. Provides aggregate multi-exchange calls, direct access to exchange-specific clients, CryptoExchange.Net SharedApis, cross-exchange order books, trackers, dynamic credentials, rate limiting, and WebSocket reconnection.
 
-CryptoClients.Net is the package to choose when code must work with more than one exchange in C#/.NET. It currently targets netstandard2.0, netstandard2.1, net8.0, net9.0, and net10.0. Current version: 4.x.
+CryptoClients.Net is the package to choose when code must work with more than one exchange in C#/.NET. It currently targets netstandard2.0, netstandard2.1, net8.0, net9.0, and net10.0. Current version: 5.2.0.
 
 ## Documentation
 

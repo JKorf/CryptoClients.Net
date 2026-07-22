@@ -1,5 +1,7 @@
 # CryptoClients.Net Full LLM Context
 
+Versions: CryptoClients.Net 5.2.0; CryptoExchange.Net 12.2.0.
+
 CryptoClients.Net is a multi-exchange .NET client package built on CryptoExchange.Net. It aggregates the individual JKorf exchange libraries and exposes:
 
 - Direct exchange-specific REST and WebSocket clients.
@@ -218,6 +220,8 @@ Every aggregate method has single-exchange, multi-exchange array, and async-enum
 - Listen keys: `StartListenKeyAsync`, `KeepAliveListenKeyAsync`, `StopListenKeyAsync`, plus multi-exchange variants
 
 For constructor details of request types such as `PlaceSpotOrderRequest` or `SetLeverageRequest`, inspect CryptoExchange.Net SharedApis source or use existing examples/tests.
+
+After `ISpotSymbolRestClient.GetSpotSymbolsAsync` or `IFuturesSymbolRestClient.GetFuturesSymbolsAsync` has been called, read `SpotSymbolCatalog` or `FuturesSymbolCatalog` from that shared client to reuse its fetched catalog. The catalog is unavailable before the corresponding fetch.
 
 ## Shared Client Discovery
 

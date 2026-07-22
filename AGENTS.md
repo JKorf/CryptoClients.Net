@@ -192,6 +192,8 @@ restClient.SetApiCredentials("OKX", new DynamicCredentials(
 
 Do not assume every exchange uses key/secret only. Several exchanges require a passphrase or chain-specific credential shape, and Upbit returns no dynamic credential info in this library.
 
+After calling `GetSpotSymbolsAsync` or `GetFuturesSymbolsAsync` on a shared symbol client, its `SpotSymbolCatalog` or `FuturesSymbolCatalog` provides the fetched catalog. Do not read a catalog before the corresponding fetch.
+
 ## Cross-Exchange Order Books
 
 Use `IExchangeOrderBookFactory.CreateCrossExchange` for a locally synced aggregate book across exchanges:

@@ -367,6 +367,18 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.2.0 - 22 Jul 2026
+    * Added SpotSymbolCatalog to Shared ISpotSymbolRestClient interface
+    * Added FuturesSymbolCatalog to Shared IFuturesSymbolRestClient interface
+    * Added BaseAssetType, BaseAssetSubType, QuoteAssetType and QuoteAssetSubType to GetSymbolsRequest model
+    * Added DisplayName to SharedSpotSymbol and SharedFuturesSymbol models
+    * Added BaseAssetType, BaseAssetSubType, QuoteAssetType and QuoteAssetSubType to SharedSpotSymbol and SharedFuturesSymbol models
+    * Added IsStableCoin, IsCommodity and IsEquity helper methods to LibraryHelpers
+    * Added DebuggerDisplay Attributes to Shared response models
+    * Updated Aster registration logic so V3 API is used if V3 credentials are provided
+    * Fixed global options not getting applied
+    * Fixed socket connection combine calculations
+
 * Version 5.1.0 - 10 Jul 2026
     * Updated library versions
 

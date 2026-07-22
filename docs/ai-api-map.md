@@ -54,6 +54,8 @@ Use this file to route common user intents to the correct CryptoClients.Net memb
 | Get spot symbols on one exchange | `client.GetSpotSymbolsAsync(exchange, new GetSymbolsRequest())` |
 | Get spot symbols on many exchanges | `client.GetSpotSymbolsAsync(new GetSymbolsRequest(), exchanges)` |
 | Get futures symbols | `client.GetFuturesSymbolsAsync(new GetSymbolsRequest(...), exchanges)` |
+| Reuse a fetched spot symbol catalog | Call `GetSpotSymbolsAsync` on `ISpotSymbolRestClient`, then read `SpotSymbolCatalog` |
+| Reuse a fetched futures symbol catalog | Call `GetFuturesSymbolsAsync` on `IFuturesSymbolRestClient`, then read `FuturesSymbolCatalog` |
 | Get spot symbols for a base asset | `client.GetSpotSymbolsForBaseAssetAsync(baseAsset)` |
 | Get spot symbols for base asset on one exchange | `client.GetSpotSymbolsForBaseAssetAsync(exchange, baseAsset)` |
 | Get futures symbols for a base asset | `client.GetFuturesSymbolsForBaseAssetAsync(baseAsset)` |
