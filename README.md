@@ -367,6 +367,9 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.3.0 - 23 Jul 2026
+    * Added Pionex support with Pionex.Net
+
 * Version 5.2.0 - 22 Jul 2026
     * Updated library versions
     * Added SpotSymbolCatalog to Shared ISpotSymbolRestClient interface
