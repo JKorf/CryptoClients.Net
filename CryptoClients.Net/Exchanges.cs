@@ -547,11 +547,11 @@ namespace CryptoClients.Net
         public static ExchangeInfo Pionex { get; } = new ExchangeInfo
         {
             Name = PionexExchange.ExchangeName,
-            DisplayName = PionexExchange.DisplayName,
-            ImageUrl = PionexExchange.ImageUrl,
-            Url = PionexExchange.Url,
-            ApiDocsUrl = PionexExchange.ApiDocsUrl,
-            Type = PionexExchange.Type,
+            DisplayName = PionexExchange.Metadata.DisplayName,
+            ImageUrl = PionexExchange.Metadata.Logo,
+            Url = PionexExchange.Metadata.Url,
+            ApiDocsUrl = PionexExchange.Metadata.ApiDocsUrl,
+            Type = ExchangeType.CEX,
             ApiEnvironments = PionexEnvironment.All,
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
