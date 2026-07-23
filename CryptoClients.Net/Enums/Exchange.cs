@@ -21,8 +21,7 @@ using Kucoin.Net;
 using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
-using System.Collections;
-using System.Collections.Generic;
+using Pionex.Net;
 using Toobit.Net;
 using Upbit.Net;
 using Weex.Net;
@@ -129,6 +128,10 @@ namespace CryptoClients.Net.Enums
         /// </summary>
         public static string OKX => OKXExchange.ExchangeName;
         /// <summary>
+        /// Pionex
+        /// </summary>
+        public static string Pionex => PionexExchange.ExchangeName;
+        /// <summary>
         /// Toobit
         /// </summary>
         public static string Toobit => ToobitExchange.ExchangeName;
@@ -177,6 +180,7 @@ namespace CryptoClients.Net.Enums
             Lighter,
             Mexc,
             OKX,
+            Pionex,
             Toobit,
             Upbit,
             Weex,

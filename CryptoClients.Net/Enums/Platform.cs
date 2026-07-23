@@ -22,6 +22,7 @@ using Kucoin.Net;
 using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
+using Pionex.Net;
 using Polymarket.Net;
 using Toobit.Net;
 using Upbit.Net;
@@ -133,6 +134,10 @@ namespace CryptoClients.Net.Enums
         /// </summary>
         public static string OKX => OKXExchange.ExchangeName;
         /// <summary>
+        /// Pionex
+        /// </summary>
+        public static string Pionex => PionexExchange.Metadata.Id;
+        /// <summary>
         /// Polymarket
         /// </summary>
         public static string Polymarket => PolymarketPlatform.Metadata.Id;
@@ -186,6 +191,7 @@ namespace CryptoClients.Net.Enums
             Lighter,
             Mexc,
             OKX,
+            Pionex,
             Polymarket,
             Toobit,
             Upbit,

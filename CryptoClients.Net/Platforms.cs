@@ -23,6 +23,7 @@ using Kucoin.Net;
 using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
+using Pionex.Net;
 using Polymarket.Net;
 using Toobit.Net;
 using Upbit.Net;
@@ -158,6 +159,11 @@ namespace CryptoClients.Net
         public static PlatformInfo OKX { get; } = OKXExchange.Metadata;
 
         /// <summary>
+        /// Pionex platform info
+        /// </summary>
+        public static PlatformInfo Pionex { get; } = PionexExchange.Metadata;
+
+        /// <summary>
         /// Polymarket info
         /// </summary>
         public static PlatformInfo Polymarket { get; } = PolymarketPlatform.Metadata;
@@ -215,6 +221,7 @@ namespace CryptoClients.Net
             Kraken,
             Mexc,
             OKX,
+            Pionex,
             Polymarket,
             Toobit,
             Upbit,

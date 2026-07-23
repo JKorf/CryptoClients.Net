@@ -56,6 +56,8 @@ using Mexc.Net;
 using Mexc.Net.Interfaces;
 using OKX.Net;
 using OKX.Net.Interfaces;
+using Pionex.Net;
+using Pionex.Net.Interfaces;
 using System;
 using System.Collections.Generic;
 using Toobit.Net;
@@ -120,6 +122,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOKXTrackerFactory OKX { get; }
         /// <inheritdoc />
+        public IPionexTrackerFactory Pionex { get; }
+        /// <inheritdoc />
         public IToobitTrackerFactory Toobit { get; }
         /// <inheritdoc />
         public IUpbitTrackerFactory Upbit { get; }
@@ -157,6 +161,7 @@ namespace CryptoClients.Net
             ILighterTrackerFactory lighter,
             IMexcTrackerFactory mexc,
             IOKXTrackerFactory okx,
+            IPionexTrackerFactory pionex,
             IToobitTrackerFactory toobit,
             IUpbitTrackerFactory upbit,
             IWeexTrackerFactory weex,
@@ -186,6 +191,7 @@ namespace CryptoClients.Net
             Lighter = lighter;
             Mexc = mexc;
             OKX = okx;
+            Pionex = pionex;
             Toobit = toobit;
             Upbit = upbit;
             Weex = weex;
@@ -220,6 +226,7 @@ namespace CryptoClients.Net
                 "Lighter" => Lighter,
                 "Mexc" => Mexc,
                 "OKX" => OKX,
+                "Pionex" => Pionex,
                 "Toobit" => Toobit,
                 "Upbit" => Upbit,
                 "Weex" => Weex,

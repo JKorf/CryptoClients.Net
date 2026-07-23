@@ -90,6 +90,10 @@ using Mexc.Net;
 using Mexc.Net.Clients;
 using Mexc.Net.Interfaces.Clients;
 using Mexc.Net.Objects.Options;
+using Pionex.Net;
+using Pionex.Net.Clients;
+using Pionex.Net.Interfaces.Clients;
+using Pionex.Net.Objects.Options;
 using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
@@ -194,6 +198,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOKXSocketClient OKX { get; }
         /// <inheritdoc />
+        public IPionexSocketClient Pionex { get; }
+        /// <inheritdoc />
         public IPolymarketSocketClient Polymarket { get; }
         /// <inheritdoc />
         public IToobitSocketClient Toobit { get; }
@@ -234,6 +240,7 @@ namespace CryptoClients.Net
             Lighter = new LighterSocketClient();
             Mexc = new MexcSocketClient();
             OKX = new OKXSocketClient();
+            Pionex = new PionexSocketClient();
             Polymarket = new PolymarketSocketClient();
             Toobit = new ToobitSocketClient();
             Upbit = new UpbitSocketClient();
@@ -272,6 +279,7 @@ namespace CryptoClients.Net
             Action<LighterSocketOptions>? lighterSocketOptions = null,
             Action<MexcSocketOptions>? mexcSocketOptions = null,
             Action<OKXSocketOptions>? okxSocketOptions = null,
+            Action<PionexSocketOptions>? pionexSocketOptions = null,
             Action<PolymarketSocketOptions>? polymarketSocketOptions = null,
             Action<ToobitSocketOptions>? toobitSocketOptions = null,
             Action<UpbitSocketOptions>? upbitSocketOptions = null,
@@ -304,6 +312,7 @@ namespace CryptoClients.Net
                 Options.Create(ApplyOptionsDelegate(lighterSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(mexcSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(okxSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(pionexSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(polymarketSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(toobitSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(upbitSocketOptions)),
@@ -343,6 +352,7 @@ namespace CryptoClients.Net
             IOptions<LighterSocketOptions>? lighterSocketOptions = null,
             IOptions<MexcSocketOptions>? mexcSocketOptions = null,
             IOptions<OKXSocketOptions>? okxSocketOptions = null,
+            IOptions<PionexSocketOptions>? pionexSocketOptions = null,
             IOptions<PolymarketSocketOptions>? polymarketSocketOptions = null,
             IOptions<ToobitSocketOptions>? toobitSocketOptions = null,
             IOptions<UpbitSocketOptions>? upbitSocketOptions = null,
@@ -407,6 +417,7 @@ namespace CryptoClients.Net
                 lighterSocketOptions = SetGlobalSocketOptions(global, lighterSocketOptions?.Value, credentials?.Lighter, environments?.TryGetValue(Exchange.Lighter, out var lighterEnvName) == true ? LighterEnvironment.GetEnvironmentByName(lighterEnvName)! : lighterSocketOptions?.Value.Environment ?? LighterEnvironment.Live);
                 mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions?.Value, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : mexcSocketOptions?.Value.Environment ?? MexcEnvironment.Live);
                 okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions?.Value, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : okxSocketOptions?.Value.Environment ?? OKXEnvironment.Live);
+                pionexSocketOptions = SetGlobalSocketOptions(global, pionexSocketOptions?.Value, credentials?.Pionex, environments?.TryGetValue(Exchange.Pionex, out var pionexEnvName) == true ? PionexEnvironment.GetEnvironmentByName(pionexEnvName)! : pionexSocketOptions?.Value.Environment ?? PionexEnvironment.Live);
                 polymarketSocketOptions = SetGlobalSocketOptions(global, polymarketSocketOptions?.Value, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : polymarketSocketOptions?.Value.Environment ?? PolymarketEnvironment.Live);
                 toobitSocketOptions = SetGlobalSocketOptions(global, toobitSocketOptions?.Value, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : toobitSocketOptions?.Value.Environment ?? ToobitEnvironment.Live);
                 upbitSocketOptions = Options.Create(SetGlobalSocketOptionsBase(global, upbitSocketOptions?.Value, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : upbitSocketOptions?.Value.Environment ?? UpbitEnvironment.Live) ?? new UpbitSocketOptions());
@@ -438,6 +449,7 @@ namespace CryptoClients.Net
             Lighter = new LighterSocketClient(lighterSocketOptions ?? Options.Create(new LighterSocketOptions()), loggerFactory);
             Mexc = new MexcSocketClient(mexcSocketOptions ?? Options.Create(new MexcSocketOptions()), loggerFactory);
             OKX = new OKXSocketClient(okxSocketOptions ?? Options.Create(new OKXSocketOptions()), loggerFactory);
+            Pionex = new PionexSocketClient(pionexSocketOptions ?? Options.Create(new PionexSocketOptions()), loggerFactory);
             Polymarket = new PolymarketSocketClient(polymarketSocketOptions ?? Options.Create(new PolymarketSocketOptions()), loggerFactory);
             Toobit = new ToobitSocketClient(toobitSocketOptions ?? Options.Create(new ToobitSocketOptions()), loggerFactory);
             Upbit = new UpbitSocketClient(upbitSocketOptions ?? Options.Create(new UpbitSocketOptions()), loggerFactory);
@@ -475,6 +487,7 @@ namespace CryptoClients.Net
             ILighterSocketClient lighter,
             IMexcSocketClient mexc,
             IOKXSocketClient okx,
+            IPionexSocketClient pionex,
             IPolymarketSocketClient polymarket,
             IToobitSocketClient toobit,
             IUpbitSocketClient upbit,
@@ -505,6 +518,7 @@ namespace CryptoClients.Net
             Lighter = lighter;
             Mexc = mexc;
             OKX = okx;
+            Pionex = pionex;
             Polymarket = polymarket;
             Toobit = toobit;
             Upbit = upbit;
@@ -518,7 +532,7 @@ namespace CryptoClients.Net
         private void InitSharedClients()
         {
             _socketClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
-                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Lighter, Mexc, OKX, Toobit, Upbit, Weex, WhiteBit, XT];
+                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Lighter, Mexc, OKX, Pionex, Toobit, Upbit, Weex, WhiteBit, XT];
 
             var v3Spot = Aster.SpotV3Api.ApiCredentials?.V3 != null;
             var v3Futures = Aster.FuturesV3Api.ApiCredentials?.V3 != null;
@@ -567,6 +581,7 @@ namespace CryptoClients.Net
                 Mexc.SpotApi.SharedClient,
                 Mexc.FuturesApi.SharedClient,
                 OKX.UnifiedApi.SharedClient,
+                Pionex.SpotApi.SharedClient,
                 Upbit.SpotApi.SharedClient,
                 Toobit.SpotApi.SharedClient,
                 Toobit.UsdtFuturesApi.SharedClient,
@@ -629,6 +644,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Lighter, credentials.Lighter, () => Lighter.SetApiCredentials(credentials.Lighter!));
             SetCredentialsIfNotNull(Exchange.Mexc, credentials.Mexc, () => Mexc.SetApiCredentials(credentials.Mexc!));
             SetCredentialsIfNotNull(Exchange.OKX, credentials.OKX, () => OKX.SetApiCredentials(credentials.OKX!));
+            SetCredentialsIfNotNull(Exchange.Pionex, credentials.Pionex, () => Pionex.SetApiCredentials(credentials.Pionex!));
             SetCredentialsIfNotNull(Platform.Polymarket, credentials.Polymarket, () => Polymarket.SetApiCredentials(credentials.Polymarket!));
             SetCredentialsIfNotNull(Exchange.Toobit, credentials.Toobit, () => Toobit.SetApiCredentials(credentials.Toobit!));
             SetCredentialsIfNotNull(Exchange.Weex, credentials.Weex, () => Weex.SetApiCredentials(credentials.Weex!));
@@ -674,6 +690,7 @@ namespace CryptoClients.Net
                 Lighter.UnsubscribeAllAsync(),
                 Mexc.UnsubscribeAllAsync(),
                 OKX.UnsubscribeAllAsync(),
+                Pionex.UnsubscribeAllAsync(),
                 Polymarket.UnsubscribeAllAsync(),
                 Toobit.UnsubscribeAllAsync(),
                 Upbit.UnsubscribeAllAsync(),

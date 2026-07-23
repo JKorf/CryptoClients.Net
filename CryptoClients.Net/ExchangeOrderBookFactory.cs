@@ -27,6 +27,7 @@ using Kucoin.Net.Interfaces;
 using Lighter.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using Pionex.Net.Interfaces;
 using Polymarket.Net.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,6 +89,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOKXOrderBookFactory OKX { get; }
         /// <inheritdoc />
+        public IPionexOrderBookFactory Pionex { get; }
+        /// <inheritdoc />
         public IPolymarketOrderBookFactory Polymarket { get; }
         /// <inheritdoc />
         public IToobitOrderBookFactory Toobit { get; }
@@ -127,6 +130,7 @@ namespace CryptoClients.Net
             ILighterOrderBookFactory lighter,
             IMexcOrderBookFactory mexc,
             IOKXOrderBookFactory okx,
+            IPionexOrderBookFactory pionex,
             IPolymarketOrderBookFactory polymarket,
             IToobitOrderBookFactory toobit,
             IUpbitOrderBookFactory upbit,
@@ -157,6 +161,7 @@ namespace CryptoClients.Net
             Lighter = lighter;
             Mexc = mexc;
             OKX = okx;
+            Pionex = pionex;
             Polymarket = polymarket;
             Toobit = toobit;
             Upbit = upbit;
@@ -268,6 +273,9 @@ namespace CryptoClients.Net
                 case "OKX":
                     var okxLimit = GetBookDepth(minimalDepth, true, 1, 5, 400);
                     return OKX.Create(symbol, opts => { opts.Limit = okxLimit; });
+                case "Pionex":
+                    var pionexLimit = GetBookDepth(minimalDepth, false, 1, 5, 10, 20, 50, 100);
+                    return Pionex.Create(symbol, opts => { opts.Limit = pionexLimit; });
                 case "Toobit":
                     return Toobit.Create(symbol);
                 case "Upbit":

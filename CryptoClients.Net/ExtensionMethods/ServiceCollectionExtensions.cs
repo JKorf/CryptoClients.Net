@@ -70,6 +70,9 @@ using Microsoft.Extensions.Configuration;
 using OKX.Net;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
+using Pionex.Net;
+using Pionex.Net.Interfaces.Clients;
+using Pionex.Net.Objects.Options;
 using Toobit.Net;
 using Toobit.Net.Interfaces.Clients;
 using Toobit.Net.Objects.Options;
@@ -135,6 +138,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="lighterOptions">The options options for the Lighter services. Will override options provided in the global options</param>
         /// <param name="mexcOptions">The options options for the Mexc services. Will override options provided in the global options</param>
         /// <param name="okxOptions">The options options for the OKX services. Will override options provided in the global options</param>
+        /// <param name="pionexOptions">The options options for the Pionex services. Will override options provided in the global options</param>
         /// <param name="polymarketOptions">The options options for the Polymarket services. Will override options provided in the global options</param>
         /// <param name="toobitOptions">The options options for the Toobit services. Will override options provided in the global options</param>
         /// <param name="upbitOptions">The options options for the Upbit services. Will override options provided in the global options</param>
@@ -170,6 +174,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<LighterOptions>? lighterOptions = null,
             Action<MexcOptions>? mexcOptions = null,
             Action<OKXOptions>? okxOptions = null,
+            Action<PionexOptions>? pionexOptions = null,
             Action<PolymarketOptions>? polymarketOptions = null,
             Action<ToobitOptions>? toobitOptions = null,
             Action<UpbitOptions>? upbitOptions = null,
@@ -256,6 +261,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 lighterOptions = SetGlobalOptions<LighterOptions, LighterRestOptions, LighterSocketOptions, LighterCredentials, LighterEnvironment>(global, lighterOptions, credentials?.Lighter, environments?.TryGetValue(Exchange.Lighter, out var lighterEnvName) == true ? LighterEnvironment.GetEnvironmentByName(lighterEnvName)! : LighterEnvironment.Live);
                 mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, MexcCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
                 okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, OKXCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
+                pionexOptions = SetGlobalOptions<PionexOptions, PionexRestOptions, PionexSocketOptions, PionexCredentials, PionexEnvironment>(global, pionexOptions, credentials?.Pionex, environments?.TryGetValue(Exchange.Pionex, out var pionexEnvName) == true ? PionexEnvironment.GetEnvironmentByName(pionexEnvName)! : PionexEnvironment.Live);
                 polymarketOptions = SetGlobalOptions<PolymarketOptions, PolymarketRestOptions, PolymarketSocketOptions, PolymarketCredentials, PolymarketEnvironment>(global, polymarketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
                 toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ToobitCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var tooBitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(tooBitEnvName)! : ToobitEnvironment.Live);
                 upbitOptions = SetGlobalOptionsBase<UpbitOptions, UpbitRestOptions, UpbitSocketOptions, UpbitEnvironment>(global, upbitOptions, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
@@ -288,6 +294,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddLighter(lighterOptions);
             services.AddMexc(mexcOptions);
             services.AddOKX(okxOptions);
+            services.AddPionex(pionexOptions);
             services.AddPolymarket(polymarketOptions);
             services.AddToobit(toobitOptions);
             services.AddUpbit(upbitOptions);
@@ -322,6 +329,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ILighterRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
+                    x.GetRequiredService<IPionexRestClient>(),
                     x.GetRequiredService<IPolymarketRestClient>(),
                     x.GetRequiredService<IToobitRestClient>(),
                     x.GetRequiredService<IUpbitRestClient>(),
@@ -357,6 +365,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ILighterSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),
                     x.GetRequiredService<IOKXSocketClient>(),
+                    x.GetRequiredService<IPionexSocketClient>(),
                     x.GetRequiredService<IPolymarketSocketClient>(),
                     x.GetRequiredService<IToobitSocketClient>(),
                     x.GetRequiredService<IUpbitSocketClient>(),
@@ -393,6 +402,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<ILighterUserClientProvider>(),
                 x.GetRequiredService<IMexcUserClientProvider>(),
                 x.GetRequiredService<IOKXUserClientProvider>(),
+                x.GetRequiredService<IPionexUserClientProvider>(),
                 x.GetRequiredService<IPolymarketUserClientProvider>(),
                 x.GetRequiredService<IToobitUserClientProvider>(),
                 x.GetRequiredService<IUpbitRestClient>(),
@@ -483,6 +493,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("Lighter", globalOptions);
             UpdateExchangeOptions("Mexc", globalOptions);
             UpdateExchangeOptions("OKX", globalOptions);
+            UpdateExchangeOptions("Pionex", globalOptions);
             UpdateExchangeOptions("Polymarket", globalOptions);
             UpdateExchangeOptions("Toobit", globalOptions);
             UpdateExchangeOptions("Upbit", globalOptions);
@@ -514,6 +525,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddLighter(configuration.GetSection("Lighter"));
             services.AddMexc(configuration.GetSection("Mexc"));
             services.AddOKX(configuration.GetSection("OKX"));
+            services.AddPionex(configuration.GetSection("Pionex"));
             services.AddPolymarket(configuration.GetSection("Polymarket"));
             services.AddToobit(configuration.GetSection("Toobit"));
             services.AddUpbit(configuration.GetSection("Upbit"));
@@ -548,6 +560,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ILighterRestClient>(),
                     x.GetRequiredService<IMexcRestClient>(),
                     x.GetRequiredService<IOKXRestClient>(),
+                    x.GetRequiredService<IPionexRestClient>(),
                     x.GetRequiredService<IPolymarketRestClient>(),
                     x.GetRequiredService<IToobitRestClient>(),
                     x.GetRequiredService<IUpbitRestClient>(),
@@ -583,6 +596,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     x.GetRequiredService<ILighterSocketClient>(),
                     x.GetRequiredService<IMexcSocketClient>(),
                     x.GetRequiredService<IOKXSocketClient>(),
+                    x.GetRequiredService<IPionexSocketClient>(),
                     x.GetRequiredService<IPolymarketSocketClient>(),
                     x.GetRequiredService<IToobitSocketClient>(),
                     x.GetRequiredService<IUpbitSocketClient>(),
@@ -619,6 +633,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<ILighterUserClientProvider>(),
                 x.GetRequiredService<IMexcUserClientProvider>(),
                 x.GetRequiredService<IOKXUserClientProvider>(),
+                x.GetRequiredService<IPionexUserClientProvider>(),
                 x.GetRequiredService<IPolymarketUserClientProvider>(),
                 x.GetRequiredService<IToobitUserClientProvider>(),
                 x.GetRequiredService<IUpbitRestClient>(),

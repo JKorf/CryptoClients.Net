@@ -28,6 +28,7 @@ using Kucoin.Net.Interfaces;
 using Lighter.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using Pionex.Net.Interfaces;
 using System;
 using System.Collections.Generic;
 using Toobit.Net.Interfaces;
@@ -135,6 +136,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX tracker factory
         /// </summary>
         IOKXTrackerFactory OKX { get; }
+        /// <summary>
+        /// Pionex tracker factory
+        /// </summary>
+        IPionexTrackerFactory Pionex { get; }
         /// <summary>
         /// Toobit tracker factory
         /// </summary>

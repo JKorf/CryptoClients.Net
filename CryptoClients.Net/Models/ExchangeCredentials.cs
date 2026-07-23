@@ -25,6 +25,7 @@ using Kucoin.Net;
 using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
+using Pionex.Net;
 using Polymarket.Net;
 using System;
 using System.Collections.Generic;
@@ -191,6 +192,12 @@ namespace CryptoClients.Net.Models
                     credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)),
                     credential.Param2 ?? throw new ArgumentNullException(nameof(credential.Param2)));
             }
+            else if (exchange == "Pionex")
+            {
+                return new PionexCredentials(
+                    credential.Key,
+                    credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
+            }
             else if (exchange == "Polymarket")
             {
                 throw new ArgumentException("Polymarket not supported");
@@ -263,6 +270,7 @@ namespace CryptoClients.Net.Models
                 else if (item.Key == "Lighter") creds.Lighter = item.Value as LighterCredentials;
                 else if (item.Key == "Mexc") creds.Mexc = item.Value as MexcCredentials;
                 else if (item.Key == "OKX") creds.OKX = item.Value as OKXCredentials;
+                else if (item.Key == "Pionex") creds.Pionex = item.Value as PionexCredentials;
                 else if (item.Key == "Polymarket") creds.Polymarket = item.Value as PolymarketCredentials;
                 else if (item.Key == "Toobit") creds.Toobit = item.Value as ToobitCredentials;
                 else if (item.Key == "Weex") creds.Weex = item.Value as WeexCredentials;
@@ -396,6 +404,11 @@ namespace CryptoClients.Net.Models
         public OKXCredentials? OKX { get; set; }
 
         /// <summary>
+        /// Pionex API credentials
+        /// </summary>
+        public PionexCredentials? Pionex { get; set; }
+
+        /// <summary>
         /// Polymarket API credentials
         /// </summary>
         public PolymarketCredentials? Polymarket { get; set; }
@@ -452,6 +465,7 @@ namespace CryptoClients.Net.Models
                 case "Lighter": return Lighter;
                 case "Mexc": return Mexc;
                 case "OKX": return OKX;
+                case "Pionex": return Pionex;
                 case "Polymarket": return Polymarket;
                 case "Toobit": return Toobit;
                 case "Upbit": return null;

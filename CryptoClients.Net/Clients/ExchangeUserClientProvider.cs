@@ -99,6 +99,10 @@ using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
+using Pionex.Net;
+using Pionex.Net.Clients;
+using Pionex.Net.Interfaces.Clients;
+using Pionex.Net.Objects.Options;
 using Polymarket.Net;
 using Polymarket.Net.Clients;
 using Polymarket.Net.Interfaces.Clients;
@@ -157,6 +161,7 @@ namespace CryptoClients.Net.Clients
         private ILighterUserClientProvider _lighterProvider;
         private IMexcUserClientProvider _mexcProvider;
         private IOKXUserClientProvider _okxProvider;
+        private IPionexUserClientProvider _pionexProvider;
         private IPolymarketUserClientProvider _polymarketProvider;
         private IToobitUserClientProvider _toobitProvider;
         private IUpbitRestClient _upbitRestClient;
@@ -193,6 +198,7 @@ namespace CryptoClients.Net.Clients
             Action<LighterOptions>? lighterOptions = null,
             Action<MexcOptions>? mexcOptions = null,
             Action<OKXOptions>? okxOptions = null,
+            Action<PionexOptions>? pionexOptions = null,
             Action<PolymarketOptions>? polymarketOptions = null,
             Action<ToobitOptions>? toobitOptions = null,
             Action<UpbitRestOptions>? upbitRestOptions = null,
@@ -275,6 +281,7 @@ namespace CryptoClients.Net.Clients
                 lighterOptions = SetGlobalOptions<LighterOptions, LighterRestOptions, LighterSocketOptions, LighterCredentials, LighterEnvironment>(global, lighterOptions, credentials?.Lighter, environments?.TryGetValue(Exchange.Lighter, out var lighterEnvName) == true ? LighterEnvironment.GetEnvironmentByName(lighterEnvName)! : LighterEnvironment.Live);
                 mexcOptions = SetGlobalOptions<MexcOptions, MexcRestOptions, MexcSocketOptions, MexcCredentials, MexcEnvironment>(global, mexcOptions, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : MexcEnvironment.Live);
                 okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, OKXCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
+                pionexOptions = SetGlobalOptions<PionexOptions, PionexRestOptions, PionexSocketOptions, PionexCredentials, PionexEnvironment>(global, pionexOptions, credentials?.Pionex, environments?.TryGetValue(Exchange.Pionex, out var pionexEnvName) == true ? PionexEnvironment.GetEnvironmentByName(pionexEnvName)! : PionexEnvironment.Live);
                 polymarketOptions = SetGlobalOptions<PolymarketOptions, PolymarketRestOptions, PolymarketSocketOptions, PolymarketCredentials, PolymarketEnvironment>(global, polymarketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
                 toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ToobitCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
                 weexOptions = SetGlobalOptions<WeexOptions, WeexRestOptions, WeexSocketOptions, WeexCredentials, WeexEnvironment>(global, weexOptions, credentials?.Weex, environments?.TryGetValue(Exchange.Weex, out var weexEnvName) == true ? WeexEnvironment.GetEnvironmentByName(weexEnvName)! : WeexEnvironment.Live);
@@ -306,6 +313,7 @@ namespace CryptoClients.Net.Clients
             _lighterProvider = new LighterUserClientProvider(lighterOptions);
             _mexcProvider = new MexcUserClientProvider(mexcOptions);
             _okxProvider = new OKXUserClientProvider(okxOptions);
+            _pionexProvider = new PionexUserClientProvider(pionexOptions);
             _polymarketProvider = new PolymarketUserClientProvider(polymarketOptions);
             _upbitRestClient = new UpbitRestClient(upbitRestOptions);
             _upbitSocketClient = new UpbitSocketClient(upbitSocketOptions);
@@ -343,6 +351,7 @@ namespace CryptoClients.Net.Clients
             ILighterUserClientProvider lighterProvider,
             IMexcUserClientProvider mexcProvider,
             IOKXUserClientProvider okxProvider,
+            IPionexUserClientProvider pionexProvider,
             IPolymarketUserClientProvider polymarketProvider,
             IToobitUserClientProvider toobitProvider,
             IUpbitRestClient upbitRestClient,
@@ -376,6 +385,7 @@ namespace CryptoClients.Net.Clients
             _lighterProvider = lighterProvider;
             _mexcProvider = mexcProvider;
             _okxProvider = okxProvider;
+            _pionexProvider = pionexProvider;
             _polymarketProvider = polymarketProvider;
             _toobitProvider = toobitProvider;
             _upbitRestClient = upbitRestClient;
@@ -418,6 +428,7 @@ namespace CryptoClients.Net.Clients
             if (exchange == null || exchange == Exchange.Lighter) _lighterProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.Mexc) _mexcProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.OKX) _okxProvider.ClearUserClients(userIdentifier);
+            if (exchange == null || exchange == Platform.Pionex) _pionexProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Platform.Polymarket) _polymarketProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.Toobit) _toobitProvider.ClearUserClients(userIdentifier);
             if (exchange == null || exchange == Exchange.Weex) _weexProvider.ClearUserClients(userIdentifier);
@@ -456,6 +467,7 @@ namespace CryptoClients.Net.Clients
                 _lighterProvider.GetRestClient(userIdentifier, credentials.Lighter, environments.TryGetValue(Exchange.Lighter, out var lighterEnv) ? LighterEnvironment.GetEnvironmentByName(lighterEnv) : null),
                 _mexcProvider.GetRestClient(userIdentifier, credentials.Mexc, environments.TryGetValue(Exchange.Mexc, out var mexcEnv) ? MexcEnvironment.GetEnvironmentByName(mexcEnv) : null),
                 _okxProvider.GetRestClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
+                _pionexProvider.GetRestClient(userIdentifier, credentials.Pionex, environments.TryGetValue(Exchange.Pionex, out var pionexEnv) ? PionexEnvironment.GetEnvironmentByName(pionexEnv) : null),
                 _polymarketProvider.GetRestClient(userIdentifier, credentials.Polymarket, environments.TryGetValue(Platform.Polymarket, out var polymarketEnv) ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnv) : null),
                 _toobitProvider.GetRestClient(userIdentifier, credentials.Toobit, environments.TryGetValue(Exchange.Toobit, out var toobitEnv) ? ToobitEnvironment.GetEnvironmentByName(toobitEnv) : null),
                 _upbitRestClient,
@@ -497,6 +509,7 @@ namespace CryptoClients.Net.Clients
                 _lighterProvider.GetSocketClient(userIdentifier, credentials.Lighter, environments.TryGetValue(Exchange.Lighter, out var lighterEnv) ? LighterEnvironment.GetEnvironmentByName(lighterEnv) : null),
                 _mexcProvider.GetSocketClient(userIdentifier, credentials.Mexc, environments.TryGetValue(Exchange.Mexc, out var mexcEnv) ? MexcEnvironment.GetEnvironmentByName(mexcEnv) : null),
                 _okxProvider.GetSocketClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
+                _pionexProvider.GetSocketClient(userIdentifier, credentials.Pionex, environments.TryGetValue(Exchange.Pionex, out var pionexEnv) ? PionexEnvironment.GetEnvironmentByName(pionexEnv) : null),
                 _polymarketProvider.GetSocketClient(userIdentifier, credentials.Polymarket, environments.TryGetValue(Platform.Polymarket, out var polymarketEnv) ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnv) : null),
                 _toobitProvider.GetSocketClient(userIdentifier, credentials.Toobit, environments.TryGetValue(Exchange.Toobit, out var toobitEnv) ? ToobitEnvironment.GetEnvironmentByName(toobitEnv) : null),
                 _upbitSocketClient,

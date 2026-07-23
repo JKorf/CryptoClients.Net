@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net9.0;net10.0</TargetFrameworks>
     <Nullable>enable</Nullable>
@@ -77,6 +77,7 @@
     <PackageReference Include="JKorf.Upbit.Net" Version="3.2.0" />
     <PackageReference Include="KrakenExchange.Net" Version="8.2.0" />
     <PackageReference Include="Kucoin.Net" Version="9.2.0" />
+    <PackageReference Include="Pionex.Net" Version="1.0.0" />
     <PackageReference Include="Polymarket.Net" Version="4.2.0" />
     <PackageReference Include="Toobit.Net" Version="4.2.0" />
     <PackageReference Include="Weex.Net" Version="2.2.0" />

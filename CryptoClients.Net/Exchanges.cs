@@ -25,6 +25,7 @@ using Kucoin.Net;
 using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
+using Pionex.Net;
 using Polymarket.Net;
 using System;
 using System.Linq;
@@ -541,6 +542,27 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
+        /// Pionex exchange info
+        /// </summary>
+        public static ExchangeInfo Pionex { get; } = new ExchangeInfo
+        {
+            Name = PionexExchange.ExchangeName,
+            DisplayName = PionexExchange.DisplayName,
+            ImageUrl = PionexExchange.ImageUrl,
+            Url = PionexExchange.Url,
+            ApiDocsUrl = PionexExchange.ApiDocsUrl,
+            Type = PionexExchange.Type,
+            ApiEnvironments = PionexEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = PionexExchange.ExchangeName,
+                KeyDescription = "The API key",
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
+        };
+
+        /// <summary>
         /// Toobit exchange info
         /// </summary>
         public static ExchangeInfo Toobit { get; } = new ExchangeInfo
@@ -674,6 +696,7 @@ namespace CryptoClients.Net
             Kraken,
             Mexc,
             OKX,
+            Pionex,
             Toobit,
             Upbit,
             Weex,
@@ -711,6 +734,7 @@ namespace CryptoClients.Net
                 LighterExchange.RateLimiter.RateLimitTriggered += value;
                 MexcExchange.RateLimiter.RateLimitTriggered += value;
                 OKXExchange.RateLimiter.RateLimitTriggered += value;
+                PionexExchange.RateLimiter.RateLimitTriggered += value;
                 PolymarketPlatform.RateLimiter.RateLimitTriggered += value;
                 ToobitExchange.RateLimiter.RateLimitTriggered += value;
                 UpbitExchange.RateLimiter.RateLimitTriggered += value;
@@ -743,6 +767,7 @@ namespace CryptoClients.Net
                 LighterExchange.RateLimiter.RateLimitTriggered -= value;
                 MexcExchange.RateLimiter.RateLimitTriggered -= value;
                 OKXExchange.RateLimiter.RateLimitTriggered -= value;
+                PionexExchange.RateLimiter.RateLimitTriggered -= value;
                 PolymarketPlatform.RateLimiter.RateLimitTriggered -= value;
                 ToobitExchange.RateLimiter.RateLimitTriggered -= value;
                 UpbitExchange.RateLimiter.RateLimitTriggered -= value;
@@ -781,6 +806,7 @@ namespace CryptoClients.Net
                 LighterExchange.RateLimiter.RateLimitUpdated += value;
                 MexcExchange.RateLimiter.RateLimitUpdated += value;
                 OKXExchange.RateLimiter.RateLimitUpdated += value;
+                PionexExchange.RateLimiter.RateLimitUpdated += value;
                 PolymarketPlatform.RateLimiter.RateLimitUpdated += value;
                 ToobitExchange.RateLimiter.RateLimitUpdated += value;
                 UpbitExchange.RateLimiter.RateLimitUpdated += value;
@@ -812,6 +838,7 @@ namespace CryptoClients.Net
                 LighterExchange.RateLimiter.RateLimitUpdated -= value;
                 MexcExchange.RateLimiter.RateLimitUpdated -= value;
                 OKXExchange.RateLimiter.RateLimitUpdated -= value;
+                PionexExchange.RateLimiter.RateLimitUpdated -= value;
                 PolymarketPlatform.RateLimiter.RateLimitUpdated -= value;
                 ToobitExchange.RateLimiter.RateLimitUpdated -= value;
                 UpbitExchange.RateLimiter.RateLimitUpdated -= value;

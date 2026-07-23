@@ -35,6 +35,7 @@ using Polymarket.Net.Interfaces.Clients;
 using Weex.Net.Interfaces.Clients;
 using CryptoExchange.Net.Objects;
 using Lighter.Net.Interfaces.Clients;
+using Pionex.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -148,6 +149,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX Websocket API
         /// </summary>
         IOKXSocketClient OKX { get; }
+        /// <summary>
+        /// Pionex Websocket API
+        /// </summary>
+        IPionexSocketClient Pionex { get; }
         /// <summary>
         /// Polymarket Websocket API
         /// </summary>

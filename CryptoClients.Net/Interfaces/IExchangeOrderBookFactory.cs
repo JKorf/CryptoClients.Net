@@ -11,6 +11,8 @@ using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
 using CoinEx.Net.Interfaces;
 using CoinW.Net.Interfaces;
+using CryptoClients.Net.OrderBook;
+using CryptoCom.Net.Interfaces;
 using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
 using DeepCoin.Net.Interfaces;
@@ -19,8 +21,10 @@ using HTX.Net.Interfaces;
 using HyperLiquid.Net.Interfaces;
 using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
+using Lighter.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
+using Pionex.Net.Interfaces;
 using Polymarket.Net.Interfaces;
 using System.Collections.Generic;
 using Toobit.Net.Interfaces;
@@ -28,9 +32,6 @@ using Upbit.Net.Interfaces;
 using Weex.Net.Interfaces;
 using WhiteBit.Net.Interfaces;
 using XT.Net.Interfaces;
-using CryptoClients.Net.OrderBook;
-using CryptoCom.Net.Interfaces;
-using Lighter.Net.Interfaces;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -131,6 +132,10 @@ namespace CryptoClients.Net.Interfaces
         /// OKX order book factory
         /// </summary>
         IOKXOrderBookFactory OKX { get; }
+        /// <summary>
+        /// OKPionexX order book factory
+        /// </summary>
+        IPionexOrderBookFactory Pionex { get; }
         /// <summary>
         /// Polymarket order book factory
         /// </summary>

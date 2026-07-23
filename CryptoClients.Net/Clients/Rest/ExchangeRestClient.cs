@@ -105,6 +105,10 @@ using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
+using Pionex.Net;
+using Pionex.Net.Clients;
+using Pionex.Net.Interfaces.Clients;
+using Pionex.Net.Objects.Options;
 using Polymarket.Net;
 using Polymarket.Net.Clients;
 using Polymarket.Net.Interfaces.Clients;
@@ -197,6 +201,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IOKXRestClient OKX { get; }
         /// <inheritdoc />
+        public IPionexRestClient Pionex { get; }
+        /// <inheritdoc />
         public IPolymarketRestClient Polymarket { get; }
         /// <inheritdoc />
         public IToobitRestClient Toobit { get; }
@@ -238,6 +244,7 @@ namespace CryptoClients.Net
             Lighter = new LighterRestClient();
             Mexc = new MexcRestClient();
             OKX = new OKXRestClient();
+            Pionex = new PionexRestClient();
             Polymarket = new PolymarketRestClient();
             Toobit = new ToobitRestClient();
             Upbit = new UpbitRestClient();
@@ -277,6 +284,7 @@ namespace CryptoClients.Net
             Action<LighterRestOptions>? lighterRestOptions = null,
             Action<MexcRestOptions>? mexcRestOptions = null,
             Action<OKXRestOptions>? okxRestOptions = null,
+            Action<PionexRestOptions>? pionexRestOptions = null,
             Action<PolymarketRestOptions>? polymarketRestOptions = null,
             Action<ToobitRestOptions>? toobitRestOptions = null,
             Action<UpbitRestOptions>? upbitRestOptions = null,
@@ -310,6 +318,7 @@ namespace CryptoClients.Net
                 Options.Create(ApplyOptionsDelegate(lighterRestOptions)),
                 Options.Create(ApplyOptionsDelegate(mexcRestOptions)),
                 Options.Create(ApplyOptionsDelegate(okxRestOptions)),
+                Options.Create(ApplyOptionsDelegate(pionexRestOptions)),
                 Options.Create(ApplyOptionsDelegate(polymarketRestOptions)),
                 Options.Create(ApplyOptionsDelegate(toobitRestOptions)),
                 Options.Create(ApplyOptionsDelegate(upbitRestOptions)),
@@ -351,6 +360,7 @@ namespace CryptoClients.Net
             IOptions<LighterRestOptions>? lighterRestOptions = null,
             IOptions<MexcRestOptions>? mexcRestOptions = null,
             IOptions<OKXRestOptions>? okxRestOptions = null,
+            IOptions<PionexRestOptions>? pionexRestOptions = null,
             IOptions<PolymarketRestOptions>? polymarketRestOptions = null,
             IOptions<ToobitRestOptions>? toobitRestOptions = null,
             IOptions<UpbitRestOptions>? upbitRestOptions = null,
@@ -418,6 +428,7 @@ namespace CryptoClients.Net
                 lighterRestOptions = SetGlobalRestOptions(global, lighterRestOptions?.Value, credentials?.Lighter, environments?.TryGetValue(Exchange.Lighter, out var lighterEnvName) == true ? LighterEnvironment.GetEnvironmentByName(lighterEnvName)! : lighterRestOptions?.Value.Environment ?? LighterEnvironment.Live);
                 mexcRestOptions = SetGlobalRestOptions(global, mexcRestOptions?.Value, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : mexcRestOptions?.Value.Environment ?? MexcEnvironment.Live);
                 okxRestOptions = SetGlobalRestOptions(global, okxRestOptions?.Value, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : okxRestOptions?.Value.Environment ?? OKXEnvironment.Live);
+                pionexRestOptions = SetGlobalRestOptions(global, pionexRestOptions?.Value, credentials?.Pionex, environments?.TryGetValue(Exchange.Pionex, out var pionexEnvName) == true ? PionexEnvironment.GetEnvironmentByName(pionexEnvName)! : pionexRestOptions?.Value.Environment ?? PionexEnvironment.Live);
                 polymarketRestOptions = SetGlobalRestOptions(global, polymarketRestOptions?.Value, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : polymarketRestOptions?.Value.Environment ?? PolymarketEnvironment.Live);
                 toobitRestOptions = SetGlobalRestOptions(global, toobitRestOptions?.Value, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : toobitRestOptions?.Value.Environment ?? ToobitEnvironment.Live);
                 upbitRestOptions = Options.Create(SetGlobalRestOptionsBase(global, upbitRestOptions?.Value, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : upbitRestOptions?.Value.Environment ?? UpbitEnvironment.Live) ?? new UpbitRestOptions());
@@ -450,6 +461,7 @@ namespace CryptoClients.Net
             Lighter = new LighterRestClient(httpClient, loggerFactory, lighterRestOptions ?? Options.Create(new LighterRestOptions()));
             Mexc = new MexcRestClient(httpClient, loggerFactory, mexcRestOptions ?? Options.Create(new MexcRestOptions()));
             OKX = new OKXRestClient(httpClient, loggerFactory, okxRestOptions ?? Options.Create(new OKXRestOptions()));
+            Pionex = new PionexRestClient(httpClient, loggerFactory, pionexRestOptions ?? Options.Create(new PionexRestOptions()));
             Polymarket = new PolymarketRestClient(httpClient, loggerFactory, polymarketRestOptions ?? Options.Create(new PolymarketRestOptions()));
             Toobit = new ToobitRestClient(httpClient, loggerFactory, toobitRestOptions ?? Options.Create(new ToobitRestOptions()));
             Upbit = new UpbitRestClient(httpClient, loggerFactory, upbitRestOptions ?? Options.Create(new UpbitRestOptions()));
@@ -463,7 +475,7 @@ namespace CryptoClients.Net
         private void InitSharedClients()
         {
             _restClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
-                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Lighter, Mexc, OKX, Toobit, Upbit, Weex, WhiteBit, XT];
+                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Lighter, Mexc, OKX, Pionex, Toobit, Upbit, Weex, WhiteBit, XT];
 
             var v3Spot = Aster.SpotV3Api.ApiCredentials?.V3 != null;
             var v3Futures = Aster.FuturesV3Api.ApiCredentials?.V3 != null;
@@ -510,6 +522,7 @@ namespace CryptoClients.Net
                 Mexc.SpotApi.SharedClient,
                 Mexc.FuturesApi.SharedClient,
                 OKX.UnifiedApi.SharedClient,
+                Pionex.SpotApi.SharedClient,
                 Toobit.SpotApi.SharedClient,
                 Toobit.UsdtFuturesApi.SharedClient,
                 Upbit.SpotApi.SharedClient,
@@ -550,6 +563,7 @@ namespace CryptoClients.Net
             ILighterRestClient lighter,
             IMexcRestClient mexc,
             IOKXRestClient okx,
+            IPionexRestClient pionex,
             IPolymarketRestClient polymarket,
             IToobitRestClient toobit,
             IUpbitRestClient upbit,
@@ -581,6 +595,7 @@ namespace CryptoClients.Net
             Lighter = lighter;
             Mexc = mexc;
             OKX = okx;
+            Pionex = pionex;
             Polymarket = polymarket;
             Toobit = toobit;
             Upbit = upbit;
@@ -643,6 +658,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Lighter, credentials.Lighter, () => Lighter.SetApiCredentials(credentials.Lighter!));
             SetCredentialsIfNotNull(Exchange.Mexc, credentials.Mexc, () => Mexc.SetApiCredentials(credentials.Mexc!));
             SetCredentialsIfNotNull(Exchange.OKX, credentials.OKX, () => OKX.SetApiCredentials(credentials.OKX!));
+            SetCredentialsIfNotNull(Exchange.Pionex, credentials.Pionex, () => Pionex.SetApiCredentials(credentials.Pionex!));
             SetCredentialsIfNotNull(Platform.Polymarket, credentials.Polymarket, () => Polymarket.SetApiCredentials(credentials.Polymarket!));
             SetCredentialsIfNotNull(Exchange.Toobit, credentials.Toobit, () => Toobit.SetApiCredentials(credentials.Toobit!));
             SetCredentialsIfNotNull(Exchange.Weex, credentials.Weex, () => Weex.SetApiCredentials(credentials.Weex!));
