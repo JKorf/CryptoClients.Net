@@ -1,6 +1,6 @@
 # CryptoClients.Net Full LLM Context
 
-Versions: CryptoClients.Net 5.2.0; CryptoExchange.Net 12.2.0.
+Versions: CryptoClients.Net 5.4.0; CryptoExchange.Net 12.4.0.
 
 CryptoClients.Net is a multi-exchange .NET client package built on CryptoExchange.Net. It aggregates the individual JKorf exchange libraries and exposes:
 
@@ -181,6 +181,14 @@ await foreach (var result in restClient.GetSpotTickerAsyncEnumerable(new GetTick
     // Handle each result as it arrives.
 }
 ```
+
+Shared market-data quantities are normalized as `SharedOrderQuantity`:
+
+- `SharedSpotTicker.Volumes` and `SharedFuturesTicker.Volumes`
+- `SharedTrade.Quantities`
+- `SharedKline.Volumes`
+
+Use `QuantityInBaseAsset`, `QuantityInQuoteAsset`, or `QuantityInContracts` as appropriate and handle each as nullable. Do not assume a quantity is a decimal base-asset value. Shared spot and futures orders calculate `AveragePrice` from available quantity data when the exchange omits it, but `AveragePrice` remains nullable when it cannot be derived.
 
 ## Aggregate REST Market Data Map
 

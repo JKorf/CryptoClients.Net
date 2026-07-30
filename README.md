@@ -367,6 +367,13 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.4.0 - 30 Jul 2026
+    * Updated client library versions
+    * Added calculation of AveragePrice on Shared order models if data is available and AveragePrice is not set
+    * Added DebuggerDisplay attributes to Result models
+    * Added AveragePrice property to SharedQuantity model
+    * Updated SharedFuturesTicker, SharedSpotTicker, SharedTrade and SharedKline to use SharedOrderQuantity for volumes/quantities
+
 * Version 5.3.0 - 23 Jul 2026
     * Added Pionex support with Pionex.Net
 
