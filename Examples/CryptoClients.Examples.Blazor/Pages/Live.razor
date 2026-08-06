@@ -101,9 +101,9 @@
             _trades.Add(new ExchangeTrade(exchange, trade));
 
             if (_volume.TryGetValue(exchange, out var val))
-                _volume[exchange] = (val.BaseVolume + trade.Quantity, val.QuoteVolume + (trade.Price * trade.Quantity));
+                _volume[exchange] = (val.BaseVolume + trade.Quantities.QuantityInBaseAsset ?? 0, val.QuoteVolume + (trade.Quantities.GetQuantityInQuoteAsset(trade.Price) ?? 0));
             else
-                _volume[exchange] = (trade.Quantity, trade.Price * trade.Quantity);
+                _volume[exchange] = (trade.Quantities.QuantityInBaseAsset ?? 0, trade.Quantities.GetQuantityInQuoteAsset(trade.Price) ?? 0);
 
             if (_trades.Count > _max)
                 _trades.RemoveAt(0);
