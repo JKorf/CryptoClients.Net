@@ -21,6 +21,7 @@ using HTX.Net.Interfaces;
 using HyperLiquid.Net.Interfaces;
 using Kraken.Net.Interfaces;
 using Kucoin.Net.Interfaces;
+using LBank.Net.Interfaces;
 using Lighter.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
@@ -120,6 +121,10 @@ namespace CryptoClients.Net.Interfaces
         /// Kucoin order book factory
         /// </summary>
         IKucoinOrderBookFactory Kucoin { get; }
+        /// <summary>
+        /// LBank order book factory
+        /// </summary>
+        ILBankOrderBookFactory LBank { get; }
         /// <summary>
         /// Lighter order book factory
         /// </summary>

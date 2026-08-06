@@ -22,6 +22,7 @@ using HTX.Net;
 using HyperLiquid.Net;
 using Kraken.Net;
 using Kucoin.Net;
+using LBank.Net;
 using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
@@ -171,6 +172,12 @@ namespace CryptoClients.Net.Models
                     credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)),
                     credential.Param2 ?? throw new ArgumentNullException(nameof(credential.Param2)));
             }
+            else if (exchange == "LBank")
+            {
+                return new LBankCredentials(
+                    credential.Key,
+                    credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
+            }
             else if (exchange == "Lighter")
             {
                 return new LighterCredentials(
@@ -267,6 +274,7 @@ namespace CryptoClients.Net.Models
                 else if (item.Key == "HyperLiquid") creds.HyperLiquid = item.Value as HyperLiquidCredentials;
                 else if (item.Key == "Kraken") creds.Kraken = item.Value as KrakenCredentials;
                 else if (item.Key == "Kucoin") creds.Kucoin = item.Value as KucoinCredentials;
+                else if (item.Key == "LBank") creds.LBank = item.Value as LBankCredentials;
                 else if (item.Key == "Lighter") creds.Lighter = item.Value as LighterCredentials;
                 else if (item.Key == "Mexc") creds.Mexc = item.Value as MexcCredentials;
                 else if (item.Key == "OKX") creds.OKX = item.Value as OKXCredentials;
@@ -389,6 +397,11 @@ namespace CryptoClients.Net.Models
         public KucoinCredentials? Kucoin { get; set; }
 
         /// <summary>
+        /// LBank API credentials
+        /// </summary>
+        public LBankCredentials? LBank { get; set; }
+
+        /// <summary>
         /// Lighter API credentials
         /// </summary>
         public LighterCredentials? Lighter { get; set; }
@@ -462,6 +475,7 @@ namespace CryptoClients.Net.Models
                 case "HyperLiquid": return HyperLiquid;
                 case "Kraken": return Kraken;
                 case "Kucoin": return Kucoin;
+                case "LBank": return LBank;
                 case "Lighter": return Lighter;
                 case "Mexc": return Mexc;
                 case "OKX": return OKX;

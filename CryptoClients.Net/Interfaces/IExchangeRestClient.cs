@@ -21,6 +21,7 @@ using HTX.Net.Interfaces.Clients;
 using HyperLiquid.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kucoin.Net.Interfaces.Clients;
+using LBank.Net.Interfaces.Clients;
 using Lighter.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients;
@@ -128,6 +129,10 @@ namespace CryptoClients.Net.Interfaces
         /// Kucoin REST API
         /// </summary>
         IKucoinRestClient Kucoin { get; }
+        /// <summary>
+        /// LBank REST API
+        /// </summary>
+        ILBankRestClient LBank { get; }
         /// <summary>
         /// Lighter REST API
         /// </summary>

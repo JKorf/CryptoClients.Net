@@ -18,6 +18,7 @@ using HTX.Net;
 using HyperLiquid.Net;
 using Kraken.Net;
 using Kucoin.Net;
+using LBank.Net;
 using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
@@ -116,6 +117,10 @@ namespace CryptoClients.Net.Enums
         /// </summary>
         public static string Kucoin => KucoinExchange.ExchangeName;
         /// <summary>
+        /// LBank
+        /// </summary>
+        public static string LBank => LBankExchange.Metadata.Id;
+        /// <summary>
         /// Lighter
         /// </summary>
         public static string Lighter => LighterExchange.ExchangeName;
@@ -177,6 +182,7 @@ namespace CryptoClients.Net.Enums
             HyperLiquid,
             Kraken,
             Kucoin,
+            LBank,
             Lighter,
             Mexc,
             OKX,

@@ -50,6 +50,8 @@ using Kraken.Net;
 using Kraken.Net.Interfaces;
 using Kucoin.Net;
 using Kucoin.Net.Interfaces;
+using LBank.Net;
+using LBank.Net.Interfaces;
 using Lighter.Net;
 using Lighter.Net.Interfaces;
 using Mexc.Net;
@@ -116,6 +118,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IKucoinTrackerFactory Kucoin { get; }
         /// <inheritdoc />
+        public ILBankTrackerFactory LBank { get; }
+        /// <inheritdoc />
         public ILighterTrackerFactory Lighter { get; }
         /// <inheritdoc />
         public IMexcTrackerFactory Mexc { get; }
@@ -158,6 +162,7 @@ namespace CryptoClients.Net
             IHyperLiquidTrackerFactory hyperLiquid,
             IKrakenTrackerFactory kraken,
             IKucoinTrackerFactory kucoin,
+            ILBankTrackerFactory lBank,
             ILighterTrackerFactory lighter,
             IMexcTrackerFactory mexc,
             IOKXTrackerFactory okx,
@@ -188,6 +193,7 @@ namespace CryptoClients.Net
             HyperLiquid = hyperLiquid;
             Kraken = kraken;
             Kucoin = kucoin;
+            LBank = lBank;
             Lighter = lighter;
             Mexc = mexc;
             OKX = okx;
@@ -223,6 +229,7 @@ namespace CryptoClients.Net
                 "HyperLiquid" => HyperLiquid,
                 "Kraken" => Kraken,
                 "Kucoin" => Kucoin,
+                "LBank" => LBank,
                 "Lighter" => Lighter,
                 "Mexc" => Mexc,
                 "OKX" => OKX,
@@ -286,6 +293,7 @@ namespace CryptoClients.Net
                 "HyperLiquid" => HyperLiquid.CreateUserSpotDataTracker(config),
                 "Kraken" => Kraken.CreateUserSpotDataTracker(config),
                 "Kucoin" => Kucoin.CreateUserSpotDataTracker(config),
+                "LBank" => LBank.CreateUserSpotDataTracker(config),
                 "Lighter" => Lighter.CreateUserSpotDataTracker(config),
                 "Mexc" => Mexc.CreateUserSpotDataTracker(config),
                 "OKX" => OKX.CreateUserSpotDataTracker(config),
@@ -337,6 +345,7 @@ namespace CryptoClients.Net
                 "HyperLiquid" => HyperLiquid.CreateUserSpotDataTracker(userIdentifier, credentials.HyperLiquid ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, HyperLiquidEnvironment.GetEnvironmentByName(environment)),
                 "Kraken" => Kraken.CreateUserSpotDataTracker(userIdentifier, credentials.Kraken ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, KrakenEnvironment.GetEnvironmentByName(environment)),
                 "Kucoin" => Kucoin.CreateUserSpotDataTracker(userIdentifier, credentials.Kucoin ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, KucoinEnvironment.GetEnvironmentByName(environment)),
+                "LBank" => LBank.CreateUserSpotDataTracker(userIdentifier, credentials.LBank ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, LBankEnvironment.GetEnvironmentByName(environment)),
                 "Lighter" => Lighter.CreateUserSpotDataTracker(userIdentifier, credentials.Lighter ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, LighterEnvironment.GetEnvironmentByName(environment)),
                 "Mexc" => Mexc.CreateUserSpotDataTracker(userIdentifier, credentials.Mexc ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, MexcEnvironment.GetEnvironmentByName(environment)),
                 "OKX" => OKX.CreateUserSpotDataTracker(userIdentifier, credentials.OKX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, OKXEnvironment.GetEnvironmentByName(environment)),

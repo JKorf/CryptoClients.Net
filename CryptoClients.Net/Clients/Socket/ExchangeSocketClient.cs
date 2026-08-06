@@ -82,6 +82,10 @@ using Kucoin.Net;
 using Kucoin.Net.Clients;
 using Kucoin.Net.Interfaces.Clients;
 using Kucoin.Net.Objects.Options;
+using LBank.Net;
+using LBank.Net.Clients;
+using LBank.Net.Interfaces.Clients;
+using LBank.Net.Objects.Options;
 using Lighter.Net;
 using Lighter.Net.Clients;
 using Lighter.Net.Interfaces.Clients;
@@ -192,6 +196,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IKucoinSocketClient Kucoin { get; }
         /// <inheritdoc />
+        public ILBankSocketClient LBank { get; }
+        /// <inheritdoc />
         public ILighterSocketClient Lighter { get; }
         /// <inheritdoc />
         public IMexcSocketClient Mexc { get; }
@@ -237,6 +243,7 @@ namespace CryptoClients.Net
             HyperLiquid = new HyperLiquidSocketClient();
             Kraken = new KrakenSocketClient();
             Kucoin = new KucoinSocketClient();
+            LBank = new LBankSocketClient();
             Lighter = new LighterSocketClient();
             Mexc = new MexcSocketClient();
             OKX = new OKXSocketClient();
@@ -276,6 +283,7 @@ namespace CryptoClients.Net
             Action<HyperLiquidSocketOptions>? hyperLiquidSocketOptions = null,
             Action<KrakenSocketOptions>? krakenSocketOptions = null,
             Action<KucoinSocketOptions>? kucoinSocketOptions = null,
+            Action<LBankSocketOptions>? lBankSocketOptions = null,
             Action<LighterSocketOptions>? lighterSocketOptions = null,
             Action<MexcSocketOptions>? mexcSocketOptions = null,
             Action<OKXSocketOptions>? okxSocketOptions = null,
@@ -309,6 +317,7 @@ namespace CryptoClients.Net
                 Options.Create(ApplyOptionsDelegate(hyperLiquidSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(krakenSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(kucoinSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(lBankSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(lighterSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(mexcSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(okxSocketOptions)),
@@ -349,6 +358,7 @@ namespace CryptoClients.Net
             IOptions<HyperLiquidSocketOptions>? hyperLiquidSocketOptions = null,
             IOptions<KrakenSocketOptions>? krakenSocketOptions = null,
             IOptions<KucoinSocketOptions>? kucoinSocketOptions = null,
+            IOptions<LBankSocketOptions>? lBankSocketOptions = null,
             IOptions<LighterSocketOptions>? lighterSocketOptions = null,
             IOptions<MexcSocketOptions>? mexcSocketOptions = null,
             IOptions<OKXSocketOptions>? okxSocketOptions = null,
@@ -414,6 +424,7 @@ namespace CryptoClients.Net
                 hyperLiquidSocketOptions = SetGlobalSocketOptions(global, hyperLiquidSocketOptions?.Value, credentials?.HyperLiquid, environments?.TryGetValue(Exchange.HyperLiquid, out var hyperLiquidEnvName) == true ? HyperLiquidEnvironment.GetEnvironmentByName(hyperLiquidEnvName)! : hyperLiquidSocketOptions?.Value.Environment ?? HyperLiquidEnvironment.Live);
                 krakenSocketOptions = SetGlobalSocketOptions(global, krakenSocketOptions?.Value, credentials?.Kraken, environments?.TryGetValue(Exchange.Kraken, out var krakenEnvName) == true ? KrakenEnvironment.GetEnvironmentByName(krakenEnvName)! : krakenSocketOptions?.Value.Environment ?? KrakenEnvironment.Live);
                 kucoinSocketOptions = SetGlobalSocketOptions(global, kucoinSocketOptions?.Value, credentials?.Kucoin, environments?.TryGetValue(Exchange.Kucoin, out var kucoinEnvName) == true ? KucoinEnvironment.GetEnvironmentByName(kucoinEnvName)! : kucoinSocketOptions?.Value.Environment ?? KucoinEnvironment.Live);
+                lBankSocketOptions = SetGlobalSocketOptions(global, lBankSocketOptions?.Value, credentials?.LBank, environments?.TryGetValue(Exchange.LBank, out var lBankEnvName) == true ? LBankEnvironment.GetEnvironmentByName(lBankEnvName)! : lBankSocketOptions?.Value.Environment ?? LBankEnvironment.Live);
                 lighterSocketOptions = SetGlobalSocketOptions(global, lighterSocketOptions?.Value, credentials?.Lighter, environments?.TryGetValue(Exchange.Lighter, out var lighterEnvName) == true ? LighterEnvironment.GetEnvironmentByName(lighterEnvName)! : lighterSocketOptions?.Value.Environment ?? LighterEnvironment.Live);
                 mexcSocketOptions = SetGlobalSocketOptions(global, mexcSocketOptions?.Value, credentials?.Mexc, environments?.TryGetValue(Exchange.Mexc, out var mexcEnvName) == true ? MexcEnvironment.GetEnvironmentByName(mexcEnvName)! : mexcSocketOptions?.Value.Environment ?? MexcEnvironment.Live);
                 okxSocketOptions = SetGlobalSocketOptions(global, okxSocketOptions?.Value, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : okxSocketOptions?.Value.Environment ?? OKXEnvironment.Live);
@@ -446,6 +457,7 @@ namespace CryptoClients.Net
             GateIo = new GateIoSocketClient(gateIoSocketOptions ?? Options.Create(new GateIoSocketOptions()), loggerFactory);
             Kraken = new KrakenSocketClient(krakenSocketOptions ?? Options.Create(new KrakenSocketOptions()), loggerFactory);
             Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? Options.Create(new KucoinSocketOptions()), loggerFactory);
+            LBank = new LBankSocketClient(lBankSocketOptions ?? Options.Create(new LBankSocketOptions()), loggerFactory);
             Lighter = new LighterSocketClient(lighterSocketOptions ?? Options.Create(new LighterSocketOptions()), loggerFactory);
             Mexc = new MexcSocketClient(mexcSocketOptions ?? Options.Create(new MexcSocketOptions()), loggerFactory);
             OKX = new OKXSocketClient(okxSocketOptions ?? Options.Create(new OKXSocketOptions()), loggerFactory);
@@ -484,6 +496,7 @@ namespace CryptoClients.Net
             IHyperLiquidSocketClient hyperLiquid,
             IKrakenSocketClient kraken,
             IKucoinSocketClient kucoin,
+            ILBankSocketClient lBank,
             ILighterSocketClient lighter,
             IMexcSocketClient mexc,
             IOKXSocketClient okx,
@@ -515,6 +528,7 @@ namespace CryptoClients.Net
             HyperLiquid = hyperLiquid;
             Kraken = kraken;
             Kucoin = kucoin;
+            LBank = lBank;
             Lighter = lighter;
             Mexc = mexc;
             OKX = okx;
@@ -532,7 +546,7 @@ namespace CryptoClients.Net
         private void InitSharedClients()
         {
             _socketClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
-                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Lighter, Mexc, OKX, Pionex, Toobit, Upbit, Weex, WhiteBit, XT];
+                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, LBank, Lighter, Mexc, OKX, Pionex, Toobit, Upbit, Weex, WhiteBit, XT];
 
             var v3Spot = Aster.SpotV3Api.ApiCredentials?.V3 != null;
             var v3Futures = Aster.FuturesV3Api.ApiCredentials?.V3 != null;
@@ -578,6 +592,7 @@ namespace CryptoClients.Net
                 Kucoin.SpotApi.SharedClient,
                 Kucoin.FuturesApi.SharedClient,
                 Lighter.ExchangeApi.SharedClient,
+                LBank.SpotApi.SharedClient,
                 Mexc.SpotApi.SharedClient,
                 Mexc.FuturesApi.SharedClient,
                 OKX.UnifiedApi.SharedClient,
@@ -641,6 +656,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.HyperLiquid, credentials.HyperLiquid, () => HyperLiquid.SetApiCredentials(credentials.HyperLiquid!));
             SetCredentialsIfNotNull(Exchange.Kraken, credentials.Kraken, () => Kraken.SetApiCredentials(credentials.Kraken!));
             SetCredentialsIfNotNull(Exchange.Kucoin, credentials.Kucoin, () => Kucoin.SetApiCredentials(credentials.Kucoin!));
+            SetCredentialsIfNotNull(Exchange.LBank, credentials.LBank, () => LBank.SetApiCredentials(credentials.LBank!));
             SetCredentialsIfNotNull(Exchange.Lighter, credentials.Lighter, () => Lighter.SetApiCredentials(credentials.Lighter!));
             SetCredentialsIfNotNull(Exchange.Mexc, credentials.Mexc, () => Mexc.SetApiCredentials(credentials.Mexc!));
             SetCredentialsIfNotNull(Exchange.OKX, credentials.OKX, () => OKX.SetApiCredentials(credentials.OKX!));
@@ -687,6 +703,7 @@ namespace CryptoClients.Net
                 HyperLiquid.UnsubscribeAllAsync(),
                 Kraken.UnsubscribeAllAsync(),
                 Kucoin.UnsubscribeAllAsync(),
+                LBank.UnsubscribeAllAsync(),
                 Lighter.UnsubscribeAllAsync(),
                 Mexc.UnsubscribeAllAsync(),
                 OKX.UnsubscribeAllAsync(),

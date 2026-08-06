@@ -22,6 +22,7 @@ using HTX.Net;
 using HyperLiquid.Net;
 using Kraken.Net;
 using Kucoin.Net;
+using LBank.Net;
 using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
@@ -473,6 +474,27 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
+        /// LBank exchange info
+        /// </summary>
+        public static ExchangeInfo LBank { get; } = new ExchangeInfo
+        {
+            Name = LBankExchange.Metadata.Id,
+            DisplayName = LBankExchange.Metadata.DisplayName,
+            ImageUrl = LBankExchange.Metadata.Logo,
+            Url = LBankExchange.Metadata.Url,
+            ApiDocsUrl = LBankExchange.Metadata.ApiDocsUrl,
+            Type = ExchangeType.CEX,
+            ApiEnvironments = LBankEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = LBankExchange.Metadata.Id,
+                KeyDescription = "The API key",
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
+        };
+
+        /// <summary>
         /// Lighter exchange info
         /// </summary>
         public static ExchangeInfo Lighter { get; } = new ExchangeInfo
@@ -694,6 +716,8 @@ namespace CryptoClients.Net
             HyperLiquid,
             Kucoin,
             Kraken,
+            LBank,
+            Lighter,
             Mexc,
             OKX,
             Pionex,
@@ -731,6 +755,7 @@ namespace CryptoClients.Net
                 HyperLiquidExchange.RateLimiter.RateLimitTriggered += value;
                 KrakenExchange.RateLimiter.RateLimitTriggered += value;
                 KucoinExchange.RateLimiter.RateLimitTriggered += value;
+                LBankExchange.RateLimiter.RateLimitTriggered += value;
                 LighterExchange.RateLimiter.RateLimitTriggered += value;
                 MexcExchange.RateLimiter.RateLimitTriggered += value;
                 OKXExchange.RateLimiter.RateLimitTriggered += value;
@@ -764,6 +789,7 @@ namespace CryptoClients.Net
                 HyperLiquidExchange.RateLimiter.RateLimitTriggered -= value;
                 KrakenExchange.RateLimiter.RateLimitTriggered -= value;
                 KucoinExchange.RateLimiter.RateLimitTriggered -= value;
+                LBankExchange.RateLimiter.RateLimitTriggered -= value;
                 LighterExchange.RateLimiter.RateLimitTriggered -= value;
                 MexcExchange.RateLimiter.RateLimitTriggered -= value;
                 OKXExchange.RateLimiter.RateLimitTriggered -= value;
@@ -803,6 +829,7 @@ namespace CryptoClients.Net
                 HyperLiquidExchange.RateLimiter.RateLimitUpdated += value;
                 KrakenExchange.RateLimiter.RateLimitUpdated += value;
                 KucoinExchange.RateLimiter.RateLimitUpdated += value;
+                LBankExchange.RateLimiter.RateLimitUpdated += value;
                 LighterExchange.RateLimiter.RateLimitUpdated += value;
                 MexcExchange.RateLimiter.RateLimitUpdated += value;
                 OKXExchange.RateLimiter.RateLimitUpdated += value;
@@ -835,6 +862,7 @@ namespace CryptoClients.Net
                 HyperLiquidExchange.RateLimiter.RateLimitUpdated -= value;
                 KrakenExchange.RateLimiter.RateLimitUpdated -= value;
                 KucoinExchange.RateLimiter.RateLimitUpdated -= value;
+                LBankExchange.RateLimiter.RateLimitUpdated -= value;
                 LighterExchange.RateLimiter.RateLimitUpdated -= value;
                 MexcExchange.RateLimiter.RateLimitUpdated -= value;
                 OKXExchange.RateLimiter.RateLimitUpdated -= value;

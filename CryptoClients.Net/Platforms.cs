@@ -20,6 +20,7 @@ using HTX.Net;
 using HyperLiquid.Net;
 using Kraken.Net;
 using Kucoin.Net;
+using LBank.Net;
 using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
@@ -144,6 +145,11 @@ namespace CryptoClients.Net
         public static PlatformInfo Kucoin { get; } = KucoinExchange.Metadata;
 
         /// <summary>
+        /// LBank platform info
+        /// </summary>
+        public static PlatformInfo LBank { get; } = LBankExchange.Metadata;
+
+        /// <summary>
         /// Lighter platform info
         /// </summary>
         public static PlatformInfo Lighter { get; } = LighterExchange.Metadata;
@@ -219,6 +225,8 @@ namespace CryptoClients.Net
             HyperLiquid,
             Kucoin,
             Kraken,
+            LBank,
+            Lighter,
             Mexc,
             OKX,
             Pionex,

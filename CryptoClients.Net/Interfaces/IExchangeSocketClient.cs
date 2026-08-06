@@ -6,11 +6,14 @@ using Bitget.Net.Interfaces.Clients;
 using BitMart.Net.Interfaces.Clients;
 using BitMEX.Net.Interfaces.Clients;
 using Bitstamp.Net.Interfaces.Clients;
+using BloFin.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Coinbase.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients;
+using CoinW.Net.Interfaces.Clients;
 using CryptoClients.Net.Models;
 using CryptoCom.Net.Interfaces.Clients;
+using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using DeepCoin.Net.Interfaces.Clients;
@@ -19,23 +22,21 @@ using HTX.Net.Interfaces.Clients;
 using HyperLiquid.Net.Interfaces.Clients;
 using Kraken.Net.Interfaces.Clients;
 using Kucoin.Net.Interfaces.Clients;
+using LBank.Net.Interfaces.Clients;
+using Lighter.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients;
-using Toobit.Net.Interfaces.Clients;
+using Pionex.Net.Interfaces.Clients;
+using Polymarket.Net.Interfaces.Clients;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Toobit.Net.Interfaces.Clients;
+using Upbit.Net.Interfaces.Clients;
+using Weex.Net.Interfaces.Clients;
 using WhiteBit.Net.Interfaces.Clients;
 using XT.Net.Interfaces.Clients;
-using CoinW.Net.Interfaces.Clients;
-using BloFin.Net.Interfaces.Clients;
-using Upbit.Net.Interfaces.Clients;
-using Polymarket.Net.Interfaces.Clients;
-using Weex.Net.Interfaces.Clients;
-using CryptoExchange.Net.Objects;
-using Lighter.Net.Interfaces.Clients;
-using Pionex.Net.Interfaces.Clients;
 
 namespace CryptoClients.Net.Interfaces
 {
@@ -137,6 +138,10 @@ namespace CryptoClients.Net.Interfaces
         /// Kucoin Websocket API
         /// </summary>
         IKucoinSocketClient Kucoin { get; }
+        /// <summary>
+        /// LBank Websocket API
+        /// </summary>
+        ILBankSocketClient LBank { get; }
         /// <summary>
         /// Lighter Websocket API
         /// </summary>
