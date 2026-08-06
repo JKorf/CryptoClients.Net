@@ -1,6 +1,6 @@
 # CryptoClients.Net Full LLM Context
 
-Versions: CryptoClients.Net 5.4.0; CryptoExchange.Net 12.4.0.
+Versions: CryptoClients.Net 5.5.0; CryptoExchange.Net 12.4.0.
 
 CryptoClients.Net is a multi-exchange .NET client package built on CryptoExchange.Net. It aggregates the individual JKorf exchange libraries and exposes:
 
@@ -57,7 +57,7 @@ IExchangeSocketClient socketClient = new ExchangeSocketClient();
 
 REST exposes aggregate methods and direct clients. Socket exposes aggregate subscription helpers and direct socket clients.
 
-Direct exchange properties include Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom, DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, Mexc, OKX, Polymarket, Toobit, Upbit, Weex, WhiteBit, and XT. The REST client also includes CoinGecko.
+Direct exchange properties include Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom, DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, LBank, Mexc, OKX, Polymarket, Toobit, Upbit, Weex, WhiteBit, and XT. The REST client also includes CoinGecko.
 
 ## Dependency Injection
 

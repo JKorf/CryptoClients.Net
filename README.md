@@ -367,6 +367,10 @@ https://discord.gg/MSpeEtSY8t
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.5.0 - 06 Aug 2026
+    * Added LBank support with LBank.Net
+    * Some small client library updates
+
 * Version 5.4.0 - 30 Jul 2026
     * Updated client library versions
     * Added calculation of AveragePrice on Shared order models if data is available and AveragePrice is not set
