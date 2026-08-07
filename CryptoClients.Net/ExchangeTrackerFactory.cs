@@ -244,6 +244,16 @@ namespace CryptoClients.Net
         }
 
         /// <inheritdoc />
+        public bool CanCreateKlineTracker(string exchange, SharedSymbol symbol, SharedKlineInterval interval)
+        {
+            var factory = GetTrackerFactoryForExchange(exchange);
+            if (factory == null)
+                return false;
+            
+            return factory.CanCreateKlineTracker(symbol, interval);
+        }
+
+        /// <inheritdoc />
         public IKlineTracker? CreateKlineTracker(string exchange, SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null)
         {
             var factory = GetTrackerFactoryForExchange(exchange);
@@ -254,6 +264,16 @@ namespace CryptoClients.Net
                 return null;
 
             return factory.CreateKlineTracker(symbol, interval, limit, period, exchangeParameters);
+        }
+
+        /// <inheritdoc />
+        public bool CanCreateTradeTracker(string exchange, SharedSymbol symbol)
+        {
+            var factory = GetTrackerFactoryForExchange(exchange);
+            if (factory == null)
+                return false;
+
+            return factory.CanCreateTradeTracker(symbol);
         }
 
         /// <inheritdoc />

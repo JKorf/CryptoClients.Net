@@ -167,6 +167,11 @@ namespace CryptoClients.Net.Interfaces
         IXTTrackerFactory XT { get; }
 
         /// <summary>
+        /// Check if a kline tracker can be created for the specified exchange, symbol and interval
+        /// </summary>
+        bool CanCreateKlineTracker(string exchange, SharedSymbol symbol, SharedKlineInterval interval);
+
+        /// <summary>
         /// Create a new kline tracker
         /// </summary>
         /// <param name="exchange">The exchange the tracker is for</param>
@@ -176,6 +181,11 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="period">The max age of the klines to be tracked, any kline older than this period will be removed</param>
         /// <param name="exchangeParameters">Exchange specific parameters</param>
         IKlineTracker? CreateKlineTracker(string exchange, SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null);
+
+        /// <summary>
+        /// Check if a trade tracker can be created for the specified exchange and symbol
+        /// </summary>
+        bool CanCreateTradeTracker(string exchange, SharedSymbol symbol);
 
         /// <summary>
         /// Create a new trade tracker
