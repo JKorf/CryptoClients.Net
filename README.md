@@ -357,10 +357,9 @@ Join the Discord server for questions and discussion:
 https://discord.gg/MSpeEtSY8t
 
 ### Donations
-
-**BTC**: `bc1q277a5n54s2l2mzlu778ef7lpkwhjhyvghuv8qf`  
-**ETH**: `0xcb1b63aCF9fef2755eBf4a0506250074496Ad5b7`  
-**USDT (TRX)**: `TKigKeJPXZYyMVDgMyXxMf17MWYia92Rjd`
+Make a one time donation in a crypto currency of your choice. If you prefer to donate in a different currency or network send me a message.
+   
+**USDT (TRX)** `TKigKeJPXZYyMVDgMyXxMf17MWYia92Rjd`
 
 ### Sponsorship
 
