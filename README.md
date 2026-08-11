@@ -4,12 +4,13 @@
 [![NuGet version](https://img.shields.io/nuget/v/CryptoClients.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoClients.Net)
 [![NuGet downloads](https://img.shields.io/nuget/dt/CryptoClients.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoClients.Net)
 ![License](https://img.shields.io/github/license/JKorf/CryptoClients.Net?style=for-the-badge)
+[![Docs](https://img.shields.io/badge/Docs-CryptoClients.Net-1b7f50?style=for-the-badge)](https://cryptoexchange.jkorf.dev/docs/crypto-clients)
 
 `CryptoClients.Net` provides unified access to cryptocurrency trading APIs in C#.
 
 It combines:
 - direct access to exchange-specific REST and WebSocket clients
-- shared cross-exchange interfaces from [CryptoExchange.Net](https://jkorf.github.io/CryptoExchange.Net/)
+- shared cross-exchange interfaces from [CryptoExchange.Net](https://cryptoexchange.jkorf.dev/docs/base-library)
 - dynamic multi-exchange requests and subscriptions
 - client-side helpers such as rate limiting, order books, trackers, and user client management
 
@@ -28,6 +29,10 @@ The library currently supports **28 exchanges** and additional platform integrat
 - Multi-user client management
 - Support for multiple API environments
 - Dynamic credential management
+
+## Documentation
+
+The [CryptoClients.Net documentation](https://cryptoexchange.jkorf.dev/docs/crypto-clients) is the main resource for installing, configuring, and using the library. See the [examples](https://cryptoexchange.jkorf.dev/docs/crypto-clients/examples) for common multi-exchange REST, WebSocket, order-book, and application integration workflows.
 
 ## Benchmark
 Performance is a core focus. For a benchmark comparing CryptoClients.Net performance to CCXT, see [docs/crypto-clients-net-benchmark.md](docs/crypto-clients-net-benchmark.md).
@@ -49,7 +54,7 @@ Performance is a core focus. For a benchmark comparing CryptoClients.Net perform
             Console.WriteLine($"{result.Exchange} price: {result.Data.LastPrice}");
     }
 
-For more examples, see the [documentation](https://cryptoexchange.jkorf.dev/crypto-clients) or the full demo application:  
+For more examples, see the [documentation](https://cryptoexchange.jkorf.dev/docs/crypto-clients/examples) or the full demo application:
 https://github.com/JKorf/CryptoManager.Net
 
 ## Installation
@@ -130,7 +135,7 @@ Clients can be configured globally, per exchange, or both.
 Environment selection can also be configured through `GlobalExchangeOptions.ApiEnvironments`.
 
 More configuration details are available in the documentation:  
-https://cryptoexchange.jkorf.dev/crypto-clients/options
+https://cryptoexchange.jkorf.dev/docs/crypto-clients/options
 
 ## Usage patterns
 
@@ -323,11 +328,9 @@ Example requests:
 - `GET /Ticker/Kraken/ETH/BTC`
 - `GET /Ticker/Kucoin/BTC/USDT`
 
-## Documentation and examples
+## Additional resources
 
-- Documentation: https://cryptoexchange.jkorf.dev/crypto-clients
 - Benchmark results: [docs/crypto-clients-net-benchmark.md](docs/crypto-clients-net-benchmark.md)
-- Configuration options: https://cryptoexchange.jkorf.dev/crypto-clients/options
 - Example configuration: https://github.com/JKorf/CryptoClients.Net/tree/main/Examples/example-config.json
 - Examples: https://github.com/JKorf/CryptoClients.Net/tree/main/Examples
 - Base library examples: https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples
