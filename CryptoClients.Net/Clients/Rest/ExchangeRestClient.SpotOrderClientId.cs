@@ -14,7 +14,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<ISpotOrderClientIdRestClient> GetSpotOrderClientIdClients() => _sharedClients.OfType<ISpotOrderClientIdRestClient>();
         /// <inheritdoc />
-        public ISpotOrderClientIdRestClient? GetSpotOrderClientIdClient(string exchange) => GetSpotOrderClientIdClients().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotOrderClientIdRestClient? GetSpotOrderClientIdClient(string exchange) => GetSharedClients(exchange).OfType<ISpotOrderClientIdRestClient>().SingleOrDefault();
 
 
         #region Cancel Spot Order By Client Order Id

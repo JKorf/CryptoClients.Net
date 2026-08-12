@@ -14,7 +14,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IWithdrawalRestClient> GetWithdrawalsClients() => _sharedClients.OfType<IWithdrawalRestClient>();
         /// <inheritdoc />
-        public IWithdrawalRestClient? GetWithdrawalsClient(string exchange) => _sharedClients.OfType<IWithdrawalRestClient>().SingleOrDefault(s => s.Exchange == exchange);
+        public IWithdrawalRestClient? GetWithdrawalsClient(string exchange) => GetSharedClients(exchange).OfType<IWithdrawalRestClient>().SingleOrDefault();
 
         #region Get Withdrawals
 

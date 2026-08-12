@@ -17,7 +17,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IOpenInterestRestClient> GetOpenInterestClients(TradingMode api) => _sharedClients.OfType<IOpenInterestRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IOpenInterestRestClient? GetOpenInterestClient(TradingMode api, string exchange) => _sharedClients.OfType<IOpenInterestRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IOpenInterestRestClient? GetOpenInterestClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IOpenInterestRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
         #region Get Open Interest
 

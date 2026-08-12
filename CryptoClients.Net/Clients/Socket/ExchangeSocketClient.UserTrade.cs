@@ -17,7 +17,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IUserTradeSocketClient> GetUserTradeClients(TradingMode api) => _sharedClients.OfType<IUserTradeSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IUserTradeSocketClient? GetUserTradeClient(TradingMode api, string exchange) => _sharedClients.OfType<IUserTradeSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IUserTradeSocketClient? GetUserTradeClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IUserTradeSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
         #region Subscribe User Trade
 

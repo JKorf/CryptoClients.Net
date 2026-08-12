@@ -14,12 +14,12 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<ISpotTickerRestClient> GetSpotTickerClients() => _sharedClients.OfType<ISpotTickerRestClient>();
         /// <inheritdoc />
-        public ISpotTickerRestClient? GetSpotTickerClient(string exchange) => _sharedClients.OfType<ISpotTickerRestClient>().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotTickerRestClient? GetSpotTickerClient(string exchange) => GetSharedClients(exchange).OfType<ISpotTickerRestClient>().SingleOrDefault();
 
 
         #region Get Spot Tickers
         /// <inheritdoc />
-        public async Task<HttpResult<SharedSpotTicker[]>> GetSpotTickerAsync(string exchange, GetTickersRequest request, CancellationToken ct = default)
+        public async Task<HttpResult<SharedSpotTicker[]>> GetSpotTickersAsync(string exchange, GetTickersRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetSpotTickersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
             return result.SingleOrDefault() ?? HttpResult.Fail<SharedSpotTicker[]>(exchange, new InvalidOperationError($"Request not supported for {exchange}"));

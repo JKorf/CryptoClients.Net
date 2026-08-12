@@ -15,7 +15,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<ISpotOrderSocketClient> GetSpotOrderClients() => _sharedClients.OfType<ISpotOrderSocketClient>();
         /// <inheritdoc />
-        public ISpotOrderSocketClient? GetSpotOrderClient(string exchange) => _sharedClients.OfType<ISpotOrderSocketClient>().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotOrderSocketClient? GetSpotOrderClient(string exchange) => GetSharedClients(exchange).OfType<ISpotOrderSocketClient>().SingleOrDefault();
 
         #region Subscribe Spot Order
 

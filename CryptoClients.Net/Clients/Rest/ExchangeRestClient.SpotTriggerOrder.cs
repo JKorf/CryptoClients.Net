@@ -14,7 +14,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<ISpotTriggerOrderRestClient> GetSpotTriggerOrderClients() => _sharedClients.OfType<ISpotTriggerOrderRestClient>();
         /// <inheritdoc />
-        public ISpotTriggerOrderRestClient? GetSpotTriggerOrderClient(string exchange) => GetSpotTriggerOrderClients().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotTriggerOrderRestClient? GetSpotTriggerOrderClient(string exchange) => GetSharedClients(exchange).OfType<ISpotTriggerOrderRestClient>().SingleOrDefault();
 
         #region Place Spot Trigger Order
 

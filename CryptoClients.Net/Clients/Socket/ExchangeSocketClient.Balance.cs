@@ -17,7 +17,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IBalanceSocketClient> GetBalanceClients(TradingMode api) => _sharedClients.OfType<IBalanceSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IBalanceSocketClient? GetBalanceClient(TradingMode api, string exchange) => _sharedClients.OfType<IBalanceSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IBalanceSocketClient? GetBalanceClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IBalanceSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
 
         #region Subscribe Balance

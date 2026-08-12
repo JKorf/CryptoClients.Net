@@ -17,7 +17,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IKlineSocketClient> GetKlineClients(TradingMode api) => _sharedClients.OfType<IKlineSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IKlineSocketClient? GetKlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IKlineSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IKlineSocketClient? GetKlineClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IKlineSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
 
         #region Subscribe Kline

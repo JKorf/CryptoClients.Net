@@ -16,7 +16,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<ITradeHistoryRestClient> GetTradeHistoryClients(TradingMode api) => _sharedClients.OfType<ITradeHistoryRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public ITradeHistoryRestClient? GetTradeHistoryClient(TradingMode api, string exchange) => _sharedClients.OfType<ITradeHistoryRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public ITradeHistoryRestClient? GetTradeHistoryClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<ITradeHistoryRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
         #region Get Trade History
 

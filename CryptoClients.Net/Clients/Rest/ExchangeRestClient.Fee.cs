@@ -16,7 +16,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IFeeRestClient> GetFeeClients(TradingMode api) => _sharedClients.OfType<IFeeRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFeeRestClient? GetFeeClient(TradingMode api, string exchange) => _sharedClients.OfType<IFeeRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IFeeRestClient? GetFeeClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IFeeRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
         #region Get Fees 
 

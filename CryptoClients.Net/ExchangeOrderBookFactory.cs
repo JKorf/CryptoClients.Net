@@ -30,8 +30,11 @@ using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
 using Pionex.Net.Interfaces;
 using Polymarket.Net.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
 using Weex.Net.Interfaces;
@@ -44,67 +47,100 @@ namespace CryptoClients.Net
     public class ExchangeOrderBookFactory : IExchangeOrderBookFactory
     {
         /// <inheritdoc />
-        public IAsterOrderBookFactory Aster { get; }
+        public IAsterOrderBookFactory Aster => GetFactory(Exchange.Aster, _aster);
         /// <inheritdoc />
-        public IBinanceOrderBookFactory Binance { get; }
+        public IBinanceOrderBookFactory Binance => GetFactory(Exchange.Binance, _binance);
         /// <inheritdoc />
-        public IBingXOrderBookFactory BingX { get; }
+        public IBingXOrderBookFactory BingX => GetFactory(Exchange.BingX, _bingX);
         /// <inheritdoc />
-        public IBitfinexOrderBookFactory Bitfinex { get; }
+        public IBitfinexOrderBookFactory Bitfinex => GetFactory(Exchange.Bitfinex, _bitfinex);
         /// <inheritdoc />
-        public IBitgetOrderBookFactory Bitget { get; }
+        public IBitgetOrderBookFactory Bitget => GetFactory(Exchange.Bitget, _bitget);
         /// <inheritdoc />
-        public IBitMartOrderBookFactory BitMart { get; }
+        public IBitMartOrderBookFactory BitMart => GetFactory(Exchange.BitMart, _bitMart);
         /// <inheritdoc />
-        public IBitMEXOrderBookFactory BitMEX { get; }
+        public IBitMEXOrderBookFactory BitMEX => GetFactory(Exchange.BitMEX, _bitMEX);
         /// <inheritdoc />
-        public IBitstampOrderBookFactory Bitstamp { get; }
+        public IBitstampOrderBookFactory Bitstamp => GetFactory(Exchange.Bitstamp, _bitstamp);
         /// <inheritdoc />
-        public IBloFinOrderBookFactory BloFin { get; }
+        public IBloFinOrderBookFactory BloFin => GetFactory(Exchange.BloFin, _bloFin);
         /// <inheritdoc />
-        public IBybitOrderBookFactory Bybit { get; }
+        public IBybitOrderBookFactory Bybit => GetFactory(Exchange.Bybit, _bybit);
         /// <inheritdoc />
-        public ICoinbaseOrderBookFactory Coinbase { get; }
+        public ICoinbaseOrderBookFactory Coinbase => GetFactory(Exchange.Coinbase, _coinbase);
         /// <inheritdoc />
-        public ICoinExOrderBookFactory CoinEx { get; }
+        public ICoinExOrderBookFactory CoinEx => GetFactory(Exchange.CoinEx, _coinEx);
         /// <inheritdoc />
-        public ICoinWOrderBookFactory CoinW { get; }
+        public ICoinWOrderBookFactory CoinW => GetFactory(Exchange.CoinW, _coinW);
         /// <inheritdoc />
-        public ICryptoComOrderBookFactory CryptoCom { get; }
+        public ICryptoComOrderBookFactory CryptoCom => GetFactory(Exchange.CryptoCom, _cryptoCom);
         /// <inheritdoc />
-        public IDeepCoinOrderBookFactory DeepCoin { get; }
+        public IDeepCoinOrderBookFactory DeepCoin => GetFactory(Exchange.DeepCoin, _deepCoin);
         /// <inheritdoc />
-        public IGateIoOrderBookFactory GateIo { get; }
+        public IGateIoOrderBookFactory GateIo => GetFactory(Exchange.GateIo, _gateIo);
         /// <inheritdoc />
-        public IHTXOrderBookFactory HTX { get; }
+        public IHTXOrderBookFactory HTX => GetFactory(Exchange.HTX, _htx);
         /// <inheritdoc />
-        public IHyperLiquidOrderBookFactory HyperLiquid { get; }
+        public IHyperLiquidOrderBookFactory HyperLiquid => GetFactory(Exchange.HyperLiquid, _hyperLiquid);
         /// <inheritdoc />
-        public IKrakenOrderBookFactory Kraken { get; }
+        public IKrakenOrderBookFactory Kraken => GetFactory(Exchange.Kraken, _kraken);
         /// <inheritdoc />
-        public IKucoinOrderBookFactory Kucoin { get; }
+        public IKucoinOrderBookFactory Kucoin => GetFactory(Exchange.Kucoin, _kucoin);
         /// <inheritdoc />
-        public ILBankOrderBookFactory LBank { get; }
+        public ILBankOrderBookFactory LBank => GetFactory(Exchange.LBank, _lBank);
         /// <inheritdoc />
-        public ILighterOrderBookFactory Lighter { get; }
+        public ILighterOrderBookFactory Lighter => GetFactory(Exchange.Lighter, _lighter);
         /// <inheritdoc />
-        public IMexcOrderBookFactory Mexc { get; }
+        public IMexcOrderBookFactory Mexc => GetFactory(Exchange.Mexc, _mexc);
         /// <inheritdoc />
-        public IOKXOrderBookFactory OKX { get; }
+        public IOKXOrderBookFactory OKX => GetFactory(Exchange.OKX, _okx);
         /// <inheritdoc />
-        public IPionexOrderBookFactory Pionex { get; }
+        public IPionexOrderBookFactory Pionex => GetFactory(Exchange.Pionex, _pionex);
         /// <inheritdoc />
-        public IPolymarketOrderBookFactory Polymarket { get; }
+        public IPolymarketOrderBookFactory Polymarket => GetFactory(Platform.Polymarket, _polymarket);
         /// <inheritdoc />
-        public IToobitOrderBookFactory Toobit { get; }
+        public IToobitOrderBookFactory Toobit => GetFactory(Exchange.Toobit, _toobit);
         /// <inheritdoc />
-        public IUpbitOrderBookFactory Upbit { get; }
+        public IUpbitOrderBookFactory Upbit => GetFactory(Exchange.Upbit, _upbit);
         /// <inheritdoc />
-        public IWeexOrderBookFactory Weex { get; }
+        public IWeexOrderBookFactory Weex => GetFactory(Exchange.Weex, _weex);
         /// <inheritdoc />
-        public IWhiteBitOrderBookFactory WhiteBit { get; }
+        public IWhiteBitOrderBookFactory WhiteBit => GetFactory(Exchange.WhiteBit, _whiteBit);
         /// <inheritdoc />
-        public IXTOrderBookFactory XT { get; }
+        public IXTOrderBookFactory XT => GetFactory(Exchange.XT, _xt);
+
+        private HashSet<string>? _enabledExchanges;
+        private Lazy<IAsterOrderBookFactory> _aster = null!;
+        private Lazy<IBinanceOrderBookFactory> _binance = null!;
+        private Lazy<IBingXOrderBookFactory> _bingX = null!;
+        private Lazy<IBitfinexOrderBookFactory> _bitfinex = null!;
+        private Lazy<IBitgetOrderBookFactory> _bitget = null!;
+        private Lazy<IBitMartOrderBookFactory> _bitMart = null!;
+        private Lazy<IBitMEXOrderBookFactory> _bitMEX = null!;
+        private Lazy<IBitstampOrderBookFactory> _bitstamp = null!;
+        private Lazy<IBloFinOrderBookFactory> _bloFin = null!;
+        private Lazy<IBybitOrderBookFactory> _bybit = null!;
+        private Lazy<ICoinbaseOrderBookFactory> _coinbase = null!;
+        private Lazy<ICoinExOrderBookFactory> _coinEx = null!;
+        private Lazy<ICoinWOrderBookFactory> _coinW = null!;
+        private Lazy<ICryptoComOrderBookFactory> _cryptoCom = null!;
+        private Lazy<IDeepCoinOrderBookFactory> _deepCoin = null!;
+        private Lazy<IGateIoOrderBookFactory> _gateIo = null!;
+        private Lazy<IHTXOrderBookFactory> _htx = null!;
+        private Lazy<IHyperLiquidOrderBookFactory> _hyperLiquid = null!;
+        private Lazy<IKrakenOrderBookFactory> _kraken = null!;
+        private Lazy<IKucoinOrderBookFactory> _kucoin = null!;
+        private Lazy<ILBankOrderBookFactory> _lBank = null!;
+        private Lazy<ILighterOrderBookFactory> _lighter = null!;
+        private Lazy<IMexcOrderBookFactory> _mexc = null!;
+        private Lazy<IOKXOrderBookFactory> _okx = null!;
+        private Lazy<IPionexOrderBookFactory> _pionex = null!;
+        private Lazy<IPolymarketOrderBookFactory> _polymarket = null!;
+        private Lazy<IToobitOrderBookFactory> _toobit = null!;
+        private Lazy<IUpbitOrderBookFactory> _upbit = null!;
+        private Lazy<IWeexOrderBookFactory> _weex = null!;
+        private Lazy<IWhiteBitOrderBookFactory> _whiteBit = null!;
+        private Lazy<IXTOrderBookFactory> _xt = null!;
 
         /// <summary>
         /// DI constructor
@@ -142,37 +178,32 @@ namespace CryptoClients.Net
             IWhiteBitOrderBookFactory whiteBit,
             IXTOrderBookFactory xt)
         {
-            Aster = aster;
-            Binance = binance;
-            BingX = bingx;
-            Bitfinex = bitfinex;
-            Bitget = bitget;
-            BitMart = bitMart;
-            BitMEX = bitMEX;
-            Bitstamp = bitstamp;
-            BloFin = bloFin;
-            Bybit = bybit;
-            Coinbase = coinbase;
-            CoinEx = coinEx;
-            CoinW = coinW;
-            CryptoCom = cryptoCom;
-            DeepCoin = deepCoin;
-            GateIo = gateIo;
-            HTX = htx;
-            HyperLiquid = hyperLiquid;
-            Kraken = kraken;
-            Kucoin = kucoin;
-            LBank = lBank;
-            Lighter = lighter;
-            Mexc = mexc;
-            OKX = okx;
-            Pionex = pionex;
-            Polymarket = polymarket;
-            Toobit = toobit;
-            Upbit = upbit;
-            Weex = weex;
-            WhiteBit = whiteBit;
-            XT = xt;
+            InitializeFactories(null,
+                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitMEX, () => bitstamp,
+                () => bloFin, () => bybit, () => coinbase, () => coinEx, () => coinW, () => cryptoCom, () => deepCoin, () => gateIo,
+                () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc, () => okx,
+                () => pionex, () => polymarket, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
+        }
+
+        internal ExchangeOrderBookFactory(IEnumerable<string>? enabledExchanges, IServiceProvider serviceProvider)
+        {
+            InitializeFactories(enabledExchanges,
+                () => serviceProvider.GetRequiredService<IAsterOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBinanceOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IBingXOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitfinexOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IBitgetOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitMartOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IBitMEXOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitstampOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IBloFinOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBybitOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<ICoinbaseOrderBookFactory>(), () => serviceProvider.GetRequiredService<ICoinExOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<ICoinWOrderBookFactory>(), () => serviceProvider.GetRequiredService<ICryptoComOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IDeepCoinOrderBookFactory>(), () => serviceProvider.GetRequiredService<IGateIoOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IHTXOrderBookFactory>(), () => serviceProvider.GetRequiredService<IHyperLiquidOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IKrakenOrderBookFactory>(), () => serviceProvider.GetRequiredService<IKucoinOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<ILBankOrderBookFactory>(), () => serviceProvider.GetRequiredService<ILighterOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IMexcOrderBookFactory>(), () => serviceProvider.GetRequiredService<IOKXOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IPionexOrderBookFactory>(), () => serviceProvider.GetRequiredService<IPolymarketOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IToobitOrderBookFactory>(), () => serviceProvider.GetRequiredService<IUpbitOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IWeexOrderBookFactory>(), () => serviceProvider.GetRequiredService<IWhiteBitOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IXTOrderBookFactory>());
         }
 
         /// <inheritdoc />
@@ -186,7 +217,7 @@ namespace CryptoClients.Net
         public ISymbolOrderBook[] Create(SharedSymbol symbol, int? minimalDepth = null, IEnumerable<string>? exchanges = null, ExchangeParameters? exchangeParameters = null)
         {
             var result = new List<ISymbolOrderBook>();
-            foreach(var exchange in Exchange.All)
+            foreach(var exchange in exchanges ?? Exchange.All)
             {
                 var book = Create(exchange, symbol, minimalDepth, exchangeParameters);
                 if (book != null)
@@ -199,6 +230,9 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public ISymbolOrderBook? Create(string exchange, SharedSymbol symbol, int? minimalDepth = null,  ExchangeParameters? exchangeParameters = null)
         {
+            if (!IsEnabled(exchange))
+                return null;
+
             switch (exchange)
             {
                 case "Aster":
@@ -302,6 +336,63 @@ namespace CryptoClients.Net
 
             return null;
         }
+
+        private void InitializeFactories(
+            IEnumerable<string>? enabledExchanges,
+            Func<IAsterOrderBookFactory> aster, Func<IBinanceOrderBookFactory> binance, Func<IBingXOrderBookFactory> bingX, Func<IBitfinexOrderBookFactory> bitfinex,
+            Func<IBitgetOrderBookFactory> bitget, Func<IBitMartOrderBookFactory> bitMart, Func<IBitMEXOrderBookFactory> bitMEX, Func<IBitstampOrderBookFactory> bitstamp,
+            Func<IBloFinOrderBookFactory> bloFin, Func<IBybitOrderBookFactory> bybit, Func<ICoinbaseOrderBookFactory> coinbase, Func<ICoinExOrderBookFactory> coinEx,
+            Func<ICoinWOrderBookFactory> coinW, Func<ICryptoComOrderBookFactory> cryptoCom, Func<IDeepCoinOrderBookFactory> deepCoin, Func<IGateIoOrderBookFactory> gateIo,
+            Func<IHTXOrderBookFactory> htx, Func<IHyperLiquidOrderBookFactory> hyperLiquid, Func<IKrakenOrderBookFactory> kraken, Func<IKucoinOrderBookFactory> kucoin,
+            Func<ILBankOrderBookFactory> lBank, Func<ILighterOrderBookFactory> lighter, Func<IMexcOrderBookFactory> mexc, Func<IOKXOrderBookFactory> okx,
+            Func<IPionexOrderBookFactory> pionex, Func<IPolymarketOrderBookFactory> polymarket, Func<IToobitOrderBookFactory> toobit, Func<IUpbitOrderBookFactory> upbit,
+            Func<IWeexOrderBookFactory> weex, Func<IWhiteBitOrderBookFactory> whiteBit, Func<IXTOrderBookFactory> xt)
+        {
+            _enabledExchanges = enabledExchanges == null ? null : new HashSet<string>(enabledExchanges, StringComparer.OrdinalIgnoreCase);
+            _aster = new Lazy<IAsterOrderBookFactory>(aster, LazyThreadSafetyMode.ExecutionAndPublication);
+            _binance = new Lazy<IBinanceOrderBookFactory>(binance, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bingX = new Lazy<IBingXOrderBookFactory>(bingX, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bitfinex = new Lazy<IBitfinexOrderBookFactory>(bitfinex, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bitget = new Lazy<IBitgetOrderBookFactory>(bitget, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bitMart = new Lazy<IBitMartOrderBookFactory>(bitMart, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bitMEX = new Lazy<IBitMEXOrderBookFactory>(bitMEX, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bitstamp = new Lazy<IBitstampOrderBookFactory>(bitstamp, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bloFin = new Lazy<IBloFinOrderBookFactory>(bloFin, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bybit = new Lazy<IBybitOrderBookFactory>(bybit, LazyThreadSafetyMode.ExecutionAndPublication);
+            _coinbase = new Lazy<ICoinbaseOrderBookFactory>(coinbase, LazyThreadSafetyMode.ExecutionAndPublication);
+            _coinEx = new Lazy<ICoinExOrderBookFactory>(coinEx, LazyThreadSafetyMode.ExecutionAndPublication);
+            _coinW = new Lazy<ICoinWOrderBookFactory>(coinW, LazyThreadSafetyMode.ExecutionAndPublication);
+            _cryptoCom = new Lazy<ICryptoComOrderBookFactory>(cryptoCom, LazyThreadSafetyMode.ExecutionAndPublication);
+            _deepCoin = new Lazy<IDeepCoinOrderBookFactory>(deepCoin, LazyThreadSafetyMode.ExecutionAndPublication);
+            _gateIo = new Lazy<IGateIoOrderBookFactory>(gateIo, LazyThreadSafetyMode.ExecutionAndPublication);
+            _htx = new Lazy<IHTXOrderBookFactory>(htx, LazyThreadSafetyMode.ExecutionAndPublication);
+            _hyperLiquid = new Lazy<IHyperLiquidOrderBookFactory>(hyperLiquid, LazyThreadSafetyMode.ExecutionAndPublication);
+            _kraken = new Lazy<IKrakenOrderBookFactory>(kraken, LazyThreadSafetyMode.ExecutionAndPublication);
+            _kucoin = new Lazy<IKucoinOrderBookFactory>(kucoin, LazyThreadSafetyMode.ExecutionAndPublication);
+            _lBank = new Lazy<ILBankOrderBookFactory>(lBank, LazyThreadSafetyMode.ExecutionAndPublication);
+            _lighter = new Lazy<ILighterOrderBookFactory>(lighter, LazyThreadSafetyMode.ExecutionAndPublication);
+            _mexc = new Lazy<IMexcOrderBookFactory>(mexc, LazyThreadSafetyMode.ExecutionAndPublication);
+            _okx = new Lazy<IOKXOrderBookFactory>(okx, LazyThreadSafetyMode.ExecutionAndPublication);
+            _pionex = new Lazy<IPionexOrderBookFactory>(pionex, LazyThreadSafetyMode.ExecutionAndPublication);
+            _polymarket = new Lazy<IPolymarketOrderBookFactory>(polymarket, LazyThreadSafetyMode.ExecutionAndPublication);
+            _toobit = new Lazy<IToobitOrderBookFactory>(toobit, LazyThreadSafetyMode.ExecutionAndPublication);
+            _upbit = new Lazy<IUpbitOrderBookFactory>(upbit, LazyThreadSafetyMode.ExecutionAndPublication);
+            _weex = new Lazy<IWeexOrderBookFactory>(weex, LazyThreadSafetyMode.ExecutionAndPublication);
+            _whiteBit = new Lazy<IWhiteBitOrderBookFactory>(whiteBit, LazyThreadSafetyMode.ExecutionAndPublication);
+            _xt = new Lazy<IXTOrderBookFactory>(xt, LazyThreadSafetyMode.ExecutionAndPublication);
+        }
+
+        private bool IsEnabled(string name) => _enabledExchanges == null || _enabledExchanges.Contains(name);
+
+#pragma warning disable IL2091
+        private T GetFactory<T>(string name, Lazy<T> factory)
+        {
+            if (!IsEnabled(name))
+                throw new InvalidOperationException($"The {name} order book factory is disabled. Add it to {nameof(Models.GlobalExchangeOptions.EnabledExchanges)} before accessing it.");
+
+            return factory.Value;
+        }
+#pragma warning restore IL2091
 
         private int? GetBookDepth(int? minimal, bool supportsFull, params int[] supportedLevels)
         {

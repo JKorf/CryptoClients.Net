@@ -60,8 +60,10 @@ using OKX.Net;
 using OKX.Net.Interfaces;
 using Pionex.Net;
 using Pionex.Net.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Toobit.Net;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
@@ -78,65 +80,97 @@ namespace CryptoClients.Net
     public class ExchangeTrackerFactory : IExchangeTrackerFactory
     {
         /// <inheritdoc />
-        public IAsterTrackerFactory Aster { get; }
+        public IAsterTrackerFactory Aster => GetFactory(Exchange.Aster, _aster);
         /// <inheritdoc />
-        public IBinanceTrackerFactory Binance { get; }
+        public IBinanceTrackerFactory Binance => GetFactory(Exchange.Binance, _binance);
         /// <inheritdoc />
-        public IBingXTrackerFactory BingX { get; }
+        public IBingXTrackerFactory BingX => GetFactory(Exchange.BingX, _bingX);
         /// <inheritdoc />
-        public IBitfinexTrackerFactory Bitfinex { get; }
+        public IBitfinexTrackerFactory Bitfinex => GetFactory(Exchange.Bitfinex, _bitfinex);
         /// <inheritdoc />
-        public IBitgetTrackerFactory Bitget { get; }
+        public IBitgetTrackerFactory Bitget => GetFactory(Exchange.Bitget, _bitget);
         /// <inheritdoc />
-        public IBitMartTrackerFactory BitMart { get; }
+        public IBitMartTrackerFactory BitMart => GetFactory(Exchange.BitMart, _bitMart);
         /// <inheritdoc />
-        public IBitMEXTrackerFactory BitMEX { get; }
+        public IBitMEXTrackerFactory BitMEX => GetFactory(Exchange.BitMEX, _bitMEX);
         /// <inheritdoc />
-        public IBitstampTrackerFactory Bitstamp { get; }
+        public IBitstampTrackerFactory Bitstamp => GetFactory(Exchange.Bitstamp, _bitstamp);
         /// <inheritdoc />
-        public IBloFinTrackerFactory BloFin { get; }
+        public IBloFinTrackerFactory BloFin => GetFactory(Exchange.BloFin, _bloFin);
         /// <inheritdoc />
-        public IBybitTrackerFactory Bybit { get; }
+        public IBybitTrackerFactory Bybit => GetFactory(Exchange.Bybit, _bybit);
         /// <inheritdoc />
-        public ICoinbaseTrackerFactory Coinbase { get; }
+        public ICoinbaseTrackerFactory Coinbase => GetFactory(Exchange.Coinbase, _coinbase);
         /// <inheritdoc />
-        public ICoinExTrackerFactory CoinEx { get; }
+        public ICoinExTrackerFactory CoinEx => GetFactory(Exchange.CoinEx, _coinEx);
         /// <inheritdoc />
-        public ICoinWTrackerFactory CoinW { get; }
+        public ICoinWTrackerFactory CoinW => GetFactory(Exchange.CoinW, _coinW);
         /// <inheritdoc />
-        public ICryptoComTrackerFactory CryptoCom { get; }
+        public ICryptoComTrackerFactory CryptoCom => GetFactory(Exchange.CryptoCom, _cryptoCom);
         /// <inheritdoc />
-        public IDeepCoinTrackerFactory DeepCoin { get; }
+        public IDeepCoinTrackerFactory DeepCoin => GetFactory(Exchange.DeepCoin, _deepCoin);
         /// <inheritdoc />
-        public IGateIoTrackerFactory GateIo { get; }
+        public IGateIoTrackerFactory GateIo => GetFactory(Exchange.GateIo, _gateIo);
         /// <inheritdoc />
-        public IHTXTrackerFactory HTX { get; }
+        public IHTXTrackerFactory HTX => GetFactory(Exchange.HTX, _htx);
         /// <inheritdoc />
-        public IHyperLiquidTrackerFactory HyperLiquid { get; }
+        public IHyperLiquidTrackerFactory HyperLiquid => GetFactory(Exchange.HyperLiquid, _hyperLiquid);
         /// <inheritdoc />
-        public IKrakenTrackerFactory Kraken { get; }
+        public IKrakenTrackerFactory Kraken => GetFactory(Exchange.Kraken, _kraken);
         /// <inheritdoc />
-        public IKucoinTrackerFactory Kucoin { get; }
+        public IKucoinTrackerFactory Kucoin => GetFactory(Exchange.Kucoin, _kucoin);
         /// <inheritdoc />
-        public ILBankTrackerFactory LBank { get; }
+        public ILBankTrackerFactory LBank => GetFactory(Exchange.LBank, _lBank);
         /// <inheritdoc />
-        public ILighterTrackerFactory Lighter { get; }
+        public ILighterTrackerFactory Lighter => GetFactory(Exchange.Lighter, _lighter);
         /// <inheritdoc />
-        public IMexcTrackerFactory Mexc { get; }
+        public IMexcTrackerFactory Mexc => GetFactory(Exchange.Mexc, _mexc);
         /// <inheritdoc />
-        public IOKXTrackerFactory OKX { get; }
+        public IOKXTrackerFactory OKX => GetFactory(Exchange.OKX, _okx);
         /// <inheritdoc />
-        public IPionexTrackerFactory Pionex { get; }
+        public IPionexTrackerFactory Pionex => GetFactory(Exchange.Pionex, _pionex);
         /// <inheritdoc />
-        public IToobitTrackerFactory Toobit { get; }
+        public IToobitTrackerFactory Toobit => GetFactory(Exchange.Toobit, _toobit);
         /// <inheritdoc />
-        public IUpbitTrackerFactory Upbit { get; }
+        public IUpbitTrackerFactory Upbit => GetFactory(Exchange.Upbit, _upbit);
         /// <inheritdoc />
-        public IWeexTrackerFactory Weex { get; }
+        public IWeexTrackerFactory Weex => GetFactory(Exchange.Weex, _weex);
         /// <inheritdoc />
-        public IWhiteBitTrackerFactory WhiteBit { get; }
+        public IWhiteBitTrackerFactory WhiteBit => GetFactory(Exchange.WhiteBit, _whiteBit);
         /// <inheritdoc />
-        public IXTTrackerFactory XT { get; }
+        public IXTTrackerFactory XT => GetFactory(Exchange.XT, _xt);
+
+        private HashSet<string>? _enabledExchanges;
+        private Lazy<IAsterTrackerFactory> _aster = null!;
+        private Lazy<IBinanceTrackerFactory> _binance = null!;
+        private Lazy<IBingXTrackerFactory> _bingX = null!;
+        private Lazy<IBitfinexTrackerFactory> _bitfinex = null!;
+        private Lazy<IBitgetTrackerFactory> _bitget = null!;
+        private Lazy<IBitMartTrackerFactory> _bitMart = null!;
+        private Lazy<IBitMEXTrackerFactory> _bitMEX = null!;
+        private Lazy<IBitstampTrackerFactory> _bitstamp = null!;
+        private Lazy<IBloFinTrackerFactory> _bloFin = null!;
+        private Lazy<IBybitTrackerFactory> _bybit = null!;
+        private Lazy<ICoinbaseTrackerFactory> _coinbase = null!;
+        private Lazy<ICoinExTrackerFactory> _coinEx = null!;
+        private Lazy<ICoinWTrackerFactory> _coinW = null!;
+        private Lazy<ICryptoComTrackerFactory> _cryptoCom = null!;
+        private Lazy<IDeepCoinTrackerFactory> _deepCoin = null!;
+        private Lazy<IGateIoTrackerFactory> _gateIo = null!;
+        private Lazy<IHTXTrackerFactory> _htx = null!;
+        private Lazy<IHyperLiquidTrackerFactory> _hyperLiquid = null!;
+        private Lazy<IKrakenTrackerFactory> _kraken = null!;
+        private Lazy<IKucoinTrackerFactory> _kucoin = null!;
+        private Lazy<ILBankTrackerFactory> _lBank = null!;
+        private Lazy<ILighterTrackerFactory> _lighter = null!;
+        private Lazy<IMexcTrackerFactory> _mexc = null!;
+        private Lazy<IOKXTrackerFactory> _okx = null!;
+        private Lazy<IPionexTrackerFactory> _pionex = null!;
+        private Lazy<IToobitTrackerFactory> _toobit = null!;
+        private Lazy<IUpbitTrackerFactory> _upbit = null!;
+        private Lazy<IWeexTrackerFactory> _weex = null!;
+        private Lazy<IWhiteBitTrackerFactory> _whiteBit = null!;
+        private Lazy<IXTTrackerFactory> _xt = null!;
 
         /// <summary>
         /// DI constructor
@@ -173,74 +207,31 @@ namespace CryptoClients.Net
             IWhiteBitTrackerFactory whiteBit,
             IXTTrackerFactory xt)
         {
-            Aster = aster;
-            Binance = binance;
-            BingX = bingx;
-            Bitfinex = bitfinex;
-            Bitget = bitget;
-            BitMart = bitMart;
-            BitMEX = bitMEX;
-            Bitstamp = bitstamp;
-            BloFin = bloFin;
-            Bybit = bybit;
-            Coinbase = coinbase;
-            CoinEx = coinEx;
-            CoinW = coinW;
-            CryptoCom = cryptoCom;
-            DeepCoin = deepCoin;
-            GateIo = gateIo;
-            HTX = htx;
-            HyperLiquid = hyperLiquid;
-            Kraken = kraken;
-            Kucoin = kucoin;
-            LBank = lBank;
-            Lighter = lighter;
-            Mexc = mexc;
-            OKX = okx;
-            Pionex = pionex;
-            Toobit = toobit;
-            Upbit = upbit;
-            Weex = weex;
-            WhiteBit = whiteBit;
-            XT = xt;
+            InitializeFactories(null,
+                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitMEX, () => bitstamp,
+                () => bloFin, () => bybit, () => coinbase, () => coinEx, () => coinW, () => cryptoCom, () => deepCoin, () => gateIo,
+                () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc, () => okx,
+                () => pionex, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
         }
 
-        private ITrackerFactory? GetTrackerFactoryForExchange(string exchange)
+        internal ExchangeTrackerFactory(IEnumerable<string>? enabledExchanges, IServiceProvider serviceProvider)
         {
-            return exchange switch
-            {
-                "Aster" => Aster,
-                "Binance" => Binance,
-                "BingX" => BingX,
-                "Bitfinex" => Bitfinex,
-                "Bitget" => Bitget,
-                "BitMart" => BitMart,
-                "BitMEX" => BitMEX,
-                "Bitstamp" => Bitstamp,
-                "BloFin" => BloFin,
-                "Bybit" => Bybit,
-                "Coinbase" => Coinbase,
-                "CoinEx" => CoinEx,
-                "CoinW" => CoinW,
-                "CryptoCom" => CryptoCom,
-                "DeepCoin" => DeepCoin,
-                "GateIo" => GateIo,
-                "HTX" => HTX,
-                "HyperLiquid" => HyperLiquid,
-                "Kraken" => Kraken,
-                "Kucoin" => Kucoin,
-                "LBank" => LBank,
-                "Lighter" => Lighter,
-                "Mexc" => Mexc,
-                "OKX" => OKX,
-                "Pionex" => Pionex,
-                "Toobit" => Toobit,
-                "Upbit" => Upbit,
-                "Weex" => Weex,
-                "WhiteBit" => WhiteBit,
-                "XT" => XT,
-                _ => null
-            };
+            InitializeFactories(enabledExchanges,
+                () => serviceProvider.GetRequiredService<IAsterTrackerFactory>(), () => serviceProvider.GetRequiredService<IBinanceTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IBingXTrackerFactory>(), () => serviceProvider.GetRequiredService<IBitfinexTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IBitgetTrackerFactory>(), () => serviceProvider.GetRequiredService<IBitMartTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IBitMEXTrackerFactory>(), () => serviceProvider.GetRequiredService<IBitstampTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IBloFinTrackerFactory>(), () => serviceProvider.GetRequiredService<IBybitTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<ICoinbaseTrackerFactory>(), () => serviceProvider.GetRequiredService<ICoinExTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<ICoinWTrackerFactory>(), () => serviceProvider.GetRequiredService<ICryptoComTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IDeepCoinTrackerFactory>(), () => serviceProvider.GetRequiredService<IGateIoTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IHTXTrackerFactory>(), () => serviceProvider.GetRequiredService<IHyperLiquidTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IKrakenTrackerFactory>(), () => serviceProvider.GetRequiredService<IKucoinTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<ILBankTrackerFactory>(), () => serviceProvider.GetRequiredService<ILighterTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IMexcTrackerFactory>(), () => serviceProvider.GetRequiredService<IOKXTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IPionexTrackerFactory>(), () => serviceProvider.GetRequiredService<IToobitTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IUpbitTrackerFactory>(), () => serviceProvider.GetRequiredService<IWeexTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IWhiteBitTrackerFactory>(), () => serviceProvider.GetRequiredService<IXTTrackerFactory>());
         }
 
         /// <inheritdoc />
@@ -292,6 +283,9 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IUserSpotDataTracker? CreateUserSpotDataTracker(string exchange, SpotUserDataTrackerConfig? config = null)
         {
+            if (!IsEnabled(exchange))
+                return null;
+
             return exchange switch
             {
                 "Aster" => Aster.CreateUserSpotDataTracker(config),
@@ -344,6 +338,9 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IUserSpotDataTracker? CreateUserSpotDataTracker(string exchange, string userIdentifier, ExchangeCredentials credentials, SpotUserDataTrackerConfig? config = null, string? environment = null)
         {
+            if (!IsEnabled(exchange))
+                return null;
+
             return exchange switch
             {
                 "Aster" => Aster.CreateUserSpotDataTracker(userIdentifier, credentials.Aster ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, AsterEnvironment.GetEnvironmentByName(environment)),
@@ -406,6 +403,9 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IUserFuturesDataTracker? CreateUserFuturesDataTracker(string exchange, TradingMode tradeMode, FuturesUserDataTrackerConfig? config = null, ExchangeParameters? exchangeParameters = null)
         {
+            if (!IsEnabled(exchange))
+                return null;
+
             return exchange switch
             {
                 "Aster" => Aster.CreateUserFuturesDataTracker(config),
@@ -464,6 +464,9 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IUserFuturesDataTracker? CreateUserFuturesDataTracker(string exchange, TradingMode tradeMode, string userIdentifier, ExchangeCredentials credentials, FuturesUserDataTrackerConfig? config = null, string? environment = null, ExchangeParameters? exchangeParameters = null)
         {
+            if (!IsEnabled(exchange))
+                return null;
+
             return exchange switch
             {
                 "Aster" => Aster.CreateUserFuturesDataTracker(userIdentifier, credentials.Aster ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, AsterEnvironment.GetEnvironmentByName(environment)),
@@ -541,6 +544,103 @@ namespace CryptoClients.Net
 
             return result.ToArray();
         }
+
+        private void InitializeFactories(
+            IEnumerable<string>? enabledExchanges,
+            Func<IAsterTrackerFactory> aster, Func<IBinanceTrackerFactory> binance, Func<IBingXTrackerFactory> bingX, Func<IBitfinexTrackerFactory> bitfinex,
+            Func<IBitgetTrackerFactory> bitget, Func<IBitMartTrackerFactory> bitMart, Func<IBitMEXTrackerFactory> bitMEX, Func<IBitstampTrackerFactory> bitstamp,
+            Func<IBloFinTrackerFactory> bloFin, Func<IBybitTrackerFactory> bybit, Func<ICoinbaseTrackerFactory> coinbase, Func<ICoinExTrackerFactory> coinEx,
+            Func<ICoinWTrackerFactory> coinW, Func<ICryptoComTrackerFactory> cryptoCom, Func<IDeepCoinTrackerFactory> deepCoin, Func<IGateIoTrackerFactory> gateIo,
+            Func<IHTXTrackerFactory> htx, Func<IHyperLiquidTrackerFactory> hyperLiquid, Func<IKrakenTrackerFactory> kraken, Func<IKucoinTrackerFactory> kucoin,
+            Func<ILBankTrackerFactory> lBank, Func<ILighterTrackerFactory> lighter, Func<IMexcTrackerFactory> mexc, Func<IOKXTrackerFactory> okx,
+            Func<IPionexTrackerFactory> pionex, Func<IToobitTrackerFactory> toobit, Func<IUpbitTrackerFactory> upbit, Func<IWeexTrackerFactory> weex,
+            Func<IWhiteBitTrackerFactory> whiteBit, Func<IXTTrackerFactory> xt)
+        {
+            _enabledExchanges = enabledExchanges == null ? null : new HashSet<string>(enabledExchanges, StringComparer.OrdinalIgnoreCase);
+            _aster = new Lazy<IAsterTrackerFactory>(aster, LazyThreadSafetyMode.ExecutionAndPublication);
+            _binance = new Lazy<IBinanceTrackerFactory>(binance, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bingX = new Lazy<IBingXTrackerFactory>(bingX, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bitfinex = new Lazy<IBitfinexTrackerFactory>(bitfinex, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bitget = new Lazy<IBitgetTrackerFactory>(bitget, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bitMart = new Lazy<IBitMartTrackerFactory>(bitMart, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bitMEX = new Lazy<IBitMEXTrackerFactory>(bitMEX, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bitstamp = new Lazy<IBitstampTrackerFactory>(bitstamp, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bloFin = new Lazy<IBloFinTrackerFactory>(bloFin, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bybit = new Lazy<IBybitTrackerFactory>(bybit, LazyThreadSafetyMode.ExecutionAndPublication);
+            _coinbase = new Lazy<ICoinbaseTrackerFactory>(coinbase, LazyThreadSafetyMode.ExecutionAndPublication);
+            _coinEx = new Lazy<ICoinExTrackerFactory>(coinEx, LazyThreadSafetyMode.ExecutionAndPublication);
+            _coinW = new Lazy<ICoinWTrackerFactory>(coinW, LazyThreadSafetyMode.ExecutionAndPublication);
+            _cryptoCom = new Lazy<ICryptoComTrackerFactory>(cryptoCom, LazyThreadSafetyMode.ExecutionAndPublication);
+            _deepCoin = new Lazy<IDeepCoinTrackerFactory>(deepCoin, LazyThreadSafetyMode.ExecutionAndPublication);
+            _gateIo = new Lazy<IGateIoTrackerFactory>(gateIo, LazyThreadSafetyMode.ExecutionAndPublication);
+            _htx = new Lazy<IHTXTrackerFactory>(htx, LazyThreadSafetyMode.ExecutionAndPublication);
+            _hyperLiquid = new Lazy<IHyperLiquidTrackerFactory>(hyperLiquid, LazyThreadSafetyMode.ExecutionAndPublication);
+            _kraken = new Lazy<IKrakenTrackerFactory>(kraken, LazyThreadSafetyMode.ExecutionAndPublication);
+            _kucoin = new Lazy<IKucoinTrackerFactory>(kucoin, LazyThreadSafetyMode.ExecutionAndPublication);
+            _lBank = new Lazy<ILBankTrackerFactory>(lBank, LazyThreadSafetyMode.ExecutionAndPublication);
+            _lighter = new Lazy<ILighterTrackerFactory>(lighter, LazyThreadSafetyMode.ExecutionAndPublication);
+            _mexc = new Lazy<IMexcTrackerFactory>(mexc, LazyThreadSafetyMode.ExecutionAndPublication);
+            _okx = new Lazy<IOKXTrackerFactory>(okx, LazyThreadSafetyMode.ExecutionAndPublication);
+            _pionex = new Lazy<IPionexTrackerFactory>(pionex, LazyThreadSafetyMode.ExecutionAndPublication);
+            _toobit = new Lazy<IToobitTrackerFactory>(toobit, LazyThreadSafetyMode.ExecutionAndPublication);
+            _upbit = new Lazy<IUpbitTrackerFactory>(upbit, LazyThreadSafetyMode.ExecutionAndPublication);
+            _weex = new Lazy<IWeexTrackerFactory>(weex, LazyThreadSafetyMode.ExecutionAndPublication);
+            _whiteBit = new Lazy<IWhiteBitTrackerFactory>(whiteBit, LazyThreadSafetyMode.ExecutionAndPublication);
+            _xt = new Lazy<IXTTrackerFactory>(xt, LazyThreadSafetyMode.ExecutionAndPublication);
+        }
+
+        private ITrackerFactory? GetTrackerFactoryForExchange(string exchange)
+        {
+            if (!IsEnabled(exchange))
+                return null;
+
+            return exchange switch
+            {
+                "Aster" => Aster,
+                "Binance" => Binance,
+                "BingX" => BingX,
+                "Bitfinex" => Bitfinex,
+                "Bitget" => Bitget,
+                "BitMart" => BitMart,
+                "BitMEX" => BitMEX,
+                "Bitstamp" => Bitstamp,
+                "BloFin" => BloFin,
+                "Bybit" => Bybit,
+                "Coinbase" => Coinbase,
+                "CoinEx" => CoinEx,
+                "CoinW" => CoinW,
+                "CryptoCom" => CryptoCom,
+                "DeepCoin" => DeepCoin,
+                "GateIo" => GateIo,
+                "HTX" => HTX,
+                "HyperLiquid" => HyperLiquid,
+                "Kraken" => Kraken,
+                "Kucoin" => Kucoin,
+                "LBank" => LBank,
+                "Lighter" => Lighter,
+                "Mexc" => Mexc,
+                "OKX" => OKX,
+                "Pionex" => Pionex,
+                "Toobit" => Toobit,
+                "Upbit" => Upbit,
+                "Weex" => Weex,
+                "WhiteBit" => WhiteBit,
+                "XT" => XT,
+                _ => null
+            };
+        }
+
+        private bool IsEnabled(string name) => _enabledExchanges == null || _enabledExchanges.Contains(name);
+
+#pragma warning disable IL2091
+        private T GetFactory<T>(string name, Lazy<T> factory)
+        {
+            if (!IsEnabled(name))
+                throw new InvalidOperationException($"The {name} tracker factory is disabled. Add it to {nameof(GlobalExchangeOptions.EnabledExchanges)} before accessing it.");
+
+            return factory.Value;
+        }
+#pragma warning restore IL2091
 
     }
 }

@@ -16,7 +16,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IBookTickerRestClient> GetBookTickerClients(TradingMode api) => _sharedClients.OfType<IBookTickerRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IBookTickerRestClient? GetBookTickerClient(TradingMode api, string exchange) => _sharedClients.OfType<IBookTickerRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IBookTickerRestClient? GetBookTickerClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IBookTickerRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
 
         #region Get Book Tickers 

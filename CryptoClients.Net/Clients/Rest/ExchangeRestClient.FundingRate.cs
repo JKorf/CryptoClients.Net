@@ -16,7 +16,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IFundingRateRestClient> GetFundingRateClients(TradingMode api) => _sharedClients.OfType<IFundingRateRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFundingRateRestClient? GetFundingRateClient(TradingMode api, string exchange) => _sharedClients.OfType<IFundingRateRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IFundingRateRestClient? GetFundingRateClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IFundingRateRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
         #region Get Funding Rate History
 

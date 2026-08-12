@@ -16,12 +16,12 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IFuturesSymbolRestClient> GetFuturesSymbolClients(TradingMode api) => _sharedClients.OfType<IFuturesSymbolRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFuturesSymbolRestClient? GetFuturesSymbolClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesSymbolRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IFuturesSymbolRestClient? GetFuturesSymbolClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IFuturesSymbolRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
         /// <inheritdoc />
         public async Task<ExchangeCallResult<SharedSymbol[]>> GetFuturesSymbolsForBaseAssetAsync(string exchange, string baseAsset)
         {
-            var clients = GetFuturesSymbolClients().Where(x => x.Exchange == exchange).ToArray();
+            var clients = GetSharedClients(exchange).OfType<IFuturesSymbolRestClient>().ToArray();
             if (clients.Length == 0)
                 return ExchangeCallResult<SharedSymbol[]>.Fail(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
 
@@ -71,7 +71,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeCallResult<bool>> SupportsFuturesSymbolAsync(string exchange, SharedSymbol symbol)
         {
-            var client = GetFuturesSymbolClients().SingleOrDefault(x => x.Exchange == exchange);
+            var client = GetSharedClients(exchange).OfType<IFuturesSymbolRestClient>().SingleOrDefault();
             if (client == null)
                 return ExchangeCallResult<bool>.Fail(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
 
@@ -81,7 +81,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeCallResult<bool>> SupportsFuturesSymbolAsync(string exchange, string symbolName)
         {
-            var client = GetFuturesSymbolClients().SingleOrDefault(x => x.Exchange == exchange);
+            var client = GetSharedClients(exchange).OfType<IFuturesSymbolRestClient>().SingleOrDefault();
             if (client == null)
                 return ExchangeCallResult<bool>.Fail(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
 

@@ -14,7 +14,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IDepositRestClient> GetDepositsClients() => _sharedClients.OfType<IDepositRestClient>();
         /// <inheritdoc />
-        public IDepositRestClient? GetDepositsClient(string exchange) => GetDepositsClients().SingleOrDefault(s => s.Exchange == exchange);
+        public IDepositRestClient? GetDepositsClient(string exchange) => GetSharedClients(exchange).OfType<IDepositRestClient>().SingleOrDefault();
 
         #region Get Deposits
 

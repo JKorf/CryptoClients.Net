@@ -16,7 +16,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IRecentTradeRestClient> GetRecentTradesClients(TradingMode api) => _sharedClients.OfType<IRecentTradeRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IRecentTradeRestClient? GetRecentTradesClient(TradingMode api, string exchange) => _sharedClients.OfType<IRecentTradeRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IRecentTradeRestClient? GetRecentTradesClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IRecentTradeRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
         #region Get Recent Trades
 

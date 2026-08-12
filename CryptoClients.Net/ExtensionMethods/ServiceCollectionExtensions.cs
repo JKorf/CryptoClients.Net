@@ -80,6 +80,7 @@ using Upbit.Net;
 using Upbit.Net.Interfaces.Clients;
 using Upbit.Net.Objects.Options;
 using System;
+using System.Collections.Generic;
 using WhiteBit.Net;
 using WhiteBit.Net.Interfaces.Clients;
 using WhiteBit.Net.Objects.Options;
@@ -188,6 +189,11 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<XTOptions>? xtOptions = null,
             ServiceLifetime? socketClientLifetime = null)
         {
+            IEnumerable<string>? enabledExchanges = null;
+            HashSet<string>? registeredExchanges = null;
+
+            bool IsRegistered(string exchange) => registeredExchanges == null || registeredExchanges.Contains(exchange);
+
             Action<TOptions> SetGlobalOptionsBase<TOptions, TRestOptions, TSocketOptions, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TEnvironment environment)
                 where TOptions : LibraryOptions<TRestOptions, TSocketOptions, TEnvironment>
                 where TEnvironment : TradeEnvironment
@@ -240,6 +246,20 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 var global = new GlobalExchangeOptions();
                 globalOptions.Invoke(global);
+                enabledExchanges = global.EnabledExchanges;
+                registeredExchanges = global.RegisteredExchanges == null
+                    ? null
+                    : new HashSet<string>(global.RegisteredExchanges, StringComparer.OrdinalIgnoreCase);
+                enabledExchanges ??= registeredExchanges;
+
+                if (enabledExchanges != null && registeredExchanges != null)
+                {
+                    foreach (var exchange in enabledExchanges)
+                    {
+                        if (!registeredExchanges.Contains(exchange))
+                            throw new ArgumentException($"Enabled exchange {exchange} should also be included in {nameof(GlobalExchangeOptions.RegisteredExchanges)}.", nameof(globalOptions));
+                    }
+                }
 
                 ExchangeCredentials? credentials = global.ApiCredentials;
                 var environments = global.ApiEnvironments;
@@ -276,151 +296,48 @@ namespace Microsoft.Extensions.DependencyInjection
                 xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, XTCredentials, XTEnvironment>(global, xtOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
 
-            services.AddAster(asterOptions);
-            services.AddBinance(binanceOptions);
-            services.AddBingX(bingxOptions);
-            services.AddBitfinex(bitfinexOptions);
-            services.AddBitget(bitgetOptions);
-            services.AddBitMart(bitMartOptions);
-            services.AddBitMEX(bitMEXOptions);
-            services.AddBitstamp(bitstampOptions);
-            services.AddBloFin(bloFinOptions);
-            services.AddBybit(bybitOptions);
-            services.AddCoinbase(coinbaseOptions);
-            services.AddCoinEx(coinExOptions);
-            services.AddCoinW(coinWOptions);
-            services.AddCoinGecko(coinGeckoOptions);
-            services.AddCryptoCom(cryptoComOptions);
-            services.AddDeepCoin(deepCoinOptions);
-            services.AddGateIo(gateIoOptions);
-            services.AddHTX(htxOptions);
-            services.AddHyperLiquid(hyperLiquidOptions);
-            services.AddKraken(krakenOptions);
-            services.AddKucoin(kucoinOptions);
-            services.AddLBank(lBankOptions);
-            services.AddLighter(lighterOptions);
-            services.AddMexc(mexcOptions);
-            services.AddOKX(okxOptions);
-            services.AddPionex(pionexOptions);
-            services.AddPolymarket(polymarketOptions);
-            services.AddToobit(toobitOptions);
-            services.AddUpbit(upbitOptions);
-            services.AddWeex(weexOptions);
-            services.AddWhiteBit(whiteBitOptions);
-            services.AddXT(xtOptions);
+            if (IsRegistered("Aster")) services.AddAster(asterOptions);
+            if (IsRegistered("Binance")) services.AddBinance(binanceOptions);
+            if (IsRegistered("BingX")) services.AddBingX(bingxOptions);
+            if (IsRegistered("Bitfinex")) services.AddBitfinex(bitfinexOptions);
+            if (IsRegistered("Bitget")) services.AddBitget(bitgetOptions);
+            if (IsRegistered("BitMart")) services.AddBitMart(bitMartOptions);
+            if (IsRegistered("BitMEX")) services.AddBitMEX(bitMEXOptions);
+            if (IsRegistered("Bitstamp")) services.AddBitstamp(bitstampOptions);
+            if (IsRegistered("BloFin")) services.AddBloFin(bloFinOptions);
+            if (IsRegistered("Bybit")) services.AddBybit(bybitOptions);
+            if (IsRegistered("Coinbase")) services.AddCoinbase(coinbaseOptions);
+            if (IsRegistered("CoinEx")) services.AddCoinEx(coinExOptions);
+            if (IsRegistered("CoinW")) services.AddCoinW(coinWOptions);
+            if (IsRegistered("CoinGecko")) services.AddCoinGecko(coinGeckoOptions);
+            if (IsRegistered("CryptoCom")) services.AddCryptoCom(cryptoComOptions);
+            if (IsRegistered("DeepCoin")) services.AddDeepCoin(deepCoinOptions);
+            if (IsRegistered("GateIo")) services.AddGateIo(gateIoOptions);
+            if (IsRegistered("HTX")) services.AddHTX(htxOptions);
+            if (IsRegistered("HyperLiquid")) services.AddHyperLiquid(hyperLiquidOptions);
+            if (IsRegistered("Kraken")) services.AddKraken(krakenOptions);
+            if (IsRegistered("Kucoin")) services.AddKucoin(kucoinOptions);
+            if (IsRegistered("LBank")) services.AddLBank(lBankOptions);
+            if (IsRegistered("Lighter")) services.AddLighter(lighterOptions);
+            if (IsRegistered("Mexc")) services.AddMexc(mexcOptions);
+            if (IsRegistered("OKX")) services.AddOKX(okxOptions);
+            if (IsRegistered("Pionex")) services.AddPionex(pionexOptions);
+            if (IsRegistered("Polymarket")) services.AddPolymarket(polymarketOptions);
+            if (IsRegistered("Toobit")) services.AddToobit(toobitOptions);
+            if (IsRegistered("Upbit")) services.AddUpbit(upbitOptions);
+            if (IsRegistered("Weex")) services.AddWeex(weexOptions);
+            if (IsRegistered("WhiteBit")) services.AddWhiteBit(whiteBitOptions);
+            if (IsRegistered("XT")) services.AddXT(xtOptions);
 
-            services.AddTransient<IExchangeRestClient, ExchangeRestClient>(x =>
-            {
-                return new ExchangeRestClient(
-                    x.GetRequiredService<IAsterRestClient>(),
-                    x.GetRequiredService<IBinanceRestClient>(),
-                    x.GetRequiredService<IBingXRestClient>(),
-                    x.GetRequiredService<IBitfinexRestClient>(),
-                    x.GetRequiredService<IBitgetRestClient>(),
-                    x.GetRequiredService<IBitMartRestClient>(),
-                    x.GetRequiredService<IBitMEXRestClient>(),
-                    x.GetRequiredService<IBitstampRestClient>(),
-                    x.GetRequiredService<IBloFinRestClient>(),
-                    x.GetRequiredService<IBybitRestClient>(),
-                    x.GetRequiredService<ICoinbaseRestClient>(),
-                    x.GetRequiredService<ICoinExRestClient>(),
-                    x.GetRequiredService<ICoinGeckoRestClient>(),
-                    x.GetRequiredService<ICoinWRestClient>(),
-                    x.GetRequiredService<ICryptoComRestClient>(),
-                    x.GetRequiredService<IDeepCoinRestClient>(),
-                    x.GetRequiredService<IGateIoRestClient>(),
-                    x.GetRequiredService<IHTXRestClient>(),
-                    x.GetRequiredService<IHyperLiquidRestClient>(),
-                    x.GetRequiredService<IKrakenRestClient>(),
-                    x.GetRequiredService<IKucoinRestClient>(),
-                    x.GetRequiredService<ILBankRestClient>(),
-                    x.GetRequiredService<ILighterRestClient>(),
-                    x.GetRequiredService<IMexcRestClient>(),
-                    x.GetRequiredService<IOKXRestClient>(),
-                    x.GetRequiredService<IPionexRestClient>(),
-                    x.GetRequiredService<IPolymarketRestClient>(),
-                    x.GetRequiredService<IToobitRestClient>(),
-                    x.GetRequiredService<IUpbitRestClient>(),
-                    x.GetRequiredService<IWeexRestClient>(),
-                    x.GetRequiredService<IWhiteBitRestClient>(),
-                    x.GetRequiredService<IXTRestClient>()
-                    );
-            });
+            services.AddTransient<IExchangeRestClient>(_ => new ExchangeRestClient(enabledExchanges, _));
 
-            services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient), x =>
-            {
-                return new ExchangeSocketClient(
-                    x.GetRequiredService<IAsterSocketClient>(),
-                    x.GetRequiredService<IBinanceSocketClient>(),
-                    x.GetRequiredService<IBingXSocketClient>(),
-                    x.GetRequiredService<IBitfinexSocketClient>(),
-                    x.GetRequiredService<IBitgetSocketClient>(),
-                    x.GetRequiredService<IBitMartSocketClient>(),
-                    x.GetRequiredService<IBitMEXSocketClient>(),
-                    x.GetRequiredService<IBitstampSocketClient>(),
-                    x.GetRequiredService<IBloFinSocketClient>(),
-                    x.GetRequiredService<IBybitSocketClient>(),
-                    x.GetRequiredService<ICoinbaseSocketClient>(),
-                    x.GetRequiredService<ICoinExSocketClient>(),
-                    x.GetRequiredService<ICoinWSocketClient>(),
-                    x.GetRequiredService<ICryptoComSocketClient>(),
-                    x.GetRequiredService<IDeepCoinSocketClient>(),
-                    x.GetRequiredService<IGateIoSocketClient>(),
-                    x.GetRequiredService<IHTXSocketClient>(),
-                    x.GetRequiredService<IHyperLiquidSocketClient>(),
-                    x.GetRequiredService<IKrakenSocketClient>(),
-                    x.GetRequiredService<IKucoinSocketClient>(),
-                    x.GetRequiredService<ILBankSocketClient>(),
-                    x.GetRequiredService<ILighterSocketClient>(),
-                    x.GetRequiredService<IMexcSocketClient>(),
-                    x.GetRequiredService<IOKXSocketClient>(),
-                    x.GetRequiredService<IPionexSocketClient>(),
-                    x.GetRequiredService<IPolymarketSocketClient>(),
-                    x.GetRequiredService<IToobitSocketClient>(),
-                    x.GetRequiredService<IUpbitSocketClient>(),
-                    x.GetRequiredService<IWeexSocketClient>(),
-                    x.GetRequiredService<IWhiteBitSocketClient>(),
-                    x.GetRequiredService<IXTSocketClient>()
-                    );
-            }, socketClientLifetime ?? ServiceLifetime.Singleton));
+            services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient),
+                x => new ExchangeSocketClient(enabledExchanges, x),
+                socketClientLifetime ?? ServiceLifetime.Singleton));
 
-            services.AddTransient<IExchangeOrderBookFactory, ExchangeOrderBookFactory>();
-            services.AddTransient<IExchangeTrackerFactory, ExchangeTrackerFactory>();
-            services.AddTransient<IExchangeUserClientProvider, ExchangeUserClientProvider>(x => new ExchangeUserClientProvider(
-                x.GetRequiredService<IAsterUserClientProvider>(),
-                x.GetRequiredService<IBinanceUserClientProvider>(),
-                x.GetRequiredService<IBingXUserClientProvider>(),
-                x.GetRequiredService<IBitfinexUserClientProvider>(),
-                x.GetRequiredService<IBitgetUserClientProvider>(),
-                x.GetRequiredService<IBitMartUserClientProvider>(),
-                x.GetRequiredService<IBitMEXUserClientProvider>(),
-                x.GetRequiredService<IBitstampUserClientProvider>(),
-                x.GetRequiredService<IBloFinUserClientProvider>(),
-                x.GetRequiredService<IBybitUserClientProvider>(),
-                x.GetRequiredService<ICoinbaseUserClientProvider>(),
-                x.GetRequiredService<ICoinExUserClientProvider>(),
-                x.GetRequiredService<ICoinGeckoRestClient>(),
-                x.GetRequiredService<ICoinWUserClientProvider>(),
-                x.GetRequiredService<ICryptoComUserClientProvider>(),
-                x.GetRequiredService<IDeepCoinUserClientProvider>(),
-                x.GetRequiredService<IGateIoUserClientProvider>(),
-                x.GetRequiredService<IHTXUserClientProvider>(),
-                x.GetRequiredService<IHyperLiquidUserClientProvider>(),
-                x.GetRequiredService<IKrakenUserClientProvider>(),
-                x.GetRequiredService<IKucoinUserClientProvider>(),
-                x.GetRequiredService<ILBankUserClientProvider>(),
-                x.GetRequiredService<ILighterUserClientProvider>(),
-                x.GetRequiredService<IMexcUserClientProvider>(),
-                x.GetRequiredService<IOKXUserClientProvider>(),
-                x.GetRequiredService<IPionexUserClientProvider>(),
-                x.GetRequiredService<IPolymarketUserClientProvider>(),
-                x.GetRequiredService<IToobitUserClientProvider>(),
-                x.GetRequiredService<IUpbitRestClient>(),
-                x.GetRequiredService<IUpbitSocketClient>(),
-                x.GetRequiredService<IWeexUserClientProvider>(),
-                x.GetRequiredService<IWhiteBitUserClientProvider>(),
-                x.GetRequiredService<IXTUserClientProvider>()
-                ));
+            services.AddTransient<IExchangeOrderBookFactory>(x => new ExchangeOrderBookFactory(enabledExchanges, x));
+            services.AddTransient<IExchangeTrackerFactory>(x => new ExchangeTrackerFactory(enabledExchanges, x));
+            services.AddTransient<IExchangeUserClientProvider>(x => new ExchangeUserClientProvider(enabledExchanges, x));
             return services;
         }
 
@@ -445,6 +362,22 @@ namespace Microsoft.Extensions.DependencyInjection
             catch (InvalidOperationException ex)
             {
                 throw new InvalidOperationException("Invalid configuration provided", ex);
+            }
+
+            var registeredExchanges = globalOptions.RegisteredExchanges == null
+                ? null
+                : new HashSet<string>(globalOptions.RegisteredExchanges, StringComparer.OrdinalIgnoreCase);
+            var enabledExchanges = globalOptions.EnabledExchanges ?? registeredExchanges;
+
+            bool IsRegistered(string exchange) => registeredExchanges == null || registeredExchanges.Contains(exchange);
+
+            if (enabledExchanges != null && registeredExchanges != null)
+            {
+                foreach (var exchange in enabledExchanges)
+                {
+                    if (!registeredExchanges.Contains(exchange))
+                        throw new ArgumentException($"Enabled exchange {exchange} should also be included in {nameof(GlobalExchangeOptions.RegisteredExchanges)}.", nameof(configuration));
+                }
             }
 
             void UpdateIfNotSpecified(string key, string? value)
@@ -479,184 +412,57 @@ namespace Microsoft.Extensions.DependencyInjection
                 UpdateIfNotSpecified($"{exchange}:SocketClientLifeTime", socketClientLifetime?.ToString());
             }
 
-            UpdateExchangeOptions("Aster", globalOptions);
-            UpdateExchangeOptions("Binance", globalOptions);
-            UpdateExchangeOptions("BingX", globalOptions);
-            UpdateExchangeOptions("Bitfinex", globalOptions);
-            UpdateExchangeOptions("Bitget", globalOptions);
-            UpdateExchangeOptions("BitMart", globalOptions);
-            UpdateExchangeOptions("BitMEX", globalOptions);
-            UpdateExchangeOptions("Bitstamp", globalOptions);
-            UpdateExchangeOptions("BloFin", globalOptions);
-            UpdateExchangeOptions("Bybit", globalOptions);
-            UpdateExchangeOptions("Coinbase", globalOptions);
-            UpdateExchangeOptions("CoinEx", globalOptions);
-            UpdateExchangeOptions("CoinW", globalOptions);
-            UpdateExchangeOptions("CoinGecko", globalOptions);
-            UpdateExchangeOptions("CryptoCom", globalOptions);
-            UpdateExchangeOptions("DeepCoin", globalOptions);
-            UpdateExchangeOptions("GateIo", globalOptions);
-            UpdateExchangeOptions("HTX", globalOptions);
-            UpdateExchangeOptions("HyperLiquid", globalOptions);
-            UpdateExchangeOptions("Kraken", globalOptions);
-            UpdateExchangeOptions("Kucoin", globalOptions);
-            UpdateExchangeOptions("LBank", globalOptions);
-            UpdateExchangeOptions("Lighter", globalOptions);
-            UpdateExchangeOptions("Mexc", globalOptions);
-            UpdateExchangeOptions("OKX", globalOptions);
-            UpdateExchangeOptions("Pionex", globalOptions);
-            UpdateExchangeOptions("Polymarket", globalOptions);
-            UpdateExchangeOptions("Toobit", globalOptions);
-            UpdateExchangeOptions("Upbit", globalOptions);
-            UpdateExchangeOptions("Weex", globalOptions);
-            UpdateExchangeOptions("WhiteBit", globalOptions);
-            UpdateExchangeOptions("XT", globalOptions);
-
-            services.AddAster(configuration.GetSection("Aster"));
-            services.AddBinance(configuration.GetSection("Binance"));
-            services.AddBingX(configuration.GetSection("BingX"));
-            services.AddBitfinex(configuration.GetSection("Bitfinex"));
-            services.AddBitget(configuration.GetSection("Bitget"));
-            services.AddBitMart(configuration.GetSection("BitMart"));
-            services.AddBitMEX(configuration.GetSection("BitMEX"));
-            services.AddBitstamp(configuration.GetSection("Bitstamp"));
-            services.AddBloFin(configuration.GetSection("BloFin"));
-            services.AddBybit(configuration.GetSection("Bybit"));
-            services.AddCoinbase(configuration.GetSection("Coinbase"));
-            services.AddCoinEx(configuration.GetSection("CoinEx"));
-            services.AddCoinW(configuration.GetSection("CoinW"));
-            services.AddCoinGecko(configuration.GetSection("CoinGecko"));
-            services.AddCryptoCom(configuration.GetSection("CryptoCom"));
-            services.AddDeepCoin(configuration.GetSection("DeepCoin"));
-            services.AddGateIo(configuration.GetSection("GateIo"));
-            services.AddHTX(configuration.GetSection("HTX"));
-            services.AddHyperLiquid(configuration.GetSection("HyperLiquid"));
-            services.AddKraken(configuration.GetSection("Kraken"));
-            services.AddKucoin(configuration.GetSection("Kucoin"));
-            services.AddLBank(configuration.GetSection("LBank"));
-            services.AddLighter(configuration.GetSection("Lighter"));
-            services.AddMexc(configuration.GetSection("Mexc"));
-            services.AddOKX(configuration.GetSection("OKX"));
-            services.AddPionex(configuration.GetSection("Pionex"));
-            services.AddPolymarket(configuration.GetSection("Polymarket"));
-            services.AddToobit(configuration.GetSection("Toobit"));
-            services.AddUpbit(configuration.GetSection("Upbit"));
-            services.AddWeex(configuration.GetSection("Weex"));
-            services.AddWhiteBit(configuration.GetSection("WhiteBit"));
-            services.AddXT(configuration.GetSection("XT"));
-
-            services.AddTransient<IExchangeRestClient, ExchangeRestClient>(x =>
+            void Register(string exchange, Action registration)
             {
-                return new ExchangeRestClient(
-                    x.GetRequiredService<IAsterRestClient>(),
-                    x.GetRequiredService<IBinanceRestClient>(),
-                    x.GetRequiredService<IBingXRestClient>(),
-                    x.GetRequiredService<IBitfinexRestClient>(),
-                    x.GetRequiredService<IBitgetRestClient>(),
-                    x.GetRequiredService<IBitMartRestClient>(),
-                    x.GetRequiredService<IBitMEXRestClient>(),
-                    x.GetRequiredService<IBitstampRestClient>(),
-                    x.GetRequiredService<IBloFinRestClient>(),
-                    x.GetRequiredService<IBybitRestClient>(),
-                    x.GetRequiredService<ICoinbaseRestClient>(),
-                    x.GetRequiredService<ICoinExRestClient>(),
-                    x.GetRequiredService<ICoinGeckoRestClient>(),
-                    x.GetRequiredService<ICoinWRestClient>(),
-                    x.GetRequiredService<ICryptoComRestClient>(),
-                    x.GetRequiredService<IDeepCoinRestClient>(),
-                    x.GetRequiredService<IGateIoRestClient>(),
-                    x.GetRequiredService<IHTXRestClient>(),
-                    x.GetRequiredService<IHyperLiquidRestClient>(),
-                    x.GetRequiredService<IKrakenRestClient>(),
-                    x.GetRequiredService<IKucoinRestClient>(),
-                    x.GetRequiredService<ILBankRestClient>(),
-                    x.GetRequiredService<ILighterRestClient>(),
-                    x.GetRequiredService<IMexcRestClient>(),
-                    x.GetRequiredService<IOKXRestClient>(),
-                    x.GetRequiredService<IPionexRestClient>(),
-                    x.GetRequiredService<IPolymarketRestClient>(),
-                    x.GetRequiredService<IToobitRestClient>(),
-                    x.GetRequiredService<IUpbitRestClient>(),
-                    x.GetRequiredService<IWeexRestClient>(),
-                    x.GetRequiredService<IWhiteBitRestClient>(),
-                    x.GetRequiredService<IXTRestClient>()
-                    );
-            });
+                if (!IsRegistered(exchange))
+                    return;
 
-            services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient), x =>
-            {
-                return new ExchangeSocketClient(
-                    x.GetRequiredService<IAsterSocketClient>(),
-                    x.GetRequiredService<IBinanceSocketClient>(),
-                    x.GetRequiredService<IBingXSocketClient>(),
-                    x.GetRequiredService<IBitfinexSocketClient>(),
-                    x.GetRequiredService<IBitgetSocketClient>(),
-                    x.GetRequiredService<IBitMartSocketClient>(),
-                    x.GetRequiredService<IBitMEXSocketClient>(),
-                    x.GetRequiredService<IBitstampSocketClient>(),
-                    x.GetRequiredService<IBloFinSocketClient>(),
-                    x.GetRequiredService<IBybitSocketClient>(),
-                    x.GetRequiredService<ICoinbaseSocketClient>(),
-                    x.GetRequiredService<ICoinExSocketClient>(),
-                    x.GetRequiredService<ICoinWSocketClient>(),
-                    x.GetRequiredService<ICryptoComSocketClient>(),
-                    x.GetRequiredService<IDeepCoinSocketClient>(),
-                    x.GetRequiredService<IGateIoSocketClient>(),
-                    x.GetRequiredService<IHTXSocketClient>(),
-                    x.GetRequiredService<IHyperLiquidSocketClient>(),
-                    x.GetRequiredService<IKrakenSocketClient>(),
-                    x.GetRequiredService<IKucoinSocketClient>(),
-                    x.GetRequiredService<ILBankSocketClient>(),
-                    x.GetRequiredService<ILighterSocketClient>(),
-                    x.GetRequiredService<IMexcSocketClient>(),
-                    x.GetRequiredService<IOKXSocketClient>(),
-                    x.GetRequiredService<IPionexSocketClient>(),
-                    x.GetRequiredService<IPolymarketSocketClient>(),
-                    x.GetRequiredService<IToobitSocketClient>(),
-                    x.GetRequiredService<IUpbitSocketClient>(),
-                    x.GetRequiredService<IWeexSocketClient>(),
-                    x.GetRequiredService<IWhiteBitSocketClient>(),
-                    x.GetRequiredService<IXTSocketClient>()
-                    );
-            }, socketClientLifetime ?? ServiceLifetime.Singleton));
+                UpdateExchangeOptions(exchange, globalOptions);
+                registration();
+            }
 
-            services.AddTransient<IExchangeOrderBookFactory, ExchangeOrderBookFactory>();
-            services.AddTransient<IExchangeTrackerFactory, ExchangeTrackerFactory>();
-            services.AddTransient<IExchangeUserClientProvider, ExchangeUserClientProvider>(x => new ExchangeUserClientProvider(
-                x.GetRequiredService<IAsterUserClientProvider>(),
-                x.GetRequiredService<IBinanceUserClientProvider>(),
-                x.GetRequiredService<IBingXUserClientProvider>(),
-                x.GetRequiredService<IBitfinexUserClientProvider>(),
-                x.GetRequiredService<IBitgetUserClientProvider>(),
-                x.GetRequiredService<IBitMartUserClientProvider>(),
-                x.GetRequiredService<IBitMEXUserClientProvider>(),
-                x.GetRequiredService<IBitstampUserClientProvider>(),
-                x.GetRequiredService<IBloFinUserClientProvider>(),
-                x.GetRequiredService<IBybitUserClientProvider>(),
-                x.GetRequiredService<ICoinbaseUserClientProvider>(),
-                x.GetRequiredService<ICoinExUserClientProvider>(),
-                x.GetRequiredService<ICoinGeckoRestClient>(),
-                x.GetRequiredService<ICoinWUserClientProvider>(),
-                x.GetRequiredService<ICryptoComUserClientProvider>(),
-                x.GetRequiredService<IDeepCoinUserClientProvider>(),
-                x.GetRequiredService<IGateIoUserClientProvider>(),
-                x.GetRequiredService<IHTXUserClientProvider>(),
-                x.GetRequiredService<IHyperLiquidUserClientProvider>(),
-                x.GetRequiredService<IKrakenUserClientProvider>(),
-                x.GetRequiredService<IKucoinUserClientProvider>(),
-                x.GetRequiredService<ILBankUserClientProvider>(),
-                x.GetRequiredService<ILighterUserClientProvider>(),
-                x.GetRequiredService<IMexcUserClientProvider>(),
-                x.GetRequiredService<IOKXUserClientProvider>(),
-                x.GetRequiredService<IPionexUserClientProvider>(),
-                x.GetRequiredService<IPolymarketUserClientProvider>(),
-                x.GetRequiredService<IToobitUserClientProvider>(),
-                x.GetRequiredService<IUpbitRestClient>(),
-                x.GetRequiredService<IUpbitSocketClient>(),
-                x.GetRequiredService<IWeexUserClientProvider>(),
-                x.GetRequiredService<IWhiteBitUserClientProvider>(),
-                x.GetRequiredService<IXTUserClientProvider>()
-                ));
+            Register("Aster", () => services.AddAster(configuration.GetSection("Aster")));
+            Register("Binance", () => services.AddBinance(configuration.GetSection("Binance")));
+            Register("BingX", () => services.AddBingX(configuration.GetSection("BingX")));
+            Register("Bitfinex", () => services.AddBitfinex(configuration.GetSection("Bitfinex")));
+            Register("Bitget", () => services.AddBitget(configuration.GetSection("Bitget")));
+            Register("BitMart", () => services.AddBitMart(configuration.GetSection("BitMart")));
+            Register("BitMEX", () => services.AddBitMEX(configuration.GetSection("BitMEX")));
+            Register("Bitstamp", () => services.AddBitstamp(configuration.GetSection("Bitstamp")));
+            Register("BloFin", () => services.AddBloFin(configuration.GetSection("BloFin")));
+            Register("Bybit", () => services.AddBybit(configuration.GetSection("Bybit")));
+            Register("Coinbase", () => services.AddCoinbase(configuration.GetSection("Coinbase")));
+            Register("CoinEx", () => services.AddCoinEx(configuration.GetSection("CoinEx")));
+            Register("CoinW", () => services.AddCoinW(configuration.GetSection("CoinW")));
+            Register("CoinGecko", () => services.AddCoinGecko(configuration.GetSection("CoinGecko")));
+            Register("CryptoCom", () => services.AddCryptoCom(configuration.GetSection("CryptoCom")));
+            Register("DeepCoin", () => services.AddDeepCoin(configuration.GetSection("DeepCoin")));
+            Register("GateIo", () => services.AddGateIo(configuration.GetSection("GateIo")));
+            Register("HTX", () => services.AddHTX(configuration.GetSection("HTX")));
+            Register("HyperLiquid", () => services.AddHyperLiquid(configuration.GetSection("HyperLiquid")));
+            Register("Kraken", () => services.AddKraken(configuration.GetSection("Kraken")));
+            Register("Kucoin", () => services.AddKucoin(configuration.GetSection("Kucoin")));
+            Register("LBank", () => services.AddLBank(configuration.GetSection("LBank")));
+            Register("Lighter", () => services.AddLighter(configuration.GetSection("Lighter")));
+            Register("Mexc", () => services.AddMexc(configuration.GetSection("Mexc")));
+            Register("OKX", () => services.AddOKX(configuration.GetSection("OKX")));
+            Register("Pionex", () => services.AddPionex(configuration.GetSection("Pionex")));
+            Register("Polymarket", () => services.AddPolymarket(configuration.GetSection("Polymarket")));
+            Register("Toobit", () => services.AddToobit(configuration.GetSection("Toobit")));
+            Register("Upbit", () => services.AddUpbit(configuration.GetSection("Upbit")));
+            Register("Weex", () => services.AddWeex(configuration.GetSection("Weex")));
+            Register("WhiteBit", () => services.AddWhiteBit(configuration.GetSection("WhiteBit")));
+            Register("XT", () => services.AddXT(configuration.GetSection("XT")));
+
+            services.AddTransient<IExchangeRestClient>(_ => new ExchangeRestClient(enabledExchanges, _));
+
+            services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient),
+                x => new ExchangeSocketClient(enabledExchanges, x),
+                socketClientLifetime ?? ServiceLifetime.Singleton));
+
+            services.AddTransient<IExchangeOrderBookFactory>(x => new ExchangeOrderBookFactory(enabledExchanges, x));
+            services.AddTransient<IExchangeTrackerFactory>(x => new ExchangeTrackerFactory(enabledExchanges, x));
+            services.AddTransient<IExchangeUserClientProvider>(x => new ExchangeUserClientProvider(enabledExchanges, x));
             return services;
         }
     }

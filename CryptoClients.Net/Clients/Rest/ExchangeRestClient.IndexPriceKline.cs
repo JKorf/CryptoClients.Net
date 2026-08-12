@@ -17,7 +17,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IIndexPriceKlineRestClient> GetIndexPriceKlineClients(TradingMode api) => _sharedClients.OfType<IIndexPriceKlineRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IIndexPriceKlineRestClient? GetIndexPriceKlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IIndexPriceKlineRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IIndexPriceKlineRestClient? GetIndexPriceKlineClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IIndexPriceKlineRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
         #region Get Index Price Klines
 

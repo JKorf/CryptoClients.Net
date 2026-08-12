@@ -19,6 +19,17 @@ namespace CryptoClients.Net.Models
         /// </summary>
         public Dictionary<string, string?>? ApiEnvironments { get; set; }
 
+        /// <summary>
+        /// The exchanges and platforms which may be used by the aggregate clients, factories and providers. When not set all exchanges are enabled.
+        /// </summary>
+        public IEnumerable<string>? EnabledExchanges { get; set; }
+
+        /// <summary>
+        /// The exchanges and platforms for which services should be registered. When not set services for all exchanges are registered.
+        /// Every enabled exchange should also be registered. When set without <see cref="EnabledExchanges"/>, the same exchanges are enabled in aggregate services.
+        /// </summary>
+        public IEnumerable<string>? RegisteredExchanges { get; set; }
+
         // --- General options ---
         /// <summary>
         /// Proxy settings

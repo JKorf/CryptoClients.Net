@@ -1,4 +1,4 @@
-﻿using Aster.Net;
+using Aster.Net;
 using Aster.Net.Clients;
 using Aster.Net.Interfaces.Clients;
 using Aster.Net.Objects.Options;
@@ -139,123 +139,132 @@ using Weex.Net.Interfaces.Clients;
 using Weex.Net;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CryptoClients.Net
 {
     /// <inheritdoc />
     public partial class ExchangeSocketClient : IExchangeSocketClient
     {
-        private IEnumerable<ISharedClient> _sharedClients = Array.Empty<ISharedClient>();
-        private ISocketClient[] _socketClients = [];
+        /// <inheritdoc />
+        public double IncomingKbps => _clientRegistrations.Values.Where(x => x.IsValueCreated).Sum(x => x.Client.IncomingKbps);
+        /// <inheritdoc />
+        public int CurrentConnections => _clientRegistrations.Values.Where(x => x.IsValueCreated).Sum(x => x.Client.CurrentConnections);
+        /// <inheritdoc />
+        public int CurrentSubscriptions => _clientRegistrations.Values.Where(x => x.IsValueCreated).Sum(x => x.Client.CurrentSubscriptions);
 
         /// <inheritdoc />
-        public double IncomingKbps => _socketClients.Sum(x => x.IncomingKbps);
+        public IAsterSocketClient Aster => GetClient(Exchange.Aster, _aster);
         /// <inheritdoc />
-        public int CurrentConnections => _socketClients.Sum(x => x.CurrentConnections);
+        public IBinanceSocketClient Binance => GetClient(Exchange.Binance, _binance);
         /// <inheritdoc />
-        public int CurrentSubscriptions => _socketClients.Sum(x => x.CurrentSubscriptions);
+        public IBingXSocketClient BingX => GetClient(Exchange.BingX, _bingX);
+        /// <inheritdoc />
+        public IBitfinexSocketClient Bitfinex => GetClient(Exchange.Bitfinex, _bitfinex);
+        /// <inheritdoc />
+        public IBitgetSocketClient Bitget => GetClient(Exchange.Bitget, _bitget);
+        /// <inheritdoc />
+        public IBitMartSocketClient BitMart => GetClient(Exchange.BitMart, _bitMart);
+        /// <inheritdoc />
+        public IBitMEXSocketClient BitMEX => GetClient(Exchange.BitMEX, _bitMEX);
+        /// <inheritdoc />
+        public IBitstampSocketClient Bitstamp => GetClient(Exchange.Bitstamp, _bitstamp);
+        /// <inheritdoc />
+        public IBloFinSocketClient BloFin => GetClient(Exchange.BloFin, _bloFin);
+        /// <inheritdoc />
+        public IBybitSocketClient Bybit => GetClient(Exchange.Bybit, _bybit);
+        /// <inheritdoc />
+        public ICoinbaseSocketClient Coinbase => GetClient(Exchange.Coinbase, _coinbase);
+        /// <inheritdoc />
+        public ICoinExSocketClient CoinEx => GetClient(Exchange.CoinEx, _coinEx);
+        /// <inheritdoc />
+        public ICoinWSocketClient CoinW => GetClient(Exchange.CoinW, _coinW);
+        /// <inheritdoc />
+        public ICryptoComSocketClient CryptoCom => GetClient(Exchange.CryptoCom, _cryptoCom);
+        /// <inheritdoc />
+        public IDeepCoinSocketClient DeepCoin => GetClient(Exchange.DeepCoin, _deepCoin);
+        /// <inheritdoc />
+        public IGateIoSocketClient GateIo => GetClient(Exchange.GateIo, _gateIo);
+        /// <inheritdoc />
+        public IHTXSocketClient HTX => GetClient(Exchange.HTX, _htx);
+        /// <inheritdoc />
+        public IHyperLiquidSocketClient HyperLiquid => GetClient(Exchange.HyperLiquid, _hyperLiquid);
+        /// <inheritdoc />
+        public IKrakenSocketClient Kraken => GetClient(Exchange.Kraken, _kraken);
+        /// <inheritdoc />
+        public IKucoinSocketClient Kucoin => GetClient(Exchange.Kucoin, _kucoin);
+        /// <inheritdoc />
+        public ILBankSocketClient LBank => GetClient(Exchange.LBank, _lBank);
+        /// <inheritdoc />
+        public ILighterSocketClient Lighter => GetClient(Exchange.Lighter, _lighter);
+        /// <inheritdoc />
+        public IMexcSocketClient Mexc => GetClient(Exchange.Mexc, _mexc);
+        /// <inheritdoc />
+        public IOKXSocketClient OKX => GetClient(Exchange.OKX, _okx);
+        /// <inheritdoc />
+        public IPionexSocketClient Pionex => GetClient(Exchange.Pionex, _pionex);
+        /// <inheritdoc />
+        public IPolymarketSocketClient Polymarket => GetClient(Platform.Polymarket, _polymarket);
+        /// <inheritdoc />
+        public IToobitSocketClient Toobit => GetClient(Exchange.Toobit, _toobit);
+        /// <inheritdoc />
+        public IUpbitSocketClient Upbit => GetClient(Exchange.Upbit, _upbit);
+        /// <inheritdoc />
+        public IWeexSocketClient Weex => GetClient(Exchange.Weex, _weex);
+        /// <inheritdoc />
+        public IWhiteBitSocketClient WhiteBit => GetClient(Exchange.WhiteBit, _whiteBit);
+        /// <inheritdoc />
+        public IXTSocketClient XT => GetClient(Exchange.XT, _xt);
 
-        /// <inheritdoc />
-        public IAsterSocketClient Aster { get; }
-        /// <inheritdoc />
-        public IBinanceSocketClient Binance { get; }
-        /// <inheritdoc />
-        public IBingXSocketClient BingX { get; }
-        /// <inheritdoc />
-        public IBitfinexSocketClient Bitfinex { get; }
-        /// <inheritdoc />
-        public IBitgetSocketClient Bitget { get; }
-        /// <inheritdoc />
-        public IBitMartSocketClient BitMart { get; }
-        /// <inheritdoc />
-        public IBitMEXSocketClient BitMEX { get; }
-        /// <inheritdoc />
-        public IBitstampSocketClient Bitstamp { get; }
-        /// <inheritdoc />
-        public IBloFinSocketClient BloFin { get; }
-        /// <inheritdoc />
-        public IBybitSocketClient Bybit { get; }
-        /// <inheritdoc />
-        public ICoinbaseSocketClient Coinbase { get; }
-        /// <inheritdoc />
-        public ICoinExSocketClient CoinEx { get; }
-        /// <inheritdoc />
-        public ICoinWSocketClient CoinW { get; }
-        /// <inheritdoc />
-        public ICryptoComSocketClient CryptoCom { get; }
-        /// <inheritdoc />
-        public IDeepCoinSocketClient DeepCoin { get; }
-        /// <inheritdoc />
-        public IGateIoSocketClient GateIo { get; }
-        /// <inheritdoc />
-        public IHTXSocketClient HTX { get; }
-        /// <inheritdoc />
-        public IHyperLiquidSocketClient HyperLiquid { get; }
-        /// <inheritdoc />
-        public IKrakenSocketClient Kraken { get; }
-        /// <inheritdoc />
-        public IKucoinSocketClient Kucoin { get; }
-        /// <inheritdoc />
-        public ILBankSocketClient LBank { get; }
-        /// <inheritdoc />
-        public ILighterSocketClient Lighter { get; }
-        /// <inheritdoc />
-        public IMexcSocketClient Mexc { get; }
-        /// <inheritdoc />
-        public IOKXSocketClient OKX { get; }
-        /// <inheritdoc />
-        public IPionexSocketClient Pionex { get; }
-        /// <inheritdoc />
-        public IPolymarketSocketClient Polymarket { get; }
-        /// <inheritdoc />
-        public IToobitSocketClient Toobit { get; }
-        /// <inheritdoc />
-        public IUpbitSocketClient Upbit { get; }
-        /// <inheritdoc />
-        public IWeexSocketClient Weex { get; }
-        /// <inheritdoc />
-        public IWhiteBitSocketClient WhiteBit { get; }
-        /// <inheritdoc />
-        public IXTSocketClient XT { get; }
+        private readonly Dictionary<string, ISocketClientRegistration> _clientRegistrations = new(StringComparer.OrdinalIgnoreCase);
+        private HashSet<string>? _enabledExchanges;
+        private IEnumerable<ISharedClient> _sharedClients => _clientRegistrations.Where(x => IsEnabled(x.Key)).SelectMany(x => x.Value.SharedClients);
+        private SocketClientRegistration<IAsterSocketClient> _aster = null!;
+        private SocketClientRegistration<IBinanceSocketClient> _binance = null!;
+        private SocketClientRegistration<IBingXSocketClient> _bingX = null!;
+        private SocketClientRegistration<IBitfinexSocketClient> _bitfinex = null!;
+        private SocketClientRegistration<IBitgetSocketClient> _bitget = null!;
+        private SocketClientRegistration<IBitMartSocketClient> _bitMart = null!;
+        private SocketClientRegistration<IBitMEXSocketClient> _bitMEX = null!;
+        private SocketClientRegistration<IBitstampSocketClient> _bitstamp = null!;
+        private SocketClientRegistration<IBloFinSocketClient> _bloFin = null!;
+        private SocketClientRegistration<IBybitSocketClient> _bybit = null!;
+        private SocketClientRegistration<ICoinbaseSocketClient> _coinbase = null!;
+        private SocketClientRegistration<ICoinExSocketClient> _coinEx = null!;
+        private SocketClientRegistration<ICoinWSocketClient> _coinW = null!;
+        private SocketClientRegistration<ICryptoComSocketClient> _cryptoCom = null!;
+        private SocketClientRegistration<IDeepCoinSocketClient> _deepCoin = null!;
+        private SocketClientRegistration<IGateIoSocketClient> _gateIo = null!;
+        private SocketClientRegistration<IHTXSocketClient> _htx = null!;
+        private SocketClientRegistration<IHyperLiquidSocketClient> _hyperLiquid = null!;
+        private SocketClientRegistration<IKrakenSocketClient> _kraken = null!;
+        private SocketClientRegistration<IKucoinSocketClient> _kucoin = null!;
+        private SocketClientRegistration<ILBankSocketClient> _lBank = null!;
+        private SocketClientRegistration<ILighterSocketClient> _lighter = null!;
+        private SocketClientRegistration<IMexcSocketClient> _mexc = null!;
+        private SocketClientRegistration<IOKXSocketClient> _okx = null!;
+        private SocketClientRegistration<IPionexSocketClient> _pionex = null!;
+        private SocketClientRegistration<IPolymarketSocketClient> _polymarket = null!;
+        private SocketClientRegistration<IToobitSocketClient> _toobit = null!;
+        private SocketClientRegistration<IUpbitSocketClient> _upbit = null!;
+        private SocketClientRegistration<IWeexSocketClient> _weex = null!;
+        private SocketClientRegistration<IWhiteBitSocketClient> _whiteBit = null!;
+        private SocketClientRegistration<IXTSocketClient> _xt = null!;
 
         /// <summary>
         /// Create a new ExchangeSocketClient instance. Client instances will be created with default options.
         /// </summary>
         public ExchangeSocketClient()
         {
-            Aster = new AsterSocketClient();
-            Binance = new BinanceSocketClient();
-            BingX = new BingXSocketClient();
-            Bitfinex = new BitfinexSocketClient();
-            Bitget = new BitgetSocketClient();
-            BitMart = new BitMartSocketClient();
-            BitMEX = new BitMEXSocketClient();
-            Bitstamp = new BitstampSocketClient();
-            BloFin = new BloFinSocketClient();
-            Bybit = new BybitSocketClient();
-            Coinbase = new CoinbaseSocketClient();
-            CoinEx = new CoinExSocketClient();
-            CoinW = new CoinWSocketClient();
-            CryptoCom = new CryptoComSocketClient();
-            DeepCoin = new DeepCoinSocketClient();
-            GateIo = new GateIoSocketClient();
-            HTX = new HTXSocketClient();
-            HyperLiquid = new HyperLiquidSocketClient();
-            Kraken = new KrakenSocketClient();
-            Kucoin = new KucoinSocketClient();
-            LBank = new LBankSocketClient();
-            Lighter = new LighterSocketClient();
-            Mexc = new MexcSocketClient();
-            OKX = new OKXSocketClient();
-            Pionex = new PionexSocketClient();
-            Polymarket = new PolymarketSocketClient();
-            Toobit = new ToobitSocketClient();
-            Upbit = new UpbitSocketClient();
-            Weex = new WeexSocketClient();
-            WhiteBit = new WhiteBitSocketClient();
-            XT = new XTSocketClient();
-
-            InitSharedClients();
+            InitializeClients(null,
+                () => new AsterSocketClient(), () => new BinanceSocketClient(), () => new BingXSocketClient(), () => new BitfinexSocketClient(),
+                () => new BitgetSocketClient(), () => new BitMartSocketClient(), () => new BitMEXSocketClient(), () => new BitstampSocketClient(),
+                () => new BloFinSocketClient(), () => new BybitSocketClient(), () => new CoinbaseSocketClient(), () => new CoinExSocketClient(),
+                () => new CoinWSocketClient(), () => new CryptoComSocketClient(), () => new DeepCoinSocketClient(), () => new GateIoSocketClient(),
+                () => new HTXSocketClient(), () => new HyperLiquidSocketClient(), () => new KrakenSocketClient(), () => new KucoinSocketClient(),
+                () => new LBankSocketClient(), () => new LighterSocketClient(), () => new MexcSocketClient(), () => new OKXSocketClient(),
+                () => new PionexSocketClient(), () => new PolymarketSocketClient(), () => new ToobitSocketClient(), () => new UpbitSocketClient(),
+                () => new WeexSocketClient(), () => new WhiteBitSocketClient(), () => new XTSocketClient());
         }
 
         /// <summary>
@@ -437,39 +446,38 @@ namespace CryptoClients.Net
                 xtSocketOptions = SetGlobalSocketOptions(global, xtSocketOptions?.Value, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : xtSocketOptions?.Value.Environment ?? XTEnvironment.Live);
             }
 
-            Aster = new AsterSocketClient(asterSocketOptions ?? Options.Create(new AsterSocketOptions()), loggerFactory);
-            Binance = new BinanceSocketClient(binanceSocketOptions ?? Options.Create(new BinanceSocketOptions()), loggerFactory);
-            BingX = new BingXSocketClient(bingxSocketOptions ?? Options.Create(new BingXSocketOptions()), loggerFactory);
-            Bitfinex = new BitfinexSocketClient(bitfinexSocketOptions ?? Options.Create(new BitfinexSocketOptions()), loggerFactory);
-            Bitget = new BitgetSocketClient(bitgetSocketOptions ?? Options.Create(new BitgetSocketOptions()), loggerFactory);
-            BitMart = new BitMartSocketClient(bitMartSocketOptions ?? Options.Create(new BitMartSocketOptions()), loggerFactory);
-            BitMEX = new BitMEXSocketClient(bitMEXSocketOptions ?? Options.Create(new BitMEXSocketOptions()), loggerFactory);
-            Bitstamp = new BitstampSocketClient(bitstampSocketOptions ?? Options.Create(new BitstampSocketOptions()), loggerFactory);
-            BloFin = new BloFinSocketClient(bloFinSocketOptions ?? Options.Create(new BloFinSocketOptions()), loggerFactory);
-            Bybit = new BybitSocketClient(bybitSocketOptions ?? Options.Create(new BybitSocketOptions()), loggerFactory);
-            Coinbase = new CoinbaseSocketClient(coinbaseSocketOptions ?? Options.Create(new CoinbaseSocketOptions()), loggerFactory);
-            CoinEx = new CoinExSocketClient(coinExSocketOptions ?? Options.Create(new CoinExSocketOptions()), loggerFactory);
-            CoinW = new CoinWSocketClient(coinWSocketOptions ?? Options.Create(new CoinWSocketOptions()), loggerFactory);
-            HTX = new HTXSocketClient(htxSocketOptions  ?? Options.Create(new HTXSocketOptions()), loggerFactory);
-            HyperLiquid = new HyperLiquidSocketClient(hyperLiquidSocketOptions ?? Options.Create(new HyperLiquidSocketOptions()), loggerFactory);
-            CryptoCom = new CryptoComSocketClient(cryptoComSocketOptions ?? Options.Create(new CryptoComSocketOptions()), loggerFactory);
-            DeepCoin = new DeepCoinSocketClient(deepCoinSocketOptions ?? Options.Create(new DeepCoinSocketOptions()), loggerFactory);
-            GateIo = new GateIoSocketClient(gateIoSocketOptions ?? Options.Create(new GateIoSocketOptions()), loggerFactory);
-            Kraken = new KrakenSocketClient(krakenSocketOptions ?? Options.Create(new KrakenSocketOptions()), loggerFactory);
-            Kucoin = new KucoinSocketClient(kucoinSocketOptions ?? Options.Create(new KucoinSocketOptions()), loggerFactory);
-            LBank = new LBankSocketClient(lBankSocketOptions ?? Options.Create(new LBankSocketOptions()), loggerFactory);
-            Lighter = new LighterSocketClient(lighterSocketOptions ?? Options.Create(new LighterSocketOptions()), loggerFactory);
-            Mexc = new MexcSocketClient(mexcSocketOptions ?? Options.Create(new MexcSocketOptions()), loggerFactory);
-            OKX = new OKXSocketClient(okxSocketOptions ?? Options.Create(new OKXSocketOptions()), loggerFactory);
-            Pionex = new PionexSocketClient(pionexSocketOptions ?? Options.Create(new PionexSocketOptions()), loggerFactory);
-            Polymarket = new PolymarketSocketClient(polymarketSocketOptions ?? Options.Create(new PolymarketSocketOptions()), loggerFactory);
-            Toobit = new ToobitSocketClient(toobitSocketOptions ?? Options.Create(new ToobitSocketOptions()), loggerFactory);
-            Upbit = new UpbitSocketClient(upbitSocketOptions ?? Options.Create(new UpbitSocketOptions()), loggerFactory);
-            Weex = new WeexSocketClient(weexSocketOptions ?? Options.Create(new WeexSocketOptions()), loggerFactory);
-            WhiteBit = new WhiteBitSocketClient(whiteBitSocketOptions ?? Options.Create(new WhiteBitSocketOptions()), loggerFactory);
-            XT = new XTSocketClient(xtSocketOptions ?? Options.Create(new XTSocketOptions()), loggerFactory);
-
-            InitSharedClients();
+            InitializeClients(globalOptions?.Value.EnabledExchanges,
+                () => new AsterSocketClient(asterSocketOptions ?? Options.Create(new AsterSocketOptions()), loggerFactory),
+                () => new BinanceSocketClient(binanceSocketOptions ?? Options.Create(new BinanceSocketOptions()), loggerFactory),
+                () => new BingXSocketClient(bingxSocketOptions ?? Options.Create(new BingXSocketOptions()), loggerFactory),
+                () => new BitfinexSocketClient(bitfinexSocketOptions ?? Options.Create(new BitfinexSocketOptions()), loggerFactory),
+                () => new BitgetSocketClient(bitgetSocketOptions ?? Options.Create(new BitgetSocketOptions()), loggerFactory),
+                () => new BitMartSocketClient(bitMartSocketOptions ?? Options.Create(new BitMartSocketOptions()), loggerFactory),
+                () => new BitMEXSocketClient(bitMEXSocketOptions ?? Options.Create(new BitMEXSocketOptions()), loggerFactory),
+                () => new BitstampSocketClient(bitstampSocketOptions ?? Options.Create(new BitstampSocketOptions()), loggerFactory),
+                () => new BloFinSocketClient(bloFinSocketOptions ?? Options.Create(new BloFinSocketOptions()), loggerFactory),
+                () => new BybitSocketClient(bybitSocketOptions ?? Options.Create(new BybitSocketOptions()), loggerFactory),
+                () => new CoinbaseSocketClient(coinbaseSocketOptions ?? Options.Create(new CoinbaseSocketOptions()), loggerFactory),
+                () => new CoinExSocketClient(coinExSocketOptions ?? Options.Create(new CoinExSocketOptions()), loggerFactory),
+                () => new CoinWSocketClient(coinWSocketOptions ?? Options.Create(new CoinWSocketOptions()), loggerFactory),
+                () => new CryptoComSocketClient(cryptoComSocketOptions ?? Options.Create(new CryptoComSocketOptions()), loggerFactory),
+                () => new DeepCoinSocketClient(deepCoinSocketOptions ?? Options.Create(new DeepCoinSocketOptions()), loggerFactory),
+                () => new GateIoSocketClient(gateIoSocketOptions ?? Options.Create(new GateIoSocketOptions()), loggerFactory),
+                () => new HTXSocketClient(htxSocketOptions ?? Options.Create(new HTXSocketOptions()), loggerFactory),
+                () => new HyperLiquidSocketClient(hyperLiquidSocketOptions ?? Options.Create(new HyperLiquidSocketOptions()), loggerFactory),
+                () => new KrakenSocketClient(krakenSocketOptions ?? Options.Create(new KrakenSocketOptions()), loggerFactory),
+                () => new KucoinSocketClient(kucoinSocketOptions ?? Options.Create(new KucoinSocketOptions()), loggerFactory),
+                () => new LBankSocketClient(lBankSocketOptions ?? Options.Create(new LBankSocketOptions()), loggerFactory),
+                () => new LighterSocketClient(lighterSocketOptions ?? Options.Create(new LighterSocketOptions()), loggerFactory),
+                () => new MexcSocketClient(mexcSocketOptions ?? Options.Create(new MexcSocketOptions()), loggerFactory),
+                () => new OKXSocketClient(okxSocketOptions ?? Options.Create(new OKXSocketOptions()), loggerFactory),
+                () => new PionexSocketClient(pionexSocketOptions ?? Options.Create(new PionexSocketOptions()), loggerFactory),
+                () => new PolymarketSocketClient(polymarketSocketOptions ?? Options.Create(new PolymarketSocketOptions()), loggerFactory),
+                () => new ToobitSocketClient(toobitSocketOptions ?? Options.Create(new ToobitSocketOptions()), loggerFactory),
+                () => new UpbitSocketClient(upbitSocketOptions ?? Options.Create(new UpbitSocketOptions()), loggerFactory),
+                () => new WeexSocketClient(weexSocketOptions ?? Options.Create(new WeexSocketOptions()), loggerFactory),
+                () => new WhiteBitSocketClient(whiteBitSocketOptions ?? Options.Create(new WhiteBitSocketOptions()), loggerFactory),
+                () => new XTSocketClient(xtSocketOptions ?? Options.Create(new XTSocketOptions()), loggerFactory));
         }
 
         /// <summary>
@@ -508,110 +516,55 @@ namespace CryptoClients.Net
             IWhiteBitSocketClient whiteBit,
             IXTSocketClient xt)
         {
-            Aster = aster;
-            Binance = binance;
-            BingX = bingx;
-            Bitfinex = bitfinex;
-            Bitget = bitget;
-            BitMart = bitMart;
-            BitMEX = bitMEX;
-            Bitstamp = bitstamp;
-            BloFin = bloFin;
-            Bybit = bybit;
-            Coinbase = coinbase;
-            CoinEx = coinEx;
-            CoinW = coinW;
-            CryptoCom = cryptoCom;
-            DeepCoin = deepCoin;
-            GateIo = gateIo;
-            HTX = htx;
-            HyperLiquid = hyperLiquid;
-            Kraken = kraken;
-            Kucoin = kucoin;
-            LBank = lBank;
-            Lighter = lighter;
-            Mexc = mexc;
-            OKX = okx;
-            Pionex = pionex;
-            Polymarket = polymarket;
-            Toobit = toobit;
-            Upbit = upbit;
-            Weex = weex;
-            WhiteBit = whiteBit;
-            XT = xt;
-
-            InitSharedClients();
+            InitializeClients(null,
+                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitMEX, () => bitstamp,
+                () => bloFin, () => bybit, () => coinbase, () => coinEx, () => coinW, () => cryptoCom, () => deepCoin, () => gateIo,
+                () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc, () => okx,
+                () => pionex, () => polymarket, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
         }
 
-        private void InitSharedClients()
+        internal ExchangeSocketClient(IEnumerable<string>? enabledExchanges, IServiceProvider serviceProvider)
         {
-            _socketClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
-                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, LBank, Lighter, Mexc, OKX, Pionex, Toobit, Upbit, Weex, WhiteBit, XT];
+            InitializeClients(enabledExchanges,
+                () => serviceProvider.GetRequiredService<IAsterSocketClient>(), () => serviceProvider.GetRequiredService<IBinanceSocketClient>(),
+                () => serviceProvider.GetRequiredService<IBingXSocketClient>(), () => serviceProvider.GetRequiredService<IBitfinexSocketClient>(),
+                () => serviceProvider.GetRequiredService<IBitgetSocketClient>(), () => serviceProvider.GetRequiredService<IBitMartSocketClient>(),
+                () => serviceProvider.GetRequiredService<IBitMEXSocketClient>(), () => serviceProvider.GetRequiredService<IBitstampSocketClient>(),
+                () => serviceProvider.GetRequiredService<IBloFinSocketClient>(), () => serviceProvider.GetRequiredService<IBybitSocketClient>(),
+                () => serviceProvider.GetRequiredService<ICoinbaseSocketClient>(), () => serviceProvider.GetRequiredService<ICoinExSocketClient>(),
+                () => serviceProvider.GetRequiredService<ICoinWSocketClient>(), () => serviceProvider.GetRequiredService<ICryptoComSocketClient>(),
+                () => serviceProvider.GetRequiredService<IDeepCoinSocketClient>(), () => serviceProvider.GetRequiredService<IGateIoSocketClient>(),
+                () => serviceProvider.GetRequiredService<IHTXSocketClient>(), () => serviceProvider.GetRequiredService<IHyperLiquidSocketClient>(),
+                () => serviceProvider.GetRequiredService<IKrakenSocketClient>(), () => serviceProvider.GetRequiredService<IKucoinSocketClient>(),
+                () => serviceProvider.GetRequiredService<ILBankSocketClient>(), () => serviceProvider.GetRequiredService<ILighterSocketClient>(),
+                () => serviceProvider.GetRequiredService<IMexcSocketClient>(), () => serviceProvider.GetRequiredService<IOKXSocketClient>(),
+                () => serviceProvider.GetRequiredService<IPionexSocketClient>(), () => serviceProvider.GetRequiredService<IPolymarketSocketClient>(),
+                () => serviceProvider.GetRequiredService<IToobitSocketClient>(), () => serviceProvider.GetRequiredService<IUpbitSocketClient>(),
+                () => serviceProvider.GetRequiredService<IWeexSocketClient>(), () => serviceProvider.GetRequiredService<IWhiteBitSocketClient>(),
+                () => serviceProvider.GetRequiredService<IXTSocketClient>());
+        }
 
-            var v3Spot = Aster.SpotV3Api.ApiCredentials?.V3 != null;
-            var v3Futures = Aster.FuturesV3Api.ApiCredentials?.V3 != null;
-            ISharedClient asterSpot = v3Spot ? Aster.SpotV3Api.SharedClient : Aster.SpotApi.SharedClient;
-            ISharedClient asterFutures = v3Futures ? Aster.FuturesV3Api.SharedClient : Aster.FuturesApi.SharedClient;
-
-            _sharedClients = new ISharedClient[]
-            {
-                asterSpot,
-                asterFutures,
-                Binance.SpotApi.SharedClient,
-                Binance.UsdFuturesApi.SharedClient,
-                Binance.CoinFuturesApi.SharedClient,
-                BingX.SpotApi.SharedClient,
-                BingX.PerpetualFuturesApi.SharedClient,
-                Bitfinex.ExchangeApi.SharedClient,
-                Bitget.SpotApiV2.SharedClient,
-                Bitget.FuturesApiV2.SharedClient,
-                BitMart.SpotApi.SharedClient,
-                BitMart.UsdFuturesApi.SharedClient,
-                BitMEX.ExchangeApi.SharedClient,
-                Bitstamp.ExchangeApi.SharedClient,
-                BloFin.FuturesApi.SharedClient,
-                Bybit.V5InverseApi.SharedClient,
-                Bybit.V5LinearApi.SharedClient,
-                Bybit.V5PrivateApi.SharedClient,
-                Bybit.V5SpotApi.SharedClient,
-                Coinbase.AdvancedTradeApi.SharedClient,
-                CoinEx.SpotApiV2.SharedClient,
-                CoinEx.FuturesApi.SharedClient,
-                CoinW.SpotApi.SharedClient,
-                CoinW.FuturesApi.SharedClient,
-                CryptoCom.ExchangeApi.SharedClient,
-                DeepCoin.ExchangeApi.SharedClient,
-                GateIo.SpotApi.SharedClient,
-                GateIo.PerpetualFuturesApi.SharedClient,
-                HTX.SpotApi.SharedClient,
-                HTX.UsdtFuturesApi.SharedClient,
-                HyperLiquid.SpotApi.SharedClient,
-                HyperLiquid.FuturesApi.SharedClient,
-                Kraken.SpotApi.SharedClient,
-                Kraken.FuturesApi.SharedClient,
-                Kucoin.SpotApi.SharedClient,
-                Kucoin.FuturesApi.SharedClient,
-                Lighter.ExchangeApi.SharedClient,
-                LBank.SpotApi.SharedClient,
-                Mexc.SpotApi.SharedClient,
-                Mexc.FuturesApi.SharedClient,
-                OKX.UnifiedApi.SharedClient,
-                Pionex.SpotApi.SharedClient,
-                Upbit.SpotApi.SharedClient,
-                Toobit.SpotApi.SharedClient,
-                Toobit.UsdtFuturesApi.SharedClient,
-                Weex.SpotApi.SharedClient,
-                Weex.FuturesApi.SharedClient,
-                WhiteBit.V4Api.SharedClient,
-                XT.SpotApi.SharedClient,
-                XT.FuturesApi.SharedClient
-            };
+        internal ExchangeSocketClient(
+            IEnumerable<string>? enabledExchanges,
+            Func<IAsterSocketClient> aster, Func<IBinanceSocketClient> binance, Func<IBingXSocketClient> bingX, Func<IBitfinexSocketClient> bitfinex,
+            Func<IBitgetSocketClient> bitget, Func<IBitMartSocketClient> bitMart, Func<IBitMEXSocketClient> bitMEX, Func<IBitstampSocketClient> bitstamp,
+            Func<IBloFinSocketClient> bloFin, Func<IBybitSocketClient> bybit, Func<ICoinbaseSocketClient> coinbase, Func<ICoinExSocketClient> coinEx,
+            Func<ICoinWSocketClient> coinW, Func<ICryptoComSocketClient> cryptoCom, Func<IDeepCoinSocketClient> deepCoin, Func<IGateIoSocketClient> gateIo,
+            Func<IHTXSocketClient> htx, Func<IHyperLiquidSocketClient> hyperLiquid, Func<IKrakenSocketClient> kraken, Func<IKucoinSocketClient> kucoin,
+            Func<ILBankSocketClient> lBank, Func<ILighterSocketClient> lighter, Func<IMexcSocketClient> mexc, Func<IOKXSocketClient> okx,
+            Func<IPionexSocketClient> pionex, Func<IPolymarketSocketClient> polymarket, Func<IToobitSocketClient> toobit, Func<IUpbitSocketClient> upbit,
+            Func<IWeexSocketClient> weex, Func<IWhiteBitSocketClient> whiteBit, Func<IXTSocketClient> xt)
+        {
+            InitializeClients(enabledExchanges,
+                aster, binance, bingX, bitfinex, bitget, bitMart, bitMEX, bitstamp, bloFin, bybit, coinbase, coinEx,
+                coinW, cryptoCom, deepCoin, gateIo, htx, hyperLiquid, kraken, kucoin, lBank, lighter, mexc, okx,
+                pionex, polymarket, toobit, upbit, weex, whiteBit, xt);
         }
 
         /// <inheritdoc />
         public IEnumerable<ISharedClient> GetExchangeSharedClients(string name, TradingMode? tradingMode = null)
         {
-            var result = _sharedClients.Where(s => s.Exchange == name);
+            var result = GetSharedClients(name);
             if (tradingMode.HasValue)
                 result = result.Where(x => x.SupportedTradingModes.Contains(tradingMode.Value));
             return result.ToList();
@@ -630,7 +583,7 @@ namespace CryptoClients.Net
         {
             void SetCredentialsIfNotNull(string exchange, ApiCredentials? credentials, Action setter)
             {
-                if (credentials == null)
+                if (credentials == null || !IsEnabled(exchange))
                     return;
 
                 setter();
@@ -671,7 +624,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public string? GetSymbolName(string exchange, SharedSymbol symbol)
         {
-            var client = _sharedClients.FirstOrDefault(x => x.Exchange == exchange && x.SupportedTradingModes.Contains(symbol.TradingMode));
+            var client = GetSharedClients(exchange).FirstOrDefault(x => x.SupportedTradingModes.Contains(symbol.TradingMode));
             if (client == null)
                 return null;
 
@@ -681,40 +634,9 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task UnsubscribeAllAsync()
         {
-            var tasks = new[]
-            {
-                Aster.UnsubscribeAllAsync(),
-                Binance.UnsubscribeAllAsync(),
-                BingX.UnsubscribeAllAsync(),
-                Bitfinex.UnsubscribeAllAsync(),
-                Bitget.UnsubscribeAllAsync(),
-                BitMart.UnsubscribeAllAsync(),
-                BitMEX.UnsubscribeAllAsync(),
-                Bitstamp.UnsubscribeAllAsync(),
-                BloFin.UnsubscribeAllAsync(),
-                Bybit.UnsubscribeAllAsync(),
-                Coinbase.UnsubscribeAllAsync(),
-                CoinEx.UnsubscribeAllAsync(),
-                CoinW.UnsubscribeAllAsync(),
-                CryptoCom.UnsubscribeAllAsync(),
-                DeepCoin.UnsubscribeAllAsync(),
-                GateIo.UnsubscribeAllAsync(),
-                HTX.UnsubscribeAllAsync(),
-                HyperLiquid.UnsubscribeAllAsync(),
-                Kraken.UnsubscribeAllAsync(),
-                Kucoin.UnsubscribeAllAsync(),
-                LBank.UnsubscribeAllAsync(),
-                Lighter.UnsubscribeAllAsync(),
-                Mexc.UnsubscribeAllAsync(),
-                OKX.UnsubscribeAllAsync(),
-                Pionex.UnsubscribeAllAsync(),
-                Polymarket.UnsubscribeAllAsync(),
-                Toobit.UnsubscribeAllAsync(),
-                Upbit.UnsubscribeAllAsync(),
-                Weex.UnsubscribeAllAsync(),
-                WhiteBit.UnsubscribeAllAsync(),
-                XT.UnsubscribeAllAsync()
-            };
+            var tasks = _clientRegistrations.Values
+                .Where(x => x.IsValueCreated)
+                .Select(x => x.Client.UnsubscribeAllAsync());
             await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 
@@ -727,5 +649,104 @@ namespace CryptoClients.Net
             del?.Invoke(opts);
             return opts;
         }
+
+        private void InitializeClients(
+            IEnumerable<string>? enabledExchanges,
+            Func<IAsterSocketClient> aster, Func<IBinanceSocketClient> binance, Func<IBingXSocketClient> bingX, Func<IBitfinexSocketClient> bitfinex,
+            Func<IBitgetSocketClient> bitget, Func<IBitMartSocketClient> bitMart, Func<IBitMEXSocketClient> bitMEX, Func<IBitstampSocketClient> bitstamp,
+            Func<IBloFinSocketClient> bloFin, Func<IBybitSocketClient> bybit, Func<ICoinbaseSocketClient> coinbase, Func<ICoinExSocketClient> coinEx,
+            Func<ICoinWSocketClient> coinW, Func<ICryptoComSocketClient> cryptoCom, Func<IDeepCoinSocketClient> deepCoin, Func<IGateIoSocketClient> gateIo,
+            Func<IHTXSocketClient> htx, Func<IHyperLiquidSocketClient> hyperLiquid, Func<IKrakenSocketClient> kraken, Func<IKucoinSocketClient> kucoin,
+            Func<ILBankSocketClient> lBank, Func<ILighterSocketClient> lighter, Func<IMexcSocketClient> mexc, Func<IOKXSocketClient> okx,
+            Func<IPionexSocketClient> pionex, Func<IPolymarketSocketClient> polymarket, Func<IToobitSocketClient> toobit, Func<IUpbitSocketClient> upbit,
+            Func<IWeexSocketClient> weex, Func<IWhiteBitSocketClient> whiteBit, Func<IXTSocketClient> xt)
+        {
+            _enabledExchanges = enabledExchanges == null ? null : new HashSet<string>(enabledExchanges, StringComparer.OrdinalIgnoreCase);
+
+            SocketClientRegistration<T> Register<T>(string name, Func<T> clientFactory, Func<T, ISharedClient[]> sharedClientFactory) where T : ISocketClient
+            {
+                var registration = new SocketClientRegistration<T>(clientFactory, sharedClientFactory);
+                _clientRegistrations[name] = registration;
+                return registration;
+            }
+
+            _aster = Register(Exchange.Aster, aster, x =>
+            {
+                ISharedClient spot = x.SpotV3Api.ApiCredentials?.V3 != null ? x.SpotV3Api.SharedClient : x.SpotApi.SharedClient;
+                ISharedClient futures = x.FuturesV3Api.ApiCredentials?.V3 != null ? x.FuturesV3Api.SharedClient : x.FuturesApi.SharedClient;
+                return [spot, futures];
+            });
+            _binance = Register(Exchange.Binance, binance, x => [x.SpotApi.SharedClient, x.UsdFuturesApi.SharedClient, x.CoinFuturesApi.SharedClient]);
+            _bingX = Register(Exchange.BingX, bingX, x => [x.SpotApi.SharedClient, x.PerpetualFuturesApi.SharedClient]);
+            _bitfinex = Register(Exchange.Bitfinex, bitfinex, x => [x.ExchangeApi.SharedClient]);
+            _bitget = Register(Exchange.Bitget, bitget, x => [x.SpotApiV2.SharedClient, x.FuturesApiV2.SharedClient]);
+            _bitMart = Register(Exchange.BitMart, bitMart, x => [x.SpotApi.SharedClient, x.UsdFuturesApi.SharedClient]);
+            _bitMEX = Register(Exchange.BitMEX, bitMEX, x => [x.ExchangeApi.SharedClient]);
+            _bitstamp = Register(Exchange.Bitstamp, bitstamp, x => [x.ExchangeApi.SharedClient]);
+            _bloFin = Register(Exchange.BloFin, bloFin, x => [x.FuturesApi.SharedClient]);
+            _bybit = Register(Exchange.Bybit, bybit, x => [x.V5InverseApi.SharedClient, x.V5LinearApi.SharedClient, x.V5PrivateApi.SharedClient, x.V5SpotApi.SharedClient]);
+            _coinbase = Register(Exchange.Coinbase, coinbase, x => [x.AdvancedTradeApi.SharedClient]);
+            _coinEx = Register(Exchange.CoinEx, coinEx, x => [x.SpotApiV2.SharedClient, x.FuturesApi.SharedClient]);
+            _coinW = Register(Exchange.CoinW, coinW, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _cryptoCom = Register(Exchange.CryptoCom, cryptoCom, x => [x.ExchangeApi.SharedClient]);
+            _deepCoin = Register(Exchange.DeepCoin, deepCoin, x => [x.ExchangeApi.SharedClient]);
+            _gateIo = Register(Exchange.GateIo, gateIo, x => [x.SpotApi.SharedClient, x.PerpetualFuturesApi.SharedClient]);
+            _htx = Register(Exchange.HTX, htx, x => [x.SpotApi.SharedClient, x.UsdtFuturesApi.SharedClient]);
+            _hyperLiquid = Register(Exchange.HyperLiquid, hyperLiquid, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _kraken = Register(Exchange.Kraken, kraken, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _kucoin = Register(Exchange.Kucoin, kucoin, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _lBank = Register(Exchange.LBank, lBank, x => [x.SpotApi.SharedClient]);
+            _lighter = Register(Exchange.Lighter, lighter, x => [x.ExchangeApi.SharedClient]);
+            _mexc = Register(Exchange.Mexc, mexc, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _okx = Register(Exchange.OKX, okx, x => [x.UnifiedApi.SharedClient]);
+            _pionex = Register(Exchange.Pionex, pionex, x => [x.SpotApi.SharedClient]);
+            _polymarket = Register(Platform.Polymarket, polymarket, client => []);
+            _toobit = Register(Exchange.Toobit, toobit, x => [x.SpotApi.SharedClient, x.UsdtFuturesApi.SharedClient]);
+            _upbit = Register(Exchange.Upbit, upbit, x => [x.SpotApi.SharedClient]);
+            _weex = Register(Exchange.Weex, weex, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _whiteBit = Register(Exchange.WhiteBit, whiteBit, x => [x.V4Api.SharedClient]);
+            _xt = Register(Exchange.XT, xt, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+        }
+
+        private bool IsEnabled(string name) => _enabledExchanges == null || _enabledExchanges.Contains(name);
+
+        private IEnumerable<ISharedClient> GetSharedClients(string name)
+            => IsEnabled(name) && _clientRegistrations.TryGetValue(name, out var registration) ? registration.SharedClients : [];
+
+#pragma warning disable IL2091
+        private T GetClient<T>(string name, SocketClientRegistration<T> registration) where T : ISocketClient
+        {
+            if (!IsEnabled(name))
+                throw new InvalidOperationException($"The {name} client is disabled. Add it to {nameof(GlobalExchangeOptions.EnabledExchanges)} before accessing it.");
+
+            return registration.TypedClient;
+        }
+
+        private interface ISocketClientRegistration
+        {
+            bool IsValueCreated { get; }
+            ISocketClient Client { get; }
+            IEnumerable<ISharedClient> SharedClients { get; }
+        }
+
+        private sealed class SocketClientRegistration<T> : ISocketClientRegistration where T : ISocketClient
+        {
+            public bool IsValueCreated => _value.IsValueCreated;
+            public T TypedClient => _value.Value.Client;
+            public ISocketClient Client => _value.Value.Client;
+            public IEnumerable<ISharedClient> SharedClients => _value.Value.SharedClients;
+
+            private readonly Lazy<(T Client, ISharedClient[] SharedClients)> _value;
+
+            public SocketClientRegistration(Func<T> clientFactory, Func<T, ISharedClient[]> sharedClientFactory)
+            {
+                _value = new Lazy<(T Client, ISharedClient[] SharedClients)>(() =>
+                {
+                    var client = clientFactory();
+                    return (client, sharedClientFactory(client));
+                }, LazyThreadSafetyMode.ExecutionAndPublication);
+            }
+        }
+#pragma warning restore IL2091
     }
 }

@@ -16,7 +16,7 @@ namespace CryptoClients.Net
 		/// <inheritdoc />
 		public IEnumerable<IAssetsRestClient> GetAssetsClients() => _sharedClients.OfType<IAssetsRestClient>();
 		/// <inheritdoc />
-		public IAssetsRestClient? GetAssetClient(string exchange) => GetAssetsClients().SingleOrDefault(s => s.Exchange == exchange);
+		public IAssetsRestClient? GetAssetClient(string exchange) => GetSharedClients(exchange).OfType<IAssetsRestClient>().SingleOrDefault();
 
 		#region Get Assets
 
