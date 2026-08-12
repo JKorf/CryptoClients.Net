@@ -16,7 +16,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IFuturesTriggerOrderRestClient> GetFuturesTriggerOrderClients(TradingMode api) => _sharedClients.OfType<IFuturesTriggerOrderRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFuturesTriggerOrderRestClient? GetFuturesTriggerOrderClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesTriggerOrderRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IFuturesTriggerOrderRestClient? GetFuturesTriggerOrderClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IFuturesTriggerOrderRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
         #region Place Futures Trigger Order
 

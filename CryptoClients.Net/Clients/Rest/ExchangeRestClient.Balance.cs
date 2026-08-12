@@ -18,9 +18,9 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IBalanceRestClient> GetBalancesClients(SharedAccountType accountType) => _sharedClients.OfType<IBalanceRestClient>().Where(s => s.GetBalancesOptions.IsValid(accountType));
         /// <inheritdoc />
-        public IBalanceRestClient? GetBalancesClient(TradingMode api, string exchange) => _sharedClients.OfType<IBalanceRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IBalanceRestClient? GetBalancesClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IBalanceRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IBalanceRestClient? GetBalancesClient(SharedAccountType accountType, string exchange) => _sharedClients.OfType<IBalanceRestClient>().SingleOrDefault(s => s.GetBalancesOptions.IsValid(accountType) && s.Exchange == exchange);
+        public IBalanceRestClient? GetBalancesClient(SharedAccountType accountType, string exchange) => GetSharedClients(exchange).OfType<IBalanceRestClient>().SingleOrDefault(s => s.GetBalancesOptions.IsValid(accountType));
 
 
         #region Get Balances
@@ -49,9 +49,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedBalance[]>>> GetBalancesIntAsync(GetBalancesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetBalancesClients().Where(x => request.AccountType == null ? true : x.GetBalancesOptions.IsValid(request.AccountType.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IBalanceRestClient>(exchanges).Where(x => request.AccountType == null ? true : x.GetBalancesOptions.IsValid(request.AccountType.Value));
 
             var tasks = clients.Where(x => x.GetBalancesOptions.Supported).Select(x => x.GetBalancesAsync(request, ct));
             return tasks;

@@ -17,7 +17,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IKlineSocketClient> GetKlineClients(TradingMode api) => _sharedClients.OfType<IKlineSocketClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IKlineSocketClient? GetKlineClient(TradingMode api, string exchange) => _sharedClients.OfType<IKlineSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IKlineSocketClient? GetKlineClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IKlineSocketClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
 
         #region Subscribe Kline
@@ -48,9 +48,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<WebSocketResult<UpdateSubscription>[]> SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<DataEvent<SharedKline>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            var clients = GetKlineClients(request.TradingMode!.Value);
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IKlineSocketClient>(exchanges).Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
 
             var tasks = clients.Where(x => x.SubscribeKlineOptions.Supported).Select(x =>
                 x.SubscribeToKlineUpdatesAsync(request, handler, ct));

@@ -1,4 +1,4 @@
-﻿using Aster.Net;
+using Aster.Net;
 using Aster.Net.Clients;
 using Aster.Net.Interfaces.Clients;
 using Aster.Net.Objects.Options;
@@ -62,7 +62,6 @@ using CryptoCom.Net.Clients;
 using CryptoCom.Net.Interfaces.Clients;
 using CryptoCom.Net.Objects.Options;
 using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Interfaces;
 using CryptoExchange.Net.Interfaces.Clients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
@@ -104,6 +103,7 @@ using Mexc.Net.Clients;
 using Mexc.Net.Interfaces.Clients;
 using Mexc.Net.Objects.Options;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OKX.Net;
 using OKX.Net.Clients;
@@ -120,10 +120,8 @@ using Polymarket.Net.Objects.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using Toobit.Net;
 using Toobit.Net.Clients;
 using Toobit.Net.Interfaces.Clients;
@@ -150,116 +148,124 @@ namespace CryptoClients.Net
     /// <inheritdoc />
     public partial class ExchangeRestClient : IExchangeRestClient
     {
-        private IEnumerable<ISharedClient> _sharedClients = Array.Empty<ISharedClient>();
-        private IRestClient[] _restClients = [];
+        /// <inheritdoc />
+        public int TotalRequestsMade => _clientRegistrations.Values.Where(x => x.IsValueCreated).Sum(x => x.Client.TotalRequestsMade);
 
         /// <inheritdoc />
-        public int TotalRequestsMade => _restClients.Sum(x => x.TotalRequestsMade);
+        public IAsterRestClient Aster => GetClient(Exchange.Aster, _aster);
+        /// <inheritdoc />
+        public IBinanceRestClient Binance => GetClient(Exchange.Binance, _binance);
+        /// <inheritdoc />
+        public IBingXRestClient BingX => GetClient(Exchange.BingX, _bingX);
+        /// <inheritdoc />
+        public IBitfinexRestClient Bitfinex => GetClient(Exchange.Bitfinex, _bitfinex);
+        /// <inheritdoc />
+        public IBitgetRestClient Bitget => GetClient(Exchange.Bitget, _bitget);
+        /// <inheritdoc />
+        public IBitMartRestClient BitMart => GetClient(Exchange.BitMart, _bitMart);
+        /// <inheritdoc />
+        public IBitMEXRestClient BitMEX => GetClient(Exchange.BitMEX, _bitMEX);
+        /// <inheritdoc />
+        public IBitstampRestClient Bitstamp => GetClient(Exchange.Bitstamp, _bitstamp);
+        /// <inheritdoc />
+        public IBloFinRestClient BloFin => GetClient(Exchange.BloFin, _bloFin);
+        /// <inheritdoc />
+        public IBybitRestClient Bybit => GetClient(Exchange.Bybit, _bybit);
+        /// <inheritdoc />
+        public ICoinbaseRestClient Coinbase => GetClient(Exchange.Coinbase, _coinbase);
+        /// <inheritdoc />
+        public ICoinExRestClient CoinEx => GetClient(Exchange.CoinEx, _coinEx);
+        /// <inheritdoc />
+        public ICoinGeckoRestClient CoinGecko => GetClient(Platform.CoinGecko, _coinGecko);
+        /// <inheritdoc />
+        public ICoinWRestClient CoinW => GetClient(Exchange.CoinW, _coinW);
+        /// <inheritdoc />
+        public ICryptoComRestClient CryptoCom => GetClient(Exchange.CryptoCom, _cryptoCom);
+        /// <inheritdoc />
+        public IDeepCoinRestClient DeepCoin => GetClient(Exchange.DeepCoin, _deepCoin);
+        /// <inheritdoc />
+        public IGateIoRestClient GateIo => GetClient(Exchange.GateIo, _gateIo);
+        /// <inheritdoc />
+        public IHTXRestClient HTX => GetClient(Exchange.HTX, _htx);
+        /// <inheritdoc />
+        public IHyperLiquidRestClient HyperLiquid => GetClient(Exchange.HyperLiquid, _hyperLiquid);
+        /// <inheritdoc />
+        public IKrakenRestClient Kraken => GetClient(Exchange.Kraken, _kraken);
+        /// <inheritdoc />
+        public IKucoinRestClient Kucoin => GetClient(Exchange.Kucoin, _kucoin);
+        /// <inheritdoc />
+        public ILBankRestClient LBank => GetClient(Exchange.LBank, _lBank);
+        /// <inheritdoc />
+        public ILighterRestClient Lighter => GetClient(Exchange.Lighter, _lighter);
+        /// <inheritdoc />
+        public IMexcRestClient Mexc => GetClient(Exchange.Mexc, _mexc);
+        /// <inheritdoc />
+        public IOKXRestClient OKX => GetClient(Exchange.OKX, _okx);
+        /// <inheritdoc />
+        public IPionexRestClient Pionex => GetClient(Exchange.Pionex, _pionex);
+        /// <inheritdoc />
+        public IPolymarketRestClient Polymarket => GetClient(Platform.Polymarket, _polymarket);
+        /// <inheritdoc />
+        public IToobitRestClient Toobit => GetClient(Exchange.Toobit, _toobit);
+        /// <inheritdoc />
+        public IUpbitRestClient Upbit => GetClient(Exchange.Upbit, _upbit);
+        /// <inheritdoc />
+        public IWeexRestClient Weex => GetClient(Exchange.Weex, _weex);
+        /// <inheritdoc />
+        public IWhiteBitRestClient WhiteBit => GetClient(Exchange.WhiteBit, _whiteBit);
+        /// <inheritdoc />
+        public IXTRestClient XT => GetClient(Exchange.XT, _xt);
 
-        /// <inheritdoc />
-        public IAsterRestClient Aster { get; }
-        /// <inheritdoc />
-        public IBinanceRestClient Binance { get; }
-        /// <inheritdoc />
-        public IBingXRestClient BingX { get; }
-        /// <inheritdoc />
-        public IBitfinexRestClient Bitfinex { get; }
-        /// <inheritdoc />
-        public IBitgetRestClient Bitget { get; }
-        /// <inheritdoc />
-        public IBitMartRestClient BitMart { get; }
-        /// <inheritdoc />
-        public IBitMEXRestClient BitMEX { get; }
-        /// <inheritdoc />
-        public IBitstampRestClient Bitstamp { get; }
-        /// <inheritdoc />
-        public IBloFinRestClient BloFin { get; }
-        /// <inheritdoc />
-        public IBybitRestClient Bybit { get; }
-        /// <inheritdoc />
-        public ICoinbaseRestClient Coinbase { get; }
-        /// <inheritdoc />
-        public ICoinExRestClient CoinEx { get; }
-        /// <inheritdoc />
-        public ICoinGeckoRestClient CoinGecko { get; }
-        /// <inheritdoc />
-        public ICoinWRestClient CoinW { get; }
-        /// <inheritdoc />
-        public ICryptoComRestClient CryptoCom { get; }
-        /// <inheritdoc />
-        public IDeepCoinRestClient DeepCoin { get; }
-        /// <inheritdoc />
-        public IGateIoRestClient GateIo { get; }
-        /// <inheritdoc />
-        public IHTXRestClient HTX { get; }
-        /// <inheritdoc />
-        public IHyperLiquidRestClient HyperLiquid { get; }
-        /// <inheritdoc />
-        public IKrakenRestClient Kraken { get; }
-        /// <inheritdoc />
-        public IKucoinRestClient Kucoin { get; }
-        /// <inheritdoc />
-        public ILBankRestClient LBank { get; }
-        /// <inheritdoc />
-        public ILighterRestClient Lighter { get; }
-        /// <inheritdoc />
-        public IMexcRestClient Mexc { get; }
-        /// <inheritdoc />
-        public IOKXRestClient OKX { get; }
-        /// <inheritdoc />
-        public IPionexRestClient Pionex { get; }
-        /// <inheritdoc />
-        public IPolymarketRestClient Polymarket { get; }
-        /// <inheritdoc />
-        public IToobitRestClient Toobit { get; }
-        /// <inheritdoc />
-        public IUpbitRestClient Upbit { get; }
-        /// <inheritdoc />
-        public IWeexRestClient Weex { get; }
-        /// <inheritdoc />
-        public IWhiteBitRestClient WhiteBit { get; }
-        /// <inheritdoc />
-        public IXTRestClient XT { get; }
+        private readonly Dictionary<string, IRestClientRegistration> _clientRegistrations = new(StringComparer.OrdinalIgnoreCase);
+        private HashSet<string>? _enabledExchanges;
+        private IEnumerable<ISharedClient> _sharedClients => _clientRegistrations.Where(x => IsEnabled(x.Key)).SelectMany(x => x.Value.SharedClients);
+        private RestClientRegistration<IAsterRestClient> _aster = null!;
+        private RestClientRegistration<IBinanceRestClient> _binance = null!;
+        private RestClientRegistration<IBingXRestClient> _bingX = null!;
+        private RestClientRegistration<IBitfinexRestClient> _bitfinex = null!;
+        private RestClientRegistration<IBitgetRestClient> _bitget = null!;
+        private RestClientRegistration<IBitMartRestClient> _bitMart = null!;
+        private RestClientRegistration<IBitMEXRestClient> _bitMEX = null!;
+        private RestClientRegistration<IBitstampRestClient> _bitstamp = null!;
+        private RestClientRegistration<IBloFinRestClient> _bloFin = null!;
+        private RestClientRegistration<IBybitRestClient> _bybit = null!;
+        private RestClientRegistration<ICoinbaseRestClient> _coinbase = null!;
+        private RestClientRegistration<ICoinExRestClient> _coinEx = null!;
+        private RestClientRegistration<ICoinGeckoRestClient> _coinGecko = null!;
+        private RestClientRegistration<ICoinWRestClient> _coinW = null!;
+        private RestClientRegistration<ICryptoComRestClient> _cryptoCom = null!;
+        private RestClientRegistration<IDeepCoinRestClient> _deepCoin = null!;
+        private RestClientRegistration<IGateIoRestClient> _gateIo = null!;
+        private RestClientRegistration<IHTXRestClient> _htx = null!;
+        private RestClientRegistration<IHyperLiquidRestClient> _hyperLiquid = null!;
+        private RestClientRegistration<IKrakenRestClient> _kraken = null!;
+        private RestClientRegistration<IKucoinRestClient> _kucoin = null!;
+        private RestClientRegistration<ILBankRestClient> _lBank = null!;
+        private RestClientRegistration<ILighterRestClient> _lighter = null!;
+        private RestClientRegistration<IMexcRestClient> _mexc = null!;
+        private RestClientRegistration<IOKXRestClient> _okx = null!;
+        private RestClientRegistration<IPionexRestClient> _pionex = null!;
+        private RestClientRegistration<IPolymarketRestClient> _polymarket = null!;
+        private RestClientRegistration<IToobitRestClient> _toobit = null!;
+        private RestClientRegistration<IUpbitRestClient> _upbit = null!;
+        private RestClientRegistration<IWeexRestClient> _weex = null!;
+        private RestClientRegistration<IWhiteBitRestClient> _whiteBit = null!;
+        private RestClientRegistration<IXTRestClient> _xt = null!;
 
         /// <summary>
         /// Create a new ExchangeRestClient instance. Client instances will be created with default options.
         /// </summary>
         public ExchangeRestClient()
         {
-            Aster = new AsterRestClient();
-            Binance = new BinanceRestClient();
-            BingX = new BingXRestClient();
-            Bitfinex = new BitfinexRestClient();
-            Bitget = new BitgetRestClient();
-            BitMart = new BitMartRestClient();
-            BitMEX = new BitMEXRestClient();
-            Bitstamp = new BitstampRestClient();
-            BloFin = new BloFinRestClient();
-            Bybit = new BybitRestClient();
-            Coinbase = new CoinbaseRestClient();
-            CoinEx = new CoinExRestClient();
-            CoinGecko = new CoinGeckoRestClient();
-            CoinW = new CoinWRestClient();
-            CryptoCom = new CryptoComRestClient();
-            DeepCoin = new DeepCoinRestClient();
-            GateIo = new GateIoRestClient();
-            HTX = new HTXRestClient();
-            HyperLiquid = new HyperLiquidRestClient();
-            Kraken = new KrakenRestClient();
-            Kucoin = new KucoinRestClient();
-            LBank = new LBankRestClient();
-            Lighter = new LighterRestClient();
-            Mexc = new MexcRestClient();
-            OKX = new OKXRestClient();
-            Pionex = new PionexRestClient();
-            Polymarket = new PolymarketRestClient();
-            Toobit = new ToobitRestClient();
-            Upbit = new UpbitRestClient();
-            Weex = new WeexRestClient();
-            WhiteBit = new WhiteBitRestClient();
-            XT = new XTRestClient();
-
-            InitSharedClients();
+            InitializeClients(null,
+                () => new AsterRestClient(), () => new BinanceRestClient(), () => new BingXRestClient(), () => new BitfinexRestClient(),
+                () => new BitgetRestClient(), () => new BitMartRestClient(), () => new BitMEXRestClient(), () => new BitstampRestClient(),
+                () => new BloFinRestClient(), () => new BybitRestClient(), () => new CoinbaseRestClient(), () => new CoinExRestClient(),
+                () => new CoinGeckoRestClient(), () => new CoinWRestClient(), () => new CryptoComRestClient(), () => new DeepCoinRestClient(),
+                () => new GateIoRestClient(), () => new HTXRestClient(), () => new HyperLiquidRestClient(), () => new KrakenRestClient(),
+                () => new KucoinRestClient(), () => new LBankRestClient(), () => new LighterRestClient(), () => new MexcRestClient(),
+                () => new OKXRestClient(), () => new PionexRestClient(), () => new PolymarketRestClient(), () => new ToobitRestClient(),
+                () => new UpbitRestClient(), () => new WeexRestClient(), () => new WhiteBitRestClient(), () => new XTRestClient());
         }
 
         /// <summary>
@@ -448,104 +454,39 @@ namespace CryptoClients.Net
                 xtRestOptions = SetGlobalRestOptions(global, xtRestOptions?.Value, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : xtRestOptions?.Value.Environment ?? XTEnvironment.Live);
             }
 
-            Aster = new AsterRestClient(httpClient, loggerFactory, asterRestOptions ?? Options.Create(new AsterRestOptions()));
-            Binance = new BinanceRestClient(httpClient, loggerFactory, binanceRestOptions ?? Options.Create(new BinanceRestOptions()));
-            BingX = new BingXRestClient(httpClient, loggerFactory, bingxRestOptions ?? Options.Create(new BingXRestOptions()));
-            Bitfinex = new BitfinexRestClient(httpClient, loggerFactory, bitfinexRestOptions ?? Options.Create(new BitfinexRestOptions()));
-            Bitget = new BitgetRestClient(httpClient, loggerFactory, bitgetRestOptions ?? Options.Create(new BitgetRestOptions()));
-            BitMart = new BitMartRestClient(httpClient, loggerFactory, bitMartRestOptions ?? Options.Create(new BitMartRestOptions()));
-            BitMEX = new BitMEXRestClient(httpClient, loggerFactory, bitMEXRestOptions ?? Options.Create(new BitMEXRestOptions()));
-            Bitstamp = new BitstampRestClient(httpClient, loggerFactory, bitstampRestOptions ?? Options.Create(new BitstampRestOptions()));
-            BloFin = new BloFinRestClient(httpClient, loggerFactory, bloFinRestOptions ?? Options.Create(new BloFinRestOptions()));
-            Bybit = new BybitRestClient(httpClient, loggerFactory, bybitRestOptions ?? Options.Create(new BybitRestOptions()));
-            Coinbase = new CoinbaseRestClient(httpClient, loggerFactory, coinbaseRestOptions ?? Options.Create(new CoinbaseRestOptions()));
-            CoinEx = new CoinExRestClient(httpClient, loggerFactory, coinExRestOptions ?? Options.Create(new CoinExRestOptions()));
-            CoinGecko = new CoinGeckoRestClient(httpClient, loggerFactory, coinGeckoRestOptions ?? Options.Create(new CoinGeckoRestOptions()));
-            CoinW = new CoinWRestClient(httpClient, loggerFactory, coinWRestOptions ?? Options.Create(new CoinWRestOptions()));
-            CryptoCom = new CryptoComRestClient(httpClient, loggerFactory, cryptoComRestOptions ?? Options.Create(new CryptoComRestOptions()));
-            DeepCoin = new DeepCoinRestClient(httpClient, loggerFactory, deepCoinRestOptions ?? Options.Create(new DeepCoinRestOptions()));
-            GateIo = new GateIoRestClient(httpClient, loggerFactory, gateIoRestOptions ?? Options.Create(new GateIoRestOptions()));
-            HTX = new HTXRestClient(httpClient, loggerFactory, htxRestOptions ?? Options.Create(new HTXRestOptions()));
-            HyperLiquid = new HyperLiquidRestClient(httpClient, loggerFactory, hyperLiquidRestOptions ?? Options.Create(new HyperLiquidRestOptions()));
-            Kraken = new KrakenRestClient(httpClient, loggerFactory, krakenRestOptions ?? Options.Create(new KrakenRestOptions()));
-            Kucoin = new KucoinRestClient(httpClient, loggerFactory, kucoinRestOptions ?? Options.Create(new KucoinRestOptions()));
-            LBank = new LBankRestClient(httpClient, loggerFactory, lBankRestOptions ?? Options.Create(new LBankRestOptions()));
-            Lighter = new LighterRestClient(httpClient, loggerFactory, lighterRestOptions ?? Options.Create(new LighterRestOptions()));
-            Mexc = new MexcRestClient(httpClient, loggerFactory, mexcRestOptions ?? Options.Create(new MexcRestOptions()));
-            OKX = new OKXRestClient(httpClient, loggerFactory, okxRestOptions ?? Options.Create(new OKXRestOptions()));
-            Pionex = new PionexRestClient(httpClient, loggerFactory, pionexRestOptions ?? Options.Create(new PionexRestOptions()));
-            Polymarket = new PolymarketRestClient(httpClient, loggerFactory, polymarketRestOptions ?? Options.Create(new PolymarketRestOptions()));
-            Toobit = new ToobitRestClient(httpClient, loggerFactory, toobitRestOptions ?? Options.Create(new ToobitRestOptions()));
-            Upbit = new UpbitRestClient(httpClient, loggerFactory, upbitRestOptions ?? Options.Create(new UpbitRestOptions()));
-            Weex = new WeexRestClient(httpClient, loggerFactory, weexRestOptions ?? Options.Create(new WeexRestOptions()));
-            WhiteBit = new WhiteBitRestClient(httpClient, loggerFactory, whiteBitRestOptions ?? Options.Create(new WhiteBitRestOptions()));
-            XT = new XTRestClient(httpClient, loggerFactory, xtRestOptions ?? Options.Create(new XTRestOptions()));
-
-            InitSharedClients();
-        }
-
-        private void InitSharedClients()
-        {
-            _restClients = [Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom,
-                DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, LBank, Lighter, Mexc, OKX, Pionex, Toobit, Upbit, Weex, WhiteBit, XT];
-
-            var v3Spot = Aster.SpotV3Api.ApiCredentials?.V3 != null;
-            var v3Futures = Aster.FuturesV3Api.ApiCredentials?.V3 != null;
-            ISharedClient asterSpot = v3Spot ? Aster.SpotV3Api.SharedClient : Aster.SpotApi.SharedClient;
-            ISharedClient asterFutures = v3Futures ? Aster.FuturesV3Api.SharedClient : Aster.FuturesApi.SharedClient;
-
-            _sharedClients = new ISharedClient[]
-            {
-                asterSpot,
-                asterFutures,
-                Binance.SpotApi.SharedClient,
-                Binance.UsdFuturesApi.SharedClient,
-                Binance.CoinFuturesApi.SharedClient,
-                BingX.SpotApi.SharedClient,
-                BingX.PerpetualFuturesApi.SharedClient,
-                Bitfinex.ExchangeApi.SharedClient,
-                Bitget.SpotApiV2.SharedClient,
-                Bitget.FuturesApiV2.SharedClient,
-                BitMart.SpotApi.SharedClient,
-                BitMart.UsdFuturesApi.SharedClient,
-                BitMEX.ExchangeApi.SharedClient,
-                Bitstamp.ExchangeApi.SharedClient,
-                BloFin.FuturesApi.SharedClient,
-                BloFin.AccountApi.SharedClient,
-                Bybit.V5Api.SharedClient,
-                Coinbase.AdvancedTradeApi.SharedClient,
-                CoinEx.SpotApiV2.SharedClient,
-                CoinEx.FuturesApi.SharedClient,
-                CoinW.SpotApi.SharedClient,
-                CoinW.FuturesApi.SharedClient,
-                CryptoCom.ExchangeApi.SharedClient,
-                DeepCoin.ExchangeApi.SharedClient,
-                GateIo.SpotApi.SharedClient,
-                GateIo.PerpetualFuturesApi.SharedClient,
-                HTX.SpotApi.SharedClient,
-                HTX.UsdtFuturesApi.SharedClient,
-                HyperLiquid.SpotApi.SharedClient,
-                HyperLiquid.FuturesApi.SharedClient,
-                Kraken.SpotApi.SharedClient,
-                Kraken.FuturesApi.SharedClient,
-                Kucoin.SpotApi.SharedClient,
-                Kucoin.FuturesApi.SharedClient,
-                LBank.SpotApi.SharedClient,
-                Lighter.ExchangeApi.SharedClient,
-                Mexc.SpotApi.SharedClient,
-                Mexc.FuturesApi.SharedClient,
-                OKX.UnifiedApi.SharedClient,
-                Pionex.SpotApi.SharedClient,
-                Toobit.SpotApi.SharedClient,
-                Toobit.UsdtFuturesApi.SharedClient,
-                Upbit.SpotApi.SharedClient,
-                Weex.SpotApi.SharedClient,
-                Weex.FuturesApi.SharedClient,
-                WhiteBit.V4Api.SharedClient,
-                XT.SpotApi.SharedClient,
-                XT.CoinFuturesApi.SharedClient,
-                XT.UsdtFuturesApi.SharedClient
-            };           
+            InitializeClients(globalOptions?.Value.EnabledExchanges,
+                () => new AsterRestClient(httpClient, loggerFactory, asterRestOptions ?? Options.Create(new AsterRestOptions())),
+                () => new BinanceRestClient(httpClient, loggerFactory, binanceRestOptions ?? Options.Create(new BinanceRestOptions())),
+                () => new BingXRestClient(httpClient, loggerFactory, bingxRestOptions ?? Options.Create(new BingXRestOptions())),
+                () => new BitfinexRestClient(httpClient, loggerFactory, bitfinexRestOptions ?? Options.Create(new BitfinexRestOptions())),
+                () => new BitgetRestClient(httpClient, loggerFactory, bitgetRestOptions ?? Options.Create(new BitgetRestOptions())),
+                () => new BitMartRestClient(httpClient, loggerFactory, bitMartRestOptions ?? Options.Create(new BitMartRestOptions())),
+                () => new BitMEXRestClient(httpClient, loggerFactory, bitMEXRestOptions ?? Options.Create(new BitMEXRestOptions())),
+                () => new BitstampRestClient(httpClient, loggerFactory, bitstampRestOptions ?? Options.Create(new BitstampRestOptions())),
+                () => new BloFinRestClient(httpClient, loggerFactory, bloFinRestOptions ?? Options.Create(new BloFinRestOptions())),
+                () => new BybitRestClient(httpClient, loggerFactory, bybitRestOptions ?? Options.Create(new BybitRestOptions())),
+                () => new CoinbaseRestClient(httpClient, loggerFactory, coinbaseRestOptions ?? Options.Create(new CoinbaseRestOptions())),
+                () => new CoinExRestClient(httpClient, loggerFactory, coinExRestOptions ?? Options.Create(new CoinExRestOptions())),
+                () => new CoinGeckoRestClient(httpClient, loggerFactory, coinGeckoRestOptions ?? Options.Create(new CoinGeckoRestOptions())),
+                () => new CoinWRestClient(httpClient, loggerFactory, coinWRestOptions ?? Options.Create(new CoinWRestOptions())),
+                () => new CryptoComRestClient(httpClient, loggerFactory, cryptoComRestOptions ?? Options.Create(new CryptoComRestOptions())),
+                () => new DeepCoinRestClient(httpClient, loggerFactory, deepCoinRestOptions ?? Options.Create(new DeepCoinRestOptions())),
+                () => new GateIoRestClient(httpClient, loggerFactory, gateIoRestOptions ?? Options.Create(new GateIoRestOptions())),
+                () => new HTXRestClient(httpClient, loggerFactory, htxRestOptions ?? Options.Create(new HTXRestOptions())),
+                () => new HyperLiquidRestClient(httpClient, loggerFactory, hyperLiquidRestOptions ?? Options.Create(new HyperLiquidRestOptions())),
+                () => new KrakenRestClient(httpClient, loggerFactory, krakenRestOptions ?? Options.Create(new KrakenRestOptions())),
+                () => new KucoinRestClient(httpClient, loggerFactory, kucoinRestOptions ?? Options.Create(new KucoinRestOptions())),
+                () => new LBankRestClient(httpClient, loggerFactory, lBankRestOptions ?? Options.Create(new LBankRestOptions())),
+                () => new LighterRestClient(httpClient, loggerFactory, lighterRestOptions ?? Options.Create(new LighterRestOptions())),
+                () => new MexcRestClient(httpClient, loggerFactory, mexcRestOptions ?? Options.Create(new MexcRestOptions())),
+                () => new OKXRestClient(httpClient, loggerFactory, okxRestOptions ?? Options.Create(new OKXRestOptions())),
+                () => new PionexRestClient(httpClient, loggerFactory, pionexRestOptions ?? Options.Create(new PionexRestOptions())),
+                () => new PolymarketRestClient(httpClient, loggerFactory, polymarketRestOptions ?? Options.Create(new PolymarketRestOptions())),
+                () => new ToobitRestClient(httpClient, loggerFactory, toobitRestOptions ?? Options.Create(new ToobitRestOptions())),
+                () => new UpbitRestClient(httpClient, loggerFactory, upbitRestOptions ?? Options.Create(new UpbitRestOptions())),
+                () => new WeexRestClient(httpClient, loggerFactory, weexRestOptions ?? Options.Create(new WeexRestOptions())),
+                () => new WhiteBitRestClient(httpClient, loggerFactory, whiteBitRestOptions ?? Options.Create(new WhiteBitRestOptions())),
+                () => new XTRestClient(httpClient, loggerFactory, xtRestOptions ?? Options.Create(new XTRestOptions())));
         }
 
         /// <summary>
@@ -585,46 +526,55 @@ namespace CryptoClients.Net
             IWhiteBitRestClient whiteBit,
             IXTRestClient xt)
         {
-            Aster = aster;
-            Binance = binance;
-            BingX = bingx;
-            Bitfinex = bitfinex;
-            Bitget = bitget;
-            BitMart = bitMart;
-            BitMEX = bitMEX;
-            Bitstamp = bitstamp;
-            BloFin = bloFin;
-            Bybit = bybit;
-            Coinbase = coinbase;
-            CoinEx = coinEx;
-            CoinGecko = coinGecko;
-            CoinW = coinW;
-            CryptoCom = cryptoCom;
-            DeepCoin = deepCoin;
-            GateIo = gateIo;
-            HTX = htx;
-            HyperLiquid = hyperLiquid;
-            Kraken = kraken;
-            Kucoin = kucoin;
-            LBank = lBank;
-            Lighter = lighter;
-            Mexc = mexc;
-            OKX = okx;
-            Pionex = pionex;
-            Polymarket = polymarket;
-            Toobit = toobit;
-            Upbit = upbit;
-            Weex = weex;
-            WhiteBit = whiteBit;
-            XT = xt;
+            InitializeClients(null,
+                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitMEX, () => bitstamp,
+                () => bloFin, () => bybit, () => coinbase, () => coinEx, () => coinGecko, () => coinW, () => cryptoCom, () => deepCoin,
+                () => gateIo, () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc,
+                () => okx, () => pionex, () => polymarket, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
+        }
 
-            InitSharedClients();
+        internal ExchangeRestClient(IEnumerable<string>? enabledExchanges, IServiceProvider serviceProvider)
+        {
+            InitializeClients(enabledExchanges,
+                () => serviceProvider.GetRequiredService<IAsterRestClient>(), () => serviceProvider.GetRequiredService<IBinanceRestClient>(),
+                () => serviceProvider.GetRequiredService<IBingXRestClient>(), () => serviceProvider.GetRequiredService<IBitfinexRestClient>(),
+                () => serviceProvider.GetRequiredService<IBitgetRestClient>(), () => serviceProvider.GetRequiredService<IBitMartRestClient>(),
+                () => serviceProvider.GetRequiredService<IBitMEXRestClient>(), () => serviceProvider.GetRequiredService<IBitstampRestClient>(),
+                () => serviceProvider.GetRequiredService<IBloFinRestClient>(), () => serviceProvider.GetRequiredService<IBybitRestClient>(),
+                () => serviceProvider.GetRequiredService<ICoinbaseRestClient>(), () => serviceProvider.GetRequiredService<ICoinExRestClient>(),
+                () => serviceProvider.GetRequiredService<ICoinGeckoRestClient>(), () => serviceProvider.GetRequiredService<ICoinWRestClient>(),
+                () => serviceProvider.GetRequiredService<ICryptoComRestClient>(), () => serviceProvider.GetRequiredService<IDeepCoinRestClient>(),
+                () => serviceProvider.GetRequiredService<IGateIoRestClient>(), () => serviceProvider.GetRequiredService<IHTXRestClient>(),
+                () => serviceProvider.GetRequiredService<IHyperLiquidRestClient>(), () => serviceProvider.GetRequiredService<IKrakenRestClient>(),
+                () => serviceProvider.GetRequiredService<IKucoinRestClient>(), () => serviceProvider.GetRequiredService<ILBankRestClient>(),
+                () => serviceProvider.GetRequiredService<ILighterRestClient>(), () => serviceProvider.GetRequiredService<IMexcRestClient>(),
+                () => serviceProvider.GetRequiredService<IOKXRestClient>(), () => serviceProvider.GetRequiredService<IPionexRestClient>(),
+                () => serviceProvider.GetRequiredService<IPolymarketRestClient>(), () => serviceProvider.GetRequiredService<IToobitRestClient>(),
+                () => serviceProvider.GetRequiredService<IUpbitRestClient>(), () => serviceProvider.GetRequiredService<IWeexRestClient>(),
+                () => serviceProvider.GetRequiredService<IWhiteBitRestClient>(), () => serviceProvider.GetRequiredService<IXTRestClient>());
+        }
+
+        internal ExchangeRestClient(
+            IEnumerable<string>? enabledExchanges,
+            Func<IAsterRestClient> aster, Func<IBinanceRestClient> binance, Func<IBingXRestClient> bingX, Func<IBitfinexRestClient> bitfinex,
+            Func<IBitgetRestClient> bitget, Func<IBitMartRestClient> bitMart, Func<IBitMEXRestClient> bitMEX, Func<IBitstampRestClient> bitstamp,
+            Func<IBloFinRestClient> bloFin, Func<IBybitRestClient> bybit, Func<ICoinbaseRestClient> coinbase, Func<ICoinExRestClient> coinEx,
+            Func<ICoinGeckoRestClient> coinGecko, Func<ICoinWRestClient> coinW, Func<ICryptoComRestClient> cryptoCom, Func<IDeepCoinRestClient> deepCoin,
+            Func<IGateIoRestClient> gateIo, Func<IHTXRestClient> htx, Func<IHyperLiquidRestClient> hyperLiquid, Func<IKrakenRestClient> kraken,
+            Func<IKucoinRestClient> kucoin, Func<ILBankRestClient> lBank, Func<ILighterRestClient> lighter, Func<IMexcRestClient> mexc,
+            Func<IOKXRestClient> okx, Func<IPionexRestClient> pionex, Func<IPolymarketRestClient> polymarket, Func<IToobitRestClient> toobit,
+            Func<IUpbitRestClient> upbit, Func<IWeexRestClient> weex, Func<IWhiteBitRestClient> whiteBit, Func<IXTRestClient> xt)
+        {
+            InitializeClients(enabledExchanges,
+                aster, binance, bingX, bitfinex, bitget, bitMart, bitMEX, bitstamp, bloFin, bybit, coinbase, coinEx,
+                coinGecko, coinW, cryptoCom, deepCoin, gateIo, htx, hyperLiquid, kraken, kucoin, lBank, lighter, mexc,
+                okx, pionex, polymarket, toobit, upbit, weex, whiteBit, xt);
         }
 
         /// <inheritdoc />
         public IEnumerable<ISharedClient> GetExchangeSharedClients(string name, TradingMode? tradingMode = null)
         {
-            var result = _sharedClients.Where(s => s.Exchange == name);
+            var result = GetSharedClients(name);
             if (tradingMode.HasValue)
                 result = result.Where(x => x.SupportedTradingModes.Contains(tradingMode.Value));
             return result.ToList();
@@ -643,7 +593,7 @@ namespace CryptoClients.Net
         {
             void SetCredentialsIfNotNull(string exchange, ApiCredentials? credentials, Action setter)
             {
-                if (credentials == null)
+                if (credentials == null || !IsEnabled(exchange))
                     return;
 
                 setter();
@@ -685,7 +635,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public string? GetSymbolName(string exchange, SharedSymbol symbol)
         {
-            var client = _sharedClients.FirstOrDefault(x => x.Exchange == exchange && x.SupportedTradingModes.Contains(symbol.TradingMode));
+            var client = GetSharedClients(exchange).FirstOrDefault(x => x.SupportedTradingModes.Contains(symbol.TradingMode));
             if (client == null)
                 return null;
 
@@ -697,11 +647,11 @@ namespace CryptoClients.Net
         {
             if (tradingMode == TradingMode.Spot)
             {
-                var spotClient = _sharedClients.Where(x => x.Exchange == exchange).SpotOrderRestClient();
+                var spotClient = GetSharedClients(exchange).SpotOrderRestClient();
                 return spotClient?.GenerateClientOrderId();
             }
 
-            var futuresClient = _sharedClients.Where(x => x.Exchange == exchange).FuturesOrderRestClient(tradingMode);
+            var futuresClient = GetSharedClients(exchange).FuturesOrderRestClient(tradingMode);
             return futuresClient?.GenerateClientOrderId();            
         }
 
@@ -714,5 +664,117 @@ namespace CryptoClients.Net
             del?.Invoke(opts);
             return opts;
         }
+
+        private void InitializeClients(
+            IEnumerable<string>? enabledExchanges,
+            Func<IAsterRestClient> aster, Func<IBinanceRestClient> binance, Func<IBingXRestClient> bingX, Func<IBitfinexRestClient> bitfinex,
+            Func<IBitgetRestClient> bitget, Func<IBitMartRestClient> bitMart, Func<IBitMEXRestClient> bitMEX, Func<IBitstampRestClient> bitstamp,
+            Func<IBloFinRestClient> bloFin, Func<IBybitRestClient> bybit, Func<ICoinbaseRestClient> coinbase, Func<ICoinExRestClient> coinEx,
+            Func<ICoinGeckoRestClient> coinGecko, Func<ICoinWRestClient> coinW, Func<ICryptoComRestClient> cryptoCom, Func<IDeepCoinRestClient> deepCoin,
+            Func<IGateIoRestClient> gateIo, Func<IHTXRestClient> htx, Func<IHyperLiquidRestClient> hyperLiquid, Func<IKrakenRestClient> kraken,
+            Func<IKucoinRestClient> kucoin, Func<ILBankRestClient> lBank, Func<ILighterRestClient> lighter, Func<IMexcRestClient> mexc,
+            Func<IOKXRestClient> okx, Func<IPionexRestClient> pionex, Func<IPolymarketRestClient> polymarket, Func<IToobitRestClient> toobit,
+            Func<IUpbitRestClient> upbit, Func<IWeexRestClient> weex, Func<IWhiteBitRestClient> whiteBit, Func<IXTRestClient> xt)
+        {
+            _enabledExchanges = enabledExchanges == null ? null : new HashSet<string>(enabledExchanges, StringComparer.OrdinalIgnoreCase);
+
+            RestClientRegistration<T> Register<T>(string name, Func<T> clientFactory, Func<T, ISharedClient[]> sharedClientFactory) where T : IRestClient
+            {
+                var registration = new RestClientRegistration<T>(clientFactory, sharedClientFactory);
+                _clientRegistrations[name] = registration;
+                return registration;
+            }
+
+            _aster = Register(Exchange.Aster, aster, x =>
+            {
+                ISharedClient spot = x.SpotV3Api.ApiCredentials?.V3 != null ? x.SpotV3Api.SharedClient : x.SpotApi.SharedClient;
+                ISharedClient futures = x.FuturesV3Api.ApiCredentials?.V3 != null ? x.FuturesV3Api.SharedClient : x.FuturesApi.SharedClient;
+                return [spot, futures];
+            });
+            _binance = Register(Exchange.Binance, binance, x => [x.SpotApi.SharedClient, x.UsdFuturesApi.SharedClient, x.CoinFuturesApi.SharedClient]);
+            _bingX = Register(Exchange.BingX, bingX, x => [x.SpotApi.SharedClient, x.PerpetualFuturesApi.SharedClient]);
+            _bitfinex = Register(Exchange.Bitfinex, bitfinex, x => [x.ExchangeApi.SharedClient]);
+            _bitget = Register(Exchange.Bitget, bitget, x => [x.SpotApiV2.SharedClient, x.FuturesApiV2.SharedClient]);
+            _bitMart = Register(Exchange.BitMart, bitMart, x => [x.SpotApi.SharedClient, x.UsdFuturesApi.SharedClient]);
+            _bitMEX = Register(Exchange.BitMEX, bitMEX, x => [x.ExchangeApi.SharedClient]);
+            _bitstamp = Register(Exchange.Bitstamp, bitstamp, x => [x.ExchangeApi.SharedClient]);
+            _bloFin = Register(Exchange.BloFin, bloFin, x => [x.FuturesApi.SharedClient, x.AccountApi.SharedClient]);
+            _bybit = Register(Exchange.Bybit, bybit, x => [x.V5Api.SharedClient]);
+            _coinbase = Register(Exchange.Coinbase, coinbase, x => [x.AdvancedTradeApi.SharedClient]);
+            _coinEx = Register(Exchange.CoinEx, coinEx, x => [x.SpotApiV2.SharedClient, x.FuturesApi.SharedClient]);
+            _coinGecko = Register(Platform.CoinGecko, coinGecko, client => []);
+            _coinW = Register(Exchange.CoinW, coinW, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _cryptoCom = Register(Exchange.CryptoCom, cryptoCom, x => [x.ExchangeApi.SharedClient]);
+            _deepCoin = Register(Exchange.DeepCoin, deepCoin, x => [x.ExchangeApi.SharedClient]);
+            _gateIo = Register(Exchange.GateIo, gateIo, x => [x.SpotApi.SharedClient, x.PerpetualFuturesApi.SharedClient]);
+            _htx = Register(Exchange.HTX, htx, x => [x.SpotApi.SharedClient, x.UsdtFuturesApi.SharedClient]);
+            _hyperLiquid = Register(Exchange.HyperLiquid, hyperLiquid, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _kraken = Register(Exchange.Kraken, kraken, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _kucoin = Register(Exchange.Kucoin, kucoin, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _lBank = Register(Exchange.LBank, lBank, x => [x.SpotApi.SharedClient]);
+            _lighter = Register(Exchange.Lighter, lighter, x => [x.ExchangeApi.SharedClient]);
+            _mexc = Register(Exchange.Mexc, mexc, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _okx = Register(Exchange.OKX, okx, x => [x.UnifiedApi.SharedClient]);
+            _pionex = Register(Exchange.Pionex, pionex, x => [x.SpotApi.SharedClient]);
+            _polymarket = Register(Platform.Polymarket, polymarket, client => []);
+            _toobit = Register(Exchange.Toobit, toobit, x => [x.SpotApi.SharedClient, x.UsdtFuturesApi.SharedClient]);
+            _upbit = Register(Exchange.Upbit, upbit, x => [x.SpotApi.SharedClient]);
+            _weex = Register(Exchange.Weex, weex, x => [x.SpotApi.SharedClient, x.FuturesApi.SharedClient]);
+            _whiteBit = Register(Exchange.WhiteBit, whiteBit, x => [x.V4Api.SharedClient]);
+            _xt = Register(Exchange.XT, xt, x => [x.SpotApi.SharedClient, x.CoinFuturesApi.SharedClient, x.UsdtFuturesApi.SharedClient]);
+        }
+
+        private bool IsEnabled(string name) => _enabledExchanges == null || _enabledExchanges.Contains(name);
+
+        private IEnumerable<ISharedClient> GetSharedClients(string name)
+            => IsEnabled(name) && _clientRegistrations.TryGetValue(name, out var registration) ? registration.SharedClients : [];
+
+        private IEnumerable<T> GetSharedClients<T>(IEnumerable<string>? exchanges) where T : ISharedClient
+        {
+            if (exchanges == null)
+                return _sharedClients.OfType<T>();
+
+            var requestedExchanges = new HashSet<string>(exchanges, StringComparer.OrdinalIgnoreCase);
+            return _clientRegistrations
+                .Where(x => IsEnabled(x.Key) && requestedExchanges.Contains(x.Key))
+                .SelectMany(x => x.Value.SharedClients)
+                .OfType<T>();
+        }
+
+#pragma warning disable IL2091
+        private T GetClient<T>(string name, RestClientRegistration<T> registration) where T : IRestClient
+        {
+            if (!IsEnabled(name))
+                throw new InvalidOperationException($"The {name} client is disabled. Add it to {nameof(GlobalExchangeOptions.EnabledExchanges)} before accessing it.");
+
+            return registration.TypedClient;
+        }
+
+        private interface IRestClientRegistration
+        {
+            bool IsValueCreated { get; }
+            IRestClient Client { get; }
+            IEnumerable<ISharedClient> SharedClients { get; }
+        }
+
+        private class RestClientRegistration<T> : IRestClientRegistration where T : IRestClient
+        {
+            public bool IsValueCreated => _value.IsValueCreated;
+            public T TypedClient => _value.Value.Client;
+            public IRestClient Client => _value.Value.Client;
+            public IEnumerable<ISharedClient> SharedClients => _value.Value.SharedClients;
+
+            private readonly Lazy<(T Client, ISharedClient[] SharedClients)> _value;
+
+            public RestClientRegistration(Func<T> clientFactory, Func<T, ISharedClient[]> sharedClientFactory)
+            {
+                _value = new Lazy<(T Client, ISharedClient[] SharedClients)>(() =>
+                {
+                    var client = clientFactory();
+                    return (client, sharedClientFactory(client));
+                }, LazyThreadSafetyMode.ExecutionAndPublication);
+            }
+        }
+#pragma warning restore IL2091
     }
 }

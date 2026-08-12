@@ -16,7 +16,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<ILeverageRestClient> GetLeverageClients(TradingMode api) => _sharedClients.OfType<ILeverageRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public ILeverageRestClient? GetLeverageClient(TradingMode api, string exchange) => _sharedClients.OfType<ILeverageRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public ILeverageRestClient? GetLeverageClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<ILeverageRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
         #region Get Leverage
 

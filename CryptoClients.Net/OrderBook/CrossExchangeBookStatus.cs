@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CryptoClients.Net.OrderBook
+﻿namespace CryptoClients.Net.OrderBook
 {
     /// <summary>
     /// Cross exchange book status

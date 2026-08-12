@@ -15,8 +15,8 @@ namespace CryptoClients.Net
         public IEnumerable<ITransferRestClient> GetTransferClients() => _sharedClients.OfType<ITransferRestClient>();
         /// <inheritdoc />
         public ITransferRestClient? GetTransferClient(string exchange, SharedAccountType from, SharedAccountType to) =>
-            _sharedClients.OfType<ITransferRestClient>().SingleOrDefault(s => s.Exchange == exchange
-            && s.TransferOptions.SupportedAccountTypes.Contains(from) 
+            GetSharedClients(exchange).OfType<ITransferRestClient>().SingleOrDefault(s =>
+            s.TransferOptions.SupportedAccountTypes.Contains(from)
             && s.TransferOptions.SupportedAccountTypes.Contains(to));
 
         #region Transfer

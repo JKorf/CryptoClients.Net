@@ -14,7 +14,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<ISpotOrderRestClient> GetSpotOrderClients() => _sharedClients.OfType<ISpotOrderRestClient>();
         /// <inheritdoc />
-        public ISpotOrderRestClient? GetSpotOrderClient(string exchange) => GetSpotOrderClients().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotOrderRestClient? GetSpotOrderClient(string exchange) => GetSharedClients(exchange).OfType<ISpotOrderRestClient>().SingleOrDefault();
 
         #region Place Spot Order
 
@@ -95,9 +95,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedSpotOrder[]>>> GetSpotOpenOrdersInt(GetOpenOrdersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetSpotOrderClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<ISpotOrderRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetOpenSpotOrdersOptions.Supported).Select(x => x.GetOpenSpotOrdersAsync(request, ct));
             return tasks;
@@ -128,9 +126,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedSpotOrder[]>>> GetSpotClosedOrdersInt(GetClosedOrdersRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
-            var clients = GetSpotOrderClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<ISpotOrderRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetClosedSpotOrdersOptions.Supported).Select(x => x.GetClosedSpotOrdersAsync(request, pageRequest, ct));
             return tasks;
@@ -161,9 +157,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedUserTrade[]>>> GetSpotUserTradesInt(GetUserTradesRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
-            var clients = GetSpotOrderClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<ISpotOrderRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetSpotUserTradesOptions.Supported).Select(x => x.GetSpotUserTradesAsync(request, pageRequest, ct));
             return tasks;

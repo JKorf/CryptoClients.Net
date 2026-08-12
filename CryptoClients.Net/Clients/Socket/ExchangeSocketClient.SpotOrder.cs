@@ -15,7 +15,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<ISpotOrderSocketClient> GetSpotOrderClients() => _sharedClients.OfType<ISpotOrderSocketClient>();
         /// <inheritdoc />
-        public ISpotOrderSocketClient? GetSpotOrderClient(string exchange) => _sharedClients.OfType<ISpotOrderSocketClient>().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotOrderSocketClient? GetSpotOrderClient(string exchange) => GetSharedClients(exchange).OfType<ISpotOrderSocketClient>().SingleOrDefault();
 
         #region Subscribe Spot Order
 
@@ -49,9 +49,7 @@ namespace CryptoClients.Net
             IEnumerable<string>? exchanges = null,
             CancellationToken ct = default)
         {
-            var clients = GetSpotOrderClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<ISpotOrderSocketClient>(exchanges);
 
             var tasks = clients.Where(x => x.SubscribeSpotOrderOptions.Supported).Select(x =>
                 x.SubscribeToSpotOrderUpdatesAsync(request, handler, ct));

@@ -16,7 +16,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IFuturesOrderClientIdRestClient> GetFuturesOrderClientIdClients(TradingMode api) => _sharedClients.OfType<IFuturesOrderClientIdRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFuturesOrderClientIdRestClient? GetFuturesOrderClientIdClient(TradingMode tradingMode, string exchange) => GetFuturesOrderClientIdClients(tradingMode).SingleOrDefault(s => s.Exchange == exchange);
+        public IFuturesOrderClientIdRestClient? GetFuturesOrderClientIdClient(TradingMode tradingMode, string exchange) => GetSharedClients(exchange).OfType<IFuturesOrderClientIdRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(tradingMode));
 
         #region Get Futures Order By Client Order Id
 

@@ -1,5 +1,4 @@
-﻿using CryptoExchange.Net;
-using CryptoExchange.Net.Objects;
+﻿using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis;
 using System;
 using System.Collections.Generic;
@@ -15,12 +14,12 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<ISpotSymbolRestClient> GetSpotSymbolClients() => _sharedClients.OfType<ISpotSymbolRestClient>();
         /// <inheritdoc />
-        public ISpotSymbolRestClient? GetSpotSymbolClient(string exchange) => GetSpotSymbolClients().SingleOrDefault(s => s.Exchange == exchange);
+        public ISpotSymbolRestClient? GetSpotSymbolClient(string exchange) => GetSharedClients(exchange).OfType<ISpotSymbolRestClient>().SingleOrDefault();
 
         /// <inheritdoc />
         public async Task<ExchangeCallResult<SharedSymbol[]>> GetSpotSymbolsForBaseAssetAsync(string exchange, string baseAsset)
         {
-            var client = GetSpotSymbolClients().SingleOrDefault(x => x.Exchange == exchange);
+            var client = GetSpotSymbolClient(exchange);
             if (client == null)
                 return ExchangeCallResult<SharedSymbol[]>.Fail(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
 
@@ -60,7 +59,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeCallResult<bool>> SupportsSpotSymbolAsync(string exchange, SharedSymbol symbol)
         {
-            var client = GetSpotSymbolClients().SingleOrDefault(x => x.Exchange == exchange);
+            var client = GetSpotSymbolClient(exchange);
             if (client == null)
                 return ExchangeCallResult<bool>.Fail(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
 
@@ -70,7 +69,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<ExchangeCallResult<bool>> SupportsSpotSymbolAsync(string exchange, string symbolName)
         {
-            var client = GetSpotSymbolClients().SingleOrDefault(x => x.Exchange == exchange);
+            var client = GetSpotSymbolClient(exchange);
             if (client == null)
                 return ExchangeCallResult<bool>.Fail(exchange, ArgumentError.Invalid(nameof(exchange), "Exchange client not found"));
 
@@ -99,9 +98,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedSpotSymbol[]>>> GetSpotSymbolsInt(GetSymbolsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetSpotSymbolClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<ISpotSymbolRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetSpotSymbolsOptions.Supported).Select(x => x.GetSpotSymbolsAsync(request, ct));
             return tasks;

@@ -16,7 +16,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IFuturesTpSlRestClient> GetFuturesTpSlClients(TradingMode api) => _sharedClients.OfType<IFuturesTpSlRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IFuturesTpSlRestClient? GetFuturesTpSlClient(TradingMode api, string exchange) => _sharedClients.OfType<IFuturesTpSlRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IFuturesTpSlRestClient? GetFuturesTpSlClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IFuturesTpSlRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
         #region Set Futures TpSl
 

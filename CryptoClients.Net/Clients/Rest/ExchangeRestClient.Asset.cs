@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using CryptoExchange.Net.Objects;
@@ -16,7 +15,7 @@ namespace CryptoClients.Net
 		/// <inheritdoc />
 		public IEnumerable<IAssetsRestClient> GetAssetsClients() => _sharedClients.OfType<IAssetsRestClient>();
 		/// <inheritdoc />
-		public IAssetsRestClient? GetAssetClient(string exchange) => GetAssetsClients().SingleOrDefault(s => s.Exchange == exchange);
+		public IAssetsRestClient? GetAssetClient(string exchange) => GetSharedClients(exchange).OfType<IAssetsRestClient>().SingleOrDefault();
 
 		#region Get Assets
 
@@ -41,9 +40,7 @@ namespace CryptoClients.Net
 
 		private IEnumerable<Task<HttpResult<SharedAsset[]>>> GetAssetsIntAsync(GetAssetsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
 		{
-			var clients = GetAssetsClients();
-			if (exchanges != null)
-				clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+			var clients = GetSharedClients<IAssetsRestClient>(exchanges);
 
 			var tasks = clients.Where(x => x.GetAssetsOptions.Supported).Select(x => x.GetAssetsAsync(request, ct));
 			return tasks;
@@ -74,9 +71,7 @@ namespace CryptoClients.Net
 
 		private IEnumerable<Task<HttpResult<SharedAsset>>> GetAssetIntAsync(GetAssetRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
 		{
-			var clients = GetAssetsClients();
-			if (exchanges != null)
-				clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+			var clients = GetSharedClients<IAssetsRestClient>(exchanges);
 
 			var tasks = clients.Where(x => x.GetAssetOptions.Supported).Select(x => x.GetAssetAsync(request, ct));
 			return tasks;

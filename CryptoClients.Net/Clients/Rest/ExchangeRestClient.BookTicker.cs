@@ -16,7 +16,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IEnumerable<IBookTickerRestClient> GetBookTickerClients(TradingMode api) => _sharedClients.OfType<IBookTickerRestClient>().Where(s => s.SupportedTradingModes.Contains(api));
         /// <inheritdoc />
-        public IBookTickerRestClient? GetBookTickerClient(TradingMode api, string exchange) => _sharedClients.OfType<IBookTickerRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api) && s.Exchange == exchange);
+        public IBookTickerRestClient? GetBookTickerClient(TradingMode api, string exchange) => GetSharedClients(exchange).OfType<IBookTickerRestClient>().SingleOrDefault(s => s.SupportedTradingModes.Contains(api));
 
 
         #region Get Book Tickers 
@@ -45,9 +45,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedBookTicker>>> GetBookTickersInt(GetBookTickerRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetBookTickerClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IBookTickerRestClient>(exchanges).Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
 
             var tasks = clients.Where(x => x.GetBookTickerOptions.Supported).Select(x => x.GetBookTickerAsync(request, ct)).ToList();
             return tasks;

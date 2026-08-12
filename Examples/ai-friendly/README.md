@@ -5,7 +5,7 @@ These examples are optimized for AI coding assistants and quick onboarding. Each
 - **Compilable** - drop into a console project with `dotnet add package CryptoClients.Net` and it builds.
 - **Self-contained** - single file, no shared helpers.
 - **Focused on real aggregate APIs** - examples use `ExchangeRestClient`, `ExchangeSocketClient`, shared request models, direct exchange access, order books, and dynamic credentials.
-- **Idiomatic** - follows current CryptoClients.Net 4.x and CryptoExchange.Net shared API patterns.
+- **Idiomatic** - follows the current CryptoClients.Net and CryptoExchange.Net Shared API patterns.
 
 ## Files
 
