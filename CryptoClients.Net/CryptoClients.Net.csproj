@@ -49,11 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Binance.Net" Version="13.3.0" />
-    <PackageReference Include="Bitfinex.Net" Version="11.3.0" />
+    <PackageReference Include="Bitfinex.Net" Version="11.3.1" />
     <PackageReference Include="BitMart.Net" Version="4.3.0" />
     <PackageReference Include="Bitstamp.Net" Version="2.3.0" />
     <PackageReference Include="BloFin.Net" Version="3.3.0" />
-    <PackageReference Include="Bybit.Net" Version="7.3.0" />
+    <PackageReference Include="Bybit.Net" Version="7.3.1" />
     <PackageReference Include="CoinEx.Net" Version="11.3.0" />
     <PackageReference Include="CoinGecko.Net" Version="6.3.0" />
     <PackageReference Include="CoinW.Net" Version="3.3.0" />
@@ -64,20 +64,20 @@
     <PackageReference Include="CryptoCom.Net" Version="4.3.0" />
     <PackageReference Include="DeepCoin.Net" Version="4.3.0" />
     <PackageReference Include="GateIo.Net" Version="4.4.0" />
-    <PackageReference Include="HyperLiquid.Net" Version="5.4.0" />
+    <PackageReference Include="HyperLiquid.Net" Version="5.5.0" />
     <PackageReference Include="JK.BingX.Net" Version="4.3.0" />
     <PackageReference Include="JK.Bitget.Net" Version="4.3.2" />
-    <PackageReference Include="JK.Mexc.Net" Version="6.4.0" />
+    <PackageReference Include="JK.Mexc.Net" Version="6.5.0" />
     <PackageReference Include="JK.OKX.Net" Version="5.3.1" />
-    <PackageReference Include="Jkorf.Aster.Net" Version="4.3.0" />
-    <PackageReference Include="JKorf.BitMEX.Net" Version="4.3.0" />
+    <PackageReference Include="Jkorf.Aster.Net" Version="4.3.1" />
+    <PackageReference Include="JKorf.BitMEX.Net" Version="4.3.1" />
     <PackageReference Include="JKorf.Coinbase.Net" Version="4.4.0" />
-    <PackageReference Include="JKorf.HTX.Net" Version="9.3.0" />
+    <PackageReference Include="JKorf.HTX.Net" Version="9.4.0" />
     <PackageReference Include="JKorf.Lighter.Net" Version="1.4.0" />
     <PackageReference Include="JKorf.Upbit.Net" Version="3.3.0" />
     <PackageReference Include="KrakenExchange.Net" Version="8.3.0" />
     <PackageReference Include="Kucoin.Net" Version="9.3.0" />
-    <PackageReference Include="LBank.Net" Version="1.0.0" />
+    <PackageReference Include="LBank.Net" Version="1.0.2" />
     <PackageReference Include="Pionex.Net" Version="1.1.0" />
     <PackageReference Include="Polymarket.Net" Version="4.3.0" />
     <PackageReference Include="Toobit.Net" Version="4.3.0" />
