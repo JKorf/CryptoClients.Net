@@ -27,7 +27,6 @@ using Mexc.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients;
 using Pionex.Net.Interfaces.Clients;
 using Polymarket.Net.Interfaces.Clients;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

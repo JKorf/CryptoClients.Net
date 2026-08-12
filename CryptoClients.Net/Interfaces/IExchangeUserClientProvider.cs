@@ -1,5 +1,4 @@
 ﻿using CryptoClients.Net.Models;
-using System;
 using System.Collections.Generic;
 
 namespace CryptoClients.Net.Interfaces

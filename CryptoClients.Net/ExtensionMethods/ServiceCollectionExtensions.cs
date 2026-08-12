@@ -1,38 +1,26 @@
 ﻿using Aster.Net;
-using Aster.Net.Interfaces.Clients;
 using Aster.Net.Objects.Options;
 using Binance.Net;
-using Binance.Net.Interfaces.Clients;
 using Binance.Net.Objects.Options;
 using BingX.Net;
-using BingX.Net.Interfaces.Clients;
 using BingX.Net.Objects.Options;
 using Bitfinex.Net;
-using Bitfinex.Net.Interfaces.Clients;
 using Bitfinex.Net.Objects.Options;
 using Bitget.Net;
-using Bitget.Net.Interfaces.Clients;
 using Bitget.Net.Objects.Options;
 using BitMart.Net;
-using BitMart.Net.Interfaces.Clients;
 using BitMart.Net.Objects.Options;
 using BitMEX.Net;
-using BitMEX.Net.Interfaces.Clients;
 using BitMEX.Net.Objects.Options;
 using BloFin.Net;
-using BloFin.Net.Interfaces.Clients;
 using BloFin.Net.Objects.Options;
 using Bybit.Net;
-using Bybit.Net.Interfaces.Clients;
 using Bybit.Net.Objects.Options;
 using Coinbase.Net;
-using Coinbase.Net.Interfaces.Clients;
 using Coinbase.Net.Objects.Options;
 using CoinEx.Net;
-using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Objects.Options;
 using CoinW.Net;
-using CoinW.Net.Interfaces.Clients;
 using CoinW.Net.Objects.Options;
 using CoinGecko.Net.Objects.Options;
 using CryptoClients.Net;
@@ -40,71 +28,50 @@ using CryptoClients.Net.Clients;
 using CryptoClients.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoCom.Net;
-using CryptoCom.Net.Interfaces.Clients;
 using CryptoCom.Net.Objects.Options;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Objects.Options;
 using DeepCoin.Net;
-using DeepCoin.Net.Interfaces.Clients;
 using DeepCoin.Net.Objects.Options;
 using GateIo.Net;
-using GateIo.Net.Interfaces.Clients;
 using GateIo.Net.Objects.Options;
 using HTX.Net;
-using HTX.Net.Interfaces.Clients;
 using HTX.Net.Objects.Options;
 using HyperLiquid.Net;
-using HyperLiquid.Net.Interfaces.Clients;
 using HyperLiquid.Net.Objects.Options;
 using Kraken.Net;
-using Kraken.Net.Interfaces.Clients;
 using Kraken.Net.Objects.Options;
 using Kucoin.Net;
-using Kucoin.Net.Interfaces.Clients;
 using Kucoin.Net.Objects.Options;
 using Mexc.Net;
-using Mexc.Net.Interfaces.Clients;
 using Mexc.Net.Objects.Options;
 using Microsoft.Extensions.Configuration;
 using OKX.Net;
-using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
 using Pionex.Net;
-using Pionex.Net.Interfaces.Clients;
 using Pionex.Net.Objects.Options;
 using Toobit.Net;
-using Toobit.Net.Interfaces.Clients;
 using Toobit.Net.Objects.Options;
 using Upbit.Net;
-using Upbit.Net.Interfaces.Clients;
 using Upbit.Net.Objects.Options;
 using System;
 using System.Collections.Generic;
 using WhiteBit.Net;
-using WhiteBit.Net.Interfaces.Clients;
 using WhiteBit.Net.Objects.Options;
 using XT.Net;
-using XT.Net.Interfaces.Clients;
 using XT.Net.Objects.Options;
 using CryptoClients.Net.Enums;
 using Polymarket.Net;
-using Polymarket.Net.Objects;
-using Polymarket.Net.Interfaces.Clients;
 using Polymarket.Net.Objects.Options;
 using Bitstamp.Net.Objects.Options;
 using Bitstamp.Net;
-using Bitstamp.Net.Interfaces.Clients;
 using Weex.Net.Objects.Options;
 using Weex.Net;
-using Weex.Net.Interfaces.Clients;
-using CoinGecko.Net.Interfaces;
 using Lighter.Net.Objects.Options;
 using Lighter.Net;
-using Lighter.Net.Interfaces.Clients;
 using LBank.Net.Objects.Options;
 using LBank.Net;
-using LBank.Net.Interfaces.Clients;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -190,9 +157,6 @@ namespace Microsoft.Extensions.DependencyInjection
             ServiceLifetime? socketClientLifetime = null)
         {
             IEnumerable<string>? enabledExchanges = null;
-            HashSet<string>? registeredExchanges = null;
-
-            bool IsRegistered(string exchange) => registeredExchanges == null || registeredExchanges.Contains(exchange);
 
             Action<TOptions> SetGlobalOptionsBase<TOptions, TRestOptions, TSocketOptions, TEnvironment>(GlobalExchangeOptions globalOptions, Action<TOptions>? exchangeDelegate, TEnvironment environment)
                 where TOptions : LibraryOptions<TRestOptions, TSocketOptions, TEnvironment>
@@ -247,19 +211,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 var global = new GlobalExchangeOptions();
                 globalOptions.Invoke(global);
                 enabledExchanges = global.EnabledExchanges;
-                registeredExchanges = global.RegisteredExchanges == null
-                    ? null
-                    : new HashSet<string>(global.RegisteredExchanges, StringComparer.OrdinalIgnoreCase);
-                enabledExchanges ??= registeredExchanges;
-
-                if (enabledExchanges != null && registeredExchanges != null)
-                {
-                    foreach (var exchange in enabledExchanges)
-                    {
-                        if (!registeredExchanges.Contains(exchange))
-                            throw new ArgumentException($"Enabled exchange {exchange} should also be included in {nameof(GlobalExchangeOptions.RegisteredExchanges)}.", nameof(globalOptions));
-                    }
-                }
 
                 ExchangeCredentials? credentials = global.ApiCredentials;
                 var environments = global.ApiEnvironments;
@@ -296,38 +247,38 @@ namespace Microsoft.Extensions.DependencyInjection
                 xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, XTCredentials, XTEnvironment>(global, xtOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
 
-            if (IsRegistered("Aster")) services.AddAster(asterOptions);
-            if (IsRegistered("Binance")) services.AddBinance(binanceOptions);
-            if (IsRegistered("BingX")) services.AddBingX(bingxOptions);
-            if (IsRegistered("Bitfinex")) services.AddBitfinex(bitfinexOptions);
-            if (IsRegistered("Bitget")) services.AddBitget(bitgetOptions);
-            if (IsRegistered("BitMart")) services.AddBitMart(bitMartOptions);
-            if (IsRegistered("BitMEX")) services.AddBitMEX(bitMEXOptions);
-            if (IsRegistered("Bitstamp")) services.AddBitstamp(bitstampOptions);
-            if (IsRegistered("BloFin")) services.AddBloFin(bloFinOptions);
-            if (IsRegistered("Bybit")) services.AddBybit(bybitOptions);
-            if (IsRegistered("Coinbase")) services.AddCoinbase(coinbaseOptions);
-            if (IsRegistered("CoinEx")) services.AddCoinEx(coinExOptions);
-            if (IsRegistered("CoinW")) services.AddCoinW(coinWOptions);
-            if (IsRegistered("CoinGecko")) services.AddCoinGecko(coinGeckoOptions);
-            if (IsRegistered("CryptoCom")) services.AddCryptoCom(cryptoComOptions);
-            if (IsRegistered("DeepCoin")) services.AddDeepCoin(deepCoinOptions);
-            if (IsRegistered("GateIo")) services.AddGateIo(gateIoOptions);
-            if (IsRegistered("HTX")) services.AddHTX(htxOptions);
-            if (IsRegistered("HyperLiquid")) services.AddHyperLiquid(hyperLiquidOptions);
-            if (IsRegistered("Kraken")) services.AddKraken(krakenOptions);
-            if (IsRegistered("Kucoin")) services.AddKucoin(kucoinOptions);
-            if (IsRegistered("LBank")) services.AddLBank(lBankOptions);
-            if (IsRegistered("Lighter")) services.AddLighter(lighterOptions);
-            if (IsRegistered("Mexc")) services.AddMexc(mexcOptions);
-            if (IsRegistered("OKX")) services.AddOKX(okxOptions);
-            if (IsRegistered("Pionex")) services.AddPionex(pionexOptions);
-            if (IsRegistered("Polymarket")) services.AddPolymarket(polymarketOptions);
-            if (IsRegistered("Toobit")) services.AddToobit(toobitOptions);
-            if (IsRegistered("Upbit")) services.AddUpbit(upbitOptions);
-            if (IsRegistered("Weex")) services.AddWeex(weexOptions);
-            if (IsRegistered("WhiteBit")) services.AddWhiteBit(whiteBitOptions);
-            if (IsRegistered("XT")) services.AddXT(xtOptions);
+            services.AddAster(asterOptions);
+            services.AddBinance(binanceOptions);
+            services.AddBingX(bingxOptions);
+            services.AddBitfinex(bitfinexOptions);
+            services.AddBitget(bitgetOptions);
+            services.AddBitMart(bitMartOptions);
+            services.AddBitMEX(bitMEXOptions);
+            services.AddBitstamp(bitstampOptions);
+            services.AddBloFin(bloFinOptions);
+            services.AddBybit(bybitOptions);
+            services.AddCoinbase(coinbaseOptions);
+            services.AddCoinEx(coinExOptions);
+            services.AddCoinW(coinWOptions);
+            services.AddCoinGecko(coinGeckoOptions);
+            services.AddCryptoCom(cryptoComOptions);
+            services.AddDeepCoin(deepCoinOptions);
+            services.AddGateIo(gateIoOptions);
+            services.AddHTX(htxOptions);
+            services.AddHyperLiquid(hyperLiquidOptions);
+            services.AddKraken(krakenOptions);
+            services.AddKucoin(kucoinOptions);
+            services.AddLBank(lBankOptions);
+            services.AddLighter(lighterOptions);
+            services.AddMexc(mexcOptions);
+            services.AddOKX(okxOptions);
+            services.AddPionex(pionexOptions);
+            services.AddPolymarket(polymarketOptions);
+            services.AddToobit(toobitOptions);
+            services.AddUpbit(upbitOptions);
+            services.AddWeex(weexOptions);
+            services.AddWhiteBit(whiteBitOptions);
+            services.AddXT(xtOptions);
 
             services.AddTransient<IExchangeRestClient>(_ => new ExchangeRestClient(enabledExchanges, _));
 
@@ -364,22 +315,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new InvalidOperationException("Invalid configuration provided", ex);
             }
 
-            var registeredExchanges = globalOptions.RegisteredExchanges == null
-                ? null
-                : new HashSet<string>(globalOptions.RegisteredExchanges, StringComparer.OrdinalIgnoreCase);
-            var enabledExchanges = globalOptions.EnabledExchanges ?? registeredExchanges;
-
-            bool IsRegistered(string exchange) => registeredExchanges == null || registeredExchanges.Contains(exchange);
-
-            if (enabledExchanges != null && registeredExchanges != null)
-            {
-                foreach (var exchange in enabledExchanges)
-                {
-                    if (!registeredExchanges.Contains(exchange))
-                        throw new ArgumentException($"Enabled exchange {exchange} should also be included in {nameof(GlobalExchangeOptions.RegisteredExchanges)}.", nameof(configuration));
-                }
-            }
-
             void UpdateIfNotSpecified(string key, string? value)
             {
                 if (value == null || !string.IsNullOrEmpty(configuration[key]))
@@ -412,57 +347,81 @@ namespace Microsoft.Extensions.DependencyInjection
                 UpdateIfNotSpecified($"{exchange}:SocketClientLifeTime", socketClientLifetime?.ToString());
             }
 
-            void Register(string exchange, Action registration)
-            {
-                if (!IsRegistered(exchange))
-                    return;
+            UpdateExchangeOptions("Aster", globalOptions);
+            UpdateExchangeOptions("Binance", globalOptions);
+            UpdateExchangeOptions("BingX", globalOptions);
+            UpdateExchangeOptions("Bitfinex", globalOptions);
+            UpdateExchangeOptions("Bitget", globalOptions);
+            UpdateExchangeOptions("BitMart", globalOptions);
+            UpdateExchangeOptions("BitMEX", globalOptions);
+            UpdateExchangeOptions("Bitstamp", globalOptions);
+            UpdateExchangeOptions("BloFin", globalOptions);
+            UpdateExchangeOptions("Bybit", globalOptions);
+            UpdateExchangeOptions("Coinbase", globalOptions);
+            UpdateExchangeOptions("CoinEx", globalOptions);
+            UpdateExchangeOptions("CoinW", globalOptions);
+            UpdateExchangeOptions("CoinGecko", globalOptions);
+            UpdateExchangeOptions("CryptoCom", globalOptions);
+            UpdateExchangeOptions("DeepCoin", globalOptions);
+            UpdateExchangeOptions("GateIo", globalOptions);
+            UpdateExchangeOptions("HTX", globalOptions);
+            UpdateExchangeOptions("HyperLiquid", globalOptions);
+            UpdateExchangeOptions("Kraken", globalOptions);
+            UpdateExchangeOptions("Kucoin", globalOptions);
+            UpdateExchangeOptions("LBank", globalOptions);
+            UpdateExchangeOptions("Lighter", globalOptions);
+            UpdateExchangeOptions("Mexc", globalOptions);
+            UpdateExchangeOptions("OKX", globalOptions);
+            UpdateExchangeOptions("Pionex", globalOptions);
+            UpdateExchangeOptions("Polymarket", globalOptions);
+            UpdateExchangeOptions("Toobit", globalOptions);
+            UpdateExchangeOptions("Upbit", globalOptions);
+            UpdateExchangeOptions("Weex", globalOptions);
+            UpdateExchangeOptions("WhiteBit", globalOptions);
+            UpdateExchangeOptions("XT", globalOptions);
 
-                UpdateExchangeOptions(exchange, globalOptions);
-                registration();
-            }
+            services.AddAster(configuration.GetSection("Aster"));
+            services.AddBinance(configuration.GetSection("Binance"));
+            services.AddBingX(configuration.GetSection("BingX"));
+            services.AddBitfinex(configuration.GetSection("Bitfinex"));
+            services.AddBitget(configuration.GetSection("Bitget"));
+            services.AddBitMart(configuration.GetSection("BitMart"));
+            services.AddBitMEX(configuration.GetSection("BitMEX"));
+            services.AddBitstamp(configuration.GetSection("Bitstamp"));
+            services.AddBloFin(configuration.GetSection("BloFin"));
+            services.AddBybit(configuration.GetSection("Bybit"));
+            services.AddCoinbase(configuration.GetSection("Coinbase"));
+            services.AddCoinEx(configuration.GetSection("CoinEx"));
+            services.AddCoinW(configuration.GetSection("CoinW"));
+            services.AddCoinGecko(configuration.GetSection("CoinGecko"));
+            services.AddCryptoCom(configuration.GetSection("CryptoCom"));
+            services.AddDeepCoin(configuration.GetSection("DeepCoin"));
+            services.AddGateIo(configuration.GetSection("GateIo"));
+            services.AddHTX(configuration.GetSection("HTX"));
+            services.AddHyperLiquid(configuration.GetSection("HyperLiquid"));
+            services.AddKraken(configuration.GetSection("Kraken"));
+            services.AddKucoin(configuration.GetSection("Kucoin"));
+            services.AddLBank(configuration.GetSection("LBank"));
+            services.AddLighter(configuration.GetSection("Lighter"));
+            services.AddMexc(configuration.GetSection("Mexc"));
+            services.AddOKX(configuration.GetSection("OKX"));
+            services.AddPionex(configuration.GetSection("Pionex"));
+            services.AddPolymarket(configuration.GetSection("Polymarket"));
+            services.AddToobit(configuration.GetSection("Toobit"));
+            services.AddUpbit(configuration.GetSection("Upbit"));
+            services.AddWeex(configuration.GetSection("Weex"));
+            services.AddWhiteBit(configuration.GetSection("WhiteBit"));
+            services.AddXT(configuration.GetSection("XT"));
 
-            Register("Aster", () => services.AddAster(configuration.GetSection("Aster")));
-            Register("Binance", () => services.AddBinance(configuration.GetSection("Binance")));
-            Register("BingX", () => services.AddBingX(configuration.GetSection("BingX")));
-            Register("Bitfinex", () => services.AddBitfinex(configuration.GetSection("Bitfinex")));
-            Register("Bitget", () => services.AddBitget(configuration.GetSection("Bitget")));
-            Register("BitMart", () => services.AddBitMart(configuration.GetSection("BitMart")));
-            Register("BitMEX", () => services.AddBitMEX(configuration.GetSection("BitMEX")));
-            Register("Bitstamp", () => services.AddBitstamp(configuration.GetSection("Bitstamp")));
-            Register("BloFin", () => services.AddBloFin(configuration.GetSection("BloFin")));
-            Register("Bybit", () => services.AddBybit(configuration.GetSection("Bybit")));
-            Register("Coinbase", () => services.AddCoinbase(configuration.GetSection("Coinbase")));
-            Register("CoinEx", () => services.AddCoinEx(configuration.GetSection("CoinEx")));
-            Register("CoinW", () => services.AddCoinW(configuration.GetSection("CoinW")));
-            Register("CoinGecko", () => services.AddCoinGecko(configuration.GetSection("CoinGecko")));
-            Register("CryptoCom", () => services.AddCryptoCom(configuration.GetSection("CryptoCom")));
-            Register("DeepCoin", () => services.AddDeepCoin(configuration.GetSection("DeepCoin")));
-            Register("GateIo", () => services.AddGateIo(configuration.GetSection("GateIo")));
-            Register("HTX", () => services.AddHTX(configuration.GetSection("HTX")));
-            Register("HyperLiquid", () => services.AddHyperLiquid(configuration.GetSection("HyperLiquid")));
-            Register("Kraken", () => services.AddKraken(configuration.GetSection("Kraken")));
-            Register("Kucoin", () => services.AddKucoin(configuration.GetSection("Kucoin")));
-            Register("LBank", () => services.AddLBank(configuration.GetSection("LBank")));
-            Register("Lighter", () => services.AddLighter(configuration.GetSection("Lighter")));
-            Register("Mexc", () => services.AddMexc(configuration.GetSection("Mexc")));
-            Register("OKX", () => services.AddOKX(configuration.GetSection("OKX")));
-            Register("Pionex", () => services.AddPionex(configuration.GetSection("Pionex")));
-            Register("Polymarket", () => services.AddPolymarket(configuration.GetSection("Polymarket")));
-            Register("Toobit", () => services.AddToobit(configuration.GetSection("Toobit")));
-            Register("Upbit", () => services.AddUpbit(configuration.GetSection("Upbit")));
-            Register("Weex", () => services.AddWeex(configuration.GetSection("Weex")));
-            Register("WhiteBit", () => services.AddWhiteBit(configuration.GetSection("WhiteBit")));
-            Register("XT", () => services.AddXT(configuration.GetSection("XT")));
-
-            services.AddTransient<IExchangeRestClient>(_ => new ExchangeRestClient(enabledExchanges, _));
+            services.AddTransient<IExchangeRestClient>(_ => new ExchangeRestClient(globalOptions.EnabledExchanges, _));
 
             services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient),
-                x => new ExchangeSocketClient(enabledExchanges, x),
+                x => new ExchangeSocketClient(globalOptions.EnabledExchanges, x),
                 socketClientLifetime ?? ServiceLifetime.Singleton));
 
-            services.AddTransient<IExchangeOrderBookFactory>(x => new ExchangeOrderBookFactory(enabledExchanges, x));
-            services.AddTransient<IExchangeTrackerFactory>(x => new ExchangeTrackerFactory(enabledExchanges, x));
-            services.AddTransient<IExchangeUserClientProvider>(x => new ExchangeUserClientProvider(enabledExchanges, x));
+            services.AddTransient<IExchangeOrderBookFactory>(x => new ExchangeOrderBookFactory(globalOptions.EnabledExchanges, x));
+            services.AddTransient<IExchangeTrackerFactory>(x => new ExchangeTrackerFactory(globalOptions.EnabledExchanges, x));
+            services.AddTransient<IExchangeUserClientProvider>(x => new ExchangeUserClientProvider(globalOptions.EnabledExchanges, x));
             return services;
         }
     }

@@ -24,12 +24,6 @@ namespace CryptoClients.Net.Models
         /// </summary>
         public IEnumerable<string>? EnabledExchanges { get; set; }
 
-        /// <summary>
-        /// The exchanges and platforms for which services should be registered. When not set services for all exchanges are registered.
-        /// Every enabled exchange should also be registered. When set without <see cref="EnabledExchanges"/>, the same exchanges are enabled in aggregate services.
-        /// </summary>
-        public IEnumerable<string>? RegisteredExchanges { get; set; }
-
         // --- General options ---
         /// <summary>
         /// Proxy settings

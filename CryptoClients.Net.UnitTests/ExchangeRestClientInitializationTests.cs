@@ -10,7 +10,6 @@ using Bybit.Net.Interfaces.Clients;
 using Bybit.Net.SymbolOrderBooks;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CryptoClients.Net.UnitTests
@@ -280,69 +279,5 @@ namespace CryptoClients.Net.UnitTests
             Assert.That(bybitCreated, Is.Zero);
         }
 
-        [Test]
-        public void AllExchangeServicesAreRegisteredByDefault()
-        {
-            var services = new ServiceCollection();
-            services.AddCryptoClients(options => options.EnabledExchanges = [Exchange.Binance]);
-
-            using var provider = services.BuildServiceProvider();
-
-            Assert.That(provider.GetService<IBinanceRestClient>(), Is.Not.Null);
-            Assert.That(provider.GetService<IBybitRestClient>(), Is.Not.Null);
-        }
-
-        [Test]
-        public void RegisteredExchangesLimitsExchangeServiceRegistration()
-        {
-            var services = new ServiceCollection();
-            services.AddCryptoClients(options =>
-            {
-                options.EnabledExchanges = [Exchange.Binance];
-                options.RegisteredExchanges = [Exchange.Binance];
-            });
-
-            using var provider = services.BuildServiceProvider();
-            var client = provider.GetRequiredService<IExchangeRestClient>();
-
-            Assert.That(provider.GetService<IBinanceRestClient>(), Is.Not.Null);
-            Assert.That(provider.GetService<IBybitRestClient>(), Is.Null);
-            Assert.That(client.Binance, Is.Not.Null);
-        }
-
-        [Test]
-        public void EnabledExchangeShouldAlsoBeRegistered()
-        {
-            var services = new ServiceCollection();
-
-            var exception = Assert.Throws<ArgumentException>(() => services.AddCryptoClients(options =>
-            {
-                options.EnabledExchanges = [Exchange.Binance, Exchange.Bybit];
-                options.RegisteredExchanges = [Exchange.Binance];
-            }));
-
-            Assert.That(exception!.Message, Does.Contain(nameof(Models.GlobalExchangeOptions.RegisteredExchanges)));
-        }
-
-        [Test]
-        public void RegisteredExchangesCanBeLoadedFromConfiguration()
-        {
-            var configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string?>
-                {
-                    ["RegisteredExchanges:0"] = Exchange.Binance
-                })
-                .Build();
-            var services = new ServiceCollection();
-            services.AddCryptoClients(configuration);
-
-            using var provider = services.BuildServiceProvider();
-            var client = provider.GetRequiredService<IExchangeRestClient>();
-
-            Assert.That(provider.GetService<IBinanceRestClient>(), Is.Not.Null);
-            Assert.That(provider.GetService<IBybitRestClient>(), Is.Null);
-            Assert.That(client.Binance, Is.Not.Null);
-            Assert.Throws<InvalidOperationException>(() => _ = client.Bybit);
-        }
     }
 }

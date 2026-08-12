@@ -139,11 +139,9 @@ Exchange REST clients, socket clients, order book factories, tracker factories a
     builder.Services.AddCryptoClients(options =>
     {
         options.EnabledExchanges = [Exchange.Binance, Exchange.Bybit, Exchange.OKX];
-        options.RegisteredExchanges = [Exchange.Binance, Exchange.Bybit, Exchange.OKX];
     });
 
 Aggregate operations only include enabled exchanges. Accessing the strongly typed property of a disabled exchange throws an `InvalidOperationException`.
-`RegisteredExchanges` is optional; when omitted, services for all exchanges remain available through dependency injection. Every enabled exchange should also be registered. When only `RegisteredExchanges` is provided, the aggregate clients use the same exchange set.
 
 More configuration details are available in the documentation:  
 https://cryptoexchange.jkorf.dev/docs/crypto-clients/options
