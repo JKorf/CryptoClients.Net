@@ -68,7 +68,7 @@
     <PackageReference Include="JK.BingX.Net" Version="4.3.0" />
     <PackageReference Include="JK.Bitget.Net" Version="4.3.2" />
     <PackageReference Include="JK.Mexc.Net" Version="6.5.0" />
-    <PackageReference Include="JK.OKX.Net" Version="5.3.1" />
+    <PackageReference Include="JK.OKX.Net" Version="5.3.2" />
     <PackageReference Include="Jkorf.Aster.Net" Version="4.3.1" />
     <PackageReference Include="JKorf.BitMEX.Net" Version="4.3.1" />
     <PackageReference Include="JKorf.Coinbase.Net" Version="4.4.0" />
