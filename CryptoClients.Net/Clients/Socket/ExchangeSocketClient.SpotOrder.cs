@@ -49,9 +49,7 @@ namespace CryptoClients.Net
             IEnumerable<string>? exchanges = null,
             CancellationToken ct = default)
         {
-            var clients = GetSpotOrderClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<ISpotOrderSocketClient>(exchanges);
 
             var tasks = clients.Where(x => x.SubscribeSpotOrderOptions.Supported).Select(x =>
                 x.SubscribeToSpotOrderUpdatesAsync(request, handler, ct));

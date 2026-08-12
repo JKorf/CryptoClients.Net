@@ -711,6 +711,18 @@ namespace CryptoClients.Net
         private IEnumerable<ISharedClient> GetSharedClients(string name)
             => IsEnabled(name) && _clientRegistrations.TryGetValue(name, out var registration) ? registration.SharedClients : [];
 
+        private IEnumerable<T> GetSharedClients<T>(IEnumerable<string>? exchanges) where T : ISharedClient
+        {
+            if (exchanges == null)
+                return _sharedClients.OfType<T>();
+
+            var requestedExchanges = new HashSet<string>(exchanges, StringComparer.OrdinalIgnoreCase);
+            return _clientRegistrations
+                .Where(x => IsEnabled(x.Key) && requestedExchanges.Contains(x.Key))
+                .SelectMany(x => x.Value.SharedClients)
+                .OfType<T>();
+        }
+
 #pragma warning disable IL2091
         private T GetClient<T>(string name, SocketClientRegistration<T> registration) where T : ISocketClient
         {

@@ -51,9 +51,7 @@ namespace CryptoClients.Net
             IEnumerable<string>? exchanges = null,
             CancellationToken ct = default)
         {
-            var clients = GetFuturesOrderClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IFuturesOrderSocketClient>(exchanges).Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
 
             var tasks = clients.Where(x => x.SubscribeFuturesOrderOptions.Supported).Select(x =>
                 x.SubscribeToFuturesOrderUpdatesAsync(request, handler, ct));

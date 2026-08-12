@@ -44,9 +44,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedFuturesTicker[]>>> GetFuturesTickersInt(GetTickersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFuturesTickerClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IFuturesTickerRestClient>(exchanges).Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
 
             var tasks = clients.Where(x => x.GetFuturesTickersOptions.Supported).Select(x => x.GetFuturesTickersAsync(request, ct));
             return tasks;
@@ -80,9 +78,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedFuturesTicker>>> GetFuturesTickerInt(GetTickerRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFuturesTickerClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IFuturesTickerRestClient>(exchanges).Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
 
             var tasks = clients.Where(x => x.GetFuturesTickerOptions.Supported).Select(x => x.GetFuturesTickerAsync(request, ct));
             return tasks;

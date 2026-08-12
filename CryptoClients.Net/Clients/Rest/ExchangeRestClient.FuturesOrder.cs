@@ -57,9 +57,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedFuturesOrder[]>>> GetFuturesOpenOrdersInt(GetOpenOrdersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFuturesOrderClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IFuturesOrderRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetOpenFuturesOrdersOptions.Supported).Select(x => x.GetOpenFuturesOrdersAsync(request, ct));
             return tasks;
@@ -93,9 +91,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedFuturesOrder[]>>> GetFuturesClosedOrdersInt(GetClosedOrdersRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
-            var clients = GetFuturesOrderClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IFuturesOrderRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetClosedFuturesOrdersOptions.Supported).Select(x => x.GetClosedFuturesOrdersAsync(request, pageRequest, ct));
             return tasks;
@@ -129,9 +125,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedUserTrade[]>>> GetFuturesUserTradesInt(GetUserTradesRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
-            var clients = GetFuturesOrderClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IFuturesOrderRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetFuturesUserTradesOptions.Supported).Select(x => x.GetFuturesUserTradesAsync(request, pageRequest, ct));
             return tasks;
@@ -222,9 +216,7 @@ namespace CryptoClients.Net
         private IEnumerable<Task<HttpResult<SharedPosition[]>>> GetPositionsInt(GetPositionsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
             var tradingMode = request.TradingMode ?? request.Symbol?.TradingMode;
-            var clients = tradingMode == null ? GetFuturesOrderClients() : GetFuturesOrderClients(tradingMode.Value);
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IFuturesOrderRestClient>(exchanges).Where(x => tradingMode == null ? true : x.SupportedTradingModes.Contains(tradingMode.Value));
 
             var tasks = clients.Where(x => x.GetPositionsOptions.Supported).Select(x => x.GetPositionsAsync(request, ct));
             return tasks;

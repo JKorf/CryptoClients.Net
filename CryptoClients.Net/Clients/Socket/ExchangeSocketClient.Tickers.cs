@@ -47,9 +47,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<WebSocketResult<UpdateSubscription>[]> SubscribeToAllTickerUpdatesAsync(SubscribeAllTickersRequest request, Action<DataEvent<SharedSpotTicker[]>> handler, IEnumerable<string>? exchanges, CancellationToken ct = default)
         {
-            var clients = GetTickersClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<ITickersSocketClient>(exchanges).Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
 
             var tasks = clients.Where(x => x.SubscribeAllTickersOptions.Supported).Select(x =>
                 x.SubscribeToAllTickersUpdatesAsync(request, handler, ct)

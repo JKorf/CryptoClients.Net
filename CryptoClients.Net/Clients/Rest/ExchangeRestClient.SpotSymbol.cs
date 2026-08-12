@@ -98,9 +98,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedSpotSymbol[]>>> GetSpotSymbolsInt(GetSymbolsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetSpotSymbolClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<ISpotSymbolRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetSpotSymbolsOptions.Supported).Select(x => x.GetSpotSymbolsAsync(request, ct));
             return tasks;

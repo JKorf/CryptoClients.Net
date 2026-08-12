@@ -44,9 +44,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedTrade[]>>> GetTradeHistoryInt(GetTradeHistoryRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
-            var clients = GetTradeHistoryClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<ITradeHistoryRestClient>(exchanges).Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
 
             var tasks = clients.Where(x => x.GetTradeHistoryOptions.Supported).Select(x => x.GetTradeHistoryAsync(request, pageRequest, ct));
             return tasks;

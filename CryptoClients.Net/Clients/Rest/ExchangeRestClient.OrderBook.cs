@@ -44,9 +44,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedOrderBook>>> GetOrderBookInt(GetOrderBookRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetOrderBookClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IOrderBookRestClient>(exchanges).Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
 
             var tasks = clients.Where(x => x.GetOrderBookOptions.Supported).Select(x => x.GetOrderBookAsync(request, ct));
             return tasks;

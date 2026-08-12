@@ -49,9 +49,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedBalance[]>>> GetBalancesIntAsync(GetBalancesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetBalancesClients().Where(x => request.AccountType == null ? true : x.GetBalancesOptions.IsValid(request.AccountType.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IBalanceRestClient>(exchanges).Where(x => request.AccountType == null ? true : x.GetBalancesOptions.IsValid(request.AccountType.Value));
 
             var tasks = clients.Where(x => x.GetBalancesOptions.Supported).Select(x => x.GetBalancesAsync(request, ct));
             return tasks;

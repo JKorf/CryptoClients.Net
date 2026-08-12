@@ -51,9 +51,7 @@ namespace CryptoClients.Net
             IEnumerable<string>? exchanges = null,
             CancellationToken ct = default)
         {
-            var clients = GetBalanceClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IBalanceSocketClient>(exchanges).Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
 
             var tasks = clients.Where(x => x.SubscribeBalanceOptions.Supported).Select(x =>
                 x.SubscribeToBalanceUpdatesAsync(request, handler, ct));

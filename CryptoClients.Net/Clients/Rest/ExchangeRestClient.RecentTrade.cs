@@ -44,9 +44,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedTrade[]>>> GetRecentTradesIntAsync(GetRecentTradesRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetRecentTradesClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IRecentTradeRestClient>(exchanges).Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
 
             var tasks = clients.Where(x => x.GetRecentTradesOptions.Supported).Select(x => x.GetRecentTradesAsync(request, ct));
             return tasks;

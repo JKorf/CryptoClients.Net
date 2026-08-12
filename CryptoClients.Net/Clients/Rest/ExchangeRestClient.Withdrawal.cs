@@ -42,9 +42,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedWithdrawal[]>>> GetWithdrawalsInt(GetWithdrawalsRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
-            var clients = GetWithdrawalsClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IWithdrawalRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetWithdrawalsOptions.Supported).Select(x => x.GetWithdrawalsAsync(request, pageRequest, ct));
             return tasks;

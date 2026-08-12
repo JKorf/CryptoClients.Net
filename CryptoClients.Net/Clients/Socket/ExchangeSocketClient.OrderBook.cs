@@ -47,9 +47,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<WebSocketResult<UpdateSubscription>[]> SubscribeToOrderBookUpdatesAsync(SubscribeOrderBookRequest request, Action<DataEvent<SharedOrderBook>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            var clients = GetOrderBookClients(request.TradingMode!.Value);
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IOrderBookSocketClient>(exchanges).Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
 
             var tasks = clients.Where(x => x.SubscribeOrderBookOptions.Supported).Select(x =>
                 x.SubscribeToOrderBookUpdatesAsync(request, handler, ct));

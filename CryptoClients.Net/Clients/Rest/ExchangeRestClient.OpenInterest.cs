@@ -45,9 +45,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedOpenInterest>>> GetOpenInterestInt(GetOpenInterestRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetOpenInterestClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IOpenInterestRestClient>(exchanges).Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
 
             var tasks = clients.Where(x => x.GetOpenInterestOptions.Supported).Select(x => x.GetOpenInterestAsync(request, ct));
             return tasks;

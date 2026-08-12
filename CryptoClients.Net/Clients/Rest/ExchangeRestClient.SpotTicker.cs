@@ -19,6 +19,11 @@ namespace CryptoClients.Net
 
         #region Get Spot Tickers
         /// <inheritdoc />
+        [Obsolete("Use GetSpotTickersAsync instead.")]
+        public Task<HttpResult<SharedSpotTicker[]>> GetSpotTickerAsync(string exchange, GetTickersRequest request, CancellationToken ct = default)
+            => GetSpotTickersAsync(exchange, request, ct);
+
+        /// <inheritdoc />
         public async Task<HttpResult<SharedSpotTicker[]>> GetSpotTickersAsync(string exchange, GetTickersRequest request, CancellationToken ct = default)
         {
             var result = await Task.WhenAll(GetSpotTickersInt(request, new[] { exchange }, ct)).ConfigureAwait(false);
@@ -39,9 +44,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedSpotTicker[]>>> GetSpotTickersInt(GetTickersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetSpotTickerClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<ISpotTickerRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetSpotTickersOptions.Supported).Select(x => x.GetSpotTickersAsync(request, ct));
             return tasks;
@@ -71,9 +74,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedSpotTicker>>> GetSpotTickerInt(GetTickerRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetSpotTickerClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<ISpotTickerRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetSpotTickerOptions.Supported).Select(x => x.GetSpotTickerAsync(request, ct));
             return tasks;

@@ -10,6 +10,7 @@ using Bybit.Net.Interfaces.Clients;
 using Bybit.Net.SymbolOrderBooks;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
+using CryptoExchange.Net.SharedApis;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CryptoClients.Net.UnitTests
@@ -68,6 +69,34 @@ namespace CryptoClients.Net.UnitTests
         }
 
         [Test]
+        public async Task FilteredAggregateRestRequestDoesNotResolveUnrequestedClients()
+        {
+            var binanceCreated = 0;
+            var bybitCreated = 0;
+            var services = new ServiceCollection();
+            services.AddCryptoClients();
+            services.AddTransient<IBinanceRestClient>(_ =>
+            {
+                binanceCreated++;
+                return new BinanceRestClient();
+            });
+            services.AddTransient<IBybitRestClient>(_ =>
+            {
+                bybitCreated++;
+                return new BybitRestClient();
+            });
+
+            using var provider = services.BuildServiceProvider();
+            var client = provider.GetRequiredService<IExchangeRestClient>();
+
+            var result = await client.GetSpotTickersAsync(new GetTickersRequest(), []);
+
+            Assert.That(result, Is.Empty);
+            Assert.That(binanceCreated, Is.Zero);
+            Assert.That(bybitCreated, Is.Zero);
+        }
+
+        [Test]
         public void ResolvingAggregateSocketClientDoesNotResolveExchangeClients()
         {
             var binanceCreated = 0;
@@ -116,6 +145,37 @@ namespace CryptoClients.Net.UnitTests
             await client.UnsubscribeAllAsync();
             var exception = Assert.Throws<InvalidOperationException>(() => _ = client.Bybit);
             Assert.That(exception!.Message, Does.Contain(nameof(Models.GlobalExchangeOptions.EnabledExchanges)));
+            Assert.That(bybitCreated, Is.Zero);
+        }
+
+        [Test]
+        public async Task FilteredAggregateSocketRequestDoesNotResolveUnrequestedClients()
+        {
+            var binanceCreated = 0;
+            var bybitCreated = 0;
+            var services = new ServiceCollection();
+            services.AddCryptoClients();
+            services.AddSingleton<IBinanceSocketClient>(_ =>
+            {
+                binanceCreated++;
+                return new BinanceSocketClient();
+            });
+            services.AddSingleton<IBybitSocketClient>(_ =>
+            {
+                bybitCreated++;
+                return new BybitSocketClient();
+            });
+
+            using var provider = services.BuildServiceProvider();
+            var client = provider.GetRequiredService<IExchangeSocketClient>();
+
+            var result = await client.SubscribeToTickerUpdatesAsync(
+                new SubscribeTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT")),
+                _ => { },
+                []);
+
+            Assert.That(result, Is.Empty);
+            Assert.That(binanceCreated, Is.Zero);
             Assert.That(bybitCreated, Is.Zero);
         }
 

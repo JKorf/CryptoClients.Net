@@ -48,9 +48,7 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task<WebSocketResult<UpdateSubscription>[]> SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<DataEvent<SharedKline>> handler, IEnumerable<string>? exchanges = null, CancellationToken ct = default)
         {
-            var clients = GetKlineClients(request.TradingMode!.Value);
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IKlineSocketClient>(exchanges).Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
 
             var tasks = clients.Where(x => x.SubscribeKlineOptions.Supported).Select(x =>
                 x.SubscribeToKlineUpdatesAsync(request, handler, ct));

@@ -40,9 +40,7 @@ namespace CryptoClients.Net
 
 		private IEnumerable<Task<HttpResult<SharedAsset[]>>> GetAssetsIntAsync(GetAssetsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
 		{
-			var clients = GetAssetsClients();
-			if (exchanges != null)
-				clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+			var clients = GetSharedClients<IAssetsRestClient>(exchanges);
 
 			var tasks = clients.Where(x => x.GetAssetsOptions.Supported).Select(x => x.GetAssetsAsync(request, ct));
 			return tasks;
@@ -73,9 +71,7 @@ namespace CryptoClients.Net
 
 		private IEnumerable<Task<HttpResult<SharedAsset>>> GetAssetIntAsync(GetAssetRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
 		{
-			var clients = GetAssetsClients();
-			if (exchanges != null)
-				clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+			var clients = GetSharedClients<IAssetsRestClient>(exchanges);
 
 			var tasks = clients.Where(x => x.GetAssetOptions.Supported).Select(x => x.GetAssetAsync(request, ct));
 			return tasks;

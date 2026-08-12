@@ -41,9 +41,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedFee>>> GetFeesInt(GetFeeRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFeeClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IFeeRestClient>(exchanges).Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
 
             var tasks = clients.Where(x => x.GetFeeOptions.Supported).Select(x => x.GetFeesAsync(request, ct));
             return tasks;

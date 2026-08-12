@@ -44,9 +44,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedKline[]>>> GetKlinesIntAsync(GetKlinesRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
-            var clients = GetKlineClients().Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IKlineRestClient>(exchanges).Where(x => x.SupportedTradingModes.Contains(request.TradingMode!.Value));
 
             var tasks = clients.Where(x => x.GetKlinesOptions.Supported).Select(x => x.GetKlinesAsync(request, pageRequest, ct));
             return tasks;

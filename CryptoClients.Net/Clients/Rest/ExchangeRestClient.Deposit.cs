@@ -39,9 +39,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedDeposit[]>>> GetDepositsInt(GetDepositsRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
-            var clients = GetDepositsClients();
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IDepositRestClient>(exchanges);
 
             var tasks = clients.Where(x => x.GetDepositsOptions.Supported).Select(x => x.GetDepositsAsync(request, pageRequest, ct));
             return tasks;

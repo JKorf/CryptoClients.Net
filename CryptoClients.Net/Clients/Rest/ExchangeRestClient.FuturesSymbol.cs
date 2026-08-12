@@ -115,9 +115,7 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedFuturesSymbol[]>>> GetFuturesSymbolsInt(GetSymbolsRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetFuturesSymbolClients().Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
-            if (exchanges != null)
-                clients = clients.Where(c => exchanges.Contains(c.Exchange, StringComparer.InvariantCultureIgnoreCase));
+            var clients = GetSharedClients<IFuturesSymbolRestClient>(exchanges).Where(x => request.TradingMode == null ? true : x.SupportedTradingModes.Contains(request.TradingMode.Value));
 
             var tasks = clients.Where(x => x.GetFuturesSymbolsOptions.Supported).Select(x => x.GetFuturesSymbolsAsync(request, ct));
             return tasks;

@@ -725,6 +725,14 @@ namespace CryptoClients.Net.Interfaces
         /// <param name="exchange">The exchange</param>
         /// <param name="request">The request</param>
         /// <param name="ct">Cancelation token</param>
+        [System.Obsolete("Use GetSpotTickersAsync instead.")]
+        Task<HttpResult<SharedSpotTicker[]>> GetSpotTickerAsync(string exchange, GetTickersRequest request, CancellationToken ct = default);
+        /// <summary>
+        /// Get spot ticker information for all symbols on a specific exchange
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
         Task<HttpResult<SharedSpotTicker[]>> GetSpotTickersAsync(string exchange, GetTickersRequest request, CancellationToken ct = default);
         /// <summary>
         /// Get spot ticker information for all symbols on all exchanges, async returning in the order the response from the server is received
