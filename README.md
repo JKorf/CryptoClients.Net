@@ -366,6 +366,13 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.6.0 - 12 Aug 2026
+    * Updated client library versions
+    * Added EnabledExchange setting to control which exchanges should be available
+    * Added ExchangeRestClient.GetSpotTickersAsync method for single exchange request, marked incorrectly named GetSpotTicker as obsolete
+    * Added CanCreateKlineTracker and CanCreateTradeTracker on (I)ExchangeTrackerFactory
+    * Updated exchange objects to be lazily loaded instead of constructed directly when parent is constructed for ExchangeRestClient, ExchangeSocketClient, ExchangeTrackerFactory, ExchangeOrderBookFactory, ExchangeUserClientProvider
+
 * Version 5.5.0 - 06 Aug 2026
     * Added LBank support with LBank.Net
     * Some small client library updates

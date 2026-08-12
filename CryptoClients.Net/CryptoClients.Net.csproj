@@ -9,9 +9,9 @@
   <PropertyGroup>
     <PackageId>CryptoClients.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>5.5.0</PackageVersion>
-    <AssemblyVersion>5.5.0</AssemblyVersion>
-    <FileVersion>5.5.0</FileVersion>
+    <PackageVersion>5.6.0</PackageVersion>
+    <AssemblyVersion>5.6.0</AssemblyVersion>
+    <FileVersion>5.6.0</FileVersion>
     <Description>Access 30 cryptocurrency exchanges through one Shared API and reusable, exchange-agnostic code, while retaining full access to each exchange's complete API. Supports Binance, Bybit, Hyperliquid, and many more.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>CryptoClients;CryptoClients.Net;Aster;Aster.Net;Binance;Binance.Net;BingX;BingX.Net;Bitfinex;Bitfinex.Net;Bitget;Bitget.Net;BitMart;BitMart.Net;BitMEX;BitMEX.Net;Bitstamp;Bitstamp.Net;BloFin;BloFin.Net;Bybit;Bybit.Net;Coinbase;Coinbase.Net;CoinEx;CoinEx.Net;Coingecko;Coingecko.Net;CoinW;CoinW.Net;Crypto;CryptoCom;Crypto.com;CryptoCom.Net;DeepCoin;DeepCoin.Net;GateIo;Gate;Gate.com;GateIo.Net;HTX;HTX.Net;HyperLiquid;HyperLiquid.Net;Kraken;KrakenExchange;Kraken.Net;Kucoin;Kucoin.Net;LBank;LBank.Net;Lighter;Lighter.Net;Mexc;Mexc.Net;OKX;OKX.Net;Pionex;Pionex.Net;Polymarket;Polymarket.Net;Toobit;Toobit.Net;Upbit;Upbit.Net;Weex;Weex.Net;WhiteBit;WhiteBit.Net;XT;XT.Net;CryptoExchange.Net;CryptoCurrency;CryptoCurrency Exchange;ccxt</PackageTags>
