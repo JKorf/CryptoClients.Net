@@ -72,6 +72,8 @@ using Lighter.Net.Objects.Options;
 using Lighter.Net;
 using LBank.Net.Objects.Options;
 using LBank.Net;
+using Tapbit.Net.Objects.Options;
+using Tapbit.Net;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -112,6 +114,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="okxOptions">The options options for the OKX services. Will override options provided in the global options</param>
         /// <param name="pionexOptions">The options options for the Pionex services. Will override options provided in the global options</param>
         /// <param name="polymarketOptions">The options options for the Polymarket services. Will override options provided in the global options</param>
+        /// <param name="tapbitOptions">The options options for the Tapbit services. Will override options provided in the global options</param>
         /// <param name="toobitOptions">The options options for the Toobit services. Will override options provided in the global options</param>
         /// <param name="upbitOptions">The options options for the Upbit services. Will override options provided in the global options</param>
         /// <param name="weexOptions">The options options for the Weex services. Will override options provided in the global options</param>
@@ -149,6 +152,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<OKXOptions>? okxOptions = null,
             Action<PionexOptions>? pionexOptions = null,
             Action<PolymarketOptions>? polymarketOptions = null,
+            Action<TapbitOptions>? tapbitOptions = null,
             Action<ToobitOptions>? toobitOptions = null,
             Action<UpbitOptions>? upbitOptions = null,
             Action<WeexOptions>? weexOptions = null,
@@ -240,6 +244,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, OKXCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
                 pionexOptions = SetGlobalOptions<PionexOptions, PionexRestOptions, PionexSocketOptions, PionexCredentials, PionexEnvironment>(global, pionexOptions, credentials?.Pionex, environments?.TryGetValue(Exchange.Pionex, out var pionexEnvName) == true ? PionexEnvironment.GetEnvironmentByName(pionexEnvName)! : PionexEnvironment.Live);
                 polymarketOptions = SetGlobalOptions<PolymarketOptions, PolymarketRestOptions, PolymarketSocketOptions, PolymarketCredentials, PolymarketEnvironment>(global, polymarketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
+                tapbitOptions = SetGlobalOptions<TapbitOptions, TapbitRestOptions, TapbitSocketOptions, TapbitCredentials, TapbitEnvironment>(global, tapbitOptions, credentials?.Tapbit, environments?.TryGetValue(Exchange.Tapbit, out var tapbitEnvName) == true ? TapbitEnvironment.GetEnvironmentByName(tapbitEnvName)! : TapbitEnvironment.Live);
                 toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ToobitCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var tooBitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(tooBitEnvName)! : ToobitEnvironment.Live);
                 upbitOptions = SetGlobalOptionsBase<UpbitOptions, UpbitRestOptions, UpbitSocketOptions, UpbitEnvironment>(global, upbitOptions, environments?.TryGetValue(Exchange.Upbit, out var upbitEnvName) == true ? UpbitEnvironment.GetEnvironmentByName(upbitEnvName)! : UpbitEnvironment.Live);
                 weexOptions = SetGlobalOptions<WeexOptions, WeexRestOptions, WeexSocketOptions, WeexCredentials, WeexEnvironment>(global, weexOptions, credentials?.Weex, environments?.TryGetValue(Exchange.Weex, out var weexEnvName) == true ? WeexEnvironment.GetEnvironmentByName(weexEnvName)! : WeexEnvironment.Live);
@@ -274,6 +279,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddOKX(okxOptions);
             services.AddPionex(pionexOptions);
             services.AddPolymarket(polymarketOptions);
+            services.AddTapbit(tapbitOptions);
             services.AddToobit(toobitOptions);
             services.AddUpbit(upbitOptions);
             services.AddWeex(weexOptions);
@@ -375,6 +381,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("Pionex", globalOptions);
             UpdateExchangeOptions("Polymarket", globalOptions);
             UpdateExchangeOptions("Toobit", globalOptions);
+            UpdateExchangeOptions("Tapbit", globalOptions);
             UpdateExchangeOptions("Upbit", globalOptions);
             UpdateExchangeOptions("Weex", globalOptions);
             UpdateExchangeOptions("WhiteBit", globalOptions);
@@ -407,6 +414,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddOKX(configuration.GetSection("OKX"));
             services.AddPionex(configuration.GetSection("Pionex"));
             services.AddPolymarket(configuration.GetSection("Polymarket"));
+            services.AddTapbit(configuration.GetSection("Tapbit"));
             services.AddToobit(configuration.GetSection("Toobit"));
             services.AddUpbit(configuration.GetSection("Upbit"));
             services.AddWeex(configuration.GetSection("Weex"));

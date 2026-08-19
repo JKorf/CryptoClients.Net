@@ -30,6 +30,7 @@ using Polymarket.Net.Interfaces.Clients;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Tapbit.Net.Interfaces.Clients;
 using Toobit.Net.Interfaces.Clients;
 using Upbit.Net.Interfaces.Clients;
 using Weex.Net.Interfaces.Clients;
@@ -152,6 +153,10 @@ namespace CryptoClients.Net.Interfaces
         /// Polymarket REST API
         /// </summary>
         IPolymarketRestClient Polymarket { get; }
+        /// <summary>
+        /// Tapbit REST API
+        /// </summary>
+        ITapbitRestClient Tapbit { get; }
         /// <summary>
         /// Toobit REST API
         /// </summary>

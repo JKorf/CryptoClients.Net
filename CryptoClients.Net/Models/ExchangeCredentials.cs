@@ -30,6 +30,7 @@ using Pionex.Net;
 using Polymarket.Net;
 using System;
 using System.Collections.Generic;
+using Tapbit.Net;
 using Toobit.Net;
 using Weex.Net;
 using WhiteBit.Net;
@@ -209,6 +210,10 @@ namespace CryptoClients.Net.Models
             {
                 throw new ArgumentException("Polymarket not supported");
             }
+            else if (exchange == "Tapbit")
+            {
+                return new TapbitCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
+            }
             else if (exchange == "Toobit")
             {
                 return new ToobitCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
@@ -280,6 +285,7 @@ namespace CryptoClients.Net.Models
                 else if (item.Key == "OKX") creds.OKX = item.Value as OKXCredentials;
                 else if (item.Key == "Pionex") creds.Pionex = item.Value as PionexCredentials;
                 else if (item.Key == "Polymarket") creds.Polymarket = item.Value as PolymarketCredentials;
+                else if (item.Key == "Tapbit") creds.Tapbit = item.Value as TapbitCredentials;
                 else if (item.Key == "Toobit") creds.Toobit = item.Value as ToobitCredentials;
                 else if (item.Key == "Weex") creds.Weex = item.Value as WeexCredentials;
                 else if (item.Key == "WhiteBit") creds.WhiteBit = item.Value as WhiteBitCredentials;
@@ -432,6 +438,11 @@ namespace CryptoClients.Net.Models
         public ToobitCredentials? Toobit { get; set; }
 
         /// <summary>
+        /// Tapbit API credentials
+        /// </summary>
+        public TapbitCredentials? Tapbit { get; set; }
+
+        /// <summary>
         /// Weex API credentials
         /// </summary>
         public WeexCredentials? Weex { get; set; }
@@ -481,6 +492,7 @@ namespace CryptoClients.Net.Models
                 case "OKX": return OKX;
                 case "Pionex": return Pionex;
                 case "Polymarket": return Polymarket;
+                case "Tapbit": return Tapbit;
                 case "Toobit": return Toobit;
                 case "Upbit": return null;
                 case "Weex": return Weex;

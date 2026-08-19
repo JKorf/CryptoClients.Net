@@ -55,13 +55,15 @@ using Lighter.Net;
 using Lighter.Net.Interfaces;
 using Mexc.Net;
 using Mexc.Net.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using OKX.Net;
 using OKX.Net.Interfaces;
 using Pionex.Net.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Tapbit.Net;
+using Tapbit.Net.Interfaces;
 using Toobit.Net;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
@@ -128,6 +130,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IPionexTrackerFactory Pionex => GetFactory(Exchange.Pionex, _pionex);
         /// <inheritdoc />
+        public ITapbitTrackerFactory Tapbit => GetFactory(Exchange.Tapbit, _tapbit);
+        /// <inheritdoc />
         public IToobitTrackerFactory Toobit => GetFactory(Exchange.Toobit, _toobit);
         /// <inheritdoc />
         public IUpbitTrackerFactory Upbit => GetFactory(Exchange.Upbit, _upbit);
@@ -164,6 +168,7 @@ namespace CryptoClients.Net
         private Lazy<IMexcTrackerFactory> _mexc = null!;
         private Lazy<IOKXTrackerFactory> _okx = null!;
         private Lazy<IPionexTrackerFactory> _pionex = null!;
+        private Lazy<ITapbitTrackerFactory> _tapbit = null!;
         private Lazy<IToobitTrackerFactory> _toobit = null!;
         private Lazy<IUpbitTrackerFactory> _upbit = null!;
         private Lazy<IWeexTrackerFactory> _weex = null!;
@@ -199,6 +204,7 @@ namespace CryptoClients.Net
             IMexcTrackerFactory mexc,
             IOKXTrackerFactory okx,
             IPionexTrackerFactory pionex,
+            ITapbitTrackerFactory tapbit,
             IToobitTrackerFactory toobit,
             IUpbitTrackerFactory upbit,
             IWeexTrackerFactory weex,
@@ -209,7 +215,7 @@ namespace CryptoClients.Net
                 () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitMEX, () => bitstamp,
                 () => bloFin, () => bybit, () => coinbase, () => coinEx, () => coinW, () => cryptoCom, () => deepCoin, () => gateIo,
                 () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc, () => okx,
-                () => pionex, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
+                () => pionex, () => tapbit, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
         }
 
         internal ExchangeTrackerFactory(IEnumerable<string>? enabledExchanges, IServiceProvider serviceProvider)
@@ -227,7 +233,8 @@ namespace CryptoClients.Net
                 () => serviceProvider.GetRequiredService<IKrakenTrackerFactory>(), () => serviceProvider.GetRequiredService<IKucoinTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<ILBankTrackerFactory>(), () => serviceProvider.GetRequiredService<ILighterTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<IMexcTrackerFactory>(), () => serviceProvider.GetRequiredService<IOKXTrackerFactory>(),
-                () => serviceProvider.GetRequiredService<IPionexTrackerFactory>(), () => serviceProvider.GetRequiredService<IToobitTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IPionexTrackerFactory>(), () => serviceProvider.GetRequiredService<ITapbitTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IToobitTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<IUpbitTrackerFactory>(), () => serviceProvider.GetRequiredService<IWeexTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<IWhiteBitTrackerFactory>(), () => serviceProvider.GetRequiredService<IXTTrackerFactory>());
         }
@@ -309,6 +316,7 @@ namespace CryptoClients.Net
                 "Lighter" => Lighter.CreateUserSpotDataTracker(config),
                 "Mexc" => Mexc.CreateUserSpotDataTracker(config),
                 "OKX" => OKX.CreateUserSpotDataTracker(config),
+                "Tapbit" => Tapbit.CreateUserSpotDataTracker(config),
                 "Toobit" => Toobit.CreateUserSpotDataTracker(config),
                 "Weex" => Weex.CreateUserSpotDataTracker(config),
                 "WhiteBit" => WhiteBit.CreateUserSpotDataTracker(config),
@@ -364,6 +372,7 @@ namespace CryptoClients.Net
                 "Lighter" => Lighter.CreateUserSpotDataTracker(userIdentifier, credentials.Lighter ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, LighterEnvironment.GetEnvironmentByName(environment)),
                 "Mexc" => Mexc.CreateUserSpotDataTracker(userIdentifier, credentials.Mexc ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, MexcEnvironment.GetEnvironmentByName(environment)),
                 "OKX" => OKX.CreateUserSpotDataTracker(userIdentifier, credentials.OKX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, OKXEnvironment.GetEnvironmentByName(environment)),
+                "Tapbit" => Tapbit.CreateUserSpotDataTracker(userIdentifier, credentials.Tapbit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, TapbitEnvironment.GetEnvironmentByName(environment)),
                 "Toobit" => Toobit.CreateUserSpotDataTracker(userIdentifier, credentials.Toobit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, ToobitEnvironment.GetEnvironmentByName(environment)),
                 "Weex" => Weex.CreateUserSpotDataTracker(userIdentifier, credentials.Weex ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, WeexEnvironment.GetEnvironmentByName(environment)),
                 "WhiteBit" => WhiteBit.CreateUserSpotDataTracker(userIdentifier, credentials.WhiteBit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, WhiteBitEnvironment.GetEnvironmentByName(environment)),
@@ -551,8 +560,8 @@ namespace CryptoClients.Net
             Func<ICoinWTrackerFactory> coinW, Func<ICryptoComTrackerFactory> cryptoCom, Func<IDeepCoinTrackerFactory> deepCoin, Func<IGateIoTrackerFactory> gateIo,
             Func<IHTXTrackerFactory> htx, Func<IHyperLiquidTrackerFactory> hyperLiquid, Func<IKrakenTrackerFactory> kraken, Func<IKucoinTrackerFactory> kucoin,
             Func<ILBankTrackerFactory> lBank, Func<ILighterTrackerFactory> lighter, Func<IMexcTrackerFactory> mexc, Func<IOKXTrackerFactory> okx,
-            Func<IPionexTrackerFactory> pionex, Func<IToobitTrackerFactory> toobit, Func<IUpbitTrackerFactory> upbit, Func<IWeexTrackerFactory> weex,
-            Func<IWhiteBitTrackerFactory> whiteBit, Func<IXTTrackerFactory> xt)
+            Func<IPionexTrackerFactory> pionex, Func<ITapbitTrackerFactory> tapbit, Func<IToobitTrackerFactory> toobit, Func<IUpbitTrackerFactory> upbit,
+            Func<IWeexTrackerFactory> weex, Func<IWhiteBitTrackerFactory> whiteBit, Func<IXTTrackerFactory> xt)
         {
             _enabledExchanges = enabledExchanges == null ? null : new HashSet<string>(enabledExchanges, StringComparer.OrdinalIgnoreCase);
             _aster = new Lazy<IAsterTrackerFactory>(aster, LazyThreadSafetyMode.ExecutionAndPublication);
@@ -581,6 +590,7 @@ namespace CryptoClients.Net
             _okx = new Lazy<IOKXTrackerFactory>(okx, LazyThreadSafetyMode.ExecutionAndPublication);
             _pionex = new Lazy<IPionexTrackerFactory>(pionex, LazyThreadSafetyMode.ExecutionAndPublication);
             _toobit = new Lazy<IToobitTrackerFactory>(toobit, LazyThreadSafetyMode.ExecutionAndPublication);
+            _tapbit = new Lazy<ITapbitTrackerFactory>(tapbit, LazyThreadSafetyMode.ExecutionAndPublication);
             _upbit = new Lazy<IUpbitTrackerFactory>(upbit, LazyThreadSafetyMode.ExecutionAndPublication);
             _weex = new Lazy<IWeexTrackerFactory>(weex, LazyThreadSafetyMode.ExecutionAndPublication);
             _whiteBit = new Lazy<IWhiteBitTrackerFactory>(whiteBit, LazyThreadSafetyMode.ExecutionAndPublication);
@@ -620,6 +630,7 @@ namespace CryptoClients.Net
                 "OKX" => OKX,
                 "Pionex" => Pionex,
                 "Toobit" => Toobit,
+                "Tapbit" => Tapbit,
                 "Upbit" => Upbit,
                 "Weex" => Weex,
                 "WhiteBit" => WhiteBit,

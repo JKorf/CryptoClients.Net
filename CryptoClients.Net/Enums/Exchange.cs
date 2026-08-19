@@ -23,6 +23,7 @@ using Lighter.Net;
 using Mexc.Net;
 using OKX.Net;
 using Pionex.Net;
+using Tapbit.Net;
 using Toobit.Net;
 using Upbit.Net;
 using Weex.Net;
@@ -136,6 +137,10 @@ namespace CryptoClients.Net.Enums
         /// Pionex
         /// </summary>
         public static string Pionex => PionexExchange.ExchangeName;
+        /// <summary>
+        /// Tapbit
+        /// </summary>
+        public static string Tapbit => TapbitExchange.Metadata.Id;
         /// <summary>
         /// Toobit
         /// </summary>

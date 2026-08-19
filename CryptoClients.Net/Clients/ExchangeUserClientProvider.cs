@@ -134,6 +134,10 @@ using Weex.Net;
 using Weex.Net.Clients;
 using Weex.Net.Interfaces.Clients;
 using Weex.Net.Objects.Options;
+using Tapbit.Net.Objects.Options;
+using Tapbit.Net;
+using Tapbit.Net.Interfaces.Clients;
+using Tapbit.Net.Clients;
 
 namespace CryptoClients.Net.Clients
 {
@@ -168,6 +172,7 @@ namespace CryptoClients.Net.Clients
         private Lazy<IOKXUserClientProvider> _okxProvider = null!;
         private Lazy<IPionexUserClientProvider> _pionexProvider = null!;
         private Lazy<IPolymarketUserClientProvider> _polymarketProvider = null!;
+        private Lazy<ITapbitUserClientProvider> _tapbitProvider = null!;
         private Lazy<IToobitUserClientProvider> _toobitProvider = null!;
         private Lazy<IUpbitRestClient> _upbitRestClient = null!;
         private Lazy<IUpbitSocketClient> _upbitSocketClient = null!;
@@ -206,6 +211,7 @@ namespace CryptoClients.Net.Clients
             Action<OKXOptions>? okxOptions = null,
             Action<PionexOptions>? pionexOptions = null,
             Action<PolymarketOptions>? polymarketOptions = null,
+            Action<TapbitOptions>? tapbitOptions = null,
             Action<ToobitOptions>? toobitOptions = null,
             Action<UpbitRestOptions>? upbitRestOptions = null,
             Action<UpbitSocketOptions>? upbitSocketOptions = null,
@@ -293,6 +299,7 @@ namespace CryptoClients.Net.Clients
                 okxOptions = SetGlobalOptions<OKXOptions, OKXRestOptions, OKXSocketOptions, OKXCredentials, OKXEnvironment>(global, okxOptions, credentials?.OKX, environments?.TryGetValue(Exchange.OKX, out var okxEnvName) == true ? OKXEnvironment.GetEnvironmentByName(okxEnvName)! : OKXEnvironment.Live);
                 pionexOptions = SetGlobalOptions<PionexOptions, PionexRestOptions, PionexSocketOptions, PionexCredentials, PionexEnvironment>(global, pionexOptions, credentials?.Pionex, environments?.TryGetValue(Exchange.Pionex, out var pionexEnvName) == true ? PionexEnvironment.GetEnvironmentByName(pionexEnvName)! : PionexEnvironment.Live);
                 polymarketOptions = SetGlobalOptions<PolymarketOptions, PolymarketRestOptions, PolymarketSocketOptions, PolymarketCredentials, PolymarketEnvironment>(global, polymarketOptions, credentials?.Polymarket, environments?.TryGetValue(Platform.Polymarket, out var polymarketEnvName) == true ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnvName)! : PolymarketEnvironment.Live);
+                tapbitOptions = SetGlobalOptions<TapbitOptions, TapbitRestOptions, TapbitSocketOptions, TapbitCredentials, TapbitEnvironment>(global, tapbitOptions, credentials?.Tapbit, environments?.TryGetValue(Exchange.Tapbit, out var tapbitEnvName) == true ? TapbitEnvironment.GetEnvironmentByName(tapbitEnvName)! : TapbitEnvironment.Live);
                 toobitOptions = SetGlobalOptions<ToobitOptions, ToobitRestOptions, ToobitSocketOptions, ToobitCredentials, ToobitEnvironment>(global, toobitOptions, credentials?.Toobit, environments?.TryGetValue(Exchange.Toobit, out var toobitEnvName) == true ? ToobitEnvironment.GetEnvironmentByName(toobitEnvName)! : ToobitEnvironment.Live);
                 weexOptions = SetGlobalOptions<WeexOptions, WeexRestOptions, WeexSocketOptions, WeexCredentials, WeexEnvironment>(global, weexOptions, credentials?.Weex, environments?.TryGetValue(Exchange.Weex, out var weexEnvName) == true ? WeexEnvironment.GetEnvironmentByName(weexEnvName)! : WeexEnvironment.Live);
                 whiteBitOptions = SetGlobalOptions<WhiteBitOptions, WhiteBitRestOptions, WhiteBitSocketOptions, WhiteBitCredentials, WhiteBitEnvironment>(global, whiteBitOptions, credentials?.WhiteBit, environments?.TryGetValue(Exchange.WhiteBit, out var whiteBitEnvName) == true ? WhiteBitEnvironment.GetEnvironmentByName(whiteBitEnvName)! : WhiteBitEnvironment.Live);
@@ -313,7 +320,8 @@ namespace CryptoClients.Net.Clients
                 () => new KucoinUserClientProvider(kucoinOptions), () => new LBankUserClientProvider(lBankOptions),
                 () => new LighterUserClientProvider(lighterOptions), () => new MexcUserClientProvider(mexcOptions),
                 () => new OKXUserClientProvider(okxOptions), () => new PionexUserClientProvider(pionexOptions),
-                () => new PolymarketUserClientProvider(polymarketOptions), () => new ToobitUserClientProvider(toobitOptions),
+                () => new PolymarketUserClientProvider(polymarketOptions), () => new TapbitUserClientProvider(tapbitOptions), 
+                () => new ToobitUserClientProvider(toobitOptions),
                 () => new UpbitRestClient(upbitRestOptions), () => new UpbitSocketClient(upbitSocketOptions),
                 () => new WeexUserClientProvider(weexOptions), () => new WhiteBitUserClientProvider(whiteBitOptions),
                 () => new XTUserClientProvider(xtOptions));
@@ -350,6 +358,7 @@ namespace CryptoClients.Net.Clients
             IOKXUserClientProvider okxProvider,
             IPionexUserClientProvider pionexProvider,
             IPolymarketUserClientProvider polymarketProvider,
+            ITapbitUserClientProvider tapbitProvider,
             IToobitUserClientProvider toobitProvider,
             IUpbitRestClient upbitRestClient,
             IUpbitSocketClient upbitSocketClient,
@@ -365,7 +374,7 @@ namespace CryptoClients.Net.Clients
                 () => coinGeckoRestClient, () => coinWProvider, () => cryptoComProvider, () => deepCoinProvider,
                 () => gateIoProvider, () => htxProvider, () => hyperLiquidProvider, () => krakenProvider,
                 () => kucoinProvider, () => lBankProvider, () => lighterProvider, () => mexcProvider,
-                () => okxProvider, () => pionexProvider, () => polymarketProvider, () => toobitProvider,
+                () => okxProvider, () => pionexProvider, () => polymarketProvider, () => tapbitProvider, () => toobitProvider,
                 () => upbitRestClient, () => upbitSocketClient, () => weexProvider, () => whiteBitProvider, () => xtProvider);
         }
 
@@ -385,7 +394,8 @@ namespace CryptoClients.Net.Clients
                 () => serviceProvider.GetRequiredService<IKucoinUserClientProvider>(), () => serviceProvider.GetRequiredService<ILBankUserClientProvider>(),
                 () => serviceProvider.GetRequiredService<ILighterUserClientProvider>(), () => serviceProvider.GetRequiredService<IMexcUserClientProvider>(),
                 () => serviceProvider.GetRequiredService<IOKXUserClientProvider>(), () => serviceProvider.GetRequiredService<IPionexUserClientProvider>(),
-                () => serviceProvider.GetRequiredService<IPolymarketUserClientProvider>(), () => serviceProvider.GetRequiredService<IToobitUserClientProvider>(),
+                () => serviceProvider.GetRequiredService<IPolymarketUserClientProvider>(), () => serviceProvider.GetRequiredService<ITapbitUserClientProvider>(), 
+                () => serviceProvider.GetRequiredService<IToobitUserClientProvider>(),
                 () => serviceProvider.GetRequiredService<IUpbitRestClient>(), () => serviceProvider.GetRequiredService<IUpbitSocketClient>(),
                 () => serviceProvider.GetRequiredService<IWeexUserClientProvider>(), () => serviceProvider.GetRequiredService<IWhiteBitUserClientProvider>(),
                 () => serviceProvider.GetRequiredService<IXTUserClientProvider>());
@@ -432,6 +442,7 @@ namespace CryptoClients.Net.Clients
             ClearIfCreated(Exchange.OKX, _okxProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.Pionex, _pionexProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Platform.Polymarket, _polymarketProvider, x => x.ClearUserClients(userIdentifier), exchange);
+            ClearIfCreated(Exchange.Tapbit, _tapbitProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.Toobit, _toobitProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.Weex, _weexProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.WhiteBit, _whiteBitProvider, x => x.ClearUserClients(userIdentifier), exchange);
@@ -473,6 +484,7 @@ namespace CryptoClients.Net.Clients
                 () => _okxProvider.Value.GetRestClient(userIdentifier, credentials.OKX, environments.TryGetValue(Exchange.OKX, out var okxEnv) ? OKXEnvironment.GetEnvironmentByName(okxEnv) : null),
                 () => _pionexProvider.Value.GetRestClient(userIdentifier, credentials.Pionex, environments.TryGetValue(Exchange.Pionex, out var pionexEnv) ? PionexEnvironment.GetEnvironmentByName(pionexEnv) : null),
                 () => _polymarketProvider.Value.GetRestClient(userIdentifier, credentials.Polymarket, environments.TryGetValue(Platform.Polymarket, out var polymarketEnv) ? PolymarketEnvironment.GetEnvironmentByName(polymarketEnv) : null),
+                () => _tapbitProvider.Value.GetRestClient(userIdentifier, credentials.Tapbit, environments.TryGetValue(Exchange.Tapbit, out var tapbitEnv) ? TapbitEnvironment.GetEnvironmentByName(tapbitEnv) : null),
                 () => _toobitProvider.Value.GetRestClient(userIdentifier, credentials.Toobit, environments.TryGetValue(Exchange.Toobit, out var toobitEnv) ? ToobitEnvironment.GetEnvironmentByName(toobitEnv) : null),
                 () => _upbitRestClient.Value,
                 () => _weexProvider.Value.GetRestClient(userIdentifier, credentials.Weex, environments.TryGetValue(Exchange.Weex, out var weexEnv) ? WeexEnvironment.GetEnvironmentByName(weexEnv) : null),
@@ -538,7 +550,7 @@ namespace CryptoClients.Net.Clients
             Func<IHyperLiquidUserClientProvider> hyperLiquid, Func<IKrakenUserClientProvider> kraken, Func<IKucoinUserClientProvider> kucoin,
             Func<ILBankUserClientProvider> lBank, Func<ILighterUserClientProvider> lighter, Func<IMexcUserClientProvider> mexc,
             Func<IOKXUserClientProvider> okx, Func<IPionexUserClientProvider> pionex, Func<IPolymarketUserClientProvider> polymarket,
-            Func<IToobitUserClientProvider> toobit, Func<IUpbitRestClient> upbitRest, Func<IUpbitSocketClient> upbitSocket,
+            Func<ITapbitUserClientProvider> tapbit, Func<IToobitUserClientProvider> toobit, Func<IUpbitRestClient> upbitRest, Func<IUpbitSocketClient> upbitSocket,
             Func<IWeexUserClientProvider> weex, Func<IWhiteBitUserClientProvider> whiteBit, Func<IXTUserClientProvider> xt)
         {
             _enabledExchanges = enabledExchanges == null ? null : new HashSet<string>(enabledExchanges, StringComparer.OrdinalIgnoreCase);
@@ -569,6 +581,7 @@ namespace CryptoClients.Net.Clients
             _okxProvider = CreateLazy(okx);
             _pionexProvider = CreateLazy(pionex);
             _polymarketProvider = CreateLazy(polymarket);
+            _tapbitProvider = CreateLazy(tapbit);
             _toobitProvider = CreateLazy(toobit);
             _upbitRestClient = CreateLazy(upbitRest);
             _upbitSocketClient = CreateLazy(upbitSocket);

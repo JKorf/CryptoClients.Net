@@ -31,6 +31,7 @@ using OKX.Net.Interfaces;
 using Pionex.Net.Interfaces;
 using System;
 using System.Collections.Generic;
+using Tapbit.Net.Interfaces;
 using Toobit.Net.Interfaces;
 using Upbit.Net.Interfaces;
 using Weex.Net.Interfaces;
@@ -144,6 +145,10 @@ namespace CryptoClients.Net.Interfaces
         /// Pionex tracker factory
         /// </summary>
         IPionexTrackerFactory Pionex { get; }
+        /// <summary>
+        /// Tapbit tracker factory
+        /// </summary>
+        ITapbitTrackerFactory Tapbit { get; }
         /// <summary>
         /// Toobit tracker factory
         /// </summary>

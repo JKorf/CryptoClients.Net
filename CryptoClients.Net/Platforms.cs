@@ -26,6 +26,7 @@ using Mexc.Net;
 using OKX.Net;
 using Pionex.Net;
 using Polymarket.Net;
+using Tapbit.Net;
 using Toobit.Net;
 using Upbit.Net;
 using Weex.Net;
@@ -175,6 +176,11 @@ namespace CryptoClients.Net
         public static PlatformInfo Polymarket { get; } = PolymarketPlatform.Metadata;
 
         /// <summary>
+        /// Tapbit platform info
+        /// </summary>
+        public static PlatformInfo Tapbit { get; } = TapbitExchange.Metadata;
+
+        /// <summary>
         /// Toobit platform info
         /// </summary>
         public static PlatformInfo Toobit { get; } = ToobitExchange.Metadata;
@@ -231,6 +237,7 @@ namespace CryptoClients.Net
             OKX,
             Pionex,
             Polymarket,
+            Tapbit,
             Toobit,
             Upbit,
             Weex,
