@@ -16,7 +16,7 @@ It combines:
 - dynamic multi-exchange requests and subscriptions
 - client-side helpers such as rate limiting, order books, trackers, and user client management
 
-The package includes **32 client libraries**: **30 exchanges** plus **CoinGecko** and **Polymarket**. See the [complete library table](#available-client-libraries).
+The package includes **33 client libraries**: **31 exchanges** plus **CoinGecko** and **Polymarket**. See the [complete library table](#available-client-libraries).
 
 Choose `CryptoClients.Net` when an application uses multiple exchanges, needs exchange-agnostic code, or selects exchanges at runtime. If an application only targets one exchange and mainly uses exchange-specific endpoints, install that exchange's individual package instead.
 
@@ -215,7 +215,7 @@ The package targets `.NET Standard 2.0`, `.NET Standard 2.1`, `.NET 8.0`, `.NET 
 
 ## Available client libraries
 
-Installing `CryptoClients.Net` includes the following 32 client libraries. Every exchange client is available through the strongly typed properties on `ExchangeRestClient` and, where supported, `ExchangeSocketClient`; the unified API can address the 30 exchanges through the `Exchange` identifiers. Inclusion does not mean that every Shared API operation is supported—see [supported features and capability discovery](https://cryptoexchange.jkorf.dev/docs/crypto-clients/supported-features).
+Installing `CryptoClients.Net` includes the following 33 client libraries. Every exchange client is available through the strongly typed properties on `ExchangeRestClient` and, where supported, `ExchangeSocketClient`; the unified API can address the 31 exchanges through the `Exchange` identifiers. Inclusion does not mean that every Shared API operation is supported—see [supported features and capability discovery](https://cryptoexchange.jkorf.dev/docs/crypto-clients/supported-features).
 
 ||Platform|Type|Included client library|
 |--|--|--|--|
@@ -246,6 +246,7 @@ Installing `CryptoClients.Net` includes the following 32 client libraries. Every
 |<img src="https://raw.githubusercontent.com/JKorf/OKX.Net/refs/heads/main/OKX.Net/Icon/icon.png" alt="OKX" width="32" />|OKX|CEX|[JK.OKX.Net](https://www.nuget.org/packages/JK.OKX.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Pionex.Net/refs/heads/main/Pionex.Net/Icon/icon.png" alt="Pionex" width="32" />|Pionex|CEX|[Pionex.Net](https://www.nuget.org/packages/Pionex.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Polymarket.Net/refs/heads/main/Polymarket.Net/Icon/icon.png" alt="Polymarket" width="32" />|Polymarket|Prediction market|[Polymarket.Net](https://www.nuget.org/packages/Polymarket.Net)|
+|<img src="https://raw.githubusercontent.com/JKorf/Tapbit.Net/refs/heads/main/Tapbit.Net/Icon/icon.png" alt="Toobit" width="32" />|Tapbit|CEX|[Tapbit.Net](https://www.nuget.org/packages/Tapbit.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Toobit.Net/refs/heads/main/Toobit.Net/Icon/icon.png" alt="Toobit" width="32" />|Toobit|CEX|[Toobit.Net](https://www.nuget.org/packages/Toobit.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Upbit.Net/refs/heads/main/Upbit.Net/Icon/icon.png" alt="Upbit" width="32" />|Upbit|CEX|[JKorf.Upbit.Net](https://www.nuget.org/packages/JKorf.Upbit.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Weex.Net/refs/heads/main/Weex.Net/Icon/icon.png" alt="Weex" width="32" />|Weex|CEX|[Weex.Net](https://www.nuget.org/packages/Weex.Net)|

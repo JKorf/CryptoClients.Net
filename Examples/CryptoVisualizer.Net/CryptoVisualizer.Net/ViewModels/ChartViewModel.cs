@@ -202,13 +202,7 @@ namespace CryptoVisualizer.Net.ViewModels
                 var price = (double)item.Price;
 
                 lock (Sync)
-                {
-                    if (upd.Exchange == "LBank")
-#warning LBank timestamp is offset by 8 hours, will be fixed in a next version
-                        values.Add(new DateTimePoint(item.Timestamp.AddHours(-8), price));
-                    else
-                        values.Add(new DateTimePoint(item.Timestamp, price));
-                }
+                    values.Add(new DateTimePoint(item.Timestamp, price));
 
                 if (price < _minPriceBase) 
                     _minPriceBase = price;

@@ -52,8 +52,12 @@
         if (firstRender)
         {
             var symbol = new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable);
-            foreach (var exchange in Exchange.All)
-                _books.Add(exchange, BookFactory.Create(exchange, symbol, 5)!);
+            foreach (var exchange in Exchange.All){
+                var book = BookFactory.Create(exchange, symbol, 5);
+                if (book == null)
+                    continue;
+                _books.Add(exchange, book);
+            }
 
             var tasks = new List<Task>();
             foreach (var book in _books.Values)
