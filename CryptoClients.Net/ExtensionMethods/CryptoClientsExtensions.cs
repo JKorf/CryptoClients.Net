@@ -184,6 +184,11 @@ namespace CryptoClients.Net
         public static ISpotOrderSocketClient? SpotOrderSocketClient(this IEnumerable<ISharedClient> clients) => clients.OfType<ISpotOrderSocketClient>().SingleOrDefault();
 
         /// <summary>
+        /// Get the <see cref="ISpotOrderManagementSocketClient"/> if available
+        /// </summary>
+        public static ISpotOrderManagementSocketClient? SpotOrderManagementSocketClient(this IEnumerable<ISharedClient> clients) => clients.OfType<ISpotOrderManagementSocketClient>().SingleOrDefault();
+
+        /// <summary>
         /// Get the <see cref="IPositionSocketClient"/> if available
         /// </summary>
         public static IPositionSocketClient? PositionSocketClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IPositionSocketClient>().SingleOrDefault();
@@ -192,6 +197,11 @@ namespace CryptoClients.Net
         /// Get the <see cref="IFuturesOrderSocketClient"/> if available
         /// </summary>
         public static IFuturesOrderSocketClient? FuturesOrderSocketClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesOrderSocketClient>().SingleOrDefault();
+
+        /// <summary>
+        /// Get the <see cref="IFuturesOrderManagementSocketClient"/> if available
+        /// </summary>
+        public static IFuturesOrderManagementSocketClient? FuturesOrderManagementSocketClient(this IEnumerable<ISharedClient> clients) => clients.OfType<IFuturesOrderManagementSocketClient>().SingleOrDefault();
 
         /// <summary>
         /// Get the <see cref="IBookTickerRestClient"/> if available

@@ -383,6 +383,27 @@ namespace CryptoClients.Net.Interfaces
         IPositionSocketClient? GetPositionClient(TradingMode tradingMode, string exchange);
 
         /// <summary>
+        /// Get the <see cref="ISpotOrderManagementSocketClient"/> clients for all exchanges
+        /// </summary>
+        IEnumerable<ISpotOrderManagementSocketClient> GetSpotOrderManagementClients();
+        /// <summary>
+        /// Get the <see cref="ISpotOrderManagementSocketClient"/> client for a specific exchange
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        ISpotOrderManagementSocketClient? GetSpotOrderManagementClient(string exchange);
+
+        /// <summary>
+        /// Get the <see cref="IFuturesOrderManagementSocketClient"/> clients for all exchanges
+        /// </summary>
+        IEnumerable<IFuturesOrderManagementSocketClient> GetFuturesOrderManagementClients();
+        /// <summary>
+        /// Get the <see cref="IFuturesOrderManagementSocketClient"/> client for a specific exchange which supports the provided trading mode
+        /// </summary>
+        /// <param name="exchange">Exchange name</param>
+        /// <param name="tradingMode">The trading mode the client should support</param>
+        IFuturesOrderManagementSocketClient? GetFuturesOrderManagementClient(TradingMode tradingMode, string exchange);
+
+        /// <summary>
         /// Subscribe to ticker updates for all symbols on an exchange
         /// </summary>
         /// <param name="request">The request</param>
@@ -619,6 +640,38 @@ namespace CryptoClients.Net.Interfaces
             Action<DataEvent<SharedPosition[]>> handler,
             IEnumerable<string>? exchanges = null,
             CancellationToken ct = default);
+
+        /// <summary>
+        /// Place a new spot order
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<QueryResult<SharedId>> PlaceSpotOrderAsync(string exchange, PlaceSpotOrderRequest request, CancellationToken ct = default);
+
+        /// <summary>
+        /// Cancel an open spot order
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<QueryResult<SharedId>> CancelSpotOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
+
+        /// <summary>
+        /// Place a new futures order
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<QueryResult<SharedId>> PlaceFuturesOrderAsync(string exchange, PlaceFuturesOrderRequest request, CancellationToken ct = default);
+
+        /// <summary>
+        /// Cancel an open futures order
+        /// </summary>
+        /// <param name="exchange">The exchange</param>
+        /// <param name="request">The request</param>
+        /// <param name="ct">Cancelation token</param>
+        Task<QueryResult<SharedId>> CancelFuturesOrderAsync(string exchange, CancelOrderRequest request, CancellationToken ct = default);
 
         /// <summary>
         /// Unsubscribe and close every connection

@@ -350,6 +350,7 @@ Using these links supports the project and may provide the listed fee discount.
 |HyperLiquid|DEX|[Link](https://app.hyperliquid.xyz/join/JKORF)|4%|
 |Kucoin|CEX|[Link](https://www.kucoin.com/r/rf/QBS4FPED)|-|
 |OKX|CEX|[Link](https://www.okx.com/join/14592495)|20%|
+|Tapbit|CEX|[Link](https://www.tapbit.com/en/invite/SPBGMSK)|-|
 |Toobit|CEX|[Link](https://www.toobit.com/en-US/register?invite_code=zsV19h)|-|
 |WhiteBit|CEX|[Link](https://whitebit.com/referral/a8e59b59-186c-4662-824c-3095248e0edf)|-|
 |XT|CEX|[Link](https://www.xt.com/ru/accounts/register?ref=CZG39C)|25%|

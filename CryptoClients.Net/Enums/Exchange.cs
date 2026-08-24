@@ -192,6 +192,7 @@ namespace CryptoClients.Net.Enums
             Mexc,
             OKX,
             Pionex,
+            Tapbit,
             Toobit,
             Upbit,
             Weex,

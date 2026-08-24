@@ -380,8 +380,8 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("OKX", globalOptions);
             UpdateExchangeOptions("Pionex", globalOptions);
             UpdateExchangeOptions("Polymarket", globalOptions);
-            UpdateExchangeOptions("Toobit", globalOptions);
             UpdateExchangeOptions("Tapbit", globalOptions);
+            UpdateExchangeOptions("Toobit", globalOptions);
             UpdateExchangeOptions("Upbit", globalOptions);
             UpdateExchangeOptions("Weex", globalOptions);
             UpdateExchangeOptions("WhiteBit", globalOptions);

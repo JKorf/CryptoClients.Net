@@ -433,14 +433,14 @@ namespace CryptoClients.Net.Models
         public PolymarketCredentials? Polymarket { get; set; }
 
         /// <summary>
-        /// Toobit API credentials
-        /// </summary>
-        public ToobitCredentials? Toobit { get; set; }
-
-        /// <summary>
         /// Tapbit API credentials
         /// </summary>
         public TapbitCredentials? Tapbit { get; set; }
+
+        /// <summary>
+        /// Toobit API credentials
+        /// </summary>
+        public ToobitCredentials? Toobit { get; set; }
 
         /// <summary>
         /// Weex API credentials
