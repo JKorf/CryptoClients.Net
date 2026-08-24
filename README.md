@@ -367,6 +367,21 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.7.0 - 24 Aug 2026
+    * Updated client library versions
+    * Added Tapbit support with Tapbit.Net 1.0.0
+    * Added ISpotOrderManagementSocketClient for placing/canceling Spot orders via Shared websocket implementation
+    * Added IFuturesOrderManagementSocketClient for placing/canceling Futures orders via Shared websocket implementation
+    * Added PlaceSpotOrderAsync, CancelSpotOrderAsync, PlaceFuturesOrderAsync and CancelFuturesOrderAsync queries to ExchangeSocketClient
+    * Added UpperFundingCap, LowerFundingCap to SharedFuturesSymbol model
+    * Added UpperPriceLimitPerecentage, LowerPriceLimitPercentage, MakerFeePercentage and TakerFeePercentage to SharedSpotSymbol model
+    * Added WithCalculatedQuantities(price, contractSize) to SharedQuantity to retrieve a copy with derived quantities
+    * Added Description property to Shared EndpointOptions classes
+    * Added QuantityType property to SharedOrderBook
+    * Updated SharedId value to be nullable
+    * Updated quantity/volumes to SharedOrderQuantity model for SharedBookTicker, SharedOpenInterest, SharedPosition, SharedPositionHistory and SharedUserTrade
+    * Updated Shared client info string representation
+
 * Version 5.6.0 - 12 Aug 2026
     * Updated client library versions
     * Added EnabledExchange setting to control which exchanges should be available
