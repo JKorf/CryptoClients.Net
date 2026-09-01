@@ -368,6 +368,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.7.1 - 01 Sep 2026
+    * Updated client library versions, fixing some bugs
+
 * Version 5.7.0 - 24 Aug 2026
     * Updated client library versions
     * Added Tapbit support with Tapbit.Net 1.0.0

@@ -1,6 +1,6 @@
 # CryptoClients.Net Full LLM Context
 
-Versions: CryptoClients.Net 5.7.0; CryptoExchange.Net 12.4.0.
+Versions: CryptoClients.Net 5.7.1; CryptoExchange.Net 12.4.0.
 
 CryptoClients.Net is a multi-exchange .NET client package built on CryptoExchange.Net. It aggregates the individual JKorf exchange libraries and exposes:
 
