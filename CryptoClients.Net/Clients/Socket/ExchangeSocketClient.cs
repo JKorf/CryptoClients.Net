@@ -521,6 +521,47 @@ namespace CryptoClients.Net
                 () => pionex, () => polymarket, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
         }
 
+        public ExchangeSocketClient(
+            CryptoClientsConfiguration configuration,
+            ILoggerFactory? loggerFactory = null)
+        : this(
+            loggerFactory: loggerFactory,
+            globalOptions: Options.Create(
+                (configuration ?? throw new ArgumentNullException(nameof(configuration))).GlobalOptions),
+            asterSocketOptions: configuration.CreateOptions<AsterSocketOptions>(),
+            binanceSocketOptions: configuration.CreateOptions<BinanceSocketOptions>(),
+            bingxSocketOptions: configuration.CreateOptions<BingXSocketOptions>(),
+            bitfinexSocketOptions: configuration.CreateOptions<BitfinexSocketOptions>(),
+            bitgetSocketOptions: configuration.CreateOptions<BitgetSocketOptions>(),
+            bitMartSocketOptions: configuration.CreateOptions<BitMartSocketOptions>(),
+            bitMEXSocketOptions: configuration.CreateOptions<BitMEXSocketOptions>(),
+            bloFinSocketOptions: configuration.CreateOptions<BloFinSocketOptions>(),
+            bitstampSocketOptions: configuration.CreateOptions<BitstampSocketOptions>(),
+            bybitSocketOptions: configuration.CreateOptions<BybitSocketOptions>(),
+            coinExSocketOptions: configuration.CreateOptions<CoinExSocketOptions>(),
+            coinWSocketOptions: configuration.CreateOptions<CoinWSocketOptions>(),
+            coinbaseSocketOptions: configuration.CreateOptions<CoinbaseSocketOptions>(),
+            cryptoComSocketOptions: configuration.CreateOptions<CryptoComSocketOptions>(),
+            deepCoinSocketOptions: configuration.CreateOptions<DeepCoinSocketOptions>(),
+            gateIoSocketOptions: configuration.CreateOptions<GateIoSocketOptions>(),
+            htxSocketOptions: configuration.CreateOptions<HTXSocketOptions>(),
+            hyperLiquidSocketOptions: configuration.CreateOptions<HyperLiquidSocketOptions>(),
+            krakenSocketOptions: configuration.CreateOptions<KrakenSocketOptions>(),
+            kucoinSocketOptions: configuration.CreateOptions<KucoinSocketOptions>(),
+            lBankSocketOptions: configuration.CreateOptions<LBankSocketOptions>(),
+            lighterSocketOptions: configuration.CreateOptions<LighterSocketOptions>(),
+            mexcSocketOptions: configuration.CreateOptions<MexcSocketOptions>(),
+            okxSocketOptions: configuration.CreateOptions<OKXSocketOptions>(),
+            pionexSocketOptions: configuration.CreateOptions<PionexSocketOptions>(),
+            polymarketSocketOptions: configuration.CreateOptions<PolymarketSocketOptions>(),
+            toobitSocketOptions: configuration.CreateOptions<ToobitSocketOptions>(),
+            upbitSocketOptions: configuration.CreateOptions<UpbitSocketOptions>(),
+            weexSocketOptions: configuration.CreateOptions<WeexSocketOptions>(),
+            whiteBitSocketOptions: configuration.CreateOptions<WhiteBitSocketOptions>(),
+            xtSocketOptions: configuration.CreateOptions<XTSocketOptions>())
+        {
+        }
+
         internal ExchangeSocketClient(IEnumerable<string>? enabledExchanges, IServiceProvider serviceProvider)
         {
             InitializeClients(enabledExchanges,

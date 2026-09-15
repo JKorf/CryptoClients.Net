@@ -201,7 +201,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 var optsDelegate = (TOptions options) =>
                 {
-                    SetGlobalOptionsBase<TOptions, TRestOptions, TSocketOptions, TEnvironment>(globalOptions, exchangeDelegate, environment)(options);
+                    SetGlobalOptionsBase<TOptions, TRestOptions, TSocketOptions, TEnvironment>(globalOptions, null, environment)(options);
                     options.ApiCredentials = credentials;
 
                     exchangeDelegate?.Invoke(options);
@@ -287,6 +287,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddXT(xtOptions);
 
             services.AddTransient<IExchangeRestClient>(_ => new ExchangeRestClient(enabledExchanges, _));
+
+            services.AddTransient<IExchangeSharedApiClient>(
+                serviceProvider => new ExchangeSharedApiClient(enabledExchanges, serviceProvider));
 
             services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient),
                 x => new ExchangeSocketClient(enabledExchanges, x),
@@ -426,6 +429,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient),
                 x => new ExchangeSocketClient(globalOptions.EnabledExchanges, x),
                 socketClientLifetime ?? ServiceLifetime.Singleton));
+
+            services.AddTransient<IExchangeSharedApiClient>(
+                serviceProvider => new ExchangeSharedApiClient(globalOptions.EnabledExchanges, serviceProvider));
 
             services.AddTransient<IExchangeOrderBookFactory>(x => new ExchangeOrderBookFactory(globalOptions.EnabledExchanges, x));
             services.AddTransient<IExchangeTrackerFactory>(x => new ExchangeTrackerFactory(globalOptions.EnabledExchanges, x));

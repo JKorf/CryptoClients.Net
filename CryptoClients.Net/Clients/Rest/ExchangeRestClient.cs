@@ -546,6 +546,51 @@ namespace CryptoClients.Net
                 () => okx, () => pionex, () => polymarket, () => tapbit, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
         }
 
+        public ExchangeRestClient(
+            CryptoClientsConfiguration configuration,
+            HttpClient? httpClient = null,
+            ILoggerFactory? loggerFactory = null)
+        : this(
+            httpClient: httpClient,
+            loggerFactory: loggerFactory,
+            globalOptions: Options.Create(
+                (configuration ?? throw new ArgumentNullException(nameof(configuration))).GlobalOptions),
+            asterRestOptions: configuration.CreateOptions<AsterRestOptions>(),
+            binanceRestOptions: configuration.CreateOptions<BinanceRestOptions>(),
+            bingxRestOptions: configuration.CreateOptions<BingXRestOptions>(),
+            bitfinexRestOptions: configuration.CreateOptions<BitfinexRestOptions>(),
+            bitgetRestOptions: configuration.CreateOptions<BitgetRestOptions>(),
+            bitMartRestOptions: configuration.CreateOptions<BitMartRestOptions>(),
+            bitMEXRestOptions: configuration.CreateOptions<BitMEXRestOptions>(),
+            bitstampRestOptions: configuration.CreateOptions<BitstampRestOptions>(),
+            bloFinRestOptions: configuration.CreateOptions<BloFinRestOptions>(),
+            bybitRestOptions: configuration.CreateOptions<BybitRestOptions>(),
+            coinbaseRestOptions: configuration.CreateOptions<CoinbaseRestOptions>(),
+            coinExRestOptions: configuration.CreateOptions<CoinExRestOptions>(),
+            coinGeckoRestOptions: configuration.CreateOptions<CoinGeckoRestOptions>(),
+            coinWRestOptions: configuration.CreateOptions<CoinWRestOptions>(),
+            cryptoComRestOptions: configuration.CreateOptions<CryptoComRestOptions>(),
+            deepCoinRestOptions: configuration.CreateOptions<DeepCoinRestOptions>(),
+            gateIoRestOptions: configuration.CreateOptions<GateIoRestOptions>(),
+            htxRestOptions: configuration.CreateOptions<HTXRestOptions>(),
+            hyperLiquidRestOptions: configuration.CreateOptions<HyperLiquidRestOptions>(),
+            krakenRestOptions: configuration.CreateOptions<KrakenRestOptions>(),
+            kucoinRestOptions: configuration.CreateOptions<KucoinRestOptions>(),
+            lBankRestOptions: configuration.CreateOptions<LBankRestOptions>(),
+            lighterRestOptions: configuration.CreateOptions<LighterRestOptions>(),
+            mexcRestOptions: configuration.CreateOptions<MexcRestOptions>(),
+            okxRestOptions: configuration.CreateOptions<OKXRestOptions>(),
+            pionexRestOptions: configuration.CreateOptions<PionexRestOptions>(),
+            polymarketRestOptions: configuration.CreateOptions<PolymarketRestOptions>(),
+            tapbitRestOptions: configuration.CreateOptions<TapbitRestOptions>(),
+            toobitRestOptions: configuration.CreateOptions<ToobitRestOptions>(),
+            upbitRestOptions: configuration.CreateOptions<UpbitRestOptions>(),
+            weexRestOptions: configuration.CreateOptions<WeexRestOptions>(),
+            whiteBitRestOptions: configuration.CreateOptions<WhiteBitRestOptions>(),
+            xtRestOptions: configuration.CreateOptions<XTRestOptions>())
+        {
+        }
+
         internal ExchangeRestClient(IEnumerable<string>? enabledExchanges, IServiceProvider serviceProvider)
         {
             InitializeClients(enabledExchanges,
