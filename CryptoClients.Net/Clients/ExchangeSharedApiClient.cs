@@ -120,13 +120,13 @@ namespace CryptoClients.Net.Clients
         /// <param name="httpClient">Optional HttpClient instance</param>
         /// <param name="loggerFactory">Optional ILoggerFactory instance</param>
         public ExchangeSharedApiClient(
-            CryptoClientsConfiguration configuration,
+            CryptoClientsConfiguration? configuration,
             HttpClient? httpClient = null,
             ILoggerFactory? loggerFactory = null)
             : this(
-                new ExchangeRestClient(configuration, httpClient, loggerFactory),
-                new ExchangeSocketClient(configuration, loggerFactory),
-                configuration)
+                new ExchangeRestClient(configuration ?? new CryptoClientsConfiguration(), httpClient, loggerFactory),
+                new ExchangeSocketClient(configuration ?? new CryptoClientsConfiguration(), loggerFactory),
+                configuration ?? new CryptoClientsConfiguration())
         {
         }
 
