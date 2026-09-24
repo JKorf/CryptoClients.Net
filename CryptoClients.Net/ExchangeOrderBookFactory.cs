@@ -5,7 +5,6 @@ using Bitfinex.Net.Interfaces;
 using Bitget.Net.Enums;
 using Bitget.Net.Interfaces;
 using BitMart.Net.Interfaces;
-using BitMEX.Net.Interfaces;
 using Bitstamp.Net.Interfaces;
 using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
@@ -58,8 +57,6 @@ namespace CryptoClients.Net
         public IBitgetOrderBookFactory Bitget => GetFactory(Exchange.Bitget, _bitget);
         /// <inheritdoc />
         public IBitMartOrderBookFactory BitMart => GetFactory(Exchange.BitMart, _bitMart);
-        /// <inheritdoc />
-        public IBitMEXOrderBookFactory BitMEX => GetFactory(Exchange.BitMEX, _bitMEX);
         /// <inheritdoc />
         public IBitstampOrderBookFactory Bitstamp => GetFactory(Exchange.Bitstamp, _bitstamp);
         /// <inheritdoc />
@@ -116,7 +113,6 @@ namespace CryptoClients.Net
         private Lazy<IBitfinexOrderBookFactory> _bitfinex = null!;
         private Lazy<IBitgetOrderBookFactory> _bitget = null!;
         private Lazy<IBitMartOrderBookFactory> _bitMart = null!;
-        private Lazy<IBitMEXOrderBookFactory> _bitMEX = null!;
         private Lazy<IBitstampOrderBookFactory> _bitstamp = null!;
         private Lazy<IBloFinOrderBookFactory> _bloFin = null!;
         private Lazy<IBybitOrderBookFactory> _bybit = null!;
@@ -152,7 +148,6 @@ namespace CryptoClients.Net
             IBitfinexOrderBookFactory bitfinex,
             IBitgetOrderBookFactory bitget,
             IBitMartOrderBookFactory bitMart,
-            IBitMEXOrderBookFactory bitMEX,
             IBitstampOrderBookFactory bitstamp,
             IBloFinOrderBookFactory bloFin,
             IBybitOrderBookFactory bybit,
@@ -179,7 +174,7 @@ namespace CryptoClients.Net
             IXTOrderBookFactory xt)
         {
             InitializeFactories(null,
-                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitMEX, () => bitstamp,
+                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitstamp,
                 () => bloFin, () => bybit, () => coinbase, () => coinEx, () => coinW, () => cryptoCom, () => deepCoin, () => gateIo,
                 () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc, () => okx,
                 () => pionex, () => polymarket, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
@@ -191,7 +186,7 @@ namespace CryptoClients.Net
                 () => serviceProvider.GetRequiredService<IAsterOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBinanceOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<IBingXOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitfinexOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<IBitgetOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitMartOrderBookFactory>(),
-                () => serviceProvider.GetRequiredService<IBitMEXOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitstampOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IBitstampOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<IBloFinOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBybitOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<ICoinbaseOrderBookFactory>(), () => serviceProvider.GetRequiredService<ICoinExOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<ICoinWOrderBookFactory>(), () => serviceProvider.GetRequiredService<ICryptoComOrderBookFactory>(),
@@ -262,9 +257,6 @@ namespace CryptoClients.Net
                 case "BitMart":
                     var bitmartLimit = GetBookDepth(minimalDepth, true, 5, 20, 50);
                     return BitMart.Create(symbol, opts => { opts.Limit = bitmartLimit; });
-                case "BitMEX":
-                    var bitMEXLimit = GetBookDepth(minimalDepth, true, 25);
-                    return BitMEX.Create(symbol, opts => { opts.Limit = bitMEXLimit; });
                 case "Bitstamp":
                     return Bitstamp.Create(symbol);
                 case "BloFin":
@@ -340,7 +332,7 @@ namespace CryptoClients.Net
         private void InitializeFactories(
             IEnumerable<string>? enabledExchanges,
             Func<IAsterOrderBookFactory> aster, Func<IBinanceOrderBookFactory> binance, Func<IBingXOrderBookFactory> bingX, Func<IBitfinexOrderBookFactory> bitfinex,
-            Func<IBitgetOrderBookFactory> bitget, Func<IBitMartOrderBookFactory> bitMart, Func<IBitMEXOrderBookFactory> bitMEX, Func<IBitstampOrderBookFactory> bitstamp,
+            Func<IBitgetOrderBookFactory> bitget, Func<IBitMartOrderBookFactory> bitMart, Func<IBitstampOrderBookFactory> bitstamp,
             Func<IBloFinOrderBookFactory> bloFin, Func<IBybitOrderBookFactory> bybit, Func<ICoinbaseOrderBookFactory> coinbase, Func<ICoinExOrderBookFactory> coinEx,
             Func<ICoinWOrderBookFactory> coinW, Func<ICryptoComOrderBookFactory> cryptoCom, Func<IDeepCoinOrderBookFactory> deepCoin, Func<IGateIoOrderBookFactory> gateIo,
             Func<IHTXOrderBookFactory> htx, Func<IHyperLiquidOrderBookFactory> hyperLiquid, Func<IKrakenOrderBookFactory> kraken, Func<IKucoinOrderBookFactory> kucoin,
@@ -355,7 +347,6 @@ namespace CryptoClients.Net
             _bitfinex = new Lazy<IBitfinexOrderBookFactory>(bitfinex, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitget = new Lazy<IBitgetOrderBookFactory>(bitget, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitMart = new Lazy<IBitMartOrderBookFactory>(bitMart, LazyThreadSafetyMode.ExecutionAndPublication);
-            _bitMEX = new Lazy<IBitMEXOrderBookFactory>(bitMEX, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitstamp = new Lazy<IBitstampOrderBookFactory>(bitstamp, LazyThreadSafetyMode.ExecutionAndPublication);
             _bloFin = new Lazy<IBloFinOrderBookFactory>(bloFin, LazyThreadSafetyMode.ExecutionAndPublication);
             _bybit = new Lazy<IBybitOrderBookFactory>(bybit, LazyThreadSafetyMode.ExecutionAndPublication);

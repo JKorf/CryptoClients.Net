@@ -4,7 +4,6 @@ using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
 using BitMart.Net.Interfaces;
-using BitMEX.Net.Interfaces;
 using Bitstamp.Net.Interfaces;
 using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
@@ -69,10 +68,6 @@ namespace CryptoClients.Net.Interfaces
         /// BitMart tracker factory
         /// </summary>
         IBitMartTrackerFactory BitMart { get; }
-        /// <summary>
-        /// BitMEX tracker factory
-        /// </summary>
-        IBitMEXTrackerFactory BitMEX { get; }
         /// <summary>
         /// Bitstamp tracker factory
         /// </summary>

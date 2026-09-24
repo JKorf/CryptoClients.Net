@@ -5,7 +5,6 @@ using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
 using BitMart.Net;
-using BitMEX.Net;
 using Bitstamp.Net;
 using BloFin.Net;
 using Bybit.Net;
@@ -100,10 +99,6 @@ namespace CryptoClients.Net.Models
                     credential.Key,
                     credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)),
                     credential.Param2 ?? throw new ArgumentNullException(nameof(credential.Param2)));
-            }
-            else if (exchange == "BitMEX")
-            {
-                return new BitMEXCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
             }
             else if (exchange == "Bitstamp")
             {
@@ -264,7 +259,6 @@ namespace CryptoClients.Net.Models
                 else if (item.Key == "Bitfinex") creds.Bitfinex = item.Value as BitfinexCredentials;
                 else if (item.Key == "Bitget") creds.Bitget = item.Value as BitgetCredentials;
                 else if (item.Key == "BitMart") creds.BitMart = item.Value as BitMartCredentials;
-                else if (item.Key == "BitMEX") creds.BitMEX = item.Value as BitMEXCredentials;
                 else if (item.Key == "Bitstamp") creds.Bitstamp = item.Value as BitstampCredentials;
                 else if (item.Key == "BloFin") creds.BloFin = item.Value as BloFinCredentials;
                 else if (item.Key == "Bybit") creds.Bybit = item.Value as BybitCredentials;
@@ -326,11 +320,6 @@ namespace CryptoClients.Net.Models
         /// BitMart API credentials
         /// </summary>
         public BitMartCredentials? BitMart { get; set; }
-
-        /// <summary>
-        /// BitMEX API credentials
-        /// </summary>
-        public BitMEXCredentials? BitMEX { get; set; }
 
         /// <summary>
         /// Bitstamp API credentials
@@ -471,7 +460,6 @@ namespace CryptoClients.Net.Models
                 case "Bitfinex": return Bitfinex;
                 case "Bitget": return Bitget;
                 case "BitMart": return BitMart;
-                case "BitMEX": return BitMEX;
                 case "Bitstamp": return Bitstamp;
                 case "BloFin": return BloFin;
                 case "Bybit": return Bybit;

@@ -10,8 +10,6 @@ using Bitget.Net;
 using Bitget.Net.Objects.Options;
 using BitMart.Net;
 using BitMart.Net.Objects.Options;
-using BitMEX.Net;
-using BitMEX.Net.Objects.Options;
 using BloFin.Net;
 using BloFin.Net.Objects.Options;
 using Bybit.Net;
@@ -93,7 +91,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="bitfinexOptions">The options options for the Bitfinex services. Will override options provided in the global options</param>
         /// <param name="bitgetOptions">The options options for the Bitget services. Will override options provided in the global options</param>
         /// <param name="bitMartOptions">The options options for the BitMart services. Will override options provided in the global options</param>
-        /// <param name="bitMEXOptions">The options options for the BitMEX services. Will override options provided in the global options</param>
         /// <param name="bitstampOptions">The options options for the Bitstamp services. Will override options provided in the global options</param>
         /// <param name="bloFinOptions">The options options for the BloFin services. Will override options provided in the global options</param>
         /// <param name="bybitOptions">The options options for the Bybit services. Will override options provided in the global options</param>
@@ -131,7 +128,6 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<BitfinexOptions>? bitfinexOptions = null,
             Action<BitgetOptions>? bitgetOptions = null,
             Action<BitMartOptions>? bitMartOptions = null,
-            Action<BitMEXOptions>? bitMEXOptions = null,
             Action<BitstampOptions>? bitstampOptions = null,
             Action<BloFinOptions>? bloFinOptions = null,
             Action<BybitOptions>? bybitOptions = null,
@@ -201,7 +197,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 var optsDelegate = (TOptions options) =>
                 {
-                    SetGlobalOptionsBase<TOptions, TRestOptions, TSocketOptions, TEnvironment>(globalOptions, exchangeDelegate, environment)(options);
+                    SetGlobalOptionsBase<TOptions, TRestOptions, TSocketOptions, TEnvironment>(globalOptions, null, environment)(options);
                     options.ApiCredentials = credentials;
 
                     exchangeDelegate?.Invoke(options);
@@ -224,7 +220,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 bitfinexOptions = SetGlobalOptions<BitfinexOptions, BitfinexRestOptions, BitfinexSocketOptions, BitfinexCredentials, BitfinexEnvironment>(global, bitfinexOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
                 bitgetOptions = SetGlobalOptions<BitgetOptions, BitgetRestOptions, BitgetSocketOptions, BitgetCredentials, BitgetEnvironment>(global, bitgetOptions, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
                 bitMartOptions = SetGlobalOptions<BitMartOptions, BitMartRestOptions, BitMartSocketOptions, BitMartCredentials, BitMartEnvironment>(global, bitMartOptions, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
-                bitMEXOptions = SetGlobalOptions<BitMEXOptions, BitMEXRestOptions, BitMEXSocketOptions, BitMEXCredentials, BitMEXEnvironment>(global, bitMEXOptions, credentials?.BitMEX, environments?.TryGetValue(Exchange.BitMEX, out var bitMEXEnvName) == true ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnvName)! : BitMEXEnvironment.Live);
                 bitstampOptions = SetGlobalOptions<BitstampOptions, BitstampRestOptions, BitstampSocketOptions, BitstampCredentials, BitstampEnvironment>(global, bitstampOptions, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : BitstampEnvironment.Live);
                 bloFinOptions = SetGlobalOptions<BloFinOptions, BloFinRestOptions, BloFinSocketOptions, BloFinCredentials, BloFinEnvironment>(global, bloFinOptions, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
                 bybitOptions = SetGlobalOptions<BybitOptions, BybitRestOptions, BybitSocketOptions, BybitCredentials, BybitEnvironment>(global, bybitOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
@@ -258,7 +253,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddBitfinex(bitfinexOptions);
             services.AddBitget(bitgetOptions);
             services.AddBitMart(bitMartOptions);
-            services.AddBitMEX(bitMEXOptions);
             services.AddBitstamp(bitstampOptions);
             services.AddBloFin(bloFinOptions);
             services.AddBybit(bybitOptions);
@@ -287,6 +281,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddXT(xtOptions);
 
             services.AddTransient<IExchangeRestClient>(_ => new ExchangeRestClient(enabledExchanges, _));
+
+            services.AddTransient<IExchangeSharedApiClient>(
+                serviceProvider => new ExchangeSharedApiClient(enabledExchanges, serviceProvider));
 
             services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient),
                 x => new ExchangeSocketClient(enabledExchanges, x),
@@ -359,7 +356,6 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("Bitfinex", globalOptions);
             UpdateExchangeOptions("Bitget", globalOptions);
             UpdateExchangeOptions("BitMart", globalOptions);
-            UpdateExchangeOptions("BitMEX", globalOptions);
             UpdateExchangeOptions("Bitstamp", globalOptions);
             UpdateExchangeOptions("BloFin", globalOptions);
             UpdateExchangeOptions("Bybit", globalOptions);
@@ -393,7 +389,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddBitfinex(configuration.GetSection("Bitfinex"));
             services.AddBitget(configuration.GetSection("Bitget"));
             services.AddBitMart(configuration.GetSection("BitMart"));
-            services.AddBitMEX(configuration.GetSection("BitMEX"));
             services.AddBitstamp(configuration.GetSection("Bitstamp"));
             services.AddBloFin(configuration.GetSection("BloFin"));
             services.AddBybit(configuration.GetSection("Bybit"));
@@ -426,6 +421,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient),
                 x => new ExchangeSocketClient(globalOptions.EnabledExchanges, x),
                 socketClientLifetime ?? ServiceLifetime.Singleton));
+
+            services.AddTransient<IExchangeSharedApiClient>(
+                serviceProvider => new ExchangeSharedApiClient(globalOptions.EnabledExchanges, serviceProvider));
 
             services.AddTransient<IExchangeOrderBookFactory>(x => new ExchangeOrderBookFactory(globalOptions.EnabledExchanges, x));
             services.AddTransient<IExchangeTrackerFactory>(x => new ExchangeTrackerFactory(globalOptions.EnabledExchanges, x));

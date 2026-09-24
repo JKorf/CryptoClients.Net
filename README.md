@@ -16,7 +16,7 @@ It combines:
 - dynamic multi-exchange requests and subscriptions
 - client-side helpers such as rate limiting, order books, trackers, and user client management
 
-The package includes **33 client libraries**: **31 exchanges** plus **CoinGecko** and **Polymarket**. See the [complete library table](#available-client-libraries).
+The package includes **32 client libraries**: **30 exchanges** plus **CoinGecko** and **Polymarket**. See the [complete library table](#available-client-libraries).
 
 Choose `CryptoClients.Net` when an application uses multiple exchanges, needs exchange-agnostic code, or selects exchanges at runtime. If an application only targets one exchange and mainly uses exchange-specific endpoints, install that exchange's individual package instead.
 
@@ -30,21 +30,22 @@ Install the package:
 dotnet add package CryptoClients.Net
 ```
 
-Create one aggregate client and request the same ticker from multiple exchanges:
+Create one Shared API aggregate client, resolve the V2 ticker capability for multiple exchanges, and execute the requests in parallel:
 
 ```csharp
 using CryptoClients.Net;
+using CryptoClients.Net.Clients;
 using CryptoClients.Net.Enums;
 using CryptoExchange.Net.SharedApis;
 
-var client = new ExchangeRestClient();
+var client = new ExchangeSharedApiClient(new CryptoClientsConfiguration());
 var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
 
-var results = await client.GetSpotTickerAsync(
-    new GetTickerRequest(symbol),
-    [Exchange.Binance, Exchange.Bybit, Exchange.HyperLiquid, Exchange.OKX]);
+var capabilities = client.GetCapabilities<IGetTicker>(
+    TradingMode.Spot,
+    exchanges: [Exchange.Binance, Exchange.Bybit, Exchange.HyperLiquid, Exchange.OKX]);
 
-foreach (var result in results)
+await foreach (var result in capabilities.ExecuteAllAsync(new GetTickerRequest(symbol)))
 {
     Console.WriteLine(result.Success
         ? $"{result.Exchange}: {result.Data.LastPrice}"
@@ -56,14 +57,16 @@ The package exposes three complementary API layers:
 
 |Layer|Use when|Example|
 |--|--|--|
-|Aggregate unified API|Calling one or many exchanges with the same request|`client.GetSpotTickerAsync(request, exchanges)`|
-|Shared client interface|Writing reusable exchange-agnostic components|`client.GetSpotTickerClient(Exchange.Binance)`|
-|Direct exchange client|Using exchange-specific endpoints, options, or models|`client.Binance.SpotApi.ExchangeData`|
+|Shared API aggregate|Resolving the same V2 capability for one or many exchanges|`client.GetCapabilities<IGetTicker>(...)`|
+|Exchange Shared API aggregate|Compile-time discovery of one exchange's capabilities and API surfaces|`client.Binance.SpotRest`|
+|Direct exchange client|Using exchange-specific endpoints, options, or models|`restClient.Binance.SpotApi.ExchangeData`|
 
 ### Important behavior
 
 - Aggregate calls return one result per compatible exchange. One exchange can fail while the others succeed, so check `Success` before accessing `Data` on every result.
-- A call without an explicit exchange list targets all enabled implementations that support that operation and trading mode. Use `Get...Clients()` and `Discover()` to inspect support at runtime.
+- `GetCapability<T>` selects one preferred implementation for one exchange. `GetCapabilities<T>` selects one per exchange, while `GetImplementations<T>` returns every matching transport/API-surface implementation.
+- Capability presence communicates whether an operation is available. Use its `Options` to inspect supported trading modes and parameter rules.
+- A capability lookup without an explicit exchange list targets all enabled exchanges that support that operation and trading mode.
 - Use `SharedSymbol` instead of hard-coded native symbol formats in shared APIs. `SharedSymbol.UsdOrStable` can route across USD and supported stable-coin quote variants; fetched symbol catalogs provide exchange-specific availability.
 - Public market-data operations do not require credentials. Private account and trading operations do, and some exchanges require additional values such as a passphrase.
 - Reuse aggregate clients or register them with dependency injection. Do not create a new client for every request.
@@ -72,7 +75,7 @@ The package exposes three complementary API layers:
 ## Features
 
 - Full access to exchange-specific APIs through `ExchangeRestClient` and `ExchangeSocketClient`
-- Shared exchange-agnostic interfaces for spot and futures functionality
+- Shared API capability interfaces for exchange-agnostic spot and futures functionality
 - Request data from a single exchange or many exchanges in one call
 - Subscribe to one or many data streams on multiple exchanges through a single API
 - Strongly typed models and enum mappings
@@ -85,10 +88,11 @@ The package exposes three complementary API layers:
 
 ## Client setup
 
-There are two main entry points:
+There are three main entry points:
 
-- `ExchangeRestClient` for REST APIs
-- `ExchangeSocketClient` for WebSocket APIs
+- `ExchangeSharedApiClient` for exchange-agnostic V2 Shared API capabilities
+- `ExchangeRestClient` for REST APIs and V1 Shared API access
+- `ExchangeSocketClient` for WebSocket APIs and V1 Shared API access
 
 You can also use exchange-specific clients directly, such as `BinanceRestClient` or `KucoinSocketClient`.
 
@@ -106,13 +110,14 @@ You can also use exchange-specific clients directly, such as `BinanceRestClient`
     // Inject later
     public class TradingBot
     {
-        public TradingBot(IExchangeRestClient restClient, IExchangeSocketClient socketClient)
+        public TradingBot(IExchangeSharedApiClient sharedApiClient)
         {
         }
     }
 
 ### Direct construction
 
+    IExchangeSharedApiClient sharedApiClient = new ExchangeSharedApiClient();
     IExchangeRestClient restClient = new ExchangeRestClient();
     IExchangeSocketClient socketClient = new ExchangeSocketClient();
 
@@ -152,16 +157,22 @@ https://cryptoexchange.jkorf.dev/docs/crypto-clients/options
 
 ## WebSocket subscriptions
 
-The socket client supports single-exchange and multi-exchange subscriptions. Each exchange returns its own subscription result; close successful subscriptions during shutdown.
+The V2 Shared API client can resolve single-exchange and multi-exchange subscription capabilities. Each exchange returns its own subscription result. Pass a cancellation token so all successful subscriptions can be stopped during shutdown.
 
 ```csharp
-var socketClient = new ExchangeSocketClient();
+var sharedClient = new ExchangeSharedApiClient(new CryptoClientsConfiguration());
 var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
 
-var subscriptions = await socketClient.SubscribeToTickerUpdatesAsync(
-    new SubscribeTickerRequest(symbol),
-    data => Console.WriteLine($"{data.Exchange} {data.Data.Symbol} {data.Data.LastPrice}"),
-    [Exchange.Binance, Exchange.OKX]);
+var capabilities = sharedClient.GetCapabilities<ISubscribeTickerSocket>(
+    TradingMode.Spot,
+    exchanges: [Exchange.Binance, Exchange.OKX]);
+
+using var subscriptionCancellation = new CancellationTokenSource();
+var subscriptions = await Task.WhenAll(capabilities.Select(x =>
+    x.Capability.SubscribeToTickerUpdatesAsync(
+        new SubscribeTickerRequest(symbol),
+        data => Console.WriteLine($"{data.Exchange} {data.Data.Symbol} {data.Data.LastPrice}"),
+        subscriptionCancellation.Token)));
 
 foreach (var subscription in subscriptions)
 {
@@ -169,8 +180,8 @@ foreach (var subscription in subscriptions)
         Console.WriteLine($"{subscription.Exchange} subscription failed: {subscription.Error}");
 }
 
-// On shutdown, close every subscription and connection owned by this client.
-await socketClient.UnsubscribeAllAsync();
+// On shutdown, stop the shared subscriptions.
+subscriptionCancellation.Cancel();
 ```
 
 ## Cross-exchange order books
@@ -215,7 +226,7 @@ The package targets `.NET Standard 2.0`, `.NET Standard 2.1`, `.NET 8.0`, `.NET 
 
 ## Available client libraries
 
-Installing `CryptoClients.Net` includes the following 33 client libraries. Every exchange client is available through the strongly typed properties on `ExchangeRestClient` and, where supported, `ExchangeSocketClient`; the unified API can address the 31 exchanges through the `Exchange` identifiers. Inclusion does not mean that every Shared API operation is supported—see [supported features and capability discovery](https://cryptoexchange.jkorf.dev/docs/crypto-clients/supported-features).
+Installing `CryptoClients.Net` includes the following 32 client libraries. Every exchange client is available through the strongly typed properties on `ExchangeRestClient` and, where supported, `ExchangeSocketClient`; `ExchangeSharedApiClient` can resolve V2 capabilities for the 30 exchanges exposed through the `Exchange` identifiers. Inclusion does not mean that every Shared API operation is supported—see [supported features and capability discovery](https://cryptoexchange.jkorf.dev/docs/crypto-clients/supported-features).
 
 ||Platform|Type|Included client library|
 |--|--|--|--|
@@ -225,7 +236,6 @@ Installing `CryptoClients.Net` includes the following 33 client libraries. Every
 |<img src="https://raw.githubusercontent.com/JKorf/Bitfinex.Net/refs/heads/master/Bitfinex.Net/Icon/icon.png" alt="Bitfinex" width="32" />|Bitfinex|CEX|[Bitfinex.Net](https://www.nuget.org/packages/Bitfinex.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Bitget.Net/refs/heads/main/Bitget.Net/Icon/icon.png" alt="Bitget" width="32" />|Bitget|CEX|[JK.Bitget.Net](https://www.nuget.org/packages/JK.Bitget.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/BitMart.Net/refs/heads/main/BitMart.Net/Icon/icon.png" alt="BitMart" width="32" />|BitMart|CEX|[BitMart.Net](https://www.nuget.org/packages/BitMart.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/BitMEX.Net/refs/heads/main/BitMEX.Net/Icon/icon.png" alt="BitMEX" width="32" />|BitMEX|CEX|[JKorf.BitMEX.Net](https://www.nuget.org/packages/JKorf.BitMEX.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Bitstamp.Net/refs/heads/main/Bitstamp.Net/Icon/icon.png" alt="Bitstamp" width="32" />|Bitstamp|CEX|[Bitstamp.Net](https://www.nuget.org/packages/Bitstamp.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/BloFin.Net/refs/heads/main/BloFin.Net/Icon/icon.png" alt="BloFin" width="32" />|BloFin|CEX|[BloFin.Net](https://www.nuget.org/packages/BloFin.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Bybit.Net/refs/heads/main/ByBit.Net/Icon/icon.png" alt="Bybit" width="32" />|Bybit|CEX|[Bybit.Net](https://www.nuget.org/packages/Bybit.Net)|
@@ -259,7 +269,7 @@ Use `Exchange.All` for the string identifiers accepted by aggregate operations, 
 
 ## Example API
 
-The following ASP.NET Core Minimal API exposes a safe single-exchange endpoint backed by the unified ticker interface:
+The following ASP.NET Core Minimal API exposes a safe single-exchange endpoint backed by the V2 transport-agnostic ticker capability:
 
 ```csharp
 using CryptoClients.Net.Interfaces;
@@ -272,13 +282,13 @@ builder.Services.AddCryptoClients();
 var app = builder.Build();
 
 app.MapGet("Ticker/{exchange}/{baseAsset}/{quoteAsset}",
-    async (IExchangeRestClient client, string exchange, string baseAsset, string quoteAsset) =>
+    async (IExchangeSharedApiClient client, string exchange, string baseAsset, string quoteAsset) =>
     {
-        var spotClient = client.GetSpotTickerClient(exchange);
-        if (spotClient is null || !spotClient.GetSpotTickerOptions.Supported)
+        var ticker = client.GetCapability<IGetTicker>(exchange, TradingMode.Spot);
+        if (ticker is null)
             return Results.NotFound($"Spot ticker requests are not supported for '{exchange}'.");
 
-        var result = await spotClient.GetSpotTickerAsync(
+        var result = await ticker.Capability.GetTickerAsync(
             new GetTickerRequest(new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset)));
 
         return result.Success
@@ -339,7 +349,6 @@ Using these links supports the project and may provide the listed fee discount.
 |BingX|CEX|[Link](https://bingx.com/invite/FFHRJKWG/)|20%|
 |Bitget|CEX|[Link](https://partner.bitget.com/bg/1qlf6pj1)|20%|
 |BitMart|CEX|[Link](https://www.bitmart.com/invite/JKorfAPI/en-US)|30%|
-|BitMEX|CEX|[Link](https://www.bitmex.com/app/register/94f98e)|30%|
 |Bybit|CEX|[Link](https://partner.bybit.com/b/jkorf)|-|
 |Coinbase|CEX|[Link](https://advanced.coinbase.com/join/T6H54H8)|-|
 |CoinEx|CEX|[Link](https://www.coinex.com/register?rc=rbtnp)|20%|

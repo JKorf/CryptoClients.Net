@@ -4,7 +4,6 @@ using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
 using BitMart.Net;
-using BitMEX.Net;
 using Bitstamp.Net;
 using BloFin.Net;
 using Bybit.Net;
@@ -63,10 +62,6 @@ namespace CryptoClients.Net.Enums
         /// BitMart
         /// </summary>
         public static string BitMart => BitMartExchange.ExchangeName;
-        /// <summary>
-        /// BitMEX
-        /// </summary>
-        public static string BitMEX => BitMEXExchange.ExchangeName;
         /// <summary>
         /// Bitstamp
         /// </summary>
@@ -183,7 +178,6 @@ namespace CryptoClients.Net.Enums
             Bitfinex,
             Bitget,
             BitMart,
-            BitMEX,
             Bitstamp,
             BloFin,
             Bybit,

@@ -4,7 +4,6 @@ using BingX.Net.Interfaces.Clients;
 using Bitfinex.Net.Interfaces.Clients;
 using Bitget.Net.Interfaces.Clients;
 using BitMart.Net.Interfaces.Clients;
-using BitMEX.Net.Interfaces.Clients;
 using Bitstamp.Net.Interfaces.Clients;
 using BloFin.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
@@ -82,10 +81,6 @@ namespace CryptoClients.Net.Interfaces
         /// BitMart Websocket API
         /// </summary>
         IBitMartSocketClient BitMart { get; }
-        /// <summary>
-        /// BitMEX Websocket API
-        /// </summary>
-        IBitMEXSocketClient BitMEX { get; }
         /// <summary>
         /// Bitstamp Websocket API
         /// </summary>

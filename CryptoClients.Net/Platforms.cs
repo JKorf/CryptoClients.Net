@@ -4,7 +4,6 @@ using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
 using BitMart.Net;
-using BitMEX.Net;
 using Bitstamp.Net;
 using BloFin.Net;
 using Bybit.Net;
@@ -69,11 +68,6 @@ namespace CryptoClients.Net
         /// BitMart platform info
         /// </summary>
         public static PlatformInfo BitMart { get; } = BitMartExchange.Metadata;
-
-        /// <summary>
-        /// BitMEX platform info
-        /// </summary>
-        public static PlatformInfo BitMEX { get; } = BitMEXExchange.Metadata;
 
         /// <summary>
         /// Bitstamp platform info
@@ -216,7 +210,6 @@ namespace CryptoClients.Net
             Bitfinex,
             Bitget,
             BitMart,
-            BitMEX,
             Bitstamp,
             BloFin,
             Bybit,

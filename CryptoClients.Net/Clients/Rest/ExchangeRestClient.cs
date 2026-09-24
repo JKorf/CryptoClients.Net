@@ -22,10 +22,6 @@ using BitMart.Net;
 using BitMart.Net.Clients;
 using BitMart.Net.Interfaces.Clients;
 using BitMart.Net.Objects.Options;
-using BitMEX.Net;
-using BitMEX.Net.Clients;
-using BitMEX.Net.Interfaces.Clients;
-using BitMEX.Net.Objects.Options;
 using Bitstamp.Net;
 using Bitstamp.Net.Clients;
 using Bitstamp.Net.Interfaces.Clients;
@@ -168,8 +164,6 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IBitMartRestClient BitMart => GetClient(Exchange.BitMart, _bitMart);
         /// <inheritdoc />
-        public IBitMEXRestClient BitMEX => GetClient(Exchange.BitMEX, _bitMEX);
-        /// <inheritdoc />
         public IBitstampRestClient Bitstamp => GetClient(Exchange.Bitstamp, _bitstamp);
         /// <inheritdoc />
         public IBloFinRestClient BloFin => GetClient(Exchange.BloFin, _bloFin);
@@ -231,7 +225,6 @@ namespace CryptoClients.Net
         private RestClientRegistration<IBitfinexRestClient> _bitfinex = null!;
         private RestClientRegistration<IBitgetRestClient> _bitget = null!;
         private RestClientRegistration<IBitMartRestClient> _bitMart = null!;
-        private RestClientRegistration<IBitMEXRestClient> _bitMEX = null!;
         private RestClientRegistration<IBitstampRestClient> _bitstamp = null!;
         private RestClientRegistration<IBloFinRestClient> _bloFin = null!;
         private RestClientRegistration<IBybitRestClient> _bybit = null!;
@@ -266,7 +259,7 @@ namespace CryptoClients.Net
         {
             InitializeClients(null,
                 () => new AsterRestClient(), () => new BinanceRestClient(), () => new BingXRestClient(), () => new BitfinexRestClient(),
-                () => new BitgetRestClient(), () => new BitMartRestClient(), () => new BitMEXRestClient(), () => new BitstampRestClient(),
+                () => new BitgetRestClient(), () => new BitMartRestClient(), () => new BitstampRestClient(),
                 () => new BloFinRestClient(), () => new BybitRestClient(), () => new CoinbaseRestClient(), () => new CoinExRestClient(),
                 () => new CoinGeckoRestClient(), () => new CoinWRestClient(), () => new CryptoComRestClient(), () => new DeepCoinRestClient(),
                 () => new GateIoRestClient(), () => new HTXRestClient(), () => new HyperLiquidRestClient(), () => new KrakenRestClient(),
@@ -286,7 +279,6 @@ namespace CryptoClients.Net
             Action<BitfinexRestOptions>? bitfinexRestOptions = null,
             Action<BitgetRestOptions>? bitgetRestOptions = null,
             Action<BitMartRestOptions>? bitMartRestOptions = null,
-            Action<BitMEXRestOptions>? bitMEXRestOptions = null,
             Action<BitstampRestOptions>? bitstampRestOptions = null,
             Action<BloFinRestOptions>? bloFinRestOptions = null,
             Action<BybitRestOptions>? bybitRestOptions = null,
@@ -322,7 +314,6 @@ namespace CryptoClients.Net
                 Options.Create(ApplyOptionsDelegate(bitfinexRestOptions)),
                 Options.Create(ApplyOptionsDelegate(bitgetRestOptions)),
                 Options.Create(ApplyOptionsDelegate(bitMartRestOptions)),
-                Options.Create(ApplyOptionsDelegate(bitMEXRestOptions)),
                 Options.Create(ApplyOptionsDelegate(bitstampRestOptions)),
                 Options.Create(ApplyOptionsDelegate(bloFinRestOptions)),
                 Options.Create(ApplyOptionsDelegate(bybitRestOptions)),
@@ -366,7 +357,6 @@ namespace CryptoClients.Net
             IOptions<BitfinexRestOptions>? bitfinexRestOptions = null,
             IOptions<BitgetRestOptions>? bitgetRestOptions = null,
             IOptions<BitMartRestOptions>? bitMartRestOptions = null,
-            IOptions<BitMEXRestOptions>? bitMEXRestOptions = null,
             IOptions<BitstampRestOptions>? bitstampRestOptions = null,
             IOptions<BloFinRestOptions>? bloFinRestOptions = null,
             IOptions<BybitRestOptions>? bybitRestOptions = null,
@@ -436,7 +426,6 @@ namespace CryptoClients.Net
                 bitfinexRestOptions = SetGlobalRestOptions(global, bitfinexRestOptions?.Value, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : bitfinexRestOptions?.Value.Environment ?? BitfinexEnvironment.Live);
                 bitgetRestOptions = SetGlobalRestOptions(global, bitgetRestOptions?.Value, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : bitgetRestOptions?.Value.Environment ?? BitgetEnvironment.Live);
                 bitMartRestOptions = SetGlobalRestOptions(global, bitMartRestOptions?.Value, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : bitMartRestOptions?.Value.Environment ?? BitMartEnvironment.Live);
-                bitMEXRestOptions = SetGlobalRestOptions(global, bitMEXRestOptions?.Value, credentials?.BitMEX, environments?.TryGetValue(Exchange.BitMEX, out var bitMEXEnvName) == true ? BitMEXEnvironment.GetEnvironmentByName(bitMEXEnvName)! : bitMEXRestOptions?.Value.Environment ?? BitMEXEnvironment.Live);
                 bitstampRestOptions = SetGlobalRestOptions(global, bitstampRestOptions?.Value, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : bitstampRestOptions?.Value.Environment ?? BitstampEnvironment.Live);
                 bloFinRestOptions = SetGlobalRestOptions(global, bloFinRestOptions?.Value, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : bloFinRestOptions?.Value.Environment ?? BloFinEnvironment.Live);
                 bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions?.Value, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : bybitRestOptions?.Value.Environment ?? BybitEnvironment.Live);
@@ -472,7 +461,6 @@ namespace CryptoClients.Net
                 () => new BitfinexRestClient(httpClient, loggerFactory, bitfinexRestOptions ?? Options.Create(new BitfinexRestOptions())),
                 () => new BitgetRestClient(httpClient, loggerFactory, bitgetRestOptions ?? Options.Create(new BitgetRestOptions())),
                 () => new BitMartRestClient(httpClient, loggerFactory, bitMartRestOptions ?? Options.Create(new BitMartRestOptions())),
-                () => new BitMEXRestClient(httpClient, loggerFactory, bitMEXRestOptions ?? Options.Create(new BitMEXRestOptions())),
                 () => new BitstampRestClient(httpClient, loggerFactory, bitstampRestOptions ?? Options.Create(new BitstampRestOptions())),
                 () => new BloFinRestClient(httpClient, loggerFactory, bloFinRestOptions ?? Options.Create(new BloFinRestOptions())),
                 () => new BybitRestClient(httpClient, loggerFactory, bybitRestOptions ?? Options.Create(new BybitRestOptions())),
@@ -511,7 +499,6 @@ namespace CryptoClients.Net
             IBitfinexRestClient bitfinex,
             IBitgetRestClient bitget,
             IBitMartRestClient bitMart,
-            IBitMEXRestClient bitMEX,
             IBitstampRestClient bitstamp,
             IBloFinRestClient bloFin,
             IBybitRestClient bybit,
@@ -540,10 +527,57 @@ namespace CryptoClients.Net
             IXTRestClient xt)
         {
             InitializeClients(null,
-                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitMEX, () => bitstamp,
+                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitstamp,
                 () => bloFin, () => bybit, () => coinbase, () => coinEx, () => coinGecko, () => coinW, () => cryptoCom, () => deepCoin,
                 () => gateIo, () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc,
                 () => okx, () => pionex, () => polymarket, () => tapbit, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
+        }
+
+        /// <summary>
+        /// ctor
+        /// </summary>
+        public ExchangeRestClient(
+            CryptoClientsConfiguration configuration,
+            HttpClient? httpClient = null,
+            ILoggerFactory? loggerFactory = null)
+        : this(
+            httpClient: httpClient,
+            loggerFactory: loggerFactory,
+            globalOptions: Options.Create(
+                (configuration ?? throw new ArgumentNullException(nameof(configuration))).GlobalOptions),
+            asterRestOptions: configuration.CreateOptions<AsterRestOptions>(),
+            binanceRestOptions: configuration.CreateOptions<BinanceRestOptions>(),
+            bingxRestOptions: configuration.CreateOptions<BingXRestOptions>(),
+            bitfinexRestOptions: configuration.CreateOptions<BitfinexRestOptions>(),
+            bitgetRestOptions: configuration.CreateOptions<BitgetRestOptions>(),
+            bitMartRestOptions: configuration.CreateOptions<BitMartRestOptions>(),
+            bitstampRestOptions: configuration.CreateOptions<BitstampRestOptions>(),
+            bloFinRestOptions: configuration.CreateOptions<BloFinRestOptions>(),
+            bybitRestOptions: configuration.CreateOptions<BybitRestOptions>(),
+            coinbaseRestOptions: configuration.CreateOptions<CoinbaseRestOptions>(),
+            coinExRestOptions: configuration.CreateOptions<CoinExRestOptions>(),
+            coinGeckoRestOptions: configuration.CreateOptions<CoinGeckoRestOptions>(),
+            coinWRestOptions: configuration.CreateOptions<CoinWRestOptions>(),
+            cryptoComRestOptions: configuration.CreateOptions<CryptoComRestOptions>(),
+            deepCoinRestOptions: configuration.CreateOptions<DeepCoinRestOptions>(),
+            gateIoRestOptions: configuration.CreateOptions<GateIoRestOptions>(),
+            htxRestOptions: configuration.CreateOptions<HTXRestOptions>(),
+            hyperLiquidRestOptions: configuration.CreateOptions<HyperLiquidRestOptions>(),
+            krakenRestOptions: configuration.CreateOptions<KrakenRestOptions>(),
+            kucoinRestOptions: configuration.CreateOptions<KucoinRestOptions>(),
+            lBankRestOptions: configuration.CreateOptions<LBankRestOptions>(),
+            lighterRestOptions: configuration.CreateOptions<LighterRestOptions>(),
+            mexcRestOptions: configuration.CreateOptions<MexcRestOptions>(),
+            okxRestOptions: configuration.CreateOptions<OKXRestOptions>(),
+            pionexRestOptions: configuration.CreateOptions<PionexRestOptions>(),
+            polymarketRestOptions: configuration.CreateOptions<PolymarketRestOptions>(),
+            tapbitRestOptions: configuration.CreateOptions<TapbitRestOptions>(),
+            toobitRestOptions: configuration.CreateOptions<ToobitRestOptions>(),
+            upbitRestOptions: configuration.CreateOptions<UpbitRestOptions>(),
+            weexRestOptions: configuration.CreateOptions<WeexRestOptions>(),
+            whiteBitRestOptions: configuration.CreateOptions<WhiteBitRestOptions>(),
+            xtRestOptions: configuration.CreateOptions<XTRestOptions>())
+        {
         }
 
         internal ExchangeRestClient(IEnumerable<string>? enabledExchanges, IServiceProvider serviceProvider)
@@ -552,7 +586,7 @@ namespace CryptoClients.Net
                 () => serviceProvider.GetRequiredService<IAsterRestClient>(), () => serviceProvider.GetRequiredService<IBinanceRestClient>(),
                 () => serviceProvider.GetRequiredService<IBingXRestClient>(), () => serviceProvider.GetRequiredService<IBitfinexRestClient>(),
                 () => serviceProvider.GetRequiredService<IBitgetRestClient>(), () => serviceProvider.GetRequiredService<IBitMartRestClient>(),
-                () => serviceProvider.GetRequiredService<IBitMEXRestClient>(), () => serviceProvider.GetRequiredService<IBitstampRestClient>(),
+                () => serviceProvider.GetRequiredService<IBitstampRestClient>(),
                 () => serviceProvider.GetRequiredService<IBloFinRestClient>(), () => serviceProvider.GetRequiredService<IBybitRestClient>(),
                 () => serviceProvider.GetRequiredService<ICoinbaseRestClient>(), () => serviceProvider.GetRequiredService<ICoinExRestClient>(),
                 () => serviceProvider.GetRequiredService<ICoinGeckoRestClient>(), () => serviceProvider.GetRequiredService<ICoinWRestClient>(),
@@ -570,7 +604,7 @@ namespace CryptoClients.Net
         internal ExchangeRestClient(
             IEnumerable<string>? enabledExchanges,
             Func<IAsterRestClient> aster, Func<IBinanceRestClient> binance, Func<IBingXRestClient> bingX, Func<IBitfinexRestClient> bitfinex,
-            Func<IBitgetRestClient> bitget, Func<IBitMartRestClient> bitMart, Func<IBitMEXRestClient> bitMEX, Func<IBitstampRestClient> bitstamp,
+            Func<IBitgetRestClient> bitget, Func<IBitMartRestClient> bitMart, Func<IBitstampRestClient> bitstamp,
             Func<IBloFinRestClient> bloFin, Func<IBybitRestClient> bybit, Func<ICoinbaseRestClient> coinbase, Func<ICoinExRestClient> coinEx,
             Func<ICoinGeckoRestClient> coinGecko, Func<ICoinWRestClient> coinW, Func<ICryptoComRestClient> cryptoCom, Func<IDeepCoinRestClient> deepCoin,
             Func<IGateIoRestClient> gateIo, Func<IHTXRestClient> htx, Func<IHyperLiquidRestClient> hyperLiquid, Func<IKrakenRestClient> kraken,
@@ -579,7 +613,7 @@ namespace CryptoClients.Net
             Func<IUpbitRestClient> upbit, Func<IWeexRestClient> weex, Func<IWhiteBitRestClient> whiteBit, Func<IXTRestClient> xt)
         {
             InitializeClients(enabledExchanges,
-                aster, binance, bingX, bitfinex, bitget, bitMart, bitMEX, bitstamp, bloFin, bybit, coinbase, coinEx,
+                aster, binance, bingX, bitfinex, bitget, bitMart, bitstamp, bloFin, bybit, coinbase, coinEx,
                 coinGecko, coinW, cryptoCom, deepCoin, gateIo, htx, hyperLiquid, kraken, kucoin, lBank, lighter, mexc,
                 okx, pionex, polymarket, tapbit, toobit, upbit, weex, whiteBit, xt);
         }
@@ -618,7 +652,6 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Bitfinex, credentials.Bitfinex, () => Bitfinex.SetApiCredentials(credentials.Bitfinex!));
             SetCredentialsIfNotNull(Exchange.Bitget, credentials.Bitget, () => Bitget.SetApiCredentials(credentials.Bitget!));
             SetCredentialsIfNotNull(Exchange.BitMart, credentials.BitMart, () => BitMart.SetApiCredentials(credentials.BitMart!));
-            SetCredentialsIfNotNull(Exchange.BitMEX, credentials.BitMEX, () => BitMEX.SetApiCredentials(credentials.BitMEX!));
             SetCredentialsIfNotNull(Exchange.BloFin, credentials.BloFin, () => BloFin.SetApiCredentials(credentials.BloFin!));
             SetCredentialsIfNotNull(Exchange.Bitstamp, credentials.Bitstamp, () => Bitstamp.SetApiCredentials(credentials.Bitstamp!));
             SetCredentialsIfNotNull(Exchange.Bybit, credentials.Bybit, () => Bybit.SetApiCredentials(credentials.Bybit!));
@@ -682,7 +715,7 @@ namespace CryptoClients.Net
         private void InitializeClients(
             IEnumerable<string>? enabledExchanges,
             Func<IAsterRestClient> aster, Func<IBinanceRestClient> binance, Func<IBingXRestClient> bingX, Func<IBitfinexRestClient> bitfinex,
-            Func<IBitgetRestClient> bitget, Func<IBitMartRestClient> bitMart, Func<IBitMEXRestClient> bitMEX, Func<IBitstampRestClient> bitstamp,
+            Func<IBitgetRestClient> bitget, Func<IBitMartRestClient> bitMart, Func<IBitstampRestClient> bitstamp,
             Func<IBloFinRestClient> bloFin, Func<IBybitRestClient> bybit, Func<ICoinbaseRestClient> coinbase, Func<ICoinExRestClient> coinEx,
             Func<ICoinGeckoRestClient> coinGecko, Func<ICoinWRestClient> coinW, Func<ICryptoComRestClient> cryptoCom, Func<IDeepCoinRestClient> deepCoin,
             Func<IGateIoRestClient> gateIo, Func<IHTXRestClient> htx, Func<IHyperLiquidRestClient> hyperLiquid, Func<IKrakenRestClient> kraken,
@@ -710,7 +743,6 @@ namespace CryptoClients.Net
             _bitfinex = Register(Exchange.Bitfinex, bitfinex, x => [x.ExchangeApi.SharedClient]);
             _bitget = Register(Exchange.Bitget, bitget, x => [x.SpotApiV2.SharedClient, x.FuturesApiV2.SharedClient]);
             _bitMart = Register(Exchange.BitMart, bitMart, x => [x.SpotApi.SharedClient, x.UsdFuturesApi.SharedClient]);
-            _bitMEX = Register(Exchange.BitMEX, bitMEX, x => [x.ExchangeApi.SharedClient]);
             _bitstamp = Register(Exchange.Bitstamp, bitstamp, x => [x.ExchangeApi.SharedClient]);
             _bloFin = Register(Exchange.BloFin, bloFin, x => [x.FuturesApi.SharedClient, x.AccountApi.SharedClient]);
             _bybit = Register(Exchange.Bybit, bybit, x => [x.V5Api.SharedClient]);
