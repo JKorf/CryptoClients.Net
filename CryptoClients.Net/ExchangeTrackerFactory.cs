@@ -11,8 +11,6 @@ using Bitget.Net.Enums;
 using Bitget.Net.Interfaces;
 using BitMart.Net;
 using BitMart.Net.Interfaces;
-using BitMEX.Net;
-using BitMEX.Net.Interfaces;
 using Bitstamp.Net;
 using Bitstamp.Net.Interfaces;
 using BloFin.Net;
@@ -92,8 +90,6 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IBitMartTrackerFactory BitMart => GetFactory(Exchange.BitMart, _bitMart);
         /// <inheritdoc />
-        public IBitMEXTrackerFactory BitMEX => GetFactory(Exchange.BitMEX, _bitMEX);
-        /// <inheritdoc />
         public IBitstampTrackerFactory Bitstamp => GetFactory(Exchange.Bitstamp, _bitstamp);
         /// <inheritdoc />
         public IBloFinTrackerFactory BloFin => GetFactory(Exchange.BloFin, _bloFin);
@@ -149,7 +145,6 @@ namespace CryptoClients.Net
         private Lazy<IBitfinexTrackerFactory> _bitfinex = null!;
         private Lazy<IBitgetTrackerFactory> _bitget = null!;
         private Lazy<IBitMartTrackerFactory> _bitMart = null!;
-        private Lazy<IBitMEXTrackerFactory> _bitMEX = null!;
         private Lazy<IBitstampTrackerFactory> _bitstamp = null!;
         private Lazy<IBloFinTrackerFactory> _bloFin = null!;
         private Lazy<IBybitTrackerFactory> _bybit = null!;
@@ -185,7 +180,6 @@ namespace CryptoClients.Net
             IBitfinexTrackerFactory bitfinex,
             IBitgetTrackerFactory bitget,
             IBitMartTrackerFactory bitMart,
-            IBitMEXTrackerFactory bitMEX,
             IBitstampTrackerFactory bitstamp,
             IBloFinTrackerFactory bloFin,
             IBybitTrackerFactory bybit,
@@ -212,7 +206,7 @@ namespace CryptoClients.Net
             IXTTrackerFactory xt)
         {
             InitializeFactories(null,
-                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitMEX, () => bitstamp,
+                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitstamp,
                 () => bloFin, () => bybit, () => coinbase, () => coinEx, () => coinW, () => cryptoCom, () => deepCoin, () => gateIo,
                 () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc, () => okx,
                 () => pionex, () => tapbit, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
@@ -224,7 +218,7 @@ namespace CryptoClients.Net
                 () => serviceProvider.GetRequiredService<IAsterTrackerFactory>(), () => serviceProvider.GetRequiredService<IBinanceTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<IBingXTrackerFactory>(), () => serviceProvider.GetRequiredService<IBitfinexTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<IBitgetTrackerFactory>(), () => serviceProvider.GetRequiredService<IBitMartTrackerFactory>(),
-                () => serviceProvider.GetRequiredService<IBitMEXTrackerFactory>(), () => serviceProvider.GetRequiredService<IBitstampTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IBitstampTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<IBloFinTrackerFactory>(), () => serviceProvider.GetRequiredService<IBybitTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<ICoinbaseTrackerFactory>(), () => serviceProvider.GetRequiredService<ICoinExTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<ICoinWTrackerFactory>(), () => serviceProvider.GetRequiredService<ICryptoComTrackerFactory>(),
@@ -299,7 +293,6 @@ namespace CryptoClients.Net
                 "Bitfinex" => Bitfinex.CreateUserSpotDataTracker(config),
                 "Bitget" => Bitget.CreateUserSpotDataTracker(config),
                 "BitMart" => BitMart.CreateUserSpotDataTracker(config),
-                "BitMEX" => BitMEX.CreateUserSpotDataTracker(config),
                 "Bitstamp" => Bitstamp.CreateUserSpotDataTracker(config),
                 "Bybit" => Bybit.CreateUserSpotDataTracker(config),
                 "Coinbase" => Coinbase.CreateUserSpotDataTracker(config),
@@ -355,7 +348,6 @@ namespace CryptoClients.Net
                 "Bitfinex" => Bitfinex.CreateUserSpotDataTracker(userIdentifier, credentials.Bitfinex ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitfinexEnvironment.GetEnvironmentByName(environment)),
                 "Bitget" => Bitget.CreateUserSpotDataTracker(userIdentifier, credentials.Bitget ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitgetEnvironment.GetEnvironmentByName(environment)),
                 "BitMart" => BitMart.CreateUserSpotDataTracker(userIdentifier, credentials.BitMart ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitMartEnvironment.GetEnvironmentByName(environment)),
-                "BitMEX" => BitMEX.CreateUserSpotDataTracker(userIdentifier, credentials.BitMEX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitMEXEnvironment.GetEnvironmentByName(environment)),
                 "Bitstamp" => Bitstamp.CreateUserSpotDataTracker(userIdentifier, credentials.Bitstamp ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitstampEnvironment.GetEnvironmentByName(environment)),
                 "Bybit" => Bybit.CreateUserSpotDataTracker(userIdentifier, credentials.Bybit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BybitEnvironment.GetEnvironmentByName(environment)),
                 "Coinbase" => Coinbase.CreateUserSpotDataTracker(userIdentifier, credentials.Coinbase ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, CoinbaseEnvironment.GetEnvironmentByName(environment)),
@@ -423,7 +415,6 @@ namespace CryptoClients.Net
                     ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "MarginAsset") ?? "usdt",
                     config),
                 "BitMart" => BitMart.CreateUserUsdFuturesDataTracker(config),
-                "BitMEX" => BitMEX.CreateUserFuturesDataTracker(config),
                 "Bitstamp" => Bitstamp.CreateUserFuturesDataTracker(config),
                 "BloFin" => BloFin.CreateUserFuturesDataTracker(config),
                 "Bybit" => Bybit.CreateUserFuturesDataTracker(config),
@@ -489,7 +480,6 @@ namespace CryptoClients.Net
                     config,
                     BitgetEnvironment.GetEnvironmentByName(environment)),
                 "BitMart" => BitMart.CreateUserUsdFuturesDataTracker(userIdentifier, credentials.BitMart ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitMartEnvironment.GetEnvironmentByName(environment)),
-                "BitMEX" => BitMEX.CreateUserFuturesDataTracker(userIdentifier, credentials.BitMEX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitMEXEnvironment.GetEnvironmentByName(environment)),
                 "Bitstamp" => Bitstamp.CreateUserFuturesDataTracker(userIdentifier, credentials.Bitstamp ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitstampEnvironment.GetEnvironmentByName(environment)),
                 "BloFin" => BloFin.CreateUserFuturesDataTracker(userIdentifier, credentials.BloFin ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BloFinEnvironment.GetEnvironmentByName(environment)),
                 "Bybit" => Bybit.CreateUserFuturesDataTracker(userIdentifier, credentials.Bybit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BybitEnvironment.GetEnvironmentByName(environment)),
@@ -555,7 +545,7 @@ namespace CryptoClients.Net
         private void InitializeFactories(
             IEnumerable<string>? enabledExchanges,
             Func<IAsterTrackerFactory> aster, Func<IBinanceTrackerFactory> binance, Func<IBingXTrackerFactory> bingX, Func<IBitfinexTrackerFactory> bitfinex,
-            Func<IBitgetTrackerFactory> bitget, Func<IBitMartTrackerFactory> bitMart, Func<IBitMEXTrackerFactory> bitMEX, Func<IBitstampTrackerFactory> bitstamp,
+            Func<IBitgetTrackerFactory> bitget, Func<IBitMartTrackerFactory> bitMart, Func<IBitstampTrackerFactory> bitstamp,
             Func<IBloFinTrackerFactory> bloFin, Func<IBybitTrackerFactory> bybit, Func<ICoinbaseTrackerFactory> coinbase, Func<ICoinExTrackerFactory> coinEx,
             Func<ICoinWTrackerFactory> coinW, Func<ICryptoComTrackerFactory> cryptoCom, Func<IDeepCoinTrackerFactory> deepCoin, Func<IGateIoTrackerFactory> gateIo,
             Func<IHTXTrackerFactory> htx, Func<IHyperLiquidTrackerFactory> hyperLiquid, Func<IKrakenTrackerFactory> kraken, Func<IKucoinTrackerFactory> kucoin,
@@ -570,7 +560,6 @@ namespace CryptoClients.Net
             _bitfinex = new Lazy<IBitfinexTrackerFactory>(bitfinex, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitget = new Lazy<IBitgetTrackerFactory>(bitget, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitMart = new Lazy<IBitMartTrackerFactory>(bitMart, LazyThreadSafetyMode.ExecutionAndPublication);
-            _bitMEX = new Lazy<IBitMEXTrackerFactory>(bitMEX, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitstamp = new Lazy<IBitstampTrackerFactory>(bitstamp, LazyThreadSafetyMode.ExecutionAndPublication);
             _bloFin = new Lazy<IBloFinTrackerFactory>(bloFin, LazyThreadSafetyMode.ExecutionAndPublication);
             _bybit = new Lazy<IBybitTrackerFactory>(bybit, LazyThreadSafetyMode.ExecutionAndPublication);
@@ -610,7 +599,6 @@ namespace CryptoClients.Net
                 "Bitfinex" => Bitfinex,
                 "Bitget" => Bitget,
                 "BitMart" => BitMart,
-                "BitMEX" => BitMEX,
                 "Bitstamp" => Bitstamp,
                 "BloFin" => BloFin,
                 "Bybit" => Bybit,

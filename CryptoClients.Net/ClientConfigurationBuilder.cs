@@ -7,7 +7,6 @@ using BingX.Net.Objects.Options;
 using Bitfinex.Net.Objects.Options;
 using Bitget.Net.Objects.Options;
 using BitMart.Net.Objects.Options;
-using BitMEX.Net.Objects.Options;
 using Bitstamp.Net.Objects.Options;
 using BloFin.Net.Objects.Options;
 using Bybit.Net.Objects.Options;
@@ -84,10 +83,6 @@ namespace CryptoClients.Net
         /// Configure BitMart API options
         /// </summary>
         public ClientConfigurationBuilder ConfigureBitMart(Action<BitMartOptions> configure) => ConfigureCore(configure);
-        /// <summary>
-        /// Configure BitMEX API options
-        /// </summary>
-        public ClientConfigurationBuilder ConfigureBitMEX(Action<BitMEXOptions> configure) => ConfigureCore(configure);
         /// <summary>
         /// Configure Bitstamp API options
         /// </summary>

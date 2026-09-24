@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Objects;
+﻿using CryptoExchange.Net;
+using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis;
 using System.Collections.Generic;
 using System.Linq;

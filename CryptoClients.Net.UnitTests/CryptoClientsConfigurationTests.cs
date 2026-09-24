@@ -15,7 +15,7 @@ namespace CryptoClients.Net.UnitTests
             var globalTimeout = TimeSpan.FromSeconds(10);
             var aggregateTimeout = TimeSpan.FromSeconds(20);
 
-            var configuration = CryptoClientsConfiguration.Create(builder => builder
+            var configuration = new CryptoClientsConfiguration(builder => builder
                 .ConfigureGlobal(options =>
                 {
                     options.EnabledExchanges = [Exchange.Binance];

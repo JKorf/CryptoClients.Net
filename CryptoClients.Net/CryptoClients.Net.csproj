@@ -60,7 +60,6 @@
     <ProjectReference Include="..\..\Bitfinex.Net\Bitfinex.Net\Bitfinex.Net.csproj" />
     <ProjectReference Include="..\..\Bitget.Net\Bitget.Net\Bitget.Net.csproj" />
     <ProjectReference Include="..\..\BitMart.Net\BitMart.Net\BitMart.Net.csproj" />
-    <ProjectReference Include="..\..\BitMEX.Net\BitMEX.Net\BitMEX.Net.csproj" />
     <ProjectReference Include="..\..\Bitstamp.Net\Bitstamp.Net\Bitstamp.Net.csproj" />
     <ProjectReference Include="..\..\BloFin.Net\BloFin.Net\BloFin.Net.csproj" />
     <ProjectReference Include="..\..\Bybit.Net\ByBit.Net\Bybit.Net.csproj" />

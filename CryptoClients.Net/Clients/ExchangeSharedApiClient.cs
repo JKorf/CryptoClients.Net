@@ -16,9 +16,6 @@ using Bitget.Net.Objects.Options;
 using BitMart.Net.Clients;
 using BitMart.Net.Interfaces.Clients;
 using BitMart.Net.Objects.Options;
-using BitMEX.Net.Clients;
-using BitMEX.Net.Interfaces.Clients;
-using BitMEX.Net.Objects.Options;
 using Bitstamp.Net.Clients;
 using Bitstamp.Net.Interfaces.Clients;
 using Bitstamp.Net.Objects.Options;
@@ -175,9 +172,6 @@ namespace CryptoClients.Net.Clients
                 [Exchange.BitMart] = Create(() =>
                     new BitMartSharedApiClient(exchangeRestClient.BitMart, exchangeSocketClient.BitMart, GetOptions<BitMartOptions>())),
 
-                [Exchange.BitMEX] = Create(() =>
-                    new BitMEXSharedApiClient(exchangeRestClient.BitMEX, exchangeSocketClient.BitMEX, GetOptions<BitMEXOptions>())),
-
                 [Exchange.Bitstamp] = Create(() =>
                     new BitstampSharedApiClient(exchangeRestClient.Bitstamp, exchangeSocketClient.Bitstamp, GetOptions<BitstampOptions>())),
 
@@ -283,7 +277,6 @@ namespace CryptoClients.Net.Clients
                 [Exchange.Bitfinex] = Create<IBitfinexSharedApiClient>(),
                 [Exchange.Bitget] = Create<IBitgetSharedApiClient>(),
                 [Exchange.BitMart] = Create<IBitMartSharedApiClient>(),
-                [Exchange.BitMEX] = Create<IBitMEXSharedApiClient>(),
                 [Exchange.Bitstamp] = Create<IBitstampSharedApiClient>(),
                 [Exchange.BloFin] = Create<IBloFinSharedApiClient>(),
                 [Exchange.Bybit] = Create<IBybitSharedApiClient>(),
@@ -440,10 +433,6 @@ namespace CryptoClients.Net.Clients
         /// <inheritdoc />
         public IBitMartSharedApiClient BitMart =>
             GetRequiredClient<IBitMartSharedApiClient>(Exchange.BitMart);
-
-        /// <inheritdoc />
-        public IBitMEXSharedApiClient BitMEX =>
-            GetRequiredClient<IBitMEXSharedApiClient>(Exchange.BitMEX);
 
         /// <inheritdoc />
         public IBitstampSharedApiClient Bitstamp =>

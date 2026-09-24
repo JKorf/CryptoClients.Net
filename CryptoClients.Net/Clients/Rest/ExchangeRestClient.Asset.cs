@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using CryptoExchange.Net;
 using CryptoExchange.Net.Objects;
 
 namespace CryptoClients.Net

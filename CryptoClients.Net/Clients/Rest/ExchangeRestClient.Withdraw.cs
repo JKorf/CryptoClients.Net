@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.SharedApis;
+﻿using CryptoExchange.Net;
+using CryptoExchange.Net.SharedApis;
 using System.Collections.Generic;
 using System.Linq;
 
