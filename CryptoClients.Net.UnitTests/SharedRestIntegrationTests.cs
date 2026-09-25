@@ -137,8 +137,8 @@ namespace CryptoClients.Net.UnitTests
 
             var client = GetRestClient();
             var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
-                Exchange.All.Except([Exchange.BloFin, Exchange.CoinEx]),
-                Exchange.All.Except([Exchange.BloFin, Exchange.CoinEx]));
+                Exchange.All.Except([Exchange.BloFin]),
+                Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -167,7 +167,7 @@ namespace CryptoClients.Net.UnitTests
             var client = GetRestClient();
             var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
                 Exchange.All,
-                Exchange.All.Except([Exchange.BloFin, Exchange.CoinEx]));
+                Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -388,7 +388,7 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin, Exchange.CoinEx]));
+            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -442,7 +442,7 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin, Exchange.CoinEx, Exchange.OKX]));
+            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin, Exchange.OKX]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -469,7 +469,7 @@ namespace CryptoClients.Net.UnitTests
                 return;
 
             var client = GetRestClient();
-            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin, Exchange.CoinEx]));
+            var exchangeSymbolsGroups = GetFuturesSymbols(Exchange.All.Except([Exchange.BloFin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -510,7 +510,7 @@ namespace CryptoClients.Net.UnitTests
                     if (!result.Success)
                         throw new Exception($"Failed for {result.Exchange}: {result.Error}");
 
-                    if (result.Data?.OpenInterest == null)
+                    if (result.Data?.OpenInterests == null)
                         throw new Exception($"No data for {result.Exchange}");
                 }
             }
