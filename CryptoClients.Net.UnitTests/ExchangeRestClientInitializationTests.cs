@@ -317,6 +317,62 @@ namespace CryptoClients.Net.UnitTests
         }
 
         [Test]
+        public void ResolvingUserSharedApiClientDoesNotResolveExchangeProvidersOrClients()
+        {
+            var binanceCreated = 0;
+            var bybitCreated = 0;
+            var services = new ServiceCollection();
+            services.AddCryptoClients(options => options.EnabledExchanges = [Exchange.Binance]);
+            services.AddTransient<IBinanceUserClientProvider>(_ =>
+            {
+                binanceCreated++;
+                return new BinanceUserClientProvider();
+            });
+            services.AddTransient<IBybitUserClientProvider>(_ =>
+            {
+                bybitCreated++;
+                return new BybitUserClientProvider();
+            });
+
+            using var serviceProvider = services.BuildServiceProvider();
+            var provider = serviceProvider.GetRequiredService<IExchangeUserClientProvider>();
+            var firstClient = provider.GetSharedApiClient("user");
+            var secondClient = provider.GetSharedApiClient("user");
+
+            Assert.That(binanceCreated, Is.Zero);
+            Assert.That(bybitCreated, Is.Zero);
+
+            Assert.That(firstClient.Binance, Is.Not.Null);
+            Assert.That(secondClient.Binance, Is.Not.Null);
+            Assert.That(binanceCreated, Is.EqualTo(1));
+            Assert.That(bybitCreated, Is.Zero);
+        }
+
+        [Test]
+        public void UserSharedApiClientCapabilityDiscoveryOnlyResolvesEnabledExchanges()
+        {
+            var bybitCreated = 0;
+            var services = new ServiceCollection();
+            services.AddCryptoClients(options => options.EnabledExchanges = [Exchange.Binance]);
+            services.AddTransient<IBybitUserClientProvider>(_ =>
+            {
+                bybitCreated++;
+                return new BybitUserClientProvider();
+            });
+
+            using var serviceProvider = services.BuildServiceProvider();
+            var provider = serviceProvider.GetRequiredService<IExchangeUserClientProvider>();
+            var client = provider.GetSharedApiClient("user");
+
+            var capabilities = client.GetCapabilities<IGetTicker>(TradingMode.Spot);
+
+            Assert.That(capabilities, Is.Not.Empty);
+            Assert.That(capabilities, Has.All.Property(nameof(SharedCapabilityResolution<IGetTicker>.Exchange)).EqualTo(Exchange.Binance));
+            Assert.That(client.GetClient(Exchange.Bybit), Is.Null);
+            Assert.That(bybitCreated, Is.Zero);
+        }
+
+        [Test]
         public void DisabledUserClientProviderIsExcludedWithoutBeingResolved()
         {
             var bybitCreated = 0;

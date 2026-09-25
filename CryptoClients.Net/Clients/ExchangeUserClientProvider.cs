@@ -423,6 +423,16 @@ namespace CryptoClients.Net.Clients
         }
 
         /// <inheritdoc />
+        public IExchangeSharedApiClient GetSharedApiClient(string userIdentifier, ExchangeCredentials? credentials = null, Dictionary<string, string?>? environments = null)
+        {
+            var restClient = GetRestClient(userIdentifier, credentials, environments);
+            var socketClient = GetSocketClient(userIdentifier, credentials, environments);
+            var configuration = new CryptoClientsConfiguration(builder => builder.ConfigureGlobal(options =>
+                options.EnabledExchanges = _enabledExchanges));
+            return new ExchangeSharedApiClient(restClient, socketClient, configuration);
+        }
+
+        /// <inheritdoc />
         public IExchangeRestClient GetRestClient(string userIdentifier, ExchangeCredentials? credentials = null, Dictionary<string, string?>? environments = null)
         {
             environments ??= new();

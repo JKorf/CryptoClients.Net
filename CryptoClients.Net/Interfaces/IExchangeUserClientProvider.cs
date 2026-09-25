@@ -22,6 +22,15 @@ namespace CryptoClients.Net.Interfaces
         public void ClearUserClients(string userIdentifier, string? exchange = null);
 
         /// <summary>
+        /// Get the shared API client for a specific user. In case the client does not exist yet it will be created and the <paramref name="credentials"/> should be provided, unless <see cref="InitializeUserClient" /> has been called prior for this user.
+        /// </summary>
+        /// <param name="userIdentifier">The identifier for user</param>
+        /// <param name="credentials">The credentials for the user. Required the first time a client is requested for this user unless <see cref="InitializeUserClient" /> has been called prior for this user.</param>
+        /// <param name="environments">The environments to use for the clients</param>
+        /// <returns>The shared API client for the specified user</returns>
+        IExchangeSharedApiClient GetSharedApiClient(string userIdentifier, ExchangeCredentials? credentials = null, Dictionary<string, string?>? environments = null);
+
+        /// <summary>
         /// Get the Rest client for a specific user. In case the client does not exist yet it will be created and the <paramref name="credentials"/> should be provided, unless <see cref="InitializeUserClient" /> has been called prior for this user.
         /// </summary>
         /// <param name="userIdentifier">The identifier for user</param>
