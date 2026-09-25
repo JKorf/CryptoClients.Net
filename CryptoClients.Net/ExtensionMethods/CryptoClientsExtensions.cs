@@ -405,5 +405,17 @@ namespace CryptoClients.Net
                 .Select(x => x.Capability.SubscribeToUserTradeUpdatesAsync(request, onData, ct))
                 .ParallelEnumerateAsync();
         }
+
+        /// <summary>
+        /// Wait for all results from an IAsyncEnumerable and return them as an array
+        /// </summary>
+        public static async Task<T[]> WaitAllAsync<T>(this IAsyncEnumerable<T> enumerable)
+        {
+            var result = new List<T>();
+            await foreach (var itemResult in enumerable.ConfigureAwait(false))
+                result.Add(itemResult);
+
+            return result.ToArray();
+        }
     }
 }

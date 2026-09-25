@@ -119,7 +119,7 @@ namespace CryptoClients.Net.Clients
         /// <param name="httpClient">Optional HttpClient instance</param>
         /// <param name="loggerFactory">Optional ILoggerFactory instance</param>
         public ExchangeSharedApiClient(
-            CryptoClientsConfiguration? configuration,
+            CryptoClientsConfiguration? configuration = null,
             HttpClient? httpClient = null,
             ILoggerFactory? loggerFactory = null)
             : this(
