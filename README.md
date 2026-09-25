@@ -373,6 +373,24 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.8.0 - 25 Sep 2026
+    * Updated client library versions
+    * Removed BitMEX, BitMart and CoinEx support due to exchange shut down
+    * Shared APIs
+      * Added SharedApi V2 support
+      * Added (I)ExchangeSharedApiClient for accessing V2 Shared APIs
+      * See https://cryptoexchange.jkorf.dev/docs/shared-api?sharedApiVersion=v2 for more info about the V2 update and https://github.com/JKorf/CryptoExchange.Net/blob/master/docs/SHARED_API_V2_MIGRATION.md for migrating from V1
+      * SharedApi V1 will still be supported 
+    * Rate limiting
+      * Added rate limit admission callback to client options to allow rate limit admission ruling on request definition
+      * Added `WithRateLimitAdmissionAsync` to client to allow rate limit admission ruling on a specific request
+      * Update rate limit safety margin logic
+      * Fixed some rate limit calculation issues
+    * Request coalescing
+      * Sending identical public GET requests on the same exchange client at the same time will only send a single request to the server and use the same response
+      * Coalescing is enabled by default and can be disabled with the `RequestCoalescingEnabled` client option
+    * Added new constructors for ExchangeSocketClient and ExchangeRestClient using CryptoClientsConfiguration
+
 * Version 5.7.1 - 01 Sep 2026
     * Updated client library versions, fixing some bugs
 

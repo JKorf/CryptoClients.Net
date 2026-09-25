@@ -6,7 +6,7 @@ When generating code that consumes CryptoClients.Net, follow these conventions.
 
 ## Use CryptoClients.Net for multi-exchange workflows
 
-Do not generate raw `HttpClient` calls to exchange endpoints. Use `ExchangeRestClient`, `ExchangeSocketClient`, shared API interfaces, or the exchange-specific clients exposed from the aggregate clients.
+Do not generate raw `HttpClient` calls to exchange endpoints. Prefer Shared API V2 through `ExchangeSharedApiClient` for new exchange-agnostic code. Use the V1 aggregate clients or direct exchange clients where appropriate.
 
 ## Client setup
 
@@ -15,23 +15,24 @@ using CryptoClients.Net;
 using CryptoClients.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
 
+IExchangeSharedApiClient sharedClient = new ExchangeSharedApiClient();
 IExchangeRestClient restClient = new ExchangeRestClient();
 IExchangeSocketClient socketClient = new ExchangeSocketClient();
 ```
 
-For services, prefer `services.AddCryptoClients(...)` and inject `IExchangeRestClient`, `IExchangeSocketClient`, `IExchangeOrderBookFactory`, `IExchangeTrackerFactory`, or `IExchangeUserClientProvider`.
+For services, prefer `services.AddCryptoClients(...)` and inject `IExchangeSharedApiClient`, `IExchangeRestClient`, `IExchangeSocketClient`, `IExchangeOrderBookFactory`, `IExchangeTrackerFactory`, or `IExchangeUserClientProvider`. For direct construction with shared settings, pass a `CryptoClientsConfiguration` to the clients.
 
 ## Result handling
 
-Aggregate REST calls return `ExchangeWebResult<T>` or arrays of them. Socket subscriptions return `ExchangeResult<UpdateSubscription>` or arrays of them. Always check `.Success` before reading `.Data`.
+Capability lookup returns `null` when an operation is unsupported. REST and subscription operations return per-exchange results. Always check `.Success` before reading `.Data`, and handle aggregate failures independently.
 
 ## API structure
 
-- `restClient.GetSpotTickerAsync(...)` and similar aggregate methods query one or more exchanges through shared APIs.
-- `restClient.GetSpotTickerClient("Binance")` and similar helpers return a shared client interface for a specific exchange when supported.
-- `restClient.Binance`, `restClient.Kucoin`, `restClient.OKX`, etc. expose the full exchange-specific REST clients.
-- `socketClient.SubscribeToTickerUpdatesAsync(...)` and similar methods subscribe on one or more exchanges.
-- `socketClient.Binance`, `socketClient.Kucoin`, `socketClient.OKX`, etc. expose the full exchange-specific socket clients.
+- `sharedClient.GetCapability<T>(exchange, tradingMode)` resolves one preferred V2 capability for one exchange.
+- `sharedClient.GetCapabilities<T>(...)` resolves one preferred implementation per exchange; use `ExecuteAllAsync` or `SubscribeAllAsync` to run them in parallel.
+- `sharedClient.GetImplementations<T>(...)` returns every matching transport/API-surface implementation and can return multiple entries per exchange.
+- `sharedClient.Binance.SpotRest`, etc. provide compile-time V2 capability discovery for one exchange.
+- `ExchangeRestClient` and `ExchangeSocketClient` retain the V1 aggregate APIs and expose full direct clients through `.Binance`, `.Kucoin`, `.OKX`, etc.
 
 ## Shared symbols
 
@@ -39,7 +40,9 @@ Use `SharedSymbol`, not hardcoded exchange symbol formats, when using aggregate 
 
 ```csharp
 var symbol = new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable);
-var ticker = await restClient.GetSpotTickerAsync("Binance", new GetTickerRequest(symbol));
+var tickerCapability = sharedClient.GetCapability<IGetTicker>("Binance", TradingMode.Spot);
+if (tickerCapability is null) return;
+var ticker = await tickerCapability.Capability.GetTickerAsync(new GetTickerRequest(symbol));
 ```
 
 For cross-exchange USD/stable quote routing, prefer `SharedSymbol.UsdOrStable` instead of hardcoding `USDT` when USDC/USD variants are acceptable.
@@ -50,7 +53,7 @@ Use `ExchangeCredentials` for typed configuration, or `SetApiCredentials(exchang
 
 ## WebSocket pattern
 
-For aggregate subscriptions, check each returned subscription result. Use `await subscription.Data.CloseAsync()` to close one successful aggregate subscription, or `await socketClient.UnsubscribeAllAsync()` on shutdown to close everything. For direct exchange socket clients, use the direct client's `UnsubscribeAsync(subscription.Data)` method.
+For V2 subscriptions, check every result and pass a cancellation token. Close one successful subscription with `subscription.Data.CloseAsync()` or all shared-client subscriptions with `sharedClient.UnsubscribeAllAsync()`. Direct exchange socket clients use `UnsubscribeAsync(subscription.Data)`.
 
 ## Avoid
 
@@ -59,6 +62,7 @@ For aggregate subscriptions, check each returned subscription result. Use `await
 - Instantiating clients per request.
 - Reading `.Data` before checking `.Success`.
 - Assuming every exchange supports every shared interface.
+- Confusing `GetCapabilities` (one preferred match per exchange) with `GetImplementations` (all matches).
 - Guessing credential fields or symbol formats.
 
 ## Reference

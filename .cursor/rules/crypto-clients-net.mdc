@@ -16,23 +16,30 @@ This codebase uses **CryptoClients.Net** for multi-exchange cryptocurrency API a
 using CryptoClients.Net;
 using CryptoExchange.Net.SharedApis;
 
-var restClient = new ExchangeRestClient();
-var socketClient = new ExchangeSocketClient();
+var sharedClient = new ExchangeSharedApiClient();
+var restClient = new ExchangeRestClient();       // direct clients and V1 REST
+var socketClient = new ExchangeSocketClient();   // direct clients and V1 sockets
 ```
 
 For application code, prefer DI:
 
 ```csharp
-services.AddCryptoClients(options => options.OutputOriginalData = true);
+services.AddCryptoClients(options =>
+{
+    options.OutputOriginalData = true;
+    options.EnabledExchanges = ["Binance", "Bybit", "OKX"];
+});
 ```
 
 ## Result pattern
 
-Aggregate methods return `ExchangeWebResult<T>`, `ExchangeWebResult<T>[]`, `ExchangeResult<UpdateSubscription>`, or `ExchangeResult<UpdateSubscription>[]`. Always check `.Success` before reading `.Data`.
+Prefer Shared API V2 capabilities for new exchange-agnostic code. Capability presence is the support check; always check `.Success` on returned operations before reading `.Data`.
 
 ```csharp
-var ticker = await restClient.GetSpotTickerAsync(
-    "Binance",
+var capability = sharedClient.GetCapability<IGetTicker>("Binance", TradingMode.Spot);
+if (capability is null) return;
+
+var ticker = await capability.Capability.GetTickerAsync(
     new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable)));
 
 if (!ticker.Success) { /* ticker.Error */ return; }
@@ -41,21 +48,22 @@ var price = ticker.Data.LastPrice;
 
 ## API surface
 
-- Aggregate REST: `restClient.GetSpotTickerAsync(...)`, `GetFuturesTickerAsync(...)`, `GetOrderBookAsync(...)`, `PlaceSpotOrderAsync(...)`, etc.
-- Shared REST clients: `restClient.GetSpotTickerClient(exchange)`, `GetBalancesClient(...)`, `GetFuturesOrderClient(...)`, etc.
-- Direct exchange REST: `restClient.Binance`, `restClient.Bybit`, `restClient.OKX`, etc.
-- Aggregate sockets: `socketClient.SubscribeToTickerUpdatesAsync(...)`, `SubscribeToOrderBookUpdatesAsync(...)`, `SubscribeToBalanceUpdatesAsync(...)`, etc.
-- Shared socket clients: `socketClient.GetTickerClient(...)`, `GetOrderBookClient(...)`, `GetSpotOrderClient(...)`, etc.
-- Direct exchange sockets: `socketClient.Binance`, `socketClient.Kucoin`, `socketClient.OKX`, etc.
+- V2 one exchange: `sharedClient.GetCapability<T>(exchange, tradingMode)`.
+- V2 one preferred implementation per exchange: `sharedClient.GetCapabilities<T>(...)`; run with `ExecuteAllAsync` or `SubscribeAllAsync`.
+- V2 every matching transport/API surface: `sharedClient.GetImplementations<T>(...)`.
+- V2 typed exchange surfaces: strongly typed properties such as `sharedClient.Binance.SpotRest`; surface names vary by exchange.
+- V1 aggregate REST/socket APIs remain on `restClient` and `socketClient`.
+- Full exchange APIs: `restClient.Binance`, `socketClient.Kucoin`, `restClient.OKX`, etc.
 
 ## Hard rules
 
 - Never skip checking `Success`.
 - Use `SharedSymbol` for aggregate/shared APIs. For cross-exchange USD/stable quote routing, prefer `SharedSymbol.UsdOrStable` instead of hardcoding `USDT` when USDC/USD variants are acceptable.
 - Handle per-exchange failures independently in multi-exchange results.
-- Use `Get*Client(...)` null checks when routing manually.
+- Handle `null` from `GetCapability`; capability and trading-mode support varies by exchange.
+- Do not confuse `GetCapabilities` with `GetImplementations`.
 - Use `ExchangeCredentials` or `DynamicCredentials`; do not guess credential shapes.
-- Call `subscription.Data.CloseAsync()` for one aggregate WebSocket subscription, direct exchange `UnsubscribeAsync(subscription.Data)` for direct socket clients, or `UnsubscribeAllAsync()` for all aggregate subscriptions.
+- Close V2 subscriptions with cancellation, `subscription.Data.CloseAsync()`, or `sharedClient.UnsubscribeAllAsync()`; direct clients use `UnsubscribeAsync(subscription.Data)`.
 - Use direct exchange properties for full exchange-specific APIs.
 
 ## Reference

@@ -1,13 +1,13 @@
 ---
 name: crypto-clients-net
-description: Use CryptoClients.Net when generating C#/.NET code that needs unified access to multiple cryptocurrency exchanges, aggregate REST requests, multi-exchange WebSocket subscriptions, shared CryptoExchange.Net APIs, cross-exchange order books, trackers, dynamic exchange credentials, or direct access to any bundled exchange client.
+description: Use CryptoClients.Net when generating C#/.NET code that needs Shared API V2 capability discovery, unified access to multiple cryptocurrency exchanges, aggregate REST requests, multi-exchange WebSocket subscriptions, cross-exchange order books, trackers, credentials, or direct access to bundled exchange clients.
 ---
 
 # CryptoClients.Net Skill
 
 ## Quick decision
 
-If the user asks for multi-exchange crypto API access in C#/.NET, use `CryptoClients.Net`. Do not write raw `HttpClient` calls or invent a CCXT-style wrapper. `CryptoClients.Net` already combines the exchange-specific clients with the `CryptoExchange.Net.SharedApis` abstraction, shared result handling, client-side rate limiting, WebSocket reconnect logic, order book helpers, trackers, and dynamic credential handling.
+If the user asks for multi-exchange crypto API access in C#/.NET, use `CryptoClients.Net`. Prefer the V2 Shared API through `IExchangeSharedApiClient` for new exchange-agnostic code. Do not write raw `HttpClient` calls or invent a CCXT-style wrapper. The package also retains the V1 aggregate APIs and exposes every bundled exchange client directly.
 
 Use a standalone exchange package such as `Binance.Net` or `Kucoin.Net` only when the user is targeting one exchange and needs exchange-specific endpoints that are not exposed through shared APIs. `CryptoClients.Net` still exposes those direct clients through `ExchangeRestClient.Binance`, `ExchangeRestClient.Kucoin`, `ExchangeSocketClient.OKX`, etc.
 
@@ -26,8 +26,9 @@ using CryptoClients.Net;
 using CryptoClients.Net.Interfaces;
 using CryptoExchange.Net.SharedApis;
 
-IExchangeRestClient restClient = new ExchangeRestClient();
-IExchangeSocketClient socketClient = new ExchangeSocketClient();
+IExchangeSharedApiClient sharedClient = new ExchangeSharedApiClient();
+IExchangeRestClient restClient = new ExchangeRestClient();       // direct clients and V1 REST
+IExchangeSocketClient socketClient = new ExchangeSocketClient(); // direct clients and V1 sockets
 
 var symbol = new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable);
 ```
@@ -41,19 +42,35 @@ services.AddCryptoClients(options =>
 {
     options.OutputOriginalData = true;
     options.RequestTimeout = TimeSpan.FromSeconds(10);
+    options.EnabledExchanges = ["Binance", "Bybit", "OKX"];
 });
 
-// Inject IExchangeRestClient, IExchangeSocketClient, IExchangeOrderBookFactory,
-// IExchangeTrackerFactory, or IExchangeUserClientProvider.
+// Inject IExchangeSharedApiClient, IExchangeRestClient, IExchangeSocketClient,
+// IExchangeOrderBookFactory, IExchangeTrackerFactory, or IExchangeUserClientProvider.
 ```
 
-## Core Pattern: Result Handling
-
-Aggregate REST methods return `ExchangeWebResult<T>` for a single exchange or arrays of `ExchangeWebResult<T>` for multiple exchanges. Socket subscriptions return `ExchangeResult<UpdateSubscription>` or arrays of `ExchangeResult<UpdateSubscription>`. Always check `.Success` before reading `.Data`.
+For direct construction with global and per-exchange settings, use the shared configuration object:
 
 ```csharp
-var result = await restClient.GetSpotTickerAsync(
-    "Binance",
+var configuration = new CryptoClientsConfiguration(builder => builder
+    .ConfigureGlobal(options => options.RequestTimeout = TimeSpan.FromSeconds(10))
+    .ConfigureBinance(options => options.Rest.OutputOriginalData = true));
+
+IExchangeSharedApiClient client = new ExchangeSharedApiClient(configuration);
+```
+
+`EnabledExchanges` limits initialization and aggregate routing. Accessing a disabled strongly typed exchange property throws `InvalidOperationException`.
+
+## Core Pattern: Shared API V2
+
+Resolve a capability before calling it. Capability presence is the support check; do not assume every exchange implements every operation or trading mode.
+
+```csharp
+var ticker = sharedClient.GetCapability<IGetTicker>("Binance", TradingMode.Spot);
+if (ticker is null)
+    return;
+
+var result = await ticker.Capability.GetTickerAsync(
     new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable)));
 
 if (!result.Success)
@@ -65,68 +82,53 @@ if (!result.Success)
 Console.WriteLine($"{result.Exchange}: {result.Data.LastPrice}");
 ```
 
-For multi-exchange calls, each exchange can succeed or fail independently:
+For multiple exchanges, resolve one preferred implementation per exchange and execute them in parallel:
 
 ```csharp
-var results = await restClient.GetSpotTickerAsync(
-    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "ETH", SharedSymbol.UsdOrStable)),
-    new[] { "Binance", "Bybit", "OKX" });
+var capabilities = sharedClient.GetCapabilities(
+    SharedCapabilities.Tickers.GetTicker,
+    TradingMode.Spot,
+    ["Binance", "Bybit", "OKX"]);
 
-foreach (var item in results)
+await foreach (var item in capabilities.ExecuteAllAsync(
+    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "ETH", SharedSymbol.UsdOrStable))))
 {
-    if (!item.Success)
-        Console.WriteLine($"{item.Exchange} failed: {item.Error}");
-    else
-        Console.WriteLine($"{item.Exchange}: {item.Data.LastPrice}");
+    Console.WriteLine(item.Success
+        ? $"{item.Exchange}: {item.Data.LastPrice}"
+        : $"{item.Exchange}: {item.Error}");
 }
 ```
+
+Use `GetCapability<T>` for one exchange, `GetCapabilities<T>` for one preferred match per exchange, and `GetImplementations<T>` when every matching transport/API surface is required. The overload taking a `SharedCapabilityReference<T>` identifies an exact operation. Use `.WaitAllAsync()` only when an `IAsyncEnumerable` must be collected into an array.
 
 ## Core Pattern: API Surface
 
-The aggregate clients expose three layers:
-
 ```csharp
-restClient.GetSpotTickerAsync(...)          // aggregate shared call
-restClient.GetSpotTickerClient("Binance")   // shared interface for one exchange
-restClient.Binance.SpotApi.ExchangeData     // full Binance.Net REST API
-
-socketClient.SubscribeToTickerUpdatesAsync(...) // aggregate shared subscription
-socketClient.GetTickerClient(...)               // shared socket interface
-socketClient.Binance.SpotApi.ExchangeData       // full Binance.Net socket API
+sharedClient.GetCapabilities<IGetTicker>(...)     // V2 capability discovery
+sharedClient.Binance.SpotRest.GetTickerAsync(...) // V2 typed exchange surface
+restClient.GetSpotTickerAsync(...)                // supported V1 aggregate call
+restClient.Binance.SpotApi.ExchangeData           // full Binance.Net REST API
 ```
 
-Prefer aggregate methods for cross-exchange workflows. Prefer `Get*Client` helpers when building your own routing layer over shared interfaces. Prefer direct exchange properties for exchange-specific endpoints, parameters, or models.
+Prefer V2 capabilities for new cross-exchange workflows. V1 aggregate methods and `Get*Client` helpers remain supported. Use direct exchange properties for exchange-specific endpoints, parameters, or models.
 
-## Aggregate REST Requests
+## V1 Aggregate REST Requests
 
-Most aggregate REST methods have these shapes:
+V1 methods offer single-exchange, multi-exchange array, and often `IAsyncEnumerable` overloads. They return `ExchangeWebResult<T>` values; check each result independently because exchanges can succeed or fail independently.
 
-```csharp
-Task<ExchangeWebResult<T>> MethodAsync(string exchange, Request request, ...);
-IAsyncEnumerable<ExchangeWebResult<T>> MethodAsyncEnumerable(Request request, IEnumerable<string>? exchanges = null, ...);
-Task<ExchangeWebResult<T>[]> MethodAsync(Request request, IEnumerable<string>? exchanges = null, ...);
-```
-
-Use the `AsyncEnumerable` overload when you want to process results as soon as each exchange responds:
+## Shared API V2 WebSocket Subscriptions
 
 ```csharp
-await foreach (var ticker in restClient.GetSpotTickerAsyncEnumerable(
-    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable)),
-    new[] { "Binance", "Kraken", "Kucoin" }))
-{
-    Console.WriteLine(ticker.Success
-        ? $"{ticker.Exchange}: {ticker.Data.LastPrice}"
-        : $"{ticker.Exchange}: {ticker.Error}");
-}
-```
+var capabilities = sharedClient.GetCapabilities(
+    SharedCapabilities.Tickers.SubscribeTicker,
+    TradingMode.Spot,
+    ["Binance", "OKX"]);
 
-## Aggregate WebSocket Subscriptions
-
-```csharp
-var subscriptions = await socketClient.SubscribeToTickerUpdatesAsync(
+using var shutdown = new CancellationTokenSource();
+var subscriptions = await capabilities.SubscribeAllAsync(
     new SubscribeTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", SharedSymbol.UsdOrStable)),
     update => Console.WriteLine($"{update.Exchange} {update.Data.Symbol}: {update.Data.LastPrice}"),
-    new[] { "Binance", "OKX" });
+    shutdown.Token).WaitAllAsync();
 
 foreach (var sub in subscriptions)
 {
@@ -134,16 +136,11 @@ foreach (var sub in subscriptions)
         Console.WriteLine($"{sub.Exchange} failed: {sub.Error}");
 }
 
-// Stop one successful aggregate subscription:
-var firstSubscription = subscriptions.FirstOrDefault(x => x.Success);
-if (firstSubscription != null)
-    await firstSubscription.Data.CloseAsync();
-
-// Or stop every subscription/connection on this aggregate socket client:
-await socketClient.UnsubscribeAllAsync();
+shutdown.Cancel();
+await sharedClient.UnsubscribeAllAsync();
 ```
 
-Always stop subscriptions on shutdown. For aggregate `ExchangeSocketClient` subscriptions, use `subscription.Data.CloseAsync()` to close a single subscription, or `UnsubscribeAllAsync()` to close every subscription/connection on the aggregate socket client. For direct exchange socket clients, use that client's `UnsubscribeAsync(subscription.Data)` method when closing a single subscription.
+Always stop subscriptions on shutdown. A cancellation token can close the V2 subscriptions created with it; `sharedClient.UnsubscribeAllAsync()` closes all subscriptions across its exchanges and transports. For one successful subscription, use `subscription.Data.CloseAsync()`. Direct exchange socket clients also support their normal `UnsubscribeAsync(subscription.Data)` pattern.
 
 ## Direct Exchange Access
 
@@ -161,24 +158,24 @@ Direct access uses the same public surface as the individual exchange packages. 
 
 ## Credentials
 
-For typed credentials, configure `ExchangeCredentials`:
+For typed credentials, configure `ExchangeCredentials` globally:
 
 ```csharp
 using Binance.Net;
 using Kucoin.Net;
 using CryptoClients.Net.Models;
 
-var client = new ExchangeRestClient(options =>
-{
-    options.ApiCredentials = new ExchangeCredentials
+var configuration = new CryptoClientsConfiguration(builder => builder
+    .ConfigureGlobal(options => options.ApiCredentials = new ExchangeCredentials
     {
         Binance = new BinanceCredentials("BINANCE_KEY", "BINANCE_SECRET"),
         Kucoin = new KucoinCredentials("KUCOIN_KEY", "KUCOIN_SECRET", "KUCOIN_PASSPHRASE")
-    };
-});
+    }));
+
+var client = new ExchangeSharedApiClient(configuration);
 ```
 
-For runtime-driven credentials, use `DynamicCredentials` and `SetApiCredentials(exchange, credentials)`. Use `ExchangeCredentials.GetDynamicCredentialInfo(mode, exchange)` to discover what parameters are required.
+For runtime-driven credentials on the V1 REST/socket clients, use `DynamicCredentials` and `SetApiCredentials(exchange, credentials)`. Use `ExchangeCredentials.GetDynamicCredentialInfo(mode, exchange)` to discover what parameters are required.
 
 ```csharp
 var info = ExchangeCredentials.GetDynamicCredentialInfo(TradingMode.Spot, "OKX");
@@ -233,17 +230,19 @@ User data trackers require credentials. Use the overloads that accept `ExchangeC
 - Do not assume one exchange failure means the entire aggregate request failed; inspect each `ExchangeWebResult`.
 - Do not read `.Data` before checking `.Success`.
 - Do not hardcode symbol formats like `BTCUSDT` for shared APIs; use `SharedSymbol`. For cross-exchange USD/stable quote routing, prefer `SharedSymbol.UsdOrStable` instead of hardcoding `USDT` when USDC/USD variants are acceptable.
-- Do not assume all exchanges support the same shared interface; use `Get*Client(...)` and handle `null`, or call aggregate methods with explicit exchange filters.
+- Do not assume all exchanges support the same capability; handle `null` from `GetCapability`, or use `GetCapabilities` with explicit exchange filters.
 - Do not assume all exchanges use key/secret credentials; use typed credentials or `DynamicCredentialInfo`.
 - Do not instantiate aggregate clients per request. Reuse clients or use DI.
-- Do not forget to unsubscribe from socket subscriptions. Use `subscription.Data.CloseAsync()` for one aggregate subscription, direct exchange `UnsubscribeAsync(subscription.Data)` for one direct exchange subscription, or `UnsubscribeAllAsync()` for all aggregate subscriptions.
-- Do not use aggregate shared APIs when an exchange-specific endpoint or option is required; use `restClient.Binance`, `restClient.OKX`, etc.
+- Do not confuse `GetCapabilities` with `GetImplementations`: the former selects one preferred match per exchange; the latter can return multiple matches per exchange.
+- Do not forget to unsubscribe from socket subscriptions. Use cancellation, `subscription.Data.CloseAsync()`, or `sharedClient.UnsubscribeAllAsync()` as appropriate.
+- Do not use shared APIs when an exchange-specific endpoint or option is required; use `restClient.Binance`, `restClient.OKX`, etc.
 
 ## Reference
 
 - Full docs: https://cryptoexchange.jkorf.dev/crypto-clients
 - Options docs: https://cryptoexchange.jkorf.dev/crypto-clients/options
-- Shared API docs: https://cryptoexchange.jkorf.dev/client-libs/shared
+- Shared API V2 docs: https://cryptoexchange.jkorf.dev/docs/shared-api?sharedApiVersion=v2
+- V1 to V2 migration: https://github.com/JKorf/CryptoExchange.Net/blob/master/docs/SHARED_API_V2_MIGRATION.md
 - Examples: see `Examples/ai-friendly/` and https://cryptoexchange.jkorf.dev/crypto-clients/examples
 - Source: https://github.com/JKorf/CryptoClients.Net
 - NuGet: https://www.nuget.org/packages/CryptoClients.Net

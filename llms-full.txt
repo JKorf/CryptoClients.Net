@@ -1,15 +1,13 @@
 # CryptoClients.Net Full LLM Context
 
-Versions: CryptoClients.Net 5.7.1; CryptoExchange.Net 12.4.0.
+Versions: CryptoClients.Net 5.8.0; CryptoExchange.Net 13.0.0.
 
 CryptoClients.Net is a multi-exchange .NET client package built on CryptoExchange.Net. It aggregates the individual JKorf exchange libraries and exposes:
 
 - Direct exchange-specific REST and WebSocket clients.
-- Shared API interfaces from `CryptoExchange.Net.SharedApis`.
-- Aggregate methods that call one or more exchanges through the shared APIs.
-- Aggregate WebSocket subscription helpers.
-- Dynamic shared-client discovery methods.
-- Global and per-exchange configuration through `GlobalExchangeOptions`.
+- Shared API V2 capability discovery and aggregate execution through `IExchangeSharedApiClient`.
+- Supported V1 aggregate REST and WebSocket APIs.
+- Global and per-exchange configuration through `CryptoClientsConfiguration` and `GlobalExchangeOptions`.
 - Typed and dynamic credential management through `ExchangeCredentials` and `DynamicCredentials`.
 - Cross-exchange and individual symbol order book factories.
 - Kline, trade, spot user data, and futures user data tracker factories.
@@ -51,11 +49,12 @@ using OKX.Net;
 ## Client Entry Points
 
 ```csharp
+IExchangeSharedApiClient sharedClient = new ExchangeSharedApiClient();
 IExchangeRestClient restClient = new ExchangeRestClient();
 IExchangeSocketClient socketClient = new ExchangeSocketClient();
 ```
 
-REST exposes aggregate methods and direct clients. Socket exposes aggregate subscription helpers and direct socket clients.
+Use `ExchangeSharedApiClient` for new exchange-agnostic V2 code. REST and socket clients expose full direct exchange clients and retain the V1 aggregate surface.
 
 Direct exchange properties include Aster, Binance, BingX, Bitfinex, Bitget, Bitstamp, BloFin, Bybit, Coinbase, CoinW, CryptoCom, DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, LBank, Lighter, Mexc, OKX, Pionex, Polymarket, Tapbit, Toobit, Upbit, Weex, WhiteBit, and XT. The REST client also includes CoinGecko.
 
@@ -72,6 +71,7 @@ services.AddCryptoClients(options =>
 
 The extension registers:
 
+- `IExchangeSharedApiClient`
 - `IExchangeRestClient`
 - `IExchangeSocketClient`
 - `IExchangeOrderBookFactory`
@@ -85,7 +85,21 @@ Configuration can also be loaded from an `IConfiguration` section:
 services.AddCryptoClients(configuration.GetSection("CryptoClients"));
 ```
 
-## Global Options
+## Configuration And Global Options
+
+For direct construction, one configuration instance can configure the shared, REST, and socket clients:
+
+```csharp
+var configuration = new CryptoClientsConfiguration(builder => builder
+    .ConfigureGlobal(options =>
+    {
+        options.EnabledExchanges = ["Binance", "Bybit", "OKX"];
+        options.RequestTimeout = TimeSpan.FromSeconds(10);
+    })
+    .ConfigureBinance(options => options.Rest.OutputOriginalData = true));
+
+var sharedClient = new ExchangeSharedApiClient(configuration);
+```
 
 `GlobalExchangeOptions` supports:
 
@@ -100,25 +114,25 @@ services.AddCryptoClients(configuration.GetSection("CryptoClients"));
 - `ReconnectPolicy`
 - `ReconnectInterval`
 
-Global options are applied to every exchange unless overridden by exchange-specific options passed to `AddCryptoClients`.
+Global options are applied to every exchange unless overridden by an exchange configurator. `EnabledExchanges` limits initialization and aggregate routing; accessing a disabled strongly typed property throws `InvalidOperationException`.
 
 ## Credentials
 
 Typed credentials:
 
 ```csharp
-var restClient = new ExchangeRestClient(options =>
-{
-    options.ApiCredentials = new ExchangeCredentials
+var configuration = new CryptoClientsConfiguration(builder => builder
+    .ConfigureGlobal(options => options.ApiCredentials = new ExchangeCredentials
     {
         Binance = new BinanceCredentials("key", "secret"),
         Kucoin = new KucoinCredentials("key", "secret", "passphrase"),
         OKX = new OKXCredentials("key", "secret", "passphrase")
-    };
-});
+    }));
+
+var sharedClient = new ExchangeSharedApiClient(configuration);
 ```
 
-Dynamic credentials:
+Dynamic credentials on V1 REST/socket clients:
 
 ```csharp
 var info = ExchangeCredentials.GetDynamicCredentialInfo(TradingMode.Spot, "OKX");
@@ -143,12 +157,16 @@ var linear = new SharedSymbol(TradingMode.PerpetualLinear, "BTC", "USDT");
 
 Never hardcode Binance-style `BTCUSDT` symbols when calling aggregate/shared methods. Direct exchange-specific clients still use exchange-specific symbol formats.
 
-## Result Handling
+## Shared API V2 Discovery And Result Handling
 
-Single exchange aggregate calls return `ExchangeWebResult<T>`:
+Capability presence is the support check. For one exchange, handle `null` before invoking the capability:
 
 ```csharp
-var result = await restClient.GetSpotTickerAsync("Binance", new GetTickerRequest(symbol));
+var ticker = sharedClient.GetCapability<IGetTicker>("Binance", TradingMode.Spot);
+if (ticker is null)
+    return;
+
+var result = await ticker.Capability.GetTickerAsync(new GetTickerRequest(symbol));
 if (!result.Success)
 {
     Console.WriteLine($"{result.Exchange}: {result.Error}");
@@ -158,29 +176,23 @@ if (!result.Success)
 Console.WriteLine(result.Data.LastPrice);
 ```
 
-Multi-exchange calls return arrays:
+For multiple exchanges, resolve one preferred implementation per exchange and process results as they arrive:
 
 ```csharp
-var results = await restClient.GetSpotTickerAsync(new GetTickerRequest(symbol), exchanges);
-foreach (var result in results)
+var capabilities = sharedClient.GetCapabilities(
+    SharedCapabilities.Tickers.GetTicker,
+    TradingMode.Spot,
+    ["Binance", "Bybit", "OKX"]);
+
+await foreach (var result in capabilities.ExecuteAllAsync(new GetTickerRequest(symbol)))
 {
-    if (!result.Success)
-        Console.WriteLine($"{result.Exchange}: {result.Error}");
-    else
-        Console.WriteLine($"{result.Exchange}: {result.Data.LastPrice}");
+    Console.WriteLine(result.Success
+        ? $"{result.Exchange}: {result.Data.LastPrice}"
+        : $"{result.Exchange}: {result.Error}");
 }
 ```
 
-Some exchanges can fail while others succeed. Handle each `ExchangeWebResult<T>` independently.
-
-For first-response-first processing, use `IAsyncEnumerable` overloads:
-
-```csharp
-await foreach (var result in restClient.GetSpotTickerAsyncEnumerable(new GetTickerRequest(symbol), exchanges))
-{
-    // Handle each result as it arrives.
-}
-```
+Use `GetCapability<T>` for one exchange, `GetCapabilities<T>` for one preferred implementation per exchange, and `GetImplementations<T>` for every matching transport/API surface. Overloads taking a `SharedCapabilityReference<T>`, such as `SharedCapabilities.Tickers.GetTicker`, identify an exact operation. Use `WaitAllAsync()` only when the async result sequence must be collected. Each exchange can fail independently, so check every result's `Success` before reading `Data`.
 
 Shared market-data quantities are normalized as `SharedOrderQuantity`:
 
@@ -190,7 +202,20 @@ Shared market-data quantities are normalized as `SharedOrderQuantity`:
 
 Use `QuantityInBaseAsset`, `QuantityInQuoteAsset`, or `QuantityInContracts` as appropriate and handle each as nullable. Do not assume a quantity is a decimal base-asset value. Shared spot and futures orders calculate `AveragePrice` from available quantity data when the exchange omits it, but `AveragePrice` remains nullable when it cannot be derived.
 
-## Aggregate REST Market Data Map
+## Common Shared API V2 Capability Map
+
+- Tickers: `IGetTicker`, `IGetAllTickers`, `SharedCapabilities.Tickers.*`
+- Order books: `IGetOrderBook`, `IGetBookTicker`, `SharedCapabilities.OrderBooks.*`
+- Trades and klines: `IGetRecentTrades`, `IGetTradeHistory`, `IGetKlines`
+- Symbols: `IGetSpotSymbols`, `IGetFuturesSymbols`
+- Account data: `IGetBalances`, `IGetAllAssets`, `IGetDepositHistory`, `IGetWithdrawalHistory`
+- Orders: `IPlaceSpotOrder`, `IPlaceFuturesOrder`, `IGetOpenSpotOrders`, `IGetOpenFuturesOrders`, and matching cancel capabilities
+- Futures data: `IGetPositions`, `IGetFundingRateHistory`, `IGetOpenInterest`, `IGetLeverage`
+- Common sockets: `ISubscribeTickerSocket`, `ISubscribeTradesSocket`, `ISubscribeKlinesSocket`, `ISubscribeOrderBookSocket`
+
+Pass `TradingMode` during discovery where applicable. Inspect `resolution.Capability.Options` for supported modes and request parameter rules. Added model members and uncommon operations are intentionally not enumerated here; inspect the SharedApis source when needed.
+
+## V1 Aggregate REST Market Data Map
 
 - Spot tickers: `GetSpotTickerAsync`, `GetSpotTickersAsync`, `GetSpotTickerAsyncEnumerable`, `GetSpotTickersAsyncEnumerable`
 - Futures tickers: `GetFuturesTickerAsync`, `GetFuturesTickersAsync`
@@ -206,7 +231,7 @@ Use `QuantityInBaseAsset`, `QuantityInQuoteAsset`, or `QuantityInContracts` as a
 
 Every aggregate method has single-exchange, multi-exchange array, and async-enumerable variants where the interface supports it.
 
-## Aggregate REST Account And Trading Map
+## V1 Aggregate REST Account And Trading Map
 
 - Assets: `GetAssetsAsync`, `GetAssetAsync`
 - Balances: `GetBalancesAsync`
@@ -231,21 +256,11 @@ For constructor details of request types such as `PlaceSpotOrderRequest` or `Set
 
 After `ISpotSymbolRestClient.GetSpotSymbolsAsync` or `IFuturesSymbolRestClient.GetFuturesSymbolsAsync` has been called, read `SpotSymbolCatalog` or `FuturesSymbolCatalog` from that shared client to reuse its fetched catalog. The catalog is unavailable before the corresponding fetch.
 
-## Shared Client Discovery
+## Typed V2 And V1 Client Discovery
 
-Use `Get*Client` helpers when you want to route manually by capability:
+`sharedClient.Binance`, `sharedClient.OKX`, and the other strongly typed V2 properties expose each exchange's compile-time API surfaces; for example, Binance provides `SpotRest`, `UsdFuturesRest`, `CoinFuturesRest`, and matching socket surfaces. Use `GetClient(exchange)` when the exchange is selected at runtime, and inspect the exchange interface rather than assuming every surface has the same name.
 
-```csharp
-var tickerClient = restClient.GetSpotTickerClient("Binance");
-if (tickerClient != null)
-    await tickerClient.GetSpotTickerAsync(new GetTickerRequest(symbol));
-```
-
-REST discovery includes clients for assets, balances, deposits, klines, order books, recent trades, trade history, withdrawals, withdraw actions, spot orders, spot order client ids, spot trigger orders, spot symbols, spot tickers, funding rates, futures orders, futures order client ids, futures trigger orders, futures symbols, futures tickers, index price klines, leverage, mark price klines, open interest, position mode, position history, listen keys, fees, book tickers, futures TP/SL, and transfers.
-
-Socket discovery includes ticker, all tickers, trade, book ticker, kline, order book, balance, spot order, futures order, user trade, and position clients.
-
-Handle `null`; not all exchanges support every shared interface.
+The V1 `restClient.Get*Client(...)` and `socketClient.Get*Client(...)` helpers remain supported for migration and existing applications. Handle `null` from all runtime discovery calls; support varies by exchange, operation, transport, and trading mode.
 
 ## Direct Exchange Access
 
@@ -259,46 +274,33 @@ var okxSocket = socketClient.OKX;
 
 Direct properties use the exact API surface of the individual exchange packages. Do not guess endpoint names. Inspect the exchange package source or docs.
 
-## Aggregate WebSocket Map
+## Shared API V2 WebSockets
 
-Aggregate socket subscriptions:
-
-- `SubscribeToAllTickerUpdatesAsync`
-- `SubscribeToTickerUpdatesAsync`
-- `SubscribeToTradeUpdatesAsync`
-- `SubscribeToBookTickerUpdatesAsync`
-- `SubscribeToKlineUpdatesAsync`
-- `SubscribeToOrderBookUpdatesAsync`
-- `SubscribeToBalanceUpdatesAsync`
-- `SubscribeToSpotOrderUpdatesAsync`
-- `SubscribeToFuturesOrderUpdatesAsync`
-- `SubscribeToUserTradeUpdatesAsync`
-- `SubscribeToPositionUpdatesAsync`
-
-Subscription methods have a single-exchange overload and a multi-exchange overload. Multi-exchange overloads return `ExchangeResult<UpdateSubscription>[]`.
-
-Always check every subscription result:
+Resolve socket capabilities exactly like REST capabilities. For multi-exchange subscriptions, use the operation-specific `SubscribeAllAsync` extension and pass a cancellation token:
 
 ```csharp
-var subscriptions = await socketClient.SubscribeToTickerUpdatesAsync(
-    new SubscribeTickerRequest(symbol),
-    update => Console.WriteLine(update.Data.LastPrice),
-    new[] { "Binance", "OKX" });
+var capabilities = sharedClient.GetCapabilities(
+    SharedCapabilities.Tickers.SubscribeTicker,
+    TradingMode.Spot,
+    ["Binance", "OKX"]);
 
-foreach (var sub in subscriptions)
+using var shutdown = new CancellationTokenSource();
+var subscriptions = await capabilities.SubscribeAllAsync(
+    new SubscribeTickerRequest(symbol),
+    update => Console.WriteLine($"{update.Exchange}: {update.Data.LastPrice}"),
+    shutdown.Token).WaitAllAsync();
+
+foreach (var subscription in subscriptions)
 {
-    if (!sub.Success)
-        Console.WriteLine($"{sub.Exchange}: {sub.Error}");
+    if (!subscription.Success)
+        Console.WriteLine($"{subscription.Exchange}: {subscription.Error}");
 }
 
-var firstSubscription = subscriptions.FirstOrDefault(x => x.Success);
-if (firstSubscription != null)
-    await firstSubscription.Data.CloseAsync();
-
-await socketClient.UnsubscribeAllAsync();
+shutdown.Cancel();
+await sharedClient.UnsubscribeAllAsync();
 ```
 
-Use `subscription.Data.CloseAsync()` when closing a single successful aggregate `ExchangeSocketClient` subscription. Use `UnsubscribeAllAsync()` when shutting down the aggregate socket client and closing every active subscription/connection. For multi-exchange subscription arrays, close individual successful entries in a loop if you only want to close a subset.
+Use `subscription.Data.CloseAsync()` for one successful subscription. Cancellation stops subscriptions created with that token. `sharedClient.UnsubscribeAllAsync()` stops all subscriptions across its exchanges and transports. The V1 aggregate subscription methods remain available on `ExchangeSocketClient`.
 
 Direct exchange socket clients, such as `socketClient.Binance` or `socketClient.OKX`, inherit the normal CryptoExchange.Net socket-client pattern and expose `UnsubscribeAsync(...)`:
 
@@ -311,7 +313,7 @@ if (directSub.Success)
     await socketClient.Binance.UnsubscribeAsync(directSub.Data);
 ```
 
-For authenticated user streams, use credentials and listen key helpers where the target exchanges require listen keys.
+For authenticated user streams, use credentials and any required listen-key capability. Do not assume every exchange needs a listen key.
 
 ## Order Book Concepts
 
@@ -922,7 +924,8 @@ var platforms = Platforms.All;
 
 - If a user asks for a direct exchange endpoint, inspect that exchange client source. CryptoClients.Net only aggregates the clients; it does not rename every direct endpoint.
 - If a request constructor is unclear, inspect `CryptoExchange.Net.SharedApis` instead of inventing positional parameters.
-- If an exchange might not support a shared capability, call `Get*Client(...)` and handle `null`.
+- If an exchange might not support a V2 capability, call `GetCapability(...)` and handle `null`. For V1 code, handle `null` from `Get*Client(...)`.
+- Use `GetCapabilities` for one preferred implementation per exchange and `GetImplementations` only when every matching surface is wanted.
 - If querying many exchanges, handle partial failure.
 - If writing credentials code, use typed credentials or `DynamicCredentialInfo`; do not assume key/secret/passphrase shape.
 - If writing socket code, always include unsubscribe/cleanup.

@@ -1,205 +1,110 @@
 # CryptoClients.Net AI API Quick Map
 
-Use this file to route common user intents to the correct CryptoClients.Net member. If a method name, request type, or parameter is not listed here, inspect `CryptoClients.Net/Interfaces/**` and the specific exchange package source before generating code.
+Use this file to route common intents to the correct CryptoClients.Net surface. Prefer Shared API V2 for new exchange-agnostic code. If a capability, request type, or parameter is unclear, inspect `CryptoExchange.Net.SharedApis` and the specific exchange package source instead of inventing it.
 
 ## Client Roots
 
 | Intent | Use |
 |---|---|
-| Aggregate REST calls | `new ExchangeRestClient()` |
-| Aggregate WebSocket subscriptions | `new ExchangeSocketClient()` |
-| Dependency injection | `services.AddCryptoClients(options => { ... })` |
-| Global options | `GlobalExchangeOptions` |
-| Typed credentials for many exchanges | `new ExchangeCredentials { Binance = ..., OKX = ... }` |
-| Runtime credentials | `SetApiCredentials(exchange, DynamicCredentials)` |
+| V2 shared capability access | `new ExchangeSharedApiClient()` / `IExchangeSharedApiClient` |
+| Full exchange REST APIs or V1 aggregate REST | `new ExchangeRestClient()` / `IExchangeRestClient` |
+| Full exchange sockets or V1 aggregate sockets | `new ExchangeSocketClient()` / `IExchangeSocketClient` |
+| Dependency injection | `services.AddCryptoClients(...)` |
+| Direct-construction configuration | `new CryptoClientsConfiguration(builder => ...)` |
+| Global configuration | `builder.ConfigureGlobal(...)` |
+| Per-exchange configuration | `builder.ConfigureBinance(...)`, `builder.ConfigureOKX(...)`, etc. |
+| Typed credentials | `GlobalExchangeOptions.ApiCredentials = new ExchangeCredentials { ... }` |
+| Runtime V1 credentials | `restClient.SetApiCredentials(exchange, DynamicCredentials)` |
 | Credential shape discovery | `ExchangeCredentials.GetDynamicCredentialInfo(tradingMode, exchange)` |
-| Supported exchange metadata | `Exchanges.All`, `Exchanges.GetByName(exchange)` |
-| Supported exchange/platform names | `Exchange.All`, `Platforms.All` |
 
-## Aggregate REST Result Shapes
+`EnabledExchanges` limits initialization and aggregate routing. Accessing a disabled strongly typed exchange property throws `InvalidOperationException`.
+
+## Shared API V2 Discovery
 
 | Intent | Use |
 |---|---|
-| Single exchange request | `Task<ExchangeWebResult<T>> MethodAsync(string exchange, Request request, ...)` |
-| Multi-exchange request, wait for all | `Task<ExchangeWebResult<T>[]> MethodAsync(Request request, IEnumerable<string>? exchanges = null, ...)` |
-| Multi-exchange request, process first responses first | `IAsyncEnumerable<ExchangeWebResult<T>> MethodAsyncEnumerable(Request request, IEnumerable<string>? exchanges = null, ...)` |
-| Read response data | Check `result.Success` first, then read `result.Data` |
-| Identify source exchange | `result.Exchange` |
-| Handle failure | `result.Error`, `result.Error?.IsTransient` |
+| Get the V2 client for an exchange | `sharedClient.GetClient(exchange)` |
+| Resolve one preferred operation for one exchange | `sharedClient.GetCapability<T>(exchange, tradingMode)` |
+| Resolve one exact operation for one exchange | `sharedClient.GetCapability(exchange, SharedCapabilities...., tradingMode)` |
+| Resolve one preferred implementation per exchange | `sharedClient.GetCapabilities<T>(tradingMode, transport, exchanges)` |
+| Resolve an exact operation across exchanges | `sharedClient.GetCapabilities(SharedCapabilities...., tradingMode, exchanges)` |
+| Resolve every matching transport/API surface | `sharedClient.GetImplementations<T>(...)` |
+| Compile-time discovery for one exchange | Strongly typed properties such as `sharedClient.Binance.SpotRest` |
 
-## Aggregate REST Market Data
+Capability lookup is the support check. Handle `null` from `GetCapability`. `GetCapabilities` returns at most one preferred match per exchange; `GetImplementations` may return multiple matches for an exchange.
 
-| User intent | CryptoClients.Net member |
+## V2 Execution And Results
+
+| Intent | Use |
 |---|---|
-| Get spot ticker on one exchange | `client.GetSpotTickerAsync(exchange, new GetTickerRequest(symbol))` |
-| Get spot ticker on many exchanges | `client.GetSpotTickerAsync(new GetTickerRequest(symbol), exchanges)` |
-| Stream spot ticker responses as completed | `client.GetSpotTickerAsyncEnumerable(new GetTickerRequest(symbol), exchanges)` |
-| Get all spot tickers | `client.GetSpotTickersAsync(new GetTickersRequest(...), exchanges)` |
-| Get futures ticker | `client.GetFuturesTickerAsync(new GetTickerRequest(symbol), exchanges)` |
-| Get all futures tickers | `client.GetFuturesTickersAsync(new GetTickersRequest(...), exchanges)` |
-| Get book ticker | `client.GetBookTickersAsync(new GetBookTickerRequest(symbol), exchanges)` |
-| Get order book snapshot | `client.GetOrderBookAsync(new GetOrderBookRequest(symbol), exchanges)` |
-| Get recent trades | `client.GetRecentTradesAsync(new GetRecentTradesRequest(symbol), exchanges)` |
-| Get historical trades | `client.GetTradeHistoryAsync(new GetTradeHistoryRequest(symbol), exchanges)` |
-| Get klines/candles | `client.GetKlinesAsync(new GetKlinesRequest(symbol, interval), exchanges)` |
-| Get mark price klines | `client.GetMarkPriceKlinesAsync(new GetKlinesRequest(symbol, interval), exchanges)` |
-| Get index price klines | `client.GetIndexPriceKlinesAsync(new GetKlinesRequest(symbol, interval), exchanges)` |
-| Get funding rate history | `client.GetFundingRateHistoryAsync(new GetFundingRateHistoryRequest(symbol), exchanges)` |
-| Get open interest | `client.GetOpenInterestAsync(new GetOpenInterestRequest(symbol), exchanges)` |
+| Call one resolved capability | `resolution.Capability.OperationAsync(request)` |
+| Run an operation across capabilities | `capabilities.ExecuteAllAsync(request)` |
+| Process results as they arrive | `await foreach (var result in ...)` |
+| Collect an async sequence | `await results.WaitAllAsync()` |
+| Identify the exchange | `result.Exchange` or `data.Exchange` |
+| Read response data | Check `result.Success`, then use `result.Data` |
+| Handle failure | `result.Error` |
 
-## Aggregate REST Symbols And Support Discovery
+Each exchange succeeds or fails independently. Do not treat an aggregate sequence as having one global success state.
 
-| User intent | CryptoClients.Net member |
+## Common V2 Capabilities
+
+| User intent | Capability |
 |---|---|
-| Get spot symbols on one exchange | `client.GetSpotSymbolsAsync(exchange, new GetSymbolsRequest())` |
-| Get spot symbols on many exchanges | `client.GetSpotSymbolsAsync(new GetSymbolsRequest(), exchanges)` |
-| Get futures symbols | `client.GetFuturesSymbolsAsync(new GetSymbolsRequest(...), exchanges)` |
-| Reuse a fetched spot symbol catalog | Call `GetSpotSymbolsAsync` on `ISpotSymbolRestClient`, then read `SpotSymbolCatalog` |
-| Reuse a fetched futures symbol catalog | Call `GetFuturesSymbolsAsync` on `IFuturesSymbolRestClient`, then read `FuturesSymbolCatalog` |
-| Get spot symbols for a base asset | `client.GetSpotSymbolsForBaseAssetAsync(baseAsset)` |
-| Get spot symbols for base asset on one exchange | `client.GetSpotSymbolsForBaseAssetAsync(exchange, baseAsset)` |
-| Get futures symbols for a base asset | `client.GetFuturesSymbolsForBaseAssetAsync(baseAsset)` |
-| Get futures symbols for base asset on one exchange | `client.GetFuturesSymbolsForBaseAssetAsync(exchange, baseAsset)` |
-| Get exchanges supporting a spot symbol name | `client.GetExchangesSupportingSpotSymbolAsync(symbolName)` |
-| Get exchanges supporting a spot shared symbol | `client.GetExchangesSupportingSpotSymbolAsync(symbol)` |
-| Check spot support on one exchange | `client.SupportsSpotSymbolAsync(exchange, symbol)` |
-| Get exchanges supporting a futures symbol name | `client.GetExchangesSupportingFuturesSymbolAsync(symbolName)` |
-| Get exchanges supporting a futures shared symbol | `client.GetExchangesSupportingFuturesSymbolAsync(symbol)` |
-| Check futures support on one exchange | `client.SupportsFuturesSymbolAsync(exchange, symbol)` |
-| Convert shared symbol to exchange name | `client.GetSymbolName(exchange, symbol)` |
+| Get a ticker | `IGetTicker` / `SharedCapabilities.Tickers.GetTicker` |
+| Get all tickers | `IGetAllTickers` / `SharedCapabilities.Tickers.GetAllTickers` |
+| Get an order book | `IGetOrderBook` / `SharedCapabilities.OrderBooks.GetOrderBook` |
+| Get recent trades | `IGetRecentTrades` / `SharedCapabilities.Trades.GetRecentTrades` |
+| Get klines | `IGetKlines` / `SharedCapabilities.Klines.GetKlines` |
+| Get spot or futures symbols | `IGetSpotSymbols` / `IGetFuturesSymbols` |
+| Get balances | `IGetBalances` / `SharedCapabilities.Balances.GetBalances` |
+| Get open orders | `IGetOpenSpotOrders` / `IGetOpenFuturesOrders` |
+| Place an order | `IPlaceSpotOrder` / `IPlaceFuturesOrder` |
+| Cancel an order | `ICancelSpotOrder` / `ICancelFuturesOrder` |
+| Get positions | `IGetPositions` / `SharedCapabilities.Positions.GetPositions` |
+| Get funding rates | `IGetFundingRateHistory` / `SharedCapabilities.Funding.GetFundingRateHistory` |
 
-## Aggregate REST Account, Assets, Funding, And Transfers
+Use `SharedSymbol` and V2 request models. Pass `TradingMode` during discovery where an operation differs between spot, linear futures, inverse futures, or other modes. Inspect `resolution.Capability.Options` for supported modes and parameter rules.
 
-| User intent | CryptoClients.Net member |
+## V2 WebSocket
+
+| User intent | Capability or action |
 |---|---|
-| Get assets | `client.GetAssetsAsync(new GetAssetsRequest(...), exchanges)` |
-| Get one asset | `client.GetAssetAsync(new GetAssetRequest(...), exchanges)` |
-| Get balances | `client.GetBalancesAsync(new GetBalancesRequest(...), exchanges)` |
-| Get deposits | `client.GetDepositsAsync(new GetDepositsRequest(...), exchanges)` |
-| Get withdrawals | `client.GetWithdrawalsAsync(new GetWithdrawalsRequest(...), exchanges)` |
-| Withdraw funds | Use `client.GetWithdrawClient(exchange)` then the shared withdraw client method |
-| Transfer funds between account types | `client.TransferAsync(exchange, new TransferRequest(...))` |
-| Get fees | `client.GetFeesAsync(new GetFeeRequest(...), exchanges)` |
-| Start listen keys | `client.StartListenKeysAsync(new StartListenKeyRequest(...), exchanges)` |
-| Keep listen keys alive | `client.KeepAliveListenKeysAsync(new KeepAliveListenKeyRequest(...), exchanges)` |
-| Stop listen keys | `client.StopListenKeysAsync(new StopListenKeyRequest(...), exchanges)` |
+| Subscribe to tickers | `ISubscribeTickerSocket` / `SharedCapabilities.Tickers.SubscribeTicker` |
+| Subscribe to trades | `ISubscribeTradesSocket` / `SharedCapabilities.Trades.SubscribeTrades` |
+| Subscribe to klines | `ISubscribeKlinesSocket` / `SharedCapabilities.Klines.SubscribeKlines` |
+| Subscribe to order books | `ISubscribeOrderBookSocket` / `SharedCapabilities.OrderBooks.SubscribeOrderBook` |
+| Subscribe across exchanges | `capabilities.SubscribeAllAsync(request, handler, cancellationToken)` |
+| Close one successful subscription | `subscription.Data.CloseAsync()` |
+| Close subscriptions created with a token | Cancel that token |
+| Close all shared-client subscriptions | `sharedClient.UnsubscribeAllAsync()` |
 
-## Aggregate REST Orders And Positions
+Always inspect every subscription result. For direct exchange socket clients, use that client's `UnsubscribeAsync(subscription.Data)` method.
 
-| User intent | CryptoClients.Net member |
+## V1 Compatibility Surface
+
+V1 remains supported on `ExchangeRestClient` and `ExchangeSocketClient`.
+
+| Intent | Use |
 |---|---|
-| Place spot order | `client.PlaceSpotOrderAsync(exchange, new PlaceSpotOrderRequest(...))` |
-| Get spot order | `client.GetSpotOrderAsync(exchange, new GetOrderRequest(...))` |
-| Get spot order by client order id | `client.GetSpotOrderByClientOrderIdAsync(exchange, new GetOrderRequest(...))` |
-| Get spot order trades | `client.GetSpotOrderTradesAsync(exchange, new GetOrderTradesRequest(...))` |
-| Cancel spot order | `client.CancelSpotOrderAsync(exchange, new CancelOrderRequest(...))` |
-| Cancel spot order by client order id | `client.CancelSpotOrderByClientOrderIdAsync(exchange, new CancelOrderRequest(...))` |
-| Place spot trigger order | `client.PlaceSpotTriggerOrderAsync(exchange, new PlaceSpotTriggerOrderRequest(...))` |
-| Cancel spot trigger order | `client.CancelSpotTriggerOrderAsync(exchange, new CancelOrderRequest(...))` |
-| Get spot open orders | `client.GetSpotOpenOrdersAsync(new GetOpenOrdersRequest(...), exchanges)` |
-| Get spot closed orders | `client.GetSpotClosedOrdersAsync(new GetClosedOrdersRequest(...), exchanges)` |
-| Get spot user trades | `client.GetSpotUserTradesAsync(new GetUserTradesRequest(...), exchanges)` |
-| Place futures order | `client.PlaceFuturesOrderAsync(exchange, new PlaceFuturesOrderRequest(...))` |
-| Get futures order | `client.GetFuturesOrderAsync(exchange, new GetOrderRequest(...))` |
-| Get futures order by client order id | `client.GetFuturesOrderByClientOrderIdAsync(exchange, new GetOrderRequest(...))` |
-| Get futures order trades | `client.GetFuturesOrderTradesAsync(exchange, new GetOrderTradesRequest(...))` |
-| Cancel futures order | `client.CancelFuturesOrderAsync(exchange, new CancelOrderRequest(...))` |
-| Cancel futures order by client order id | `client.CancelFuturesOrderByClientOrderIdAsync(exchange, new CancelOrderRequest(...))` |
-| Close futures position | `client.ClosePositionAsync(exchange, new ClosePositionRequest(...))` |
-| Place futures trigger order | `client.PlaceFuturesTriggerOrderAsync(exchange, new PlaceFuturesTriggerOrderRequest(...))` |
-| Cancel futures trigger order | `client.CancelFuturesTriggerOrderAsync(exchange, new CancelOrderRequest(...))` |
-| Set futures TP/SL | `client.SetFuturesTpSlAsync(exchange, new SetTpSlRequest(...))` |
-| Cancel futures TP/SL | `client.CancelFuturesTpSlAsync(exchange, new CancelTpSlRequest(...))` |
-| Get positions | `client.GetPositionsAsync(new GetPositionsRequest(...), exchanges)` |
-| Get position history | `client.GetPositionHistoryAsync(new GetPositionHistoryRequest(...), exchanges)` |
-| Get futures open orders | `client.GetFuturesOpenOrdersAsync(new GetOpenOrdersRequest(...), exchanges)` |
-| Get futures closed orders | `client.GetFuturesClosedOrdersAsync(new GetClosedOrdersRequest(...), exchanges)` |
-| Get futures user trades | `client.GetFuturesUserTradesAsync(new GetUserTradesRequest(...), exchanges)` |
-| Get position mode | `client.GetPositionModeAsync(exchange, new GetPositionModeRequest(...))` |
-| Set position mode | `client.SetPositionModeAsync(exchange, new SetPositionModeRequest(...))` |
-| Get leverage | `client.GetLeverageAsync(exchange, new GetLeverageRequest(...))` |
-| Set leverage | `client.SetLeverageAsync(exchange, new SetLeverageRequest(...))` |
+| V1 aggregate REST | `restClient.GetSpotTickerAsync(...)`, `GetOrderBookAsync(...)`, etc. |
+| V1 shared interface discovery | `restClient.GetSpotTickerClient(exchange)`, `socketClient.GetTickerClient(...)`, etc. |
+| V1 aggregate socket | `socketClient.SubscribeToTickerUpdatesAsync(...)`, etc. |
+| Stop all V1 aggregate sockets | `socketClient.UnsubscribeAllAsync()` |
 
-## Shared REST Client Discovery
-
-| User intent | CryptoClients.Net member |
-|---|---|
-| Get all shared clients for an exchange | `client.GetExchangeSharedClients(exchange, tradingMode)` |
-| Get assets clients | `client.GetAssetsClients()` / `client.GetAssetClient(exchange)` |
-| Get balance clients | `client.GetBalancesClients(...)` / `client.GetBalancesClient(...)` |
-| Get deposit client | `client.GetDepositsClient(exchange)` |
-| Get kline client | `client.GetKlineClient(tradingMode, exchange)` |
-| Get order book client | `client.GetOrderBookClient(tradingMode, exchange)` |
-| Get trade clients | `client.GetRecentTradesClient(...)`, `client.GetTradeHistoryClient(...)` |
-| Get withdrawal clients | `client.GetWithdrawalsClient(exchange)`, `client.GetWithdrawClient(exchange)` |
-| Get spot ticker client | `client.GetSpotTickerClient(exchange)` |
-| Get spot symbol client | `client.GetSpotSymbolClient(exchange)` |
-| Get spot order client | `client.GetSpotOrderClient(exchange)` |
-| Get spot client-order-id client | `client.GetSpotOrderClientIdClient(exchange)` |
-| Get spot trigger order client | `client.GetSpotTriggerOrderClient(exchange)` |
-| Get futures symbol client | `client.GetFuturesSymbolClient(tradingMode, exchange)` |
-| Get futures ticker client | `client.GetFuturesTickerClient(tradingMode, exchange)` |
-| Get futures order client | `client.GetFuturesOrderClient(tradingMode, exchange)` |
-| Get futures client-order-id client | `client.GetFuturesOrderClientIdClient(tradingMode, exchange)` |
-| Get futures trigger order client | `client.GetFuturesTriggerOrderClient(tradingMode, exchange)` |
-| Get futures TP/SL client | `client.GetFuturesTpSlClient(tradingMode, exchange)` |
-| Get funding rate client | `client.GetFundingRateClient(tradingMode, exchange)` |
-| Get leverage client | `client.GetLeverageClient(tradingMode, exchange)` |
-| Get position mode/history clients | `client.GetPositionModeClient(...)`, `client.GetPositionHistoryClient(...)` |
-| Get listen key client | `client.GetListenKeyClient(tradingMode, exchange)` |
-| Get transfer client | `client.GetTransferClient(exchange, fromAccountType, toAccountType)` |
-
-## Aggregate WebSocket
-
-| User intent | CryptoClients.Net member |
-|---|---|
-| Subscribe all ticker updates on one exchange | `socketClient.SubscribeToAllTickerUpdatesAsync(exchange, request, handler)` |
-| Subscribe all ticker updates on many exchanges | `socketClient.SubscribeToAllTickerUpdatesAsync(request, handler, exchanges)` |
-| Subscribe ticker updates | `socketClient.SubscribeToTickerUpdatesAsync(new SubscribeTickerRequest(symbol), handler, exchanges)` |
-| Subscribe trade updates | `socketClient.SubscribeToTradeUpdatesAsync(new SubscribeTradeRequest(symbol), handler, exchanges)` |
-| Subscribe book ticker updates | `socketClient.SubscribeToBookTickerUpdatesAsync(new SubscribeBookTickerRequest(symbol), handler, exchanges)` |
-| Subscribe kline updates | `socketClient.SubscribeToKlineUpdatesAsync(new SubscribeKlineRequest(symbol, interval), handler, exchanges)` |
-| Subscribe order book updates | `socketClient.SubscribeToOrderBookUpdatesAsync(new SubscribeOrderBookRequest(symbol), handler, exchanges)` |
-| Subscribe balance updates | `socketClient.SubscribeToBalanceUpdatesAsync(new SubscribeBalancesRequest(...), handler, exchanges, listenKeys)` |
-| Subscribe spot order updates | `socketClient.SubscribeToSpotOrderUpdatesAsync(new SubscribeSpotOrderRequest(...), handler, exchanges, listenKeys)` |
-| Subscribe futures order updates | `socketClient.SubscribeToFuturesOrderUpdatesAsync(new SubscribeFuturesOrderRequest(...), handler, exchanges, listenKeys)` |
-| Subscribe user trade updates | `socketClient.SubscribeToUserTradeUpdatesAsync(new SubscribeUserTradeRequest(...), handler, exchanges, listenKeys)` |
-| Subscribe position updates | `socketClient.SubscribeToPositionUpdatesAsync(new SubscribePositionRequest(...), handler, exchanges, listenKeys)` |
-| Stop one successful aggregate subscription | `subscription.Data.CloseAsync()` |
-| Stop aggregate socket client | `socketClient.UnsubscribeAllAsync()` |
-| Stop one direct exchange socket subscription | `socketClient.Binance.UnsubscribeAsync(subscription.Data)` or the matching direct exchange socket client |
-
-## Shared Socket Client Discovery
-
-| User intent | CryptoClients.Net member |
-|---|---|
-| Get ticker socket client | `socketClient.GetTickerClient(tradingMode, exchange)` |
-| Get all tickers socket client | `socketClient.GetTickersClient(tradingMode, exchange)` |
-| Get trade socket client | `socketClient.GetTradeClient(tradingMode, exchange)` |
-| Get book ticker socket client | `socketClient.GetBookTickerClient(tradingMode, exchange)` |
-| Get kline socket client | `socketClient.GetKlineClient(tradingMode, exchange)` |
-| Get order book socket client | `socketClient.GetOrderBookClient(tradingMode, exchange)` |
-| Get balance socket client | `socketClient.GetBalanceClient(tradingMode, exchange)` |
-| Get spot order socket client | `socketClient.GetSpotOrderClient(exchange)` |
-| Get futures order socket client | `socketClient.GetFuturesOrderClient(tradingMode, exchange)` |
-| Get user trade socket client | `socketClient.GetUserTradeClient(tradingMode, exchange)` |
-| Get position socket client | `socketClient.GetPositionClient(tradingMode, exchange)` |
+V1 multi-exchange calls return per-exchange results. Check every `.Success` before reading `.Data`.
 
 ## Direct Exchange Access
 
 | User intent | Use |
 |---|---|
-| Full Binance REST API | `restClient.Binance` |
-| Full Binance socket API | `socketClient.Binance` |
+| Full Binance REST/socket API | `restClient.Binance` / `socketClient.Binance` |
 | Full OKX REST/socket API | `restClient.OKX` / `socketClient.OKX` |
-| Full Bybit REST/socket API | `restClient.Bybit` / `socketClient.Bybit` |
-| Full Kraken REST/socket API | `restClient.Kraken` / `socketClient.Kraken` |
-| Full * REST/socket API | `restClient.*` / `socketClient.*` |
-| Any bundled exchange | Check properties on `IExchangeRestClient` and `IExchangeSocketClient` |
+| Full exchange-specific API | `restClient.*` / `socketClient.*` |
 | CoinGecko REST platform | `restClient.CoinGecko` |
 | Polymarket REST/socket platform | `restClient.Polymarket` / `socketClient.Polymarket` |
 
-Direct properties expose the full API from the corresponding exchange package. Inspect that package before generating endpoint-specific code.
+Direct properties expose the corresponding exchange package. Inspect that package before generating endpoint-specific names, parameters, or models.
 
 ## Order Books And Trackers
 
@@ -210,18 +115,17 @@ Direct properties expose the full API from the corresponding exchange package. I
 | Create many individual order books | `orderBookFactory.Create(symbol, minimalDepth, exchanges, exchangeParameters)` |
 | Create trade tracker | `trackerFactory.CreateTradeTracker(exchange, symbol, limit, period, exchangeParameters)` |
 | Create kline tracker | `trackerFactory.CreateKlineTracker(exchange, symbol, interval, limit, period, exchangeParameters)` |
-| Create spot user data tracker | `trackerFactory.CreateUserSpotDataTracker(...)` / `CreateUserSpotDataTrackers(...)` |
-| Create futures user data tracker | `trackerFactory.CreateUserFuturesDataTracker(...)` / `CreateUserFuturesDataTrackers(...)` |
+| Create spot/futures user tracker | `CreateUserSpotDataTracker(s)` / `CreateUserFuturesDataTracker(s)` |
 
 ## Common Routing Pitfalls
 
 | Do not use | Use instead |
 |---|---|
-| Raw `HttpClient` calls to exchange APIs | `ExchangeRestClient`, direct exchange clients, or shared clients |
-| Hardcoded exchange symbols in shared calls | `new SharedSymbol(tradingMode, baseAsset, quoteAsset)`; use `SharedSymbol.UsdOrStable` for cross-exchange USD/stable quote routing when USDC/USD variants are acceptable |
-| One global success flag for multi-exchange calls | Check each `ExchangeWebResult<T>.Success` |
-| `.Data` without `.Success` check | Branch on `.Success` first |
-| Assumed key/secret credentials | `ExchangeCredentials` or `DynamicCredentials` with `GetDynamicCredentialInfo` |
-| Aggregate shared call for an exchange-specific endpoint | `restClient.Binance`, `restClient.OKX`, etc. |
-| Per-request client construction | Reused singleton/client from DI |
-| Leaving aggregate sockets open | `await subscription.Data.CloseAsync()` for one aggregate subscription or `await socketClient.UnsubscribeAllAsync()` for all aggregate subscriptions |
+| Raw exchange HTTP calls | Shared capabilities or direct exchange clients |
+| Hardcoded native symbols in shared calls | `new SharedSymbol(tradingMode, baseAsset, quoteAsset)` |
+| Assumed universal support | Capability discovery and `null` handling |
+| `.Data` without a success check | Branch on each result's `.Success` |
+| `GetImplementations` when one match per exchange is wanted | `GetCapabilities` |
+| Assumed key/secret credentials | Typed credentials or dynamic credential discovery |
+| Per-request client construction | Reused clients or DI |
+| Shared APIs for exchange-specific options | `restClient.Binance`, `restClient.OKX`, etc. |
