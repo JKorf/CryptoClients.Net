@@ -661,9 +661,12 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public async Task UnsubscribeAllAsync()
         {
-            var tasks = _clientRegistrations.Values
-                .Where(x => x.IsValueCreated)
-                .Select(x => x.Client.UnsubscribeAllAsync());
+            var tasks = _clientRegistrations
+#warning temporary solution, restore to IsValueCreated when unsubscribe all is fixed
+                //.Where(x => x.IsValueCreated)
+                .Where(x => IsEnabled(x.Key))
+                .Select(x => x.Value.Client.UnsubscribeAllAsync());
+
             await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 

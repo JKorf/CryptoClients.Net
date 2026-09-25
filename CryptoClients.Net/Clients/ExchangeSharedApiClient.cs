@@ -83,6 +83,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Tapbit.Net.Clients;
 using Tapbit.Net.Interfaces.Clients;
 using Tapbit.Net.Objects.Options;
@@ -107,6 +108,7 @@ namespace CryptoClients.Net.Clients
     /// <inheritdoc />
     public class ExchangeSharedApiClient : IExchangeSharedApiClient
     {
+        private readonly IExchangeSocketClient _exchangeSocketClient;
         private readonly Dictionary<string, Lazy<ISharedApiClientBase>> _clients;
         private readonly HashSet<string>? _enabledExchanges;
 
@@ -144,6 +146,8 @@ namespace CryptoClients.Net.Clients
 
             exchangeRestClient ??= new ExchangeRestClient(configuration);
             exchangeSocketClient ??= new ExchangeSocketClient(configuration);
+
+            _exchangeSocketClient = exchangeSocketClient;
 
             _enabledExchanges = configuration.GlobalOptions.EnabledExchanges == null
                 ? null
@@ -268,6 +272,8 @@ namespace CryptoClients.Net.Clients
                 : new HashSet<string>(
                     enabledExchanges,
                     StringComparer.OrdinalIgnoreCase);
+
+            _exchangeSocketClient = serviceProvider.GetRequiredService<IExchangeSocketClient>();
 
             _clients = new Dictionary<string, Lazy<ISharedApiClientBase>>(StringComparer.OrdinalIgnoreCase)
             {
@@ -558,5 +564,14 @@ namespace CryptoClients.Net.Clients
 
         private bool IsEnabled(string exchange)
             => _enabledExchanges == null || _enabledExchanges.Contains(exchange);
+
+
+        /// <inheritdoc />
+        public async Task UnsubscribeAllAsync()
+        {
+#warning should be using ISharedSubscription for unsubscribing all
+            await _exchangeSocketClient.UnsubscribeAllAsync().ConfigureAwait(false);
+        }
+
     }
 }

@@ -26,6 +26,7 @@ using Pionex.Net.Interfaces.Clients;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Tapbit.Net.Interfaces.Clients;
 using Toobit.Net.Interfaces.Clients;
 using Upbit.Net.Interfaces.Clients;
@@ -218,5 +219,10 @@ namespace CryptoClients.Net.Interfaces
         /// XT Shared API client.
         /// </summary>
         IXTSharedApiClient XT { get; }
+
+        /// <summary>
+        /// Unsubscribe from all subscriptions across all exchanges and transports.
+        /// </summary>
+        Task UnsubscribeAllAsync();
     }
 }
