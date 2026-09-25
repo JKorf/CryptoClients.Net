@@ -6,12 +6,10 @@ using Binance.Net.Objects.Options;
 using BingX.Net.Objects.Options;
 using Bitfinex.Net.Objects.Options;
 using Bitget.Net.Objects.Options;
-using BitMart.Net.Objects.Options;
 using Bitstamp.Net.Objects.Options;
 using BloFin.Net.Objects.Options;
 using Bybit.Net.Objects.Options;
 using Coinbase.Net.Objects.Options;
-using CoinEx.Net.Objects.Options;
 using CoinGecko.Net.Objects.Options;
 using CoinW.Net.Objects.Options;
 using CryptoCom.Net.Objects.Options;
@@ -80,10 +78,6 @@ namespace CryptoClients.Net
         /// </summary>
         public ClientConfigurationBuilder ConfigureBitget(Action<BitgetOptions> configure) => ConfigureCore(configure);
         /// <summary>
-        /// Configure BitMart API options
-        /// </summary>
-        public ClientConfigurationBuilder ConfigureBitMart(Action<BitMartOptions> configure) => ConfigureCore(configure);
-        /// <summary>
         /// Configure Bitstamp API options
         /// </summary>
         public ClientConfigurationBuilder ConfigureBitstamp(Action<BitstampOptions> configure) => ConfigureCore(configure);
@@ -99,10 +93,6 @@ namespace CryptoClients.Net
         /// Configure Coinbase API options
         /// </summary>
         public ClientConfigurationBuilder ConfigureCoinbase(Action<CoinbaseOptions> configure) => ConfigureCore(configure);
-        /// <summary>
-        /// Configure CoinEx API options
-        /// </summary>
-        public ClientConfigurationBuilder ConfigureCoinEx(Action<CoinExOptions> configure) => ConfigureCore(configure);
         /// <summary>
         /// Configure CoinGecko API options
         /// </summary>

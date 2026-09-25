@@ -4,12 +4,10 @@ using Binance.Net;
 using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
-using BitMart.Net;
 using Bitstamp.Net;
 using BloFin.Net;
 using Bybit.Net;
 using Coinbase.Net;
-using CoinEx.Net;
 using CoinGecko.Net;
 using CoinW.Net;
 using CryptoCom.Net;
@@ -93,13 +91,6 @@ namespace CryptoClients.Net.Models
                     credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)),
                     credential.Param2 ?? throw new ArgumentNullException(nameof(credential.Param2)));
             }
-            else if (exchange == "BitMart")
-            {
-                return new BitMartCredentials(
-                    credential.Key,
-                    credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)),
-                    credential.Param2 ?? throw new ArgumentNullException(nameof(credential.Param2)));
-            }
             else if (exchange == "Bitstamp")
             {
                 return new BitstampCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
@@ -118,10 +109,6 @@ namespace CryptoClients.Net.Models
             else if (exchange == "Coinbase")
             {
                 return new CoinbaseCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
-            }
-            else if (exchange == "CoinEx")
-            {
-                return new CoinExCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
             }
             else if (exchange == "CoinGecko")
             {
@@ -258,12 +245,10 @@ namespace CryptoClients.Net.Models
                 else if (item.Key == "BingX") creds.BingX = item.Value as BingXCredentials;
                 else if (item.Key == "Bitfinex") creds.Bitfinex = item.Value as BitfinexCredentials;
                 else if (item.Key == "Bitget") creds.Bitget = item.Value as BitgetCredentials;
-                else if (item.Key == "BitMart") creds.BitMart = item.Value as BitMartCredentials;
                 else if (item.Key == "Bitstamp") creds.Bitstamp = item.Value as BitstampCredentials;
                 else if (item.Key == "BloFin") creds.BloFin = item.Value as BloFinCredentials;
                 else if (item.Key == "Bybit") creds.Bybit = item.Value as BybitCredentials;
                 else if (item.Key == "Coinbase") creds.Coinbase = item.Value as CoinbaseCredentials;
-                else if (item.Key == "CoinEx") creds.CoinEx = item.Value as CoinExCredentials;
                 else if (item.Key == "CoinGecko") creds.CoinGecko = item.Value as CoinGeckoCredentials;
                 else if (item.Key == "CoinW") creds.CoinW = item.Value as CoinWCredentials;
                 else if (item.Key == "CryptoCom") creds.CryptoCom = item.Value as CryptoComCredentials;
@@ -317,11 +302,6 @@ namespace CryptoClients.Net.Models
         public BitgetCredentials? Bitget { get; set; }
 
         /// <summary>
-        /// BitMart API credentials
-        /// </summary>
-        public BitMartCredentials? BitMart { get; set; }
-
-        /// <summary>
         /// Bitstamp API credentials
         /// </summary>
         public BitstampCredentials? Bitstamp { get; set; }
@@ -340,11 +320,6 @@ namespace CryptoClients.Net.Models
         /// Coinbase API credentials
         /// </summary>
         public CoinbaseCredentials? Coinbase { get; set; }
-
-        /// <summary>
-        /// CoinEx API credentials
-        /// </summary>
-        public CoinExCredentials? CoinEx { get; set; }
 
         /// <summary>
         /// CoinGecko API credentials
@@ -459,12 +434,10 @@ namespace CryptoClients.Net.Models
                 case "BingX": return BingX;
                 case "Bitfinex": return Bitfinex;
                 case "Bitget": return Bitget;
-                case "BitMart": return BitMart;
                 case "Bitstamp": return Bitstamp;
                 case "BloFin": return BloFin;
                 case "Bybit": return Bybit;
                 case "Coinbase": return Coinbase;
-                case "CoinEx": return CoinEx;
                 case "CoinGecko": return CoinGecko;
                 case "CoinW": return CoinW;
                 case "CryptoCom": return CryptoCom;

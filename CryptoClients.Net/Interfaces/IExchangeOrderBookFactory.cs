@@ -3,12 +3,10 @@ using Binance.Net.Interfaces;
 using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
-using BitMart.Net.Interfaces;
 using Bitstamp.Net.Interfaces;
 using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
-using CoinEx.Net.Interfaces;
 using CoinW.Net.Interfaces;
 using CryptoClients.Net.OrderBook;
 using CryptoCom.Net.Interfaces;
@@ -61,10 +59,6 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         IBitgetOrderBookFactory Bitget { get; }
         /// <summary>
-        /// BitMart order book factory
-        /// </summary>
-        IBitMartOrderBookFactory BitMart { get; }
-        /// <summary>
         /// Bitstamp order book factory
         /// </summary>
         IBitstampOrderBookFactory Bitstamp { get; }
@@ -80,10 +74,6 @@ namespace CryptoClients.Net.Interfaces
         /// Coinbase order book factory
         /// </summary>
         ICoinbaseOrderBookFactory Coinbase { get; }
-        /// <summary>
-        /// CoinEx order book factory
-        /// </summary>
-        ICoinExOrderBookFactory CoinEx { get; }
         /// <summary>
         /// CoinW order book factory
         /// </summary>

@@ -4,12 +4,10 @@ using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Enums;
 using Bitget.Net.Interfaces;
-using BitMart.Net.Interfaces;
 using Bitstamp.Net.Interfaces;
 using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
-using CoinEx.Net.Interfaces;
 using CoinW.Net.Interfaces;
 using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
@@ -56,8 +54,6 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IBitgetOrderBookFactory Bitget => GetFactory(Exchange.Bitget, _bitget);
         /// <inheritdoc />
-        public IBitMartOrderBookFactory BitMart => GetFactory(Exchange.BitMart, _bitMart);
-        /// <inheritdoc />
         public IBitstampOrderBookFactory Bitstamp => GetFactory(Exchange.Bitstamp, _bitstamp);
         /// <inheritdoc />
         public IBloFinOrderBookFactory BloFin => GetFactory(Exchange.BloFin, _bloFin);
@@ -65,8 +61,6 @@ namespace CryptoClients.Net
         public IBybitOrderBookFactory Bybit => GetFactory(Exchange.Bybit, _bybit);
         /// <inheritdoc />
         public ICoinbaseOrderBookFactory Coinbase => GetFactory(Exchange.Coinbase, _coinbase);
-        /// <inheritdoc />
-        public ICoinExOrderBookFactory CoinEx => GetFactory(Exchange.CoinEx, _coinEx);
         /// <inheritdoc />
         public ICoinWOrderBookFactory CoinW => GetFactory(Exchange.CoinW, _coinW);
         /// <inheritdoc />
@@ -112,12 +106,10 @@ namespace CryptoClients.Net
         private Lazy<IBingXOrderBookFactory> _bingX = null!;
         private Lazy<IBitfinexOrderBookFactory> _bitfinex = null!;
         private Lazy<IBitgetOrderBookFactory> _bitget = null!;
-        private Lazy<IBitMartOrderBookFactory> _bitMart = null!;
         private Lazy<IBitstampOrderBookFactory> _bitstamp = null!;
         private Lazy<IBloFinOrderBookFactory> _bloFin = null!;
         private Lazy<IBybitOrderBookFactory> _bybit = null!;
         private Lazy<ICoinbaseOrderBookFactory> _coinbase = null!;
-        private Lazy<ICoinExOrderBookFactory> _coinEx = null!;
         private Lazy<ICoinWOrderBookFactory> _coinW = null!;
         private Lazy<ICryptoComOrderBookFactory> _cryptoCom = null!;
         private Lazy<IDeepCoinOrderBookFactory> _deepCoin = null!;
@@ -147,12 +139,10 @@ namespace CryptoClients.Net
             IBingXOrderBookFactory bingx,
             IBitfinexOrderBookFactory bitfinex,
             IBitgetOrderBookFactory bitget,
-            IBitMartOrderBookFactory bitMart,
             IBitstampOrderBookFactory bitstamp,
             IBloFinOrderBookFactory bloFin,
             IBybitOrderBookFactory bybit,
             ICoinbaseOrderBookFactory coinbase,
-            ICoinExOrderBookFactory coinEx,
             ICoinWOrderBookFactory coinW,
             ICryptoComOrderBookFactory cryptoCom,
             IDeepCoinOrderBookFactory deepCoin,
@@ -174,8 +164,8 @@ namespace CryptoClients.Net
             IXTOrderBookFactory xt)
         {
             InitializeFactories(null,
-                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitMart, () => bitstamp,
-                () => bloFin, () => bybit, () => coinbase, () => coinEx, () => coinW, () => cryptoCom, () => deepCoin, () => gateIo,
+                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitstamp,
+                () => bloFin, () => bybit, () => coinbase, () => coinW, () => cryptoCom, () => deepCoin, () => gateIo,
                 () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc, () => okx,
                 () => pionex, () => polymarket, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
         }
@@ -185,10 +175,10 @@ namespace CryptoClients.Net
             InitializeFactories(enabledExchanges,
                 () => serviceProvider.GetRequiredService<IAsterOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBinanceOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<IBingXOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitfinexOrderBookFactory>(),
-                () => serviceProvider.GetRequiredService<IBitgetOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitMartOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IBitgetOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<IBitstampOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<IBloFinOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBybitOrderBookFactory>(),
-                () => serviceProvider.GetRequiredService<ICoinbaseOrderBookFactory>(), () => serviceProvider.GetRequiredService<ICoinExOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<ICoinbaseOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<ICoinWOrderBookFactory>(), () => serviceProvider.GetRequiredService<ICryptoComOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<IDeepCoinOrderBookFactory>(), () => serviceProvider.GetRequiredService<IGateIoOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<IHTXOrderBookFactory>(), () => serviceProvider.GetRequiredService<IHyperLiquidOrderBookFactory>(),
@@ -254,9 +244,6 @@ namespace CryptoClients.Net
                     var bitgetLimit = GetBookDepth(minimalDepth, true, 5, 15);
                     var type = ExchangeParameters.GetValue<string?>(exchangeParameters, "Bitget", "ProductType") == "UsdtFutures" ? BitgetProductTypeV2.UsdtFutures : BitgetProductTypeV2.UsdcFutures;
                     return Bitget.Create(symbol, type, opts => { opts.Limit = bitgetLimit; });
-                case "BitMart":
-                    var bitmartLimit = GetBookDepth(minimalDepth, true, 5, 20, 50);
-                    return BitMart.Create(symbol, opts => { opts.Limit = bitmartLimit; });
                 case "Bitstamp":
                     return Bitstamp.Create(symbol);
                 case "BloFin":
@@ -267,9 +254,6 @@ namespace CryptoClients.Net
                     return Bybit.Create(symbol, opts => { opts.Limit = bybitLimit; });
                 case "Coinbase":
                     return Coinbase.Create(symbol);
-                case "CoinEx":
-                    var coinexLimit = GetBookDepth(minimalDepth, false, 5, 10, 20, 50);
-                    return CoinEx.Create(symbol, opts => { opts.Limit = coinexLimit; });
                 case "CoinW":
                     return CoinW.Create(symbol);
                 case "CryptoCom":
@@ -332,8 +316,8 @@ namespace CryptoClients.Net
         private void InitializeFactories(
             IEnumerable<string>? enabledExchanges,
             Func<IAsterOrderBookFactory> aster, Func<IBinanceOrderBookFactory> binance, Func<IBingXOrderBookFactory> bingX, Func<IBitfinexOrderBookFactory> bitfinex,
-            Func<IBitgetOrderBookFactory> bitget, Func<IBitMartOrderBookFactory> bitMart, Func<IBitstampOrderBookFactory> bitstamp,
-            Func<IBloFinOrderBookFactory> bloFin, Func<IBybitOrderBookFactory> bybit, Func<ICoinbaseOrderBookFactory> coinbase, Func<ICoinExOrderBookFactory> coinEx,
+            Func<IBitgetOrderBookFactory> bitget, Func<IBitstampOrderBookFactory> bitstamp,
+            Func<IBloFinOrderBookFactory> bloFin, Func<IBybitOrderBookFactory> bybit, Func<ICoinbaseOrderBookFactory> coinbase,
             Func<ICoinWOrderBookFactory> coinW, Func<ICryptoComOrderBookFactory> cryptoCom, Func<IDeepCoinOrderBookFactory> deepCoin, Func<IGateIoOrderBookFactory> gateIo,
             Func<IHTXOrderBookFactory> htx, Func<IHyperLiquidOrderBookFactory> hyperLiquid, Func<IKrakenOrderBookFactory> kraken, Func<IKucoinOrderBookFactory> kucoin,
             Func<ILBankOrderBookFactory> lBank, Func<ILighterOrderBookFactory> lighter, Func<IMexcOrderBookFactory> mexc, Func<IOKXOrderBookFactory> okx,
@@ -346,12 +330,10 @@ namespace CryptoClients.Net
             _bingX = new Lazy<IBingXOrderBookFactory>(bingX, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitfinex = new Lazy<IBitfinexOrderBookFactory>(bitfinex, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitget = new Lazy<IBitgetOrderBookFactory>(bitget, LazyThreadSafetyMode.ExecutionAndPublication);
-            _bitMart = new Lazy<IBitMartOrderBookFactory>(bitMart, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitstamp = new Lazy<IBitstampOrderBookFactory>(bitstamp, LazyThreadSafetyMode.ExecutionAndPublication);
             _bloFin = new Lazy<IBloFinOrderBookFactory>(bloFin, LazyThreadSafetyMode.ExecutionAndPublication);
             _bybit = new Lazy<IBybitOrderBookFactory>(bybit, LazyThreadSafetyMode.ExecutionAndPublication);
             _coinbase = new Lazy<ICoinbaseOrderBookFactory>(coinbase, LazyThreadSafetyMode.ExecutionAndPublication);
-            _coinEx = new Lazy<ICoinExOrderBookFactory>(coinEx, LazyThreadSafetyMode.ExecutionAndPublication);
             _coinW = new Lazy<ICoinWOrderBookFactory>(coinW, LazyThreadSafetyMode.ExecutionAndPublication);
             _cryptoCom = new Lazy<ICryptoComOrderBookFactory>(cryptoCom, LazyThreadSafetyMode.ExecutionAndPublication);
             _deepCoin = new Lazy<IDeepCoinOrderBookFactory>(deepCoin, LazyThreadSafetyMode.ExecutionAndPublication);

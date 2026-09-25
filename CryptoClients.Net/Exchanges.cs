@@ -3,12 +3,10 @@ using Binance.Net;
 using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
-using BitMart.Net;
 using Bitstamp.Net;
 using BloFin.Net;
 using Bybit.Net;
 using Coinbase.Net;
-using CoinEx.Net;
 using CoinGecko.Net;
 using CoinW.Net;
 using CryptoClients.Net.Models;
@@ -151,29 +149,6 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
-        /// BitMart exchange info
-        /// </summary>
-        public static ExchangeInfo BitMart { get; } = new ExchangeInfo
-        {
-            Name = BitMartExchange.ExchangeName,
-            DisplayName = BitMartExchange.DisplayName,
-            ImageUrl = BitMartExchange.ImageUrl,
-            Url = BitMartExchange.Url,
-            ApiDocsUrl = BitMartExchange.ApiDocsUrl,
-            Type = BitMartExchange.Type,
-            ApiEnvironments = BitMartEnvironment.All,
-            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
-            {
-                Exchange = BitMartExchange.ExchangeName,
-                KeyDescription = "The API key",
-                Param1Required = true,
-                Param1Description = "API secret",
-                Param2Required = true,
-                Param2Description = "Passphrase"
-            }
-        };
-
-        /// <summary>
         /// Bitstamp exchange info
         /// </summary>
         public static ExchangeInfo Bitstamp { get; } = new ExchangeInfo
@@ -253,27 +228,6 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = CoinbaseExchange.ExchangeName,
-                KeyDescription = "The API key",
-                Param1Required = true,
-                Param1Description = "API secret"
-            }
-        };
-
-        /// <summary>
-        /// CoinEx exchange info
-        /// </summary>
-        public static ExchangeInfo CoinEx { get; } = new ExchangeInfo
-        {
-            Name = CoinExExchange.ExchangeName,
-            DisplayName = CoinExExchange.DisplayName,
-            ImageUrl = CoinExExchange.ImageUrl,
-            Url = CoinExExchange.Url,
-            ApiDocsUrl = CoinExExchange.ApiDocsUrl,
-            Type = CoinExExchange.Type,
-            ApiEnvironments = CoinExEnvironment.All,
-            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
-            {
-                Exchange = CoinExExchange.ExchangeName,
                 KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
@@ -701,12 +655,10 @@ namespace CryptoClients.Net
             BingX,
             Bitfinex,
             Bitget,
-            BitMart,
             Bitstamp,
             BloFin,
             Bybit,
             Coinbase,
-            CoinEx,
             CoinW,
             CryptoCom,
             DeepCoin,
@@ -740,7 +692,6 @@ namespace CryptoClients.Net
                 BingXExchange.RateLimiter.RateLimitTriggered += value;
                 BitfinexExchange.RateLimiter.RateLimitTriggered += value;
                 BitgetExchange.RateLimiter.RateLimitTriggered += value;
-                BitMartExchange.RateLimiter.RateLimitTriggered += value;
                 BitstampExchange.RateLimiter.RateLimitTriggered += value;
                 BloFinExchange.RateLimiter.RateLimitTriggered += value;
                 BybitExchange.RateLimiter.RateLimitTriggered += value;
@@ -774,7 +725,6 @@ namespace CryptoClients.Net
                 BingXExchange.RateLimiter.RateLimitTriggered -= value;
                 BitfinexExchange.RateLimiter.RateLimitTriggered -= value;
                 BitgetExchange.RateLimiter.RateLimitTriggered -= value;
-                BitMartExchange.RateLimiter.RateLimitTriggered -= value;
                 BitstampExchange.RateLimiter.RateLimitTriggered -= value;
                 BloFinExchange.RateLimiter.RateLimitTriggered -= value;
                 BybitExchange.RateLimiter.RateLimitTriggered -= value;
@@ -815,7 +765,6 @@ namespace CryptoClients.Net
                 BingXExchange.RateLimiter.RateLimitUpdated += value;
                 BitfinexExchange.RateLimiter.RateLimitUpdated += value;
                 BitgetExchange.RateLimiter.RateLimitUpdated += value;
-                BitMartExchange.RateLimiter.RateLimitUpdated += value;
                 BitstampExchange.RateLimiter.RateLimitUpdated += value;
                 BloFinExchange.RateLimiter.RateLimitUpdated += value;
                 BybitExchange.RateLimiter.RateLimitUpdated += value;
@@ -848,7 +797,6 @@ namespace CryptoClients.Net
                 BingXExchange.RateLimiter.RateLimitUpdated -= value;
                 BitfinexExchange.RateLimiter.RateLimitUpdated -= value;
                 BitgetExchange.RateLimiter.RateLimitUpdated -= value;
-                BitMartExchange.RateLimiter.RateLimitUpdated -= value;
                 BitstampExchange.RateLimiter.RateLimitUpdated -= value;
                 BloFinExchange.RateLimiter.RateLimitUpdated -= value;
                 BybitExchange.RateLimiter.RateLimitUpdated -= value;

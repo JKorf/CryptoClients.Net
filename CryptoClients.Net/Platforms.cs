@@ -3,12 +3,10 @@ using Binance.Net;
 using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
-using BitMart.Net;
 using Bitstamp.Net;
 using BloFin.Net;
 using Bybit.Net;
 using Coinbase.Net;
-using CoinEx.Net;
 using CoinGecko.Net;
 using CoinW.Net;
 using CryptoCom.Net;
@@ -65,11 +63,6 @@ namespace CryptoClients.Net
         public static PlatformInfo Bitget { get; } = BitgetExchange.Metadata;
 
         /// <summary>
-        /// BitMart platform info
-        /// </summary>
-        public static PlatformInfo BitMart { get; } = BitMartExchange.Metadata;
-
-        /// <summary>
         /// Bitstamp platform info
         /// </summary>
         public static PlatformInfo Bitstamp { get; } = BitstampExchange.Metadata;
@@ -88,11 +81,6 @@ namespace CryptoClients.Net
         /// Coinbase platform info
         /// </summary>
         public static PlatformInfo Coinbase { get; } = CoinbaseExchange.Metadata;
-
-        /// <summary>
-        /// CoinEx platform info
-        /// </summary>
-        public static PlatformInfo CoinEx { get; } = CoinExExchange.Metadata;
 
         /// <summary>
         /// CoinGecko info
@@ -209,12 +197,10 @@ namespace CryptoClients.Net
             BingX,
             Bitfinex,
             Bitget,
-            BitMart,
             Bitstamp,
             BloFin,
             Bybit,
             Coinbase,
-            CoinEx,
             CoinGecko,
             CoinW,
             CryptoCom,

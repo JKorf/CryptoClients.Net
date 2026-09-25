@@ -57,7 +57,7 @@ IExchangeSocketClient socketClient = new ExchangeSocketClient();
 
 REST exposes aggregate methods and direct clients. Socket exposes aggregate subscription helpers and direct socket clients.
 
-Direct exchange properties include Aster, Binance, BingX, Bitfinex, Bitget, BitMart, BitMEX, Bitstamp, BloFin, Bybit, Coinbase, CoinEx, CoinW, CryptoCom, DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, LBank, Mexc, OKX, Polymarket, Toobit, Upbit, Weex, WhiteBit, and XT. The REST client also includes CoinGecko.
+Direct exchange properties include Aster, Binance, BingX, Bitfinex, Bitget, Bitstamp, BloFin, Bybit, Coinbase, CoinW, CryptoCom, DeepCoin, GateIo, HTX, HyperLiquid, Kraken, Kucoin, LBank, Lighter, Mexc, OKX, Pionex, Polymarket, Tapbit, Toobit, Upbit, Weex, WhiteBit, and XT. The REST client also includes CoinGecko.
 
 ## Dependency Injection
 
@@ -130,7 +130,7 @@ restClient.SetApiCredentials("OKX", new DynamicCredentials(
     param2: "passphrase"));
 ```
 
-Do not assume every exchange takes key and secret only. Bitget, BitMart, BloFin, DeepCoin, Kucoin, OKX, and Weex require passphrase-like `Param2` values. Aster and HyperLiquid have private-key oriented credential shapes. Upbit has no dynamic credential info in this library.
+Do not assume every exchange takes key and secret only. Bitget, BloFin, DeepCoin, Kucoin, OKX, and Weex require passphrase-like `Param2` values. Aster and HyperLiquid have private-key oriented credential shapes. Upbit has no dynamic credential info in this library.
 
 ## Shared Symbols
 

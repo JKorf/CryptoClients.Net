@@ -18,10 +18,6 @@ using Bitget.Net;
 using Bitget.Net.Clients;
 using Bitget.Net.Interfaces.Clients;
 using Bitget.Net.Objects.Options;
-using BitMart.Net;
-using BitMart.Net.Clients;
-using BitMart.Net.Interfaces.Clients;
-using BitMart.Net.Objects.Options;
 using Bitstamp.Net;
 using Bitstamp.Net.Clients;
 using Bitstamp.Net.Interfaces.Clients;
@@ -38,10 +34,6 @@ using Coinbase.Net;
 using Coinbase.Net.Clients;
 using Coinbase.Net.Interfaces.Clients;
 using Coinbase.Net.Objects.Options;
-using CoinEx.Net;
-using CoinEx.Net.Clients;
-using CoinEx.Net.Interfaces.Clients;
-using CoinEx.Net.Objects.Options;
 using CoinGecko.Net.Clients;
 using CoinGecko.Net.Interfaces;
 using CoinGecko.Net.Objects.Options;
@@ -146,12 +138,10 @@ namespace CryptoClients.Net.Clients
         private Lazy<IBingXUserClientProvider> _bingXProvider = null!;
         private Lazy<IBitfinexUserClientProvider> _bitfinexProvider = null!;
         private Lazy<IBitgetUserClientProvider> _bitgetProvider = null!;
-        private Lazy<IBitMartUserClientProvider> _bitMartProvider = null!;
         private Lazy<IBitstampUserClientProvider> _bitstampProvider = null!;
         private Lazy<IBloFinUserClientProvider> _bloFinProvider = null!;
         private Lazy<IBybitUserClientProvider> _bybitProvider = null!;
         private Lazy<ICoinbaseUserClientProvider> _coinbaseProvider = null!;
-        private Lazy<ICoinExUserClientProvider> _coinExProvider = null!;
         private Lazy<ICoinGeckoRestClient> _coinGeckoRestClient = null!;
         private Lazy<ICoinWUserClientProvider> _coinWProvider = null!;
         private Lazy<ICryptoComUserClientProvider> _cryptoComProvider = null!;
@@ -184,12 +174,10 @@ namespace CryptoClients.Net.Clients
             Action<BingXOptions>? bingxOptions = null,
             Action<BitfinexOptions>? bitfinexOptions = null,
             Action<BitgetOptions>? bitgetOptions = null,
-            Action<BitMartOptions>? bitMartOptions = null,
             Action<BitstampOptions>? bitstampOptions = null,
             Action<BloFinOptions>? bloFinOptions = null,
             Action<BybitOptions>? bybitOptions = null,
             Action<CoinbaseOptions>? coinbaseOptions = null,
-            Action<CoinExOptions>? coinExOptions = null,
             Action<CoinGeckoRestOptions>? coinGeckoRestOptions = null,
             Action<CoinWOptions>? coinWOptions = null,
             Action<CryptoComOptions>? cryptoComOptions = null,
@@ -272,12 +260,10 @@ namespace CryptoClients.Net.Clients
                 bingxOptions = SetGlobalOptions<BingXOptions, BingXRestOptions, BingXSocketOptions, BingXCredentials, BingXEnvironment>(global, bingxOptions, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingXEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingXEnvName)! : BingXEnvironment.Live);
                 bitfinexOptions = SetGlobalOptions<BitfinexOptions, BitfinexRestOptions, BitfinexSocketOptions, BitfinexCredentials, BitfinexEnvironment>(global, bitfinexOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
                 bitgetOptions = SetGlobalOptions<BitgetOptions, BitgetRestOptions, BitgetSocketOptions, BitgetCredentials, BitgetEnvironment>(global, bitgetOptions, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
-                bitMartOptions = SetGlobalOptions<BitMartOptions, BitMartRestOptions, BitMartSocketOptions, BitMartCredentials, BitMartEnvironment>(global, bitMartOptions, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
                 bitstampOptions = SetGlobalOptions<BitstampOptions, BitstampRestOptions, BitstampSocketOptions, BitstampCredentials, BitstampEnvironment>(global, bitstampOptions, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : BitstampEnvironment.Live);
                 bloFinOptions = SetGlobalOptions<BloFinOptions, BloFinRestOptions, BloFinSocketOptions, BloFinCredentials, BloFinEnvironment>(global, bloFinOptions, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
                 bybitOptions = SetGlobalOptions<BybitOptions, BybitRestOptions, BybitSocketOptions, BybitCredentials, BybitEnvironment>(global, bybitOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
                 coinbaseOptions = SetGlobalOptions<CoinbaseOptions, CoinbaseRestOptions, CoinbaseSocketOptions, CoinbaseCredentials, CoinbaseEnvironment>(global, coinbaseOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
-                coinExOptions = SetGlobalOptions<CoinExOptions, CoinExRestOptions, CoinExSocketOptions, CoinExCredentials, CoinExEnvironment>(global, coinExOptions, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
                 coinWOptions = SetGlobalOptions<CoinWOptions, CoinWRestOptions, CoinWSocketOptions, CoinWCredentials, CoinWEnvironment>(global, coinWOptions, credentials?.CoinW, environments?.TryGetValue(Exchange.CoinW, out var coinWEnvName) == true ? CoinWEnvironment.GetEnvironmentByName(coinWEnvName)! : CoinWEnvironment.Live);
                 cryptoComOptions = SetGlobalOptions<CryptoComOptions, CryptoComRestOptions, CryptoComSocketOptions, CryptoComCredentials, CryptoComEnvironment>(global, cryptoComOptions, credentials?.CryptoCom, environments?.TryGetValue(Exchange.CryptoCom, out var cryptoComEnvName) == true ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnvName)! : CryptoComEnvironment.Live);
                 deepCoinOptions = SetGlobalOptions<DeepCoinOptions, DeepCoinRestOptions, DeepCoinSocketOptions, DeepCoinCredentials, DeepCoinEnvironment>(global, deepCoinOptions, credentials?.DeepCoin, environments?.TryGetValue(Exchange.DeepCoin, out var deepCoinEnvName) == true ? DeepCoinEnvironment.GetEnvironmentByName(deepCoinEnvName)! : DeepCoinEnvironment.Live);
@@ -302,10 +288,10 @@ namespace CryptoClients.Net.Clients
             InitializeProviders(enabledExchanges,
                 () => new AsterUserClientProvider(asterOptions), () => new BinanceUserClientProvider(binanceOptions),
                 () => new BingXUserClientProvider(bingxOptions), () => new BitfinexUserClientProvider(bitfinexOptions),
-                () => new BitgetUserClientProvider(bitgetOptions), () => new BitMartUserClientProvider(bitMartOptions),
+                () => new BitgetUserClientProvider(bitgetOptions),
                 () => new BitstampUserClientProvider(bitstampOptions),
                 () => new BloFinUserClientProvider(bloFinOptions), () => new BybitUserClientProvider(bybitOptions),
-                () => new CoinbaseUserClientProvider(coinbaseOptions), () => new CoinExUserClientProvider(coinExOptions),
+                () => new CoinbaseUserClientProvider(coinbaseOptions),
                 () => new CoinGeckoRestClient(coinGeckoRestOptions), () => new CoinWUserClientProvider(coinWOptions),
                 () => new CryptoComUserClientProvider(cryptoComOptions), () => new DeepCoinUserClientProvider(deepCoinOptions),
                 () => new GateIoUserClientProvider(gateIoOptions), () => new HTXUserClientProvider(htxOptions),
@@ -329,12 +315,10 @@ namespace CryptoClients.Net.Clients
             IBingXUserClientProvider bingXProvider,
             IBitfinexUserClientProvider bitfinexProvider,
             IBitgetUserClientProvider bitgetProvider,
-            IBitMartUserClientProvider bitMartProvider,
             IBitstampUserClientProvider bitstampProvider,
             IBloFinUserClientProvider bloFinProvider,
             IBybitUserClientProvider bybitProvider,
             ICoinbaseUserClientProvider coinbaseProvider,
-            ICoinExUserClientProvider coinExProvider,
             ICoinGeckoRestClient coinGeckoRestClient,
             ICoinWUserClientProvider coinWProvider,
             ICryptoComUserClientProvider cryptoComProvider,
@@ -361,8 +345,8 @@ namespace CryptoClients.Net.Clients
         {
             InitializeProviders(null,
                 () => asterProvider, () => binanceProvider, () => bingXProvider, () => bitfinexProvider,
-                () => bitgetProvider, () => bitMartProvider, () => bitstampProvider,
-                () => bloFinProvider, () => bybitProvider, () => coinbaseProvider, () => coinExProvider,
+                () => bitgetProvider, () => bitstampProvider,
+                () => bloFinProvider, () => bybitProvider, () => coinbaseProvider,
                 () => coinGeckoRestClient, () => coinWProvider, () => cryptoComProvider, () => deepCoinProvider,
                 () => gateIoProvider, () => htxProvider, () => hyperLiquidProvider, () => krakenProvider,
                 () => kucoinProvider, () => lBankProvider, () => lighterProvider, () => mexcProvider,
@@ -375,10 +359,10 @@ namespace CryptoClients.Net.Clients
             InitializeProviders(enabledExchanges,
                 () => serviceProvider.GetRequiredService<IAsterUserClientProvider>(), () => serviceProvider.GetRequiredService<IBinanceUserClientProvider>(),
                 () => serviceProvider.GetRequiredService<IBingXUserClientProvider>(), () => serviceProvider.GetRequiredService<IBitfinexUserClientProvider>(),
-                () => serviceProvider.GetRequiredService<IBitgetUserClientProvider>(), () => serviceProvider.GetRequiredService<IBitMartUserClientProvider>(),
+                () => serviceProvider.GetRequiredService<IBitgetUserClientProvider>(),
                 () => serviceProvider.GetRequiredService<IBitstampUserClientProvider>(),
                 () => serviceProvider.GetRequiredService<IBloFinUserClientProvider>(), () => serviceProvider.GetRequiredService<IBybitUserClientProvider>(),
-                () => serviceProvider.GetRequiredService<ICoinbaseUserClientProvider>(), () => serviceProvider.GetRequiredService<ICoinExUserClientProvider>(),
+                () => serviceProvider.GetRequiredService<ICoinbaseUserClientProvider>(),
                 () => serviceProvider.GetRequiredService<ICoinGeckoRestClient>(), () => serviceProvider.GetRequiredService<ICoinWUserClientProvider>(),
                 () => serviceProvider.GetRequiredService<ICryptoComUserClientProvider>(), () => serviceProvider.GetRequiredService<IDeepCoinUserClientProvider>(),
                 () => serviceProvider.GetRequiredService<IGateIoUserClientProvider>(), () => serviceProvider.GetRequiredService<IHTXUserClientProvider>(),
@@ -413,12 +397,10 @@ namespace CryptoClients.Net.Clients
             ClearIfCreated(Exchange.BingX, _bingXProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.Bitfinex, _bitfinexProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.Bitget, _bitgetProvider, x => x.ClearUserClients(userIdentifier), exchange);
-            ClearIfCreated(Exchange.BitMart, _bitMartProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.Bitstamp, _bitstampProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.BloFin, _bloFinProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.Bybit, _bybitProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.Coinbase, _coinbaseProvider, x => x.ClearUserClients(userIdentifier), exchange);
-            ClearIfCreated(Exchange.CoinEx, _coinExProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.CoinW, _coinWProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.CryptoCom, _cryptoComProvider, x => x.ClearUserClients(userIdentifier), exchange);
             ClearIfCreated(Exchange.DeepCoin, _deepCoinProvider, x => x.ClearUserClients(userIdentifier), exchange);
@@ -453,12 +435,10 @@ namespace CryptoClients.Net.Clients
                 () => _bingXProvider.Value.GetRestClient(userIdentifier, credentials.BingX, environments.TryGetValue(Exchange.BingX, out var bingxEnv) ? BingXEnvironment.GetEnvironmentByName(bingxEnv) : null),
                 () => _bitfinexProvider.Value.GetRestClient(userIdentifier, credentials.Bitfinex, environments.TryGetValue(Exchange.Bitfinex, out var bitfinexEnv) ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnv) : null),
                 () => _bitgetProvider.Value.GetRestClient(userIdentifier, credentials.Bitget, environments.TryGetValue(Exchange.Bitget, out var bitgetEnv) ? BitgetEnvironment.GetEnvironmentByName(bitgetEnv) : null),
-                () => _bitMartProvider.Value.GetRestClient(userIdentifier, credentials.BitMart, environments.TryGetValue(Exchange.BitMart, out var bitmartEnv) ? BitMartEnvironment.GetEnvironmentByName(bitmartEnv) : null),
                 () => _bitstampProvider.Value.GetRestClient(userIdentifier, credentials.Bitstamp, environments.TryGetValue(Exchange.Bitstamp, out var bitstampEnv) ? BitstampEnvironment.GetEnvironmentByName(bitstampEnv) : null),
                 () => _bloFinProvider.Value.GetRestClient(userIdentifier, credentials.BloFin, environments.TryGetValue(Exchange.BloFin, out var bloFinEnv) ? BloFinEnvironment.GetEnvironmentByName(bloFinEnv) : null),
                 () => _bybitProvider.Value.GetRestClient(userIdentifier, credentials.Bybit, environments.TryGetValue(Exchange.Bybit, out var bybitEnv) ? BybitEnvironment.GetEnvironmentByName(bybitEnv) : null),
                 () => _coinbaseProvider.Value.GetRestClient(userIdentifier, credentials.Coinbase, environments.TryGetValue(Exchange.Coinbase, out var coinbaseEnv) ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnv) : null),
-                () => _coinExProvider.Value.GetRestClient(userIdentifier, credentials.CoinEx, environments.TryGetValue(Exchange.CoinEx, out var coinexEnv) ? CoinExEnvironment.GetEnvironmentByName(coinexEnv) : null),
                 () => _coinGeckoRestClient.Value,
                 () => _coinWProvider.Value.GetRestClient(userIdentifier, credentials.CoinW, environments.TryGetValue(Exchange.CoinW, out var coinWEnv) ? CoinWEnvironment.GetEnvironmentByName(coinWEnv) : null),
                 () => _cryptoComProvider.Value.GetRestClient(userIdentifier, credentials.CryptoCom, environments.TryGetValue(Exchange.CryptoCom, out var cryptoComEnv) ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnv) : null),
@@ -498,12 +478,10 @@ namespace CryptoClients.Net.Clients
                 () => _bingXProvider.Value.GetSocketClient(userIdentifier, credentials.BingX, environments.TryGetValue(Exchange.BingX, out var bingxEnv) ? BingXEnvironment.GetEnvironmentByName(bingxEnv) : null),
                 () => _bitfinexProvider.Value.GetSocketClient(userIdentifier, credentials.Bitfinex, environments.TryGetValue(Exchange.Bitfinex, out var bitfinexEnv) ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnv) : null),
                 () => _bitgetProvider.Value.GetSocketClient(userIdentifier, credentials.Bitget, environments.TryGetValue(Exchange.Bitget, out var bitgetEnv) ? BitgetEnvironment.GetEnvironmentByName(bitgetEnv) : null),
-                () => _bitMartProvider.Value.GetSocketClient(userIdentifier, credentials.BitMart, environments.TryGetValue(Exchange.BitMart, out var bitmartEnv) ? BitMartEnvironment.GetEnvironmentByName(bitmartEnv) : null),
                 () => _bitstampProvider.Value.GetSocketClient(userIdentifier, credentials.Bitstamp, environments.TryGetValue(Exchange.Bitstamp, out var bitstampEnv) ? BitstampEnvironment.GetEnvironmentByName(bitstampEnv) : null),
                 () => _bloFinProvider.Value.GetSocketClient(userIdentifier, credentials.BloFin, environments.TryGetValue(Exchange.BloFin, out var bloFinEnv) ? BloFinEnvironment.GetEnvironmentByName(bloFinEnv) : null),
                 () => _bybitProvider.Value.GetSocketClient(userIdentifier, credentials.Bybit, environments.TryGetValue(Exchange.Bybit, out var bybitEnv) ? BybitEnvironment.GetEnvironmentByName(bybitEnv) : null),
                 () => _coinbaseProvider.Value.GetSocketClient(userIdentifier, credentials.Coinbase, environments.TryGetValue(Exchange.Coinbase, out var coinbaseEnv) ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnv) : null),
-                () => _coinExProvider.Value.GetSocketClient(userIdentifier, credentials.CoinEx, environments.TryGetValue(Exchange.CoinEx, out var coinexEnv) ? CoinExEnvironment.GetEnvironmentByName(coinexEnv) : null),
                 () => _coinWProvider.Value.GetSocketClient(userIdentifier, credentials.CoinW, environments.TryGetValue(Exchange.CoinW, out var coinWEnv) ? CoinWEnvironment.GetEnvironmentByName(coinWEnv) : null),
                 () => _cryptoComProvider.Value.GetSocketClient(userIdentifier, credentials.CryptoCom, environments.TryGetValue(Exchange.CryptoCom, out var cryptoComEnv) ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnv) : null),
                 () => _deepCoinProvider.Value.GetSocketClient(userIdentifier, credentials.DeepCoin, environments.TryGetValue(Exchange.DeepCoin, out var deepcoinEnv) ? DeepCoinEnvironment.GetEnvironmentByName(deepcoinEnv) : null),
@@ -531,9 +509,9 @@ namespace CryptoClients.Net.Clients
         private void InitializeProviders(
             IEnumerable<string>? enabledExchanges,
             Func<IAsterUserClientProvider> aster, Func<IBinanceUserClientProvider> binance, Func<IBingXUserClientProvider> bingX,
-            Func<IBitfinexUserClientProvider> bitfinex, Func<IBitgetUserClientProvider> bitget, Func<IBitMartUserClientProvider> bitMart,
+            Func<IBitfinexUserClientProvider> bitfinex, Func<IBitgetUserClientProvider> bitget,
             Func<IBitstampUserClientProvider> bitstamp, Func<IBloFinUserClientProvider> bloFin,
-            Func<IBybitUserClientProvider> bybit, Func<ICoinbaseUserClientProvider> coinbase, Func<ICoinExUserClientProvider> coinEx,
+            Func<IBybitUserClientProvider> bybit, Func<ICoinbaseUserClientProvider> coinbase,
             Func<ICoinGeckoRestClient> coinGecko, Func<ICoinWUserClientProvider> coinW, Func<ICryptoComUserClientProvider> cryptoCom,
             Func<IDeepCoinUserClientProvider> deepCoin, Func<IGateIoUserClientProvider> gateIo, Func<IHTXUserClientProvider> htx,
             Func<IHyperLiquidUserClientProvider> hyperLiquid, Func<IKrakenUserClientProvider> kraken, Func<IKucoinUserClientProvider> kucoin,
@@ -548,12 +526,10 @@ namespace CryptoClients.Net.Clients
             _bingXProvider = CreateLazy(bingX);
             _bitfinexProvider = CreateLazy(bitfinex);
             _bitgetProvider = CreateLazy(bitget);
-            _bitMartProvider = CreateLazy(bitMart);
             _bitstampProvider = CreateLazy(bitstamp);
             _bloFinProvider = CreateLazy(bloFin);
             _bybitProvider = CreateLazy(bybit);
             _coinbaseProvider = CreateLazy(coinbase);
-            _coinExProvider = CreateLazy(coinEx);
             _coinGeckoRestClient = CreateLazy(coinGecko);
             _coinWProvider = CreateLazy(coinW);
             _cryptoComProvider = CreateLazy(cryptoCom);

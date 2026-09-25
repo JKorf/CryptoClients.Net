@@ -3,12 +3,10 @@ using Binance.Net.Interfaces;
 using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
-using BitMart.Net.Interfaces;
 using Bitstamp.Net.Interfaces;
 using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
-using CoinEx.Net.Interfaces;
 using CoinW.Net.Interfaces;
 using CryptoClients.Net.Models;
 using CryptoCom.Net.Interfaces;
@@ -65,10 +63,6 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         IBitgetTrackerFactory Bitget { get; }
         /// <summary>
-        /// BitMart tracker factory
-        /// </summary>
-        IBitMartTrackerFactory BitMart { get; }
-        /// <summary>
         /// Bitstamp tracker factory
         /// </summary>
         IBitstampTrackerFactory Bitstamp { get; }
@@ -84,10 +78,6 @@ namespace CryptoClients.Net.Interfaces
         /// Coinbase tracker factory
         /// </summary>
         ICoinbaseTrackerFactory Coinbase { get; }
-        /// <summary>
-        /// CoinEx tracker factory
-        /// </summary>
-        ICoinExTrackerFactory CoinEx { get; }
         /// <summary>
         /// CoinW tracker factory
         /// </summary>

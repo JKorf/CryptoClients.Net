@@ -13,9 +13,6 @@ using Bitfinex.Net.Objects.Options;
 using Bitget.Net.Clients;
 using Bitget.Net.Interfaces.Clients;
 using Bitget.Net.Objects.Options;
-using BitMart.Net.Clients;
-using BitMart.Net.Interfaces.Clients;
-using BitMart.Net.Objects.Options;
 using Bitstamp.Net.Clients;
 using Bitstamp.Net.Interfaces.Clients;
 using Bitstamp.Net.Objects.Options;
@@ -28,9 +25,6 @@ using Bybit.Net.Objects.Options;
 using Coinbase.Net.Clients;
 using Coinbase.Net.Interfaces.Clients;
 using Coinbase.Net.Objects.Options;
-using CoinEx.Net.Clients;
-using CoinEx.Net.Interfaces.Clients;
-using CoinEx.Net.Objects.Options;
 using CoinW.Net.Clients;
 using CoinW.Net.Interfaces.Clients;
 using CoinW.Net.Objects.Options;
@@ -173,9 +167,6 @@ namespace CryptoClients.Net.Clients
                 [Exchange.Bitget] = Create(() =>
                     new BitgetSharedApiClient(exchangeRestClient.Bitget, exchangeSocketClient.Bitget, GetOptions<BitgetOptions>())),
 
-                [Exchange.BitMart] = Create(() =>
-                    new BitMartSharedApiClient(exchangeRestClient.BitMart, exchangeSocketClient.BitMart, GetOptions<BitMartOptions>())),
-
                 [Exchange.Bitstamp] = Create(() =>
                     new BitstampSharedApiClient(exchangeRestClient.Bitstamp, exchangeSocketClient.Bitstamp, GetOptions<BitstampOptions>())),
 
@@ -187,9 +178,6 @@ namespace CryptoClients.Net.Clients
 
                 [Exchange.Coinbase] = Create(() =>
                     new CoinbaseSharedApiClient(exchangeRestClient.Coinbase, exchangeSocketClient.Coinbase, GetOptions<CoinbaseOptions>())),
-
-                [Exchange.CoinEx] = Create(() =>
-                    new CoinExSharedApiClient(exchangeRestClient.CoinEx, exchangeSocketClient.CoinEx, GetOptions<CoinExOptions>())),
 
                 [Exchange.CoinW] = Create(() =>
                     new CoinWSharedApiClient(exchangeRestClient.CoinW, exchangeSocketClient.CoinW, GetOptions<CoinWOptions>())),
@@ -282,12 +270,10 @@ namespace CryptoClients.Net.Clients
                 [Exchange.BingX] = Create<IBingXSharedApiClient>(),
                 [Exchange.Bitfinex] = Create<IBitfinexSharedApiClient>(),
                 [Exchange.Bitget] = Create<IBitgetSharedApiClient>(),
-                [Exchange.BitMart] = Create<IBitMartSharedApiClient>(),
                 [Exchange.Bitstamp] = Create<IBitstampSharedApiClient>(),
                 [Exchange.BloFin] = Create<IBloFinSharedApiClient>(),
                 [Exchange.Bybit] = Create<IBybitSharedApiClient>(),
                 [Exchange.Coinbase] = Create<ICoinbaseSharedApiClient>(),
-                [Exchange.CoinEx] = Create<ICoinExSharedApiClient>(),
                 [Exchange.CoinW] = Create<ICoinWSharedApiClient>(),
                 [Exchange.CryptoCom] = Create<ICryptoComSharedApiClient>(),
                 [Exchange.DeepCoin] = Create<IDeepCoinSharedApiClient>(),
@@ -437,10 +423,6 @@ namespace CryptoClients.Net.Clients
             GetRequiredClient<IBitgetSharedApiClient>(Exchange.Bitget);
 
         /// <inheritdoc />
-        public IBitMartSharedApiClient BitMart =>
-            GetRequiredClient<IBitMartSharedApiClient>(Exchange.BitMart);
-
-        /// <inheritdoc />
         public IBitstampSharedApiClient Bitstamp =>
             GetRequiredClient<IBitstampSharedApiClient>(Exchange.Bitstamp);
 
@@ -455,10 +437,6 @@ namespace CryptoClients.Net.Clients
         /// <inheritdoc />
         public ICoinbaseSharedApiClient Coinbase =>
             GetRequiredClient<ICoinbaseSharedApiClient>(Exchange.Coinbase);
-
-        /// <inheritdoc />
-        public ICoinExSharedApiClient CoinEx =>
-            GetRequiredClient<ICoinExSharedApiClient>(Exchange.CoinEx);
 
         /// <inheritdoc />
         public ICoinWSharedApiClient CoinW =>

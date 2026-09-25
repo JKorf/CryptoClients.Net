@@ -3,12 +3,10 @@ using Binance.Net;
 using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
-using BitMart.Net;
 using Bitstamp.Net;
 using BloFin.Net;
 using Bybit.Net;
 using Coinbase.Net;
-using CoinEx.Net;
 using CoinW.Net;
 using CryptoCom.Net;
 using DeepCoin.Net;
@@ -57,10 +55,6 @@ namespace CryptoClients.Net.Enums
         /// </summary>
         public static string Bitget => BitgetExchange.ExchangeName;
         /// <summary>
-        /// BitMart
-        /// </summary>
-        public static string BitMart => BitMartExchange.ExchangeName;
-        /// <summary>
         /// Bitstamp
         /// </summary>
         public static string Bitstamp => BitstampExchange.ExchangeName;
@@ -76,10 +70,6 @@ namespace CryptoClients.Net.Enums
         /// Coinbase
         /// </summary>
         public static string Coinbase => CoinbaseExchange.ExchangeName;
-        /// <summary>
-        /// CoinEx
-        /// </summary>
-        public static string CoinEx => CoinExExchange.ExchangeName;
         /// <summary>
         /// CoinW
         /// </summary>
@@ -167,12 +157,10 @@ namespace CryptoClients.Net.Enums
             BingX,
             Bitfinex,
             Bitget,
-            BitMart,
             Bitstamp,
             BloFin,
             Bybit,
             Coinbase,
-            CoinEx,
             CoinW,
             CryptoCom,
             DeepCoin,

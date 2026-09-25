@@ -16,7 +16,7 @@ It combines:
 - dynamic multi-exchange requests and subscriptions
 - client-side helpers such as rate limiting, order books, trackers, and user client management
 
-The package includes **32 client libraries**: **30 exchanges** plus **CoinGecko** and **Polymarket**. See the [complete library table](#available-client-libraries).
+The package includes **30 client libraries**: **28 exchanges** plus **CoinGecko** and **Polymarket**. See the [complete library table](#available-client-libraries).
 
 Choose `CryptoClients.Net` when an application uses multiple exchanges, needs exchange-agnostic code, or selects exchanges at runtime. If an application only targets one exchange and mainly uses exchange-specific endpoints, install that exchange's individual package instead.
 
@@ -226,7 +226,7 @@ The package targets `.NET Standard 2.0`, `.NET Standard 2.1`, `.NET 8.0`, `.NET 
 
 ## Available client libraries
 
-Installing `CryptoClients.Net` includes the following 32 client libraries. Every exchange client is available through the strongly typed properties on `ExchangeRestClient` and, where supported, `ExchangeSocketClient`; `ExchangeSharedApiClient` can resolve V2 capabilities for the 30 exchanges exposed through the `Exchange` identifiers. Inclusion does not mean that every Shared API operation is supported—see [supported features and capability discovery](https://cryptoexchange.jkorf.dev/docs/crypto-clients/supported-features).
+Installing `CryptoClients.Net` includes the following 30 client libraries. Every exchange client is available through the strongly typed properties on `ExchangeRestClient` and, where supported, `ExchangeSocketClient`; `ExchangeSharedApiClient` can resolve V2 capabilities for the 28 exchanges exposed through the `Exchange` identifiers. Inclusion does not mean that every Shared API operation is supported—see [supported features and capability discovery](https://cryptoexchange.jkorf.dev/docs/crypto-clients/supported-features).
 
 ||Platform|Type|Included client library|
 |--|--|--|--|
@@ -235,12 +235,10 @@ Installing `CryptoClients.Net` includes the following 32 client libraries. Every
 |<img src="https://raw.githubusercontent.com/JKorf/BingX.Net/refs/heads/main/BingX.Net/Icon/BingX.png" alt="BingX" width="32" />|BingX|CEX|[JK.BingX.Net](https://www.nuget.org/packages/JK.BingX.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Bitfinex.Net/refs/heads/master/Bitfinex.Net/Icon/icon.png" alt="Bitfinex" width="32" />|Bitfinex|CEX|[Bitfinex.Net](https://www.nuget.org/packages/Bitfinex.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Bitget.Net/refs/heads/main/Bitget.Net/Icon/icon.png" alt="Bitget" width="32" />|Bitget|CEX|[JK.Bitget.Net](https://www.nuget.org/packages/JK.Bitget.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/BitMart.Net/refs/heads/main/BitMart.Net/Icon/icon.png" alt="BitMart" width="32" />|BitMart|CEX|[BitMart.Net](https://www.nuget.org/packages/BitMart.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Bitstamp.Net/refs/heads/main/Bitstamp.Net/Icon/icon.png" alt="Bitstamp" width="32" />|Bitstamp|CEX|[Bitstamp.Net](https://www.nuget.org/packages/Bitstamp.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/BloFin.Net/refs/heads/main/BloFin.Net/Icon/icon.png" alt="BloFin" width="32" />|BloFin|CEX|[BloFin.Net](https://www.nuget.org/packages/BloFin.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Bybit.Net/refs/heads/main/ByBit.Net/Icon/icon.png" alt="Bybit" width="32" />|Bybit|CEX|[Bybit.Net](https://www.nuget.org/packages/Bybit.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/Coinbase.Net/refs/heads/main/Coinbase.Net/Icon/icon.png" alt="Coinbase" width="32" />|Coinbase|CEX|[JKorf.Coinbase.Net](https://www.nuget.org/packages/JKorf.Coinbase.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/CoinEx.Net/refs/heads/master/CoinEx.Net/Icon/icon.png" alt="CoinEx" width="32" />|CoinEx|CEX|[CoinEx.Net](https://www.nuget.org/packages/CoinEx.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/CoinGecko.Net/refs/heads/main/CoinGecko.Net/Icon/icon.png" alt="CoinGecko" width="32" />|CoinGecko|Market data|[CoinGecko.Net](https://www.nuget.org/packages/CoinGecko.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/CoinW.Net/refs/heads/main/CoinW.Net/Icon/icon.png" alt="CoinW" width="32" />|CoinW|CEX|[CoinW.Net](https://www.nuget.org/packages/CoinW.Net)|
 |<img src="https://raw.githubusercontent.com/JKorf/CryptoCom.Net/refs/heads/main/CryptoCom.Net/Icon/icon.png" alt="Crypto.com" width="32" />|Crypto.com|CEX|[CryptoCom.Net](https://www.nuget.org/packages/CryptoCom.Net)|
@@ -348,10 +346,8 @@ Using these links supports the project and may provide the listed fee discount.
 |Binance|CEX|[Link](https://accounts.binance.com/register?ref=X5K3F2ZG)|20%|
 |BingX|CEX|[Link](https://bingx.com/invite/FFHRJKWG/)|20%|
 |Bitget|CEX|[Link](https://partner.bitget.com/bg/1qlf6pj1)|20%|
-|BitMart|CEX|[Link](https://www.bitmart.com/invite/JKorfAPI/en-US)|30%|
 |Bybit|CEX|[Link](https://partner.bybit.com/b/jkorf)|-|
 |Coinbase|CEX|[Link](https://advanced.coinbase.com/join/T6H54H8)|-|
-|CoinEx|CEX|[Link](https://www.coinex.com/register?rc=rbtnp)|20%|
 |CoinW|CEX|[Link](https://www.coinw.com/en_US/register?r=3912706)|-|
 |Crypto.com|CEX|[Link](https://crypto.com/exch/26ge92xbkn)|-|
 |DeepCoin|CEX|[Link](https://s.deepcoin.com/jddhfca)|-|

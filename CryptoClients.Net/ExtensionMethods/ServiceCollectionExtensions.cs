@@ -8,16 +8,12 @@ using Bitfinex.Net;
 using Bitfinex.Net.Objects.Options;
 using Bitget.Net;
 using Bitget.Net.Objects.Options;
-using BitMart.Net;
-using BitMart.Net.Objects.Options;
 using BloFin.Net;
 using BloFin.Net.Objects.Options;
 using Bybit.Net;
 using Bybit.Net.Objects.Options;
 using Coinbase.Net;
 using Coinbase.Net.Objects.Options;
-using CoinEx.Net;
-using CoinEx.Net.Objects.Options;
 using CoinW.Net;
 using CoinW.Net.Objects.Options;
 using CoinGecko.Net.Objects.Options;
@@ -90,12 +86,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="bingxOptions">The options options for the BingX services. Will override options provided in the global options</param>
         /// <param name="bitfinexOptions">The options options for the Bitfinex services. Will override options provided in the global options</param>
         /// <param name="bitgetOptions">The options options for the Bitget services. Will override options provided in the global options</param>
-        /// <param name="bitMartOptions">The options options for the BitMart services. Will override options provided in the global options</param>
         /// <param name="bitstampOptions">The options options for the Bitstamp services. Will override options provided in the global options</param>
         /// <param name="bloFinOptions">The options options for the BloFin services. Will override options provided in the global options</param>
         /// <param name="bybitOptions">The options options for the Bybit services. Will override options provided in the global options</param>
         /// <param name="coinbaseOptions">The options options for the Coinbase services. Will override options provided in the global options</param>
-        /// <param name="coinExOptions">The options options for the CoinEx services. Will override options provided in the global options</param>
         /// <param name="coinWOptions">The options options for the CoinW services. Will override options provided in the global options</param>
         /// <param name="coinGeckoOptions">The options options for the CoinGecko services. Will override options provided in the global options</param>
         /// <param name="cryptoComOptions">The options options for the Crypto.com services. Will override options provided in the global options</param>
@@ -127,12 +121,10 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<BingXOptions>? bingxOptions = null,
             Action<BitfinexOptions>? bitfinexOptions = null,
             Action<BitgetOptions>? bitgetOptions = null,
-            Action<BitMartOptions>? bitMartOptions = null,
             Action<BitstampOptions>? bitstampOptions = null,
             Action<BloFinOptions>? bloFinOptions = null,
             Action<BybitOptions>? bybitOptions = null,
             Action<CoinbaseOptions>? coinbaseOptions = null,
-            Action<CoinExOptions>? coinExOptions = null,
             Action<CoinWOptions>? coinWOptions = null,
             Action<CoinGeckoRestOptions>? coinGeckoOptions = null,
             Action<CryptoComOptions>? cryptoComOptions = null,
@@ -219,12 +211,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 bingxOptions = SetGlobalOptions<BingXOptions, BingXRestOptions, BingXSocketOptions, BingXCredentials, BingXEnvironment>(global, bingxOptions, credentials?.BingX, environments?.TryGetValue(Exchange.BingX, out var bingxEnvName) == true ? BingXEnvironment.GetEnvironmentByName(bingxEnvName)! : BingXEnvironment.Live);
                 bitfinexOptions = SetGlobalOptions<BitfinexOptions, BitfinexRestOptions, BitfinexSocketOptions, BitfinexCredentials, BitfinexEnvironment>(global, bitfinexOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
                 bitgetOptions = SetGlobalOptions<BitgetOptions, BitgetRestOptions, BitgetSocketOptions, BitgetCredentials, BitgetEnvironment>(global, bitgetOptions, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
-                bitMartOptions = SetGlobalOptions<BitMartOptions, BitMartRestOptions, BitMartSocketOptions, BitMartCredentials, BitMartEnvironment>(global, bitMartOptions, credentials?.BitMart, environments?.TryGetValue(Exchange.BitMart, out var bitMartEnvName) == true ? BitMartEnvironment.GetEnvironmentByName(bitMartEnvName)! : BitMartEnvironment.Live);
                 bitstampOptions = SetGlobalOptions<BitstampOptions, BitstampRestOptions, BitstampSocketOptions, BitstampCredentials, BitstampEnvironment>(global, bitstampOptions, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : BitstampEnvironment.Live);
                 bloFinOptions = SetGlobalOptions<BloFinOptions, BloFinRestOptions, BloFinSocketOptions, BloFinCredentials, BloFinEnvironment>(global, bloFinOptions, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
                 bybitOptions = SetGlobalOptions<BybitOptions, BybitRestOptions, BybitSocketOptions, BybitCredentials, BybitEnvironment>(global, bybitOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
                 coinbaseOptions = SetGlobalOptions<CoinbaseOptions, CoinbaseRestOptions, CoinbaseSocketOptions, CoinbaseCredentials, CoinbaseEnvironment>(global, coinbaseOptions, credentials?.Coinbase, environments?.TryGetValue(Exchange.Coinbase, out var coinbaseEnvName) == true ? CoinbaseEnvironment.GetEnvironmentByName(coinbaseEnvName)! : CoinbaseEnvironment.Live);
-                coinExOptions = SetGlobalOptions<CoinExOptions, CoinExRestOptions, CoinExSocketOptions, CoinExCredentials, CoinExEnvironment>(global, coinExOptions, credentials?.CoinEx, environments?.TryGetValue(Exchange.CoinEx, out var coinExEnvName) == true ? CoinExEnvironment.GetEnvironmentByName(coinExEnvName)! : CoinExEnvironment.Live);
                 coinWOptions = SetGlobalOptions<CoinWOptions, CoinWRestOptions, CoinWSocketOptions, CoinWCredentials, CoinWEnvironment>(global, coinWOptions, credentials?.CoinW, environments?.TryGetValue(Exchange.CoinW, out var coinWEnvName) == true ? CoinWEnvironment.GetEnvironmentByName(coinWEnvName)! : CoinWEnvironment.Live);
                 cryptoComOptions = SetGlobalOptions<CryptoComOptions, CryptoComRestOptions, CryptoComSocketOptions, CryptoComCredentials, CryptoComEnvironment>(global, cryptoComOptions, credentials?.CryptoCom, environments?.TryGetValue(Exchange.CryptoCom, out var cryptoComEnvName) == true ? CryptoComEnvironment.GetEnvironmentByName(cryptoComEnvName)! : CryptoComEnvironment.Live);
                 deepCoinOptions = SetGlobalOptions<DeepCoinOptions, DeepCoinRestOptions, DeepCoinSocketOptions, DeepCoinCredentials, DeepCoinEnvironment>(global, deepCoinOptions, credentials?.DeepCoin, environments?.TryGetValue(Exchange.DeepCoin, out var deepCoinEnvName) == true ? DeepCoinEnvironment.GetEnvironmentByName(deepCoinEnvName)! : DeepCoinEnvironment.Live);
@@ -252,12 +242,10 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddBingX(bingxOptions);
             services.AddBitfinex(bitfinexOptions);
             services.AddBitget(bitgetOptions);
-            services.AddBitMart(bitMartOptions);
             services.AddBitstamp(bitstampOptions);
             services.AddBloFin(bloFinOptions);
             services.AddBybit(bybitOptions);
             services.AddCoinbase(coinbaseOptions);
-            services.AddCoinEx(coinExOptions);
             services.AddCoinW(coinWOptions);
             services.AddCoinGecko(coinGeckoOptions);
             services.AddCryptoCom(cryptoComOptions);
@@ -355,12 +343,10 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("BingX", globalOptions);
             UpdateExchangeOptions("Bitfinex", globalOptions);
             UpdateExchangeOptions("Bitget", globalOptions);
-            UpdateExchangeOptions("BitMart", globalOptions);
             UpdateExchangeOptions("Bitstamp", globalOptions);
             UpdateExchangeOptions("BloFin", globalOptions);
             UpdateExchangeOptions("Bybit", globalOptions);
             UpdateExchangeOptions("Coinbase", globalOptions);
-            UpdateExchangeOptions("CoinEx", globalOptions);
             UpdateExchangeOptions("CoinW", globalOptions);
             UpdateExchangeOptions("CoinGecko", globalOptions);
             UpdateExchangeOptions("CryptoCom", globalOptions);
@@ -388,12 +374,10 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddBingX(configuration.GetSection("BingX"));
             services.AddBitfinex(configuration.GetSection("Bitfinex"));
             services.AddBitget(configuration.GetSection("Bitget"));
-            services.AddBitMart(configuration.GetSection("BitMart"));
             services.AddBitstamp(configuration.GetSection("Bitstamp"));
             services.AddBloFin(configuration.GetSection("BloFin"));
             services.AddBybit(configuration.GetSection("Bybit"));
             services.AddCoinbase(configuration.GetSection("Coinbase"));
-            services.AddCoinEx(configuration.GetSection("CoinEx"));
             services.AddCoinW(configuration.GetSection("CoinW"));
             services.AddCoinGecko(configuration.GetSection("CoinGecko"));
             services.AddCryptoCom(configuration.GetSection("CryptoCom"));

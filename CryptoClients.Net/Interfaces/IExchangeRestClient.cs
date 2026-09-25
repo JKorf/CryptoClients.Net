@@ -3,12 +3,10 @@ using Binance.Net.Interfaces.Clients;
 using BingX.Net.Interfaces.Clients;
 using Bitfinex.Net.Interfaces.Clients;
 using Bitget.Net.Interfaces.Clients;
-using BitMart.Net.Interfaces.Clients;
 using Bitstamp.Net.Interfaces.Clients;
 using BloFin.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Coinbase.Net.Interfaces.Clients;
-using CoinEx.Net.Interfaces.Clients;
 using CoinW.Net.Interfaces.Clients;
 using CryptoClients.Net.Models;
 using CryptoCom.Net.Interfaces.Clients;
@@ -69,10 +67,6 @@ namespace CryptoClients.Net.Interfaces
         /// </summary>
         IBitgetRestClient Bitget { get; }
         /// <summary>
-        /// BitMart REST API
-        /// </summary>
-        IBitMartRestClient BitMart { get; }
-        /// <summary>
         /// Bitstamp REST API
         /// </summary>
         IBitstampRestClient Bitstamp { get; }
@@ -88,10 +82,6 @@ namespace CryptoClients.Net.Interfaces
         /// Coinbase REST API
         /// </summary>
         ICoinbaseRestClient Coinbase { get; }
-        /// <summary>
-        /// CoinEx REST API
-        /// </summary>
-        ICoinExRestClient CoinEx { get; }
         /// <summary>
         /// CoinW REST API
         /// </summary>
