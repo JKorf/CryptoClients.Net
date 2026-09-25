@@ -1,6 +1,6 @@
 ﻿@page "/"
 @using CryptoExchange.Net.SharedApis
-@inject IExchangeRestClient RestClient
+@inject IExchangeSharedApiClient Client
 
 <PageTitle>Index</PageTitle>
 
@@ -73,14 +73,14 @@
         _last = null;
         _volume = null;
 
-        var exchangeClient = RestClient.GetSpotTickerClient(_selectedExchange);
+        var exchangeClient = Client.GetCapability(_selectedExchange, SharedCapabilities.Tickers.GetTicker, TradingMode.Spot);
         if (exchangeClient == null)
         {
             // No spot ticker implementation available for this exchange
             return;
         }
 
-        var ticker = await exchangeClient.GetSpotTickerAsync(new GetTickerRequest(new SharedSymbol(TradingMode.Spot, _selectedAsset, SharedSymbol.UsdOrStable)));
+        var ticker = await exchangeClient.Capability.GetTickerAsync(new GetTickerRequest(new SharedSymbol(TradingMode.Spot, _selectedAsset, SharedSymbol.UsdOrStable)));
         if (!ticker.Success)
         {
             _error = "Error: " + ticker.Error;
@@ -90,7 +90,7 @@
         _high = ticker.Data.HighPrice;
         _low = ticker.Data.LowPrice;
         _last = ticker.Data.LastPrice;
-        _volume = ticker.Data.Volume;
+        _volume = ticker.Data.Volumes.QuantityInBaseAsset;
         StateHasChanged();
     }
 }

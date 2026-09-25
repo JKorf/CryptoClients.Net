@@ -1,4 +1,5 @@
 ﻿using CryptoClients.Net;
+using CryptoClients.Net.Clients;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis;
 using System.Collections.Concurrent;
@@ -12,11 +13,12 @@ var symbols = new[]
     new SharedSymbol(TradingMode.Spot, "XRP", "USDT")
 };
 
-var client = new ExchangeSocketClient();
+var client = new ExchangeSharedApiClient();
 foreach (var symbol in symbols) 
 {
     // Subscribe to ticker updates on all exchanges for each symbol
-    var result = await client.SubscribeToTickerUpdatesAsync(new SubscribeTickerRequest(symbol), x =>
+    var result = await client.GetCapabilities(SharedCapabilities.Tickers.SubscribeTicker, TradingMode.Spot)
+        .SubscribeAllAsync(new SubscribeTickerRequest(symbol), x =>
     {
         if (!cache.ContainsKey(x.Exchange))
             cache[x.Exchange] = new List<ExchangeTicker>();
@@ -26,7 +28,7 @@ foreach (var symbol in symbols)
             cache[x.Exchange].Add(new ExchangeTicker { Symbol = symbol.BaseAsset });
         else
             value.Price = x.Data.LastPrice;
-    });
+    }).WaitAllAsync();
 
     // Output any failed subscriptions
     foreach (var failed in result.Where(x => !x.Success))

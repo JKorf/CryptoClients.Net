@@ -9,13 +9,13 @@ namespace CryptoClients.Examples.Api
 {
     public class PriceService : IHostedService
     {
-        private readonly IExchangeSocketClient _socketClient;
+        private readonly IExchangeSharedApiClient _client;
         private readonly ConcurrentDictionary<string, decimal> _prices;
         private readonly CancellationTokenSource _cancellationTokenSource;
 
-        public PriceService(IExchangeSocketClient socketClient)
+        public PriceService(IExchangeSharedApiClient client)
         {
-            _socketClient = socketClient;
+            _client = client;
             _prices = new ConcurrentDictionary<string, decimal>();
             _cancellationTokenSource = new CancellationTokenSource();
         }
@@ -24,13 +24,13 @@ namespace CryptoClients.Examples.Api
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            var binanceTask = SubscribeClient(Exchange.Binance, _socketClient.Binance.SpotApi.SharedClient);
-            var bingXTask = SubscribeClient(Exchange.BingX, _socketClient.BingX.SpotApi.SharedClient);
-            var bybitTask = SubscribeClient(Exchange.Bybit, _socketClient.Bybit.V5SpotApi.SharedClient);
+            var binanceTask = SubscribeClient(Exchange.Binance, _client.Binance.SpotSocket);
+            var bingXTask = SubscribeClient(Exchange.BingX, _client.BingX.SpotSocket);
+            var bybitTask = SubscribeClient(Exchange.Bybit, _client.Bybit.SpotSocket);
             await Task.WhenAll(binanceTask, bingXTask, bybitTask);
         }
 
-        private async Task SubscribeClient(string exchange, ITickerSocketClient client)
+        private async Task SubscribeClient(string exchange, ISubscribeTickerSocket client)
         {
             await client.SubscribeToTickerUpdatesAsync(new SubscribeTickerRequest(new SharedSymbol(TradingMode.Spot, "ETH", "USDT")), x => _prices[exchange] = x.Data.LastPrice ?? 0, _cancellationTokenSource.Token);
         }

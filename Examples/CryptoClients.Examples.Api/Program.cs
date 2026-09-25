@@ -19,13 +19,13 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
-app.MapGet("priceFromRequest", async (IExchangeRestClient restClient, string exchange, string baseAsset, string quoteAsset) =>
+app.MapGet("priceFromRequest", async (IExchangeSharedApiClient client, string exchange, string baseAsset, string quoteAsset) =>
 {
-    var exchangeClient = restClient.GetSpotTickerClient(exchange);
+    var exchangeClient = client.GetCapability<IGetTickerRest>(exchange);
     if (exchangeClient == null)
         return Results.Problem("Exchange not found");
 
-    var result = await exchangeClient.GetSpotTickerAsync(new GetTickerRequest(new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset)));
+    var result = await exchangeClient.Capability.GetTickerAsync(new GetTickerRequest(new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset)));
     if (!result.Success)
         return Results.Problem(result.Error!.ToString());
 

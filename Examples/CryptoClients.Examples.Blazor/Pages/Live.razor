@@ -1,10 +1,11 @@
 ﻿@page "/live"
+@using System.Collections.Concurrent
 @using BlazorBootstrap
+@using CryptoClients.Net
 @using CryptoExchange.Net.Objects
 @using CryptoExchange.Net.Objects.Sockets
 @using CryptoExchange.Net.SharedApis
-@using System.Collections.Concurrent
-@inject IExchangeSocketClient SocketClient
+@inject IExchangeSharedApiClient Client
 @implements IAsyncDisposable
 
 <PageTitle>Live trades</PageTitle>
@@ -47,7 +48,7 @@
                         <tr>
                             <td>@trade.Exchange</td>
                             <td style="padding-left: 20px">@Math.Round(trade.Trade.Price, 2)</td>
-                            <td style="padding-left: 20px">@Math.Round(trade.Trade.Quantity, 8)</td>
+                            <td style="padding-left: 20px">@Math.Round(trade.Trade.Quantities.QuantityInBaseAsset ?? 0, 8)</td>
                         </tr>
                     }
                 }
@@ -84,7 +85,11 @@
         {
             var symbol = new SharedSymbol(TradingMode.Spot, _baseAsset, SharedSymbol.UsdOrStable);
             var request = new SubscribeTradeRequest(symbol);
-            await SocketClient.SubscribeToTradeUpdatesAsync(request, HandleUpdate);
+            var capability = Client.GetCapabilities<ISubscribeTradesSocket>(TradingMode.Spot);
+            await foreach(var result in capability.SubscribeAllAsync(request, HandleUpdate))
+            {
+                // Handle failure if needed
+            }
         }
     }
 
@@ -114,6 +119,6 @@
 
     public async ValueTask DisposeAsync()
     {
-        await SocketClient.UnsubscribeAllAsync();
+        await Client.UnsubscribeAllAsync();
     }
 }

@@ -3,6 +3,7 @@ using Binance.Net.SymbolOrderBooks;
 using BingX.Net.SymbolOrderBooks;
 using Bybit.Net.SymbolOrderBooks;
 using CryptoClients.Net;
+using CryptoClients.Net.Clients;
 using CryptoClients.Net.Enums;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis;
@@ -101,12 +102,12 @@ async Task TickerExampleUnified()
     Console.WriteLine("Enter quote asset: ");
     var quoteAsset = Console.ReadLine();
 
-    var client = new ExchangeRestClient();
+    var client = new ExchangeSharedApiClient();
     var symbol = new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset);
     var request = new GetTickerRequest(symbol);
-    var resultBinance = client.GetSpotTickerAsync(Exchange.Binance, request);
-    var resultBingX = client.GetSpotTickerAsync(Exchange.BingX, request);
-    var resultBybit = client.GetSpotTickerAsync(Exchange.Bybit, request);
+    var resultBinance = client.Binance.SpotRest.GetTickerAsync(request);
+    var resultBingX = client.BingX.SpotRest.GetTickerAsync(request);
+    var resultBybit = client.Bybit.Rest.GetTickerAsync(request);
     await Task.WhenAll(resultBinance, resultBingX, resultBybit);
 
     Console.WriteLine();
@@ -124,13 +125,19 @@ async Task TickerExampleUnified2()
     Console.WriteLine("Enter quote asset: ");
     var quoteAsset = Console.ReadLine();
 
-    var client = new ExchangeRestClient();
+    var client = new ExchangeSharedApiClient();
     var symbol = new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset);
     var request = new GetTickerRequest(symbol);
 
     Console.WriteLine("Exchange prices:");
-    await foreach(var result in client.GetSpotTickerAsyncEnumerable(request, [Exchange.Binance, Exchange.BingX, Exchange.Bybit]))
+    await foreach (var result in client.GetCapabilities(
+            SharedCapabilities.Tickers.GetTicker,
+            TradingMode.Spot,
+            [Exchange.Binance, Exchange.BingX, Exchange.Bybit])
+        .ExecuteAllAsync(request))
+    {
         Console.WriteLine($"{result.Exchange}:" + (result.Success ? result.Data.LastPrice : result.Error));
+    }
 
     Console.WriteLine();    
 }
@@ -185,18 +192,19 @@ async Task PlaceOrderExampleUnified()
     Console.WriteLine("Enter price: ");
     var price = decimal.Parse(Console.ReadLine());
 
-    var client = new ExchangeRestClient(binanceRestOptions: (options) =>
+    var client = new ExchangeSharedApiClient(new CryptoClientsConfiguration(x =>
+    x.ConfigureBinance((options) =>
     {
         options.ApiCredentials = new Binance.Net.BinanceCredentials("BinanceKey", "BinanceSecret");
-    },
-    bingxRestOptions: (options) =>
+    })
+    .ConfigureBingX((options) =>
     {
         options.ApiCredentials = new BingX.Net.BingXCredentials("BingXKey", "BingXSecret");
-    },
-    bybitRestOptions: (options) =>
+    })
+    .ConfigureBybit((options) =>
     {
         options.ApiCredentials = new Bybit.Net.BybitCredentials("BybitKey", "BybitSecret");
-    });
+    })));
 
     var request = new PlaceSpotOrderRequest(
         new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset),
@@ -206,9 +214,9 @@ async Task PlaceOrderExampleUnified()
         price: price
         );
 
-    var resultBinance = client.GetSpotOrderClient(Exchange.Binance)!.PlaceSpotOrderAsync(request);
-    var resultBingX = client.GetSpotOrderClient(Exchange.BingX)!.PlaceSpotOrderAsync(request);
-    var resultBybit = client.GetSpotOrderClient(Exchange.Bybit)!.PlaceSpotOrderAsync(request);
+    var resultBinance = client.GetCapability<IPlaceSpotOrder>(Exchange.Binance)!.Capability.PlaceSpotOrderAsync(request);
+    var resultBingX = client.GetCapability<IPlaceSpotOrder>(Exchange.BingX)!.Capability.PlaceSpotOrderAsync(request);
+    var resultBybit = client.GetCapability<IPlaceSpotOrder>(Exchange.Bybit)!.Capability.PlaceSpotOrderAsync(request);
     await Task.WhenAll(resultBinance, resultBingX, resultBybit);
 
     Console.WriteLine("Binance:" + (resultBinance.Result.Success ? resultBinance.Result.Data.Id : resultBinance.Result.Error));
@@ -246,12 +254,15 @@ async Task SubscribePriceUpdatesUnified()
     Console.WriteLine("Enter quote asset: ");
     var quoteAsset = Console.ReadLine();
 
-    var client = new ExchangeSocketClient();
+    var client = new ExchangeSharedApiClient();
     var symbol = new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset);
     var request = new SubscribeTickerRequest(symbol);
-    var resultBinance = client.GetTickerClient(TradingMode.Spot, Exchange.Binance)!.SubscribeToTickerUpdatesAsync(request, update => Console.WriteLine($"Update from {update.Exchange}: {update.Data.LastPrice}"));
-    var resultBingX = client.GetTickerClient(TradingMode.Spot, Exchange.BingX)!.SubscribeToTickerUpdatesAsync(request, update => Console.WriteLine($"Update from {update.Exchange}: {update.Data.LastPrice}"));
-    var resultBybit = client.GetTickerClient(TradingMode.Spot, Exchange.Bybit)!.SubscribeToTickerUpdatesAsync(request, update => Console.WriteLine($"Update from {update.Exchange}: {update.Data.LastPrice}"));
+    var resultBinance = client.GetCapability<ISubscribeTickerSocket>(Exchange.Binance, TradingMode.Spot)!.Capability
+        .SubscribeToTickerUpdatesAsync(request, update => Console.WriteLine($"Update from {update.Exchange}: {update.Data.LastPrice}"));
+    var resultBingX = client.GetCapability<ISubscribeTickerSocket>(Exchange.BingX, TradingMode.Spot)!.Capability
+        .SubscribeToTickerUpdatesAsync(request, update => Console.WriteLine($"Update from {update.Exchange}: {update.Data.LastPrice}"));
+    var resultBybit = client.GetCapability<ISubscribeTickerSocket>(Exchange.Bybit, TradingMode.Spot)!.Capability
+        .SubscribeToTickerUpdatesAsync(request, update => Console.WriteLine($"Update from {update.Exchange}: {update.Data.LastPrice}"));
     await Task.WhenAll(resultBinance, resultBingX, resultBybit);
 
     Console.WriteLine();
@@ -270,10 +281,11 @@ async Task SubscribePriceUpdatesUnified2()
     Console.WriteLine("Enter quote asset: ");
     var quoteAsset = Console.ReadLine();
 
-    var client = new ExchangeSocketClient();
+    var client = new ExchangeSharedApiClient();
     var symbol = new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset);
     var request = new SubscribeTickerRequest(symbol);
-    var results = await client.SubscribeToTickerUpdatesAsync(request, update => Console.WriteLine($"Update from {update.Exchange}: {update.Data.LastPrice}"), [Exchange.Binance, Exchange.BingX, Exchange.Bybit]);
+    var results = await client.GetCapabilities(SharedCapabilities.Tickers.SubscribeTicker, TradingMode.Spot, [Exchange.Binance, Exchange.BingX, Exchange.Bybit])
+        .SubscribeAllAsync(request, update => Console.WriteLine($"Update from {update.Exchange}: {update.Data.LastPrice}"));
     
     Console.WriteLine();
 

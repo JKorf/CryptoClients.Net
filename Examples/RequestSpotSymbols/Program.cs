@@ -1,9 +1,12 @@
 ﻿using CryptoClients.Net;
+using CryptoClients.Net.Clients;
 using CryptoExchange.Net.SharedApis;
 
-var client = new ExchangeRestClient();
-// Method 1, GetSpotSymbolsAsync will return all results when all requests have finished
-var symbols = await client.GetSpotSymbolsAsync(new GetSymbolsRequest());
+var client = new ExchangeSharedApiClient();
+// Method 1, using WaitAllAsync will return all results when all requests have finished
+var symbols = await client.GetCapabilities(SharedCapabilities.Symbols.GetSpotSymbols)
+    .ExecuteAllAsync(new GetSymbolsRequest())
+    .WaitAllAsync();
 foreach (var result in symbols)
 {
     if (!result.Success)
@@ -18,8 +21,9 @@ foreach (var result in symbols)
     Console.WriteLine();
 }
 
-// Method 2, GetSpotSymbolsAsyncEnumerable will return results whenever a request is finished instead of waiting for all requests
-await foreach (var result in client.GetSpotSymbolsAsyncEnumerable(new GetSymbolsRequest()))
+// Method 2, without using WaitAllAsync results will be returned whenever a request is finished instead of waiting for all requests
+await foreach (var result in client.GetCapabilities(SharedCapabilities.Symbols.GetSpotSymbols)
+    .ExecuteAllAsync(new GetSymbolsRequest()))
 {
     if (!result.Success)
     {
