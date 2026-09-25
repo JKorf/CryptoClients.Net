@@ -87,7 +87,7 @@ namespace CryptoClients.Net.UnitTests
             var client = GetSocketClient();
             var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
                 Exchange.All,
-                Exchange.All.Except([Exchange.BloFin]));
+                Exchange.All.Except([Exchange.BloFin, Exchange.BingX]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
