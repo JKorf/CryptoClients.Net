@@ -373,6 +373,13 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.9.0 - 30 Sep 2026
+    * Updated refrence CryptoExchange.Net to v13.1.0
+    * Updated client library versions
+    * Added Rest and Socket properties to (I)ExchangeSharedApiClient to access full APIs and transport specific APIs
+    * Added GetSharedApiClient to (I)ExchangeUserClientProvider
+    * Fixed ExchangeSharedApiClient UnsubscribeAll always resolving all subscriptions
+
 * Version 5.8.0 - 25 Sep 2026
     * Updated client library versions
     * Removed BitMEX, BitMart and CoinEx support due to exchange shut down
