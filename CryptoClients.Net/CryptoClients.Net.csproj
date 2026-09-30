@@ -60,7 +60,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="CryptoCom.Net" Version="4.6.0" />
-    <PackageReference Include="DeepCoin.Net" Version="4.6.0" />
+    <PackageReference Include="DeepCoin.Net" Version="4.6.1" />
     <PackageReference Include="GateIo.Net" Version="4.8.0" />
     <PackageReference Include="HyperLiquid.Net" Version="5.9.0" />
     <PackageReference Include="JK.BingX.Net" Version="4.7.0" />
