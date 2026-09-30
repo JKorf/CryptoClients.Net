@@ -132,6 +132,7 @@ namespace CryptoClients.Net.Clients
     /// <inheritdoc />
     public class ExchangeUserClientProvider : IExchangeUserClientProvider
     {
+        private readonly IServiceProvider? _serviceProvider;
         private HashSet<string>? _enabledExchanges;
         private Lazy<IAsterUserClientProvider> _asterProvider = null!;
         private Lazy<IBinanceUserClientProvider> _binanceProvider = null!;
@@ -356,6 +357,7 @@ namespace CryptoClients.Net.Clients
 
         internal ExchangeUserClientProvider(IEnumerable<string>? enabledExchanges, IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             InitializeProviders(enabledExchanges,
                 () => serviceProvider.GetRequiredService<IAsterUserClientProvider>(), () => serviceProvider.GetRequiredService<IBinanceUserClientProvider>(),
                 () => serviceProvider.GetRequiredService<IBingXUserClientProvider>(), () => serviceProvider.GetRequiredService<IBitfinexUserClientProvider>(),
@@ -427,9 +429,24 @@ namespace CryptoClients.Net.Clients
         {
             var restClient = GetRestClient(userIdentifier, credentials, environments);
             var socketClient = GetSocketClient(userIdentifier, credentials, environments);
-            var configuration = new CryptoClientsConfiguration(builder => builder.ConfigureGlobal(options =>
-                options.EnabledExchanges = _enabledExchanges));
-            return new ExchangeSharedApiClient(restClient, socketClient, configuration);
+
+            if (_serviceProvider != null)
+            {
+                return new ExchangeSharedApiClient(
+                    restClient,
+                    socketClient,
+                    _enabledExchanges,
+                    _serviceProvider);
+            }
+
+            var configuration = new CryptoClientsConfiguration(builder =>
+                builder.ConfigureGlobal(options =>
+                    options.EnabledExchanges = _enabledExchanges));
+
+            return new ExchangeSharedApiClient(
+                restClient,
+                socketClient,
+                configuration);
         }
 
         /// <inheritdoc />

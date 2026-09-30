@@ -102,9 +102,15 @@ namespace CryptoClients.Net.Clients
     /// <inheritdoc />
     public class ExchangeSharedApiClient : IExchangeSharedApiClient
     {
-        private readonly IExchangeSocketClient _exchangeSocketClient;
+        private readonly IExchangeSharedRestClient _exchangeRestClient;
+        private readonly IExchangeSharedSocketClient _exchangeSocketClient;
         private readonly Dictionary<string, Lazy<ISharedApiClientBase>> _clients;
         private readonly HashSet<string>? _enabledExchanges;
+
+        /// <inheritdoc />
+        public IExchangeSharedRestClient Rest => _exchangeRestClient;
+        /// <inheritdoc />
+        public IExchangeSharedSocketClient Socket => _exchangeSocketClient;
 
         /// <summary>
         /// Create a new client instance
@@ -128,113 +134,131 @@ namespace CryptoClients.Net.Clients
         /// </summary>
         /// <param name="exchangeRestClient">The exchange REST client</param>
         /// <param name="exchangeSocketClient">The exchange socket client</param>
-        /// <param name="configuration">Client configuration</param>
+        /// <param name="configuration">Configuration</param>
         /// <exception cref="ArgumentNullException"></exception>
         public ExchangeSharedApiClient(
-            IExchangeRestClient? exchangeRestClient,
-            IExchangeSocketClient? exchangeSocketClient,
+            IExchangeRestClient exchangeRestClient,
+            IExchangeSocketClient exchangeSocketClient,
             CryptoClientsConfiguration configuration)
+            : this(exchangeRestClient,
+                exchangeSocketClient,
+                configuration.GlobalOptions.EnabledExchanges,
+                new ConfigurationOptionsProvider(configuration))
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
+        }
 
-            exchangeRestClient ??= new ExchangeRestClient(configuration);
-            exchangeSocketClient ??= new ExchangeSocketClient(configuration);
+        internal ExchangeSharedApiClient(
+            IExchangeRestClient exchangeRestClient,
+            IExchangeSocketClient exchangeSocketClient,
+            IEnumerable<string>? enabledExchanges,
+            IServiceProvider serviceProvider)
+            : this(exchangeRestClient,
+                exchangeSocketClient,
+                enabledExchanges,
+                new ServiceProviderOptionsProvider(serviceProvider))
+        {
+        }
 
+        private ExchangeSharedApiClient(
+            IExchangeRestClient exchangeRestClient,
+            IExchangeSocketClient exchangeSocketClient,
+            IEnumerable<string>? enabledExchanges,
+            ISharedClientOptionsProvider optionsProvider)
+        {
+            if (optionsProvider == null)
+                throw new ArgumentNullException(nameof(optionsProvider));
+
+            _exchangeRestClient = exchangeRestClient;
             _exchangeSocketClient = exchangeSocketClient;
 
-            _enabledExchanges = configuration.GlobalOptions.EnabledExchanges == null
-                ? null
-                : new HashSet<string>(
-                    configuration.GlobalOptions.EnabledExchanges,
-                    StringComparer.OrdinalIgnoreCase);
+            _enabledExchanges = enabledExchanges == null ? null : new HashSet<string>(enabledExchanges, StringComparer.OrdinalIgnoreCase);
 
             _clients = new Dictionary<string, Lazy<ISharedApiClientBase>>(
                 StringComparer.OrdinalIgnoreCase)
             {
                 [Exchange.Aster] = Create(() =>
-                    new AsterSharedApiClient(exchangeRestClient.Aster, exchangeSocketClient.Aster, GetOptions<AsterOptions>())),
+                    new AsterSharedApiClient(_exchangeRestClient.Aster, _exchangeSocketClient.Aster, optionsProvider.Get<AsterOptions>())),
 
                 [Exchange.Binance] = Create(() =>
-                    new BinanceSharedApiClient(exchangeRestClient.Binance, exchangeSocketClient.Binance, GetOptions<BinanceOptions>())),
+                    new BinanceSharedApiClient(_exchangeRestClient.Binance, _exchangeSocketClient.Binance, optionsProvider.Get<BinanceOptions>())),
 
                 [Exchange.BingX] = Create(() =>
-                    new BingXSharedApiClient(exchangeRestClient.BingX, exchangeSocketClient.BingX, GetOptions<BingXOptions>())),
+                    new BingXSharedApiClient(_exchangeRestClient.BingX, _exchangeSocketClient.BingX, optionsProvider.Get<BingXOptions>())),
 
                 [Exchange.Bitfinex] = Create(() =>
-                    new BitfinexSharedApiClient(exchangeRestClient.Bitfinex, exchangeSocketClient.Bitfinex, GetOptions<BitfinexOptions>())),
+                    new BitfinexSharedApiClient(_exchangeRestClient.Bitfinex, _exchangeSocketClient.Bitfinex, optionsProvider.Get<BitfinexOptions>())),
 
                 [Exchange.Bitget] = Create(() =>
-                    new BitgetSharedApiClient(exchangeRestClient.Bitget, exchangeSocketClient.Bitget, GetOptions<BitgetOptions>())),
+                    new BitgetSharedApiClient(_exchangeRestClient.Bitget, _exchangeSocketClient.Bitget, optionsProvider.Get<BitgetOptions>())),
 
                 [Exchange.Bitstamp] = Create(() =>
-                    new BitstampSharedApiClient(exchangeRestClient.Bitstamp, exchangeSocketClient.Bitstamp, GetOptions<BitstampOptions>())),
+                    new BitstampSharedApiClient(_exchangeRestClient.Bitstamp, _exchangeSocketClient.Bitstamp, optionsProvider.Get<BitstampOptions>())),
 
                 [Exchange.BloFin] = Create(() =>
-                    new BloFinSharedApiClient(exchangeRestClient.BloFin, exchangeSocketClient.BloFin, GetOptions<BloFinOptions>())),
+                    new BloFinSharedApiClient(_exchangeRestClient.BloFin, _exchangeSocketClient.BloFin, optionsProvider.Get<BloFinOptions>())),
 
                 [Exchange.Bybit] = Create(() =>
-                    new BybitSharedApiClient(exchangeRestClient.Bybit, exchangeSocketClient.Bybit, GetOptions<BybitOptions>())),
+                    new BybitSharedApiClient(_exchangeRestClient.Bybit, _exchangeSocketClient.Bybit, optionsProvider.Get<BybitOptions>())),
 
                 [Exchange.Coinbase] = Create(() =>
-                    new CoinbaseSharedApiClient(exchangeRestClient.Coinbase, exchangeSocketClient.Coinbase, GetOptions<CoinbaseOptions>())),
+                    new CoinbaseSharedApiClient(_exchangeRestClient.Coinbase, _exchangeSocketClient.Coinbase, optionsProvider.Get<CoinbaseOptions>())),
 
                 [Exchange.CoinW] = Create(() =>
-                    new CoinWSharedApiClient(exchangeRestClient.CoinW, exchangeSocketClient.CoinW, GetOptions<CoinWOptions>())),
+                    new CoinWSharedApiClient(_exchangeRestClient.CoinW, _exchangeSocketClient.CoinW, optionsProvider.Get<CoinWOptions>())),
 
                 [Exchange.CryptoCom] = Create(() =>
-                    new CryptoComSharedApiClient(exchangeRestClient.CryptoCom, exchangeSocketClient.CryptoCom, GetOptions<CryptoComOptions>())),
+                    new CryptoComSharedApiClient(_exchangeRestClient.CryptoCom, _exchangeSocketClient.CryptoCom, optionsProvider.Get<CryptoComOptions>())),
 
                 [Exchange.DeepCoin] = Create(() =>
-                    new DeepCoinSharedApiClient(exchangeRestClient.DeepCoin, exchangeSocketClient.DeepCoin, GetOptions<DeepCoinOptions>())),
+                    new DeepCoinSharedApiClient(_exchangeRestClient.DeepCoin, _exchangeSocketClient.DeepCoin, optionsProvider.Get<DeepCoinOptions>())),
 
                 [Exchange.GateIo] = Create(() =>
-                    new GateIoSharedApiClient(exchangeRestClient.GateIo, exchangeSocketClient.GateIo, GetOptions<GateIoOptions>())),
+                    new GateIoSharedApiClient(_exchangeRestClient.GateIo, _exchangeSocketClient.GateIo, optionsProvider.Get<GateIoOptions>())),
 
                 [Exchange.HTX] = Create(() =>
-                    new HTXSharedApiClient(exchangeRestClient.HTX, exchangeSocketClient.HTX, GetOptions<HTXOptions>())),
+                    new HTXSharedApiClient(_exchangeRestClient.HTX, _exchangeSocketClient.HTX, optionsProvider.Get<HTXOptions>())),
 
                 [Exchange.HyperLiquid] = Create(() =>
-                    new HyperLiquidSharedApiClient(exchangeRestClient.HyperLiquid, exchangeSocketClient.HyperLiquid, GetOptions<HyperLiquidOptions>())),
+                    new HyperLiquidSharedApiClient(_exchangeRestClient.HyperLiquid, _exchangeSocketClient.HyperLiquid, optionsProvider.Get<HyperLiquidOptions>())),
 
                 [Exchange.Kraken] = Create(() =>
-                    new KrakenSharedApiClient(exchangeRestClient.Kraken, exchangeSocketClient.Kraken, GetOptions<KrakenOptions>())),
+                    new KrakenSharedApiClient(_exchangeRestClient.Kraken, _exchangeSocketClient.Kraken, optionsProvider.Get<KrakenOptions>())),
 
                 [Exchange.Kucoin] = Create(() =>
-                    new KucoinSharedApiClient(exchangeRestClient.Kucoin, exchangeSocketClient.Kucoin, GetOptions<KucoinOptions>())),
+                    new KucoinSharedApiClient(_exchangeRestClient.Kucoin, _exchangeSocketClient.Kucoin, optionsProvider.Get<KucoinOptions>())),
 
                 [Exchange.LBank] = Create(() =>
-                    new LBankSharedApiClient(exchangeRestClient.LBank, exchangeSocketClient.LBank, GetOptions<LBankOptions>())),
+                    new LBankSharedApiClient(_exchangeRestClient.LBank, _exchangeSocketClient.LBank, optionsProvider.Get<LBankOptions>())),
 
                 [Exchange.Lighter] = Create(() =>
-                    new LighterSharedApiClient(exchangeRestClient.Lighter, exchangeSocketClient.Lighter, GetOptions<LighterOptions>())),
+                    new LighterSharedApiClient(_exchangeRestClient.Lighter, _exchangeSocketClient.Lighter, optionsProvider.Get<LighterOptions>())),
 
                 [Exchange.Mexc] = Create(() =>
-                    new MexcSharedApiClient(exchangeRestClient.Mexc, exchangeSocketClient.Mexc, GetOptions<MexcOptions>())),
+                    new MexcSharedApiClient(_exchangeRestClient.Mexc, _exchangeSocketClient.Mexc, optionsProvider.Get<MexcOptions>())),
 
                 [Exchange.OKX] = Create(() =>
-                    new OKXSharedApiClient(exchangeRestClient.OKX, exchangeSocketClient.OKX, GetOptions<OKXOptions>())),
+                    new OKXSharedApiClient(_exchangeRestClient.OKX, _exchangeSocketClient.OKX, optionsProvider.Get<OKXOptions>())),
 
                 [Exchange.Pionex] = Create(() =>
-                    new PionexSharedApiClient(exchangeRestClient.Pionex, exchangeSocketClient.Pionex, GetOptions<PionexOptions>())),
+                    new PionexSharedApiClient(_exchangeRestClient.Pionex, _exchangeSocketClient.Pionex, optionsProvider.Get<PionexOptions>())),
 
                 [Exchange.Tapbit] = Create(() =>
-                    new TapbitSharedApiClient(exchangeRestClient.Tapbit, GetOptions<TapbitOptions>())),
+                    new TapbitSharedApiClient(_exchangeRestClient.Tapbit, optionsProvider.Get<TapbitOptions>())),
 
                 [Exchange.Toobit] = Create(() =>
-                    new ToobitSharedApiClient(exchangeRestClient.Toobit, exchangeSocketClient.Toobit, GetOptions<ToobitOptions>())),
+                    new ToobitSharedApiClient(_exchangeRestClient.Toobit, _exchangeSocketClient.Toobit, optionsProvider.Get<ToobitOptions>())),
 
                 [Exchange.Upbit] = Create(() =>
-                    new UpbitSharedApiClient(exchangeRestClient.Upbit, exchangeSocketClient.Upbit, GetOptions<UpbitOptions>())),
+                    new UpbitSharedApiClient(_exchangeRestClient.Upbit, _exchangeSocketClient.Upbit, optionsProvider.Get<UpbitOptions>())),
 
                 [Exchange.Weex] = Create(() =>
-                    new WeexSharedApiClient(exchangeRestClient.Weex, exchangeSocketClient.Weex, GetOptions<WeexOptions>())),
+                    new WeexSharedApiClient(_exchangeRestClient.Weex, _exchangeSocketClient.Weex, optionsProvider.Get<WeexOptions>())),
 
                 [Exchange.WhiteBit] = Create(() =>
-                    new WhiteBitSharedApiClient(exchangeRestClient.WhiteBit, exchangeSocketClient.WhiteBit, GetOptions<WhiteBitOptions>())),
+                    new WhiteBitSharedApiClient(_exchangeRestClient.WhiteBit, _exchangeSocketClient.WhiteBit, optionsProvider.Get<WhiteBitOptions>())),
 
                 [Exchange.XT] = Create(() =>
-                    new XTSharedApiClient(exchangeRestClient.XT, exchangeSocketClient.XT, GetOptions<XTOptions>()))
+                    new XTSharedApiClient(_exchangeRestClient.XT, _exchangeSocketClient.XT, optionsProvider.Get<XTOptions>()))
             };
 
             Lazy<ISharedApiClientBase> Create(Func<ISharedApiClientBase> factory)
@@ -243,65 +267,30 @@ namespace CryptoClients.Net.Clients
                     factory,
                     LazyThreadSafetyMode.ExecutionAndPublication);
             }
-
-            IOptions<TOptions> GetOptions<TOptions>()
-                where TOptions : class, new()
-            {
-                return configuration.CreateOptions<TOptions>();
-            }
         }
 
-        internal ExchangeSharedApiClient(
-            IEnumerable<string>? enabledExchanges,
-            IServiceProvider serviceProvider)
+        private interface ISharedClientOptionsProvider
         {
-            _enabledExchanges = enabledExchanges == null
-                ? null
-                : new HashSet<string>(
-                    enabledExchanges,
-                    StringComparer.OrdinalIgnoreCase);
+            IOptions<TOptions> Get<TOptions>()
+                where TOptions : class, new();
+        }
 
-            _exchangeSocketClient = serviceProvider.GetRequiredService<IExchangeSocketClient>();
+        private sealed class ConfigurationOptionsProvider(
+            CryptoClientsConfiguration configuration)
+            : ISharedClientOptionsProvider
+        {
+            public IOptions<TOptions> Get<TOptions>()
+                where TOptions : class, new()
+                => configuration.CreateOptions<TOptions>();
+        }
 
-            _clients = new Dictionary<string, Lazy<ISharedApiClientBase>>(StringComparer.OrdinalIgnoreCase)
-            {
-                [Exchange.Aster] = Create<IAsterSharedApiClient>(),
-                [Exchange.Binance] = Create<IBinanceSharedApiClient>(),
-                [Exchange.BingX] = Create<IBingXSharedApiClient>(),
-                [Exchange.Bitfinex] = Create<IBitfinexSharedApiClient>(),
-                [Exchange.Bitget] = Create<IBitgetSharedApiClient>(),
-                [Exchange.Bitstamp] = Create<IBitstampSharedApiClient>(),
-                [Exchange.BloFin] = Create<IBloFinSharedApiClient>(),
-                [Exchange.Bybit] = Create<IBybitSharedApiClient>(),
-                [Exchange.Coinbase] = Create<ICoinbaseSharedApiClient>(),
-                [Exchange.CoinW] = Create<ICoinWSharedApiClient>(),
-                [Exchange.CryptoCom] = Create<ICryptoComSharedApiClient>(),
-                [Exchange.DeepCoin] = Create<IDeepCoinSharedApiClient>(),
-                [Exchange.GateIo] = Create<IGateIoSharedApiClient>(),
-                [Exchange.HTX] = Create<IHTXSharedApiClient>(),
-                [Exchange.HyperLiquid] = Create<IHyperLiquidSharedApiClient>(),
-                [Exchange.Kraken] = Create<IKrakenSharedApiClient>(),
-                [Exchange.Kucoin] = Create<IKucoinSharedApiClient>(),
-                [Exchange.LBank] = Create<ILBankSharedApiClient>(),
-                [Exchange.Lighter] = Create<ILighterSharedApiClient>(),
-                [Exchange.Mexc] = Create<IMexcSharedApiClient>(),
-                [Exchange.OKX] = Create<IOKXSharedApiClient>(),
-                [Exchange.Pionex] = Create<IPionexSharedApiClient>(),
-                [Exchange.Tapbit] = Create<ITapbitSharedApiClient>(),
-                [Exchange.Toobit] = Create<IToobitSharedApiClient>(),
-                [Exchange.Upbit] = Create<IUpbitSharedApiClient>(),
-                [Exchange.Weex] = Create<IWeexSharedApiClient>(),
-                [Exchange.WhiteBit] = Create<IWhiteBitSharedApiClient>(),
-                [Exchange.XT] = Create<IXTSharedApiClient>()
-            };
-
-            Lazy<ISharedApiClientBase> Create<T>()
-                where T : ISharedApiClientBase
-            {
-                return new Lazy<ISharedApiClientBase>(
-                    () => serviceProvider.GetRequiredService<T>(),
-                    LazyThreadSafetyMode.ExecutionAndPublication);
-            }
+        private sealed class ServiceProviderOptionsProvider(
+            IServiceProvider serviceProvider)
+            : ISharedClientOptionsProvider
+        {
+            public IOptions<TOptions> Get<TOptions>()
+                where TOptions : class, new()
+                => serviceProvider.GetRequiredService<IOptions<TOptions>>();
         }
 
         /// <inheritdoc />
@@ -545,10 +534,9 @@ namespace CryptoClients.Net.Clients
 
 
         /// <inheritdoc />
-        public async Task UnsubscribeAllAsync()
+        public Task UnsubscribeAllAsync()
         {
-#warning should be using ISharedSubscription for unsubscribing all
-            await _exchangeSocketClient.UnsubscribeAllAsync().ConfigureAwait(false);
+            return _exchangeSocketClient.UnsubscribeAllAsync();
         }
 
     }

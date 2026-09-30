@@ -40,6 +40,15 @@ namespace CryptoClients.Net.Interfaces
     public interface IExchangeSharedApiClient
     {
         /// <summary>
+        /// Rest API client for the exchange.
+        /// </summary>
+        public IExchangeSharedRestClient Rest { get; }
+        /// <summary>
+        /// WebSocket API client for the exchange.
+        /// </summary>
+        public IExchangeSharedSocketClient Socket { get; }
+
+        /// <summary>
         /// Get the Shared API client for an exchange.
         /// </summary>
         ISharedApiClientBase? GetClient(string exchange);

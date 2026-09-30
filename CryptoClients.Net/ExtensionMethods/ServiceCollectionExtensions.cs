@@ -271,7 +271,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<IExchangeRestClient>(_ => new ExchangeRestClient(enabledExchanges, _));
 
             services.AddTransient<IExchangeSharedApiClient>(
-                serviceProvider => new ExchangeSharedApiClient(enabledExchanges, serviceProvider));
+                serviceProvider => new ExchangeSharedApiClient(
+                    serviceProvider.GetRequiredService<IExchangeRestClient>(),
+                    serviceProvider.GetRequiredService<IExchangeSocketClient>(),
+                    enabledExchanges,
+                    serviceProvider));
 
             services.Add(new ServiceDescriptor(typeof(IExchangeSocketClient),
                 x => new ExchangeSocketClient(enabledExchanges, x),
@@ -407,7 +411,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 socketClientLifetime ?? ServiceLifetime.Singleton));
 
             services.AddTransient<IExchangeSharedApiClient>(
-                serviceProvider => new ExchangeSharedApiClient(globalOptions.EnabledExchanges, serviceProvider));
+                serviceProvider => new ExchangeSharedApiClient(
+                    serviceProvider.GetRequiredService<IExchangeRestClient>(),
+                    serviceProvider.GetRequiredService<IExchangeSocketClient>(),
+                    globalOptions.EnabledExchanges,
+                    serviceProvider));
 
             services.AddTransient<IExchangeOrderBookFactory>(x => new ExchangeOrderBookFactory(globalOptions.EnabledExchanges, x));
             services.AddTransient<IExchangeTrackerFactory>(x => new ExchangeTrackerFactory(globalOptions.EnabledExchanges, x));
