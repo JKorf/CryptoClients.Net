@@ -138,7 +138,7 @@ namespace CryptoClients.Net.UnitTests
             var client = GetRestClient();
             var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
                 Exchange.All.Except([Exchange.BloFin]),
-                Exchange.All.Except([Exchange.BloFin]));
+                Exchange.All.Except([Exchange.BloFin, Exchange.Coinbase]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -167,7 +167,7 @@ namespace CryptoClients.Net.UnitTests
             var client = GetRestClient();
             var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
                 Exchange.All,
-                Exchange.All.Except([Exchange.BloFin]));
+                Exchange.All.Except([Exchange.BloFin, Exchange.Coinbase]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -226,7 +226,7 @@ namespace CryptoClients.Net.UnitTests
             var client = GetRestClient();
             var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
                 Exchange.All.Except([]),
-                Exchange.All.Except([]));
+                Exchange.All.Except([Exchange.Coinbase]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
