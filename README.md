@@ -373,6 +373,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.10.0 - 23 Oct 2026
+    * Added Bitunix support with Bitunix.Net 1.0.1
+    * Updated client library versions
+
 * Version 5.9.0 - 30 Sep 2026
     * Updated refrence CryptoExchange.Net to v13.1.0
     * Updated client library versions
