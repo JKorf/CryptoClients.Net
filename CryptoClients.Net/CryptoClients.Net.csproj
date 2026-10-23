@@ -48,7 +48,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Binance.Net" Version="13.7.0" />
+    <PackageReference Include="Binance.Net" Version="13.8.0" />
     <PackageReference Include="Bitfinex.Net" Version="11.8.0" />
     <PackageReference Include="Bitstamp.Net" Version="2.6.0" />
     <PackageReference Include="Bitunix.Net" Version="1.0.1" />
@@ -67,7 +67,7 @@
     <PackageReference Include="JK.BingX.Net" Version="4.8.0" />
     <PackageReference Include="JK.Bitget.Net" Version="4.10.0" />
     <PackageReference Include="JK.Mexc.Net" Version="6.9.0" />
-    <PackageReference Include="JK.OKX.Net" Version="5.7.0" />
+    <PackageReference Include="JK.OKX.Net" Version="5.8.0" />
     <PackageReference Include="Jkorf.Aster.Net" Version="4.6.0" />
     <PackageReference Include="JKorf.Coinbase.Net" Version="4.8.0" />
     <PackageReference Include="JKorf.HTX.Net" Version="9.8.0" />
