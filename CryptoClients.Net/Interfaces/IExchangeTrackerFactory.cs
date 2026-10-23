@@ -4,6 +4,7 @@ using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
 using Bitstamp.Net.Interfaces;
+using Bitunix.Net.Interfaces;
 using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
@@ -66,6 +67,10 @@ namespace CryptoClients.Net.Interfaces
         /// Bitstamp tracker factory
         /// </summary>
         IBitstampTrackerFactory Bitstamp { get; }
+        /// <summary>
+        /// Bitunix tracker factory
+        /// </summary>
+        IBitunixTrackerFactory Bitunix { get; }
         /// <summary>
         /// BloFin tracker factory
         /// </summary>

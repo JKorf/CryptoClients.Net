@@ -4,6 +4,7 @@ using BingX.Net.Interfaces;
 using Bitfinex.Net.Interfaces;
 using Bitget.Net.Interfaces;
 using Bitstamp.Net.Interfaces;
+using Bitunix.Net.Interfaces;
 using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
 using Coinbase.Net.Interfaces;
@@ -62,6 +63,10 @@ namespace CryptoClients.Net.Interfaces
         /// Bitstamp order book factory
         /// </summary>
         IBitstampOrderBookFactory Bitstamp { get; }
+        /// <summary>
+        /// Bitunix order book factory
+        /// </summary>
+        IBitunixOrderBookFactory Bitunix { get; }
         /// <summary>
         /// BloFin order book factory
         /// </summary>

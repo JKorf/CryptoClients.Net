@@ -5,6 +5,7 @@ using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
 using Bitstamp.Net;
+using Bitunix.Net;
 using BloFin.Net;
 using Bybit.Net;
 using Coinbase.Net;
@@ -94,6 +95,10 @@ namespace CryptoClients.Net.Models
             else if (exchange == "Bitstamp")
             {
                 return new BitstampCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
+            }
+            else if (exchange == "Bitunix")
+            {
+                return new BitunixCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
             }
             else if (exchange == "BloFin")
             {
@@ -246,6 +251,7 @@ namespace CryptoClients.Net.Models
                 else if (item.Key == "Bitfinex") creds.Bitfinex = item.Value as BitfinexCredentials;
                 else if (item.Key == "Bitget") creds.Bitget = item.Value as BitgetCredentials;
                 else if (item.Key == "Bitstamp") creds.Bitstamp = item.Value as BitstampCredentials;
+                else if (item.Key == "Bitunix") creds.Bitunix = item.Value as BitunixCredentials;
                 else if (item.Key == "BloFin") creds.BloFin = item.Value as BloFinCredentials;
                 else if (item.Key == "Bybit") creds.Bybit = item.Value as BybitCredentials;
                 else if (item.Key == "Coinbase") creds.Coinbase = item.Value as CoinbaseCredentials;
@@ -305,6 +311,11 @@ namespace CryptoClients.Net.Models
         /// Bitstamp API credentials
         /// </summary>
         public BitstampCredentials? Bitstamp { get; set; }
+
+        /// <summary>
+        /// Bitunix API credentials
+        /// </summary>
+        public BitunixCredentials? Bitunix { get; set; }
 
         /// <summary>
         /// BloFin API credentials
@@ -435,6 +446,7 @@ namespace CryptoClients.Net.Models
                 case "Bitfinex": return Bitfinex;
                 case "Bitget": return Bitget;
                 case "Bitstamp": return Bitstamp;
+                case "Bitunix": return Bitunix;
                 case "BloFin": return BloFin;
                 case "Bybit": return Bybit;
                 case "Coinbase": return Coinbase;

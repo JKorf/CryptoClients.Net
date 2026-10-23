@@ -7,6 +7,7 @@ using BingX.Net.Objects.Options;
 using Bitfinex.Net.Objects.Options;
 using Bitget.Net.Objects.Options;
 using Bitstamp.Net.Objects.Options;
+using Bitunix.Net.Objects.Options;
 using BloFin.Net.Objects.Options;
 using Bybit.Net.Objects.Options;
 using Coinbase.Net.Objects.Options;
@@ -81,6 +82,10 @@ namespace CryptoClients.Net
         /// Configure Bitstamp API options
         /// </summary>
         public ClientConfigurationBuilder ConfigureBitstamp(Action<BitstampOptions> configure) => ConfigureCore(configure);
+        /// <summary>
+        /// Configure Bitunix API options
+        /// </summary>
+        public ClientConfigurationBuilder ConfigureBitunix(Action<BitunixOptions> configure) => ConfigureCore(configure);
         /// <summary>
         /// Configure BloFin API options
         /// </summary>

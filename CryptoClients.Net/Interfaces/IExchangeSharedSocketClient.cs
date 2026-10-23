@@ -4,6 +4,7 @@ using BingX.Net.Interfaces.Clients;
 using Bitfinex.Net.Interfaces.Clients;
 using Bitget.Net.Interfaces.Clients;
 using Bitstamp.Net.Interfaces.Clients;
+using Bitunix.Net.Interfaces.Clients;
 using BloFin.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
 using Coinbase.Net.Interfaces.Clients;
@@ -79,6 +80,10 @@ namespace CryptoClients.Net.Interfaces
         /// Bitstamp Websocket API
         /// </summary>
         IBitstampSocketClient Bitstamp { get; }
+        /// <summary>
+        /// Bitunix Websocket API
+        /// </summary>
+        IBitunixSocketClient Bitunix { get; }
         /// <summary>
         /// BloFin Websocket API
         /// </summary>

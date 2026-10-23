@@ -16,6 +16,9 @@ using Bitget.Net.Objects.Options;
 using Bitstamp.Net.Clients;
 using Bitstamp.Net.Interfaces.Clients;
 using Bitstamp.Net.Objects.Options;
+using Bitunix.Net.Clients;
+using Bitunix.Net.Interfaces.Clients;
+using Bitunix.Net.Objects.Options;
 using BloFin.Net.Clients;
 using BloFin.Net.Interfaces.Clients;
 using BloFin.Net.Objects.Options;
@@ -193,6 +196,9 @@ namespace CryptoClients.Net.Clients
 
                 [Exchange.Bitstamp] = Create(() =>
                     new BitstampSharedApiClient(_exchangeRestClient.Bitstamp, _exchangeSocketClient.Bitstamp, optionsProvider.Get<BitstampOptions>())),
+
+                [Exchange.Bitunix] = Create(() =>
+                    new BitunixSharedApiClient(_exchangeRestClient.Bitunix, _exchangeSocketClient.Bitunix, optionsProvider.Get<BitunixOptions>())),
 
                 [Exchange.BloFin] = Create(() =>
                     new BloFinSharedApiClient(_exchangeRestClient.BloFin, _exchangeSocketClient.BloFin, optionsProvider.Get<BloFinOptions>())),
@@ -414,6 +420,10 @@ namespace CryptoClients.Net.Clients
         /// <inheritdoc />
         public IBitstampSharedApiClient Bitstamp =>
             GetRequiredClient<IBitstampSharedApiClient>(Exchange.Bitstamp);
+
+        /// <inheritdoc />
+        public IBitunixSharedApiClient Bitunix =>
+            GetRequiredClient<IBitunixSharedApiClient>(Exchange.Bitunix);
 
         /// <inheritdoc />
         public IBloFinSharedApiClient BloFin =>
