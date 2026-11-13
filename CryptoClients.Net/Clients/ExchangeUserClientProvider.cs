@@ -137,6 +137,7 @@ namespace CryptoClients.Net.Clients
     public class ExchangeUserClientProvider : IExchangeUserClientProvider
     {
         private readonly IServiceProvider? _serviceProvider;
+        private readonly bool _ownsProviders;
         private HashSet<string>? _enabledExchanges;
         private Lazy<IAsterUserClientProvider> _asterProvider = null!;
         private Lazy<IBinanceUserClientProvider> _binanceProvider = null!;
@@ -293,6 +294,7 @@ namespace CryptoClients.Net.Clients
                 xtOptions = SetGlobalOptions<XTOptions, XTRestOptions, XTSocketOptions, XTCredentials, XTEnvironment>(global, xtOptions, credentials?.XT, environments?.TryGetValue(Exchange.XT, out var xtEnvName) == true ? XTEnvironment.GetEnvironmentByName(xtEnvName)! : XTEnvironment.Live);
             }
 
+            _ownsProviders = true;
             InitializeProviders(enabledExchanges,
                 () => new AsterUserClientProvider(asterOptions), () => new BinanceUserClientProvider(binanceOptions),
                 () => new BingXUserClientProvider(bingxOptions), () => new BitfinexUserClientProvider(bitfinexOptions),
@@ -598,7 +600,7 @@ namespace CryptoClients.Net.Clients
         {
             if ((exchange == null || string.Equals(exchange, name, StringComparison.OrdinalIgnoreCase))
                 && IsEnabled(name)
-                && provider.IsValueCreated)
+                && (!_ownsProviders || provider.IsValueCreated))
             {
                 clearAction(provider.Value);
             }
