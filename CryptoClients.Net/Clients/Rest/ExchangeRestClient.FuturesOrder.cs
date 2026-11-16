@@ -58,7 +58,8 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedFuturesOrder[]>>> GetFuturesOpenOrdersInt(GetOpenOrdersRequest request, IEnumerable<string>? exchanges, CancellationToken ct)
         {
-            var clients = GetSharedClients<IFuturesOrderRestClient>(exchanges);
+            var tradingMode = request.TradingMode ?? request.Symbol?.TradingMode;
+            var clients = GetSharedClients<IFuturesOrderRestClient>(exchanges).Where(x => tradingMode == null ? true : x.SupportedTradingModes.Contains(tradingMode.Value));
 
             var tasks = clients.Where(x => x.GetOpenFuturesOrdersOptions.Supported).Select(x => x.GetOpenFuturesOrdersAsync(request, ct));
             return tasks;
@@ -92,7 +93,8 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedFuturesOrder[]>>> GetFuturesClosedOrdersInt(GetClosedOrdersRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
-            var clients = GetSharedClients<IFuturesOrderRestClient>(exchanges);
+            var tradingMode = request.TradingMode ?? request.Symbol?.TradingMode;
+            var clients = GetSharedClients<IFuturesOrderRestClient>(exchanges).Where(x => tradingMode == null ? true : x.SupportedTradingModes.Contains(tradingMode.Value));
 
             var tasks = clients.Where(x => x.GetClosedFuturesOrdersOptions.Supported).Select(x => x.GetClosedFuturesOrdersAsync(request, pageRequest, ct));
             return tasks;
@@ -126,7 +128,8 @@ namespace CryptoClients.Net
 
         private IEnumerable<Task<HttpResult<SharedUserTrade[]>>> GetFuturesUserTradesInt(GetUserTradesRequest request, IEnumerable<string>? exchanges, PageRequest? pageRequest, CancellationToken ct)
         {
-            var clients = GetSharedClients<IFuturesOrderRestClient>(exchanges);
+            var tradingMode = request.TradingMode ?? request.Symbol?.TradingMode;
+            var clients = GetSharedClients<IFuturesOrderRestClient>(exchanges).Where(x => tradingMode == null ? true : x.SupportedTradingModes.Contains(tradingMode.Value));
 
             var tasks = clients.Where(x => x.GetFuturesUserTradesOptions.Supported).Select(x => x.GetFuturesUserTradesAsync(request, pageRequest, ct));
             return tasks;
