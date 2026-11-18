@@ -86,8 +86,8 @@ namespace CryptoClients.Net.UnitTests
 
             var client = GetSocketClient();
             var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
-                Exchange.All,
-                Exchange.All.Except([Exchange.BloFin, Exchange.BingX]));
+                Exchange.All.Except([Exchange.DeepCoin]),
+                Exchange.All.Except([Exchange.BloFin, Exchange.BingX, Exchange.DeepCoin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -210,8 +210,8 @@ namespace CryptoClients.Net.UnitTests
 
             var client = GetSocketClient();
             var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
-                Exchange.All,
-                Exchange.All.Except([Exchange.BloFin]));
+                Exchange.All.Except([Exchange.DeepCoin]),
+                Exchange.All.Except([Exchange.BloFin, Exchange.DeepCoin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -277,8 +277,8 @@ namespace CryptoClients.Net.UnitTests
 
             var client = GetSocketClient();
             var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
-                Exchange.All.Except([Exchange.Mexc]), 
-                Exchange.All.Except([Exchange.BloFin]));
+                Exchange.All.Except([Exchange.Mexc, Exchange.DeepCoin]), 
+                Exchange.All.Except([Exchange.BloFin, Exchange.DeepCoin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -332,8 +332,8 @@ namespace CryptoClients.Net.UnitTests
 
             var client = GetSocketClient();
             var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
-                Exchange.All,
-                Exchange.All.Except([Exchange.BloFin]));
+                Exchange.All.Except([Exchange.DeepCoin]),
+                Exchange.All.Except([Exchange.BloFin, Exchange.DeepCoin]));
 
             foreach (var group in exchangeSymbolsGroups)
             {
@@ -399,8 +399,8 @@ namespace CryptoClients.Net.UnitTests
 
             var client = GetSocketClient();
             var exchangeSymbolsGroups = GetSpotAndFuturesSymbols(
-                Exchange.All,
-                Exchange.All.Except([Exchange.BloFin]));
+                Exchange.All.Except([Exchange.DeepCoin]),
+                Exchange.All.Except([Exchange.BloFin, Exchange.DeepCoin]));
             //var exchangeSymbolsGroups = GetSpotAndFuturesSymbols([Exchange.DeepCoin], [Exchange.DeepCoin]);
 
             foreach (var group in exchangeSymbolsGroups)
