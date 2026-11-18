@@ -71,8 +71,8 @@ namespace CryptoClients.Net.Models
             {
                 return new AsterCredentials(
                     new AsterV3Credential(
-                        credential.Key,
-                        credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1))));
+                        EthKey.FromPrivateKey(credential.Key ?? throw new ArgumentNullException(nameof(credential.Key))),
+                        EthKey.FromPrivateKey(credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)))));
             }
             else if (exchange == "Binance")
             {
@@ -145,7 +145,7 @@ namespace CryptoClients.Net.Models
             }
             else if (exchange == "HyperLiquid")
             {
-                return new HyperLiquidCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
+                return new HyperLiquidCredentials(new HyperLiquidCredential(EthKey.FromPrivateKey(credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)))));
             }
             else if (exchange == "Kraken")
             {

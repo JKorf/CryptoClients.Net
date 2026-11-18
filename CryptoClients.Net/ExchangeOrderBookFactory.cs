@@ -252,6 +252,9 @@ namespace CryptoClients.Net
                 case "Bitstamp":
                     return Bitstamp.Create(symbol);
                 case "Bitunix":
+                    if (symbol.TradingMode == TradingMode.Spot)
+                        return null;
+
                     var bitunixLimit = GetBookDepth(minimalDepth, true, 5, 15);
                     return Bitunix.Create(symbol);
                 case "BloFin":

@@ -18,7 +18,7 @@ namespace CryptoVisualizer.Net.ViewModels
 {
     public partial class ChartViewModel : ViewModelBase
     {
-        private IExchangeSocketClient _client;
+        private IExchangeSharedApiClient _client;
         private double _minPriceBase = double.MaxValue;
         private double _maxPriceBase = 0;
 
@@ -56,11 +56,11 @@ namespace CryptoVisualizer.Net.ViewModels
 
         public ChartViewModel()
         {
-            _client = App.Current.Services.GetRequiredService<IExchangeSocketClient>();
+            _client = App.Current.Services.GetRequiredService<IExchangeSharedApiClient>();
 
             PropertyChanged += PropChanged;
 
-            var clients = _client.GetTradeClients(TradingMode.Spot);
+            var clients = _client.GetCapabilities(SharedCapabilities.Trades.SubscribeTrades, TradingMode.Spot);
             var allExchange = new ChartExchangeViewModel("All");
             allExchange.PropertyChanged += ExchangePropChange;
             EnabledExchanges.Add(allExchange);
@@ -180,9 +180,14 @@ namespace CryptoVisualizer.Net.ViewModels
         private async Task SubscribeExchangeAsync(ChartExchangeViewModel exchange)
         {
             var symbol2 = new SharedSymbol(TradingMode.Spot, SelectedAsset, SharedSymbol.UsdOrStable);
-            var result = await _client.SubscribeToTradeUpdatesAsync(exchange.Exchange, new SubscribeTradeRequest(symbol2, new ExchangeParameters(
-                new ExchangeParameter("Binance", "Aggregated", true)
-                )), ProcessUpdate);
+            var result = await _client.GetCapability<ISubscribeTradesSocket>(exchange.Exchange, TradingMode.Spot)!
+                .Capability
+                .SubscribeToTradeUpdatesAsync(
+                    new SubscribeTradeRequest(
+                        symbol2, 
+                        new ExchangeParameters(new ExchangeParameter("Binance", "Aggregated", true)
+                    )
+                ), ProcessUpdate);
 
             if (result.Success)
                 exchange.Subscription = result.Data;

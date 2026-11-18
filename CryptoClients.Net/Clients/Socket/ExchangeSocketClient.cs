@@ -685,8 +685,8 @@ namespace CryptoClients.Net
 
             _aster = Register(Exchange.Aster, aster, x =>
             {
-                ISharedClient spot = x.SpotV3Api.ApiCredentials?.V3 != null ? x.SpotV3Api.SharedClient : x.SpotApi.SharedClient;
-                ISharedClient futures = x.FuturesV3Api.ApiCredentials?.V3 != null ? x.FuturesV3Api.SharedClient : x.FuturesApi.SharedClient;
+                ISharedClient spot = x.SpotV3Api.SharedClient;
+                ISharedClient futures = x.FuturesV3Api.SharedClient;
                 return [spot, futures];
             });
             _binance = Register(Exchange.Binance, binance, x => [x.SpotApi.SharedClient, x.UsdFuturesApi.SharedClient, x.CoinFuturesApi.SharedClient]);
