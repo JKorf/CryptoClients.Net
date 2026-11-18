@@ -17,7 +17,7 @@ var exchanges = new[] { "Binance", "Bybit", "OKX" };
 // Factories are registered by AddCryptoClients because they need the underlying
 // exchange-specific factories. In application code, inject these interfaces.
 var services = new ServiceCollection();
-services.AddCryptoClients();
+services.AddCryptoClients(options => options.EnabledExchanges = exchanges);
 using var provider = services.BuildServiceProvider();
 
 IExchangeOrderBookFactory orderBookFactory = provider.GetRequiredService<IExchangeOrderBookFactory>();
@@ -133,3 +133,6 @@ Console.WriteLine($"Created {futuresUserDataTrackers.Length} futures user data t
 //   Exchange parameters:      pass ExchangeParameters when an exchange needs an extra option
 //   User credentials:         use overloads with userIdentifier + ExchangeCredentials
 //   Futures variants:         use TradingMode.PerpetualInverse where supported
+
+// These services were not started. When starting them, always pair startup with StopAsync in finally.
+// Book/tracker interfaces do not promise IDisposable; use their explicit lifecycle methods.

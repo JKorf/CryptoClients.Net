@@ -1,0 +1,4 @@
+interface:
+  display_name: "CryptoClients.Net"
+  short_description: "Build multi-exchange C# SharedApis integrations."
+  default_prompt: "Use $cryptoclients-net to build a multi-exchange C# workflow with CryptoClients.Net."

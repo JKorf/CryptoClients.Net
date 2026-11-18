@@ -1,62 +1,31 @@
-// 02-direct-and-shared-clients.cs
-//
-// Demonstrates: full exchange-specific access and shared interface discovery from
-// the aggregate ExchangeRestClient.
-//
-// Setup: dotnet add package CryptoClients.Net
-
 using CryptoClients.Net;
-using CryptoExchange.Net.SharedApis;
+using CryptoClients.Net.Clients;
+using CryptoClients.Net.Enums;
 
-var client = new ExchangeRestClient();
-var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
+var configuration = new CryptoClientsConfiguration(builder => builder
+    .ConfigureGlobal(options =>
+    {
+        options.EnabledExchanges = new[] { Exchange.Binance };
+        options.RequestTimeout = TimeSpan.FromSeconds(15);
+    })
+    .ConfigureBinance(options => options.Rest.OutputOriginalData = true));
+var shared = new ExchangeSharedApiClient(configuration);
+var result = await shared.Rest.Binance.SpotApi.ExchangeData.GetTickerAsync("BTCUSDT");
+if (!result.Success)
+    Console.WriteLine(result.Error);
+else
+    Console.WriteLine(result.Data.LastPrice);
 
-// ---- 1. FULL EXCHANGE-SPECIFIC API ACCESS ----
-// CryptoClients.Net does not hide the underlying exchange clients. Use these when
-// an exchange-specific endpoint, model, enum, or option is needed.
-var binanceTicker = await client.Binance.SpotApi.ExchangeData.GetTickerAsync("ETHUSDT");
-if (binanceTicker.Success)
-    Console.WriteLine($"Binance direct ticker: {binanceTicker.Data.LastPrice}");
 
-var kucoinTicker = await client.Kucoin.SpotApi.ExchangeData.GetTickerAsync("ETH-USDT");
-if (kucoinTicker.Success)
-    Console.WriteLine($"Kucoin direct ticker: {kucoinTicker.Data.LastPrice}");
-
-// ---- 2. SHARED CLIENT DISCOVERY FOR ONE EXCHANGE ----
-// GetSpotTickerClient returns null when the exchange does not expose that shared
-// interface. Always null-check before calling it in generic routers.
-var sharedTickerClient = client.GetSpotTickerClient("Binance");
-if (sharedTickerClient != null)
+// The typed exchange property exposes V2 surfaces, distinct from the native Rest facade.
+var match = shared.GetCapability(CryptoClients.Net.Enums.Exchange.Binance,
+    CryptoExchange.Net.SharedApis.SharedCapabilities.Symbols.GetSpotSymbols.Rest,
+    CryptoExchange.Net.SharedApis.TradingMode.Spot);
+if (match is not null)
 {
-    var sharedTicker = await sharedTickerClient.GetSpotTickerAsync(new GetTickerRequest(symbol));
-    if (sharedTicker.Success)
-        Console.WriteLine($"{sharedTicker.Exchange} shared ticker: {sharedTicker.Data.LastPrice}");
+    var symbols = await match.Capability.GetSpotSymbolsAsync(new CryptoExchange.Net.SharedApis.GetSymbolsRequest());
+    if (!symbols.Success)
+        Console.WriteLine(symbols.Error);
+    else
+        Console.WriteLine($"Binance symbols: {symbols.Data.Length}");
 }
-
-// ---- 3. ENUMERATE ALL CLIENTS SUPPORTING A CAPABILITY ----
-foreach (var tickerClient in client.GetSpotTickerClients())
-{
-    var result = await tickerClient.GetSpotTickerAsync(new GetTickerRequest(symbol));
-    Console.WriteLine(result.Success
-        ? $"{tickerClient.Exchange}: {result.Data.LastPrice}"
-        : $"{tickerClient.Exchange}: {result.Error}");
-}
-
-// ---- 4. GET ALL SHARED CLIENTS FOR AN EXCHANGE ----
-var sharedClients = client.GetExchangeSharedClients("OKX", TradingMode.Spot).ToArray();
-Console.WriteLine($"OKX spot shared interfaces: {sharedClients.Length}");
-
-var spotSymbols = sharedClients.SpotSymbolRestClient();
-if (spotSymbols != null)
-{
-    var symbolResult = await spotSymbols.GetSpotSymbolsAsync(new GetSymbolsRequest());
-    Console.WriteLine(symbolResult.Success
-        ? $"OKX spot symbols loaded: {symbolResult.Data.Length}"
-        : $"OKX spot symbols failed: {symbolResult.Error}");
-}
-
-// Common variations:
-//   Balances:          client.GetBalancesClient(TradingMode.Spot, "Binance")
-//   Futures orders:    client.GetFuturesOrderClient(TradingMode.PerpetualLinear, "Bybit")
-//   Funding rates:     client.GetFundingRateClients(TradingMode.PerpetualLinear)
-//   Direct full API:   client.OKX, client.Bybit, client.Kraken, etc.

@@ -301,17 +301,10 @@ Example requests are `GET /Ticker/Kraken/ETH/BTC` and `GET /Ticker/Kucoin/BTC/US
 
 ## AI / LLM documentation
 
-CryptoClients.Net includes AI-oriented documentation and examples for code generation tools:
-
-|File|Purpose|
-|--|--|
-|[`AGENTS.md`](https://github.com/JKorf/CryptoClients.Net/blob/main/AGENTS.md)|Assistant skill with core CryptoClients.Net patterns, pitfalls, and examples|
-|[`llms.txt`](https://github.com/JKorf/CryptoClients.Net/blob/main/llms.txt)|Short LLM index with links to docs, examples, and critical usage rules|
-|[`llms-full.txt`](https://github.com/JKorf/CryptoClients.Net/blob/main/llms-full.txt)|Detailed LLM context with aggregate REST, WebSocket, direct-client, credential, order book, and tracker guidance|
-|[`docs/ai-api-map.md`](https://github.com/JKorf/CryptoClients.Net/blob/main/docs/ai-api-map.md)|Table-style intent-to-method map for aggregate/shared APIs, direct exchange access, sockets, credentials, order books, and trackers|
-|[`Examples/ai-friendly`](https://github.com/JKorf/CryptoClients.Net/tree/main/Examples/ai-friendly)|Compilable single-file examples for common aggregate REST, WebSocket, direct-client, order book, tracker, and error handling workflows|
-
-See [cryptoexchange-skills-hub](https://github.com/JKorf/cryptoexchange-skills-hub) for installable skills.
+- [Consumer skill](.claude/skills/cryptoclients-net/SKILL.md): aggregate APIs, routing, and usage.
+- [Repository development](AGENTS.md): layout, conventions, and validation.
+- [AI documentation index](llms.txt).
+- [Compilable examples](Examples/ReadMe.md).
 
 ## Resources
 

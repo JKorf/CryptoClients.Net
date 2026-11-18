@@ -280,22 +280,28 @@ async Task SubscribePriceUpdatesUnified2()
     var baseAsset = Console.ReadLine();
     Console.WriteLine("Enter quote asset: ");
     var quoteAsset = Console.ReadLine();
+    if (string.IsNullOrWhiteSpace(baseAsset) || string.IsNullOrWhiteSpace(quoteAsset))
+        return;
 
     var client = new ExchangeSharedApiClient();
     var symbol = new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset);
     var request = new SubscribeTickerRequest(symbol);
-    var results = await client.GetCapabilities(SharedCapabilities.Tickers.SubscribeTicker, TradingMode.Spot, [Exchange.Binance, Exchange.BingX, Exchange.Bybit])
-        .SubscribeAllAsync(request, update => Console.WriteLine($"Update from {update.Exchange}: {update.Data.LastPrice}"));
-    
-    Console.WriteLine();
-
-    foreach (var result in results)
+    try
     {
-        if (!result.Success)
-            Console.WriteLine($"{result.Exchange} subscription failed: {result.Error}");
+        await foreach (var result in client.GetCapabilities(
+            SharedCapabilities.Tickers.SubscribeTicker, TradingMode.Spot,
+            [Exchange.Binance, Exchange.BingX, Exchange.Bybit])
+            .SubscribeAllAsync(request, update => Console.WriteLine($"Update from {update.Exchange}: {update.Data.LastPrice}")))
+        {
+            if (!result.Success)
+                Console.WriteLine($"{result.Exchange} subscription failed: {result.Error}");
+        }
+        Console.ReadLine();
     }
-
-    Console.ReadLine();
+    finally
+    {
+        await client.UnsubscribeAllAsync();
+    }
 }
 
 async Task StartOrderBooks()
