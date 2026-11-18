@@ -366,6 +366,12 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.11.0 - 18 Nov 2026
+    * Updated library versions
+    * Added Polymarket Perps support
+    * Fixed ClearUserClients not clearing when resolved from DI
+    * Fixed futures order and trade requests ignoring TradingMode
+
 * Version 5.10.0 - 23 Oct 2026
     * Added Bitunix support with Bitunix.Net 1.0.1
     * Updated client library versions
