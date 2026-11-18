@@ -3,275 +3,75 @@
 [![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/CryptoClients.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/CryptoClients.Net/actions/workflows/dotnet.yml)
 [![NuGet version](https://img.shields.io/nuget/v/CryptoClients.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoClients.Net)
 [![NuGet downloads](https://img.shields.io/nuget/dt/CryptoClients.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/CryptoClients.Net)
-![License](https://img.shields.io/github/license/JKorf/CryptoClients.Net?style=for-the-badge)
-[![Docs](https://img.shields.io/badge/Docs-CryptoClients.Net-1b7f50?style=for-the-badge)](https://cryptoexchange.jkorf.dev/docs/crypto-clients)
+[![MIT license](https://img.shields.io/github/license/JKorf/CryptoClients.Net?style=for-the-badge)](https://github.com/JKorf/CryptoClients.Net/blob/main/LICENSE)
+![Since](https://img.shields.io/badge/since-2024-brightgreen?style=for-the-badge)
 
-**[Documentation](https://cryptoexchange.jkorf.dev/docs/crypto-clients)** · **[Supported features](https://cryptoexchange.jkorf.dev/docs/crypto-clients/supported-features)** · **[Examples](https://cryptoexchange.jkorf.dev/docs/crypto-clients/examples)** · **[Configuration](https://cryptoexchange.jkorf.dev/docs/crypto-clients/options)** · **[AI / LLM docs](#ai--llm-documentation)** · **[Benchmark](https://github.com/JKorf/CryptoClients.Net/blob/main/docs/crypto-clients-net-benchmark.md)**
+CryptoClients.Net is a C# library for consuming cryptocurrency market data, streaming updates, and trading across multiple platforms. Use the **Shared API** to reuse the same code across exchanges, and use **native REST and WebSocket clients** for exchange-specific endpoints and models.
 
-`CryptoClients.Net` provides unified access to cryptocurrency trading APIs in C#. Use one shared API for exchange-agnostic code, or access every exchange-specific REST and WebSocket API directly from the same package.
+[Quick start](#quick-start) · [Choose a client](#choose-a-client) · [Configuration](#configuration) · [Included platforms](#available-client-libraries) · [Release notes](#release-notes)
 
-It combines:
-- direct access to exchange-specific REST and WebSocket clients
-- shared cross-exchange interfaces from [CryptoExchange.Net](https://cryptoexchange.jkorf.dev/docs/base-library)
-- dynamic multi-exchange requests and subscriptions
-- client-side helpers such as rate limiting, order books, trackers, and user client management
+## Quick start
 
-The package includes **30 client libraries**: **28 exchanges** plus **CoinGecko** and **Polymarket**. See the [complete library table](#available-client-libraries).
-
-Choose `CryptoClients.Net` when an application uses multiple exchanges, needs exchange-agnostic code, or selects exchanges at runtime. If an application only targets one exchange and mainly uses exchange-specific endpoints, install that exchange's individual package instead.
-
-> **Important:** Shared API coverage varies by exchange, operation, and trading mode. Aggregate calls run only against compatible implementations. Check the [supported-features documentation](https://cryptoexchange.jkorf.dev/docs/crypto-clients/supported-features) or use the runtime discovery APIs before assuming an operation is universally available.
-
-## Unified API quick start
-
-Install the package:
+Install the package in an existing C# project.
 
 ```bash
 dotnet add package CryptoClients.Net
 ```
 
-Create one Shared API aggregate client, resolve the V2 ticker capability for multiple exchanges, and execute the requests in parallel:
+Paste this into a console project's `Program.cs` to fetch the BTC/USDT spot ticker from Binance, Bybit, and OKX. This example uses public market data and requires no API keys.
 
 ```csharp
-using CryptoClients.Net;
+using System;
 using CryptoClients.Net.Clients;
 using CryptoClients.Net.Enums;
 using CryptoExchange.Net.SharedApis;
 
-var client = new ExchangeSharedApiClient(new CryptoClientsConfiguration());
-var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
+var client = new ExchangeSharedApiClient();
+var exchanges = new[] { Exchange.Binance, Exchange.Bybit, Exchange.OKX };
+var tickers = client.GetCapabilities(
+    SharedCapabilities.Tickers.GetTicker.Rest, TradingMode.Spot, exchanges);
+var request = new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT"));
 
-var capabilities = client.GetCapabilities<IGetTicker>(
-    TradingMode.Spot,
-    exchanges: [Exchange.Binance, Exchange.Bybit, Exchange.HyperLiquid, Exchange.OKX]);
-
-await foreach (var result in capabilities.ExecuteAllAsync(new GetTickerRequest(symbol)))
+await foreach (var result in tickers.ExecuteAllAsync(request))
 {
     Console.WriteLine(result.Success
         ? $"{result.Exchange}: {result.Data.LastPrice}"
-        : $"{result.Exchange} error: {result.Error}");
+        : $"{result.Exchange}: {result.Error}");
 }
 ```
 
-The package exposes three complementary API layers:
+`GetCapabilities` finds one matching implementation per enabled exchange. `ExecuteAllAsync` sends the requests in parallel and yields each result as it completes. Check each result independently, since one exchange can fail while the others succeed.
 
-|Layer|Use when|Example|
-|--|--|--|
-|Shared API aggregate|Resolving the same V2 capability for one or many exchanges|`client.GetCapabilities<IGetTicker>(...)`|
-|Exchange Shared API aggregate|Compile-time discovery of one exchange's capabilities and API surfaces|`client.Binance.SpotRest`|
-|Direct exchange client|Using exchange-specific endpoints, options, or models|`restClient.Binance.SpotApi.ExchangeData`|
+Coverage depends on the exchange, operation, and trading mode. Exchanges without a matching capability are skipped, so compare the resolved exchanges with your requested list when you need full coverage. A matching capability still requires a listed market and valid request parameters. See the [supported features](https://cryptoexchange.jkorf.dev/docs/crypto-clients/supported-features).
 
-### Important behavior
+## Choose a client
 
-- Aggregate calls return one result per compatible exchange. One exchange can fail while the others succeed, so check `Success` before accessing `Data` on every result.
-- `GetCapability<T>` selects one preferred implementation for one exchange. `GetCapabilities<T>` selects one per exchange, while `GetImplementations<T>` returns every matching transport/API-surface implementation.
-- Capability presence communicates whether an operation is available. Use its `Options` to inspect supported trading modes and parameter rules.
-- A capability lookup without an explicit exchange list targets all enabled exchanges that support that operation and trading mode.
-- Use `SharedSymbol` instead of hard-coded native symbol formats in shared APIs. `SharedSymbol.UsdOrStable` can route across USD and supported stable-coin quote variants; fetched symbol catalogs provide exchange-specific availability.
-- Public market-data operations do not require credentials. Private account and trading operations do, and some exchanges require additional values such as a passphrase.
-- Reuse aggregate clients or register them with dependency injection. Do not create a new client for every request.
-- Close WebSocket subscriptions and stop order books and trackers during shutdown.
+| What you need | Entry point |
+| --- | --- |
+| Run the same operation across exchanges or select an exchange at runtime | `ExchangeSharedApiClient.GetCapabilities(...)` or `GetCapability(...)` |
+| Browse a single exchange's Shared API V2 at compile time | A typed surface such as `client.Binance.SpotRest` |
+| Call a native REST or WebSocket endpoint | `client.Rest.Binance` or `client.Socket.Binance` |
 
-## Features
+Use `GetCapability` for a single exchange's preferred implementation and `GetImplementations` to see every matching API surface or transport. Inspect a resolved capability's `Options` for parameter requirements and operation limits.
 
-- Full access to exchange-specific APIs through `ExchangeRestClient` and `ExchangeSocketClient`
-- Shared API capability interfaces for exchange-agnostic spot and futures functionality
-- Request data from a single exchange or many exchanges in one call
-- Subscribe to one or many data streams on multiple exchanges through a single API
-- Strongly typed models and enum mappings
-- Automatic WebSocket (re)connection management
-- Client-side rate limiting
-- Client-side order book support, including `ICrossExchangeBook` for aggregated books across exchanges
-- Multi-user client management
-- Support for multiple API environments
-- Dynamic credential management
+Native endpoints use the exchange's own symbols and models. For example, using the `client` from the quick start:
 
-## Client setup
+```csharp
+var ticker = await client.Rest.Binance.SpotApi.ExchangeData.GetTickerAsync("BTCUSDT");
+Console.WriteLine(ticker.Success ? ticker.Data.LastPrice.ToString() : ticker.Error?.ToString());
+```
 
-There are three main entry points:
-
-- `ExchangeSharedApiClient` for exchange-agnostic V2 Shared API capabilities
-- `ExchangeRestClient` for REST APIs and V1 Shared API access
-- `ExchangeSocketClient` for WebSocket APIs and V1 Shared API access
-
-You can also use exchange-specific clients directly, such as `BinanceRestClient` or `KucoinSocketClient`.
-
-### Dependency injection
-
-    // Load options from configuration
-    builder.Services.AddCryptoClients(builder.Configuration.GetSection("CryptoClients"));
-
-    // Or configure in code
-    builder.Services.AddCryptoClients(options =>
-    {
-        options.OutputOriginalData = true;
-    });
-
-    // Inject later
-    public class TradingBot
-    {
-        public TradingBot(IExchangeSharedApiClient sharedApiClient)
-        {
-        }
-    }
-
-### Direct construction
-
-    IExchangeSharedApiClient sharedApiClient = new ExchangeSharedApiClient();
-    IExchangeRestClient restClient = new ExchangeRestClient();
-    IExchangeSocketClient socketClient = new ExchangeSocketClient();
-
-    IBinanceRestClient binanceRestClient = new BinanceRestClient();
-    IKucoinSocketClient kucoinSocketClient = new KucoinSocketClient();
+An application that only needs one exchange's native API can install its [individual NuGet package](#available-client-libraries).
 
 ## Configuration
 
-Clients can be configured globally, per exchange, or both.
+### Dependency injection
 
-> The credentials below are placeholders. Never commit real API credentials to source control; load them from a secure secret store or environment-backed configuration.
-
-    builder.Services.AddCryptoClients(globalOptions =>
-    {
-        globalOptions.OutputOriginalData = true;
-        // Specify enabled exchanges when only using a subset to reduce overhead.
-        // Leave default to enable all exchanges
-        globalOptions.EnabledExchanges = [Exchange.Binance, Exchange.Bybit, Exchange.OKX];
-        globalOptions.ApiCredentials = new ExchangeCredentials
-        {
-            Binance = new BinanceCredentials("BinanceKey", "BinanceSecret"),
-            OKX = new OKXCredentials("OKXKey", "OKXSecret", "OKXPassphrase")
-        };
-    },
-    bybitRestOptions: bybitOptions =>
-    {
-        bybitOptions.Environment = Bybit.Net.BybitEnvironment.Eu;
-        bybitOptions.ApiCredentials = new BybitCredentials("BybitKey", "BybitSecret");
-    });
-
-Environment selection can also be configured through `GlobalExchangeOptions.ApiEnvironments`.
-
-Exchange clients and related factories are initialized on first use. `EnabledExchanges` limits runtime initialization and aggregate routing; it does not remove the bundled NuGet dependencies. Aggregate operations only include enabled exchanges, and accessing a disabled strongly typed exchange property throws an `InvalidOperationException`.
-
-More configuration details are available in the documentation:  
-https://cryptoexchange.jkorf.dev/docs/crypto-clients/options
-
-## WebSocket subscriptions
-
-The V2 Shared API client can resolve single-exchange and multi-exchange subscription capabilities. Each exchange returns its own subscription result. Pass a cancellation token so all successful subscriptions can be stopped during shutdown.
+In an ASP.NET Core project with `CryptoClients.Net` installed, add this to `Program.cs`. ASP.NET Core injects `IExchangeSharedApiClient` into the endpoint when you call `GET /btc-price`.
 
 ```csharp
-var sharedClient = new ExchangeSharedApiClient(new CryptoClientsConfiguration());
-var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
-
-var capabilities = sharedClient.GetCapabilities<ISubscribeTickerSocket>(
-    TradingMode.Spot,
-    exchanges: [Exchange.Binance, Exchange.OKX]);
-
-using var subscriptionCancellation = new CancellationTokenSource();
-var subscriptions = await Task.WhenAll(capabilities.Select(x =>
-    x.Capability.SubscribeToTickerUpdatesAsync(
-        new SubscribeTickerRequest(symbol),
-        data => Console.WriteLine($"{data.Exchange} {data.Data.Symbol} {data.Data.LastPrice}"),
-        subscriptionCancellation.Token)));
-
-foreach (var subscription in subscriptions)
-{
-    if (!subscription.Success)
-        Console.WriteLine($"{subscription.Exchange} subscription failed: {subscription.Error}");
-}
-
-// On shutdown, stop the shared subscriptions.
-subscriptionCancellation.Cancel();
-```
-
-## Cross-exchange order books
-
-Use `IExchangeOrderBookFactory.CreateCrossExchange` to create an `ICrossExchangeBook` which aggregates locally synced order books for the same symbol across multiple exchanges into a single book.
-
-```csharp
-var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
-var book = orderBookFactory.CreateCrossExchange(
-    symbol,
-    exchanges: [Exchange.Binance, Exchange.Bybit, Exchange.OKX]);
-
-var startResult = await book.StartAsync();
-if (!startResult.Success)
-    Console.WriteLine($"Failed to start order book: {startResult.Error}");
-
-// On shutdown:
-await book.StopAsync();
-```
-
-## Multiple users
-
-Use `ExchangeUserClientProvider` when working with multiple users and isolated client instances.
-
-    var provider = new ExchangeUserClientProvider();
-    var user1Credentials = new ExchangeCredentials
-    {
-        Binance = new BinanceCredentials("key", "secret")
-    };
-    var user2Credentials = new ExchangeCredentials
-    {
-        Binance = new BinanceCredentials("key", "secret")
-    };
-
-    var restClientUser1 = provider.GetRestClient("user-1", user1Credentials);
-    var restClientUser2 = provider.GetRestClient("user-2", user2Credentials);
-    var socketClientUser1 = provider.GetSocketClient("user-1");
-
-## Supported target frameworks
-
-The package targets `.NET Standard 2.0`, `.NET Standard 2.1`, `.NET 8.0`, `.NET 9.0`, and `.NET 10.0`. See the [NuGet package](https://www.nuget.org/packages/CryptoClients.Net) for computed framework compatibility.
-
-## Available client libraries
-
-Installing `CryptoClients.Net` includes the following 30 client libraries. Every exchange client is available through the strongly typed properties on `ExchangeRestClient` and, where supported, `ExchangeSocketClient`; `ExchangeSharedApiClient` can resolve V2 capabilities for the 28 exchanges exposed through the `Exchange` identifiers. Inclusion does not mean that every Shared API operation is supported—see [supported features and capability discovery](https://cryptoexchange.jkorf.dev/docs/crypto-clients/supported-features).
-
-||Platform|Type|Included client library|
-|--|--|--|--|
-|<img src="https://raw.githubusercontent.com/JKorf/Aster.Net/refs/heads/main/Aster.Net/Icon/icon.png" alt="Aster" width="32" />|Aster|DEX|[Jkorf.Aster.Net](https://www.nuget.org/packages/Jkorf.Aster.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Binance.Net/refs/heads/master/Binance.Net/Icon/icon.png" alt="Binance" width="32" />|Binance|CEX|[Binance.Net](https://www.nuget.org/packages/Binance.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/BingX.Net/refs/heads/main/BingX.Net/Icon/BingX.png" alt="BingX" width="32" />|BingX|CEX|[JK.BingX.Net](https://www.nuget.org/packages/JK.BingX.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Bitfinex.Net/refs/heads/master/Bitfinex.Net/Icon/icon.png" alt="Bitfinex" width="32" />|Bitfinex|CEX|[Bitfinex.Net](https://www.nuget.org/packages/Bitfinex.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Bitget.Net/refs/heads/main/Bitget.Net/Icon/icon.png" alt="Bitget" width="32" />|Bitget|CEX|[JK.Bitget.Net](https://www.nuget.org/packages/JK.Bitget.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Bitstamp.Net/refs/heads/main/Bitstamp.Net/Icon/icon.png" alt="Bitstamp" width="32" />|Bitstamp|CEX|[Bitstamp.Net](https://www.nuget.org/packages/Bitstamp.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/BloFin.Net/refs/heads/main/BloFin.Net/Icon/icon.png" alt="BloFin" width="32" />|BloFin|CEX|[BloFin.Net](https://www.nuget.org/packages/BloFin.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Bybit.Net/refs/heads/main/ByBit.Net/Icon/icon.png" alt="Bybit" width="32" />|Bybit|CEX|[Bybit.Net](https://www.nuget.org/packages/Bybit.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Coinbase.Net/refs/heads/main/Coinbase.Net/Icon/icon.png" alt="Coinbase" width="32" />|Coinbase|CEX|[JKorf.Coinbase.Net](https://www.nuget.org/packages/JKorf.Coinbase.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/CoinGecko.Net/refs/heads/main/CoinGecko.Net/Icon/icon.png" alt="CoinGecko" width="32" />|CoinGecko|Market data|[CoinGecko.Net](https://www.nuget.org/packages/CoinGecko.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/CoinW.Net/refs/heads/main/CoinW.Net/Icon/icon.png" alt="CoinW" width="32" />|CoinW|CEX|[CoinW.Net](https://www.nuget.org/packages/CoinW.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/CryptoCom.Net/refs/heads/main/CryptoCom.Net/Icon/icon.png" alt="Crypto.com" width="32" />|Crypto.com|CEX|[CryptoCom.Net](https://www.nuget.org/packages/CryptoCom.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/DeepCoin.Net/refs/heads/main/DeepCoin.Net/Icon/icon.png" alt="DeepCoin" width="32" />|DeepCoin|CEX|[DeepCoin.Net](https://www.nuget.org/packages/DeepCoin.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/GateIo.Net/refs/heads/main/GateIo.Net/Icon/icon.png" alt="Gate.io" width="32" />|Gate.io|CEX|[GateIo.Net](https://www.nuget.org/packages/GateIo.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/HTX.Net/refs/heads/master/HTX.Net/Icon/icon.png" alt="HTX" width="32" />|HTX|CEX|[JKorf.HTX.Net](https://www.nuget.org/packages/JKorf.HTX.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/HyperLiquid.Net/refs/heads/main/HyperLiquid.Net/Icon/icon.png" alt="HyperLiquid" width="32" />|HyperLiquid|DEX|[HyperLiquid.Net](https://www.nuget.org/packages/HyperLiquid.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Kraken.Net/refs/heads/master/Kraken.Net/Icon/icon.png" alt="Kraken" width="32" />|Kraken|CEX|[KrakenExchange.Net](https://www.nuget.org/packages/KrakenExchange.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Kucoin.Net/refs/heads/master/Kucoin.Net/Icon/icon.png" alt="Kucoin" width="32" />|Kucoin|CEX|[Kucoin.Net](https://www.nuget.org/packages/Kucoin.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/LBank.Net/refs/heads/main/LBank.Net/Icon/icon.png" alt="LBank" width="32" />|LBank|CEX|[LBank.Net](https://www.nuget.org/packages/LBank.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Lighter.Net/refs/heads/main/Lighter.Net/Icon/icon.png" alt="Lighter" width="32" />|Lighter|DEX|[JKorf.Lighter.Net](https://www.nuget.org/packages/JKorf.Lighter.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Mexc.Net/refs/heads/main/Mexc.Net/Icon/icon.png" alt="Mexc" width="32" />|Mexc|CEX|[JK.Mexc.Net](https://www.nuget.org/packages/JK.Mexc.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/OKX.Net/refs/heads/main/OKX.Net/Icon/icon.png" alt="OKX" width="32" />|OKX|CEX|[JK.OKX.Net](https://www.nuget.org/packages/JK.OKX.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Pionex.Net/refs/heads/main/Pionex.Net/Icon/icon.png" alt="Pionex" width="32" />|Pionex|CEX|[Pionex.Net](https://www.nuget.org/packages/Pionex.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Polymarket.Net/refs/heads/main/Polymarket.Net/Icon/icon.png" alt="Polymarket" width="32" />|Polymarket|Prediction market|[Polymarket.Net](https://www.nuget.org/packages/Polymarket.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Tapbit.Net/refs/heads/main/Tapbit.Net/Icon/icon.png" alt="Toobit" width="32" />|Tapbit|CEX|[Tapbit.Net](https://www.nuget.org/packages/Tapbit.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Toobit.Net/refs/heads/main/Toobit.Net/Icon/icon.png" alt="Toobit" width="32" />|Toobit|CEX|[Toobit.Net](https://www.nuget.org/packages/Toobit.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Upbit.Net/refs/heads/main/Upbit.Net/Icon/icon.png" alt="Upbit" width="32" />|Upbit|CEX|[JKorf.Upbit.Net](https://www.nuget.org/packages/JKorf.Upbit.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/Weex.Net/refs/heads/main/Weex.Net/Icon/icon.png" alt="Weex" width="32" />|Weex|CEX|[Weex.Net](https://www.nuget.org/packages/Weex.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/WhiteBit.Net/refs/heads/main/WhiteBit.Net/Icon/icon.png" alt="WhiteBit" width="32" />|WhiteBit|CEX|[WhiteBit.Net](https://www.nuget.org/packages/WhiteBit.Net)|
-|<img src="https://raw.githubusercontent.com/JKorf/XT.Net/refs/heads/main/XT.Net/Icon/icon.png" alt="XT" width="32" />|XT|CEX|[XT.Net](https://www.nuget.org/packages/XT.Net)|
-
-### Metadata and discovery
-
-Use `Exchange.All` for the string identifiers accepted by aggregate operations, `Exchanges.All` for rich exchange metadata, and `Platforms.All` for exchange metadata plus additional integrations such as CoinGecko and Polymarket.
-
-## Example API
-
-The following ASP.NET Core Minimal API exposes a safe single-exchange endpoint backed by the V2 transport-agnostic ticker capability:
-
-```csharp
+using CryptoClients.Net.Enums;
 using CryptoClients.Net.Interfaces;
-using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -279,43 +79,96 @@ builder.Services.AddCryptoClients();
 
 var app = builder.Build();
 
-app.MapGet("Ticker/{exchange}/{baseAsset}/{quoteAsset}",
-    async (IExchangeSharedApiClient client, string exchange, string baseAsset, string quoteAsset) =>
-    {
-        var ticker = client.GetCapability<IGetTicker>(exchange, TradingMode.Spot);
-        if (ticker is null)
-            return Results.NotFound($"Spot ticker requests are not supported for '{exchange}'.");
+app.MapGet("/btc-price", async (IExchangeSharedApiClient client, CancellationToken ct) =>
+{
+    var ticker = client.GetCapability(
+        Exchange.Binance, SharedCapabilities.Tickers.GetTicker.Rest, TradingMode.Spot);
+    if (ticker is null)
+        return Results.NotFound();
 
-        var result = await ticker.Capability.GetTickerAsync(
-            new GetTickerRequest(new SharedSymbol(TradingMode.Spot, baseAsset, quoteAsset)));
-
-        return result.Success
-            ? Results.Ok(result.Data)
-            : Results.Problem(result.Error?.ToString(), statusCode: StatusCodes.Status502BadGateway);
-    });
+    var request = new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT"));
+    var result = await ticker.Capability.GetTickerAsync(request, ct);
+    return result.Success
+        ? Results.Ok(result.Data.LastPrice)
+        : Results.Problem("The exchange did not return a ticker.", statusCode: StatusCodes.Status502BadGateway);
+});
 
 app.Run();
 ```
 
-Example requests are `GET /Ticker/Kraken/ETH/BTC` and `GET /Ticker/Kucoin/BTC/USDT`.
+### Options
 
-## AI / LLM documentation
+Pass an options callback to `AddCryptoClients` to set values such as `EnabledExchanges` or `RequestTimeout`. For configuration binding, call `builder.Services.AddCryptoClients(builder.Configuration.GetSection("CryptoClients"))`. For standalone clients, pass a `CryptoClientsConfiguration` to `ExchangeSharedApiClient` to apply global and per-exchange options.
 
-- [Consumer skill](.claude/skills/cryptoclients-net/SKILL.md): aggregate APIs, routing, and usage.
-- [Repository development](AGENTS.md): layout, conventions, and validation.
-- [AI documentation index](llms.txt).
-- [Compilable examples](Examples/ReadMe.md).
+By default, all exchanges are enabled. `EnabledExchanges` limits which clients the aggregate can use at runtime. Accessing a disabled typed exchange property throws an `InvalidOperationException`.
+
+Private account and trading calls require exchange-specific credentials. Use `ExchangeCredentials` for typed credentials and load the values from your application's secret store or configuration provider. See the [configuration guide](https://cryptoexchange.jkorf.dev/docs/crypto-clients/options) for credentials, environments, and per-exchange settings.
+
+## Examples
+
+| Task | Example |
+| --- | --- |
+| Stream ticker updates over WebSockets | [Resolve subscriptions, handle results, and close subscriptions](https://github.com/JKorf/CryptoClients.Net/blob/main/Examples/ai-friendly/03-websocket-subscriptions.cs) |
+| Maintain local order books or trackers | [Use the order book and tracker factories](https://github.com/JKorf/CryptoClients.Net/blob/main/Examples/ai-friendly/04-order-books-and-trackers.cs) · [Combine books across exchanges](https://cryptoexchange.jkorf.dev/docs/crypto-clients/cross-exchange-book) |
+| Read private account data | [Configure credentials and handle errors](https://github.com/JKorf/CryptoClients.Net/blob/main/Examples/ai-friendly/05-credentials-and-error-handling.cs) |
+| Host the clients in an application | [Console, ASP.NET Core, and Blazor projects](https://github.com/JKorf/CryptoClients.Net/blob/main/Examples/ReadMe.md) |
+
+Use `IExchangeUserClientProvider` to cache separate clients by user ID in multi-user applications. Close subscriptions and stop books and trackers when their workload ends. See the [usage guide](https://cryptoexchange.jkorf.dev/docs/crypto-clients/usage) for more patterns.
+
+## Available client libraries
+
+The package bundles 31 client libraries, including Bitunix. Polymarket exposes its prediction-market endpoints through native clients and its perpetual futures through Shared API V2 surfaces such as `client.Polymarket.PerpsRest`. CoinGecko is a market-data integration available through the concrete `ExchangeRestClient.CoinGecko` property.
+
+Use `Platform.All` for all bundled platform IDs and `Platforms.All` for their metadata. To determine which platforms can perform an operation, query `GetCapabilities` with the operation and trading mode.
+
+| Logo | Platform | Type | Included client library |
+| --- | --- | --- | --- |
+| <img src="https://raw.githubusercontent.com/JKorf/Aster.Net/refs/heads/main/Aster.Net/Icon/icon.png" alt="Aster" width="32" /> | Aster | DEX | [Jkorf.Aster.Net](https://www.nuget.org/packages/Jkorf.Aster.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Binance.Net/refs/heads/master/Binance.Net/Icon/icon.png" alt="Binance" width="32" /> | Binance | CEX | [Binance.Net](https://www.nuget.org/packages/Binance.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/BingX.Net/refs/heads/main/BingX.Net/Icon/BingX.png" alt="BingX" width="32" /> | BingX | CEX | [JK.BingX.Net](https://www.nuget.org/packages/JK.BingX.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Bitfinex.Net/refs/heads/master/Bitfinex.Net/Icon/icon.png" alt="Bitfinex" width="32" /> | Bitfinex | CEX | [Bitfinex.Net](https://www.nuget.org/packages/Bitfinex.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Bitget.Net/refs/heads/main/Bitget.Net/Icon/icon.png" alt="Bitget" width="32" /> | Bitget | CEX | [JK.Bitget.Net](https://www.nuget.org/packages/JK.Bitget.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Bitstamp.Net/refs/heads/main/Bitstamp.Net/Icon/icon.png" alt="Bitstamp" width="32" /> | Bitstamp | CEX | [Bitstamp.Net](https://www.nuget.org/packages/Bitstamp.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Bitunix.Net/main/Bitunix.Net/Icon/icon.png" alt="Bitunix" width="32" /> | Bitunix | CEX | [Bitunix.Net](https://www.nuget.org/packages/Bitunix.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/BloFin.Net/refs/heads/main/BloFin.Net/Icon/icon.png" alt="BloFin" width="32" /> | BloFin | CEX | [BloFin.Net](https://www.nuget.org/packages/BloFin.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Bybit.Net/refs/heads/main/ByBit.Net/Icon/icon.png" alt="Bybit" width="32" /> | Bybit | CEX | [Bybit.Net](https://www.nuget.org/packages/Bybit.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Coinbase.Net/refs/heads/main/Coinbase.Net/Icon/icon.png" alt="Coinbase" width="32" /> | Coinbase | CEX | [JKorf.Coinbase.Net](https://www.nuget.org/packages/JKorf.Coinbase.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/CoinGecko.Net/refs/heads/main/CoinGecko.Net/Icon/icon.png" alt="CoinGecko" width="32" /> | CoinGecko | Market data | [CoinGecko.Net](https://www.nuget.org/packages/CoinGecko.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/CoinW.Net/refs/heads/main/CoinW.Net/Icon/icon.png" alt="CoinW" width="32" /> | CoinW | CEX | [CoinW.Net](https://www.nuget.org/packages/CoinW.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/CryptoCom.Net/refs/heads/main/CryptoCom.Net/Icon/icon.png" alt="Crypto.com" width="32" /> | Crypto.com | CEX | [CryptoCom.Net](https://www.nuget.org/packages/CryptoCom.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/DeepCoin.Net/refs/heads/main/DeepCoin.Net/Icon/icon.png" alt="DeepCoin" width="32" /> | DeepCoin | CEX | [DeepCoin.Net](https://www.nuget.org/packages/DeepCoin.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/GateIo.Net/refs/heads/main/GateIo.Net/Icon/icon.png" alt="Gate" width="32" /> | Gate | CEX | [GateIo.Net](https://www.nuget.org/packages/GateIo.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/HTX.Net/refs/heads/master/HTX.Net/Icon/icon.png" alt="HTX" width="32" /> | HTX | CEX | [JKorf.HTX.Net](https://www.nuget.org/packages/JKorf.HTX.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/HyperLiquid.Net/refs/heads/main/HyperLiquid.Net/Icon/icon.png" alt="Hyperliquid" width="32" /> | Hyperliquid | DEX | [HyperLiquid.Net](https://www.nuget.org/packages/HyperLiquid.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Kraken.Net/refs/heads/master/Kraken.Net/Icon/icon.png" alt="Kraken" width="32" /> | Kraken | CEX | [KrakenExchange.Net](https://www.nuget.org/packages/KrakenExchange.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Kucoin.Net/refs/heads/master/Kucoin.Net/Icon/icon.png" alt="KuCoin" width="32" /> | KuCoin | CEX | [Kucoin.Net](https://www.nuget.org/packages/Kucoin.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/LBank.Net/refs/heads/main/LBank.Net/Icon/icon.png" alt="LBank" width="32" /> | LBank | CEX | [LBank.Net](https://www.nuget.org/packages/LBank.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Lighter.Net/refs/heads/main/Lighter.Net/Icon/icon.png" alt="Lighter" width="32" /> | Lighter | DEX | [JKorf.Lighter.Net](https://www.nuget.org/packages/JKorf.Lighter.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Mexc.Net/refs/heads/main/Mexc.Net/Icon/icon.png" alt="MEXC" width="32" /> | MEXC | CEX | [JK.Mexc.Net](https://www.nuget.org/packages/JK.Mexc.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/OKX.Net/refs/heads/main/OKX.Net/Icon/icon.png" alt="OKX" width="32" /> | OKX | CEX | [JK.OKX.Net](https://www.nuget.org/packages/JK.OKX.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Pionex.Net/refs/heads/main/Pionex.Net/Icon/icon.png" alt="Pionex" width="32" /> | Pionex | CEX | [Pionex.Net](https://www.nuget.org/packages/Pionex.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Polymarket.Net/refs/heads/main/Polymarket.Net/Icon/icon.png" alt="Polymarket" width="32" /> | Polymarket | DEX and prediction market | [Polymarket.Net](https://www.nuget.org/packages/Polymarket.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Tapbit.Net/refs/heads/main/Tapbit.Net/Icon/icon.png" alt="Tapbit" width="32" /> | Tapbit | CEX | [Tapbit.Net](https://www.nuget.org/packages/Tapbit.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Toobit.Net/refs/heads/main/Toobit.Net/Icon/icon.png" alt="Toobit" width="32" /> | Toobit | CEX | [Toobit.Net](https://www.nuget.org/packages/Toobit.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Upbit.Net/refs/heads/main/Upbit.Net/Icon/icon.png" alt="Upbit" width="32" /> | Upbit | CEX | [JKorf.Upbit.Net](https://www.nuget.org/packages/JKorf.Upbit.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Weex.Net/refs/heads/main/Weex.Net/Icon/icon.png" alt="Weex" width="32" /> | Weex | CEX | [Weex.Net](https://www.nuget.org/packages/Weex.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/WhiteBit.Net/refs/heads/main/WhiteBit.Net/Icon/icon.png" alt="WhiteBit" width="32" /> | WhiteBit | CEX | [WhiteBit.Net](https://www.nuget.org/packages/WhiteBit.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/XT.Net/refs/heads/main/XT.Net/Icon/icon.png" alt="XT" width="32" /> | XT | CEX | [XT.Net](https://www.nuget.org/packages/XT.Net) |
+
+## Supported target frameworks
+
+The project targets .NET Standard 2.0 and 2.1, and .NET 8, 9, 10, and 11. See [NuGet](https://www.nuget.org/packages/CryptoClients.Net) for package compatibility.
 
 ## Resources
 
-- [Usage guide](https://cryptoexchange.jkorf.dev/docs/crypto-clients/usage)
-- [Configuration and options](https://cryptoexchange.jkorf.dev/docs/crypto-clients/options)
-- [Examples](https://cryptoexchange.jkorf.dev/docs/crypto-clients/examples)
-- [AI-friendly examples](https://github.com/JKorf/CryptoClients.Net/tree/main/Examples/ai-friendly)
+- [CryptoClients.Net documentation](https://cryptoexchange.jkorf.dev/docs/crypto-clients)
 - [Shared API documentation](https://cryptoexchange.jkorf.dev/docs/shared-api)
-- [Supported platforms, features, and capability discovery](https://cryptoexchange.jkorf.dev/docs/crypto-clients/supported-features)
 - [CryptoClients.Net versus CCXT benchmark](https://github.com/JKorf/CryptoClients.Net/blob/main/docs/crypto-clients-net-benchmark.md)
 - [CryptoManager.Net demo application](https://github.com/JKorf/CryptoManager.Net)
+
+### AI / LLM documentation
+
+See the [AI documentation index](https://github.com/JKorf/CryptoClients.Net/blob/main/llms.txt), [consumer skill](https://github.com/JKorf/CryptoClients.Net/blob/main/.claude/skills/cryptoclients-net/SKILL.md), and [repository development guide](https://github.com/JKorf/CryptoClients.Net/blob/main/AGENTS.md).
 
 ## Support
 
