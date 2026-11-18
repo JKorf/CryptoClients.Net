@@ -27,6 +27,7 @@ using Lighter.Net.Interfaces;
 using Mexc.Net.Interfaces;
 using OKX.Net.Interfaces;
 using Pionex.Net.Interfaces;
+using Polymarket.Net.Interfaces;
 using System;
 using System.Collections.Generic;
 using Tapbit.Net.Interfaces;
@@ -135,6 +136,10 @@ namespace CryptoClients.Net.Interfaces
         /// Pionex tracker factory
         /// </summary>
         IPionexTrackerFactory Pionex { get; }
+        /// <summary>
+        /// Polymarket tracker factory
+        /// </summary>
+        IPolymarketTrackerFactory Polymarket { get; }
         /// <summary>
         /// Tapbit tracker factory
         /// </summary>

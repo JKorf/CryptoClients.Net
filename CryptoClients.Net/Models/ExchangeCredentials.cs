@@ -14,6 +14,7 @@ using CoinW.Net;
 using CryptoCom.Net;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.SharedApis;
+using CryptoExchange.Net.Web3;
 using DeepCoin.Net;
 using GateIo.Net;
 using HTX.Net;
@@ -169,7 +170,7 @@ namespace CryptoClients.Net.Models
             else if (exchange == "Lighter")
             {
                 return new LighterCredentials(
-                    EthKey.FromPublicKey(credential.Key),
+                    EthKey.FromPublicAddress(credential.Key),
                     long.TryParse(credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)), out var accountIndex)
                         ? accountIndex : throw new ArgumentException("Invalid Param1 value for Lighter credentials. Should be AccountIndex in long type"),
                     int.TryParse(credential.Param2 ?? throw new ArgumentNullException(nameof(credential.Param2)), out var apiKeyIndex)
@@ -195,7 +196,12 @@ namespace CryptoClients.Net.Models
             }
             else if (exchange == "Polymarket")
             {
-                throw new ArgumentException("Polymarket not supported");
+                return new PolymarketCredentials(
+                    perps: new PolymarketPerpsCredential(
+                        credential.Key,
+                        null,
+                        EthKey.FromPrivateKey(credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)))
+                        ));
             }
             else if (exchange == "Tapbit")
             {

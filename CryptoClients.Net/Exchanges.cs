@@ -540,6 +540,27 @@ namespace CryptoClients.Net
         };
 
         /// <summary>
+        /// Polymarket exchange info
+        /// </summary>
+        public static ExchangeInfo Polymarket { get; } = new ExchangeInfo
+        {
+            Name = PolymarketPlatform.Metadata.Id,
+            DisplayName = PolymarketPlatform.Metadata.DisplayName,
+            ImageUrl = PolymarketPlatform.Metadata.Logo,
+            Url = PolymarketPlatform.Metadata.Url,
+            ApiDocsUrl = PolymarketPlatform.Metadata.ApiDocsUrl,
+            Type = ExchangeType.CEX,
+            ApiEnvironments = PolymarketEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = PolymarketPlatform.Metadata.Id,
+                KeyDescription = "The proxy secret returned when the proxy was created",
+                Param1Required = true,
+                Param1Description = "The proxy wallet private key"
+            }
+        };
+
+        /// <summary>
         /// Tapbit exchange info
         /// </summary>
         public static ExchangeInfo Tapbit { get; } = new ExchangeInfo

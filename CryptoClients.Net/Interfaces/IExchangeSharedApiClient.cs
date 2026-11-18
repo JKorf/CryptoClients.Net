@@ -22,6 +22,7 @@ using Lighter.Net.Interfaces.Clients;
 using Mexc.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients;
 using Pionex.Net.Interfaces.Clients;
+using Polymarket.Net.Interfaces.Clients;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -199,6 +200,10 @@ namespace CryptoClients.Net.Interfaces
         /// Pionex Shared API client.
         /// </summary>
         IPionexSharedApiClient Pionex { get; }
+        /// <summary>
+        /// Polymarket Shared API client.
+        /// </summary>
+        IPolymarketSharedApiClient Polymarket { get; }
         /// <summary>
         /// Tapbit Shared API client.
         /// </summary>

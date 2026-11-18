@@ -55,6 +55,8 @@ using Microsoft.Extensions.DependencyInjection;
 using OKX.Net;
 using OKX.Net.Interfaces;
 using Pionex.Net.Interfaces;
+using Polymarket.Net;
+using Polymarket.Net.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -122,6 +124,8 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IPionexTrackerFactory Pionex => GetFactory(Exchange.Pionex, _pionex);
         /// <inheritdoc />
+        public IPolymarketTrackerFactory Polymarket => GetFactory(Exchange.Polymarket, _polymarket);
+        /// <inheritdoc />
         public ITapbitTrackerFactory Tapbit => GetFactory(Exchange.Tapbit, _tapbit);
         /// <inheritdoc />
         public IToobitTrackerFactory Toobit => GetFactory(Exchange.Toobit, _toobit);
@@ -158,6 +162,7 @@ namespace CryptoClients.Net
         private Lazy<IMexcTrackerFactory> _mexc = null!;
         private Lazy<IOKXTrackerFactory> _okx = null!;
         private Lazy<IPionexTrackerFactory> _pionex = null!;
+        private Lazy<IPolymarketTrackerFactory> _polymarket = null!;
         private Lazy<ITapbitTrackerFactory> _tapbit = null!;
         private Lazy<IToobitTrackerFactory> _toobit = null!;
         private Lazy<IUpbitTrackerFactory> _upbit = null!;
@@ -192,6 +197,7 @@ namespace CryptoClients.Net
             IMexcTrackerFactory mexc,
             IOKXTrackerFactory okx,
             IPionexTrackerFactory pionex,
+            IPolymarketTrackerFactory polymarket,
             ITapbitTrackerFactory tapbit,
             IToobitTrackerFactory toobit,
             IUpbitTrackerFactory upbit,
@@ -203,7 +209,7 @@ namespace CryptoClients.Net
                 () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitstamp, () => bitunix,
                 () => bloFin, () => bybit, () => coinbase, () => coinW, () => cryptoCom, () => deepCoin, () => gateIo,
                 () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc, () => okx,
-                () => pionex, () => tapbit, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
+                () => pionex, () => polymarket, () => tapbit, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
         }
 
         internal ExchangeTrackerFactory(IEnumerable<string>? enabledExchanges, IServiceProvider serviceProvider)
@@ -221,7 +227,8 @@ namespace CryptoClients.Net
                 () => serviceProvider.GetRequiredService<IKrakenTrackerFactory>(), () => serviceProvider.GetRequiredService<IKucoinTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<ILBankTrackerFactory>(), () => serviceProvider.GetRequiredService<ILighterTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<IMexcTrackerFactory>(), () => serviceProvider.GetRequiredService<IOKXTrackerFactory>(),
-                () => serviceProvider.GetRequiredService<IPionexTrackerFactory>(), () => serviceProvider.GetRequiredService<ITapbitTrackerFactory>(),
+                () => serviceProvider.GetRequiredService<IPionexTrackerFactory>(), () => serviceProvider.GetRequiredService<IPolymarketTrackerFactory>(), 
+                () => serviceProvider.GetRequiredService<ITapbitTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<IToobitTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<IUpbitTrackerFactory>(), () => serviceProvider.GetRequiredService<IWeexTrackerFactory>(),
                 () => serviceProvider.GetRequiredService<IWhiteBitTrackerFactory>(), () => serviceProvider.GetRequiredService<IXTTrackerFactory>());
@@ -288,6 +295,7 @@ namespace CryptoClients.Net
                 "Bitget" => Bitget.CreateUserSpotDataTracker(config),
                 "Bitstamp" => Bitstamp.CreateUserSpotDataTracker(config),
                 "Bitunix" => Bitunix.CreateUserSpotDataTracker(config),
+                "BloFin" => BloFin.CreateUserSpotDataTracker(config),
                 "Bybit" => Bybit.CreateUserSpotDataTracker(config),
                 "Coinbase" => Coinbase.CreateUserSpotDataTracker(config),
                 "CoinW" => CoinW.CreateUserSpotDataTracker(config),
@@ -342,6 +350,7 @@ namespace CryptoClients.Net
                 "Bitget" => Bitget.CreateUserSpotDataTracker(userIdentifier, credentials.Bitget ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitgetEnvironment.GetEnvironmentByName(environment)),
                 "Bitstamp" => Bitstamp.CreateUserSpotDataTracker(userIdentifier, credentials.Bitstamp ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitstampEnvironment.GetEnvironmentByName(environment)),
                 "Bitunix" => Bitunix.CreateUserSpotDataTracker(userIdentifier, credentials.Bitunix ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BitunixEnvironment.GetEnvironmentByName(environment)),
+                "BloFin" => BloFin.CreateUserSpotDataTracker(userIdentifier, credentials.BloFin ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BloFinEnvironment.GetEnvironmentByName(environment)),
                 "Bybit" => Bybit.CreateUserSpotDataTracker(userIdentifier, credentials.Bybit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, BybitEnvironment.GetEnvironmentByName(environment)),
                 "Coinbase" => Coinbase.CreateUserSpotDataTracker(userIdentifier, credentials.Coinbase ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, CoinbaseEnvironment.GetEnvironmentByName(environment)),
                 "CoinW" => CoinW.CreateUserSpotDataTracker(userIdentifier, credentials.CoinW ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, CoinWEnvironment.GetEnvironmentByName(environment)),
@@ -496,6 +505,7 @@ namespace CryptoClients.Net
                 "Kucoin" => Kucoin.CreateUserFuturesDataTracker(userIdentifier, credentials.Kucoin ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, KucoinEnvironment.GetEnvironmentByName(environment)),
                 "Lighter" => Lighter.CreateUserFuturesDataTracker(userIdentifier, credentials.Lighter ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, LighterEnvironment.GetEnvironmentByName(environment)),
                 "OKX" => OKX.CreateUserFuturesDataTracker(userIdentifier, credentials.OKX ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, OKXEnvironment.GetEnvironmentByName(environment)),
+                "Polymarket" => Polymarket.CreateUserPerpsDataTracker(userIdentifier, credentials.Polymarket ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, PolymarketEnvironment.GetEnvironmentByName(environment)),
                 "Toobit" => Toobit.CreateUserUsdtFuturesDataTracker(userIdentifier, credentials.Toobit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, ToobitEnvironment.GetEnvironmentByName(environment)),
                 "Weex" => Weex.CreateUserFuturesDataTracker(userIdentifier, credentials.Weex ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, WeexEnvironment.GetEnvironmentByName(environment)),
                 "WhiteBit" => WhiteBit.CreateUserFuturesDataTracker(userIdentifier, credentials.WhiteBit ?? throw new ArgumentNullException($"No credentials provided for {exchange}"), config, WhiteBitEnvironment.GetEnvironmentByName(environment)),
@@ -540,7 +550,7 @@ namespace CryptoClients.Net
             Func<ICoinWTrackerFactory> coinW, Func<ICryptoComTrackerFactory> cryptoCom, Func<IDeepCoinTrackerFactory> deepCoin, Func<IGateIoTrackerFactory> gateIo,
             Func<IHTXTrackerFactory> htx, Func<IHyperLiquidTrackerFactory> hyperLiquid, Func<IKrakenTrackerFactory> kraken, Func<IKucoinTrackerFactory> kucoin,
             Func<ILBankTrackerFactory> lBank, Func<ILighterTrackerFactory> lighter, Func<IMexcTrackerFactory> mexc, Func<IOKXTrackerFactory> okx,
-            Func<IPionexTrackerFactory> pionex, Func<ITapbitTrackerFactory> tapbit, Func<IToobitTrackerFactory> toobit, Func<IUpbitTrackerFactory> upbit,
+            Func<IPionexTrackerFactory> pionex, Func<IPolymarketTrackerFactory> polymarket, Func<ITapbitTrackerFactory> tapbit, Func<IToobitTrackerFactory> toobit, Func<IUpbitTrackerFactory> upbit,
             Func<IWeexTrackerFactory> weex, Func<IWhiteBitTrackerFactory> whiteBit, Func<IXTTrackerFactory> xt)
         {
             _enabledExchanges = enabledExchanges == null ? null : new HashSet<string>(enabledExchanges, StringComparer.OrdinalIgnoreCase);
@@ -567,6 +577,7 @@ namespace CryptoClients.Net
             _mexc = new Lazy<IMexcTrackerFactory>(mexc, LazyThreadSafetyMode.ExecutionAndPublication);
             _okx = new Lazy<IOKXTrackerFactory>(okx, LazyThreadSafetyMode.ExecutionAndPublication);
             _pionex = new Lazy<IPionexTrackerFactory>(pionex, LazyThreadSafetyMode.ExecutionAndPublication);
+            _polymarket = new Lazy<IPolymarketTrackerFactory>(polymarket, LazyThreadSafetyMode.ExecutionAndPublication);
             _toobit = new Lazy<IToobitTrackerFactory>(toobit, LazyThreadSafetyMode.ExecutionAndPublication);
             _tapbit = new Lazy<ITapbitTrackerFactory>(tapbit, LazyThreadSafetyMode.ExecutionAndPublication);
             _upbit = new Lazy<IUpbitTrackerFactory>(upbit, LazyThreadSafetyMode.ExecutionAndPublication);
@@ -604,6 +615,7 @@ namespace CryptoClients.Net
                 "Mexc" => Mexc,
                 "OKX" => OKX,
                 "Pionex" => Pionex,
+                "Polymarket" => Polymarket,
                 "Tapbit" => Tapbit,
                 "Toobit" => Toobit,
                 "Upbit" => Upbit,

@@ -71,6 +71,9 @@ using Microsoft.Extensions.Options;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
+using Polymarket.Net.Clients;
+using Polymarket.Net.Interfaces.Clients;
+using Polymarket.Net.Objects.Options;
 using Pionex.Net.Clients;
 using Pionex.Net.Interfaces.Clients;
 using Pionex.Net.Objects.Options;
@@ -247,6 +250,9 @@ namespace CryptoClients.Net.Clients
 
                 [Exchange.Pionex] = Create(() =>
                     new PionexSharedApiClient(_exchangeRestClient.Pionex, _exchangeSocketClient.Pionex, optionsProvider.Get<PionexOptions>())),
+
+                [Exchange.Polymarket] = Create(() =>
+                    new PolymarketSharedApiClient(_exchangeRestClient.Polymarket, _exchangeSocketClient.Polymarket, optionsProvider.Get<PolymarketOptions>())),
 
                 [Exchange.Tapbit] = Create(() =>
                     new TapbitSharedApiClient(_exchangeRestClient.Tapbit, optionsProvider.Get<TapbitOptions>())),
@@ -488,6 +494,10 @@ namespace CryptoClients.Net.Clients
         /// <inheritdoc />
         public IPionexSharedApiClient Pionex =>
             GetRequiredClient<IPionexSharedApiClient>(Exchange.Pionex);
+
+        /// <inheritdoc />
+        public IPolymarketSharedApiClient Polymarket =>
+            GetRequiredClient<IPolymarketSharedApiClient>(Exchange.Polymarket);
 
         /// <inheritdoc />
         public ITapbitSharedApiClient Tapbit =>
