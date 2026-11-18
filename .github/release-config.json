@@ -1,16 +1,16 @@
 {
-  "baseBranch": "master",
+  "baseBranch": "main",
   "sdk": "11.0.100",
   "packages": [
     {
-      "key": "bitfinex",
-      "project": "Bitfinex.Net/Bitfinex.Net.csproj",
+      "key": "cryptoclients",
+      "project": "CryptoClients.Net/CryptoClients.Net.csproj",
       "testProjects": [
-        "Bitfinex.Net.UnitTests/Bitfinex.Net.UnitTests.csproj"
+        "CryptoClients.Net.UnitTests/CryptoClients.Net.UnitTests.csproj"
       ],
-      "packageId": "Bitfinex.Net",
+      "packageId": "CryptoClients.Net",
       "readme": "README.md",
-      "tagPrefix": "Bitfinex.Net.",
+      "tagPrefix": "CryptoClients.Net.",
       "releaseIntegrationTests": false,
       "publishToGitHubPackages": true
     }
