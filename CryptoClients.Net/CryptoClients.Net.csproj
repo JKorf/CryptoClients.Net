@@ -90,6 +90,6 @@
     <PackageReference Include="XT.Net" Version="4.9.0" />
   </ItemGroup>
   <PropertyGroup>
-    <DocumentationFile>CryptoClients.Net.xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 </Project>
