@@ -117,7 +117,7 @@ Use `IExchangeUserClientProvider` to cache separate clients by user ID in multi-
 
 ## Available client libraries
 
-The package bundles 31 client libraries, including Bitunix. Polymarket exposes its prediction-market endpoints through native clients and its perpetual futures through Shared API V2 surfaces such as `client.Polymarket.PerpsRest`. CoinGecko is a market-data integration available through the concrete `ExchangeRestClient.CoinGecko` property.
+The package bundles 32 client libraries. Polymarket exposes its prediction-market endpoints through native clients and its perpetual futures through Shared API V2 surfaces such as `client.Polymarket.PerpsRest`. CoinGecko is a market-data integration available through the concrete `ExchangeRestClient.CoinGecko` property.
 
 Use `Platform.All` for all bundled platform IDs and `Platforms.All` for their metadata. To determine which platforms can perform an operation, query `GetCapabilities` with the operation and trading mode.
 
@@ -130,6 +130,7 @@ Use `Platform.All` for all bundled platform IDs and `Platforms.All` for their me
 | <img src="https://raw.githubusercontent.com/JKorf/Bitget.Net/refs/heads/main/Bitget.Net/Icon/icon.png" alt="Bitget" width="32" /> | Bitget | CEX | [JK.Bitget.Net](https://www.nuget.org/packages/JK.Bitget.Net) |
 | <img src="https://raw.githubusercontent.com/JKorf/Bitstamp.Net/refs/heads/main/Bitstamp.Net/Icon/icon.png" alt="Bitstamp" width="32" /> | Bitstamp | CEX | [Bitstamp.Net](https://www.nuget.org/packages/Bitstamp.Net) |
 | <img src="https://raw.githubusercontent.com/JKorf/Bitunix.Net/main/Bitunix.Net/Icon/icon.png" alt="Bitunix" width="32" /> | Bitunix | CEX | [Bitunix.Net](https://www.nuget.org/packages/Bitunix.Net) |
+| <img src="https://raw.githubusercontent.com/JKorf/Bitvavo.Net/main/Bitvavo.Net/Icon/icon.png" alt="Bitvavo" width="32" /> | Bitvavo | CEX | [Bitvavo.Net](https://www.nuget.org/packages/JKorf.Bitvavo.Net) |
 | <img src="https://raw.githubusercontent.com/JKorf/BloFin.Net/refs/heads/main/BloFin.Net/Icon/icon.png" alt="BloFin" width="32" /> | BloFin | CEX | [BloFin.Net](https://www.nuget.org/packages/BloFin.Net) |
 | <img src="https://raw.githubusercontent.com/JKorf/Bybit.Net/refs/heads/main/ByBit.Net/Icon/icon.png" alt="Bybit" width="32" /> | Bybit | CEX | [Bybit.Net](https://www.nuget.org/packages/Bybit.Net) |
 | <img src="https://raw.githubusercontent.com/JKorf/Coinbase.Net/refs/heads/main/Coinbase.Net/Icon/icon.png" alt="Coinbase" width="32" /> | Coinbase | CEX | [JKorf.Coinbase.Net](https://www.nuget.org/packages/JKorf.Coinbase.Net) |

@@ -11,6 +11,8 @@ using Bitget.Net;
 using Bitget.Net.Objects.Options;
 using Bitstamp.Net;
 using Bitstamp.Net.Objects.Options;
+using Bitvavo.Net;
+using Bitvavo.Net.Objects.Options;
 using Bitunix.Net;
 using Bitunix.Net.Objects.Options;
 using BloFin.Net;
@@ -101,6 +103,7 @@ namespace CryptoClients.Net
             Register<BitfinexOptions, BitfinexRestOptions, BitfinexSocketOptions, BitfinexEnvironment>(BitfinexOptions.Create, Exchange.Bitfinex, x => x.Rest, x => x.Socket, BitfinexEnvironment.GetEnvironmentByName, x => x.ApiCredentials = GlobalOptions.ApiCredentials?.Bitfinex);
             Register<BitgetOptions, BitgetRestOptions, BitgetSocketOptions, BitgetEnvironment>(BitgetOptions.Create, Exchange.Bitget, x => x.Rest, x => x.Socket, BitgetEnvironment.GetEnvironmentByName, x => x.ApiCredentials = GlobalOptions.ApiCredentials?.Bitget);
             Register<BitstampOptions, BitstampRestOptions, BitstampSocketOptions, BitstampEnvironment>(BitstampOptions.Create, Exchange.Bitstamp, x => x.Rest, x => x.Socket, BitstampEnvironment.GetEnvironmentByName, x => x.ApiCredentials = GlobalOptions.ApiCredentials?.Bitstamp);
+            Register<BitvavoOptions, BitvavoRestOptions, BitvavoSocketOptions, BitvavoEnvironment>(BitvavoOptions.Create, Exchange.Bitvavo, x => x.Rest, x => x.Socket, BitvavoEnvironment.GetEnvironmentByName, x => x.ApiCredentials = GlobalOptions.ApiCredentials?.Bitvavo);
             Register<BitunixOptions, BitunixRestOptions, BitunixSocketOptions, BitunixEnvironment>(BitunixOptions.Create, Exchange.Bitunix, x => x.Rest, x => x.Socket, BitunixEnvironment.GetEnvironmentByName, x => x.ApiCredentials = GlobalOptions.ApiCredentials?.Bitunix);
             Register<BloFinOptions, BloFinRestOptions, BloFinSocketOptions, BloFinEnvironment>(BloFinOptions.Create, Exchange.BloFin, x => x.Rest, x => x.Socket, BloFinEnvironment.GetEnvironmentByName, x => x.ApiCredentials = GlobalOptions.ApiCredentials?.BloFin);
             Register<BybitOptions, BybitRestOptions, BybitSocketOptions, BybitEnvironment>(BybitOptions.Create, Exchange.Bybit, x => x.Rest, x => x.Socket, BybitEnvironment.GetEnvironmentByName, x => x.ApiCredentials = GlobalOptions.ApiCredentials?.Bybit);

@@ -5,6 +5,7 @@ using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
 using Bitstamp.Net;
+using Bitvavo.Net;
 using Bitunix.Net;
 using BloFin.Net;
 using Bybit.Net;
@@ -96,6 +97,10 @@ namespace CryptoClients.Net.Models
             else if (exchange == "Bitstamp")
             {
                 return new BitstampCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
+            }
+            else if (exchange == "Bitvavo")
+            {
+                return new BitvavoCredentials(credential.Key, credential.Param1 ?? throw new ArgumentNullException(nameof(credential.Param1)));
             }
             else if (exchange == "Bitunix")
             {
@@ -257,6 +262,7 @@ namespace CryptoClients.Net.Models
                 else if (item.Key == "Bitfinex") creds.Bitfinex = item.Value as BitfinexCredentials;
                 else if (item.Key == "Bitget") creds.Bitget = item.Value as BitgetCredentials;
                 else if (item.Key == "Bitstamp") creds.Bitstamp = item.Value as BitstampCredentials;
+                else if (item.Key == "Bitvavo") creds.Bitvavo = item.Value as BitvavoCredentials;
                 else if (item.Key == "Bitunix") creds.Bitunix = item.Value as BitunixCredentials;
                 else if (item.Key == "BloFin") creds.BloFin = item.Value as BloFinCredentials;
                 else if (item.Key == "Bybit") creds.Bybit = item.Value as BybitCredentials;
@@ -317,6 +323,11 @@ namespace CryptoClients.Net.Models
         /// Bitstamp API credentials
         /// </summary>
         public BitstampCredentials? Bitstamp { get; set; }
+
+        /// <summary>
+        /// Bitvavo API credentials
+        /// </summary>
+        public BitvavoCredentials? Bitvavo { get; set; }
 
         /// <summary>
         /// Bitunix API credentials
@@ -452,6 +463,7 @@ namespace CryptoClients.Net.Models
                 case "Bitfinex": return Bitfinex;
                 case "Bitget": return Bitget;
                 case "Bitstamp": return Bitstamp;
+                case "Bitvavo": return Bitvavo;
                 case "Bitunix": return Bitunix;
                 case "BloFin": return BloFin;
                 case "Bybit": return Bybit;

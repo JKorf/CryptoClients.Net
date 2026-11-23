@@ -4,6 +4,7 @@ using BingX.Net.Interfaces.Clients;
 using Bitfinex.Net.Interfaces.Clients;
 using Bitget.Net.Interfaces.Clients;
 using Bitstamp.Net.Interfaces.Clients;
+using Bitvavo.Net.Interfaces.Clients;
 using Bitunix.Net.Interfaces.Clients;
 using BloFin.Net.Interfaces.Clients;
 using Bybit.Net.Interfaces.Clients;
@@ -71,6 +72,11 @@ namespace CryptoClients.Net.Interfaces
         /// Bitstamp REST API
         /// </summary>
         IBitstampRestClient Bitstamp { get; }
+
+        /// <summary>
+        /// Bitvavo REST API
+        /// </summary>
+        IBitvavoRestClient Bitvavo { get; }
         /// <summary>
         /// Bitunix REST API
         /// </summary>

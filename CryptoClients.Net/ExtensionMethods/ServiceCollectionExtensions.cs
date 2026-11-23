@@ -10,6 +10,8 @@ using Bitget.Net;
 using Bitget.Net.Objects.Options;
 using Bitstamp.Net;
 using Bitstamp.Net.Objects.Options;
+using Bitvavo.Net;
+using Bitvavo.Net.Objects.Options;
 using Bitunix.Net;
 using Bitunix.Net.Objects.Options;
 using BloFin.Net;
@@ -90,11 +92,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="bitgetOptions">The options options for the Bitget services. Will override options provided in the global options</param>
         /// <param name="bitstampOptions">The options options for the Bitstamp services. Will override options provided in the global options</param>
         /// <param name="bitunixOptions">The options options for the Bitunix services. Will override options provided in the global options</param>
+        /// <param name="bitvavoOptions">Options for the Bitvavo services. These override the global options.</param>
         /// <param name="bloFinOptions">The options options for the BloFin services. Will override options provided in the global options</param>
         /// <param name="bybitOptions">The options options for the Bybit services. Will override options provided in the global options</param>
         /// <param name="coinbaseOptions">The options options for the Coinbase services. Will override options provided in the global options</param>
-        /// <param name="coinWOptions">The options options for the CoinW services. Will override options provided in the global options</param>
         /// <param name="coinGeckoOptions">The options options for the CoinGecko services. Will override options provided in the global options</param>
+        /// <param name="coinWOptions">The options options for the CoinW services. Will override options provided in the global options</param>
         /// <param name="cryptoComOptions">The options options for the Crypto.com services. Will override options provided in the global options</param>
         /// <param name="deepCoinOptions">The options options for the DeepCoin services. Will override options provided in the global options</param>
         /// <param name="gateIoOptions">The options options for the Gate.io services. Will override options provided in the global options</param>
@@ -126,11 +129,12 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<BitgetOptions>? bitgetOptions = null,
             Action<BitstampOptions>? bitstampOptions = null,
             Action<BitunixOptions>? bitunixOptions = null,
+            Action<BitvavoOptions>? bitvavoOptions = null,
             Action<BloFinOptions>? bloFinOptions = null,
             Action<BybitOptions>? bybitOptions = null,
             Action<CoinbaseOptions>? coinbaseOptions = null,
-            Action<CoinWOptions>? coinWOptions = null,
             Action<CoinGeckoRestOptions>? coinGeckoOptions = null,
+            Action<CoinWOptions>? coinWOptions = null,
             Action<CryptoComOptions>? cryptoComOptions = null,
             Action<DeepCoinOptions>? deepCoinOptions = null,
             Action<GateIoOptions>? gateIoOptions = null,
@@ -216,6 +220,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 bitfinexOptions = SetGlobalOptions<BitfinexOptions, BitfinexRestOptions, BitfinexSocketOptions, BitfinexCredentials, BitfinexEnvironment>(global, bitfinexOptions, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : BitfinexEnvironment.Live);
                 bitgetOptions = SetGlobalOptions<BitgetOptions, BitgetRestOptions, BitgetSocketOptions, BitgetCredentials, BitgetEnvironment>(global, bitgetOptions, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : BitgetEnvironment.Live);
                 bitstampOptions = SetGlobalOptions<BitstampOptions, BitstampRestOptions, BitstampSocketOptions, BitstampCredentials, BitstampEnvironment>(global, bitstampOptions, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : BitstampEnvironment.Live);
+                bitvavoOptions = SetGlobalOptions<BitvavoOptions, BitvavoRestOptions, BitvavoSocketOptions, BitvavoCredentials, BitvavoEnvironment>(global, bitvavoOptions, credentials?.Bitvavo, environments?.TryGetValue(Exchange.Bitvavo, out var bitvavoEnvName) == true ? BitvavoEnvironment.GetEnvironmentByName(bitvavoEnvName)! : BitvavoEnvironment.Live);
                 bitunixOptions = SetGlobalOptions<BitunixOptions, BitunixRestOptions, BitunixSocketOptions, BitunixCredentials, BitunixEnvironment>(global, bitunixOptions, credentials?.Bitunix, environments?.TryGetValue(Exchange.Bitunix, out var bitunixEnvName) == true ? BitunixEnvironment.GetEnvironmentByName(bitunixEnvName)! : BitunixEnvironment.Live);
                 bloFinOptions = SetGlobalOptions<BloFinOptions, BloFinRestOptions, BloFinSocketOptions, BloFinCredentials, BloFinEnvironment>(global, bloFinOptions, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : BloFinEnvironment.Live);
                 bybitOptions = SetGlobalOptions<BybitOptions, BybitRestOptions, BybitSocketOptions, BybitCredentials, BybitEnvironment>(global, bybitOptions, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : BybitEnvironment.Live);
@@ -248,6 +253,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddBitfinex(bitfinexOptions);
             services.AddBitget(bitgetOptions);
             services.AddBitstamp(bitstampOptions);
+            services.AddBitvavo(bitvavoOptions);
             services.AddBitunix(bitunixOptions);
             services.AddBloFin(bloFinOptions);
             services.AddBybit(bybitOptions);
@@ -354,6 +360,7 @@ namespace Microsoft.Extensions.DependencyInjection
             UpdateExchangeOptions("Bitfinex", globalOptions);
             UpdateExchangeOptions("Bitget", globalOptions);
             UpdateExchangeOptions("Bitstamp", globalOptions);
+            UpdateExchangeOptions("Bitvavo", globalOptions);
             UpdateExchangeOptions("Bitunix", globalOptions);
             UpdateExchangeOptions("BloFin", globalOptions);
             UpdateExchangeOptions("Bybit", globalOptions);
@@ -386,6 +393,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddBitfinex(configuration.GetSection("Bitfinex"));
             services.AddBitget(configuration.GetSection("Bitget"));
             services.AddBitstamp(configuration.GetSection("Bitstamp"));
+            services.AddBitvavo(configuration.GetSection("Bitvavo"));
             services.AddBitunix(configuration.GetSection("Bitunix"));
             services.AddBloFin(configuration.GetSection("BloFin"));
             services.AddBybit(configuration.GetSection("Bybit"));

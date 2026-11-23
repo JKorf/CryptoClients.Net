@@ -22,6 +22,10 @@ using Bitstamp.Net;
 using Bitstamp.Net.Clients;
 using Bitstamp.Net.Interfaces.Clients;
 using Bitstamp.Net.Objects.Options;
+using Bitvavo.Net;
+using Bitvavo.Net.Clients;
+using Bitvavo.Net.Interfaces.Clients;
+using Bitvavo.Net.Objects.Options;
 using Bitunix.Net;
 using Bitunix.Net.Clients;
 using Bitunix.Net.Interfaces.Clients;
@@ -160,6 +164,9 @@ namespace CryptoClients.Net
         /// <inheritdoc />
         public IBitstampRestClient Bitstamp => GetClient(Exchange.Bitstamp, _bitstamp);
         /// <inheritdoc />
+        public IBitvavoRestClient Bitvavo => GetClient(Exchange.Bitvavo, _bitvavo);
+
+        /// <inheritdoc />
         public IBitunixRestClient Bitunix => GetClient(Exchange.Bitunix, _bitunix);
         /// <inheritdoc />
         public IBloFinRestClient BloFin => GetClient(Exchange.BloFin, _bloFin);
@@ -219,6 +226,7 @@ namespace CryptoClients.Net
         private RestClientRegistration<IBitfinexRestClient> _bitfinex = null!;
         private RestClientRegistration<IBitgetRestClient> _bitget = null!;
         private RestClientRegistration<IBitstampRestClient> _bitstamp = null!;
+        private RestClientRegistration<IBitvavoRestClient> _bitvavo = null!;
         private RestClientRegistration<IBitunixRestClient> _bitunix = null!;
         private RestClientRegistration<IBloFinRestClient> _bloFin = null!;
         private RestClientRegistration<IBybitRestClient> _bybit = null!;
@@ -252,7 +260,7 @@ namespace CryptoClients.Net
         {
             InitializeClients(null,
                 () => new AsterRestClient(), () => new BinanceRestClient(), () => new BingXRestClient(), () => new BitfinexRestClient(),
-                () => new BitgetRestClient(), () => new BitstampRestClient(), () => new BitunixRestClient(),
+                () => new BitgetRestClient(), () => new BitstampRestClient(), () => new BitunixRestClient(), () => new BitvavoRestClient(),
                 () => new BloFinRestClient(), () => new BybitRestClient(), () => new CoinbaseRestClient(),
                 () => new CoinGeckoRestClient(), () => new CoinWRestClient(), () => new CryptoComRestClient(), () => new DeepCoinRestClient(),
                 () => new GateIoRestClient(), () => new HTXRestClient(), () => new HyperLiquidRestClient(), () => new KrakenRestClient(),
@@ -273,6 +281,7 @@ namespace CryptoClients.Net
             Action<BitgetRestOptions>? bitgetRestOptions = null,
             Action<BitstampRestOptions>? bitstampRestOptions = null,
             Action<BitunixRestOptions>? bitunixRestOptions = null,
+            Action<BitvavoRestOptions>? bitvavoRestOptions = null,
             Action<BloFinRestOptions>? bloFinRestOptions = null,
             Action<BybitRestOptions>? bybitRestOptions = null,
             Action<CoinbaseRestOptions>? coinbaseRestOptions = null,
@@ -307,6 +316,7 @@ namespace CryptoClients.Net
                 Options.Create(ApplyOptionsDelegate(bitgetRestOptions)),
                 Options.Create(ApplyOptionsDelegate(bitstampRestOptions)),
                 Options.Create(ApplyOptionsDelegate(bitunixRestOptions)),
+                Options.Create(ApplyOptionsDelegate(bitvavoRestOptions)),
                 Options.Create(ApplyOptionsDelegate(bloFinRestOptions)),
                 Options.Create(ApplyOptionsDelegate(bybitRestOptions)),
                 Options.Create(ApplyOptionsDelegate(coinbaseRestOptions)),
@@ -349,6 +359,7 @@ namespace CryptoClients.Net
             IOptions<BitgetRestOptions>? bitgetRestOptions = null,
             IOptions<BitstampRestOptions>? bitstampRestOptions = null,
             IOptions<BitunixRestOptions>? bitunixRestOptions = null,
+            IOptions<BitvavoRestOptions>? bitvavoRestOptions = null,
             IOptions<BloFinRestOptions>? bloFinRestOptions = null,
             IOptions<BybitRestOptions>? bybitRestOptions = null,
             IOptions<CoinbaseRestOptions>? coinbaseRestOptions = null,
@@ -416,6 +427,7 @@ namespace CryptoClients.Net
                 bitfinexRestOptions = SetGlobalRestOptions(global, bitfinexRestOptions?.Value, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : bitfinexRestOptions?.Value.Environment ?? BitfinexEnvironment.Live);
                 bitgetRestOptions = SetGlobalRestOptions(global, bitgetRestOptions?.Value, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : bitgetRestOptions?.Value.Environment ?? BitgetEnvironment.Live);
                 bitstampRestOptions = SetGlobalRestOptions(global, bitstampRestOptions?.Value, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : bitstampRestOptions?.Value.Environment ?? BitstampEnvironment.Live);
+                bitvavoRestOptions = SetGlobalRestOptions(global, bitvavoRestOptions?.Value, credentials?.Bitvavo, environments?.TryGetValue(Exchange.Bitvavo, out var bitvavoEnvName) == true ? BitvavoEnvironment.GetEnvironmentByName(bitvavoEnvName)! : bitvavoRestOptions?.Value.Environment ?? BitvavoEnvironment.Live);
                 bitunixRestOptions = SetGlobalRestOptions(global, bitunixRestOptions?.Value, credentials?.Bitunix, environments?.TryGetValue(Exchange.Bitunix, out var bitunixEnvName) == true ? BitunixEnvironment.GetEnvironmentByName(bitunixEnvName)! : bitunixRestOptions?.Value.Environment ?? BitunixEnvironment.Live);
                 bloFinRestOptions = SetGlobalRestOptions(global, bloFinRestOptions?.Value, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : bloFinRestOptions?.Value.Environment ?? BloFinEnvironment.Live);
                 bybitRestOptions = SetGlobalRestOptions(global, bybitRestOptions?.Value, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : bybitRestOptions?.Value.Environment ?? BybitEnvironment.Live);
@@ -451,6 +463,7 @@ namespace CryptoClients.Net
                 () => new BitgetRestClient(httpClient, loggerFactory, bitgetRestOptions ?? Options.Create(new BitgetRestOptions())),
                 () => new BitstampRestClient(httpClient, loggerFactory, bitstampRestOptions ?? Options.Create(new BitstampRestOptions())),
                 () => new BitunixRestClient(httpClient, loggerFactory, bitunixRestOptions ?? Options.Create(new BitunixRestOptions())),
+                () => new BitvavoRestClient(httpClient, loggerFactory, bitvavoRestOptions ?? Options.Create(new BitvavoRestOptions())),
                 () => new BloFinRestClient(httpClient, loggerFactory, bloFinRestOptions ?? Options.Create(new BloFinRestOptions())),
                 () => new BybitRestClient(httpClient, loggerFactory, bybitRestOptions ?? Options.Create(new BybitRestOptions())),
                 () => new CoinbaseRestClient(httpClient, loggerFactory, coinbaseRestOptions ?? Options.Create(new CoinbaseRestOptions())),
@@ -488,6 +501,7 @@ namespace CryptoClients.Net
             IBitgetRestClient bitget,
             IBitstampRestClient bitstamp,
             IBitunixRestClient bitunix,
+            IBitvavoRestClient bitvavo,
             IBloFinRestClient bloFin,
             IBybitRestClient bybit,
             ICoinbaseRestClient coinbase,
@@ -514,7 +528,7 @@ namespace CryptoClients.Net
             IXTRestClient xt)
         {
             InitializeClients(null,
-                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitstamp, () => bitunix,
+                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitstamp, () => bitunix, () => bitvavo,
                 () => bloFin, () => bybit, () => coinbase, () => coinGecko, () => coinW, () => cryptoCom, () => deepCoin,
                 () => gateIo, () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc,
                 () => okx, () => pionex, () => polymarket, () => tapbit, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
@@ -539,6 +553,7 @@ namespace CryptoClients.Net
             bitgetRestOptions: configuration.CreateOptions<BitgetRestOptions>(),
             bitstampRestOptions: configuration.CreateOptions<BitstampRestOptions>(),
             bitunixRestOptions: configuration.CreateOptions<BitunixRestOptions>(),
+            bitvavoRestOptions: configuration.CreateOptions<BitvavoRestOptions>(),
             bloFinRestOptions: configuration.CreateOptions<BloFinRestOptions>(),
             bybitRestOptions: configuration.CreateOptions<BybitRestOptions>(),
             coinbaseRestOptions: configuration.CreateOptions<CoinbaseRestOptions>(),
@@ -572,7 +587,7 @@ namespace CryptoClients.Net
                 () => serviceProvider.GetRequiredService<IAsterRestClient>(), () => serviceProvider.GetRequiredService<IBinanceRestClient>(),
                 () => serviceProvider.GetRequiredService<IBingXRestClient>(), () => serviceProvider.GetRequiredService<IBitfinexRestClient>(),
                 () => serviceProvider.GetRequiredService<IBitgetRestClient>(),
-                () => serviceProvider.GetRequiredService<IBitstampRestClient>(), () => serviceProvider.GetRequiredService<IBitunixRestClient>(),
+                () => serviceProvider.GetRequiredService<IBitstampRestClient>(), () => serviceProvider.GetRequiredService<IBitunixRestClient>(), () => serviceProvider.GetRequiredService<IBitvavoRestClient>(),
                 () => serviceProvider.GetRequiredService<IBloFinRestClient>(), () => serviceProvider.GetRequiredService<IBybitRestClient>(),
                 () => serviceProvider.GetRequiredService<ICoinbaseRestClient>(),
                 () => serviceProvider.GetRequiredService<ICoinGeckoRestClient>(), () => serviceProvider.GetRequiredService<ICoinWRestClient>(),
@@ -590,7 +605,7 @@ namespace CryptoClients.Net
         internal ExchangeRestClient(
             IEnumerable<string>? enabledExchanges,
             Func<IAsterRestClient> aster, Func<IBinanceRestClient> binance, Func<IBingXRestClient> bingX, Func<IBitfinexRestClient> bitfinex,
-            Func<IBitgetRestClient> bitget, Func<IBitstampRestClient> bitstamp, Func<IBitunixRestClient> bitunix,
+            Func<IBitgetRestClient> bitget, Func<IBitstampRestClient> bitstamp, Func<IBitunixRestClient> bitunix, Func<IBitvavoRestClient> bitvavo,
             Func<IBloFinRestClient> bloFin, Func<IBybitRestClient> bybit, Func<ICoinbaseRestClient> coinbase,
             Func<ICoinGeckoRestClient> coinGecko, Func<ICoinWRestClient> coinW, Func<ICryptoComRestClient> cryptoCom, Func<IDeepCoinRestClient> deepCoin,
             Func<IGateIoRestClient> gateIo, Func<IHTXRestClient> htx, Func<IHyperLiquidRestClient> hyperLiquid, Func<IKrakenRestClient> kraken,
@@ -599,7 +614,7 @@ namespace CryptoClients.Net
             Func<IUpbitRestClient> upbit, Func<IWeexRestClient> weex, Func<IWhiteBitRestClient> whiteBit, Func<IXTRestClient> xt)
         {
             InitializeClients(enabledExchanges,
-                aster, binance, bingX, bitfinex, bitget, bitstamp, bitunix, bloFin, bybit, coinbase,
+                aster, binance, bingX, bitfinex, bitget, bitstamp, bitunix, bitvavo, bloFin, bybit, coinbase,
                 coinGecko, coinW, cryptoCom, deepCoin, gateIo, htx, hyperLiquid, kraken, kucoin, lBank, lighter, mexc,
                 okx, pionex, polymarket, tapbit, toobit, upbit, weex, whiteBit, xt);
         }
@@ -639,6 +654,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Bitget, credentials.Bitget, () => Bitget.SetApiCredentials(credentials.Bitget!));
             SetCredentialsIfNotNull(Exchange.BloFin, credentials.BloFin, () => BloFin.SetApiCredentials(credentials.BloFin!));
             SetCredentialsIfNotNull(Exchange.Bitstamp, credentials.Bitstamp, () => Bitstamp.SetApiCredentials(credentials.Bitstamp!));
+            SetCredentialsIfNotNull(Exchange.Bitvavo, credentials.Bitvavo, () => Bitvavo.SetApiCredentials(credentials.Bitvavo!));
             SetCredentialsIfNotNull(Exchange.Bitunix, credentials.Bitunix, () => Bitunix.SetApiCredentials(credentials.Bitunix!));
             SetCredentialsIfNotNull(Exchange.Bybit, credentials.Bybit, () => Bybit.SetApiCredentials(credentials.Bybit!));
             SetCredentialsIfNotNull(Exchange.Coinbase, credentials.Coinbase, () => Coinbase.SetApiCredentials(credentials.Coinbase!));
@@ -700,7 +716,7 @@ namespace CryptoClients.Net
         private void InitializeClients(
             IEnumerable<string>? enabledExchanges,
             Func<IAsterRestClient> aster, Func<IBinanceRestClient> binance, Func<IBingXRestClient> bingX, Func<IBitfinexRestClient> bitfinex,
-            Func<IBitgetRestClient> bitget, Func<IBitstampRestClient> bitstamp, Func<IBitunixRestClient> bitunix,
+            Func<IBitgetRestClient> bitget, Func<IBitstampRestClient> bitstamp, Func<IBitunixRestClient> bitunix, Func<IBitvavoRestClient> bitvavo,
             Func<IBloFinRestClient> bloFin, Func<IBybitRestClient> bybit, Func<ICoinbaseRestClient> coinbase,
             Func<ICoinGeckoRestClient> coinGecko, Func<ICoinWRestClient> coinW, Func<ICryptoComRestClient> cryptoCom, Func<IDeepCoinRestClient> deepCoin,
             Func<IGateIoRestClient> gateIo, Func<IHTXRestClient> htx, Func<IHyperLiquidRestClient> hyperLiquid, Func<IKrakenRestClient> kraken,
@@ -728,6 +744,7 @@ namespace CryptoClients.Net
             _bitfinex = Register(Exchange.Bitfinex, bitfinex, x => [x.ExchangeApi.SharedClient]);
             _bitget = Register(Exchange.Bitget, bitget, x => [x.SpotApiV2.SharedClient, x.FuturesApiV2.SharedClient]);
             _bitstamp = Register(Exchange.Bitstamp, bitstamp, x => [x.ExchangeApi.SharedClient]);
+            _bitvavo = Register(Exchange.Bitvavo, bitvavo, x => []);
             _bitunix = Register(Exchange.Bitunix, bitunix, x => []);
             _bloFin = Register(Exchange.BloFin, bloFin, x => [x.FuturesApi.SharedClient, x.AccountApi.SharedClient]);
             _bybit = Register(Exchange.Bybit, bybit, x => [x.V5Api.SharedClient]);

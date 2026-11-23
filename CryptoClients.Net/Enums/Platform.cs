@@ -4,6 +4,7 @@ using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
 using Bitstamp.Net;
+using Bitvavo.Net;
 using Bitunix.Net;
 using BloFin.Net;
 using Bybit.Net;
@@ -61,6 +62,10 @@ namespace CryptoClients.Net.Enums
         /// Bitstamp
         /// </summary>
         public static string Bitstamp => BitstampExchange.ExchangeName;
+        /// <summary>
+        /// Bitvavo
+        /// </summary>
+        public static string Bitvavo => BitvavoExchange.Metadata.Id;
         /// <summary>
         /// Bitunix
         /// </summary>
@@ -174,6 +179,7 @@ namespace CryptoClients.Net.Enums
             Bitget,
             Bitstamp,
             Bitunix,
+            Bitvavo,
             BloFin,
             Bybit,
             Coinbase,

@@ -27,9 +27,9 @@
 
 ## Current exchange coverage
 
-V2 typed exchange aggregates: `Aster`, `Binance`, `BingX`, `Bitfinex`, `Bitget`, `Bitstamp`, `Bitunix`, `BloFin`, `Bybit`, `Coinbase`, `CoinW`, `CryptoCom`, `DeepCoin`, `GateIo`, `HTX`, `HyperLiquid`, `Kraken`, `Kucoin`, `LBank`, `Lighter`, `Mexc`, `OKX`, `Pionex`, `Polymarket`, `Tapbit`, `Toobit`, `Upbit`, `Weex`, `WhiteBit`, `XT`.
+V2 typed exchange aggregates: `Aster`, `Binance`, `BingX`, `Bitfinex`, `Bitget`, `Bitstamp`, `Bitunix`, `Bitvavo`, `BloFin`, `Bybit`, `Coinbase`, `CoinW`, `CryptoCom`, `DeepCoin`, `GateIo`, `HTX`, `HyperLiquid`, `Kraken`, `Kucoin`, `LBank`, `Lighter`, `Mexc`, `OKX`, `Pionex`, `Polymarket`, `Tapbit`, `Toobit`, `Upbit`, `Weex`, `WhiteBit`, `XT`.
 
-Native REST properties: `Aster`, `Binance`, `BingX`, `Bitfinex`, `Bitget`, `Bitstamp`, `Bitunix`, `BloFin`, `Bybit`, `Coinbase`, `CoinW`, `CryptoCom`, `DeepCoin`, `GateIo`, `HTX`, `HyperLiquid`, `Kraken`, `Kucoin`, `LBank`, `Lighter`, `Mexc`, `OKX`, `Pionex`, `Polymarket`, `Tapbit`, `Toobit`, `Upbit`, `Weex`, `WhiteBit`, `XT`. Native sockets expose socket-capable libraries. CoinGecko is REST-only and outside the V2 aggregate; access it through the concrete `ExchangeRestClient.CoinGecko` property, which is not part of the aggregate Rest facade contract. Polymarket is available through both native clients and the current V2 aggregate. Native access retains exchange-specific endpoints, symbols, enums, credentials, and models; do not pass shared requests into native methods.
+Native REST properties: `Aster`, `Binance`, `BingX`, `Bitfinex`, `Bitget`, `Bitstamp`, `Bitunix`, `Bitvavo`, `BloFin`, `Bybit`, `Coinbase`, `CoinW`, `CryptoCom`, `DeepCoin`, `GateIo`, `HTX`, `HyperLiquid`, `Kraken`, `Kucoin`, `LBank`, `Lighter`, `Mexc`, `OKX`, `Pionex`, `Polymarket`, `Tapbit`, `Toobit`, `Upbit`, `Weex`, `WhiteBit`, `XT`. Native sockets expose socket-capable libraries. CoinGecko is REST-only and outside the V2 aggregate; access it through the concrete `ExchangeRestClient.CoinGecko` property, which is not part of the aggregate Rest facade contract. Polymarket is available through both native clients and the current V2 aggregate. Native access retains exchange-specific endpoints, symbols, enums, credentials, and models; do not pass shared requests into native methods.
 
 ## Common V2 Capabilities
 

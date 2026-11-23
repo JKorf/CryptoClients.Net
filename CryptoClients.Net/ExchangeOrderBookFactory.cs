@@ -5,6 +5,7 @@ using Bitfinex.Net.Interfaces;
 using Bitget.Net.Enums;
 using Bitget.Net.Interfaces;
 using Bitstamp.Net.Interfaces;
+using Bitvavo.Net.Interfaces;
 using Bitunix.Net.Interfaces;
 using BloFin.Net.Interfaces;
 using Bybit.Net.Interfaces;
@@ -56,6 +57,9 @@ namespace CryptoClients.Net
         public IBitgetOrderBookFactory Bitget => GetFactory(Exchange.Bitget, _bitget);
         /// <inheritdoc />
         public IBitstampOrderBookFactory Bitstamp => GetFactory(Exchange.Bitstamp, _bitstamp);
+        /// <inheritdoc />
+        public IBitvavoOrderBookFactory Bitvavo => GetFactory(Exchange.Bitvavo, _bitvavo);
+
         /// <inheritdoc />
         public IBitunixOrderBookFactory Bitunix => GetFactory(Exchange.Bitunix, _bitunix);
         /// <inheritdoc />
@@ -110,6 +114,7 @@ namespace CryptoClients.Net
         private Lazy<IBitfinexOrderBookFactory> _bitfinex = null!;
         private Lazy<IBitgetOrderBookFactory> _bitget = null!;
         private Lazy<IBitstampOrderBookFactory> _bitstamp = null!;
+        private Lazy<IBitvavoOrderBookFactory> _bitvavo = null!;
         private Lazy<IBitunixOrderBookFactory> _bitunix = null!;
         private Lazy<IBloFinOrderBookFactory> _bloFin = null!;
         private Lazy<IBybitOrderBookFactory> _bybit = null!;
@@ -145,6 +150,7 @@ namespace CryptoClients.Net
             IBitgetOrderBookFactory bitget,
             IBitstampOrderBookFactory bitstamp,
             IBitunixOrderBookFactory bitunix,
+            IBitvavoOrderBookFactory bitvavo,
             IBloFinOrderBookFactory bloFin,
             IBybitOrderBookFactory bybit,
             ICoinbaseOrderBookFactory coinbase,
@@ -169,7 +175,7 @@ namespace CryptoClients.Net
             IXTOrderBookFactory xt)
         {
             InitializeFactories(null,
-                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitstamp, () => bitunix,
+                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitstamp, () => bitunix, () => bitvavo,
                 () => bloFin, () => bybit, () => coinbase, () => coinW, () => cryptoCom, () => deepCoin, () => gateIo,
                 () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc, () => okx,
                 () => pionex, () => polymarket, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
@@ -181,7 +187,7 @@ namespace CryptoClients.Net
                 () => serviceProvider.GetRequiredService<IAsterOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBinanceOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<IBingXOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitfinexOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<IBitgetOrderBookFactory>(),
-                () => serviceProvider.GetRequiredService<IBitstampOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitunixOrderBookFactory>(),
+                () => serviceProvider.GetRequiredService<IBitstampOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitunixOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBitvavoOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<IBloFinOrderBookFactory>(), () => serviceProvider.GetRequiredService<IBybitOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<ICoinbaseOrderBookFactory>(),
                 () => serviceProvider.GetRequiredService<ICoinWOrderBookFactory>(), () => serviceProvider.GetRequiredService<ICryptoComOrderBookFactory>(),
@@ -251,6 +257,11 @@ namespace CryptoClients.Net
                     return Bitget.Create(symbol, type, opts => { opts.Limit = bitgetLimit; });
                 case "Bitstamp":
                     return Bitstamp.Create(symbol);
+                case "Bitvavo":
+                    if (symbol.TradingMode != TradingMode.Spot)
+                        return null;
+
+                    return Bitvavo.Create(symbol, minimalDepth.HasValue ? opts => opts.Limit = minimalDepth : null);
                 case "Bitunix":
                     if (symbol.TradingMode == TradingMode.Spot)
                         return null;
@@ -327,7 +338,7 @@ namespace CryptoClients.Net
         private void InitializeFactories(
             IEnumerable<string>? enabledExchanges,
             Func<IAsterOrderBookFactory> aster, Func<IBinanceOrderBookFactory> binance, Func<IBingXOrderBookFactory> bingX, Func<IBitfinexOrderBookFactory> bitfinex,
-            Func<IBitgetOrderBookFactory> bitget, Func<IBitstampOrderBookFactory> bitstamp, Func<IBitunixOrderBookFactory> bitunix,
+            Func<IBitgetOrderBookFactory> bitget, Func<IBitstampOrderBookFactory> bitstamp, Func<IBitunixOrderBookFactory> bitunix, Func<IBitvavoOrderBookFactory> bitvavo,
             Func<IBloFinOrderBookFactory> bloFin, Func<IBybitOrderBookFactory> bybit, Func<ICoinbaseOrderBookFactory> coinbase,
             Func<ICoinWOrderBookFactory> coinW, Func<ICryptoComOrderBookFactory> cryptoCom, Func<IDeepCoinOrderBookFactory> deepCoin, Func<IGateIoOrderBookFactory> gateIo,
             Func<IHTXOrderBookFactory> htx, Func<IHyperLiquidOrderBookFactory> hyperLiquid, Func<IKrakenOrderBookFactory> kraken, Func<IKucoinOrderBookFactory> kucoin,
@@ -342,6 +353,7 @@ namespace CryptoClients.Net
             _bitfinex = new Lazy<IBitfinexOrderBookFactory>(bitfinex, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitget = new Lazy<IBitgetOrderBookFactory>(bitget, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitstamp = new Lazy<IBitstampOrderBookFactory>(bitstamp, LazyThreadSafetyMode.ExecutionAndPublication);
+            _bitvavo = new Lazy<IBitvavoOrderBookFactory>(bitvavo, LazyThreadSafetyMode.ExecutionAndPublication);
             _bitunix = new Lazy<IBitunixOrderBookFactory>(bitunix, LazyThreadSafetyMode.ExecutionAndPublication);
             _bloFin = new Lazy<IBloFinOrderBookFactory>(bloFin, LazyThreadSafetyMode.ExecutionAndPublication);
             _bybit = new Lazy<IBybitOrderBookFactory>(bybit, LazyThreadSafetyMode.ExecutionAndPublication);

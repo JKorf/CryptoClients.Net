@@ -7,6 +7,7 @@ using BingX.Net.Objects.Options;
 using Bitfinex.Net.Objects.Options;
 using Bitget.Net.Objects.Options;
 using Bitstamp.Net.Objects.Options;
+using Bitvavo.Net.Objects.Options;
 using Bitunix.Net.Objects.Options;
 using BloFin.Net.Objects.Options;
 using Bybit.Net.Objects.Options;
@@ -82,6 +83,10 @@ namespace CryptoClients.Net
         /// Configure Bitstamp API options
         /// </summary>
         public ClientConfigurationBuilder ConfigureBitstamp(Action<BitstampOptions> configure) => ConfigureCore(configure);
+        /// <summary>
+        /// Configure Bitvavo API options
+        /// </summary>
+        public ClientConfigurationBuilder ConfigureBitvavo(Action<BitvavoOptions> configure) => ConfigureCore(configure);
         /// <summary>
         /// Configure Bitunix API options
         /// </summary>

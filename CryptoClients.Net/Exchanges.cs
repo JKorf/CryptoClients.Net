@@ -4,6 +4,7 @@ using BingX.Net;
 using Bitfinex.Net;
 using Bitget.Net;
 using Bitstamp.Net;
+using Bitvavo.Net;
 using Bitunix.Net;
 using BloFin.Net;
 using Bybit.Net;
@@ -185,6 +186,27 @@ namespace CryptoClients.Net
             DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
             {
                 Exchange = BitunixExchange.Metadata.Id,
+                KeyDescription = "The API key",
+                Param1Required = true,
+                Param1Description = "API secret"
+            }
+        };
+
+        /// <summary>
+        /// Bitvavo exchange info
+        /// </summary>
+        public static ExchangeInfo Bitvavo { get; } = new ExchangeInfo
+        {
+            Name = BitvavoExchange.Metadata.Id,
+            DisplayName = BitvavoExchange.Metadata.DisplayName,
+            ImageUrl = BitvavoExchange.Metadata.Logo,
+            Url = BitvavoExchange.Metadata.Url,
+            ApiDocsUrl = BitvavoExchange.Metadata.ApiDocsUrl,
+            Type = ExchangeType.CEX,
+            ApiEnvironments = BitvavoEnvironment.All,
+            DynamicCredentialInfo = (mode) => new DynamicCredentialInfo
+            {
+                Exchange = BitvavoExchange.Metadata.Id,
                 KeyDescription = "The API key",
                 Param1Required = true,
                 Param1Description = "API secret"
@@ -700,6 +722,7 @@ namespace CryptoClients.Net
             Bitget,
             Bitstamp,
             Bitunix,
+            Bitvavo,
             BloFin,
             Bybit,
             Coinbase,
@@ -737,6 +760,7 @@ namespace CryptoClients.Net
                 BitfinexExchange.RateLimiter.RateLimitTriggered += value;
                 BitgetExchange.RateLimiter.RateLimitTriggered += value;
                 BitstampExchange.RateLimiter.RateLimitTriggered += value;
+                BitvavoExchange.RateLimiter.RateLimitTriggered += value;
                 BitunixExchange.RateLimiter.RateLimitTriggered += value;
                 BloFinExchange.RateLimiter.RateLimitTriggered += value;
                 BybitExchange.RateLimiter.RateLimitTriggered += value;
@@ -771,6 +795,7 @@ namespace CryptoClients.Net
                 BitfinexExchange.RateLimiter.RateLimitTriggered -= value;
                 BitgetExchange.RateLimiter.RateLimitTriggered -= value;
                 BitstampExchange.RateLimiter.RateLimitTriggered -= value;
+                BitvavoExchange.RateLimiter.RateLimitTriggered -= value;
                 BitunixExchange.RateLimiter.RateLimitTriggered -= value;
                 BloFinExchange.RateLimiter.RateLimitTriggered -= value;
                 BybitExchange.RateLimiter.RateLimitTriggered -= value;
@@ -812,6 +837,7 @@ namespace CryptoClients.Net
                 BitfinexExchange.RateLimiter.RateLimitUpdated += value;
                 BitgetExchange.RateLimiter.RateLimitUpdated += value;
                 BitstampExchange.RateLimiter.RateLimitUpdated += value;
+                BitvavoExchange.RateLimiter.RateLimitUpdated += value;
                 BitunixExchange.RateLimiter.RateLimitUpdated += value;
                 BloFinExchange.RateLimiter.RateLimitUpdated += value;
                 BybitExchange.RateLimiter.RateLimitUpdated += value;
@@ -845,6 +871,7 @@ namespace CryptoClients.Net
                 BitfinexExchange.RateLimiter.RateLimitUpdated -= value;
                 BitgetExchange.RateLimiter.RateLimitUpdated -= value;
                 BitstampExchange.RateLimiter.RateLimitUpdated -= value;
+                BitvavoExchange.RateLimiter.RateLimitUpdated -= value;
                 BitunixExchange.RateLimiter.RateLimitUpdated -= value;
                 BloFinExchange.RateLimiter.RateLimitUpdated -= value;
                 BybitExchange.RateLimiter.RateLimitUpdated -= value;

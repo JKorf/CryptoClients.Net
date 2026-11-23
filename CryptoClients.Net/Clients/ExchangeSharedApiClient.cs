@@ -16,6 +16,9 @@ using Bitget.Net.Objects.Options;
 using Bitstamp.Net.Clients;
 using Bitstamp.Net.Interfaces.Clients;
 using Bitstamp.Net.Objects.Options;
+using Bitvavo.Net.Clients;
+using Bitvavo.Net.Interfaces.Clients;
+using Bitvavo.Net.Objects.Options;
 using Bitunix.Net.Clients;
 using Bitunix.Net.Interfaces.Clients;
 using Bitunix.Net.Objects.Options;
@@ -199,6 +202,9 @@ namespace CryptoClients.Net.Clients
 
                 [Exchange.Bitstamp] = Create(() =>
                     new BitstampSharedApiClient(_exchangeRestClient.Bitstamp, _exchangeSocketClient.Bitstamp, optionsProvider.Get<BitstampOptions>())),
+
+                [Exchange.Bitvavo] = Create(() =>
+                    new BitvavoSharedApiClient(_exchangeRestClient.Bitvavo, _exchangeSocketClient.Bitvavo, optionsProvider.Get<BitvavoOptions>())),
 
                 [Exchange.Bitunix] = Create(() =>
                     new BitunixSharedApiClient(_exchangeRestClient.Bitunix, _exchangeSocketClient.Bitunix, optionsProvider.Get<BitunixOptions>())),
@@ -426,6 +432,10 @@ namespace CryptoClients.Net.Clients
         /// <inheritdoc />
         public IBitstampSharedApiClient Bitstamp =>
             GetRequiredClient<IBitstampSharedApiClient>(Exchange.Bitstamp);
+
+        /// <inheritdoc />
+        public IBitvavoSharedApiClient Bitvavo =>
+            GetRequiredClient<IBitvavoSharedApiClient>(Exchange.Bitvavo);
 
         /// <inheritdoc />
         public IBitunixSharedApiClient Bitunix =>

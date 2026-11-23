@@ -123,6 +123,10 @@ using Bitstamp.Net.Objects.Options;
 using Bitstamp.Net.Clients;
 using Bitstamp.Net.Interfaces.Clients;
 using Bitstamp.Net;
+using Bitvavo.Net.Objects.Options;
+using Bitvavo.Net.Clients;
+using Bitvavo.Net.Interfaces.Clients;
+using Bitvavo.Net;
 using Weex.Net.Objects.Options;
 using Weex.Net.Clients;
 using Weex.Net.Interfaces.Clients;
@@ -155,6 +159,9 @@ namespace CryptoClients.Net
         public IBitgetSocketClient Bitget => GetClient(Exchange.Bitget, _bitget);
         /// <inheritdoc />
         public IBitstampSocketClient Bitstamp => GetClient(Exchange.Bitstamp, _bitstamp);
+        /// <inheritdoc />
+        public IBitvavoSocketClient Bitvavo => GetClient(Exchange.Bitvavo, _bitvavo);
+
         /// <inheritdoc />
         public IBitunixSocketClient Bitunix => GetClient(Exchange.Bitunix, _bitunix);
         /// <inheritdoc />
@@ -211,6 +218,7 @@ namespace CryptoClients.Net
         private SocketClientRegistration<IBitfinexSocketClient> _bitfinex = null!;
         private SocketClientRegistration<IBitgetSocketClient> _bitget = null!;
         private SocketClientRegistration<IBitstampSocketClient> _bitstamp = null!;
+        private SocketClientRegistration<IBitvavoSocketClient> _bitvavo = null!;
         private SocketClientRegistration<IBitunixSocketClient> _bitunix = null!;
         private SocketClientRegistration<IBloFinSocketClient> _bloFin = null!;
         private SocketClientRegistration<IBybitSocketClient> _bybit = null!;
@@ -242,7 +250,7 @@ namespace CryptoClients.Net
         {
             InitializeClients(null,
                 () => new AsterSocketClient(), () => new BinanceSocketClient(), () => new BingXSocketClient(), () => new BitfinexSocketClient(),
-                () => new BitgetSocketClient(), () => new BitstampSocketClient(), () => new BitunixSocketClient(),
+                () => new BitgetSocketClient(), () => new BitstampSocketClient(), () => new BitunixSocketClient(), () => new BitvavoSocketClient(),
                 () => new BloFinSocketClient(), () => new BybitSocketClient(), () => new CoinbaseSocketClient(),
                 () => new CoinWSocketClient(), () => new CryptoComSocketClient(), () => new DeepCoinSocketClient(), () => new GateIoSocketClient(),
                 () => new HTXSocketClient(), () => new HyperLiquidSocketClient(), () => new KrakenSocketClient(), () => new KucoinSocketClient(),
@@ -261,12 +269,13 @@ namespace CryptoClients.Net
             Action<BingXSocketOptions>? bingxSocketOptions = null,
             Action<BitfinexSocketOptions>? bitfinexSocketOptions = null,
             Action<BitgetSocketOptions>? bitgetSocketOptions = null,
-            Action<BloFinSocketOptions>? bloFinSocketOptions = null,
             Action<BitstampSocketOptions>? bitstampSocketOptions = null,
             Action<BitunixSocketOptions>? bitunixSocketOptions = null,
+            Action<BitvavoSocketOptions>? bitvavoSocketOptions = null,
+            Action<BloFinSocketOptions>? bloFinSocketOptions = null,
             Action<BybitSocketOptions>? bybitSocketOptions = null,
-            Action<CoinWSocketOptions>? coinWSocketOptions = null,
             Action<CoinbaseSocketOptions>? coinbaseSocketOptions = null,
+            Action<CoinWSocketOptions>? coinWSocketOptions = null,
             Action<CryptoComSocketOptions>? cryptoComSocketOptions = null,
             Action<DeepCoinSocketOptions>? deepCoinSocketOptions = null,
             Action<GateIoSocketOptions>? gateIoSocketOptions = null,
@@ -293,12 +302,13 @@ namespace CryptoClients.Net
                 Options.Create(ApplyOptionsDelegate(bingxSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(bitfinexSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(bitgetSocketOptions)),
-                Options.Create(ApplyOptionsDelegate(bloFinSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(bitstampSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(bitunixSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(bitvavoSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(bloFinSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(bybitSocketOptions)),
-                Options.Create(ApplyOptionsDelegate(coinWSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(coinbaseSocketOptions)),
+                Options.Create(ApplyOptionsDelegate(coinWSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(cryptoComSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(deepCoinSocketOptions)),
                 Options.Create(ApplyOptionsDelegate(gateIoSocketOptions)),
@@ -332,12 +342,13 @@ namespace CryptoClients.Net
             IOptions<BingXSocketOptions>? bingxSocketOptions = null,
             IOptions<BitfinexSocketOptions>? bitfinexSocketOptions = null,
             IOptions<BitgetSocketOptions>? bitgetSocketOptions = null,
-            IOptions<BloFinSocketOptions>? bloFinSocketOptions = null,
             IOptions<BitstampSocketOptions>? bitstampSocketOptions = null,
             IOptions<BitunixSocketOptions>? bitunixSocketOptions = null,
+            IOptions<BitvavoSocketOptions>? bitvavoSocketOptions = null,
+            IOptions<BloFinSocketOptions>? bloFinSocketOptions = null,
             IOptions<BybitSocketOptions>? bybitSocketOptions = null,
-            IOptions<CoinWSocketOptions>? coinWSocketOptions = null,
             IOptions<CoinbaseSocketOptions>? coinbaseSocketOptions = null,
+            IOptions<CoinWSocketOptions>? coinWSocketOptions = null,
             IOptions<CryptoComSocketOptions>? cryptoComSocketOptions = null,
             IOptions<DeepCoinSocketOptions>? deepCoinSocketOptions = null,
             IOptions<GateIoSocketOptions>? gateIoSocketOptions = null,
@@ -397,6 +408,7 @@ namespace CryptoClients.Net
                 bitfinexSocketOptions = SetGlobalSocketOptions(global, bitfinexSocketOptions?.Value, credentials?.Bitfinex, environments?.TryGetValue(Exchange.Bitfinex, out var bitfinexEnvName) == true ? BitfinexEnvironment.GetEnvironmentByName(bitfinexEnvName)! : bitfinexSocketOptions?.Value.Environment ?? BitfinexEnvironment.Live);
                 bitgetSocketOptions = SetGlobalSocketOptions(global, bitgetSocketOptions?.Value, credentials?.Bitget, environments?.TryGetValue(Exchange.Bitget, out var bitgetEnvName) == true ? BitgetEnvironment.GetEnvironmentByName(bitgetEnvName)! : bitgetSocketOptions?.Value.Environment ?? BitgetEnvironment.Live);
                 bitstampSocketOptions = SetGlobalSocketOptions(global, bitstampSocketOptions?.Value, credentials?.Bitstamp, environments?.TryGetValue(Exchange.Bitstamp, out var bitstampEnvName) == true ? BitstampEnvironment.GetEnvironmentByName(bitstampEnvName)! : bitstampSocketOptions?.Value.Environment ?? BitstampEnvironment.Live);
+                bitvavoSocketOptions = SetGlobalSocketOptions(global, bitvavoSocketOptions?.Value, credentials?.Bitvavo, environments?.TryGetValue(Exchange.Bitvavo, out var bitvavoEnvName) == true ? BitvavoEnvironment.GetEnvironmentByName(bitvavoEnvName)! : bitvavoSocketOptions?.Value.Environment ?? BitvavoEnvironment.Live);
                 bitunixSocketOptions = SetGlobalSocketOptions(global, bitunixSocketOptions?.Value, credentials?.Bitunix, environments?.TryGetValue(Exchange.Bitunix, out var bitunixEnvName) == true ? BitunixEnvironment.GetEnvironmentByName(bitunixEnvName)! : bitunixSocketOptions?.Value.Environment ?? BitunixEnvironment.Live);
                 bloFinSocketOptions = SetGlobalSocketOptions(global, bloFinSocketOptions?.Value, credentials?.BloFin, environments?.TryGetValue(Exchange.BloFin, out var bloFinEnvName) == true ? BloFinEnvironment.GetEnvironmentByName(bloFinEnvName)! : bloFinSocketOptions?.Value.Environment ?? BloFinEnvironment.Live);
                 bybitSocketOptions = SetGlobalSocketOptions(global, bybitSocketOptions?.Value, credentials?.Bybit, environments?.TryGetValue(Exchange.Bybit, out var bybitEnvName) == true ? BybitEnvironment.GetEnvironmentByName(bybitEnvName)! : bybitSocketOptions?.Value.Environment ?? BybitEnvironment.Live);
@@ -430,6 +442,7 @@ namespace CryptoClients.Net
                 () => new BitgetSocketClient(bitgetSocketOptions ?? Options.Create(new BitgetSocketOptions()), loggerFactory),
                 () => new BitstampSocketClient(bitstampSocketOptions ?? Options.Create(new BitstampSocketOptions()), loggerFactory),
                 () => new BitunixSocketClient(bitunixSocketOptions ?? Options.Create(new BitunixSocketOptions()), loggerFactory),
+                () => new BitvavoSocketClient(bitvavoSocketOptions ?? Options.Create(new BitvavoSocketOptions()), loggerFactory),
                 () => new BloFinSocketClient(bloFinSocketOptions ?? Options.Create(new BloFinSocketOptions()), loggerFactory),
                 () => new BybitSocketClient(bybitSocketOptions ?? Options.Create(new BybitSocketOptions()), loggerFactory),
                 () => new CoinbaseSocketClient(coinbaseSocketOptions ?? Options.Create(new CoinbaseSocketOptions()), loggerFactory),
@@ -465,6 +478,7 @@ namespace CryptoClients.Net
             IBitgetSocketClient bitget,
             IBitstampSocketClient bitstamp,
             IBitunixSocketClient bitunix,
+            IBitvavoSocketClient bitvavo,
             IBloFinSocketClient bloFin,
             IBybitSocketClient bybit,
             ICoinbaseSocketClient coinbase,
@@ -489,7 +503,7 @@ namespace CryptoClients.Net
             IXTSocketClient xt)
         {
             InitializeClients(null,
-                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitstamp, () => bitunix,
+                () => aster, () => binance, () => bingx, () => bitfinex, () => bitget, () => bitstamp, () => bitunix, () => bitvavo,
                 () => bloFin, () => bybit, () => coinbase, () => coinW, () => cryptoCom, () => deepCoin, () => gateIo,
                 () => htx, () => hyperLiquid, () => kraken, () => kucoin, () => lBank, () => lighter, () => mexc, () => okx,
                 () => pionex, () => polymarket, () => toobit, () => upbit, () => weex, () => whiteBit, () => xt);
@@ -510,12 +524,13 @@ namespace CryptoClients.Net
             bingxSocketOptions: configuration.CreateOptions<BingXSocketOptions>(),
             bitfinexSocketOptions: configuration.CreateOptions<BitfinexSocketOptions>(),
             bitgetSocketOptions: configuration.CreateOptions<BitgetSocketOptions>(),
-            bloFinSocketOptions: configuration.CreateOptions<BloFinSocketOptions>(),
             bitstampSocketOptions: configuration.CreateOptions<BitstampSocketOptions>(),
             bitunixSocketOptions: configuration.CreateOptions<BitunixSocketOptions>(),
+            bitvavoSocketOptions: configuration.CreateOptions<BitvavoSocketOptions>(),
+            bloFinSocketOptions: configuration.CreateOptions<BloFinSocketOptions>(),
             bybitSocketOptions: configuration.CreateOptions<BybitSocketOptions>(),
-            coinWSocketOptions: configuration.CreateOptions<CoinWSocketOptions>(),
             coinbaseSocketOptions: configuration.CreateOptions<CoinbaseSocketOptions>(),
+            coinWSocketOptions: configuration.CreateOptions<CoinWSocketOptions>(),
             cryptoComSocketOptions: configuration.CreateOptions<CryptoComSocketOptions>(),
             deepCoinSocketOptions: configuration.CreateOptions<DeepCoinSocketOptions>(),
             gateIoSocketOptions: configuration.CreateOptions<GateIoSocketOptions>(),
@@ -543,7 +558,7 @@ namespace CryptoClients.Net
                 () => serviceProvider.GetRequiredService<IAsterSocketClient>(), () => serviceProvider.GetRequiredService<IBinanceSocketClient>(),
                 () => serviceProvider.GetRequiredService<IBingXSocketClient>(), () => serviceProvider.GetRequiredService<IBitfinexSocketClient>(),
                 () => serviceProvider.GetRequiredService<IBitgetSocketClient>(),
-                () => serviceProvider.GetRequiredService<IBitstampSocketClient>(), () => serviceProvider.GetRequiredService<IBitunixSocketClient>(),
+                () => serviceProvider.GetRequiredService<IBitstampSocketClient>(), () => serviceProvider.GetRequiredService<IBitunixSocketClient>(), () => serviceProvider.GetRequiredService<IBitvavoSocketClient>(),
                 () => serviceProvider.GetRequiredService<IBloFinSocketClient>(), () => serviceProvider.GetRequiredService<IBybitSocketClient>(),
                 () => serviceProvider.GetRequiredService<ICoinbaseSocketClient>(),
                 () => serviceProvider.GetRequiredService<ICoinWSocketClient>(), () => serviceProvider.GetRequiredService<ICryptoComSocketClient>(),
@@ -561,7 +576,7 @@ namespace CryptoClients.Net
         internal ExchangeSocketClient(
             IEnumerable<string>? enabledExchanges,
             Func<IAsterSocketClient> aster, Func<IBinanceSocketClient> binance, Func<IBingXSocketClient> bingX, Func<IBitfinexSocketClient> bitfinex,
-            Func<IBitgetSocketClient> bitget, Func<IBitstampSocketClient> bitstamp, Func<IBitunixSocketClient> bitunix,
+            Func<IBitgetSocketClient> bitget, Func<IBitstampSocketClient> bitstamp, Func<IBitunixSocketClient> bitunix, Func<IBitvavoSocketClient> bitvavo,
             Func<IBloFinSocketClient> bloFin, Func<IBybitSocketClient> bybit, Func<ICoinbaseSocketClient> coinbase, 
             Func<ICoinWSocketClient> coinW, Func<ICryptoComSocketClient> cryptoCom, Func<IDeepCoinSocketClient> deepCoin, Func<IGateIoSocketClient> gateIo,
             Func<IHTXSocketClient> htx, Func<IHyperLiquidSocketClient> hyperLiquid, Func<IKrakenSocketClient> kraken, Func<IKucoinSocketClient> kucoin,
@@ -570,7 +585,7 @@ namespace CryptoClients.Net
             Func<IWeexSocketClient> weex, Func<IWhiteBitSocketClient> whiteBit, Func<IXTSocketClient> xt)
         {
             InitializeClients(enabledExchanges,
-                aster, binance, bingX, bitfinex, bitget, bitstamp, bitunix, bloFin, bybit, coinbase,
+                aster, binance, bingX, bitfinex, bitget, bitstamp, bitunix, bitvavo, bloFin, bybit, coinbase,
                 coinW, cryptoCom, deepCoin, gateIo, htx, hyperLiquid, kraken, kucoin, lBank, lighter, mexc, okx,
                 pionex, polymarket, toobit, upbit, weex, whiteBit, xt);
         }
@@ -610,6 +625,7 @@ namespace CryptoClients.Net
             SetCredentialsIfNotNull(Exchange.Bitget, credentials.Bitget, () => Bitget.SetApiCredentials(credentials.Bitget!));
             SetCredentialsIfNotNull(Exchange.BloFin, credentials.BloFin, () => BloFin.SetApiCredentials(credentials.BloFin!));
             SetCredentialsIfNotNull(Exchange.Bitstamp, credentials.Bitstamp, () => Bitstamp.SetApiCredentials(credentials.Bitstamp!));
+            SetCredentialsIfNotNull(Exchange.Bitvavo, credentials.Bitvavo, () => Bitvavo.SetApiCredentials(credentials.Bitvavo!));
             SetCredentialsIfNotNull(Exchange.Bitunix, credentials.Bitunix, () => Bitunix.SetApiCredentials(credentials.Bitunix!));
             SetCredentialsIfNotNull(Exchange.Bybit, credentials.Bybit, () => Bybit.SetApiCredentials(credentials.Bybit!));
             SetCredentialsIfNotNull(Exchange.Coinbase, credentials.Coinbase, () => Coinbase.SetApiCredentials(credentials.Coinbase!));
@@ -666,7 +682,7 @@ namespace CryptoClients.Net
         private void InitializeClients(
             IEnumerable<string>? enabledExchanges,
             Func<IAsterSocketClient> aster, Func<IBinanceSocketClient> binance, Func<IBingXSocketClient> bingX, Func<IBitfinexSocketClient> bitfinex,
-            Func<IBitgetSocketClient> bitget, Func<IBitstampSocketClient> bitstamp, Func<IBitunixSocketClient> bitunix,
+            Func<IBitgetSocketClient> bitget, Func<IBitstampSocketClient> bitstamp, Func<IBitunixSocketClient> bitunix, Func<IBitvavoSocketClient> bitvavo,
             Func<IBloFinSocketClient> bloFin, Func<IBybitSocketClient> bybit, Func<ICoinbaseSocketClient> coinbase,
             Func<ICoinWSocketClient> coinW, Func<ICryptoComSocketClient> cryptoCom, Func<IDeepCoinSocketClient> deepCoin, Func<IGateIoSocketClient> gateIo,
             Func<IHTXSocketClient> htx, Func<IHyperLiquidSocketClient> hyperLiquid, Func<IKrakenSocketClient> kraken, Func<IKucoinSocketClient> kucoin,
@@ -694,6 +710,7 @@ namespace CryptoClients.Net
             _bitfinex = Register(Exchange.Bitfinex, bitfinex, x => [x.ExchangeApi.SharedClient]);
             _bitget = Register(Exchange.Bitget, bitget, x => [x.SpotApiV2.SharedClient, x.FuturesApiV2.SharedClient]);
             _bitstamp = Register(Exchange.Bitstamp, bitstamp, x => [x.ExchangeApi.SharedClient]);
+            _bitvavo = Register(Exchange.Bitvavo, bitvavo, x => []);
             _bitunix = Register(Exchange.Bitunix, bitunix, x => []);
             _bloFin = Register(Exchange.BloFin, bloFin, x => [x.FuturesApi.SharedClient]);
             _bybit = Register(Exchange.Bybit, bybit, x => [x.V5InverseApi.SharedClient, x.V5LinearApi.SharedClient, x.V5PrivateApi.SharedClient, x.V5SpotApi.SharedClient]);
