@@ -220,6 +220,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 https://github.com/sponsors/JKorf
 
 ## Release notes
+* Version 5.12.0 - 27 Nov 2026
+    * Updated reference CryptoExchange.Net to v13.4.0
+    * Added Bitvavo support with JKorf.Bitvavo.Net 1.1.0
+    * Updated client library versions
+
 * Version 5.11.0 - 18 Nov 2026
     * Updated library versions
     * Added Polymarket Perps support
